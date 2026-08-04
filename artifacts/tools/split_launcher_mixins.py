@@ -66,6 +66,39 @@ from ..ui.settings_dialogs import SettingsDialog
 
 
 """,
+    "app_paths": """import os
+import re
+import time
+from urllib.parse import unquote
+
+import wx
+
+from ..common import end_dialog_safely, parse_bool_setting, parse_int_setting
+from ..ui.settings_dialogs import PathMemoryManagerDialog
+
+
+""",
+    "sandboxie": """import ctypes
+import glob
+import os
+import re
+import subprocess
+import tempfile
+import time
+import winreg
+from ctypes import wintypes
+
+import wx
+
+from ..common import get_hidden_subprocess_kwargs
+from ..constants import (
+    get_internal_sandbox_name_validation_error,
+    get_sandbox_display_name_validation_error,
+    is_valid_internal_sandbox_name,
+)
+
+
+""",
 }
 
 
