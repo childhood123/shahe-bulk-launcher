@@ -199,6 +199,16 @@ from ..ui.common_dialogs import BatchNameRuleDialog, GroupNameDialog
 
 
 """,
+    "scheduling": """import os
+import threading
+import time
+
+import wx
+
+from ..backup import BackupRestoreMgr
+
+
+""",
 }
 
 

@@ -93,6 +93,11 @@ artifacts/
 
 ## 验证记录
 
+- 2026-08-04：Task 10 UI 广扫 `ui_broad_probe.py` 通过。验证确认菜单文案与 Ctrl+O、Ctrl+V、F5、Ctrl+A、Alt+F4 固定快捷键显示保持不变；应用输入框、沙盒列表和启动按钮 AccessibleName/标签保持不变；不可配置的固定动作未进入快捷键清单，固定快捷键冲突仍明确提示；批量命名补零选项保持原顺序和文案。
+- 2026-08-04：Task 10 三个剩余 feature 模块汇总结构回归 `python -m unittest tests.test_foundation_modules tests.test_move_foundation_entry_tool tests.test_ui_controls_contract tests.test_ui_dialogs_contract tests.test_backup_contract tests.test_feature_method_partition tests.test_app_paths_and_sandboxie tests.test_process_actions_contract tests.test_updates_and_speech_contract tests.test_remaining_features_contract -v` 通过 18/18。
+- 2026-08-04：Task 10 调度启动行为探针 GREEN：`launch_no_ui_blocking_probe.py` 与 `launch_done_no_sync_menu_probe.py` 均通过。验证确认慢速沙盒解析不会阻塞 `on_launch` 的 UI 返回，`_launch_done` 不同步刷新运行状态或重建进程菜单，并继续恢复启动按钮、设置完成状态和安排后续异步刷新。
+- 2026-08-04：Task 10 调度启动模块结构 GREEN：`python -m py_compile "沙河批量打开器.py" shahe_bulk_launcher\features\scheduling.py artifacts\tools\split_launcher_mixins.py tests\test_remaining_features_contract.py` 通过；`python -m unittest tests.test_feature_method_partition tests.test_remaining_features_contract -v` 6/6 通过。20 个启动目标、定时任务、启动线程、完成回调和备份/恢复代理方法唯一迁入 `SchedulingMixin`。
+- 2026-08-04：Task 10 调度启动模块 RED 验证：定向运行 `test_scheduling_mixin_keeps_assigned_methods` 产生 1 个预期失败，原因是 `features/scheduling.py` 尚不存在；冻结清单确认迁移 20 个启动目标、定时任务、启动线程、完成回调和备份/恢复代理方法。
 - 2026-08-04：Task 10 沙盒管理模块汇总结构回归 `python -m unittest tests.test_foundation_modules tests.test_move_foundation_entry_tool tests.test_ui_controls_contract tests.test_ui_dialogs_contract tests.test_backup_contract tests.test_feature_method_partition tests.test_app_paths_and_sandboxie tests.test_process_actions_contract tests.test_updates_and_speech_contract tests.test_remaining_features_contract -v` 通过 17/17。
 - 2026-08-04：Task 10 沙盒管理行为探针 GREEN：`sandbox_admin_transform_probe.py` 与 `group_navigation_probe.py` 均通过。验证确认批量名称编号、重复/空名称校验、Sandboxie INI 分段、节名替换、设置增删和新节模板保持原行为；分组特殊项继续不可勾选且被全选跳过，Enter 进入分组、Backspace 返回根视图的键盘导航保持有效。
 - 2026-08-04：Task 10 沙盒管理模块结构 GREEN：`python -m py_compile "沙河批量打开器.py" shahe_bulk_launcher\features\sandbox_admin.py artifacts\tools\split_launcher_mixins.py tests\test_remaining_features_contract.py` 通过；`python -m unittest tests.test_feature_method_partition tests.test_remaining_features_contract -v` 5/5 通过。49 个分组、批量命名、INI、别名、目录和注册表清理方法唯一迁入 `SandboxAdminMixin`。

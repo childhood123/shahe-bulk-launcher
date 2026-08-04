@@ -43,6 +43,15 @@ class RemainingFeaturesContractTests(unittest.TestCase):
                 direct_methods(path, "SandboxAdminMixin"),
             )
 
+    def test_scheduling_mixin_keeps_assigned_methods(self):
+        path = FEATURE_DIR / "scheduling.py"
+        self.assertTrue(path.is_file())
+        if path.is_file():
+            self.assertEqual(
+                METHOD_MODULES["scheduling"],
+                direct_methods(path, "SchedulingMixin"),
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
