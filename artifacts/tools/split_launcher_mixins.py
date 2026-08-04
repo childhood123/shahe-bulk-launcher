@@ -167,6 +167,18 @@ from ..ui.settings_dialogs import SpeechSettingsDialog
 
 
 """,
+    "hotkeys": """import re
+import threading
+import time
+
+import wx
+
+from ..common import parse_bool_setting
+from ..constants import FIXED_HOTKEY_LABEL_BY_ACTION, FIXED_HOTKEY_TEXT_BY_ACTION
+from ..ui.settings_dialogs import HotkeySettingsDialog
+
+
+""",
 }
 
 
