@@ -116,6 +116,41 @@ AudioRouter = None
 
 
 """,
+    "updates": """import json
+import os
+import shutil
+import subprocess
+import threading
+import time
+import urllib.request
+from pathlib import Path
+
+import wx
+
+from ..bootstrap import (
+    get_app_dir,
+    get_current_executable_path,
+    get_resource_path,
+    is_packaged_app,
+)
+from ..common import (
+    compare_versions,
+    get_update_temp_dir,
+    is_allowed_update_body_status,
+    open_update_url,
+    parse_bool_setting,
+    parse_version_parts,
+)
+from ..constants import APP_VERSION
+from ..ui.common_dialogs import QRCodeDialog
+
+try:
+    from qr_embedded import QR_EMBEDDED_IMAGES
+except Exception:
+    QR_EMBEDDED_IMAGES = {}
+
+
+""",
 }
 
 
@@ -145,6 +180,36 @@ def _remove_top_level_assignments(text, names):
         raise RuntimeError(f"Top-level assignments changed: expected {sorted(names)}, found {sorted(found)}")
     for node in sorted(assignments, key=lambda item: item.lineno, reverse=True):
         del lines[node.lineno - 1:node.end_lineno]
+    return "".join(lines)
+
+
+def _remove_top_level_try_import(text, module_name, assigned_name):
+    lines = text.splitlines(keepends=True)
+    tree = ast.parse(text)
+    matches = [
+        node
+        for node in tree.body
+        if isinstance(node, ast.Try)
+        and any(
+            isinstance(child, ast.ImportFrom) and child.module == module_name
+            for child in ast.walk(node)
+        )
+    ]
+    if len(matches) != 1:
+        raise RuntimeError(
+            f"Top-level optional import changed: expected one {module_name!r} loader, found {len(matches)}"
+        )
+    assigned = {
+        target.id
+        for child in ast.walk(matches[0])
+        if isinstance(child, ast.Assign)
+        for target in child.targets
+        if isinstance(target, ast.Name)
+    }
+    if assigned_name not in assigned:
+        raise RuntimeError(f"Optional import fallback no longer assigns {assigned_name}")
+    node = matches[0]
+    del lines[node.lineno - 1:node.end_lineno]
     return "".join(lines)
 
 
@@ -224,6 +289,12 @@ def main(selected_modules):
         output_text = _remove_top_level_assignments(
             output_text,
             {"pythoncom", "AudioUtilities", "AudioRouter"},
+        )
+    if "updates" in selected:
+        output_text = _remove_top_level_try_import(
+            output_text,
+            "qr_embedded",
+            "QR_EMBEDDED_IMAGES",
         )
     SOURCE.write_text(output_text, encoding="utf-8", newline="")
 
