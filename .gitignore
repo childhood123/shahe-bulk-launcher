@@ -1,0 +1,5 @@
+__pycache__/
+*.py[cod]
+artifacts/probes/
+artifacts/screenshots/
+artifacts/logs/
