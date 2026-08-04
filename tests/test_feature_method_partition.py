@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
-ENTRY = ROOT / "沙河批量打开器.py"
+APP = ROOT / "shahe_bulk_launcher" / "app.py"
 FEATURE_DIR = ROOT / "shahe_bulk_launcher" / "features"
 METHOD_MODULES = json.loads(
     (ROOT / "tests" / "contracts" / "method_modules.json").read_text(encoding="utf-8")
@@ -46,7 +46,7 @@ class FeatureMethodPartitionTests(unittest.TestCase):
         self.assertTrue((FEATURE_DIR / "settings.py").is_file())
 
     def test_methods_are_defined_exactly_once(self):
-        entry_methods, entry_bases = _class_methods(ENTRY, "SandboxLauncher")
+        entry_methods, entry_bases = _class_methods(APP, "SandboxLauncher")
         implemented = list(entry_methods)
         expected_entry = set(METHOD_MODULES["app"])
 

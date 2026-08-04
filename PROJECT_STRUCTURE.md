@@ -2,7 +2,7 @@
 
 ## 项目用途
 
-本仓库用于维护沙河批量打开器 Python 主程序。当前任务是在不改变界面、文案、快捷键、焦点、无障碍、配置键和运行行为的前提下，将单文件实现拆分为独立模块。
+本仓库用于维护沙河批量打开器 Python 主程序。单文件模块化迁移已完成，界面、文案、快捷键、焦点、无障碍、配置键和运行行为由契约测试与行为探针持续保护。
 
 ## 当前基线
 
@@ -17,6 +17,13 @@
 
 - `沙河批量打开器.py` 保留原文件名和直接启动方式。
 - 入口继续导出原顶层常量、函数、控件、对话框、`BackupRestoreMgr`、`SandboxLauncher`、`SingleInstance` 和 `main`，兼容现有导入代码及回归探针。
+
+## 当前状态
+
+- 模块化迁移完成：目标结构中的 20 个 Python 模块全部存在。
+- 兼容入口由基线 12,071 行缩减为 171 行；主窗口组装集中在 200 行的 `shahe_bulk_launcher/app.py`。
+- `SandboxLauncher` 的 400 个方法按 1 个应用初始化方法和 10 个业务 mixin 唯一分区，无重复或遗漏。
+- 最终入口 API 审计无缺失导出，`SandboxLauncher` 与 `main` 均由 `shahe_bulk_launcher.app` 提供。
 
 ## 目标结构
 
@@ -91,8 +98,18 @@ artifacts/
 - 焦点移动与选择变化不得新增高成本或破坏性操作。
 - 启动、关闭、更新和批量管理继续由明确按钮、菜单或快捷键触发。
 
+## 已知风险
+
+- 原项目 `BackupRestoreMgr.restore` 调用 `safe_extract_zip`，但正式源码未定义或导入该名称。本次纯结构迁移按约定不混入原 bug 修复；恢复安全探针通过显式注入依赖验证调用边界，正式运行风险仍需另开修复任务。
+
 ## 验证记录
 
+- 2026-08-04：最终入口与规模审计：兼容入口 171 行，`shahe_bulk_launcher/app.py` 200 行；冻结清单中的 19 个函数、17 个类和 11 个常量无缺失导出，`SandboxLauncher` 的 400 个方法全部可调用，`SandboxLauncher.__module__` 与 `main.__module__` 均为 `shahe_bulk_launcher.app`。
+- 2026-08-04：最终工作区行为回归：顺序运行 `tests/probes/*.py` 共 26 条，26/26 通过。覆盖音频/关闭后台线程、语音后台朗读、定位和启动 UI 非阻塞、启动完成异步刷新、Sandboxie Start.exe 非阻塞与立即失败、更新包选择与助手命令、配置仅写 `Configuration`、首次扫描、剪贴板、列表导航与进程菜单缓存、固定快捷键焦点、分组导航、沙盒管理文本变换、对话框 AccessibleName、UI 广扫，以及备份恢复安全解压边界、无 shell 子进程和后台服务停止。
+- 2026-08-04：最终全量单元与结构回归 `python -m unittest discover -s tests -v` 通过 24/24，覆盖基础 API、20 个目标模块、400 个 `SandboxLauncher` 方法唯一分区、入口兼容导出、控件/对话框/备份和全部 feature 契约。
+- 2026-08-04：最终全仓语法验证 `python -m compileall -q .` 通过，入口、20 个目标模块、迁移工具、单元测试和行为探针均可编译。
+- 2026-08-04：Task 11 最终应用组装结构 GREEN：生成 `shahe_bulk_launcher/app.py`，其中 `SandboxLauncher` 仅直接定义原 `__init__`，并按 `LifecycleMixin`、`SettingsMixin`、`AppPathsMixin`、`SandboxieMixin`、`ProcessActionsMixin`、`UpdatesMixin`、`SpeechMixin`、`HotkeysMixin`、`SandboxAdminMixin`、`SchedulingMixin`、`wx.Frame` 顺序组装；中文入口保留 internal 运行时引导和原 API 显式导出，包根惰性导出 `SandboxLauncher/main`。`python -m py_compile` 对入口、`app.py`、包入口、组装工具和相关测试通过；`python -m unittest tests.test_entry_compatibility tests.test_modular_structure tests.test_feature_method_partition -v` 9/9 通过，20 个目标模块全部存在，400 个方法唯一分区。
+- 2026-08-04：Task 11 最终应用组装 RED 验证：`python -m unittest tests.test_entry_compatibility -v` 产生 3 个预期失败，统一原因是 `shahe_bulk_launcher/app.py` 尚不存在。契约冻结最终类仅直接定义 `__init__`、10 个 mixin 与 `wx.Frame` 的继承顺序、中文入口原 19 个函数/17 个类/11 个常量导出，以及包根对 `SandboxLauncher/main` 的惰性导出。
 - 2026-08-04：Task 10 UI 广扫 `ui_broad_probe.py` 通过。验证确认菜单文案与 Ctrl+O、Ctrl+V、F5、Ctrl+A、Alt+F4 固定快捷键显示保持不变；应用输入框、沙盒列表和启动按钮 AccessibleName/标签保持不变；不可配置的固定动作未进入快捷键清单，固定快捷键冲突仍明确提示；批量命名补零选项保持原顺序和文案。
 - 2026-08-04：Task 10 三个剩余 feature 模块汇总结构回归 `python -m unittest tests.test_foundation_modules tests.test_move_foundation_entry_tool tests.test_ui_controls_contract tests.test_ui_dialogs_contract tests.test_backup_contract tests.test_feature_method_partition tests.test_app_paths_and_sandboxie tests.test_process_actions_contract tests.test_updates_and_speech_contract tests.test_remaining_features_contract -v` 通过 18/18。
 - 2026-08-04：Task 10 调度启动行为探针 GREEN：`launch_no_ui_blocking_probe.py` 与 `launch_done_no_sync_menu_probe.py` 均通过。验证确认慢速沙盒解析不会阻塞 `on_launch` 的 UI 返回，`_launch_done` 不同步刷新运行状态或重建进程菜单，并继续恢复启动按钮、设置完成状态和安排后续异步刷新。
