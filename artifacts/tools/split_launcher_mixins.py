@@ -99,11 +99,53 @@ from ..constants import (
 
 
 """,
+    "process_actions": """import ctypes
+import os
+import subprocess
+import threading
+import time
+from ctypes import wintypes
+
+import wx
+
+from ..constants import is_valid_internal_sandbox_name
+
+pythoncom = None
+AudioUtilities = None
+AudioRouter = None
+
+
+""",
 }
 
 
 def _feature_import(module_name):
     return f"from shahe_bulk_launcher.features.{module_name} import {CLASS_NAMES[module_name]}\n"
+
+
+def _remove_top_level_assignments(text, names):
+    lines = text.splitlines(keepends=True)
+    tree = ast.parse(text)
+    assignments = []
+    for node in tree.body:
+        if not isinstance(node, ast.Assign):
+            continue
+        target_names = {
+            target.id for target in node.targets if isinstance(target, ast.Name)
+        }
+        if target_names and target_names <= names:
+            assignments.append(node)
+    found = {
+        target.id
+        for node in assignments
+        for target in node.targets
+        if isinstance(target, ast.Name)
+    }
+    if found != names:
+        raise RuntimeError(f"Top-level assignments changed: expected {sorted(names)}, found {sorted(found)}")
+    for node in sorted(assignments, key=lambda item: item.lineno, reverse=True):
+        del lines[node.lineno - 1:node.end_lineno]
+    return "".join(lines)
 
 
 def main(selected_modules):
@@ -177,7 +219,13 @@ def main(selected_modules):
         raise RuntimeError("Feature import anchor is missing")
     import_text = "".join(_feature_import(module_name) for module_name in selected) + "\n"
     lines.insert(import_anchor, import_text)
-    SOURCE.write_text("".join(lines), encoding="utf-8", newline="")
+    output_text = "".join(lines)
+    if "process_actions" in selected:
+        output_text = _remove_top_level_assignments(
+            output_text,
+            {"pythoncom", "AudioUtilities", "AudioRouter"},
+        )
+    SOURCE.write_text(output_text, encoding="utf-8", newline="")
 
 
 if __name__ == "__main__":
