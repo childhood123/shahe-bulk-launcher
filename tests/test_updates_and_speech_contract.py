@@ -57,6 +57,30 @@ class UpdatesAndSpeechContractTests(unittest.TestCase):
             )
         )
 
+    def test_speech_mixin_keeps_assigned_methods_and_entry_root_semantics(self):
+        path = FEATURE_DIR / "speech.py"
+        self.assertTrue(path.is_file())
+        if not path.is_file():
+            return
+        tree = ast.parse(path.read_text(encoding="utf-8"))
+        target = next(
+            node for node in tree.body
+            if isinstance(node, ast.ClassDef) and node.name == "SpeechMixin"
+        )
+        methods = [
+            node.name
+            for node in target.body
+            if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef))
+        ]
+        self.assertEqual(METHOD_MODULES["speech"], methods)
+        self.assertFalse(
+            any(
+                isinstance(node, ast.Name) and node.id == "__file__"
+                for node in ast.walk(tree)
+            ),
+            "speech resource lookup must not use the moved feature file as its root",
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -151,6 +151,22 @@ except Exception:
 
 
 """,
+    "speech": """import configparser
+import ctypes
+import json
+import os
+import threading
+import time
+from ctypes import wintypes
+
+import wx
+
+from ..bootstrap import get_app_dir, get_resource_path
+from ..common import get_configuration_dir, parse_bool_setting
+from ..ui.settings_dialogs import SpeechSettingsDialog
+
+
+""",
 }
 
 
@@ -253,6 +269,11 @@ def main(selected_modules):
             if old_path not in body:
                 raise RuntimeError("Lifecycle startup path no longer matches the baseline")
             body = body.replace(old_path, "get_current_executable_path()", 1)
+        if module_name == "speech":
+            old_root = "os.path.dirname(os.path.abspath(__file__))"
+            if body.count(old_root) != 2:
+                raise RuntimeError("Speech source config roots no longer match the baseline")
+            body = body.replace(old_root, "get_app_dir()")
         output = FEATURE_DIR / f"{module_name}.py"
         output.write_text(
             PREAMBLES[module_name] + f"class {CLASS_NAMES[module_name]}:\n" + body + "\n",
