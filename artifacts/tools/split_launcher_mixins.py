@@ -179,6 +179,26 @@ from ..ui.settings_dialogs import HotkeySettingsDialog
 
 
 """,
+    "sandbox_admin": """import codecs
+import datetime
+import os
+import re
+import shutil
+import time
+import winreg
+from pathlib import Path
+
+import wx
+
+from ..constants import (
+    get_sandbox_display_name_validation_error,
+    is_valid_internal_sandbox_name,
+    make_default_sandbox_display_prefix,
+)
+from ..ui.common_dialogs import BatchNameRuleDialog, GroupNameDialog
+
+
+""",
 }
 
 

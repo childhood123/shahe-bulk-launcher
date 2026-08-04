@@ -34,6 +34,15 @@ class RemainingFeaturesContractTests(unittest.TestCase):
                 direct_methods(path, "HotkeysMixin"),
             )
 
+    def test_sandbox_admin_mixin_keeps_assigned_methods(self):
+        path = FEATURE_DIR / "sandbox_admin.py"
+        self.assertTrue(path.is_file())
+        if path.is_file():
+            self.assertEqual(
+                METHOD_MODULES["sandbox_admin"],
+                direct_methods(path, "SandboxAdminMixin"),
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
