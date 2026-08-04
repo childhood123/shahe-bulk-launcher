@@ -3,3 +3,6 @@ __pycache__/
 artifacts/probes/
 artifacts/screenshots/
 artifacts/logs/
+Configuration/
+log/
+tenp/
