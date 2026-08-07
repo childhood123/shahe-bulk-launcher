@@ -25,7 +25,7 @@
 - `SandboxLauncher` 的 400 个方法按 1 个应用初始化方法和 10 个业务 mixin 唯一分区，无重复或遗漏。
 - 最终入口 API 审计无缺失导出，`SandboxLauncher` 与 `main` 均由 `shahe_bulk_launcher.app` 提供。
 - C# 迁移工程已建立：`csharp/ShaheBulkLauncher.sln` 包含 Core、App、Updater、Tests 四个 `net48/x64` 项目。
-- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py` 与 Task 7 `ui/settings_dialogs.py` 已完成，当前累计 59 项 C# 契约测试通过；其余 13 个模块仍以 Python 为唯一实现，未声明完成。
+- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py` 与 Task 8 `ui/tray.py` 已完成，当前累计 62 项 C# 契约测试通过；其余 12 个模块仍以 Python 为唯一实现，未声明完成。
 
 ## 目标结构
 
@@ -105,7 +105,7 @@ csharp/
 | 5 | `ui/controls.py` | `ShaheLauncher.App/UI/Controls/` | 已完成，14/14 |
 | 6 | `ui/common_dialogs.py` | `ShaheLauncher.App/UI/Dialogs/Common/` | 已完成，7/7 |
 | 7 | `ui/settings_dialogs.py` | `ShaheLauncher.App/UI/Dialogs/Settings/` | 已完成，10/10 |
-| 8 | `ui/tray.py` | `ShaheLauncher.App/UI/Tray/LauncherTrayIcon.cs` | 待迁移 |
+| 8 | `ui/tray.py` | `ShaheLauncher.App/UI/Tray/LauncherTrayIcon.cs` | 已完成，3/3 |
 | 9 | `features/settings.py` | `ShaheLauncher.Core/Settings/LauncherSettingsService.cs` | 待迁移 |
 | 10 | `features/app_paths.py` | `ShaheLauncher.Core/AppPaths/AppPathHistoryService.cs` | 待迁移 |
 | 11 | `features/sandboxie.py` | `ShaheLauncher.Core/Sandboxie/SandboxieClient.cs` | 待迁移 |
@@ -143,6 +143,13 @@ csharp/
 
 ## 验证记录
 
+- 2026-08-07：C# Task 8 `ui/tray.py` 完成：`ShaheBulkLauncher.sln` 以 `Release|x64` 完成还原和生成，Core、App、Updater、Tests 全部成功输出，0 警告、0 错误；最终验证为 Tray 3/3、C# 累计 62/62、Python 对话框/托盘结构契约 2/2 与托盘模块语法验证通过。`LauncherTrayIcon` 已迁入 `ShaheLauncher.App/UI/Tray/`，主窗体接线仍按边界留到 lifecycle/app，Python 正式入口未改变；其余 12 个模块继续按映射顺序迁移。
+- 2026-08-07：C# Task 8 当前累计全量测试通过：`ShaheLauncher.Tests.dll /Platform:x64` 运行 62 项、62/62 通过，包含 Tray 3 项及 Task 1-7 的既有 59 项，无已完成模块回归。
+- 2026-08-07：C# Task 8 Python 托盘模块语法验证通过：`python -m py_compile shahe_bulk_launcher\ui\tray.py` 返回码 0，确认 Python 权威模块保持可导入语法，未被 C# 迁移改动。
+- 2026-08-07：C# Task 8 Python 权威结构对照通过：`python -m unittest tests.test_ui_dialogs_contract -v` 运行 2 项、2/2 通过，确认 Python `TaskBarIcon` 仍保留 `set_icon`、左右键处理、显示、退出、移除和销毁的直接方法，C# 迁移未修改正式 Python 入口。
+- 2026-08-07：C# Task 8 托盘模块定向 GREEN 通过：Tests 项目以 `Release|x64` 构建成功，0 警告、0 错误；`TestCategory=Tray` 运行 3 项、3/3 通过，确认系统信息图标、`沙盒批量打开器` 提示、经典 `ContextMenu/MenuItem` 菜单原文、左键与菜单恢复隐藏/最小化窗口、精确状态与朗读反馈、反馈异常隔离、退出顺序以及 `RemoveIcon`/`Destroy` 幂等行为保持 Python 语义。
+- 2026-08-07：C# Task 8 首轮 GREEN 为 2/3：图标/经典菜单和退出销毁两项通过；左键恢复测试中状态与朗读回调均触发，但隐藏且最小化的 WinForms 窗口保持 `Minimized`。`artifacts/runs/tray_debug` 独立 STA 探针确认 WinForms 在该状态下“先设 Normal、后 Show”会重新显示为最小化，“先 Show、后设 Normal”才能恢复；实现只调整两步顺序以保持 Python 的最终可见行为。
+- 2026-08-07：C# Task 8 `ui/tray.py` 有效 RED 通过：Tests 项目以 `Release|x64` 构建成功，0 警告、0 错误；`TestCategory=Tray` 运行 3 项、3/3 按预期失败，失败点统一为 `ShaheLauncher.App.UI.Tray.LauncherTrayIcon` 尚不存在。契约已冻结信息图标、`沙盒批量打开器` 提示、经典 `ContextMenu/MenuItem` 的 `显示主界面`/`退出` 原文、左键与菜单恢复窗口、`已显示主窗口` 状态和 `launch_done` 朗读、反馈失败隔离、退出顺序及幂等销毁行为；主窗体接线留到后续 lifecycle/app 模块。
 - 2026-08-07：C# Task 7 `ui/settings_dialogs.py` 完成：`ShaheBulkLauncher.sln` 以 `Release|x64` 完成还原和生成，Core、App、Updater、Tests 全部成功输出，0 警告、0 错误；最终验证为 SettingsDialogs 10/10、C# 累计 59/59、Python 对话框结构契约 2/2 与三个 UI 探针 PASS。四个 C# 对话框已迁入 `ShaheLauncher.App/UI/Dialogs/Settings/`，Python 正式入口未改变；其余 13 个模块继续按映射顺序迁移。
 - 2026-08-07：C# Task 7 当前累计全量测试通过：`ShaheLauncher.Tests.dll /Platform:x64` 运行 59 项、59/59 通过，包含 SettingsDialogs 10 项及 Task 1-6 的既有 49 项，无已完成模块回归。
 - 2026-08-07：C# Task 7 Python UI 广度探针通过：`python tests\probes\ui_broad_probe.py` 输出 `PASS ui_broad_probe`，确认对话框迁移未改变 Python 正式入口的关键 UI 文案、控件关系和可访问性基线。
