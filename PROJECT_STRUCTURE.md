@@ -25,7 +25,7 @@
 - `SandboxLauncher` 的 400 个方法按 1 个应用初始化方法和 10 个业务 mixin 唯一分区，无重复或遗漏。
 - 最终入口 API 审计无缺失导出，`SandboxLauncher` 与 `main` 均由 `shahe_bulk_launcher.app` 提供。
 - C# 迁移工程已建立：`csharp/ShaheBulkLauncher.sln` 包含 Core、App、Updater、Tests 四个 `net48/x64` 项目。
-- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py` 与 Task 6 `ui/common_dialogs.py` 已完成，当前累计 49 项 C# 契约测试通过；其余 14 个模块仍以 Python 为唯一实现，未声明完成。
+- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py` 与 Task 7 `ui/settings_dialogs.py` 已完成，当前累计 59 项 C# 契约测试通过；其余 13 个模块仍以 Python 为唯一实现，未声明完成。
 
 ## 目标结构
 
@@ -104,7 +104,7 @@ csharp/
 | 4 | `single_instance.py` | `ShaheLauncher.App/Infrastructure/SingleInstanceGuard.cs` | 已完成，3/3 |
 | 5 | `ui/controls.py` | `ShaheLauncher.App/UI/Controls/` | 已完成，14/14 |
 | 6 | `ui/common_dialogs.py` | `ShaheLauncher.App/UI/Dialogs/Common/` | 已完成，7/7 |
-| 7 | `ui/settings_dialogs.py` | `ShaheLauncher.App/UI/Dialogs/Settings/` | 待迁移 |
+| 7 | `ui/settings_dialogs.py` | `ShaheLauncher.App/UI/Dialogs/Settings/` | 已完成，10/10 |
 | 8 | `ui/tray.py` | `ShaheLauncher.App/UI/Tray/LauncherTrayIcon.cs` | 待迁移 |
 | 9 | `features/settings.py` | `ShaheLauncher.Core/Settings/LauncherSettingsService.cs` | 待迁移 |
 | 10 | `features/app_paths.py` | `ShaheLauncher.Core/AppPaths/AppPathHistoryService.cs` | 待迁移 |
@@ -143,6 +143,19 @@ csharp/
 
 ## 验证记录
 
+- 2026-08-07：C# Task 7 `ui/settings_dialogs.py` 完成：`ShaheBulkLauncher.sln` 以 `Release|x64` 完成还原和生成，Core、App、Updater、Tests 全部成功输出，0 警告、0 错误；最终验证为 SettingsDialogs 10/10、C# 累计 59/59、Python 对话框结构契约 2/2 与三个 UI 探针 PASS。四个 C# 对话框已迁入 `ShaheLauncher.App/UI/Dialogs/Settings/`，Python 正式入口未改变；其余 13 个模块继续按映射顺序迁移。
+- 2026-08-07：C# Task 7 当前累计全量测试通过：`ShaheLauncher.Tests.dll /Platform:x64` 运行 59 项、59/59 通过，包含 SettingsDialogs 10 项及 Task 1-6 的既有 49 项，无已完成模块回归。
+- 2026-08-07：C# Task 7 Python UI 广度探针通过：`python tests\probes\ui_broad_probe.py` 输出 `PASS ui_broad_probe`，确认对话框迁移未改变 Python 正式入口的关键 UI 文案、控件关系和可访问性基线。
+- 2026-08-07：C# Task 7 Python 扩展控件名探针通过：`python tests\probes\dialog_control_names_more_probe.py` 输出 `PASS dialog_control_names_more_probe`，确认路径记忆与朗读设置的关键 AccessibleName 和可见控件文案保持 Python 权威基线不变。
+- 2026-08-07：C# Task 7 Python 对话框控件名探针通过：`python tests\probes\dialog_control_names_probe.py` 输出 `PASS dialog_control_names_probe`，确认快捷键、常规设置及其他共用对话框的关键控件名称保持 Python 权威基线不变。
+- 2026-08-07：C# Task 7 Python 权威结构对照通过：`python -m unittest tests.test_ui_dialogs_contract -v` 运行 2 项、2/2 通过，确认 Python `settings_dialogs.py` 的四个对话框仍保持既有模块归属，C# 迁移未修改正式 Python 入口。
+- 2026-08-07：C# Task 7 `SettingsDialogs` 完整定向回归通过：`TestCategory=SettingsDialogs` 运行 10 项、10/10 通过，快捷键、常规设置、路径记忆和朗读设置四个对话框在同一程序集组合验证中无回归。
+- 2026-08-07：C# Task 7 朗读设置子模块定向 GREEN 通过：目标三项 3/3 通过，确认 700×700 窗口、`读屏 API 接口:`/`自动（默认）`/`启用读屏辅助提示`/`确定`/`取消` 原文、`读屏 API 接口` AccessibleName、接口 DLL 显示值映射、配置清洗、reader.ini 值规范化，以及接口 DLL -> 辅助提示 -> 朗读配置的保存顺序与失败短路行为保持 Python 一致；源码中未创建控件的旧引擎编辑、检测和 reader.ini 收集方法未擅自接入 UI。
+- 2026-08-07：C# Task 7 路径记忆子模块定向 GREEN 通过：目标两项 2/2 通过，确认 700×500 窗口、0..20 记忆数量范围、隐藏路径与列表原文、`路径记忆数量`/`已记忆的路径列表` AccessibleName、Tab 顺序、经典 `ContextMenu/MenuItem` 三项菜单、400×150 备注编辑、备注 trim、删除/清空精确确认及保存回调保持 Python 行为；列表选择变化本身不执行操作。
+- 2026-08-07：C# Task 7 常规设置子模块定向 GREEN 通过：目标两项 2/2 通过，确认 560×640 可滚动窗口、全部原复选文案、0..15/1..32 数值范围、`打开沙盒间隔时间`/`启动并发数量限制`/`日志输出` AccessibleName、Tab 顺序、布尔/整数/日志默认值解析、重置确认原文，以及保存时移除旧更新键并写入 `auto_minimize_to_tray_after_launch=False` 的行为保持 Python 一致。
+- 2026-08-07：C# Task 7 快捷键设置子模块定向 GREEN 通过：目标三项 3/3 通过，确认 760×560 窗口、原文与 AccessibleName、列表到按钮的 Tab 顺序、快捷键录入/删除、编辑框 Esc 录入边界、重置默认值并关闭启用开关，以及无效格式、固定基础快捷键占用、重复快捷键三类精确提示和规范化结果保持 Python 行为。
+- 2026-08-07：C# Task 7 快捷键子模块首轮 GREEN 为 2/3：窗口/焦点顺序/编辑行为与重置默认值两项通过；校验测试因测试直接修改当前动作的 `WorkingHotkeys` 后，`ConfirmSettings` 按 Python 行为先从仍显示 `Ctrl+Enter` 的编辑框回写当前动作，导致测试数据被覆盖并意外成功。该结果属于测试未通过真实 UI 输入路径，生产冲突逻辑尚无失败证据；下一步只修正测试输入方式后重跑。
+- 2026-08-07：C# Task 7 `ui/settings_dialogs.py` 有效 RED 通过：Tests 项目以 `Release|x64` 构建成功，0 警告、0 错误；`TestCategory=SettingsDialogs` 运行 10 项、10/10 按预期失败，失败点均为 `HotkeySettingsDialog`、`SettingsDialog`、`PathMemoryManagerDialog`、`SpeechSettingsDialog` 尚不存在。契约已冻结窗口尺寸、原文、Tab 顺序、AccessibleName、设置键、快捷键捕获/重置/校验、经典路径右键菜单、朗读配置清洗和保存短路顺序；朗读窗口只迁移 Python 当前实际可见的接口选择与辅助提示，不擅自接通源码中未创建控件的旧方法。
 - 2026-08-07：C# 检查点提交前忽略规则修复通过：将运行时配置规则从 `Configuration/` 锚定为 `/Configuration/`，根级配置仍被忽略，`ShaheLauncher.Core/Configuration/ConfigCrypto.cs` 与 `ConfigStore.cs` 可正常纳入 Git，C# `.vs/bin/obj` 构建产物继续排除；`git diff --check` 无空白错误。
 - 2026-08-07：C# Task 6 `ui/common_dialogs.py` 完成：`ShaheBulkLauncher.sln` 以 `Release|x64` 完成还原和生成，Core、App、Updater、Tests 全部成功输出，0 警告、0 错误；最终验证为 CommonDialogs 7/7、C# 累计 49/49、Python 对话框结构契约 2/2 与控件名探针 PASS。六个 C# 类型已迁入 `ShaheLauncher.App/UI/Dialogs/Common/`，Python 正式入口未改变；其余 14 个模块继续按映射顺序迁移。
 - 2026-08-07：C# Task 6 当前累计全量测试通过：`ShaheLauncher.Tests.dll /Platform:x64` 运行 49 项、49/49 通过，包含 CommonDialogs 7 项及 Task 1-5 的既有 42 项，无已完成模块回归。
