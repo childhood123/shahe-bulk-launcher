@@ -25,7 +25,7 @@
 - `SandboxLauncher` 的 400 个方法按 1 个应用初始化方法和 10 个业务 mixin 唯一分区，无重复或遗漏。
 - 最终入口 API 审计无缺失导出，`SandboxLauncher` 与 `main` 均由 `shahe_bulk_launcher.app` 提供。
 - C# 迁移工程已建立：`csharp/ShaheBulkLauncher.sln` 包含 Core、App、Updater、Tests 四个 `net48/x64` 项目。
-- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py` 与 Task 8 `ui/tray.py` 已完成，当前累计 62 项 C# 契约测试通过；其余 12 个模块仍以 Python 为唯一实现，未声明完成。
+- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py`、Task 8 `ui/tray.py` 与 Task 9 `features/settings.py` 已完成，当前累计 70 项 C# 契约测试通过；其余 11 个模块仍以 Python 为唯一实现，未声明完成。
 
 ## 目标结构
 
@@ -106,7 +106,7 @@ csharp/
 | 6 | `ui/common_dialogs.py` | `ShaheLauncher.App/UI/Dialogs/Common/` | 已完成，7/7 |
 | 7 | `ui/settings_dialogs.py` | `ShaheLauncher.App/UI/Dialogs/Settings/` | 已完成，10/10 |
 | 8 | `ui/tray.py` | `ShaheLauncher.App/UI/Tray/LauncherTrayIcon.cs` | 已完成，3/3 |
-| 9 | `features/settings.py` | `ShaheLauncher.Core/Settings/LauncherSettingsService.cs` | 待迁移 |
+| 9 | `features/settings.py` | `ShaheLauncher.Core/Settings/LauncherSettingsService.cs` | 已完成，8/8 |
 | 10 | `features/app_paths.py` | `ShaheLauncher.Core/AppPaths/AppPathHistoryService.cs` | 待迁移 |
 | 11 | `features/sandboxie.py` | `ShaheLauncher.Core/Sandboxie/SandboxieClient.cs` | 待迁移 |
 | 12 | `features/process_actions.py` | `ShaheLauncher.Core/Processes/ProcessActionService.cs` | 待迁移 |
@@ -143,6 +143,14 @@ csharp/
 
 ## 验证记录
 
+- 2026-08-07：C# Task 9 `features/settings.py` 完成：`ShaheBulkLauncher.sln` 以 `Release|x64` 完成还原和生成，Core、App、Updater、Tests 全部成功输出，0 警告、0 错误；最终验证为 SettingsService 8/8、C# 累计 70/70、Python 设置模块结构契约 3/3、默认值与首次扫描行为探针 PASS，以及设置模块语法验证通过。`LauncherSettingsService` 已迁入 `ShaheLauncher.Core/Settings/`，SettingsDialog 与最终 MainForm 接线仍按边界留到 lifecycle/app，Python 正式入口未改变；其余 11 个模块继续按映射顺序迁移。
+- 2026-08-07：C# Task 9 当前累计全量测试通过：`ShaheLauncher.Tests.dll /Platform:x64` 运行 70 项、70/70 通过，包含 SettingsService 8 项及 Task 1-8 的既有 62 项，无已完成模块回归。
+- 2026-08-07：C# Task 9 Python 设置模块语法验证通过：`python -m py_compile shahe_bulk_launcher\features\settings.py` 返回码 0，确认 Python 权威模块保持可编译，未被 C# 迁移改动。
+- 2026-08-07：C# Task 9 Python 默认值与首次扫描行为对照通过：`python tests\probes\defaults_and_first_scan_probe.py` 输出 `PASS tmp_defaults_and_first_scan_probe`，确认 `list_use_left_right_nav=True`、朗读辅助提示默认启用，以及未找到 Sandboxie 时的扫描状态和“扫描结果”弹框原文保持权威基线。
+- 2026-08-07：C# Task 9 Python 设置模块结构对照通过：`python -m unittest tests.test_feature_method_partition -v` 运行 3 项、3/3 通过，确认生命周期与设置模块仍存在、开机自启动目标不指向 feature 文件，并且 `SandboxLauncher` 方法继续唯一分区；C# 迁移未修改 Python 正式入口。
+- 2026-08-07：C# Task 9 设置服务定向 GREEN 通过：`TestCategory=SettingsService` 运行 8 项、8/8 通过，确认 23 个默认设置键及嵌套集合独立、HTTPS 更新清单秘密存储、`settings_json`/旧 `app_config.dat` 加载迁移与损坏回退、保存时清理旧更新键、设置规范化及 Python 副作用顺序、重置原文和最终状态、沙盒根与 Sandboxie `Start.exe` 路径校正均保持 Python 行为。
+- 2026-08-07：C# Task 9 `features/settings.py` GREEN 构建通过：新增 `LauncherSettingsService` 后，Tests 项目以 `Release|x64` 完成还原和生成，Core、App、Tests 均成功输出，0 警告、0 错误；下一步运行 `TestCategory=SettingsService` 的 8 项定向契约并按失败证据修正迁移偏差。
+- 2026-08-07：C# Task 9 `features/settings.py` 有效 RED 通过：Tests 项目以 `Release|x64` 构建成功，0 警告、0 错误；`TestCategory=SettingsService` 运行 8 项、8/8 按预期失败，失败点统一为 `ShaheLauncher.Core.Settings.LauncherSettingsService` 尚不存在。契约已冻结 23 个默认设置键与嵌套独立性、更新清单秘密配置、数据库加载与旧 JSON 迁移、损坏回退、保存键清理、设置规范化和副作用顺序、重置原文/状态、沙盒根及 Sandboxie `Start.exe` 路径校正；SettingsDialog 与最终 MainForm 接线继续沿用已迁移 UI 和后续 lifecycle/app 边界。
 - 2026-08-07：C# Task 8 `ui/tray.py` 完成：`ShaheBulkLauncher.sln` 以 `Release|x64` 完成还原和生成，Core、App、Updater、Tests 全部成功输出，0 警告、0 错误；最终验证为 Tray 3/3、C# 累计 62/62、Python 对话框/托盘结构契约 2/2 与托盘模块语法验证通过。`LauncherTrayIcon` 已迁入 `ShaheLauncher.App/UI/Tray/`，主窗体接线仍按边界留到 lifecycle/app，Python 正式入口未改变；其余 12 个模块继续按映射顺序迁移。
 - 2026-08-07：C# Task 8 当前累计全量测试通过：`ShaheLauncher.Tests.dll /Platform:x64` 运行 62 项、62/62 通过，包含 Tray 3 项及 Task 1-7 的既有 59 项，无已完成模块回归。
 - 2026-08-07：C# Task 8 Python 托盘模块语法验证通过：`python -m py_compile shahe_bulk_launcher\ui\tray.py` 返回码 0，确认 Python 权威模块保持可导入语法，未被 C# 迁移改动。
