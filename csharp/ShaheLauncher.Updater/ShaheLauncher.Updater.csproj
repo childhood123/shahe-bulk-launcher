@@ -1,0 +1,10 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>ShaheLauncher.Updater</RootNamespace>
+    <AssemblyName>updater</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ShaheLauncher.Core\ShaheLauncher.Core.csproj" />
+  </ItemGroup>
+</Project>

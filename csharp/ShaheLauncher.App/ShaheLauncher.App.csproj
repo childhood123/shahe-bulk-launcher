@@ -1,0 +1,11 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>ShaheLauncher.App</RootNamespace>
+    <AssemblyName>沙河批量打开器</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ShaheLauncher.Core\ShaheLauncher.Core.csproj" />
+  </ItemGroup>
+</Project>
