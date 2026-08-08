@@ -25,7 +25,7 @@
 - `SandboxLauncher` 的 400 个方法按 1 个应用初始化方法和 10 个业务 mixin 唯一分区，无重复或遗漏。
 - 最终入口 API 审计无缺失导出，`SandboxLauncher` 与 `main` 均由 `shahe_bulk_launcher.app` 提供。
 - C# 迁移工程已建立：`csharp/ShaheBulkLauncher.sln` 包含 Core、App、Updater、Tests 四个 `net48/x64` 项目。
-- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py`、Task 8 `ui/tray.py`、Task 9 `features/settings.py`、Task 10 `features/app_paths.py` 与 Task 11 `features/sandboxie.py` 已完成，当前累计 86 项 C# 契约测试通过；其余 9 个模块仍以 Python 为唯一实现，未声明完成。
+- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py`、Task 8 `ui/tray.py`、Task 9 `features/settings.py`、Task 10 `features/app_paths.py`、Task 11 `features/sandboxie.py` 与 Task 12 `features/process_actions.py` 已完成，当前累计 94 项 C# 契约测试通过；剩余 8 个模块仍以 Python 为唯一实现，未声明完成。
 
 ## 目标结构
 
@@ -109,7 +109,7 @@ csharp/
 | 9 | `features/settings.py` | `ShaheLauncher.Core/Settings/LauncherSettingsService.cs` | 已完成，8/8 |
 | 10 | `features/app_paths.py` | `ShaheLauncher.Core/AppPaths/AppPathHistoryService.cs` | 已完成，8/8 |
 | 11 | `features/sandboxie.py` | `ShaheLauncher.Core/Sandboxie/SandboxieClient.cs` | 已完成，8/8 |
-| 12 | `features/process_actions.py` | `ShaheLauncher.Core/Processes/ProcessActionService.cs` | 待迁移 |
+| 12 | `features/process_actions.py` | `ShaheLauncher.Core/Processes/ProcessActionService.cs` | 已完成，8/8 |
 | 13 | `features/sandbox_admin.py` | `ShaheLauncher.Core/SandboxAdmin/SandboxAdminService.cs` | 待迁移 |
 | 14 | `features/scheduling.py` | `ShaheLauncher.Core/Scheduling/LaunchScheduler.cs` | 待迁移 |
 | 15 | `backup.py` | `ShaheLauncher.Core/Backup/BackupRestoreService.cs` | 待迁移 |
@@ -143,6 +143,10 @@ csharp/
 
 ## 验证记录
 
+- 2026-08-08：C# Task 12 `features/process_actions.py` RED：新增 `ProcessActionServiceContractTests.cs`，冻结 8 项进程操作契约，覆盖播放设备 `（默认）` 原文、PID 归一化与全部进程回退、窗口候选排序/选择文案、静音聚合/详细结果、音量钳制/记忆、taskkill 分块与 Sandboxie terminate 参数、菜单状态/静音缓存、状态原文及音频/关闭后台线程边界；Tests 项目 `Release|x64` 构建通过，定向测试为 8/8 预期失败，唯一失败根因为 `ShaheLauncher.Core.Processes.ProcessActionService` 尚不存在。Python 权威模块未修改，下一步实现最小 Core 服务后定向转 GREEN。
+- 2026-08-08：C# Task 12 `features/process_actions.py` GREEN：`ProcessActionService` 已迁入 `ShaheLauncher.Core/Processes/`，覆盖设备标签、PID/窗口查找与激活、静音/音量会话结果、音量记忆、Sandboxie terminate/taskkill、菜单缓存、关闭/定位结果和后台任务锁；`ProcessActionServiceContractTests` 定向运行 8/8 通过，Tests 项目 `Release|x64` 构建 0 警告、0 错误。设备路由、音频会话枚举和 WinForms 状态更新均保留为后续 `MainForm` 委托接线边界，未改变 Python UI、文案、快捷键、焦点顺序、无障碍或正式入口。
+- 2026-08-08：C# Task 12 跨模块回归通过：`ShaheLauncher.Tests.dll /Platform:x64` 运行 94 项、94/94 通过；Python `test_feature_method_partition`、`test_process_actions_contract`、`test_app_paths_and_sandboxie` 共 6/6 通过；`audio_process_actions_no_blocking_probe.py`、`close_process_no_blocking_probe.py`、`locate_no_blocking_probe.py` 均 PASS；`python -m py_compile shahe_bulk_launcher\features\process_actions.py` 通过。Python 权威入口和 UI 未改动，下一步只剩解决方案构建与提交门禁。
+- 2026-08-08：C# Task 12 最终完成：`ShaheBulkLauncher.sln` `Release|x64` 构建成功，Core、App、Updater、Tests 0 警告、0 错误；最终 C# 全量契约 94/94 通过。`ProcessActionService` 的 UI、音频路由和读屏边界继续通过委托保留原接线位置，Python 正式入口、界面、文案、快捷键、焦点顺序、无障碍和配置键均未修改；Task 13 `features/sandbox_admin.py` 作为下一模块。
 - 2026-08-08：C# Task 11 `features/sandboxie.py` 最终完成：`SandboxieClient` 已迁入 `ShaheLauncher.Core/Sandboxie/`，Sandboxie 定向契约 8/8、C# 全量契约 86/86、Python 应用路径/Sandboxie 结构对照 4/4、非阻塞启动与立即失败探针均 PASS、Python 模块语法验证通过；`ShaheBulkLauncher.sln` 最新 `Release|x64` 构建成功，0 警告、0 错误。UI、文案、快捷键、焦点顺序、无障碍、配置键和 Python 正式入口均未改动；INI 写入、配置重载和 UI 接线继续通过后续 SandboxAdmin/MainForm 边界委托，剩余 9 个 C# 模块按映射顺序迁移。
 - 2026-08-08：C# Task 11 最终门禁复跑通过：解决方案构建后再次运行 `ShaheLauncher.Tests.dll /Platform:x64` 为 86/86；Python 结构对照为 4/4，`launch_start_detached_probe.py` 与 `launch_detached_immediate_failure_probe.py` 均 PASS，`python -m py_compile shahe_bulk_launcher\features\sandboxie.py` 通过。
 - 2026-08-08：C# Task 11 Windows 参数转义 GREEN 通过：修正测试数组的反射传参后，`TestCategory=Sandboxie` 恢复 8/8；`FormatProcessArguments` 确认带空格路径保留普通反斜杠，尾随反斜杠仅在闭合引号前按 Windows 命令行规则成对转义，实际 `ProcessStartInfo.Arguments` 共用同一实现。
