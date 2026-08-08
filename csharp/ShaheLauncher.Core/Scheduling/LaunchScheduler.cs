@@ -108,6 +108,8 @@ namespace ShaheLauncher.Core.Scheduling
         public Func<int> BeginLaunchSession { get; set; }
         public Action<Action> PostToUi { get; set; }
         public Action<string, string> Speak { get; set; }
+        public Action RefreshVisibleSandboxStates { get; set; }
+        public Action ClearLaunchCancellation { get; set; }
         public Action Backup { get; set; }
         public Action Restore { get; set; }
     }
@@ -792,6 +794,10 @@ namespace ShaheLauncher.Core.Scheduling
                 return;
             }
             state.IsLaunching = false;
+            if (result.SessionId == state.LaunchSessionId)
+            {
+                callbacks?.ClearLaunchCancellation?.Invoke();
+            }
             state.ActiveLaunchTargets = null;
             if (callbacks?.IsWindowClosing != null && callbacks.IsWindowClosing())
             {
@@ -858,7 +864,8 @@ namespace ShaheLauncher.Core.Scheduling
             {
                 return;
             }
-            callbacks.ScheduleDelayed(delayMilliseconds, () => { });
+            Action refresh = callbacks.RefreshVisibleSandboxStates;
+            callbacks.ScheduleDelayed(delayMilliseconds, refresh ?? (() => { }));
         }
 
         private static void Delay(LaunchSchedulerCallbacks callbacks, int milliseconds)

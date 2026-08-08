@@ -424,12 +424,15 @@ namespace ShaheLauncher.Tests
                 targetType, CreateAppTarget(targetType, @"C:\Apps\one.exe", @"C:\Apps")));
             object callbacks = Activator.CreateInstance(callbacksType);
             var delays = new List<int>();
+            var delayedActions = new List<Action>();
             var calls = new List<string>();
+            var refreshes = new List<string>();
             int callerThread = Thread.CurrentThread.ManagedThreadId;
             int workerThread = 0;
             SetProperty(callbacksType, callbacks, "ScheduleDelayed", new Func<int, Action, IDisposable>((delay, action) =>
             {
                 delays.Add(delay);
+                delayedActions.Add(action);
                 return new TrackingDisposable();
             }));
             SetProperty(callbacksType, callbacks, "SetLaunchButton", new Action<bool, string>((enabled, text) =>
@@ -439,6 +442,8 @@ namespace ShaheLauncher.Tests
             SetProperty(callbacksType, callbacks, "Speak", new Action<string, string>((text, key) => calls.Add("speak:" + text + ":" + key)));
             SetProperty(callbacksType, callbacks, "IsWindowClosing", new Func<bool>(() => false));
             SetProperty(callbacksType, callbacks, "IsLaunchSessionCancelled", new Func<int, bool>(_ => false));
+            SetProperty(callbacksType, callbacks, "ClearLaunchCancellation", new Action(() => calls.Add("clear-cancellation")));
+            SetProperty(callbacksType, callbacks, "RefreshVisibleSandboxStates", new Action(() => refreshes.Add("refresh")));
             SetProperty(callbacksType, callbacks, "StartAppInSandbox", new Func<string, string, string, bool>((name, path, dir) =>
             {
                 workerThread = Thread.CurrentThread.ManagedThreadId;
@@ -458,6 +463,13 @@ namespace ShaheLauncher.Tests
             Assert.AreEqual(false, GetProperty<bool>(stateType, state, "IsLaunching"));
             Assert.AreEqual(null, GetProperty<object>(stateType, state, "ActiveLaunchTargets"));
             CollectionAssert.AreEqual(new[] { 1, 800, 2500 }, delays.ToArray());
+            CollectionAssert.Contains(calls, "clear-cancellation");
+            Assert.AreEqual(3, delayedActions.Count);
+            foreach (Action delayedAction in delayedActions)
+            {
+                delayedAction();
+            }
+            Assert.AreEqual(3, refreshes.Count);
             CollectionAssert.Contains(calls, "button:True:启动选中沙盒");
             CollectionAssert.Contains(calls, "status:启动完成：成功 1/1。按 F5 可刷新运行状态");
             CollectionAssert.Contains(calls, "log:启动完成：成功 1/1");

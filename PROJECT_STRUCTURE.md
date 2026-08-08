@@ -143,6 +143,8 @@ csharp/
 
 ## 验证记录
 
+- 2026-08-08：C# Task 14 调度完成回调边界 RED：新增契约要求 `CompleteLaunch` 在当前会话完成时清理取消事件，并让 1/800/2500 毫秒延迟回调实际刷新可见沙盒运行状态；解决方案 Release|x64 构建 0 警告、0 错误，Scheduling 定向测试 7/8 通过，唯一失败为 `LaunchSchedulerCallbacks.ClearLaunchCancellation` 公共属性尚不存在。该修正独立于已提交的 Task 14 功能提交，下一步只改 C# 调度回调和契约。
+- 2026-08-08：C# Task 14 调度完成回调边界 GREEN：`CompleteLaunch` 已补齐当前会话取消清理委托，1/800/2500 毫秒延迟任务已实际调用可见沙盒运行状态刷新委托；解决方案 Release|x64 构建 0 警告、0 错误，Scheduling 定向契约 8/8 通过。该修正保持 Python 的 UI 调度、文案和延迟边界，下一步进入 Task 15 `backup.py`。
 - 2026-08-08：C# Task 14 `features/scheduling.py` 最终完成：`LaunchScheduler` 已迁入 `ShaheLauncher.Core/Scheduling/`，Scheduling 定向契约 8/8、C# 全量契约 110/110、Python 结构回归 6/6、`launch_no_ui_blocking_probe.py` 与 `launch_done_no_sync_menu_probe.py` 均 PASS、Python 模块语法验证通过；`ShaheBulkLauncher.sln` `Release|x64` 构建成功，0 警告、0 错误。WinForms UI、中文文案、快捷键、焦点顺序、AccessibleName、配置键和 Python 正式入口均未修改；Task 15 `backup.py` 为下一迁移模块。
 - 2026-08-08：C# Task 14 Python 对照与构建门禁通过：`python -m py_compile shahe_bulk_launcher\features\scheduling.py` 成功；`launch_no_ui_blocking_probe.py`、`launch_done_no_sync_menu_probe.py` 均 PASS；`test_feature_method_partition` 与 `test_remaining_features_contract` 共 6/6 通过。`ShaheBulkLauncher.sln` `Release|x64` 构建成功，Core、App、Updater、Tests 0 警告、0 错误；下一步运行 C# 全量契约确认既有模块无回归。
 - 2026-08-08：C# Task 14 `features/scheduling.py` 定向 GREEN：新增 `LaunchScheduler` 后，Tests 项目 `Release|x64` 构建成功，0 警告、0 错误；`TestCategory=Scheduling` 运行 8 项、8/8 通过。契约确认定时任务按秒下限/序号/重试/异常/关闭处理，原文状态和显式勾选应用，批量启动跳过已运行沙盒、并发、失败计数、音量恢复、完成状态与 F5 刷新延迟，以及备份恢复委托均保持 Python 边界。
