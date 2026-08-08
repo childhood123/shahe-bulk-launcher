@@ -25,7 +25,7 @@
 - `SandboxLauncher` 的 400 个方法按 1 个应用初始化方法和 10 个业务 mixin 唯一分区，无重复或遗漏。
 - 最终入口 API 审计无缺失导出，`SandboxLauncher` 与 `main` 均由 `shahe_bulk_launcher.app` 提供。
 - C# 迁移工程已建立：`csharp/ShaheBulkLauncher.sln` 包含 Core、App、Updater、Tests 四个 `net48/x64` 项目。
-- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py`、Task 8 `ui/tray.py`、Task 9 `features/settings.py`、Task 10 `features/app_paths.py`、Task 11 `features/sandboxie.py`、Task 12 `features/process_actions.py` 与 Task 13 `features/sandbox_admin.py` 已完成，当前累计 102 项 C# 契约测试通过；剩余 7 个模块仍以 Python 为唯一实现，未声明完成。
+- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py`、Task 8 `ui/tray.py`、Task 9 `features/settings.py`、Task 10 `features/app_paths.py`、Task 11 `features/sandboxie.py`、Task 12 `features/process_actions.py`、Task 13 `features/sandbox_admin.py` 与 Task 14 `features/scheduling.py` 已完成，当前累计 110 项 C# 契约测试通过；剩余 6 个模块仍以 Python 为唯一实现，未声明完成。
 
 ## 目标结构
 
@@ -111,7 +111,7 @@ csharp/
 | 11 | `features/sandboxie.py` | `ShaheLauncher.Core/Sandboxie/SandboxieClient.cs` | 已完成，8/8 |
 | 12 | `features/process_actions.py` | `ShaheLauncher.Core/Processes/ProcessActionService.cs` | 已完成，8/8 |
 | 13 | `features/sandbox_admin.py` | `ShaheLauncher.Core/SandboxAdmin/SandboxAdminService.cs` | 已完成，8/8 |
-| 14 | `features/scheduling.py` | `ShaheLauncher.Core/Scheduling/LaunchScheduler.cs` | 待迁移 |
+| 14 | `features/scheduling.py` | `ShaheLauncher.Core/Scheduling/LaunchScheduler.cs` | 已完成，8/8 |
 | 15 | `backup.py` | `ShaheLauncher.Core/Backup/BackupRestoreService.cs` | 待迁移 |
 | 16 | `features/speech.py` | `ShaheLauncher.Core/Speech/SpeechService.cs` | 待迁移 |
 | 17 | `features/updates.py` | `ShaheLauncher.Core/Updates/UpdateService.cs` 与 `ShaheLauncher.Updater/` | 待迁移 |
@@ -143,6 +143,10 @@ csharp/
 
 ## 验证记录
 
+- 2026-08-08：C# Task 14 `features/scheduling.py` 最终完成：`LaunchScheduler` 已迁入 `ShaheLauncher.Core/Scheduling/`，Scheduling 定向契约 8/8、C# 全量契约 110/110、Python 结构回归 6/6、`launch_no_ui_blocking_probe.py` 与 `launch_done_no_sync_menu_probe.py` 均 PASS、Python 模块语法验证通过；`ShaheBulkLauncher.sln` `Release|x64` 构建成功，0 警告、0 错误。WinForms UI、中文文案、快捷键、焦点顺序、AccessibleName、配置键和 Python 正式入口均未修改；Task 15 `backup.py` 为下一迁移模块。
+- 2026-08-08：C# Task 14 Python 对照与构建门禁通过：`python -m py_compile shahe_bulk_launcher\features\scheduling.py` 成功；`launch_no_ui_blocking_probe.py`、`launch_done_no_sync_menu_probe.py` 均 PASS；`test_feature_method_partition` 与 `test_remaining_features_contract` 共 6/6 通过。`ShaheBulkLauncher.sln` `Release|x64` 构建成功，Core、App、Updater、Tests 0 警告、0 错误；下一步运行 C# 全量契约确认既有模块无回归。
+- 2026-08-08：C# Task 14 `features/scheduling.py` 定向 GREEN：新增 `LaunchScheduler` 后，Tests 项目 `Release|x64` 构建成功，0 警告、0 错误；`TestCategory=Scheduling` 运行 8 项、8/8 通过。契约确认定时任务按秒下限/序号/重试/异常/关闭处理，原文状态和显式勾选应用，批量启动跳过已运行沙盒、并发、失败计数、音量恢复、完成状态与 F5 刷新延迟，以及备份恢复委托均保持 Python 边界。
+- 2026-08-08：C# Task 14 `features/scheduling.py` 有效 RED：新增 `LaunchSchedulerContractTests.cs`，Tests 项目 `Release|x64` 构建成功，0 警告、0 错误；`TestCategory=Scheduling` 运行 8 项、8/8 按预期失败，失败点统一为 `ShaheLauncher.Core.Scheduling.LaunchScheduler` 尚不存在。契约冻结定时任务重试/取消、原文状态、关闭聚合、显式勾选应用、启动目标校验、调度批次、动态延迟、完成回调及备份恢复委托边界。
 - 2026-08-08：C# Task 13 `features/sandbox_admin.py` 最终完成：`SandboxAdminService` 已迁入 `ShaheLauncher.Core/SandboxAdmin/`，SandboxAdmin 定向契约 8/8、C# 全量契约 102/102、Python 结构回归 6/6、`sandbox_admin_transform_probe.py` 与 `group_navigation_probe.py` 均 PASS、Python 模块语法验证通过；`ShaheBulkLauncher.sln` `Release|x64` 构建成功，0 警告、0 错误。WinForms UI、中文文案、快捷键、焦点顺序、AccessibleName、配置键和 Python 正式入口均未修改；Task 14 `features/scheduling.py` 为下一迁移模块。
 - 2026-08-08：C# Task 13 Python 对照与构建门禁通过：`python -m py_compile shahe_bulk_launcher\features\sandbox_admin.py` 成功；`sandbox_admin_transform_probe.py`、`group_navigation_probe.py` 均 PASS；`test_feature_method_partition` 与 `test_remaining_features_contract` 共 6/6 通过。`ShaheBulkLauncher.sln` `Release|x64` 构建成功，Core、App、Updater、Tests 0 警告、0 错误；下一步运行 C# 全量契约确认既有模块无回归。
 - 2026-08-08：C# Task 13 `features/sandbox_admin.py` 定向 GREEN：Tests 项目 `Release|x64` 重新构建成功，0 警告、0 错误；`TestCategory=SandboxAdmin` 运行 8 项、8/8 通过。契约确认分组/置顶、批量命名和原文状态、Sandboxie.ini 变换/备份/UserSettings 修复、设置与定时任务引用、目录重命名回滚、注册表清理计划、别名失败文案和删除前停进程回调均保持 Python 边界；下一步执行跨模块回归与解决方案构建后再声明 Task 13 完成。
