@@ -25,7 +25,7 @@
 - `SandboxLauncher` 的 400 个方法按 1 个应用初始化方法和 10 个业务 mixin 唯一分区，无重复或遗漏。
 - 最终入口 API 审计无缺失导出，`SandboxLauncher` 与 `main` 均由 `shahe_bulk_launcher.app` 提供。
 - C# 迁移工程已建立：`csharp/ShaheBulkLauncher.sln` 包含 Core、App、Updater、Tests 四个 `net48/x64` 项目。
-- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py`、Task 8 `ui/tray.py`、Task 9 `features/settings.py`、Task 10 `features/app_paths.py`、Task 11 `features/sandboxie.py` 与 Task 12 `features/process_actions.py` 已完成，当前累计 94 项 C# 契约测试通过；剩余 8 个模块仍以 Python 为唯一实现，未声明完成。
+- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py`、Task 8 `ui/tray.py`、Task 9 `features/settings.py`、Task 10 `features/app_paths.py`、Task 11 `features/sandboxie.py`、Task 12 `features/process_actions.py` 与 Task 13 `features/sandbox_admin.py` 已完成，当前累计 102 项 C# 契约测试通过；剩余 7 个模块仍以 Python 为唯一实现，未声明完成。
 
 ## 目标结构
 
@@ -110,7 +110,7 @@ csharp/
 | 10 | `features/app_paths.py` | `ShaheLauncher.Core/AppPaths/AppPathHistoryService.cs` | 已完成，8/8 |
 | 11 | `features/sandboxie.py` | `ShaheLauncher.Core/Sandboxie/SandboxieClient.cs` | 已完成，8/8 |
 | 12 | `features/process_actions.py` | `ShaheLauncher.Core/Processes/ProcessActionService.cs` | 已完成，8/8 |
-| 13 | `features/sandbox_admin.py` | `ShaheLauncher.Core/SandboxAdmin/SandboxAdminService.cs` | 待迁移 |
+| 13 | `features/sandbox_admin.py` | `ShaheLauncher.Core/SandboxAdmin/SandboxAdminService.cs` | 已完成，8/8 |
 | 14 | `features/scheduling.py` | `ShaheLauncher.Core/Scheduling/LaunchScheduler.cs` | 待迁移 |
 | 15 | `backup.py` | `ShaheLauncher.Core/Backup/BackupRestoreService.cs` | 待迁移 |
 | 16 | `features/speech.py` | `ShaheLauncher.Core/Speech/SpeechService.cs` | 待迁移 |
@@ -143,6 +143,13 @@ csharp/
 
 ## 验证记录
 
+- 2026-08-08：C# Task 13 `features/sandbox_admin.py` 最终完成：`SandboxAdminService` 已迁入 `ShaheLauncher.Core/SandboxAdmin/`，SandboxAdmin 定向契约 8/8、C# 全量契约 102/102、Python 结构回归 6/6、`sandbox_admin_transform_probe.py` 与 `group_navigation_probe.py` 均 PASS、Python 模块语法验证通过；`ShaheBulkLauncher.sln` `Release|x64` 构建成功，0 警告、0 错误。WinForms UI、中文文案、快捷键、焦点顺序、AccessibleName、配置键和 Python 正式入口均未修改；Task 14 `features/scheduling.py` 为下一迁移模块。
+- 2026-08-08：C# Task 13 Python 对照与构建门禁通过：`python -m py_compile shahe_bulk_launcher\features\sandbox_admin.py` 成功；`sandbox_admin_transform_probe.py`、`group_navigation_probe.py` 均 PASS；`test_feature_method_partition` 与 `test_remaining_features_contract` 共 6/6 通过。`ShaheBulkLauncher.sln` `Release|x64` 构建成功，Core、App、Updater、Tests 0 警告、0 错误；下一步运行 C# 全量契约确认既有模块无回归。
+- 2026-08-08：C# Task 13 `features/sandbox_admin.py` 定向 GREEN：Tests 项目 `Release|x64` 重新构建成功，0 警告、0 错误；`TestCategory=SandboxAdmin` 运行 8 项、8/8 通过。契约确认分组/置顶、批量命名和原文状态、Sandboxie.ini 变换/备份/UserSettings 修复、设置与定时任务引用、目录重命名回滚、注册表清理计划、别名失败文案和删除前停进程回调均保持 Python 边界；下一步执行跨模块回归与解决方案构建后再声明 Task 13 完成。
+- 2026-08-08：C# Task 13 修正契约调用边界并重新构建后，`TestCategory=SandboxAdmin` 为 7/8；唯一失败是测试期待显示名重命名同步迁移静音缓存。对照 Python `_rename_sandbox_refs_in_settings_by_display` 确认该路径只更新分组、置顶和音量记忆，不修改 `_cached_mute_state_by_sandbox`，因此应修正测试以保留原行为，不改 C# 生产逻辑。
+- 2026-08-08：C# Task 13 `features/sandbox_admin.py` 首轮实现后定向测试为 4/8：分组/置顶、INI 分段与 UserSettings 变换、别名与删除前停进程等 4 项通过；其余失败已定位为契约调用边界而非已确认的生产行为偏差，包括 `string[]` 被反射辅助方法的 `params object[]` 展开、同一秒连续备份按 Python 文件名规则覆盖，以及内部名重命名不会再次更新仅按显示名迁移的定时任务引用。下一步先修正这些测试假设并重新构建，再根据剩余失败修生产代码。
+- 2026-08-08：C# Task 13 `features/sandbox_admin.py` 有效 RED：Tests 项目 `Release|x64` 构建成功，0 警告、0 错误；`TestCategory=SandboxAdmin` 运行 8 项、8/8 按预期失败，失败点统一为 `ShaheLauncher.Core.SandboxAdmin.SandboxAdminService` 尚不存在。测试本身可编译执行，下一步实现 Core 服务后只修生产代码使定向契约转 GREEN。
+- 2026-08-08：C# Task 13 `features/sandbox_admin.py` 契约准备：新增 `SandboxAdminServiceContractTests.cs`，计划以 8 项契约冻结分组/置顶、批量命名与原文状态、Sandboxie.ini 分段/设置/备份/修复、设置和定时任务引用迁移、目录重命名回滚、注册表清理路径、别名更新及删除前停进程边界；生产 `SandboxAdminService` 尚未创建，下一步构建并运行定向测试取得有效 RED。
 - 2026-08-08：C# Task 12 `features/process_actions.py` RED：新增 `ProcessActionServiceContractTests.cs`，冻结 8 项进程操作契约，覆盖播放设备 `（默认）` 原文、PID 归一化与全部进程回退、窗口候选排序/选择文案、静音聚合/详细结果、音量钳制/记忆、taskkill 分块与 Sandboxie terminate 参数、菜单状态/静音缓存、状态原文及音频/关闭后台线程边界；Tests 项目 `Release|x64` 构建通过，定向测试为 8/8 预期失败，唯一失败根因为 `ShaheLauncher.Core.Processes.ProcessActionService` 尚不存在。Python 权威模块未修改，下一步实现最小 Core 服务后定向转 GREEN。
 - 2026-08-08：C# Task 12 `features/process_actions.py` GREEN：`ProcessActionService` 已迁入 `ShaheLauncher.Core/Processes/`，覆盖设备标签、PID/窗口查找与激活、静音/音量会话结果、音量记忆、Sandboxie terminate/taskkill、菜单缓存、关闭/定位结果和后台任务锁；`ProcessActionServiceContractTests` 定向运行 8/8 通过，Tests 项目 `Release|x64` 构建 0 警告、0 错误。设备路由、音频会话枚举和 WinForms 状态更新均保留为后续 `MainForm` 委托接线边界，未改变 Python UI、文案、快捷键、焦点顺序、无障碍或正式入口。
 - 2026-08-08：C# Task 12 跨模块回归通过：`ShaheLauncher.Tests.dll /Platform:x64` 运行 94 项、94/94 通过；Python `test_feature_method_partition`、`test_process_actions_contract`、`test_app_paths_and_sandboxie` 共 6/6 通过；`audio_process_actions_no_blocking_probe.py`、`close_process_no_blocking_probe.py`、`locate_no_blocking_probe.py` 均 PASS；`python -m py_compile shahe_bulk_launcher\features\process_actions.py` 通过。Python 权威入口和 UI 未改动，下一步只剩解决方案构建与提交门禁。
