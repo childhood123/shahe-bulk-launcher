@@ -25,7 +25,7 @@
 - `SandboxLauncher` 的 400 个方法按 1 个应用初始化方法和 10 个业务 mixin 唯一分区，无重复或遗漏。
 - 最终入口 API 审计无缺失导出，`SandboxLauncher` 与 `main` 均由 `shahe_bulk_launcher.app` 提供。
 - C# 迁移工程已建立：`csharp/ShaheBulkLauncher.sln` 包含 Core、App、Updater、Tests 四个 `net48/x64` 项目。
-- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py`、Task 8 `ui/tray.py`、Task 9 `features/settings.py` 与 Task 10 `features/app_paths.py` 已完成，当前累计 78 项 C# 契约测试通过；其余 10 个模块仍以 Python 为唯一实现，未声明完成。
+- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py`、Task 8 `ui/tray.py`、Task 9 `features/settings.py`、Task 10 `features/app_paths.py` 与 Task 11 `features/sandboxie.py` 已完成，当前累计 86 项 C# 契约测试通过；其余 9 个模块仍以 Python 为唯一实现，未声明完成。
 
 ## 目标结构
 
@@ -108,7 +108,7 @@ csharp/
 | 8 | `ui/tray.py` | `ShaheLauncher.App/UI/Tray/LauncherTrayIcon.cs` | 已完成，3/3 |
 | 9 | `features/settings.py` | `ShaheLauncher.Core/Settings/LauncherSettingsService.cs` | 已完成，8/8 |
 | 10 | `features/app_paths.py` | `ShaheLauncher.Core/AppPaths/AppPathHistoryService.cs` | 已完成，8/8 |
-| 11 | `features/sandboxie.py` | `ShaheLauncher.Core/Sandboxie/SandboxieClient.cs` | 待迁移 |
+| 11 | `features/sandboxie.py` | `ShaheLauncher.Core/Sandboxie/SandboxieClient.cs` | 已完成，8/8 |
 | 12 | `features/process_actions.py` | `ShaheLauncher.Core/Processes/ProcessActionService.cs` | 待迁移 |
 | 13 | `features/sandbox_admin.py` | `ShaheLauncher.Core/SandboxAdmin/SandboxAdminService.cs` | 待迁移 |
 | 14 | `features/scheduling.py` | `ShaheLauncher.Core/Scheduling/LaunchScheduler.cs` | 待迁移 |
@@ -143,6 +143,21 @@ csharp/
 
 ## 验证记录
 
+- 2026-08-08：C# Task 11 `features/sandboxie.py` 最终完成：`SandboxieClient` 已迁入 `ShaheLauncher.Core/Sandboxie/`，Sandboxie 定向契约 8/8、C# 全量契约 86/86、Python 应用路径/Sandboxie 结构对照 4/4、非阻塞启动与立即失败探针均 PASS、Python 模块语法验证通过；`ShaheBulkLauncher.sln` 最新 `Release|x64` 构建成功，0 警告、0 错误。UI、文案、快捷键、焦点顺序、无障碍、配置键和 Python 正式入口均未改动；INI 写入、配置重载和 UI 接线继续通过后续 SandboxAdmin/MainForm 边界委托，剩余 9 个 C# 模块按映射顺序迁移。
+- 2026-08-08：C# Task 11 最终门禁复跑通过：解决方案构建后再次运行 `ShaheLauncher.Tests.dll /Platform:x64` 为 86/86；Python 结构对照为 4/4，`launch_start_detached_probe.py` 与 `launch_detached_immediate_failure_probe.py` 均 PASS，`python -m py_compile shahe_bulk_launcher\features\sandboxie.py` 通过。
+- 2026-08-08：C# Task 11 Windows 参数转义 GREEN 通过：修正测试数组的反射传参后，`TestCategory=Sandboxie` 恢复 8/8；`FormatProcessArguments` 确认带空格路径保留普通反斜杠，尾随反斜杠仅在闭合引号前按 Windows 命令行规则成对转义，实际 `ProcessStartInfo.Arguments` 共用同一实现。
+- 2026-08-08：C# Task 11 Windows 参数转义首轮 GREEN 仍为 7/8：源码和 Release DLL 均确认已公开 `FormatProcessArguments(IEnumerable<string>)`，失败原因是测试把单个 `string[]` 传给 `params object[]` 时被展开成两个反射参数，属于契约调用错误；下一步将数组显式转换为单个 `object` 后重跑，不再改生产算法。
+- 2026-08-08：C# Task 11 Windows 参数转义补充 RED 通过：新增带空格路径和尾随反斜杠断言后，`TestCategory=Sandboxie` 为 7/8，唯一失败是 `FormatProcessArguments` 尚不存在；该契约用于防止 .NET 命令行字符串把普通 Windows 路径反斜杠错误翻倍，既有 7 项继续通过。
+- 2026-08-08：C# Task 11 Sandboxie 只读现场核对通过：Release Core 程序找到本机 `C:\Program Files\Sandboxie`，执行 `SbieIni queryex /boxes *` 解析 84 个配置沙盒，`SbieDll` API 枚举返回 0 个沙盒、0 个进程；全程未启动、关闭或修改沙盒数据。
+- 2026-08-08：C# Task 11 最终解决方案构建通过：`ShaheBulkLauncher.sln` 以 `Release|x64` 完成还原和生成，Core、App、Updater、Tests 全部成功输出，0 警告、0 错误。
+- 2026-08-08：C# Task 11 当前累计全量测试通过：`ShaheLauncher.Tests.dll /Platform:x64` 运行 86 项、86/86 通过，包含 Sandboxie 8 项及 Task 1-10 的既有 78 项，无已完成模块回归。
+- 2026-08-08：C# Task 11 Python 对照 GREEN：`python -m unittest tests.test_feature_method_partition tests.test_app_paths_and_sandboxie -v` 运行 4 项、4/4 通过；`launch_start_detached_probe.py` 输出 `launched True`、`run_calls 0`、`popen_calls 1` 并 PASS；`launch_detached_immediate_failure_probe.py` 输出两次派发、重载和原文无效沙盒状态并 PASS；`python -m py_compile shahe_bulk_launcher\features\sandboxie.py` 通过，Python 权威入口未修改。
+- 2026-08-08：C# Task 11 Sandboxie 定向 GREEN 通过：`TestCategory=Sandboxie` 运行 8 项、8/8 通过，确认首次扫描/修复文案、安装文件优先级、SbieIni/INI 分节、别名和名称映射、Start.exe 参数、PID 解析与回退、官方创建删除、非阻塞启动重试/状态以及安装路径发现顺序保持 Python 契约。
+- 2026-08-08：C# Task 11 参数顺序修正后构建通过：`BuildStartCommand` 改为过滤帮助/空参数后先判空，再按 Python 顺序决定是否插入 `/silent`；Tests 项目以 `Release|x64` 成功生成，Core、App、Tests 均 0 警告、0 错误。
+- 2026-08-08：C# Task 11 首轮定向 GREEN 为 7/8：安装路径/文案、SbieIni 与分节、显示映射、PID、官方创建删除、启动重试和安装发现 7 项通过；唯一失败为帮助/空参数输入时 `BuildStartCommand` 先插入 `/silent`，把 Python 应当拒绝的空命令误标为有效。失败已定位为 C# 参数处理顺序偏差，下一步只修正“先判空、再静默参数”的顺序后重跑。
+- 2026-08-08：C# Task 11 `features/sandboxie.py` GREEN 构建通过：新增 `SandboxieClient` 后，Tests 项目以 `Release|x64` 成功生成，Core、App、Tests 均 0 警告、0 错误；开始运行 8 项 Sandboxie 定向契约。
+- 2026-08-08：C# Task 11 `features/sandboxie.py` 有效 RED 通过：`TestCategory=Sandboxie` 运行 8 项、8/8 按预期失败，失败点统一为 `ShaheLauncher.Core.Sandboxie.SandboxieClient` 尚不存在。契约已冻结首次扫描与修复 Sandboxie Control 的原文、安装文件优先级、SbieIni 输出/INI 分节、别名显示映射与内部名称生成、Start.exe 参数和无效沙盒输出识别、PID 解析及 API/逐盒回退、官方创建/删除命令顺序、非阻塞启动重试与失败状态，以及注册表/标准目录/通配结果的安装路径优先级。
+- 2026-08-08：C# Task 11 `features/sandboxie.py` RED 构建通过：新增 `SandboxieClientContractTests` 后，Tests 项目以 `Release|x64` 完成还原和生成，Core、App、Tests 均成功输出，0 警告、0 错误；生产代码尚未创建。
 - 2026-08-08：C# Task 10 `features/app_paths.py` 最终完成：`AppPathHistoryService` 已迁入 `ShaheLauncher.Core/AppPaths/`，AppPaths 定向契约 8/8、C# 全量契约 78/78、Python 应用路径/Sandboxie 结构对照 4/4、剪贴板无效输入探针 PASS、Python 模块语法验证通过；`ShaheBulkLauncher.sln` 以 `Release|x64` 构建成功，0 警告、0 错误。UI、文案、快捷键、焦点顺序、无障碍、配置键和 Python 正式入口均未改动；主窗体接线按边界留到后续 lifecycle/app 模块。剩余 10 个 C# 模块继续按映射顺序迁移。
 - 2026-08-08：C# Task 10 文案补充后的全量回归通过：`ShaheLauncher.Tests.dll /Platform:x64` 运行 78 项、78/78 通过，确认新增 AppPaths 文案常量未影响 Task 1-9 既有行为。
 - 2026-08-08：C# Task 10 AppPaths 文案边界 GREEN 通过：`TestCategory=AppPaths` 运行 8 项、8/8 通过，新增并确认 `选择应用`、`粘贴 .exe 或文件路径`、备注输入、记忆数量输入及路径记忆状态文案保持 Python 原文。
