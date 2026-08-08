@@ -143,6 +143,11 @@ csharp/
 
 ## 验证记录
 
+- 2026-08-08：Task 15 `backup.py` Python 基线确认：`python -m unittest tests.test_backup_contract -v` 运行 6/6 通过；`restore_safe_extract_probe.py`、`restore_shell_free_probe.py`、`restore_no_main_thread_stop_probe.py` 全部 PASS；`python -m py_compile shahe_bulk_launcher\backup.py` 通过。C# 契约必须保留用户当前改动的 ZIP 父目录穿越/绝对路径/盘符/UNC/符号链接拒绝、`SbieCtrl.exe` 控制程序查找、无 shell 派发及停止服务不占 UI 主线程边界。
+- 2026-08-08：C# Task 15 `backup.py` 契约 RED：新增 7 项 Backup 契约覆盖安全解压、`.sbx` 归档布局和文件名、Sandboxie.ini 合并、沙盒目录恢复、服务生命周期回调、控制程序优先级、中文文案/正式入口重启路径及归档后台线程；解决方案 Release|x64 构建 0 警告、0 错误，Backup 定向测试 7/7 按预期失败，统一根因为 `BackupRestoreService` 尚不存在。
+- 2026-08-08：C# Task 15 `backup.py` 契约 GREEN：`BackupRestoreService` 已迁入 `ShaheLauncher.Core/Backup/`，Backup 定向契约 7/7 通过；确认安全 ZIP 路径、归档文件扩展名/布局、INI 合并、沙盒目录恢复、服务停止/配置重载/重启回调、控制程序优先级、原中文文案、正式入口重启命令及后台线程边界均保持 Python 行为。
+- 2026-08-08：Task 15 跨模块回归通过：C# 全量契约 117/117；Python 结构回归 23/23；`restore_safe_extract_probe.py`、`restore_shell_free_probe.py`、`restore_no_main_thread_stop_probe.py` 全部 PASS。新增 Backup 服务未回归既有 Task 1-14；下一步执行最终解决方案构建、Python 语法门禁和 Task 15 提交。
+- 2026-08-08：Task 15 最终验证通过：`ShaheBulkLauncher.sln` `Release|x64` 构建退出码 0，MSBuild 汇总为 0 警告、0 错误；C# 全量契约 117/117；Python `test_backup_contract` 6/6、入口/备份/契约语法检查和 `git diff --check` 通过。上一轮验证命令曾误把 C# 测试文件传给 `py_compile`，已修正并重新通过；该命令错误未产生代码失败。
 - 2026-08-08：C# Task 14 调度完成回调边界 RED：新增契约要求 `CompleteLaunch` 在当前会话完成时清理取消事件，并让 1/800/2500 毫秒延迟回调实际刷新可见沙盒运行状态；解决方案 Release|x64 构建 0 警告、0 错误，Scheduling 定向测试 7/8 通过，唯一失败为 `LaunchSchedulerCallbacks.ClearLaunchCancellation` 公共属性尚不存在。该修正独立于已提交的 Task 14 功能提交，下一步只改 C# 调度回调和契约。
 - 2026-08-08：C# Task 14 调度完成回调边界 GREEN：`CompleteLaunch` 已补齐当前会话取消清理委托，1/800/2500 毫秒延迟任务已实际调用可见沙盒运行状态刷新委托；解决方案 Release|x64 构建 0 警告、0 错误，Scheduling 定向契约 8/8 通过。该修正保持 Python 的 UI 调度、文案和延迟边界，下一步进入 Task 15 `backup.py`。
 - 2026-08-08：C# Task 14 `features/scheduling.py` 最终完成：`LaunchScheduler` 已迁入 `ShaheLauncher.Core/Scheduling/`，Scheduling 定向契约 8/8、C# 全量契约 110/110、Python 结构回归 6/6、`launch_no_ui_blocking_probe.py` 与 `launch_done_no_sync_menu_probe.py` 均 PASS、Python 模块语法验证通过；`ShaheBulkLauncher.sln` `Release|x64` 构建成功，0 警告、0 错误。WinForms UI、中文文案、快捷键、焦点顺序、AccessibleName、配置键和 Python 正式入口均未修改；Task 15 `backup.py` 为下一迁移模块。

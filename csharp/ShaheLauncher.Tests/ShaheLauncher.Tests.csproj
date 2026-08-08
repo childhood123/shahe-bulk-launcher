@@ -12,6 +12,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ShaheLauncher.App\ShaheLauncher.App.csproj" />
     <ProjectReference Include="..\ShaheLauncher.Core\ShaheLauncher.Core.csproj" />
+    <Reference Include="System.IO.Compression" />
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 </Project>
