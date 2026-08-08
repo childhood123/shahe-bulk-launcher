@@ -25,7 +25,7 @@
 - `SandboxLauncher` 的 400 个方法按 1 个应用初始化方法和 10 个业务 mixin 唯一分区，无重复或遗漏。
 - 最终入口 API 审计无缺失导出，`SandboxLauncher` 与 `main` 均由 `shahe_bulk_launcher.app` 提供。
 - C# 迁移工程已建立：`csharp/ShaheBulkLauncher.sln` 包含 Core、App、Updater、Tests 四个 `net48/x64` 项目。
-- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py`、Task 8 `ui/tray.py`、Task 9 `features/settings.py`、Task 10 `features/app_paths.py`、Task 11 `features/sandboxie.py`、Task 12 `features/process_actions.py`、Task 13 `features/sandbox_admin.py` 与 Task 14 `features/scheduling.py` 已完成，当前累计 110 项 C# 契约测试通过；剩余 6 个模块仍以 Python 为唯一实现，未声明完成。
+- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py`、Task 8 `ui/tray.py`、Task 9 `features/settings.py`、Task 10 `features/app_paths.py`、Task 11 `features/sandboxie.py`、Task 12 `features/process_actions.py`、Task 13 `features/sandbox_admin.py`、Task 14 `features/scheduling.py`、Task 15 `backup.py` 与 Task 16 `features/speech.py` 已完成模块级迁移，当前累计 127 项 C# 契约测试通过；剩余 4 个模块仍以 Python 为唯一实现，未声明完成。
 
 ## 目标结构
 
@@ -112,8 +112,8 @@ csharp/
 | 12 | `features/process_actions.py` | `ShaheLauncher.Core/Processes/ProcessActionService.cs` | 已完成，8/8 |
 | 13 | `features/sandbox_admin.py` | `ShaheLauncher.Core/SandboxAdmin/SandboxAdminService.cs` | 已完成，8/8 |
 | 14 | `features/scheduling.py` | `ShaheLauncher.Core/Scheduling/LaunchScheduler.cs` | 已完成，8/8 |
-| 15 | `backup.py` | `ShaheLauncher.Core/Backup/BackupRestoreService.cs` | 待迁移 |
-| 16 | `features/speech.py` | `ShaheLauncher.Core/Speech/SpeechService.cs` | 待迁移 |
+| 15 | `backup.py` | `ShaheLauncher.Core/Backup/BackupRestoreService.cs` | 已完成，7/7 |
+| 16 | `features/speech.py` | `ShaheLauncher.Core/Speech/SpeechService.cs` | 已完成，10/10 |
 | 17 | `features/updates.py` | `ShaheLauncher.Core/Updates/UpdateService.cs` 与 `ShaheLauncher.Updater/` | 待迁移 |
 | 18 | `features/hotkeys.py` | `ShaheLauncher.App/Input/HotkeyController.cs` | 待迁移 |
 | 19 | `features/lifecycle.py` | `ShaheLauncher.App/MainForm.Lifecycle.cs` | 待迁移 |
@@ -148,6 +148,11 @@ csharp/
 - 2026-08-08：C# Task 15 `backup.py` 契约 GREEN：`BackupRestoreService` 已迁入 `ShaheLauncher.Core/Backup/`，Backup 定向契约 7/7 通过；确认安全 ZIP 路径、归档文件扩展名/布局、INI 合并、沙盒目录恢复、服务停止/配置重载/重启回调、控制程序优先级、原中文文案、正式入口重启命令及后台线程边界均保持 Python 行为。
 - 2026-08-08：Task 15 跨模块回归通过：C# 全量契约 117/117；Python 结构回归 23/23；`restore_safe_extract_probe.py`、`restore_shell_free_probe.py`、`restore_no_main_thread_stop_probe.py` 全部 PASS。新增 Backup 服务未回归既有 Task 1-14；下一步执行最终解决方案构建、Python 语法门禁和 Task 15 提交。
 - 2026-08-08：Task 15 最终验证通过：`ShaheBulkLauncher.sln` `Release|x64` 构建退出码 0，MSBuild 汇总为 0 警告、0 错误；C# 全量契约 117/117；Python `test_backup_contract` 6/6、入口/备份/契约语法检查和 `git diff --check` 通过。上一轮验证命令曾误把 C# 测试文件传给 `py_compile`，已修正并重新通过；该命令错误未产生代码失败。
+- 2026-08-08：Task 16 `features/speech.py` 契约 RED：新增 9 项 Speech 契约覆盖 SpeechConfig 清洗、读屏 INI 默认值与 Configuration 写路径、Tolk 资源定位、读屏进程检测和语音接口归一化、配置状态文案、辅助朗读后台线程、关闭运行时和重复文案抑制；Tests 项目 `Release|x64` 构建 0 警告、0 错误，Speech 定向测试 9/9 按预期失败，统一根因为 `ShaheLauncher.Core.Speech.SpeechService` 尚不存在。
+- 2026-08-08：C# Task 16 `features/speech.py` 契约 GREEN：`SpeechService` 已迁入 `ShaheLauncher.Core/Speech/`，Speech 定向契约 10/10 通过；确认 SpeechConfig 清洗、读屏 INI 默认值/写回、Configuration 写路径、Tolk DLL 动态入口、读屏检测/接口归一化、原中文状态和警告、辅助朗读后台线程、关闭禁用及 450ms 重复文案抑制保持 Python 行为；现有 WinForms `SpeechSettingsDialog` 文件未改动。
+- 2026-08-08：Task 16 Python 对照与门禁通过：`python -m py_compile "沙河批量打开器.py" shahe_bulk_launcher\features\speech.py tests\test_updates_and_speech_contract.py` 成功；`python -m unittest tests.test_updates_and_speech_contract tests.test_feature_method_partition -v` 6/6 通过；`speech_assist_no_blocking_probe.py` 与 `configuration_write_only_probe.py` 均 PASS，确认辅助朗读不阻塞调用线程且语音配置写路径保持 `Configuration`；`git diff --check` 通过。
+- 2026-08-08：Task 16 C# 跨模块回归通过：`ShaheLauncher.Tests.dll /Platform:x64` 全量契约 127/127 通过，Speech 新增服务未回归 Task 1-15；下一步执行最终解决方案 Release 构建和 Task 16 提交门禁。
+- 2026-08-08：Task 16 最终构建通过：`ShaheBulkLauncher.sln` `Release|x64` 构建退出码 0，MSBuild 汇总为 0 警告、0 错误；Core、App、Updater、Tests 均成功生成，Task 16 进入独立提交前检查。
 - 2026-08-08：C# Task 14 调度完成回调边界 RED：新增契约要求 `CompleteLaunch` 在当前会话完成时清理取消事件，并让 1/800/2500 毫秒延迟回调实际刷新可见沙盒运行状态；解决方案 Release|x64 构建 0 警告、0 错误，Scheduling 定向测试 7/8 通过，唯一失败为 `LaunchSchedulerCallbacks.ClearLaunchCancellation` 公共属性尚不存在。该修正独立于已提交的 Task 14 功能提交，下一步只改 C# 调度回调和契约。
 - 2026-08-08：C# Task 14 调度完成回调边界 GREEN：`CompleteLaunch` 已补齐当前会话取消清理委托，1/800/2500 毫秒延迟任务已实际调用可见沙盒运行状态刷新委托；解决方案 Release|x64 构建 0 警告、0 错误，Scheduling 定向契约 8/8 通过。该修正保持 Python 的 UI 调度、文案和延迟边界，下一步进入 Task 15 `backup.py`。
 - 2026-08-08：C# Task 14 `features/scheduling.py` 最终完成：`LaunchScheduler` 已迁入 `ShaheLauncher.Core/Scheduling/`，Scheduling 定向契约 8/8、C# 全量契约 110/110、Python 结构回归 6/6、`launch_no_ui_blocking_probe.py` 与 `launch_done_no_sync_menu_probe.py` 均 PASS、Python 模块语法验证通过；`ShaheBulkLauncher.sln` `Release|x64` 构建成功，0 警告、0 错误。WinForms UI、中文文案、快捷键、焦点顺序、AccessibleName、配置键和 Python 正式入口均未修改；Task 15 `backup.py` 为下一迁移模块。
