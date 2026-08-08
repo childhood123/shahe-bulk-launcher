@@ -25,7 +25,7 @@
 - `SandboxLauncher` 的 400 个方法按 1 个应用初始化方法和 10 个业务 mixin 唯一分区，无重复或遗漏。
 - 最终入口 API 审计无缺失导出，`SandboxLauncher` 与 `main` 均由 `shahe_bulk_launcher.app` 提供。
 - C# 迁移工程已建立：`csharp/ShaheBulkLauncher.sln` 包含 Core、App、Updater、Tests 四个 `net48/x64` 项目。
-- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py`、Task 8 `ui/tray.py`、Task 9 `features/settings.py`、Task 10 `features/app_paths.py`、Task 11 `features/sandboxie.py`、Task 12 `features/process_actions.py`、Task 13 `features/sandbox_admin.py`、Task 14 `features/scheduling.py`、Task 15 `backup.py` 与 Task 16 `features/speech.py` 已完成模块级迁移，当前累计 127 项 C# 契约测试通过；剩余 4 个模块仍以 Python 为唯一实现，未声明完成。
+- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py`、Task 8 `ui/tray.py`、Task 9 `features/settings.py`、Task 10 `features/app_paths.py`、Task 11 `features/sandboxie.py`、Task 12 `features/process_actions.py`、Task 13 `features/sandbox_admin.py`、Task 14 `features/scheduling.py`、Task 15 `backup.py`、Task 16 `features/speech.py` 与 Task 17 `features/updates.py` 已完成已确认范围的模块级迁移，当前累计 138 项 C# 契约测试通过；剩余 3 个模块仍以 Python 为唯一实现，未声明完成。
 
 ## 目标结构
 
@@ -114,7 +114,7 @@ csharp/
 | 14 | `features/scheduling.py` | `ShaheLauncher.Core/Scheduling/LaunchScheduler.cs` | 已完成，8/8 |
 | 15 | `backup.py` | `ShaheLauncher.Core/Backup/BackupRestoreService.cs` | 已完成，7/7 |
 | 16 | `features/speech.py` | `ShaheLauncher.Core/Speech/SpeechService.cs` | 已完成，10/10 |
-| 17 | `features/updates.py` | `ShaheLauncher.Core/Updates/UpdateService.cs` 与 `ShaheLauncher.Updater/` | 待迁移 |
+| 17 | `features/updates.py` | `ShaheLauncher.Core/Updates/UpdateService.cs` 与 `ShaheLauncher.Updater/` | 已完成已确认范围，11/11；外部 updater 安装流程有风险 |
 | 18 | `features/hotkeys.py` | `ShaheLauncher.App/Input/HotkeyController.cs` | 待迁移 |
 | 19 | `features/lifecycle.py` | `ShaheLauncher.App/MainForm.Lifecycle.cs` | 待迁移 |
 | 20 | `app.py` | `ShaheLauncher.App/MainForm.cs` 与 `Program.cs` | 待迁移 |
@@ -140,6 +140,7 @@ csharp/
 
 - 全量灾难恢复测试已进入用户还原阶段：账号目录和沙盒配置节已清空，正式 `.sbx`、独立副本和原始配置副本保存在 `artifacts/live_backup_test/20260806_214549`。
 - 当前系统 Python 3.14 未安装 `cryptography`，原版 `encrypt_config_value`、`decrypt_config_value`、`verify_update_signature` 和 `decrypt_update_package` 的真实 Python 执行会进入缺失依赖错误路径；C# 迁移必须按源码中的算法、密钥和格式用确定性向量验证，不修改 Python 环境或把依赖修复混入迁移。
+- `features/updates.py` 只负责生成更新请求并启动外部 `updater.exe`，仓库没有对应的 Python updater 安装器源码；Task 17 已迁移并验证清单获取、补丁选择、请求生成、后台检查、二维码资源和 SHA-256/既有签名解密公共边界，但未擅自推断未知安装、替换和重启流程。获得原 updater 源码后应另开迁移/契约任务。
 
 ## 验证记录
 
@@ -153,6 +154,10 @@ csharp/
 - 2026-08-08：Task 16 Python 对照与门禁通过：`python -m py_compile "沙河批量打开器.py" shahe_bulk_launcher\features\speech.py tests\test_updates_and_speech_contract.py` 成功；`python -m unittest tests.test_updates_and_speech_contract tests.test_feature_method_partition -v` 6/6 通过；`speech_assist_no_blocking_probe.py` 与 `configuration_write_only_probe.py` 均 PASS，确认辅助朗读不阻塞调用线程且语音配置写路径保持 `Configuration`；`git diff --check` 通过。
 - 2026-08-08：Task 16 C# 跨模块回归通过：`ShaheLauncher.Tests.dll /Platform:x64` 全量契约 127/127 通过，Speech 新增服务未回归 Task 1-15；下一步执行最终解决方案 Release 构建和 Task 16 提交门禁。
 - 2026-08-08：Task 16 最终构建通过：`ShaheBulkLauncher.sln` `Release|x64` 构建退出码 0，MSBuild 汇总为 0 警告、0 错误；Core、App、Updater、Tests 均成功生成，Task 16 进入独立提交前检查。
+- 2026-08-08：Task 17 `features/updates.py` C# 契约 RED：新增 `UpdateServiceContractTests.cs` 与 `UpdateInstallerContractTests.cs`，Tests 项目 `Release|x64` 构建 0 警告、0 错误；`TestCategory=Updates` 运行 11 项、11/11 按预期失败，统一根因为 `ShaheLauncher.Core.Updates.UpdateService` 与 `UpdateInstaller` 尚不存在。契约冻结更新清单 UTF-8 BOM/缓存破坏请求头、增量补丁选择、原中文文案、打包更新器临时副本与请求 JSON、后台检查线程、二维码资源回退，以及更新器参数/请求解析和 SHA-256 校验边界。
+- 2026-08-08：Task 17 `features/updates.py` C# Core 定向 GREEN：新增 `UpdateService`、`UpdateInstaller`，并扩展 `UpdateHttpClient` 的请求头注入；Tests 项目 `Release|x64` 构建 0 警告、0 错误，`TestCategory=Updates` 运行 11 项、11/11 通过。确认更新清单缓存破坏请求头/UTF-8 BOM、当前版本增量补丁选择、原中文状态/提示、打包更新器 helper 与请求 JSON、后台检查线程、二维码文件/嵌入资源回退，以及 updater 参数/请求解析和 SHA-256 校验边界保持契约。
+- 2026-08-08：Task 17 Python 对照通过：`python -m py_compile "沙河批量打开器.py" shahe_bulk_launcher\features\updates.py tests\test_updates_and_speech_contract.py` 成功；`python -m unittest tests.test_updates_and_speech_contract tests.test_feature_method_partition -v` 6/6 通过；`update_package_selection_probe.py` 与 `update_helper_command_probe.py` 均 PASS，确认 Python 正式基线的补丁选择、非法大小归零、打包 helper 复制、internal 同步和请求字段未回归。
+- 2026-08-08：Task 17 跨模块与最终门禁通过：C# 全量契约 `ShaheLauncher.Tests.dll /Platform:x64` 为 138/138；`ShaheBulkLauncher.sln` `Release|x64` 构建退出码 0，0 警告、0 错误；Python `compileall -q .` 成功，`python -m unittest discover -s tests -v` 为 29/29。Task 17 仅保留上述外部 updater 安装器源码缺失风险，不修改 Python 正式基线、WinForms UI、中文文案、快捷键、焦点顺序、AccessibleName 或配置键。
 - 2026-08-08：C# Task 14 调度完成回调边界 RED：新增契约要求 `CompleteLaunch` 在当前会话完成时清理取消事件，并让 1/800/2500 毫秒延迟回调实际刷新可见沙盒运行状态；解决方案 Release|x64 构建 0 警告、0 错误，Scheduling 定向测试 7/8 通过，唯一失败为 `LaunchSchedulerCallbacks.ClearLaunchCancellation` 公共属性尚不存在。该修正独立于已提交的 Task 14 功能提交，下一步只改 C# 调度回调和契约。
 - 2026-08-08：C# Task 14 调度完成回调边界 GREEN：`CompleteLaunch` 已补齐当前会话取消清理委托，1/800/2500 毫秒延迟任务已实际调用可见沙盒运行状态刷新委托；解决方案 Release|x64 构建 0 警告、0 错误，Scheduling 定向契约 8/8 通过。该修正保持 Python 的 UI 调度、文案和延迟边界，下一步进入 Task 15 `backup.py`。
 - 2026-08-08：C# Task 14 `features/scheduling.py` 最终完成：`LaunchScheduler` 已迁入 `ShaheLauncher.Core/Scheduling/`，Scheduling 定向契约 8/8、C# 全量契约 110/110、Python 结构回归 6/6、`launch_no_ui_blocking_probe.py` 与 `launch_done_no_sync_menu_probe.py` 均 PASS、Python 模块语法验证通过；`ShaheBulkLauncher.sln` `Release|x64` 构建成功，0 警告、0 错误。WinForms UI、中文文案、快捷键、焦点顺序、AccessibleName、配置键和 Python 正式入口均未修改；Task 15 `backup.py` 为下一迁移模块。

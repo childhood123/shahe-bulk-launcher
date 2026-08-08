@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using ShaheLauncher.Core.Common;
@@ -16,23 +17,40 @@ namespace ShaheLauncher.Core.Updates
 
         public byte[] DownloadBytes(Uri uri, int timeoutSeconds, bool allowErrorBody)
         {
+            return DownloadBytes(uri, timeoutSeconds, allowErrorBody, null);
+        }
+
+        public byte[] DownloadBytes(
+            Uri uri,
+            int timeoutSeconds,
+            bool allowErrorBody,
+            IDictionary<string, string> headers)
+        {
             if (uri == null)
             {
                 throw new ArgumentNullException(nameof(uri));
             }
 
             using (var cancellation = new CancellationTokenSource(TimeSpan.FromSeconds(timeoutSeconds)))
-            using (HttpResponseMessage response = _client.GetAsync(uri, cancellation.Token).GetAwaiter().GetResult())
+            using (var request = new HttpRequestMessage(HttpMethod.Get, uri))
             {
-                byte[] body = response.Content.ReadAsByteArrayAsync().GetAwaiter().GetResult();
-                if (response.IsSuccessStatusCode
-                    || allowErrorBody && CommonUtilities.IsAllowedUpdateBodyStatus((int)response.StatusCode, uri.AbsoluteUri))
+                foreach (KeyValuePair<string, string> header in headers ?? new Dictionary<string, string>())
                 {
-                    return body;
+                    request.Headers.TryAddWithoutValidation(header.Key, header.Value);
                 }
 
-                response.EnsureSuccessStatusCode();
-                return body;
+                using (HttpResponseMessage response = _client.SendAsync(request, cancellation.Token).GetAwaiter().GetResult())
+                {
+                    byte[] body = response.Content.ReadAsByteArrayAsync().GetAwaiter().GetResult();
+                    if (response.IsSuccessStatusCode
+                        || allowErrorBody && CommonUtilities.IsAllowedUpdateBodyStatus((int)response.StatusCode, uri.AbsoluteUri))
+                    {
+                        return body;
+                    }
+
+                    response.EnsureSuccessStatusCode();
+                    return body;
+                }
             }
         }
 
