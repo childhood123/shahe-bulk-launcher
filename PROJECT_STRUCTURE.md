@@ -25,7 +25,7 @@
 - `SandboxLauncher` 的 400 个方法按 1 个应用初始化方法和 10 个业务 mixin 唯一分区，无重复或遗漏。
 - 最终入口 API 审计无缺失导出，`SandboxLauncher` 与 `main` 均由 `shahe_bulk_launcher.app` 提供。
 - C# 迁移工程已建立：`csharp/ShaheBulkLauncher.sln` 包含 Core、App、Updater、Tests 四个 `net48/x64` 项目。
-- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py`、Task 8 `ui/tray.py` 与 Task 9 `features/settings.py` 已完成，当前累计 70 项 C# 契约测试通过；其余 11 个模块仍以 Python 为唯一实现，未声明完成。
+- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py`、Task 8 `ui/tray.py`、Task 9 `features/settings.py` 与 Task 10 `features/app_paths.py` 已完成，当前累计 78 项 C# 契约测试通过；其余 10 个模块仍以 Python 为唯一实现，未声明完成。
 
 ## 目标结构
 
@@ -107,7 +107,7 @@ csharp/
 | 7 | `ui/settings_dialogs.py` | `ShaheLauncher.App/UI/Dialogs/Settings/` | 已完成，10/10 |
 | 8 | `ui/tray.py` | `ShaheLauncher.App/UI/Tray/LauncherTrayIcon.cs` | 已完成，3/3 |
 | 9 | `features/settings.py` | `ShaheLauncher.Core/Settings/LauncherSettingsService.cs` | 已完成，8/8 |
-| 10 | `features/app_paths.py` | `ShaheLauncher.Core/AppPaths/AppPathHistoryService.cs` | 待迁移 |
+| 10 | `features/app_paths.py` | `ShaheLauncher.Core/AppPaths/AppPathHistoryService.cs` | 已完成，8/8 |
 | 11 | `features/sandboxie.py` | `ShaheLauncher.Core/Sandboxie/SandboxieClient.cs` | 待迁移 |
 | 12 | `features/process_actions.py` | `ShaheLauncher.Core/Processes/ProcessActionService.cs` | 待迁移 |
 | 13 | `features/sandbox_admin.py` | `ShaheLauncher.Core/SandboxAdmin/SandboxAdminService.cs` | 待迁移 |
@@ -143,6 +143,26 @@ csharp/
 
 ## 验证记录
 
+- 2026-08-08：C# Task 10 `features/app_paths.py` 最终完成：`AppPathHistoryService` 已迁入 `ShaheLauncher.Core/AppPaths/`，AppPaths 定向契约 8/8、C# 全量契约 78/78、Python 应用路径/Sandboxie 结构对照 4/4、剪贴板无效输入探针 PASS、Python 模块语法验证通过；`ShaheBulkLauncher.sln` 以 `Release|x64` 构建成功，0 警告、0 错误。UI、文案、快捷键、焦点顺序、无障碍、配置键和 Python 正式入口均未改动；主窗体接线按边界留到后续 lifecycle/app 模块。剩余 10 个 C# 模块继续按映射顺序迁移。
+- 2026-08-08：C# Task 10 文案补充后的全量回归通过：`ShaheLauncher.Tests.dll /Platform:x64` 运行 78 项、78/78 通过，确认新增 AppPaths 文案常量未影响 Task 1-9 既有行为。
+- 2026-08-08：C# Task 10 AppPaths 文案边界 GREEN 通过：`TestCategory=AppPaths` 运行 8 项、8/8 通过，新增并确认 `选择应用`、`粘贴 .exe 或文件路径`、备注输入、记忆数量输入及路径记忆状态文案保持 Python 原文。
+- 2026-08-08：C# Task 10 AppPaths 文案补充后的定向构建通过：新增菜单、备注和记忆数量原文常量后，Tests 项目以 `Release|x64` 生成成功，0 警告、0 错误；重跑 8 项 AppPaths 契约。
+- 2026-08-08：C# Task 10 AppPaths 文案边界 RED 通过：补充右键菜单/备注/记忆数量原文断言后，`TestCategory=AppPaths` 为 7/8，唯一失败是 `OpenAppMenuText` 尚不存在；其余 7 项行为契约继续通过，未发现业务回归。
+- 2026-08-08：C# Task 10 `features/app_paths.py` 解决方案构建通过：`ShaheBulkLauncher.sln` 以 `Release|x64` 完成还原和生成，Core、App、Updater、Tests 全部成功输出，0 警告、0 错误；主行为定向验证 8/8、C# 累计全量 78/78，通过后补做应用路径菜单/备注/数量文案边界审计再提交。
+- 2026-08-08：C# Task 10 当前累计全量测试通过：`ShaheLauncher.Tests.dll /Platform:x64` 运行 78 项、78/78 通过，包含 AppPaths 8 项及 Task 1-9 的既有 70 项，无已完成模块回归。
+- 2026-08-08：C# Task 10 Python 应用路径模块语法验证通过：`python -m py_compile shahe_bulk_launcher\features\app_paths.py` 返回码 0，确认 Python 权威模块保持可编译，未被 C# 迁移改动。
+- 2026-08-08：C# Task 10 Python 剪贴板无效输入探针复现通过：再次运行 `python tests\probes\paste_invalid_clipboard_probe.py` 并显式打印进程码，输出 `STATUS 剪贴板没有包含有效的数据`、`APP_PATH` 为空、`PASS paste_invalid_clipboard_probe`，返回码 0；首轮返回码 1 未复现，按最终证据计入 Python 对照 GREEN。
+- 2026-08-08：C# Task 10 Python 剪贴板无效输入探针出现部分结果：`python tests\probes\paste_invalid_clipboard_probe.py` 输出原文 `STATUS 剪贴板没有包含有效的数据`、`APP_PATH` 为空及 `PASS paste_invalid_clipboard_probe`，业务断言已执行；但 Python 进程返回码为 1，当前只记录为“断言输出通过、进程退出异常”，未计入完整 GREEN，待复现探针退出路径。
+- 2026-08-08：C# Task 10 Python 应用路径/Sandboxie 结构对照通过：`python -m unittest tests.test_feature_method_partition tests.test_app_paths_and_sandboxie -v` 运行 4 项、4/4 通过，确认生命周期/设置方法唯一分区及 `AppPathsMixin`、`SandboxieMixin` 的既有方法清单保持不变；C# 迁移未修改 Python 正式入口。
+- 2026-08-08：C# Task 10 AppPaths 定向 GREEN 通过：`TestCategory=AppPaths` 运行 8 项、8/8 通过，确认历史排序/去重/截断、`.exe` 原始/引号/换行/`file://` 解析、隐藏与完整显示文本、历史解析、应用列表选择/路径/勾选恢复、当前路径回调顺序、记忆操作状态反馈及剪贴板文件优先于文本的候选顺序保持 Python 契约。
+- 2026-08-08：C# Task 10 AppPaths 隐藏路径契约修正后构建通过：测试显式设置 `HidePath=true` 验证纯备注解析，并恢复完整路径模式验证带路径文本，Tests 项目 `Release|x64` 0 警告、0 错误；继续重跑 AppPaths 定向测试。
+- 2026-08-08：C# Task 10 AppPaths 契约修正后构建通过：调整静态方法反射调用、重复历史回调数量和 `ApplyHistoryCount` 的 Python 顺序断言后，Tests 项目以 `Release|x64` 生成成功，0 警告、0 错误；开始重跑 AppPaths 定向测试。
+- 2026-08-08：C# Task 10 首轮定向 GREEN 为 4/8：`TestCategory=AppPaths` 运行 8 项，默认值、列表视图、当前路径回调顺序和剪贴板候选顺序 4 项通过；4 项失败已定位为契约/边界问题：测试反射助手未调用 `public static` 方法、历史回调数量断言未按 Python 超限保存顺序冻结，以及 `ApplyHistoryCount` 状态断言错误索引。生产路径解析和记忆操作尚无对应失败证据，下一步先修正测试调用/断言后重跑。
+- 2026-08-08：C# Task 10 `features/app_paths.py` GREEN 构建通过：修正路径正则的 C# 字符串转义并改用标准库 `Path.GetFullPath` 后，Tests 项目以 `Release|x64` 成功生成，Core、App、Tests 均 0 警告、0 错误；下一步运行 8 项 AppPaths 定向契约。
+- 2026-08-08：C# Task 10 第二轮 GREEN 构建仍未通过：修正正则后，编译错误收敛为 `AppPathHistoryService.cs` 第 602 行 1 项，原因是误将自定义扩展方法写成不存在的 `Path.NormalizePath(value)` 静态调用；未进入 AppPaths 契约执行。下一步改用标准库 `Path.GetFullPath(value)` 并移除无用扩展。
+- 2026-08-08：C# Task 10 首轮 GREEN 构建未通过：`AppPathHistoryService.cs` 新增路径正则的普通 C# 字符串转义错误，MSBuild 在第 104-108 行报告 22 个语法错误；错误发生在生产代码编译阶段，未进入 AppPaths 契约执行，测试和 Python 权威实现尚无失败证据。下一步只修正正则字面量后重跑构建。
+- 2026-08-08：C# Task 10 `features/app_paths.py` 有效 RED 通过：`TestCategory=AppPaths` 运行 8 项、8/8 按预期失败，失败点统一为 `ShaheLauncher.Core.AppPaths.AppPathHistoryService` 尚不存在。契约已冻结路径记忆默认值与菜单/状态原文、历史添加排序/去重/截断及保存刷新顺序、`.exe` 原始/引号/换行/`file://` 解析、显示文本与历史解析、应用列表选择/路径/勾选恢复、当前应用路径回调顺序、记忆操作状态反馈以及剪贴板文件优先于文本的候选顺序。
+- 2026-08-08：C# Task 10 `features/app_paths.py` RED 构建通过：新增 `AppPathHistoryServiceContractTests` 后，Tests 项目以 `Release|x64` 完成还原和生成，Core、App、Tests 均成功输出，0 警告、0 错误；下一步运行 `TestCategory=AppPaths`，预期仅因 `ShaheLauncher.Core.AppPaths` 目标类型尚不存在而失败。
 - 2026-08-07：C# Task 9 `features/settings.py` 完成：`ShaheBulkLauncher.sln` 以 `Release|x64` 完成还原和生成，Core、App、Updater、Tests 全部成功输出，0 警告、0 错误；最终验证为 SettingsService 8/8、C# 累计 70/70、Python 设置模块结构契约 3/3、默认值与首次扫描行为探针 PASS，以及设置模块语法验证通过。`LauncherSettingsService` 已迁入 `ShaheLauncher.Core/Settings/`，SettingsDialog 与最终 MainForm 接线仍按边界留到 lifecycle/app，Python 正式入口未改变；其余 11 个模块继续按映射顺序迁移。
 - 2026-08-07：C# Task 9 当前累计全量测试通过：`ShaheLauncher.Tests.dll /Platform:x64` 运行 70 项、70/70 通过，包含 SettingsService 8 项及 Task 1-8 的既有 62 项，无已完成模块回归。
 - 2026-08-07：C# Task 9 Python 设置模块语法验证通过：`python -m py_compile shahe_bulk_launcher\features\settings.py` 返回码 0，确认 Python 权威模块保持可编译，未被 C# 迁移改动。
