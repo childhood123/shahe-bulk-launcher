@@ -115,7 +115,7 @@ csharp/
 | 15 | `backup.py` | `ShaheLauncher.Core/Backup/BackupRestoreService.cs` | 已完成，7/7 |
 | 16 | `features/speech.py` | `ShaheLauncher.Core/Speech/SpeechService.cs` | 已完成，10/10 |
 | 17 | `features/updates.py` | `ShaheLauncher.Core/Updates/UpdateService.cs` 与 `ShaheLauncher.Updater/` | 已完成已确认范围，11/11；外部 updater 安装流程有风险 |
-| 18 | `features/hotkeys.py` | `ShaheLauncher.App/Input/HotkeyController.cs` | 待迁移 |
+| 18 | `features/hotkeys.py` | `ShaheLauncher.App/Input/HotkeyController.cs` | 已完成已确认范围，8/8 |
 | 19 | `features/lifecycle.py` | `ShaheLauncher.App/MainForm.Lifecycle.cs` | 待迁移 |
 | 20 | `app.py` | `ShaheLauncher.App/MainForm.cs` 与 `Program.cs` | 待迁移 |
 
@@ -143,6 +143,20 @@ csharp/
 - `features/updates.py` 只负责生成更新请求并启动外部 `updater.exe`，仓库没有对应的 Python updater 安装器源码；Task 17 已迁移并验证清单获取、补丁选择、请求生成、后台检查、二维码资源和 SHA-256/既有签名解密公共边界，但未擅自推断未知安装、替换和重启流程。获得原 updater 源码后应另开迁移/契约任务。
 
 ## 验证记录
+
+- 2026-08-09：Task 18 提交前复核通过：C# 全量契约 `146/146`；Python 全量测试 `29/29`；`python -m compileall -q .` 通过；复核未发现快捷键迁移回归。
+
+- 2026-08-09：Task 18 提交前解决方案构建复核通过：`ShaheBulkLauncher.sln` `Release|x64` 退出码 0，MSBuild 汇总 0 警告、0 错误；Core、App、Updater、Tests 均成功生成。
+
+- 2026-08-08：Task 18 `features/hotkeys.py` C# 定向 GREEN：新增 `ShaheLauncher.App/Input/HotkeyController.cs` 及快捷键 DTO，`Release|x64` 构建 0 警告、0 错误，`TestCategory=Hotkeys` 运行 8 项、8/8 通过；确认固定快捷键、48 项动作规格、特殊键/数字/F1-F24/小键盘解析与格式化、固定冲突过滤、自定义快捷键归一化、菜单标签、快捷键禁用保留固定键、特殊项跳过与循环选择、进程菜单运行标记和 live-state 刷新令牌保持 Python 边界。`NumPadEnter` 通过控制器逻辑键码保留文本语义，尚未接入 WinForms 主窗口事件映射。
+
+- 2026-08-08：Task 18 Python 对照与结构门禁通过：`python -m py_compile "沙河批量打开器.py" shahe_bulk_launcher\features\hotkeys.py` 成功；`python -m unittest tests.test_feature_method_partition tests.test_remaining_features_contract -v` 为 6/6；`fixed_hotkeys_focus_probe.py`、`process_menu_selection_refresh_probe.py`、`process_menu_uses_running_marker_probe.py` 均 PASS，确认固定快捷键在自定义热键关闭时仍触发、列表选择刷新令牌隔离旧 live-state、运行标记继续控制进程菜单启用状态。
+
+- 2026-08-08：Task 18 跨模块 C# 回归与解决方案门禁通过：`ShaheLauncher.Tests.dll /Platform:x64` 全量契约为 146/146；`ShaheBulkLauncher.sln` `Release|x64` 构建退出码 0，MSBuild 汇总为 0 警告、0 错误；新增 `HotkeyController` 未回归 Task 1-17，尚未接入 Task 19 的 MainForm 生命周期和 WinForms `NumPadEnter` 底层事件映射风险保持记录。
+
+- 2026-08-09：Task 18 Python 最终门禁通过：`python -m unittest discover -s tests -v` 为 29/29；`python -m compileall -q .` 通过；本轮快捷键迁移未修改 Python 正式基线，未新增结构回归或语法回归。
+
+- 2026-08-08：Task 18 `features/hotkeys.py` C# 契约 RED：新增 `HotkeyControllerContractTests.cs`，冻结固定 `Ctrl+A`/`Ctrl+O`/`Ctrl+V`/`F5`/`Esc`/`Alt+F4`、48 项自定义动作规格、快捷键解析/格式化、固定冲突过滤、菜单标签、启用状态、特殊项跳过与循环选择、进程菜单运行标记及 live-state 刷新令牌边界；Tests 项目 `Release|x64` 构建 0 警告、0 错误，`TestCategory=Hotkeys` 运行 8 项、8/8 按预期失败，统一根因为 `ShaheLauncher.App.Input.HotkeyController` 尚不存在。WinForms 没有独立 `NumPadEnter` 枚举，契约使用控制器逻辑键码常量保留 Python 文本语义，底层事件映射作为 Task 19 接线风险记录。
 
 - 2026-08-08：Task 15 `backup.py` Python 基线确认：`python -m unittest tests.test_backup_contract -v` 运行 6/6 通过；`restore_safe_extract_probe.py`、`restore_shell_free_probe.py`、`restore_no_main_thread_stop_probe.py` 全部 PASS；`python -m py_compile shahe_bulk_launcher\backup.py` 通过。C# 契约必须保留用户当前改动的 ZIP 父目录穿越/绝对路径/盘符/UNC/符号链接拒绝、`SbieCtrl.exe` 控制程序查找、无 shell 派发及停止服务不占 UI 主线程边界。
 - 2026-08-08：C# Task 15 `backup.py` 契约 RED：新增 7 项 Backup 契约覆盖安全解压、`.sbx` 归档布局和文件名、Sandboxie.ini 合并、沙盒目录恢复、服务生命周期回调、控制程序优先级、中文文案/正式入口重启路径及归档后台线程；解决方案 Release|x64 构建 0 警告、0 错误，Backup 定向测试 7/7 按预期失败，统一根因为 `BackupRestoreService` 尚不存在。
