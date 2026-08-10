@@ -25,7 +25,8 @@
 - `SandboxLauncher` 的 400 个方法按 1 个应用初始化方法和 10 个业务 mixin 唯一分区，无重复或遗漏。
 - 最终入口 API 审计无缺失导出，`SandboxLauncher` 与 `main` 均由 `shahe_bulk_launcher.app` 提供。
 - C# 迁移工程已建立：`csharp/ShaheBulkLauncher.sln` 包含 Core、App、Updater、Tests 四个 `net48/x64` 项目。
-- C# Task 1 `constants.py`、Task 2 `bootstrap.py`、Task 3 `common.py`、Task 4 `single_instance.py`、Task 5 `ui/controls.py`、Task 6 `ui/common_dialogs.py`、Task 7 `ui/settings_dialogs.py`、Task 8 `ui/tray.py`、Task 9 `features/settings.py`、Task 10 `features/app_paths.py`、Task 11 `features/sandboxie.py`、Task 12 `features/process_actions.py`、Task 13 `features/sandbox_admin.py`、Task 14 `features/scheduling.py`、Task 15 `backup.py`、Task 16 `features/speech.py` 与 Task 17 `features/updates.py` 已完成已确认范围的模块级迁移，当前累计 138 项 C# 契约测试通过；剩余 3 个模块仍以 Python 为唯一实现，未声明完成。
+- C# Task 1 `constants.py` 至 Task 19 `features/lifecycle.py` 已完成已确认范围的模块级迁移，当前累计 153 项 C# 契约测试通过；仅剩 Task 20 `app.py` 仍以 Python 为唯一实现，未声明整个软件完成迁移。
+- C# `Program.cs` 仍为空入口，`MainForm` 尚未接入 Core、App、Updater 的真实服务和应用生命周期；当前 C# 版本不能声明为可完整运行，真实启动烟雾测试保留给 Task 20。
 
 ## 目标结构
 
@@ -116,7 +117,7 @@ csharp/
 | 16 | `features/speech.py` | `ShaheLauncher.Core/Speech/SpeechService.cs` | 已完成，10/10 |
 | 17 | `features/updates.py` | `ShaheLauncher.Core/Updates/UpdateService.cs` 与 `ShaheLauncher.Updater/` | 已完成已确认范围，11/11；外部 updater 安装流程有风险 |
 | 18 | `features/hotkeys.py` | `ShaheLauncher.App/Input/HotkeyController.cs` | 已完成已确认范围，8/8 |
-| 19 | `features/lifecycle.py` | `ShaheLauncher.App/MainForm.Lifecycle.cs` | 待迁移 |
+| 19 | `features/lifecycle.py` | `ShaheLauncher.App/MainForm.Lifecycle.cs` | 已完成已确认范围，7/7 |
 | 20 | `app.py` | `ShaheLauncher.App/MainForm.cs` 与 `Program.cs` | 待迁移 |
 
 ## 构建与测试
@@ -141,8 +142,24 @@ csharp/
 - 全量灾难恢复测试已进入用户还原阶段：账号目录和沙盒配置节已清空，正式 `.sbx`、独立副本和原始配置副本保存在 `artifacts/live_backup_test/20260806_214549`。
 - 当前系统 Python 3.14 未安装 `cryptography`，原版 `encrypt_config_value`、`decrypt_config_value`、`verify_update_signature` 和 `decrypt_update_package` 的真实 Python 执行会进入缺失依赖错误路径；C# 迁移必须按源码中的算法、密钥和格式用确定性向量验证，不修改 Python 环境或把依赖修复混入迁移。
 - `features/updates.py` 只负责生成更新请求并启动外部 `updater.exe`，仓库没有对应的 Python updater 安装器源码；Task 17 已迁移并验证清单获取、补丁选择、请求生成、后台检查、二维码资源和 SHA-256/既有签名解密公共边界，但未擅自推断未知安装、替换和重启流程。获得原 updater 源码后应另开迁移/契约任务。
+- Task 18 保留的 `NumPadEnter` 风险尚未解除：WinForms 没有独立枚举，当前只在 `HotkeyController` 保留逻辑键码和文本语义，底层主窗口事件映射须在 Task 20 真实接线时验证。
+- Task 19 只提供生命周期 UI 和回调边界；`Program.cs` 仍为空，Task 20 必须组装 `MainForm`、接入真实服务并完成启动、显示主窗口和正常退出烟雾测试。
 
 ## 验证记录
+
+- 2026-08-10：Task 19 跨模块与最终门禁通过：`ShaheBulkLauncher.sln` `Release|x64` 还原/构建退出码 0，MSBuild 汇总 0 警告、0 错误；`MainFormLifecycleContractTests` 定向契约 7/7，C# 全量契约 153/153；Python 全量测试 29/29、生命周期结构测试 6/6、`python -m compileall -q .` 通过，四个生命周期对照探针全部 PASS。当前模块验证完成，但 `Program.cs` 空入口和 Task 20 应用组装仍阻止 C# 版本完整运行及真实启动烟雾测试。
+
+- 2026-08-10：Task 19 Python 对照通过：入口与 `features/lifecycle.py` 语法检查成功；`tests.test_feature_method_partition` 与 `tests.test_remaining_features_contract` 为 6/6；`ui_broad_probe.py`、`fixed_hotkeys_focus_probe.py`、`process_menu_selection_refresh_probe.py`、`launch_done_no_sync_menu_probe.py` 全部 PASS。确认 Python 正式基线的 34 个生命周期方法分区、主界面文案/控件名、固定快捷键和选择刷新合并边界未回归。
+
+- 2026-08-10：Task 19 `features/lifecycle.py` C# 定向 GREEN：`MainForm.Lifecycle.cs` 已迁入 34 个生命周期入口，解决方案构建 0 警告、0 错误，`MainFormLifecycleContractTests` 7/7 通过；确认主界面中文文案、AccessibleName、Tab 顺序、明确启动按钮、启动会话取消、活跃目标改名/删除、延迟调用停止、托盘关闭、自动运行路径和状态栏刷新保持契约。`MainForm.cs` 与 `Program.cs` 仍未迁移。
+
+- 2026-08-10：Task 19 首轮定向测试为 5/7：实现构建已恢复至 0 警告、0 错误；两项失败经定位均为契约驱动方式问题，未显示窗体时 `Button.PerformClick()` 不派发 Click，且 `params object[]` 将 `string[]` 展开后导致反射参数不匹配。生产代码对应事件绑定与 `IEnumerable<string>` 签名正确，下一步只修正测试调用后重跑。
+
+- 2026-08-10：Task 19 首轮 GREEN 构建在测试前失败：`MainForm.Lifecycle.cs` 出现 2 个警告即错误门禁，分别为 `ObjectDisposedException` 已被前置 `InvalidOperationException` 捕获，以及 `_destroyLaterScheduled` 只读取未赋值触发 CS0649。根因均位于本模块新实现，尚未进入定向测试；下一步只修正异常捕获层级和销毁状态表达后重跑同一门禁。
+
+- 2026-08-10：Task 19 `features/lifecycle.py` C# 契约 RED：新增 `MainFormLifecycleContractTests.cs`，构建仍为 0 警告、0 错误；`MainFormLifecycleContractTests` 定向运行 7 项、7/7 按预期失败，统一根因为 `ShaheLauncher.App.MainForm` 尚不存在。契约冻结 34 个生命周期入口、主界面控件文案/AccessibleName/Tab 顺序、启动会话取消、活跃目标改名/删除、延迟调用停止、托盘关闭语义、自动运行路径和状态栏边界；未修改 `MainForm.cs` 或 `Program.cs`。
+
+- 2026-08-10：Task 19 迁移前基线通过：Python `py_compile` 与全量测试 `29/29`；`ui_broad_probe.py`、`fixed_hotkeys_focus_probe.py`、`process_menu_selection_refresh_probe.py`、`launch_done_no_sync_menu_probe.py` 全部 PASS；C# 解决方案 `Release|x64` 构建 0 警告、0 错误；C# 全量契约 `146/146`。`Program.cs` 入口仍为空，`MainForm` 尚未组装，完整程序启动烟雾测试继续属于 Task 20，不在本模块声明范围。
 
 - 2026-08-09：Task 18 提交前复核通过：C# 全量契约 `146/146`；Python 全量测试 `29/29`；`python -m compileall -q .` 通过；复核未发现快捷键迁移回归。
 
