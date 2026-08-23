@@ -25,8 +25,8 @@
 - `SandboxLauncher` 的 400 个方法按 1 个应用初始化方法和 10 个业务 mixin 唯一分区，无重复或遗漏。
 - 最终入口 API 审计无缺失导出，`SandboxLauncher` 与 `main` 均由 `shahe_bulk_launcher.app` 提供。
 - C# 迁移工程已建立：`csharp/ShaheBulkLauncher.sln` 包含 Core、App、Updater、Tests 四个 `net48/x64` 项目。
-- C# Task 1 `constants.py` 至 Task 19 `features/lifecycle.py` 已完成已确认范围的模块级迁移，当前累计 153 项 C# 契约测试通过；仅剩 Task 20 `app.py` 仍以 Python 为唯一实现，未声明整个软件完成迁移。
-- C# `Program.cs` 仍为空入口，`MainForm` 尚未接入 Core、App、Updater 的真实服务和应用生命周期；当前 C# 版本不能声明为可完整运行，真实启动烟雾测试保留给 Task 20。
+- C# Task 1 `constants.py` 至 Task 19 `features/lifecycle.py` 已完成已确认范围的模块级迁移；Task 20 `app.py` 已完成应用组装、入口、发布和最终用户动作接线，Application 8/8、C# 全量 161/161 与最终真实 EXE 烟雾均通过，本次变更边界为 Task 20 独立提交，未声明整个软件完成迁移。
+- C# `Program.cs` 已接入单实例、`MainForm`、WinForms 消息循环和释放顺序，Release x64 主程序已完成最终真实启动、显示主窗口、生成配置和正常退出烟雾测试；当前 C# 版本可以启动运行，但音频真实后端、部分菜单动作和外部 updater 安装流程仍有未完成或未确认边界。
 
 ## 目标结构
 
@@ -118,7 +118,7 @@ csharp/
 | 17 | `features/updates.py` | `ShaheLauncher.Core/Updates/UpdateService.cs` 与 `ShaheLauncher.Updater/` | 已完成已确认范围，11/11；外部 updater 安装流程有风险 |
 | 18 | `features/hotkeys.py` | `ShaheLauncher.App/Input/HotkeyController.cs` | 已完成已确认范围，8/8 |
 | 19 | `features/lifecycle.py` | `ShaheLauncher.App/MainForm.Lifecycle.cs` | 已完成已确认范围，7/7 |
-| 20 | `app.py` | `ShaheLauncher.App/MainForm.cs` 与 `Program.cs` | 待迁移 |
+| 20 | `app.py` | `ShaheLauncher.App/MainForm.cs` 与 `Program.cs` | 迁移中；最终接线 Application 8/8、C# 全量 161/161、Release x64、Python 对照和真实 EXE 烟雾通过，本次按 Task 20 独立提交 |
 
 ## 构建与测试
 
@@ -142,10 +142,39 @@ csharp/
 - 全量灾难恢复测试已进入用户还原阶段：账号目录和沙盒配置节已清空，正式 `.sbx`、独立副本和原始配置副本保存在 `artifacts/live_backup_test/20260806_214549`。
 - 当前系统 Python 3.14 未安装 `cryptography`，原版 `encrypt_config_value`、`decrypt_config_value`、`verify_update_signature` 和 `decrypt_update_package` 的真实 Python 执行会进入缺失依赖错误路径；C# 迁移必须按源码中的算法、密钥和格式用确定性向量验证，不修改 Python 环境或把依赖修复混入迁移。
 - `features/updates.py` 只负责生成更新请求并启动外部 `updater.exe`，仓库没有对应的 Python updater 安装器源码；Task 17 已迁移并验证清单获取、补丁选择、请求生成、后台检查、二维码资源和 SHA-256/既有签名解密公共边界，但未擅自推断未知安装、替换和重启流程。获得原 updater 源码后应另开迁移/契约任务。
-- Task 18 保留的 `NumPadEnter` 风险尚未解除：WinForms 没有独立枚举，当前只在 `HotkeyController` 保留逻辑键码和文本语义，底层主窗口事件映射须在 Task 20 真实接线时验证。
-- Task 19 只提供生命周期 UI 和回调边界；`Program.cs` 仍为空，Task 20 必须组装 `MainForm`、接入真实服务并完成启动、显示主窗口和正常退出烟雾测试。
+- Task 18 保留的 `NumPadEnter` 风险尚未解除：WinForms 没有独立枚举，当前只验证了 `HotkeyController` 逻辑键码、文本语义和主窗口扩展 Enter 映射契约，真实底层键盘事件接线仍需人工输入验证。
+- Task 20 已建立全部迁移服务属性、经典菜单、入口、发布复制和主要进程/窗口/启动/Sandboxie/语音回调；音频会话枚举与按进程切换播放设备仍使用安全空结果边界，部分管理、设置、备份和二维码菜单仍只进入统一动作提示，不能据此声明整个软件迁移完成。
+- 外部 `updater.exe` 已随 Release x64 主程序发布并通过共存烟雾验证，但仓库仍缺少原 updater 安装器源码，未知安装、替换和重启流程尚未迁移或验证。
 
 ## 验证记录
+
+- 2026-08-23：Task 20 提交前最终构建产物烟雾通过：将本轮重新构建的 Release x64 发布文件复制到新目录 `artifacts/runs/csharp_task20_smoke_20260823_commit`，在目录原本不存在 `Configuration` 的状态下启动真实 `沙河批量打开器.exe`；检测到标题“沙河批量打开器”和非零主窗口句柄，`CloseMainWindow()` 返回真，进程在 12 秒内退出且退出码为 0，本轮新生成 `Configuration/shahe_config.ini`，同目录存在 `updater.exe`。`smoke_summary.json` 记录 `passed=true`，测试结束后无残留目标进程。
+
+- 2026-08-23：Task 20 提交前非烟雾门禁复核通过：`ShaheBulkLauncher.sln` `Release|x64` 还原/构建退出码 0，Core、Updater、App、Tests 四项目均生成；Application 定向契约 8/8、C# 全量契约 161/161，均无失败或跳过；Python 入口/结构/分区定向测试 9/9、全量 29/29、`python -m compileall -q .` 均通过；`tests/probes/*.py` 26/26 返回码 0，无失败或超时，逐探针输出与最新 `summary.json` 已归档到 `artifacts/runs/csharp_task20_probes_20260823_final`。
+
+- 2026-08-23：Task 20 最终真实 EXE 烟雾重跑通过：改为枚举 `csharp/ShaheLauncher.App/bin/x64/Release/net48` 的发布文件并复制到 `artifacts/runs/csharp_task20_smoke_20260823_final`，真实启动 `沙河批量打开器.exe` 后检测到标题“沙河批量打开器”和非零主窗口句柄；`CloseMainWindow()` 返回真，进程在 12 秒内正常退出且退出码为 0，运行目录生成 `Configuration/shahe_config.ini` 并包含 `updater.exe`。结构化结果已写入同目录 `smoke_summary.json`。
+
+- 2026-08-23：Task 20 最终真实 EXE 烟雾测试首次运行在准备阶段失败：脚本使用 `Copy-Item -LiteralPath (Join-Path $source '*')`，`-LiteralPath` 不展开通配符，导致发布文件未复制到 `artifacts/runs/csharp_task20_smoke_20260823_final`，后续找不到 `沙河批量打开器.exe` 且未启动进程。本次只确认测试工具错误，未观察到产品行为，不能作为应用通过或失败结论；下一步改为枚举发布目录文件后逐项复制，并在同一专用目录重跑。
+
+- 2026-08-23：Task 20 最终接线后的 Python 行为探针全量通过：顺序运行 `tests/probes/*.py` 共 26 条，26/26 返回码 0；逐探针日志与 `summary.json` 保存在 `artifacts/runs/csharp_task20_probes_20260823_final`，未发现进程/音频边界、启动调度、配置、更新、备份恢复、快捷键、列表导航或无障碍行为回归。
+
+- 2026-08-23：Task 20 最终接线后的 Python 全量与语法门禁通过：`python -m unittest discover -s tests -v` 为 29/29，`python -m compileall -q .` 退出码 0；本轮未修改 Python 正式基线，现有用户 `backup.py` 改动及其契约仍保持通过。
+
+- 2026-08-23：Task 20 最终接线后的构建与 Python 定向对照通过：`ShaheBulkLauncher.sln` `Release|x64` 还原/构建退出码 0，汇总 0 警告、0 错误，主程序输出目录存在 `updater.exe`；`tests.test_entry_compatibility`、`tests.test_modular_structure`、`tests.test_feature_method_partition` 共 9 项、9/9 通过。
+
+- 2026-08-23：Task 20 最终接线后的 C# 全量契约通过：`ShaheLauncher.Tests.dll /Platform:x64` 运行 161 项、161/161 通过；新增状态和回调组装未回归 Task 1-19 的 Core、UI、Updater、快捷键和生命周期契约。
+
+- 2026-08-23：Task 20 Application 分类回归通过：`TestCategory=Application` 8/8，覆盖服务组装、Python 路径与启动顺序、经典菜单和无障碍顺序、扩展 Enter 映射、真实入口/发布复制、统一释放及最终交互回调接线；本轮实现未回归原 7 项 Application 契约。
+
+- 2026-08-23：Task 20 最终用户动作接线新增契约 GREEN：`MainForm` 已创建并同步 `ProcessActionState`、`LaunchSchedulerState`、`SandboxAdminState`，进程操作、调度取消、Sandboxie PID/名称查询、窗口/播放设备选择、运行状态刷新和朗读设置对话框均接入现有服务；Tests 项目 `Release|x64` 构建 0 警告、0 错误，新增 `WiresMigratedFeatureServicesIntoInteractiveApplicationCallbacks` 定向运行 1/1 通过。Application 8 项全量及跨模块门禁待继续执行。
+
+- 2026-08-23：Task 20 最终用户动作接线契约 RED：在原 7 项 Application 契约后新增 1 项，要求启动、进程操作、调度、Sandboxie 查询、窗口/设备选择、设置与语音对话框均连接已迁移服务状态和回调。Tests 项目 `Release|x64` 构建仍为 0 警告、0 错误；新增测试按预期失败，首个失败点为 `MuteCurrentCallback` 为空。下一步只补 `MainForm` 的状态对象、Process/Launch/Admin 回调和现有对话框接线，不修改 Core 模块行为。
+
+- 2026-08-23：Task 20 首轮跨模块 GREEN 与真实启动烟雾通过：`TestCategory=Application` 7/7、C# 全量 160/160；`ShaheBulkLauncher.sln` `Release|x64` 还原/构建退出码 0，0 警告、0 错误，主程序输出目录已复制 `updater.exe`。Python `app.py` 定向结构测试 9/9、全量 29/29、`python -m compileall -q .` 和 `tests/probes` 26/26 均通过。独立发布副本 `artifacts/runs/csharp_task20_smoke_20260823_235847` 启动真实 `沙河批量打开器.exe`，检测到标题“沙河批量打开器”和非零主窗口句柄，正常关闭请求成功，进程退出码 0，运行目录生成 `Configuration/shahe_config.ini` 且包含 `updater.exe`。Task 20 仍需完成最终用户动作接线复核，尚未提交或声明整个软件迁移完成。
+
+- 2026-08-10：Task 20 `app.py` C# 契约 RED：新增 `MainFormApplicationContractTests.cs`，Tests 项目 `Release|x64` 构建 0 警告、0 错误；`TestCategory=Application` 运行 7 项、7/7 按预期失败。失败证据覆盖 `MainForm(LauncherRuntime)` 直接服务组装与真实进程边界尚不存在、Python 配置路径/启动顺序和经典菜单未接入、扩展 Enter 到 `NumPadEnter` 的 WinForms 映射未完成、`Program.Main` 仍为空、App 发布输出未声明复制 `updater.exe`、组合服务尚无统一释放状态。下一步只实现 Task 20 的 `MainForm.cs`、`Program.cs` 和必要发布接线。
+
+- 2026-08-10：Task 20 `app.py` 迁移前基线通过：入口与 `shahe_bulk_launcher/app.py` 语法检查成功；Python 入口/结构/方法分区定向测试 9/9、全量测试 29/29、`python -m compileall -q .` 均通过；`tests/probes` 下 26 个 Python 行为探针全部 PASS。C# `ShaheBulkLauncher.sln` `Release|x64` 还原/构建退出码 0，MSBuild 汇总 0 警告、0 错误，C# 全量契约 153/153。当前 `Program.cs` 仍为空入口且 `MainForm.cs` 尚不存在，下一步仅为 Task 20 编写应用组装与入口契约 RED。
 
 - 2026-08-10：Task 19 跨模块与最终门禁通过：`ShaheBulkLauncher.sln` `Release|x64` 还原/构建退出码 0，MSBuild 汇总 0 警告、0 错误；`MainFormLifecycleContractTests` 定向契约 7/7，C# 全量契约 153/153；Python 全量测试 29/29、生命周期结构测试 6/6、`python -m compileall -q .` 通过，四个生命周期对照探针全部 PASS。当前模块验证完成，但 `Program.cs` 空入口和 Task 20 应用组装仍阻止 C# 版本完整运行及真实启动烟雾测试。
 

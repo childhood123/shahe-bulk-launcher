@@ -963,6 +963,7 @@ namespace ShaheLauncher.App
                     PrepareWindowDestroy(false);
                 }
 
+                DisposeApplicationServices();
                 _toolTip?.Dispose();
                 _toolTip = null;
                 _launchCancelEvent.Dispose();
