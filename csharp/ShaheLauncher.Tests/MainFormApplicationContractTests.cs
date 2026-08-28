@@ -330,6 +330,89 @@ namespace ShaheLauncher.Tests
             }
         }
 
+        [TestMethod]
+        public void WiresNonDestructiveMenuActionsWithoutDefaultStatusFallback()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                string sandboxie = Path.Combine(root, "Sandboxie");
+                string sandboxRoot = Path.Combine(root, "SandboxUsers");
+                Directory.CreateDirectory(sandboxie);
+                Directory.CreateDirectory(sandboxRoot);
+                File.WriteAllText(Path.Combine(sandboxie, "Start.exe"), string.Empty);
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(formType, form, "FindSandboxiePathCallback", new Func<string>(() => sandboxie));
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                var calls = new List<string>();
+                SetProperty(formType, form, "SelectPreviousSandboxCallback", new Action(() => calls.Add("previous")));
+                SetProperty(formType, form, "SelectNextSandboxCallback", new Action(() => calls.Add("next")));
+                SetProperty(formType, form, "ShowHotkeySettingsCallback", new Func<bool>(() =>
+                {
+                    calls.Add("hotkeys");
+                    return true;
+                }));
+                SetProperty(formType, form, "ShowSettingsDialogCallback", new Func<bool>(() =>
+                {
+                    calls.Add("settings");
+                    return true;
+                }));
+                SetProperty(formType, form, "SelectDirectoryCallback", new Func<string, string, string>((title, defaultPath) =>
+                {
+                    calls.Add("directory:" + title);
+                    return title == "手动校正 Sandboxie 安装路径" ? sandboxie : sandboxRoot;
+                }));
+                SetProperty(formType, form, "ShowQrCodeCallback", new Action<string>(name => calls.Add("qr:" + name)));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "切换到上一个用户", "select_prev_user");
+                ClickMenuActionAndAssertNoFallback(formType, form, "切换到下一个用户", "select_next_user");
+                ClickMenuActionAndAssertNoFallback(formType, form, "热键设置", "hotkey_settings");
+                ClickMenuActionAndAssertNoFallback(formType, form, "软件设置", "settings");
+                ClickMenuActionAndAssertNoFallback(formType, form, "手动校正 Sandboxie 安装路径", "manual_correct_sandboxie_path");
+                ClickMenuActionAndAssertNoFallback(formType, form, "选择沙盒用户数据目录", "select_sandbox_root");
+                ClickMenuActionAndAssertNoFallback(formType, form, "微信打赏", "show_wechat_qr");
+                ClickMenuActionAndAssertNoFallback(formType, form, "支付宝打赏", "show_alipay_qr");
+
+                CollectionAssert.AreEqual(
+                    new[]
+                    {
+                        "previous", "next", "hotkeys", "settings",
+                        "directory:手动校正 Sandboxie 安装路径",
+                        "directory:选择沙盒用户数据目录",
+                        "qr:微信赞赏码.jpg", "qr:支付宝赞赏码.jpg"
+                    },
+                    calls.ToArray());
+                object sandboxieClient = GetProperty<object>(formType, form, "SandboxieClient");
+                Assert.AreEqual(Path.GetFullPath(sandboxie), GetProperty<string>(
+                    sandboxieClient.GetType(), sandboxieClient, "SandboxiePath"));
+                Assert.AreEqual(Path.GetFullPath(sandboxRoot), GetProperty<string>(
+                    sandboxieClient.GetType(), sandboxieClient, "SandboxRoot"));
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
         private static object CreateForm(Type formType, string root)
         {
             Type runtimeType = Assembly.Load("ShaheLauncher.Core")
@@ -365,6 +448,23 @@ namespace ShaheLauncher.Tests
             PropertyInfo property = type.GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
             Assert.IsNotNull(property, name + " must be public");
             property.SetValue(target, value, null);
+        }
+
+        private static void ClickMenuActionAndAssertNoFallback(Type formType, object form, string visibleLabel, string action)
+        {
+            Form window = GetProperty<Form>(formType, form, "SelfForm");
+            Assert.IsNotNull(window.Menu, "Main menu must exist");
+            MenuItem item = FlattenMenu(window.Menu.MenuItems)
+                .SingleOrDefault(candidate => GetVisibleMenuText(candidate) == visibleLabel);
+            Assert.IsNotNull(item, visibleLabel + " menu item must exist");
+            item.PerformClick();
+            string status = GetProperty<Label>(formType, form, "StatusLabel").Text;
+            Assert.AreNotEqual("已触发操作: " + action, status, action + " must not use the default action fallback");
+        }
+
+        private static string GetVisibleMenuText(MenuItem item)
+        {
+            return ((item.Text ?? string.Empty).Split('\t')[0] ?? string.Empty).Replace("&", string.Empty);
         }
 
         private static IEnumerable<MenuItem> FlattenMenu(Menu.MenuItemCollection items)

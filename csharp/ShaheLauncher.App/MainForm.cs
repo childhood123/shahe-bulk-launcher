@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ShaheLauncher.App.Input;
+using ShaheLauncher.App.UI.Dialogs.Common;
 using ShaheLauncher.App.UI.Dialogs.Settings;
 using ShaheLauncher.Core.AppPaths;
 using ShaheLauncher.Core.Backup;
@@ -132,6 +133,12 @@ namespace ShaheLauncher.App
             SaveSettingsCallback = SaveSettings;
             LogOperationCallback = Runtime.AppendDailyLog;
             FixedHotkeyActionCallback = ExecuteApplicationAction;
+            SelectPreviousSandboxCallback = () => SelectAdjacentSandbox(-1);
+            SelectNextSandboxCallback = () => SelectAdjacentSandbox(1);
+            ShowHotkeySettingsCallback = ShowHotkeySettingsDialog;
+            ShowSettingsDialogCallback = ShowSettingsDialog;
+            SelectDirectoryCallback = SelectDirectory;
+            ShowQrCodeCallback = ShowQrCodeDialog;
             ShutdownAssistSpeechRuntimeCallback = SpeechService.ShutdownAssistSpeechRuntime;
             SpeechCallback = (text, eventName) => SpeechService.SpeakProcessAssist(text, true, eventName);
         }
@@ -159,6 +166,12 @@ namespace ShaheLauncher.App
         public string LegacyConfigPath { get; private set; }
         public bool ApplicationInitialized { get; private set; }
         public bool ApplicationServicesDisposed { get; private set; }
+        public Action SelectPreviousSandboxCallback { get; set; }
+        public Action SelectNextSandboxCallback { get; set; }
+        public Func<bool> ShowHotkeySettingsCallback { get; set; }
+        public Func<bool> ShowSettingsDialogCallback { get; set; }
+        public Func<string, string, string> SelectDirectoryCallback { get; set; }
+        public Action<string> ShowQrCodeCallback { get; set; }
         public Func<string> FindSandboxiePathCallback { get; set; }
         public Action<string, string, MessageBoxIcon> ShowMessageCallback { get; set; }
         public Func<int, Action, IDisposable> StartupDelayCallback { get; set; }
@@ -1004,6 +1017,12 @@ namespace ShaheLauncher.App
                 case "refresh":
                     RefreshSandboxListOnStartup();
                     break;
+                case "select_prev_user":
+                    SelectPreviousSandboxCallback?.Invoke();
+                    break;
+                case "select_next_user":
+                    SelectNextSandboxCallback?.Invoke();
+                    break;
                 case "mute_current":
                     ExecuteCurrentSandboxAction(MuteCurrentCallback);
                     break;
@@ -1044,6 +1063,18 @@ namespace ShaheLauncher.App
                 case "pin_current_user":
                     ExecuteCurrentSandboxAction(PinToggleCallback);
                     break;
+                case "hotkey_settings":
+                    ShowHotkeySettingsCallback?.Invoke();
+                    break;
+                case "settings":
+                    ShowSettingsDialogCallback?.Invoke();
+                    break;
+                case "manual_correct_sandboxie_path":
+                    ManualCorrectSandboxiePath();
+                    break;
+                case "select_sandbox_root":
+                    SelectSandboxRoot();
+                    break;
                 case "cancel_scheduled_tasks":
                     CancelAllSchedulesCallback?.Invoke(true);
                     break;
@@ -1063,10 +1094,278 @@ namespace ShaheLauncher.App
                 case "speech_settings":
                     SpeechService.OnSpeechSettings();
                     break;
+                case "show_wechat_qr":
+                    ShowQrCodeCallback?.Invoke("微信赞赏码.jpg");
+                    break;
+                case "show_alipay_qr":
+                    ShowQrCodeCallback?.Invoke("支付宝赞赏码.jpg");
+                    break;
                 default:
                     SafeSetStatusLabel("已触发操作: " + action);
                     break;
             }
+        }
+
+        private bool SelectAdjacentSandbox(int direction)
+        {
+            if (SandboxList == null)
+            {
+                return false;
+            }
+
+            int[] indexes = Enumerable.Range(0, SandboxList.Items.Count)
+                .Where(index => !SandboxList.IsGroupItemText(SandboxList.Items[index].Text)
+                    && SandboxList.GetItemIdentityText(index).Length != 0)
+                .ToArray();
+            if (indexes.Length == 0)
+            {
+                SafeSetStatusLabel("当前列表没有可选择的用户");
+                return false;
+            }
+
+            int current = SandboxList.SelectedIndices.Count != 0
+                ? SandboxList.SelectedIndices[0]
+                : SandboxList.FocusedItem?.Index ?? -1;
+            int target;
+            int currentPosition = Array.IndexOf(indexes, current);
+            if (currentPosition < 0)
+            {
+                target = direction < 0 ? indexes[indexes.Length - 1] : indexes[0];
+            }
+            else
+            {
+                int offset = direction < 0 ? -1 : 1;
+                target = indexes[(currentPosition + offset + indexes.Length) % indexes.Length];
+            }
+
+            foreach (ListViewItem item in SandboxList.Items)
+            {
+                item.Selected = false;
+            }
+            SandboxList.Items[target].Selected = true;
+            SandboxList.Items[target].Focused = true;
+            SandboxList.ContextItemIndex = target;
+            SandboxList.EnsureVisible(target);
+            SandboxList.Focus();
+            SandboxList.AnnounceItemState(target);
+            ScheduleSandboxSelectionProcessStateRefresh();
+            return true;
+        }
+
+        private bool ShowHotkeySettingsDialog()
+        {
+            using (var dialog = new HotkeySettingsDialog(
+                this,
+                HotkeyController.ActionSpecs.Select(ToDictionary),
+                _hotkeys,
+                HotkeyController.ActionSpecs.ToDictionary(item => item.Action, item => item.DefaultHotkey),
+                HotkeyController.ParseHotkeyText,
+                HotkeyController.FormatHotkeyText,
+                _hotkeysEnabled,
+                HotkeyController.GetReservedHotkeySpecs().Select(ToDictionary)))
+            {
+                if (dialog.ShowDialog(this) != DialogResult.OK)
+                {
+                    return false;
+                }
+
+                _hotkeys = HotkeyController.NormalizeHotkeyMap(dialog.ResultHotkeys);
+                _hotkeysEnabled = dialog.ResultHotkeysEnabled;
+                _settingsState.Hotkeys = _hotkeys;
+                _settingsState.HotkeysEnabled = _hotkeysEnabled;
+                Settings["hotkeys"] = new Dictionary<string, string>(_hotkeys);
+                Settings["hotkeys_enabled"] = _hotkeysEnabled;
+                ApplyHotkeys();
+                CreateMenuBar();
+                SaveSettings();
+                SafeSetStatusLabel("快捷键设置已保存");
+                return true;
+            }
+        }
+
+        private bool ShowSettingsDialog()
+        {
+            using (var dialog = new SettingsDialog(
+                this,
+                new Dictionary<string, object>(Settings ?? new Dictionary<string, object>()),
+                ApplySettingsFromDialog,
+                SettingsService.CreateDefaultSettings()))
+            {
+                return dialog.ShowDialog(this) == DialogResult.OK;
+            }
+        }
+
+        private void ApplySettingsFromDialog(IDictionary<string, object> settings)
+        {
+            SettingsService.ApplySettings(_settingsState, settings, CreateSettingsCallbacks());
+            Settings = _settingsState.Settings ?? new Dictionary<string, object>();
+            _hotkeys = HotkeyController.NormalizeHotkeyMap(_settingsState.Hotkeys);
+            _hotkeysEnabled = _settingsState.HotkeysEnabled;
+            ShowTray = _settingsState.ShowTray;
+            AutoRun = _settingsState.AutoRun;
+            LogOutputMode = _settingsState.LogOutputMode;
+            SyncFeatureStatesFromSettings(SandboxAdminService.NormalizeVolumeMemory(
+                _settingsState.SandboxVolumeMemory,
+                SandboxAdminCallbacks));
+        }
+
+        private void SetSandboxRootState(string value)
+        {
+            string root = LauncherConstants.NormalizeSandboxRootPath(value);
+            if (root.Length == 0)
+            {
+                root = LauncherConstants.GetDefaultSandboxRoot();
+            }
+
+            SandboxieClient.SandboxRoot = root;
+            _settingsState.SandboxRoot = root;
+            SandboxAdminState.SandboxRoot = root;
+            SandboxList?.SetSandboxRoot(root);
+        }
+
+        private LauncherSettingsCallbacks CreateSettingsCallbacks()
+        {
+            return new LauncherSettingsCallbacks
+            {
+                ClearAppPath = () => AppPathList?.SetValue(string.Empty),
+                CreateTrayIcon = CreateTaskBarIcon,
+                DisableTrayDisplay = DisableTrayDisplay,
+                SetSandboxRoot = SetSandboxRootState,
+                SetRangeAutoCheckEnabled = enabled => SandboxList?.SetRangeAutoCheckEnabled(enabled),
+                SetLeftRightNavigationEnabled = enabled => SandboxList?.SetLeftRightNavigationEnabled(enabled),
+                RefreshSandboxList = RefreshSandboxListFromRuntime,
+                UpdateAppPathList = UpdateAppPathList,
+                ApplyHotkeys = ApplyHotkeys,
+                CreateMenuBar = CreateMenuBar,
+                ApplyAutoRun = ApplyAutoRun,
+                ScheduleProcessMenuRefresh = delay => ScheduleProcessMenuLiveStateRefreshCallback?.Invoke(delay),
+                SetStatus = text => SafeSetStatusLabel(text)
+            };
+        }
+
+        private void ManualCorrectSandboxiePath()
+        {
+            string defaultPath = SandboxieClient.SandboxiePath.Length == 0
+                ? LauncherSettingsService.DefaultSandboxiePath
+                : SandboxieClient.SandboxiePath;
+            string selected = SelectDirectoryCallback?.Invoke(
+                LauncherSettingsService.ManualSandboxiePathDialogTitle,
+                defaultPath) ?? string.Empty;
+            if (selected.Trim().Length == 0)
+            {
+                return;
+            }
+
+            if (SettingsService.TryApplySandboxiePath(_settingsState, selected))
+            {
+                UpdateSandboxiePathState(_settingsState.SandboxiePath);
+                Settings["sandboxie_path"] = _settingsState.SandboxiePath;
+                SafeSetStatusLabel(LauncherSettingsService.GetSandboxiePathSuccessStatus(_settingsState.SandboxiePath));
+                ShowMessageCallback?.Invoke(
+                    LauncherSettingsService.SandboxiePathSavedMessage,
+                    LauncherSettingsService.SandboxiePathSavedTitle,
+                    MessageBoxIcon.Information);
+                return;
+            }
+
+            SafeSetStatusLabel(LauncherSettingsService.SandboxiePathInvalidStatus);
+            ShowMessageCallback?.Invoke(
+                LauncherSettingsService.SandboxiePathInvalidMessage,
+                LauncherSettingsService.SandboxiePathInvalidTitle,
+                MessageBoxIcon.Warning);
+        }
+
+        private void SelectSandboxRoot()
+        {
+            string selected = SelectDirectoryCallback?.Invoke(
+                LauncherSettingsService.SandboxRootDialogTitle,
+                SandboxieClient.SandboxRoot.Length == 0
+                    ? LauncherConstants.GetDefaultSandboxRoot()
+                    : SandboxieClient.SandboxRoot) ?? string.Empty;
+            if (selected.Trim().Length == 0)
+            {
+                return;
+            }
+
+            if (Directory.Exists(selected) && SettingsService.TryApplySandboxRoot(
+                _settingsState,
+                selected,
+                true,
+                CreateSettingsCallbacks()))
+            {
+                Settings = _settingsState.Settings ?? Settings;
+                SyncFeatureStatesFromSettings(SandboxAdminService.NormalizeVolumeMemory(
+                    _settingsState.SandboxVolumeMemory,
+                    SandboxAdminCallbacks));
+                SafeSetStatusLabel(LauncherSettingsService.GetSandboxRootSuccessStatus(_settingsState.SandboxRoot));
+                return;
+            }
+
+            SafeSetStatusLabel(LauncherSettingsService.SandboxRootInvalidStatus);
+        }
+
+        private string SelectDirectory(string title, string defaultPath)
+        {
+            using (var dialog = new FolderBrowserDialog
+            {
+                Description = title ?? string.Empty,
+                SelectedPath = Directory.Exists(defaultPath ?? string.Empty) ? defaultPath : string.Empty,
+                ShowNewFolderButton = false
+            })
+            {
+                return dialog.ShowDialog(this) == DialogResult.OK ? dialog.SelectedPath : string.Empty;
+            }
+        }
+
+        private void ShowQrCodeDialog(string filename)
+        {
+            string name = (filename ?? string.Empty).Trim();
+            string imagePath = UpdateService.ResolveQrImagePath(name);
+            byte[] embedded = imagePath.Length == 0 ? UpdateService.GetEmbeddedQrBytes(name) : new byte[0];
+            if (imagePath.Length == 0 && embedded.Length == 0)
+            {
+                string kind = name.StartsWith("支付宝", StringComparison.Ordinal) ? "支付宝" : "微信";
+                ShowMessageCallback?.Invoke(
+                    "未找到可用的" + kind + "二维码资源",
+                    "错误",
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            string title = name.StartsWith("支付宝", StringComparison.Ordinal)
+                ? UpdateService.GetAlipayQrTitle()
+                : UpdateService.GetWechatQrTitle();
+            using (var dialog = new QRCodeDialog(
+                this,
+                title,
+                embedded.Length == 0 ? imagePath : string.Empty,
+                embedded,
+                imagePath))
+            {
+                dialog.ShowDialog(this);
+            }
+        }
+
+        private static IDictionary<string, object> ToDictionary(HotkeyActionSpec spec)
+        {
+            return new Dictionary<string, object>
+            {
+                { "category", spec?.Category ?? string.Empty },
+                { "action", spec?.Action ?? string.Empty },
+                { "label", spec?.Label ?? string.Empty },
+                { "default", spec?.DefaultHotkey ?? string.Empty },
+                { "event_id", spec?.EventId ?? 0 }
+            };
+        }
+
+        private static IDictionary<string, object> ToDictionary(HotkeyReservedSpec spec)
+        {
+            return new Dictionary<string, object>
+            {
+                { "action", spec?.Action ?? string.Empty },
+                { "label", spec?.Label ?? string.Empty },
+                { "hotkey", spec?.Hotkey ?? string.Empty }
+            };
         }
 
         private void SelectApplicationPath()
