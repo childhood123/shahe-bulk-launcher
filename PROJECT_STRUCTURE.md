@@ -26,6 +26,7 @@
 - 最终入口 API 审计无缺失导出，`SandboxLauncher` 与 `main` 均由 `shahe_bulk_launcher.app` 提供。
 - C# 迁移工程已建立：`csharp/ShaheBulkLauncher.sln` 包含 Core、App、Updater、Tests 四个 `net48/x64` 项目。
 - C# Task 1 `constants.py` 至 Task 19 `features/lifecycle.py` 已完成已确认范围的模块级迁移；Task 20 `app.py` 已完成应用组装、入口、发布、主要用户动作和非破坏性菜单动作接线，当前子模块定向 GREEN、Application 分类回归、C# 全量测试、Release x64 构建、Python 定向、Python 全量对照、Python 语法编译、Python 行为探针和真实 EXE 烟雾均已通过，未声明整个软件完成迁移。
+- 2026-08-28 前 20 模块真实调用审计：20/20 均有 C# 可执行测试覆盖；真实 EXE 启动与隔离菜单交互合并后 19/20 有应用进程源码执行证据，唯一例外是 Task 15 `BackupRestoreService`，当前只有服务组装和定向测试，没有 `MainForm` 业务调用。
 - C# `Program.cs` 已接入单实例、`MainForm`、WinForms 消息循环和释放顺序，Release x64 主程序已完成最终真实启动、显示主窗口、生成配置和正常退出烟雾测试；当前 C# 版本可以启动运行，但音频真实后端、部分菜单动作和外部 updater 安装流程仍有未完成或未确认边界。
 
 ## 目标结构
@@ -113,12 +114,39 @@ csharp/
 | 12 | `features/process_actions.py` | `ShaheLauncher.Core/Processes/ProcessActionService.cs` | 已完成，8/8 |
 | 13 | `features/sandbox_admin.py` | `ShaheLauncher.Core/SandboxAdmin/SandboxAdminService.cs` | 已完成，8/8 |
 | 14 | `features/scheduling.py` | `ShaheLauncher.Core/Scheduling/LaunchScheduler.cs` | 已完成，8/8 |
-| 15 | `backup.py` | `ShaheLauncher.Core/Backup/BackupRestoreService.cs` | 已完成，7/7 |
+| 15 | `backup.py` | `ShaheLauncher.Core/Backup/BackupRestoreService.cs` | 模块契约已完成，7/7；应用仅组装，未业务接入 |
 | 16 | `features/speech.py` | `ShaheLauncher.Core/Speech/SpeechService.cs` | 已完成，10/10 |
 | 17 | `features/updates.py` | `ShaheLauncher.Core/Updates/UpdateService.cs` 与 `ShaheLauncher.Updater/` | 已完成已确认范围，11/11；外部 updater 安装流程有风险 |
 | 18 | `features/hotkeys.py` | `ShaheLauncher.App/Input/HotkeyController.cs` | 已完成已确认范围，8/8 |
 | 19 | `features/lifecycle.py` | `ShaheLauncher.App/MainForm.Lifecycle.cs` | 已完成已确认范围，7/7 |
 | 20 | `app.py` | `ShaheLauncher.App/MainForm.cs` 与 `Program.cs` | 迁移中；主要接线 Application 8/8、C# 全量 161/161、Release x64、Python 对照和真实 EXE 烟雾通过；当前非破坏性菜单动作接线定向 GREEN、Application 9/9、C# 全量 162/162、Release x64 构建、Python 定向 9/9、Python 全量 29/29、`compileall`、Python 探针 26/26、真实 EXE 烟雾已通过 |
+
+## 前 20 模块真实调用审计
+
+以下状态区分“模块代码和定向测试已存在”与“真实应用入口已经调用”。详细方法级覆盖和逐动作状态保存在 `artifacts/runs/csharp_first20_real_call_audit_20260828`。
+
+| Task | Python 模块 | 应用真实调用状态 | 当前结论或缺口 |
+| ---: | --- | --- | --- |
+| 1 | `constants.py` | 启动与交互已调用 | 常量、默认根、日志模式和名称校验由真实进程执行 |
+| 2 | `bootstrap.py` | 启动与交互已调用 | EXE 路径、应用目录、日志和发布清理路径已执行 |
+| 3 | `common.py` | 启动与交互已调用 | 设置解析、INI/加密配置和更新 HTTP 边界已执行；安全算法另由定向向量覆盖 |
+| 4 | `single_instance.py` | 真实 EXE 启动已调用 | `Program.Main` 实际执行互斥体检查和释放 |
+| 5 | `ui/controls.py` | 启动与交互已调用 | 主列表、应用列表、状态文本和延迟调用均有执行证据 |
+| 6 | `ui/common_dialogs.py` | 部分交互已调用 | 二维码对话框从真实菜单打开；分组、批量命名和用户选择对话框仅定向测试调用 |
+| 7 | `ui/settings_dialogs.py` | 部分交互已调用 | 热键、软件和朗读设置从真实菜单打开；`PathMemoryManagerDialog` 未发现应用入口 |
+| 8 | `ui/tray.py` | 真实 EXE 启动已调用 | `show_tray=true` 时创建托盘图标，退出时移除 |
+| 9 | `features/settings.py` | 启动与交互已调用 | 配置加载/迁移及 Sandboxie 路径、数据根校正已执行 |
+| 10 | `features/app_paths.py` | 部分交互已调用 | 粘贴菜单调用 `ExtractExePathFromText`；历史新增逻辑仍由 `MainForm` 自行实现 |
+| 11 | `features/sandboxie.py` | 启动与交互已调用 | 安装路径、INI/显示映射和运行状态路径已执行；真实扫描会只读系统级 `Sandboxie.ini` |
+| 12 | `features/process_actions.py` | 部分交互已调用 | “静音全部”真实进入服务并得到空 PID 结果；真实音频会话和播放设备后端仍为空实现 |
+| 13 | `features/sandbox_admin.py` | 部分启动与交互已调用 | 设置规范化、INI 读取和临时 `Box1` 置顶已执行；分组和批量管理 6 个菜单未接线 |
+| 14 | `features/scheduling.py` | 部分启动与交互已调用 | “取消全部定时任务”已进入服务；定时启动和定时关闭菜单未接线 |
+| 15 | `backup.py` | 未发生应用业务调用 | `BackupRestoreService` 仅构造并由定向测试调用；备份和还原菜单未接线 |
+| 16 | `features/speech.py` | 启动与交互已调用 | 配置保存、朗读设置请求和关闭清理已执行；本轮未加载真实 Tolk 后端 |
+| 17 | `features/updates.py` | 部分启动与交互已调用 | 自动检查路径和二维码资源解析已执行；外部 updater 安装、替换和重启未真实触发 |
+| 18 | `features/hotkeys.py` | 启动与交互已调用 | 菜单标签、热键设置和上一/下一用户动作已执行；`NumPadEnter` 仍需人工键盘验证 |
+| 19 | `features/lifecycle.py` | 启动与交互已调用 | UI 初始化、托盘、延迟任务、关闭和服务释放已执行 |
+| 20 | `app.py` | 部分启动与交互已调用 | `Program/MainForm` 启动、菜单分派、对话框和退出链已执行；11 个菜单动作仍默认回退 |
 
 ## 构建与测试
 
@@ -143,10 +171,15 @@ csharp/
 - 当前系统 Python 3.14 未安装 `cryptography`，原版 `encrypt_config_value`、`decrypt_config_value`、`verify_update_signature` 和 `decrypt_update_package` 的真实 Python 执行会进入缺失依赖错误路径；C# 迁移必须按源码中的算法、密钥和格式用确定性向量验证，不修改 Python 环境或把依赖修复混入迁移。
 - `features/updates.py` 只负责生成更新请求并启动外部 `updater.exe`，仓库没有对应的 Python updater 安装器源码；Task 17 已迁移并验证清单获取、补丁选择、请求生成、后台检查、二维码资源和 SHA-256/既有签名解密公共边界，但未擅自推断未知安装、替换和重启流程。获得原 updater 源码后应另开迁移/契约任务。
 - Task 18 保留的 `NumPadEnter` 风险尚未解除：WinForms 没有独立枚举，当前只验证了 `HotkeyController` 逻辑键码、文本语义和主窗口扩展 Enter 映射契约，真实底层键盘事件接线仍需人工输入验证。
+- Task 15 `BackupRestoreService` 虽已完成 7/7 模块契约，但真实调用审计确认 `MainForm` 中没有任何备份恢复业务调用，`backup_sandboxes` 与 `restore_sandboxes` 均仍进入默认 `已触发操作` 提示。
 - Task 20 已建立全部迁移服务属性、经典菜单、入口、发布复制、主要进程/窗口/启动/Sandboxie/语音回调和非破坏性菜单动作接线；音频会话枚举与按进程切换播放设备仍使用安全空结果边界，部分分组/批量管理、定时、修复和备份菜单仍只进入统一动作提示，不能据此声明整个软件迁移完成。
 - 外部 `updater.exe` 已随 Release x64 主程序发布并通过共存烟雾验证，但仓库仍缺少原 updater 安装器源码，未知安装、替换和重启流程尚未迁移或验证。
 
 ## 验证记录
+
+- 2026-08-28：前 20 模块真实调用审计提交前复核通过。当前工作树重新执行 `ShaheBulkLauncher.sln` `Release|x64` 还原/构建，结果为 0 警告、0 错误；重新运行 `ShaheLauncher.Tests.dll /Platform:x64`，162/162 通过、0 失败、0 跳过。重新从 `module_call_matrix.json` 计算并与 `audit_summary.json` 对照，模块总数 20、应用进程有执行证据 19、测试有执行证据 20、唯一仅测试调用为 Task 15、默认回退动作 11 项，全部一致。
+
+- 2026-08-28：前 20 个 C# 模块真实调用审计完成。重新构建 `ShaheBulkLauncher.sln` `Release|x64` 成功；使用 Visual Studio `Microsoft.CodeCoverage.Console` 对真实 `沙河批量打开器.exe` 启动、900/1500 毫秒启动任务、托盘创建、正常关闭和服务释放收集方法级覆盖，启动摘要 `passed=true`。随后运行隔离 STA 交互审计，临时列表严格只有 `Box1`，真实菜单完成应用路径粘贴、上一/下一用户、置顶、刷新、空 PID 静音全部、进程状态刷新、取消定时、Sandboxie 路径/数据根校正，并实际打开后取消热键设置、软件设置、朗读设置和微信二维码 4 个对话框；进程销毁完成且无残留。C# 全量测试在覆盖收集下 162/162 通过，20/20 模块均有测试执行行；真实 EXE 启动与隔离交互合并为 19/20 模块有应用执行证据，Task 15 仅组装/测试、未业务接入。确认仍默认回退的动作恰好 11 个：`create_group`、`launch_group`、`delete_group`、`batch_create_sandboxes`、`batch_rename_sandboxes`、`batch_delete_sandboxes`、`schedule_launch`、`schedule_close`、`repair_sandboxie_control_settings`、`backup_sandboxes`、`restore_sandboxes`。权威摘要、逐模块矩阵和覆盖文件保存在 `artifacts/runs/csharp_first20_real_call_audit_20260828`；探针编码/隔离调试轮次只保留在 artifacts，未计入项目结论。
 
 - 2026-08-28：Task 20 非破坏性菜单动作接线 RED：新增 `WiresNonDestructiveMenuActionsWithoutDefaultStatusFallback`，覆盖上一/下一用户、热键设置、软件设置、Sandboxie 安装路径校正、沙盒数据目录选择、微信/支付宝二维码入口均不得落入默认 `已触发操作` 状态提示。Tests 项目 `Release|x64` 构建退出码 0；定向运行新增测试 1 项、1/1 按预期失败，首个失败点为 `SelectPreviousSandboxCallback must be public`，确认当前缺口在 `MainForm` 接线。
 
