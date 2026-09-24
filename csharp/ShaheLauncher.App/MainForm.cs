@@ -180,6 +180,8 @@ namespace ShaheLauncher.App
         public Action<IEnumerable<string>> LaunchGroupCallback { get; set; }
         public Func<string, string, IDictionary> ShowBatchCreateRuleCallback { get; set; }
         public Func<string, SandboxieOperationResult> CreateSandboxCallback { get; set; }
+        public Func<string, string, string, int, IDictionary> ShowBatchRenameRuleCallback { get; set; }
+        public Func<string, string, bool> SetSandboxAliasCallback { get; set; }
         public Func<string, string, string> SelectDirectoryCallback { get; set; }
         public Func<string, IEnumerable<string>, string[]> SelectUsersCallback { get; set; }
         public Func<string, string> SelectBackupFileCallback { get; set; }
@@ -1092,6 +1094,9 @@ namespace ShaheLauncher.App
                 case "batch_create_sandboxes":
                     BatchCreateSandboxes();
                     break;
+                case "batch_rename_sandboxes":
+                    BatchRenameSandboxes();
+                    break;
                 case "hotkey_settings":
                     ShowHotkeySettingsCallback?.Invoke();
                     break;
@@ -1293,6 +1298,269 @@ namespace ShaheLauncher.App
                 failed.Count));
         }
 
+        private void BatchRenameSandboxes()
+        {
+            IList<string> selected = GetBatchTargetSandboxes();
+            if (selected.Count == 0)
+            {
+                SafeSetStatusLabel("请先勾选或选中要重命名的沙盒用户");
+                return;
+            }
+
+            string defaultPrefix = LauncherConstants.MakeDefaultSandboxDisplayPrefix(
+                selected[0],
+                "沙盒用户");
+            IDictionary rule = ShowBatchRenameRuleCallback == null
+                ? ShowBatchRenameRuleDialog(
+                    SandboxAdminService.BatchRenameDialogTitle,
+                    SandboxAdminService.BatchRenamePromptText,
+                    defaultPrefix,
+                    selected.Count)
+                : ShowBatchRenameRuleCallback(
+                    SandboxAdminService.BatchRenameDialogTitle,
+                    SandboxAdminService.BatchRenamePromptText,
+                    defaultPrefix,
+                    selected.Count);
+            if (rule == null)
+            {
+                return;
+            }
+
+            IList<string> targetNames = SandboxAdminService.BuildBatchSandboxNames(
+                GetRuleText(rule, "prefix"),
+                GetRuleInt(rule, "start", 1),
+                GetRuleInt(rule, "count", selected.Count),
+                GetRuleInt(rule, "digits", 0));
+            IList<string> errors = SandboxAdminService.ValidateBatchSandboxNames(targetNames);
+            if (errors.Count != 0)
+            {
+                ShowMessageCallback?.Invoke(
+                    string.Join("\n", errors),
+                    SandboxAdminService.NameValidationFailedTitle,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            ISet<string> existingDisplays = new HashSet<string>(
+                (SandboxAdminCallbacks?.GetExistingSandboxDisplayNames?.Invoke()
+                    ?? Enumerable.Empty<string>())
+                .Select(value => (value ?? string.Empty).Trim())
+                .Where(value => value.Length != 0),
+                StringComparer.OrdinalIgnoreCase);
+            ISet<string> oldDisplays = new HashSet<string>(selected, StringComparer.OrdinalIgnoreCase);
+            IList<string> collisions = targetNames
+                .Where(name => existingDisplays.Contains(name) && !oldDisplays.Contains(name))
+                .ToList();
+            if (collisions.Count != 0)
+            {
+                ShowMessageCallback?.Invoke(
+                    "以下目标名称已存在，无法重命名：\n" + string.Join("\n", collisions.Take(12)),
+                    "重命名冲突",
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            var renameMap = new Dictionary<string, string>(StringComparer.Ordinal);
+            int renameCount = Math.Min(selected.Count, targetNames.Count);
+            for (int index = 0; index < renameCount; index++)
+            {
+                if (!string.Equals(selected[index], targetNames[index], StringComparison.Ordinal))
+                {
+                    renameMap[selected[index]] = targetNames[index];
+                }
+            }
+            if (renameMap.Count == 0)
+            {
+                SafeSetStatusLabel("目标名称与当前名称一致，无需重命名");
+                return;
+            }
+
+            var internalRenameMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var aliasMap = new Dictionary<string, string>(StringComparer.Ordinal);
+            ISet<string> reservedInternal = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            ISet<string> existingInternal = new HashSet<string>(
+                (SandboxAdminCallbacks?.GetExistingSandboxNames?.Invoke()
+                    ?? Enumerable.Empty<string>())
+                .Select(value => (value ?? string.Empty).Trim())
+                .Where(value => value.Length != 0),
+                StringComparer.OrdinalIgnoreCase);
+            ISet<string> selectedInternal = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (string displayName in selected)
+            {
+                string internalName = SandboxAdminCallbacks?.NormalizeSandboxName?.Invoke(displayName)
+                    ?? displayName;
+                if (!string.IsNullOrWhiteSpace(internalName))
+                {
+                    selectedInternal.Add(internalName.Trim());
+                }
+            }
+
+            foreach (KeyValuePair<string, string> item in renameMap)
+            {
+                string oldInternal = SandboxAdminCallbacks?.NormalizeSandboxName?.Invoke(item.Key)
+                    ?? item.Key;
+                oldInternal = (oldInternal ?? string.Empty).Trim();
+                if (oldInternal.Length == 0)
+                {
+                    continue;
+                }
+
+                string targetInternal = SandboxieClient.DisplayNameToInternalCandidate(item.Value);
+                bool canRenameInternal = LauncherConstants.IsValidInternalSandboxName(targetInternal)
+                    && (selectedInternal.Contains(targetInternal) || !existingInternal.Contains(targetInternal))
+                    && !reservedInternal.Contains(targetInternal);
+                string effectiveInternal = oldInternal;
+                if (canRenameInternal
+                    && !string.Equals(targetInternal, oldInternal, StringComparison.OrdinalIgnoreCase))
+                {
+                    internalRenameMap[oldInternal] = targetInternal;
+                    reservedInternal.Add(targetInternal);
+                    effectiveInternal = targetInternal;
+                }
+
+                string defaultDisplay = SandboxieClient.DisplayNameForSandbox(
+                    effectiveInternal,
+                    new Dictionary<string, string>());
+                aliasMap[effectiveInternal] = string.Equals(defaultDisplay, item.Value, StringComparison.Ordinal)
+                    ? string.Empty
+                    : item.Value;
+            }
+
+            if (internalRenameMap.Count != 0)
+            {
+                var runningTargets = new List<string>();
+                foreach (string oldDisplay in renameMap.Keys)
+                {
+                    string oldInternal = SandboxAdminCallbacks?.NormalizeSandboxName?.Invoke(oldDisplay)
+                        ?? oldDisplay;
+                    oldInternal = (oldInternal ?? string.Empty).Trim();
+                    if (oldInternal.Length == 0 || !internalRenameMap.ContainsKey(oldInternal))
+                    {
+                        continue;
+                    }
+
+                    try
+                    {
+                        if ((SandboxAdminCallbacks?.GetSandboxPids?.Invoke(oldInternal)
+                            ?? Enumerable.Empty<int>()).Any())
+                        {
+                            runningTargets.Add(oldDisplay);
+                        }
+                    }
+                    catch
+                    {
+                    }
+                }
+                if (runningTargets.Count != 0)
+                {
+                    ShowMessageCallback?.Invoke(
+                        "以下沙盒仍在运行，请先关闭后再重命名：\n"
+                            + string.Join("\n", runningTargets.Take(12)),
+                        "重命名失败",
+                        MessageBoxIcon.Warning);
+                    SafeSetStatusLabel("批量重命名失败");
+                    return;
+                }
+
+                ISet<string> iniSections = new HashSet<string>(
+                    SandboxAdminService.ListIniSectionNames(GetSandboxieIniPath(), true),
+                    StringComparer.OrdinalIgnoreCase);
+                ISet<string> renamedInternal = new HashSet<string>(
+                    internalRenameMap.Keys,
+                    StringComparer.OrdinalIgnoreCase);
+                IList<string> iniCollisions = internalRenameMap.Values
+                    .Where(name => iniSections.Contains(name) && !renamedInternal.Contains(name))
+                    .ToList();
+                if (iniCollisions.Count != 0)
+                {
+                    ShowMessageCallback?.Invoke(
+                        "Sandboxie.ini 中已存在以下同名分节，无法重命名：\n"
+                            + string.Join("\n", iniCollisions.Take(12)),
+                        "INI 冲突",
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                Tuple<bool, string> directories = SandboxAdminService.RenameSandboxDirectories(
+                    GetSandboxUsersRoot(),
+                    internalRenameMap);
+                if (directories == null || !directories.Item1)
+                {
+                    ShowMessageCallback?.Invoke(
+                        "批量重命名目录失败：" + (directories?.Item2 ?? string.Empty),
+                        "重命名失败",
+                        MessageBoxIcon.Error);
+                    SafeSetStatusLabel("批量重命名失败");
+                    return;
+                }
+            }
+
+            string iniError = string.Empty;
+            try
+            {
+                Tuple<bool, string> ini = SandboxAdminService.ApplyIniSectionChanges(
+                    GetSandboxieIniPath(),
+                    internalRenameMap.Values,
+                    new string[0],
+                    internalRenameMap);
+                iniError = ini?.Item2 ?? string.Empty;
+                if (ini != null && ini.Item1)
+                {
+                    ReloadSandboxieConfig();
+                }
+            }
+            catch (Exception error)
+            {
+                iniError = error.Message;
+            }
+
+            SandboxAliasResult aliases = SandboxAdminService.ApplySandboxAliases(
+                aliasMap,
+                SetSandboxAliasViaOfficial);
+            if (aliases != null && aliases.Changed)
+            {
+                ReloadSandboxieConfig();
+            }
+            if (aliases != null && !string.IsNullOrWhiteSpace(aliases.Error) && iniError.Length == 0)
+            {
+                iniError = aliases.Error;
+            }
+
+            bool referencesChanged = SandboxAdminService.RenameSandboxReferencesByDisplay(
+                SandboxAdminState,
+                renameMap);
+            referencesChanged = RenameSandboxRefsInScheduledJobsByDisplay(renameMap) || referencesChanged;
+            referencesChanged = RenameSandboxRefsInActiveLaunchByDisplay(renameMap) || referencesChanged;
+            if (internalRenameMap.Count != 0)
+            {
+                referencesChanged = SandboxAdminService.RenameSandboxReferences(
+                    SandboxAdminState,
+                    internalRenameMap) || referencesChanged;
+            }
+            if (referencesChanged)
+            {
+                SaveSettings();
+            }
+
+            try
+            {
+                RefreshSandboxDisplayMaps();
+            }
+            catch
+            {
+            }
+            SuppressListRefreshStatus(2.0);
+            RefreshSandboxListCallback?.Invoke();
+
+            if (iniError.Length != 0)
+            {
+                ShowMessageCallback?.Invoke(
+                    "目录已重命名，但 Sandboxie.ini 更新失败：" + iniError,
+                    "重命名提示",
+                    MessageBoxIcon.Warning);
+            }
+            SafeSetStatusLabel(SandboxAdminService.FormatBatchRenameStatus(renameMap.Count));
+        }
         private void DeleteGroup()
         {
             IList<string> groupNames = SandboxAdminService.GetGroupNames(SandboxAdminState);
@@ -1663,6 +1931,122 @@ namespace ShaheLauncher.App
             }
         }
 
+        private IDictionary ShowBatchRenameRuleDialog(
+            string title,
+            string prompt,
+            string defaultPrefix,
+            int targetCount)
+        {
+            using (var dialog = new BatchNameRuleDialog(
+                this,
+                title,
+                prompt,
+                defaultPrefix,
+                1,
+                0,
+                targetCount,
+                targetCount,
+                null))
+            {
+                return dialog.ShowDialog(this) == DialogResult.OK ? dialog.Result : null;
+            }
+        }
+
+        private IList<string> GetBatchTargetSandboxes()
+        {
+            IList<string> selected = SandboxAdminService.NormalizeSandboxNameList(
+                SandboxList?.GetCheckedEntryTexts() ?? new string[0],
+                SandboxAdminCallbacks);
+            if (selected.Count == 0)
+            {
+                string current = GetSelectedSandboxName();
+                if (current.Length != 0)
+                {
+                    selected.Add(current);
+                }
+            }
+            return selected;
+        }
+
+        private bool RenameSandboxRefsInScheduledJobsByDisplay(
+            IDictionary<string, string> displayRenameMap)
+        {
+            if (LaunchState?.Jobs == null || displayRenameMap == null || displayRenameMap.Count == 0)
+            {
+                return false;
+            }
+
+            var lookup = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (KeyValuePair<string, string> item in displayRenameMap)
+            {
+                string oldName = (item.Key ?? string.Empty).Trim();
+                string newName = (item.Value ?? string.Empty).Trim();
+                if (oldName.Length != 0 && newName.Length != 0)
+                {
+                    lookup[oldName] = newName;
+                }
+            }
+
+            bool changed = false;
+            var emptyJobs = new List<string>();
+            foreach (KeyValuePair<string, ScheduledLaunchJob> item in LaunchState.Jobs)
+            {
+                ScheduledLaunchJob job = item.Value;
+                if (job == null || job.SandboxTargets == null)
+                {
+                    continue;
+                }
+
+                var targets = new List<string>();
+                foreach (string name in job.SandboxTargets)
+                {
+                    string target = lookup.ContainsKey(name ?? string.Empty)
+                        ? lookup[name ?? string.Empty]
+                        : name;
+                    if (!string.IsNullOrWhiteSpace(target) && !targets.Contains(target))
+                    {
+                        targets.Add(target);
+                    }
+                }
+                if (!targets.SequenceEqual(job.SandboxTargets))
+                {
+                    job.SandboxTargets = targets;
+                    changed = true;
+                }
+                if (targets.Count == 0)
+                {
+                    emptyJobs.Add(item.Key);
+                }
+                else if ((job.Description ?? string.Empty).Contains("定时启动"))
+                {
+                    job.Description = "定时启动 " + targets.Count + " 个沙盒";
+                }
+                else if ((job.Description ?? string.Empty).Contains("定时关闭"))
+                {
+                    job.Description = "定时关闭 " + targets.Count + " 个沙盒";
+                }
+            }
+
+            foreach (string key in emptyJobs)
+            {
+                LaunchScheduler.CancelScheduleTask(LaunchState, key, false, LaunchCallbacks);
+            }
+            return changed;
+        }
+
+        private bool SetSandboxAliasViaOfficial(string internalName, string alias)
+        {
+            if (SetSandboxAliasCallback != null)
+            {
+                return SetSandboxAliasCallback(internalName, alias);
+            }
+
+            Tuple<int, string> result = SandboxieClient.RunSbieIni(
+                new[] { "set", "/drv", internalName, "BoxAlias", alias },
+                10,
+                null);
+            return result != null && result.Item1 == 0;
+        }
         private SandboxieOperationResult CreateSandboxViaOfficial(
             string displayName,
             IEnumerable<string> reservedNames)

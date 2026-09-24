@@ -945,6 +945,132 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
+        public void WiresBatchRenameSandboxesMenuActionToSandboxAdminService()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                string sandboxRoot = Path.Combine(root, "SandboxUsers");
+                Directory.CreateDirectory(Path.Combine(sandboxRoot, "Box1"));
+                Directory.CreateDirectory(Path.Combine(sandboxRoot, "Box2"));
+                string iniPath = Path.Combine(root, "Sandboxie.ini");
+                File.WriteAllText(
+                    iniPath,
+                    "[Box1]\r\nEnabled=y\r\nConfigLevel=9\r\n\r\n[Box2]\r\nEnabled=y\r\nConfigLevel=9\r\n\r\n",
+                    Encoding.UTF8);
+
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                object sandboxieClient = GetProperty<object>(formType, form, "SandboxieClient");
+                SetProperty(sandboxieClient.GetType(), sandboxieClient, "SandboxRoot", sandboxRoot);
+                SetProperty(formType, form, "SandboxieIniPathCallback", new Func<string>(() => iniPath));
+                SetProperty(formType, form, "ReloadSandboxieConfigCallback", new Action(() => { }));
+                SetProperty(formType, form, "SetSandboxAliasCallback", new Func<string, string, bool>((name, alias) => true));
+
+                object sandboxList = GetProperty<object>(formType, form, "SandboxList");
+                ReflectionTestHelpers.InvokeInstance(
+                    sandboxList,
+                    "ReplaceItemTexts",
+                    new[] { "Box1", "Box2" },
+                    new int[0]);
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 0, true);
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 1, true);
+
+                object adminCallbacks = GetProperty<object>(formType, form, "SandboxAdminCallbacks");
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxDisplayNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box2" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box2" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "NormalizeSandboxName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxDisplayName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxPids",
+                    new Func<string, IEnumerable<int>>(name => new int[0]));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "SaveSettings",
+                    new Action(() => { }));
+
+                var prompts = new List<string>();
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowBatchRenameRuleCallback",
+                    new Func<string, string, string, int, IDictionary>((title, prompt, prefix, count) =>
+                    {
+                        prompts.Add(title + "|" + prompt + "|" + prefix + "|" + count);
+                        return new Dictionary<string, object>
+                        {
+                            { "prefix", "Renamed" },
+                            { "start", 1 },
+                            { "digits", 0 },
+                            { "count", 2 }
+                        };
+                    }));
+                int refreshes = 0;
+                SetProperty(
+                    formType,
+                    form,
+                    "RefreshSandboxListCallback",
+                    new Action(() => refreshes++));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "批量重命名沙盒用户", "batch_rename_sandboxes");
+
+                CollectionAssert.AreEqual(
+                    new[] { "批量重命名沙盒用户|将按当前勾选顺序依次重命名，请设置新命名规则：|Box|2" },
+                    prompts.ToArray());
+                Assert.IsFalse(Directory.Exists(Path.Combine(sandboxRoot, "Box1")));
+                Assert.IsFalse(Directory.Exists(Path.Combine(sandboxRoot, "Box2")));
+                Assert.IsTrue(Directory.Exists(Path.Combine(sandboxRoot, "Renamed1")));
+                Assert.IsTrue(Directory.Exists(Path.Combine(sandboxRoot, "Renamed2")));
+                string ini = File.ReadAllText(iniPath);
+                StringAssert.Contains(ini, "[Renamed1]");
+                StringAssert.Contains(ini, "[Renamed2]");
+                Assert.AreEqual("已批量重命名 2 个沙盒用户", GetProperty<Label>(formType, form, "StatusLabel").Text);
+                Assert.AreEqual(1, refreshes);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+        [TestMethod]
         public void ExposesRestoreProgressDialogWithAccessibleStageControls()
         {
             Type dialogType = Assembly.Load("沙河批量打开器").GetType(
