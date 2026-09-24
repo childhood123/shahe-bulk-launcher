@@ -1083,6 +1083,9 @@ namespace ShaheLauncher.App
                 case "launch_group":
                     LaunchGroup();
                     break;
+                case "delete_group":
+                    DeleteGroup();
+                    break;
                 case "hotkey_settings":
                     ShowHotkeySettingsCallback?.Invoke();
                     break;
@@ -1164,6 +1167,38 @@ namespace ShaheLauncher.App
             SandboxList.CurrentGroupView = string.Empty;
             RefreshSandboxListCallback?.Invoke();
             SafeSetStatusLabel("已保存分组: " + groupName);
+        }
+
+        private void DeleteGroup()
+        {
+            IList<string> groupNames = SandboxAdminService.GetGroupNames(SandboxAdminState);
+            if (groupNames.Count == 0)
+            {
+                SafeSetStatusLabel("当前没有已保存的分组");
+                return;
+            }
+
+            string groupName = PromptGroupChoice(
+                "删除分组",
+                "请选择要删除的分组",
+                groupNames);
+            if (groupName.Length == 0)
+            {
+                return;
+            }
+
+            if (!SandboxAdminState.SandboxGroups.Remove(groupName))
+            {
+                return;
+            }
+
+            SaveSettings();
+            if (SandboxList != null && SandboxList.CurrentGroupView == groupName)
+            {
+                SandboxList.CurrentGroupView = string.Empty;
+            }
+            RefreshSandboxListCallback?.Invoke();
+            SafeSetStatusLabel("已删除分组: " + groupName);
         }
 
         private void LaunchGroup()

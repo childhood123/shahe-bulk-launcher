@@ -775,7 +775,75 @@ namespace ShaheLauncher.Tests
                 DeleteDirectory(root);
             }
         }
+
         [TestMethod]
+        public void WiresDeleteGroupMenuActionToSandboxAdminState()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "删除分组", "delete_group");
+                Assert.AreEqual(
+                    "当前没有已保存的分组",
+                    GetProperty<Label>(formType, form, "StatusLabel").Text);
+
+                object state = GetProperty<object>(formType, form, "SandboxAdminState");
+                IDictionary groups = GetProperty<IDictionary>(state.GetType(), state, "SandboxGroups");
+                groups["常用用户"] = new List<string> { "Box1", "Box2" };
+                object sandboxList = GetProperty<object>(formType, form, "SandboxList");
+                SetProperty(sandboxList.GetType(), sandboxList, "CurrentGroupView", "常用用户");
+                int refreshes = 0;
+                SetProperty(
+                    formType,
+                    form,
+                    "RefreshSandboxListCallback",
+                    new Action(() => refreshes++));
+                var prompts = new List<string>();
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowGroupChoiceCallback",
+                    new Func<string, string, IEnumerable<string>, string>((title, prompt, choices) =>
+                    {
+                        prompts.Add(title + "|" + prompt + "|" + string.Join(",", choices));
+                        return "常用用户";
+                    }));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "删除分组", "delete_group");
+                Assert.IsFalse(groups.Contains("常用用户"));
+                Assert.AreEqual(string.Empty, GetProperty<string>(sandboxList.GetType(), sandboxList, "CurrentGroupView"));
+                Assert.AreEqual("已删除分组: 常用用户", GetProperty<Label>(formType, form, "StatusLabel").Text);
+                CollectionAssert.AreEqual(
+                    new[] { "删除分组|请选择要删除的分组|常用用户" },
+                    prompts.ToArray());
+                Assert.AreEqual(1, refreshes);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }        [TestMethod]
         public void ExposesRestoreProgressDialogWithAccessibleStageControls()
         {
             Type dialogType = Assembly.Load("沙河批量打开器").GetType(
