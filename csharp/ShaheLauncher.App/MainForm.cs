@@ -139,6 +139,8 @@ namespace ShaheLauncher.App
             ShowHotkeySettingsCallback = ShowHotkeySettingsDialog;
             ShowSettingsDialogCallback = ShowSettingsDialog;
             ShowGroupNameCallback = ShowGroupNameDialog;
+            ShowGroupChoiceCallback = ShowGroupChoiceDialog;
+            LaunchGroupCallback = StartLaunchGroup;
             SelectDirectoryCallback = SelectDirectory;
             ShowQrCodeCallback = ShowQrCodeDialog;
             ShutdownAssistSpeechRuntimeCallback = SpeechService.ShutdownAssistSpeechRuntime;
@@ -173,6 +175,8 @@ namespace ShaheLauncher.App
         public Func<bool> ShowHotkeySettingsCallback { get; set; }
         public Func<bool> ShowSettingsDialogCallback { get; set; }
         public Func<string, string, string> ShowGroupNameCallback { get; set; }
+        public Func<string, string, IEnumerable<string>, string> ShowGroupChoiceCallback { get; set; }
+        public Action<IEnumerable<string>> LaunchGroupCallback { get; set; }
         public Func<string, string, string> SelectDirectoryCallback { get; set; }
         public Func<string, IEnumerable<string>, string[]> SelectUsersCallback { get; set; }
         public Func<string, string> SelectBackupFileCallback { get; set; }
@@ -1076,6 +1080,9 @@ namespace ShaheLauncher.App
                 case "create_group":
                     CreateGroup();
                     break;
+                case "launch_group":
+                    LaunchGroup();
+                    break;
                 case "hotkey_settings":
                     ShowHotkeySettingsCallback?.Invoke();
                     break;
@@ -1157,6 +1164,49 @@ namespace ShaheLauncher.App
             SandboxList.CurrentGroupView = string.Empty;
             RefreshSandboxListCallback?.Invoke();
             SafeSetStatusLabel("已保存分组: " + groupName);
+        }
+
+        private void LaunchGroup()
+        {
+            IList<string> groupNames = SandboxAdminService.GetGroupNames(SandboxAdminState);
+            if (groupNames.Count == 0)
+            {
+                SafeSetStatusLabel("当前没有已保存的分组");
+                return;
+            }
+
+            string groupName = PromptGroupChoice(
+                "启动分组",
+                "请选择要启动的分组",
+                groupNames);
+            if (groupName.Length == 0)
+            {
+                return;
+            }
+
+            SuppressListRefreshStatus(2.0);
+            IList<string> sandboxes = SandboxAdminService.GetGroupMembers(
+                SandboxAdminState,
+                groupName);
+            if (sandboxes.Count == 0)
+            {
+                SafeSetStatusLabel("分组为空: " + groupName);
+                return;
+            }
+
+            IList<string> validSandboxes = LaunchScheduler.ResolveLaunchEntries(
+                sandboxes,
+                SandboxAdminCallbacks?.GetExistingSandboxDisplayNames?.Invoke(),
+                SandboxAdminCallbacks?.GetExistingSandboxNames?.Invoke(),
+                SandboxAdminCallbacks?.NormalizeSandboxName,
+                SandboxAdminCallbacks?.GetSandboxDisplayName);
+            if (validSandboxes.Count == 0)
+            {
+                SafeSetStatusLabel("分组内没有可用沙盒: " + groupName);
+                return;
+            }
+
+            LaunchGroupCallback?.Invoke(validSandboxes);
         }
 
         private void BackupSandboxes()
@@ -1439,6 +1489,27 @@ namespace ShaheLauncher.App
                 ? ShowGroupNameDialog(title, defaultValue)
                 : ShowGroupNameCallback(title, defaultValue);
             return (value ?? string.Empty).Trim();
+        }
+
+        private string PromptGroupChoice(
+            string title,
+            string prompt,
+            IEnumerable<string> choices)
+        {
+            string value = ShowGroupChoiceCallback == null
+                ? ShowGroupChoiceDialog(title, prompt, choices)
+                : ShowGroupChoiceCallback(title, prompt, choices);
+            return (value ?? string.Empty).Trim();
+        }
+
+        private string ShowGroupChoiceDialog(
+            string title,
+            string prompt,
+            IEnumerable<string> choices)
+        {
+            string[] values = (choices ?? Enumerable.Empty<string>()).ToArray();
+            int selected = ShowSingleChoiceDialog(title, prompt, values, "分组");
+            return selected >= 0 && selected < values.Length ? values[selected] : string.Empty;
         }
 
         private string ShowGroupNameDialog(string title, string defaultValue)
@@ -2034,13 +2105,22 @@ namespace ShaheLauncher.App
         private void LaunchSelectedSandboxes()
         {
             string[] sandboxes = SandboxList?.GetCheckedEntryTexts() ?? new string[0];
-            IEnumerable<LaunchAppTarget> applications = (AppPathList?.GetCheckedValues() ?? new string[0])
+            StartLaunch(sandboxes, GetCheckedAppTargets());
+        }
+
+        private IEnumerable<LaunchAppTarget> GetCheckedAppTargets()
+        {
+            return (AppPathList?.GetCheckedValues() ?? new string[0])
                 .Select(path => new LaunchAppTarget
                 {
                     Path = path,
                     Directory = Path.GetDirectoryName(path) ?? string.Empty
                 });
-            StartLaunch(sandboxes, applications);
+        }
+
+        private void StartLaunchGroup(IEnumerable<string> sandboxes)
+        {
+            StartLaunch(sandboxes, GetCheckedAppTargets());
         }
 
         private void StartLaunch(

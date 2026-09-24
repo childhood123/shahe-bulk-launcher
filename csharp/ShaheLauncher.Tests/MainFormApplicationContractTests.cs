@@ -677,6 +677,104 @@ namespace ShaheLauncher.Tests
             }
         }
 
+
+        [TestMethod]
+        public void WiresLaunchGroupMenuActionToLaunchScheduler()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                object adminCallbacks = GetProperty<object>(formType, form, "SandboxAdminCallbacks");
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxDisplayNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box2" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box2" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "NormalizeSandboxName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxDisplayName",
+                    new Func<string, string>(name => name));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "启动分组", "launch_group");
+                Assert.AreEqual(
+                    "当前没有已保存的分组",
+                    GetProperty<Label>(formType, form, "StatusLabel").Text);
+
+                object state = GetProperty<object>(formType, form, "SandboxAdminState");
+                IDictionary groups = GetProperty<IDictionary>(state.GetType(), state, "SandboxGroups");
+                groups["A组"] = new List<string> { "Box2", "Box1" };
+                groups["B组"] = new List<string>();
+                groups["C组"] = new List<string> { "Missing" };
+
+                var prompts = new List<string>();
+                var choices = new Queue<string>(new[] { "A组", "B组", "C组" });
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowGroupChoiceCallback",
+                    new Func<string, string, IEnumerable<string>, string>((title, prompt, values) =>
+                    {
+                        prompts.Add(title + "|" + prompt + "|" + string.Join(",", values));
+                        return choices.Dequeue();
+                    }));
+                var launches = new List<string[]>();
+                SetProperty(
+                    formType,
+                    form,
+                    "LaunchGroupCallback",
+                    new Action<IEnumerable<string>>(names => launches.Add(names.ToArray())));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "启动分组", "launch_group");
+                CollectionAssert.AreEqual(new[] { "Box2", "Box1" }, launches.Single());
+                CollectionAssert.AreEqual(
+                    new[] { "启动分组|请选择要启动的分组|A组,B组,C组" },
+                    prompts.ToArray());
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "启动分组", "launch_group");
+                Assert.AreEqual("分组为空: B组", GetProperty<Label>(formType, form, "StatusLabel").Text);
+                Assert.AreEqual(1, launches.Count);
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "启动分组", "launch_group");
+                Assert.AreEqual("分组内没有可用沙盒: C组", GetProperty<Label>(formType, form, "StatusLabel").Text);
+                Assert.AreEqual(1, launches.Count);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
         [TestMethod]
         public void ExposesRestoreProgressDialogWithAccessibleStageControls()
         {
