@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
+    <RootNamespace>ShaheLauncher.App</RootNamespace>
+    <AssemblyName>沙河批量打开器</AssemblyName>
+  </PropertyGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ShaheLauncher.Core\ShaheLauncher.Core.csproj" />
+    <ProjectReference Include="..\ShaheLauncher.Updater\ShaheLauncher.Updater.csproj" ReferenceOutputAssembly="false" />
+    <Reference Include="System.Net.Http" />
+  </ItemGroup>
+  <Target Name="CopyUpdater" AfterTargets="Build">
+    <Copy
+      SourceFiles="$(MSBuildThisFileDirectory)..\ShaheLauncher.Updater\bin\$(Platform)\$(Configuration)\net48\updater.exe"
+      DestinationFolder="$(OutDir)"
+      SkipUnchangedFiles="true"
+      Condition="Exists('$(MSBuildThisFileDirectory)..\ShaheLauncher.Updater\bin\$(Platform)\$(Configuration)\net48\updater.exe')" />
+  </Target>
+</Project>
