@@ -138,6 +138,7 @@ namespace ShaheLauncher.App
             SelectNextSandboxCallback = () => SelectAdjacentSandbox(1);
             ShowHotkeySettingsCallback = ShowHotkeySettingsDialog;
             ShowSettingsDialogCallback = ShowSettingsDialog;
+            ShowGroupNameCallback = ShowGroupNameDialog;
             SelectDirectoryCallback = SelectDirectory;
             ShowQrCodeCallback = ShowQrCodeDialog;
             ShutdownAssistSpeechRuntimeCallback = SpeechService.ShutdownAssistSpeechRuntime;
@@ -171,6 +172,7 @@ namespace ShaheLauncher.App
         public Action SelectNextSandboxCallback { get; set; }
         public Func<bool> ShowHotkeySettingsCallback { get; set; }
         public Func<bool> ShowSettingsDialogCallback { get; set; }
+        public Func<string, string, string> ShowGroupNameCallback { get; set; }
         public Func<string, string, string> SelectDirectoryCallback { get; set; }
         public Func<string, IEnumerable<string>, string[]> SelectUsersCallback { get; set; }
         public Func<string, string> SelectBackupFileCallback { get; set; }
@@ -1071,6 +1073,9 @@ namespace ShaheLauncher.App
                 case "pin_current_user":
                     ExecuteCurrentSandboxAction(PinToggleCallback);
                     break;
+                case "create_group":
+                    CreateGroup();
+                    break;
                 case "hotkey_settings":
                     ShowHotkeySettingsCallback?.Invoke();
                     break;
@@ -1118,6 +1123,40 @@ namespace ShaheLauncher.App
                     SafeSetStatusLabel("已触发操作: " + action);
                     break;
             }
+        }
+
+        private void CreateGroup()
+        {
+            IList<string> selected = SandboxAdminService.NormalizeSandboxNameList(
+                SandboxList?.GetCheckedEntryTexts() ?? new string[0],
+                SandboxAdminCallbacks);
+            if (selected.Count == 0)
+            {
+                SafeSetStatusLabel("请先勾选要归类的沙盒用户");
+                return;
+            }
+            if (selected.Count < 2)
+            {
+                SafeSetStatusLabel("请至少勾选 2 个用户再新建分组");
+                return;
+            }
+
+            string groupName = PromptGroupName("新建分组", string.Empty);
+            if (groupName.Length == 0)
+            {
+                return;
+            }
+            if (SandboxAdminState.SandboxGroups.ContainsKey(groupName))
+            {
+                SafeSetStatusLabel("分组已存在: " + groupName);
+                return;
+            }
+
+            SandboxAdminState.SandboxGroups[groupName] = selected.ToList();
+            SaveSettings();
+            SandboxList.CurrentGroupView = string.Empty;
+            RefreshSandboxListCallback?.Invoke();
+            SafeSetStatusLabel("已保存分组: " + groupName);
         }
 
         private void BackupSandboxes()
@@ -1391,6 +1430,24 @@ namespace ShaheLauncher.App
                 return dialog.ShowDialog(this) == DialogResult.OK
                     ? dialog.GetSelectedUsers()
                     : new string[0];
+            }
+        }
+
+        private string PromptGroupName(string title, string defaultValue)
+        {
+            string value = ShowGroupNameCallback == null
+                ? ShowGroupNameDialog(title, defaultValue)
+                : ShowGroupNameCallback(title, defaultValue);
+            return (value ?? string.Empty).Trim();
+        }
+
+        private string ShowGroupNameDialog(string title, string defaultValue)
+        {
+            using (var dialog = new GroupNameDialog(this, title, defaultValue))
+            {
+                return dialog.ShowDialog(this) == DialogResult.OK
+                    ? (dialog.Value ?? string.Empty).Trim()
+                    : string.Empty;
             }
         }
 

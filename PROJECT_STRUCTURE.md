@@ -25,7 +25,7 @@
 - `SandboxLauncher` 的 400 个方法按 1 个应用初始化方法和 10 个业务 mixin 唯一分区，无重复或遗漏。
 - 最终入口 API 审计无缺失导出，`SandboxLauncher` 与 `main` 均由 `shahe_bulk_launcher.app` 提供。
 - C# 迁移工程已建立：`csharp/ShaheBulkLauncher.sln` 包含 Core、App、Updater、Tests 四个 `net48/x64` 项目。
-- C# Task 1 `constants.py` 至 Task 19 `features/lifecycle.py` 已完成已确认范围的模块级迁移；Task 20 `app.py` 已完成应用组装、入口、发布、主要用户动作、非破坏性菜单动作以及 Task 15 备份/还原菜单接线的已确认范围，当前 Application 分类 12/12、C# 全量测试 165/165、Release x64 构建、Python 全量对照、Python 语法编译和真实 EXE 烟雾均已通过，未声明整个软件完成迁移。
+- C# Task 1 `constants.py` 至 Task 19 `features/lifecycle.py` 已完成已确认范围的模块级迁移；Task 20 `app.py` 已完成应用组装、入口、发布、主要用户动作、非破坏性菜单动作、Task 15 备份/还原以及 `create_group` 菜单接线的已确认范围，当前 Application 分类 13/13、C# 全量测试 166/166、Release x64 构建、Python 全量对照和 Python 语法编译均已通过；真实 EXE 的新建分组动作级审计仍待补，未声明整个软件完成迁移。
 - 2026-09-24 Task 15 应用层接线完成已确认范围：`MainForm` 的 `backup_sandboxes` 与 `restore_sandboxes` 已调用 `BackupRestoreService`，接入用户选择、保存目录/备份文件选择、覆盖确认、异步状态回调、Sandboxie 服务生命周期、配置合并、控制程序启动询问、重启询问和还原阶段进度窗口；Python 正式代码未修改。
 - 2026-08-28 前 20 模块真实调用审计的历史结论为：20/20 均有 C# 可执行测试覆盖；当时真实 EXE 启动与隔离菜单交互合并后 19/20 有应用进程源码执行证据，唯一例外是尚未接线的 Task 15。Task 15 接线后的真实 EXE 动作级审计尚未重新收集，不能把本轮 Application 测试替代为真实进程交互证据。
 - C# `Program.cs` 已接入单实例、`MainForm`、WinForms 消息循环和释放顺序，Release x64 主程序已完成最终真实启动、显示主窗口、生成配置和正常退出烟雾测试；当前 C# 版本可以启动运行，但音频真实后端、部分菜单动作和外部 updater 安装流程仍有未完成或未确认边界。
@@ -120,7 +120,7 @@ csharp/
 | 17 | `features/updates.py` | `ShaheLauncher.Core/Updates/UpdateService.cs` 与 `ShaheLauncher.Updater/` | 已完成已确认范围，11/11；外部 updater 安装流程有风险 |
 | 18 | `features/hotkeys.py` | `ShaheLauncher.App/Input/HotkeyController.cs` | 已完成已确认范围，8/8 |
 | 19 | `features/lifecycle.py` | `ShaheLauncher.App/MainForm.Lifecycle.cs` | 已完成已确认范围，7/7 |
-| 20 | `app.py` | `ShaheLauncher.App/MainForm.cs` 与 `Program.cs` | 迁移中；Application 12/12、C# 全量 165/165、Release x64、Python 全量 29/29、`compileall` 和真实 EXE 烟雾通过；Task 15 备份/还原菜单已接线，仍有 9 个菜单动作未迁移，未声明整体完成 |
+| 20 | `app.py` | `ShaheLauncher.App/MainForm.cs` 与 `Program.cs` | 迁移中；`create_group` 已接线并有 Application 契约 13/13，C# 全量 166/166，Release x64 和 Python 对照门禁通过；真实 EXE 新建分组动作级审计仍待补，仍有 8 个菜单动作未迁移，未声明整体完成 |
 
 ## 前 20 模块真实调用审计
 
@@ -147,7 +147,7 @@ csharp/
 | 17 | `features/updates.py` | 部分启动与交互已调用 | 自动检查路径和二维码资源解析已执行；外部 updater 安装、替换和重启未真实触发 |
 | 18 | `features/hotkeys.py` | 启动与交互已调用 | 菜单标签、热键设置和上一/下一用户动作已执行；`NumPadEnter` 仍需人工键盘验证 |
 | 19 | `features/lifecycle.py` | 启动与交互已调用 | UI 初始化、托盘、延迟任务、关闭和服务释放已执行 |
-| 20 | `app.py` | 部分启动与交互已调用 | `Program/MainForm` 启动、菜单分派、备份/还原应用测试、对话框和退出链已执行；9 个菜单动作仍默认回退 |
+| 20 | `app.py` | 部分启动与交互已调用 | `Program/MainForm` 启动、菜单分派、`create_group` 应用测试、备份/还原应用测试、对话框和退出链已执行；8 个菜单动作仍默认回退 |
 
 ## 构建与测试
 
@@ -173,7 +173,7 @@ csharp/
 - `features/updates.py` 只负责生成更新请求并启动外部 `updater.exe`，仓库没有对应的 Python updater 安装器源码；Task 17 已迁移并验证清单获取、补丁选择、请求生成、后台检查、二维码资源和 SHA-256/既有签名解密公共边界，但未擅自推断未知安装、替换和重启流程。获得原 updater 源码后应另开迁移/契约任务。
 - Task 18 保留的 `NumPadEnter` 风险尚未解除：WinForms 没有独立枚举，当前只验证了 `HotkeyController` 逻辑键码、文本语义和主窗口扩展 Enter 映射契约，真实底层键盘事件接线仍需人工输入验证。
 - Task 15 `BackupRestoreService` 已接入 `MainForm` 备份/还原业务流程，服务调用和还原阶段进度窗口已有 Application 契约；真实 EXE 中直接执行会停止/重启 Sandboxie 服务并覆盖数据的动作级审计仍需在隔离环境人工/探针验证，不能以 Application 测试替代。
-- Task 20 已建立全部迁移服务属性、经典菜单、入口、发布复制、主要进程/窗口/启动/Sandboxie/语音回调、非破坏性菜单动作和 Task 15 备份/还原接线；音频会话枚举与按进程切换播放设备仍使用安全空结果边界，分组/批量管理、定时和修复菜单仍有 9 个动作进入统一动作提示，不能据此声明整个软件迁移完成。
+- Task 20 已建立全部迁移服务属性、经典菜单、入口、发布复制、主要进程/窗口/启动/Sandboxie/语音回调、非破坏性菜单动作、Task 15 备份/还原接线和 `create_group` 分组创建接线；音频会话枚举与按进程切换播放设备仍使用安全空结果边界，`launch_group`、`delete_group`、批量管理、定时和修复菜单仍有 8 个动作进入统一动作提示，不能据此声明整个软件迁移完成。
 - 外部 `updater.exe` 已随 Release x64 主程序发布并通过共存烟雾验证，但仓库仍缺少原 updater 安装器源码，未知安装、替换和重启流程尚未迁移或验证。
 
 ## 验证记录
@@ -186,6 +186,14 @@ csharp/
 - 2026-09-24：Task 15 跨模块验证通过：`ShaheLauncher.Tests.dll /Platform:x64` 全量运行 165/165，0 失败、0 跳过；`ShaheBulkLauncher.sln` `Release|x64` `/restore /t:Build` 退出码 0，0 警告、0 错误，Core、Updater、App、Tests 均生成。
 - 2026-09-24：Task 15 Python 对照门禁通过：`python -m unittest discover -s tests -v` 运行 29/29，`python -m compileall -q .` 退出码 0；本轮未修改 Python 正式代码，用户已有 `shahe_bulk_launcher/backup.py` 与 `tests/test_backup_contract.py` 未提交改动保持原样。
 - 2026-09-24：Task 15 Release x64 真实 EXE 烟雾通过：从 `csharp/ShaheLauncher.App/bin/x64/Release/net48` 复制最终发布文件到 `artifacts/runs/csharp_task15_backup_restore_smoke_20260924_json`，使用 JSON legacy `app_config.dat` 预置隔离 Sandboxie 路径后启动真实 `沙河批量打开器.exe`；标题为“沙河批量打开器”、主窗口句柄非零、启动延迟后仍存活，`CloseMainWindow()` 返回真，进程在 12 秒内退出且退出码为 0，生成 `Configuration/shahe_config.ini`，同目录存在 `updater.exe`，`smoke_summary.json` 记录 `passed=true`。此前一次使用错误 `key=value` legacy 夹具导致 `show_tray` 默认开启、关闭请求转为托盘隐藏，该次不是产品结论，已修正夹具后重跑通过。
+
+- 2026-09-24：Task 20 `create_group` 应用接线 RED：新增 `WiresCreateGroupMenuActionToSandboxAdminState`，在旧代码上先按预期失败于缺少公开的 `ShowGroupNameCallback`，确认“新建分组”菜单仍落入统一默认动作提示而未进入分组状态流程。
+- 2026-09-24：Task 20 `create_group` 应用接线 GREEN：`MainForm` 已接入现有 `SandboxAdminService.NormalizeSandboxNameList`、`SandboxAdminState.SandboxGroups`、`GroupNameDialog`、设置保存、分组视图清空和刷新回调；`WiresCreateGroupMenuActionToSandboxAdminState` 定向运行 1/1 通过，确认标题/默认值、成员顺序、状态文本、刷新调用，以及无选择、单用户和重名分支均保持 Python 行为；未修改 Python 正式代码。全量门禁待继续执行。
+- 2026-09-24：Task 20 `create_group` Release x64 构建通过：`ShaheBulkLauncher.sln` `/restore /t:Build /p:Configuration=Release /p:Platform=x64` 退出码 0，Core、Updater、App、Tests 四项目均生成，0 警告、0 错误。
+- 2026-09-24：Task 20 `create_group` C# 全量回归通过：`ShaheLauncher.Tests.dll /Platform:x64` 运行 166/166，0 失败、0 跳过；新增分组菜单接线契约未回归 Task 1-19、Task 15 备份/还原和既有 Task 20 应用契约。
+- 2026-09-24：Task 20 `create_group` Python 对照门禁通过：`python -m unittest discover -s tests -v` 运行 29/29，`python -m compileall -q .` 退出码 0；本轮未修改 Python 正式代码，当前工作树既有 Python 改动保持原样。
+- 2026-09-24：Task 20 `create_group` Application 分类回归通过：`ShaheLauncher.Tests.dll /Platform:x64 /TestCaseFilter:TestCategory=Application` 运行 13/13，0 失败、0 跳过；新建分组菜单接线与既有应用入口、无障碍、备份/还原契约同时通过。真实 EXE 新建分组动作级审计仍待补。
+- 2026-09-24：Task 20 `create_group` 提交前复核：重新执行 Release x64 构建，Core、Updater、App、Tests 均生成且 0 警告、0 错误；Application 分类 13/13、C# 全量 166/166、Python 全量 29/29 均通过，`python -m compileall -q .` 退出码 0。以上结果均为本轮新鲜验证，Python 正式代码和用户已有 Python 改动未纳入本轮提交。
 
 - 2026-08-28：前 20 个 C# 模块真实调用审计完成。重新构建 `ShaheBulkLauncher.sln` `Release|x64` 成功；使用 Visual Studio `Microsoft.CodeCoverage.Console` 对真实 `沙河批量打开器.exe` 启动、900/1500 毫秒启动任务、托盘创建、正常关闭和服务释放收集方法级覆盖，启动摘要 `passed=true`。随后运行隔离 STA 交互审计，临时列表严格只有 `Box1`，真实菜单完成应用路径粘贴、上一/下一用户、置顶、刷新、空 PID 静音全部、进程状态刷新、取消定时、Sandboxie 路径/数据根校正，并实际打开后取消热键设置、软件设置、朗读设置和微信二维码 4 个对话框；进程销毁完成且无残留。C# 全量测试在覆盖收集下 162/162 通过，20/20 模块均有测试执行行；真实 EXE 启动与隔离交互合并为 19/20 模块有应用执行证据，Task 15 仅组装/测试、未业务接入。确认仍默认回退的动作恰好 11 个：`create_group`、`launch_group`、`delete_group`、`batch_create_sandboxes`、`batch_rename_sandboxes`、`batch_delete_sandboxes`、`schedule_launch`、`schedule_close`、`repair_sandboxie_control_settings`、`backup_sandboxes`、`restore_sandboxes`。权威摘要、逐模块矩阵和覆盖文件保存在 `artifacts/runs/csharp_first20_real_call_audit_20260828`；探针编码/隔离调试轮次只保留在 artifacts，未计入项目结论。
 

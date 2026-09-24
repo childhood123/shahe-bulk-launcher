@@ -572,6 +572,112 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
+        public void WiresCreateGroupMenuActionToSandboxAdminState()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                object sandboxList = GetProperty<object>(formType, form, "SandboxList");
+                ReflectionTestHelpers.InvokeInstance(
+                    sandboxList,
+                    "ReplaceItemTexts",
+                    new[] { "Box1", "Box2" },
+                    new int[0]);
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 0, true);
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 1, true);
+                object adminCallbacks = GetProperty<object>(formType, form, "SandboxAdminCallbacks");
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxDisplayNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box2" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box2" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "NormalizeSandboxName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxDisplayName",
+                    new Func<string, string>(name => name));
+                var prompts = new List<string>();
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowGroupNameCallback",
+                    new Func<string, string, string>((title, defaultValue) =>
+                    {
+                        prompts.Add(title + ":" + defaultValue);
+                        return "常用用户";
+                    }));
+                int refreshes = 0;
+                SetProperty(
+                    formType,
+                    form,
+                    "RefreshSandboxListCallback",
+                    new Action(() => refreshes++));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "新建分组", "create_group");
+
+                object state = GetProperty<object>(formType, form, "SandboxAdminState");
+                IDictionary groups = GetProperty<IDictionary>(state.GetType(), state, "SandboxGroups");
+                Assert.IsTrue(groups.Contains("常用用户"));
+                CollectionAssert.AreEqual(
+                    new[] { "Box1", "Box2" },
+                    ((IEnumerable)groups["常用用户"]).Cast<object>().ToArray());
+                Assert.AreEqual("已保存分组: 常用用户", GetProperty<Label>(formType, form, "StatusLabel").Text);
+                Assert.AreEqual(string.Empty, GetProperty<string>(sandboxList.GetType(), sandboxList, "CurrentGroupView"));
+                CollectionAssert.AreEqual(new[] { "新建分组:" }, prompts.ToArray());
+                Assert.AreEqual(1, refreshes);
+
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "UncheckAll");
+                ClickMenuActionAndAssertNoFallback(formType, form, "新建分组", "create_group");
+                Assert.AreEqual("请先勾选要归类的沙盒用户", GetProperty<Label>(formType, form, "StatusLabel").Text);
+
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 0, true);
+                ClickMenuActionAndAssertNoFallback(formType, form, "新建分组", "create_group");
+                Assert.AreEqual("请至少勾选 2 个用户再新建分组", GetProperty<Label>(formType, form, "StatusLabel").Text);
+
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 1, true);
+                ClickMenuActionAndAssertNoFallback(formType, form, "新建分组", "create_group");
+                Assert.AreEqual("分组已存在: 常用用户", GetProperty<Label>(formType, form, "StatusLabel").Text);
+                CollectionAssert.AreEqual(new[] { "新建分组:", "新建分组:" }, prompts.ToArray());
+                Assert.AreEqual(1, refreshes);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
         public void ExposesRestoreProgressDialogWithAccessibleStageControls()
         {
             Type dialogType = Assembly.Load("沙河批量打开器").GetType(
