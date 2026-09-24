@@ -141,6 +141,7 @@ namespace ShaheLauncher.App
             ShowGroupNameCallback = ShowGroupNameDialog;
             ShowGroupChoiceCallback = ShowGroupChoiceDialog;
             LaunchGroupCallback = StartLaunchGroup;
+            ShowBatchCreateRuleCallback = ShowBatchCreateRuleDialog;
             SelectDirectoryCallback = SelectDirectory;
             ShowQrCodeCallback = ShowQrCodeDialog;
             ShutdownAssistSpeechRuntimeCallback = SpeechService.ShutdownAssistSpeechRuntime;
@@ -177,6 +178,8 @@ namespace ShaheLauncher.App
         public Func<string, string, string> ShowGroupNameCallback { get; set; }
         public Func<string, string, IEnumerable<string>, string> ShowGroupChoiceCallback { get; set; }
         public Action<IEnumerable<string>> LaunchGroupCallback { get; set; }
+        public Func<string, string, IDictionary> ShowBatchCreateRuleCallback { get; set; }
+        public Func<string, SandboxieOperationResult> CreateSandboxCallback { get; set; }
         public Func<string, string, string> SelectDirectoryCallback { get; set; }
         public Func<string, IEnumerable<string>, string[]> SelectUsersCallback { get; set; }
         public Func<string, string> SelectBackupFileCallback { get; set; }
@@ -1086,6 +1089,9 @@ namespace ShaheLauncher.App
                 case "delete_group":
                     DeleteGroup();
                     break;
+                case "batch_create_sandboxes":
+                    BatchCreateSandboxes();
+                    break;
                 case "hotkey_settings":
                     ShowHotkeySettingsCallback?.Invoke();
                     break;
@@ -1167,6 +1173,124 @@ namespace ShaheLauncher.App
             SandboxList.CurrentGroupView = string.Empty;
             RefreshSandboxListCallback?.Invoke();
             SafeSetStatusLabel("已保存分组: " + groupName);
+        }
+
+        private void BatchCreateSandboxes()
+        {
+            IDictionary rule = ShowBatchCreateRuleCallback == null
+                ? ShowBatchCreateRuleDialog("批量创建沙盒用户", SandboxAdminService.BatchCreatePromptText)
+                : ShowBatchCreateRuleCallback("批量创建沙盒用户", SandboxAdminService.BatchCreatePromptText);
+            if (rule == null)
+            {
+                return;
+            }
+
+            IList<string> names = SandboxAdminService.BuildBatchSandboxNames(
+                GetRuleText(rule, "prefix"),
+                GetRuleInt(rule, "start", 1),
+                GetRuleInt(rule, "count", 1),
+                GetRuleInt(rule, "digits", 0));
+            IList<string> errors = SandboxAdminService.ValidateBatchSandboxNames(names);
+            if (errors.Count != 0)
+            {
+                ShowMessageCallback?.Invoke(
+                    string.Join("\n", errors),
+                    SandboxAdminService.NameValidationFailedTitle,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            string sandboxRoot = GetSandboxUsersRoot();
+            try
+            {
+                Directory.CreateDirectory(sandboxRoot);
+            }
+            catch (Exception error)
+            {
+                ShowMessageCallback?.Invoke(
+                    "创建沙盒根目录失败: " + error.Message,
+                    "创建失败",
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            ISet<string> existingDisplay = new HashSet<string>(
+                (SandboxAdminCallbacks?.GetExistingSandboxDisplayNames?.Invoke()
+                    ?? Enumerable.Empty<string>())
+                .Select(value => (value ?? string.Empty).Trim().ToLowerInvariant())
+                .Where(value => value.Length != 0));
+            ISet<string> existingInternal = new HashSet<string>(
+                (SandboxAdminCallbacks?.GetExistingSandboxNames?.Invoke()
+                    ?? Enumerable.Empty<string>())
+                .Select(value => (value ?? string.Empty).Trim().ToLowerInvariant())
+                .Where(value => value.Length != 0));
+            IList<string> createTargets = names
+                .Where(name => !existingDisplay.Contains(name.ToLowerInvariant())
+                    && !existingInternal.Contains(name.ToLowerInvariant()))
+                .ToList();
+            int skipped = names.Count - createTargets.Count;
+            if (createTargets.Count == 0)
+            {
+                SafeSetStatusLabel("目标沙盒用户已存在，无需创建");
+                return;
+            }
+
+            var reservedInternal = new List<string>(existingInternal);
+            var created = new List<string>();
+            var failed = new List<Tuple<string, string>>();
+            for (int index = 0; index < createTargets.Count; index++)
+            {
+                string name = createTargets[index];
+                SetStatusLabelImmediately(
+                    "正在创建沙盒用户 " + (index + 1) + "/" + createTargets.Count + ": " + name);
+                SandboxieOperationResult result;
+                try
+                {
+                    result = CreateSandboxCallback == null
+                        ? CreateSandboxViaOfficial(name, reservedInternal)
+                        : CreateSandboxCallback(name);
+                }
+                catch (Exception error)
+                {
+                    result = new SandboxieOperationResult { Detail = error.Message };
+                }
+
+                if (result != null && result.Success)
+                {
+                    created.Add(name);
+                    if (!string.IsNullOrWhiteSpace(result.InternalName))
+                    {
+                        reservedInternal.Add(result.InternalName.Trim());
+                    }
+                }
+                else
+                {
+                    failed.Add(Tuple.Create(
+                        name,
+                        result == null || string.IsNullOrWhiteSpace(result.Detail)
+                            ? "创建失败"
+                            : result.Detail.Trim()));
+                }
+            }
+
+            RefreshSandboxListCallback?.Invoke();
+            if (failed.Count != 0)
+            {
+                IEnumerable<string> lines = failed
+                    .Take(8)
+                    .Select(item => item.Item1 + ": " + item.Item2);
+                string message = "以下沙盒用户创建失败：\n" + string.Join("\n", lines);
+                if (failed.Count > 8)
+                {
+                    message += "\n... 其余 " + (failed.Count - 8) + " 项已省略";
+                }
+                ShowMessageCallback?.Invoke(message, "批量创建结果", MessageBoxIcon.Warning);
+            }
+
+            SafeSetStatusLabel(SandboxAdminService.FormatBatchCreateStatus(
+                created.Count,
+                skipped,
+                failed.Count));
         }
 
         private void DeleteGroup()
@@ -1515,6 +1639,70 @@ namespace ShaheLauncher.App
                 return dialog.ShowDialog(this) == DialogResult.OK
                     ? dialog.GetSelectedUsers()
                     : new string[0];
+            }
+        }
+
+        private IDictionary ShowBatchCreateRuleDialog(string title, string prompt)
+        {
+            using (var dialog = new BatchNameRuleDialog(
+                this,
+                title,
+                prompt,
+                string.Empty,
+                1,
+                0,
+                1,
+                null,
+                new[]
+                {
+                    new KeyValuePair<int, string>(0, "不加0"),
+                    new KeyValuePair<int, string>(2, "前面加0（01）")
+                }))
+            {
+                return dialog.ShowDialog(this) == DialogResult.OK ? dialog.Result : null;
+            }
+        }
+
+        private SandboxieOperationResult CreateSandboxViaOfficial(
+            string displayName,
+            IEnumerable<string> reservedNames)
+        {
+            return SandboxieClient.CreateSandboxViaOfficial(
+                displayName,
+                SandboxAdminCallbacks?.GetExistingSandboxNames?.Invoke(),
+                reservedNames,
+                new SandboxieCallbacks
+                {
+                    RunSbieIni = arguments => SandboxieClient.RunSbieIni(arguments, 8, null),
+                    ReloadConfiguration = ReloadSandboxieConfig,
+                    RefreshDisplayMaps = () => { RefreshSandboxDisplayMaps(); },
+                    EnsureSandboxDirectory = name => Directory.CreateDirectory(
+                        Path.Combine(GetSandboxUsersRoot(), name)),
+                    SetStatus = text => SafeSetStatusLabel(text)
+                });
+        }
+
+        private static string GetRuleText(IDictionary rule, string key)
+        {
+            return rule == null || !rule.Contains(key) || rule[key] == null
+                ? string.Empty
+                : Convert.ToString(rule[key]) ?? string.Empty;
+        }
+
+        private static int GetRuleInt(IDictionary rule, string key, int fallback)
+        {
+            if (rule == null || !rule.Contains(key) || rule[key] == null)
+            {
+                return fallback;
+            }
+
+            try
+            {
+                return Convert.ToInt32(rule[key]);
+            }
+            catch
+            {
+                return fallback;
             }
         }
 

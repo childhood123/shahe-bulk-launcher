@@ -9,6 +9,7 @@ using System.Threading;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ShaheLauncher.Core.Sandboxie;
 
 namespace ShaheLauncher.Tests
 {
@@ -843,7 +844,107 @@ namespace ShaheLauncher.Tests
                 Destroy(form);
                 DeleteDirectory(root);
             }
-        }        [TestMethod]
+        }
+        [TestMethod]
+        public void WiresBatchCreateSandboxesMenuActionToSandboxieClient()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                string sandboxRoot = Path.Combine(root, "SandboxUsers");
+                object sandboxieClient = GetProperty<object>(formType, form, "SandboxieClient");
+                SetProperty(sandboxieClient.GetType(), sandboxieClient, "SandboxRoot", sandboxRoot);
+                object adminCallbacks = GetProperty<object>(formType, form, "SandboxAdminCallbacks");
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxDisplayNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box3" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box3" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "NormalizeSandboxName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxDisplayName",
+                    new Func<string, string>(name => name));
+
+                var prompts = new List<string>();
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowBatchCreateRuleCallback",
+                    new Func<string, string, IDictionary>((title, prompt) =>
+                    {
+                        prompts.Add(title + "|" + prompt);
+                        return new Dictionary<string, object>
+                        {
+                            { "prefix", "Box" },
+                            { "start", 1 },
+                            { "digits", 0 },
+                            { "count", 3 }
+                        };
+                    }));
+                var created = new List<string>();
+                SetProperty(
+                    formType,
+                    form,
+                    "CreateSandboxCallback",
+                    new Func<string, SandboxieOperationResult>(name =>
+                    {
+                        created.Add(name);
+                        return new SandboxieOperationResult { Success = true, InternalName = name };
+                    }));
+                int refreshes = 0;
+                SetProperty(
+                    formType,
+                    form,
+                    "RefreshSandboxListCallback",
+                    new Action(() => refreshes++));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "批量创建沙盒用户", "batch_create_sandboxes");
+                CollectionAssert.AreEqual(new[] { "Box2" }, created.ToArray());
+                CollectionAssert.AreEqual(
+                    new[] { "批量创建沙盒用户|请输入批量创建规则：" },
+                    prompts.ToArray());
+                Assert.AreEqual("已创建 1 个沙盒用户，跳过 2 个已存在", GetProperty<Label>(formType, form, "StatusLabel").Text);
+                Assert.AreEqual(1, refreshes);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
         public void ExposesRestoreProgressDialogWithAccessibleStageControls()
         {
             Type dialogType = Assembly.Load("沙河批量打开器").GetType(
