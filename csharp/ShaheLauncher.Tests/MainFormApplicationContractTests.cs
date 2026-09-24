@@ -2,8 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Text;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
@@ -413,6 +416,185 @@ namespace ShaheLauncher.Tests
             }
         }
 
+        [TestMethod]
+        public void WiresBackupMenuActionToBackupRestoreService()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                string sandboxie = Path.Combine(root, "Sandboxie");
+                string sandboxRoot = Path.Combine(root, "SandboxUsers");
+                string saveRoot = Path.Combine(root, "backups");
+                Directory.CreateDirectory(sandboxie);
+                Directory.CreateDirectory(Path.Combine(sandboxRoot, "Box1"));
+                Directory.CreateDirectory(saveRoot);
+                File.WriteAllText(Path.Combine(sandboxie, "Start.exe"), string.Empty);
+                File.WriteAllText(Path.Combine(sandboxie, "Sandboxie.ini"), "[Box1]\r\nEnabled=y\r\n");
+                File.WriteAllText(Path.Combine(sandboxRoot, "Box1", "data.txt"), "backup-data");
+
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(formType, form, "FindSandboxiePathCallback", new Func<string>(() => sandboxie));
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                object sandboxieClient = GetProperty<object>(formType, form, "SandboxieClient");
+                SetProperty(sandboxieClient.GetType(), sandboxieClient, "SandboxiePath", sandboxie);
+                SetProperty(sandboxieClient.GetType(), sandboxieClient, "SandboxRoot", sandboxRoot);
+                Assert.AreEqual(Path.GetFullPath(sandboxRoot), GetProperty<string>(
+                    sandboxieClient.GetType(), sandboxieClient, "SandboxRoot"));
+                Assert.AreEqual(1, Directory.GetDirectories(sandboxRoot).Length);
+                SetProperty(formType, form, "SandboxieIniPathCallback", new Func<string>(() =>
+                    Path.Combine(sandboxie, "Sandboxie.ini")));
+                SetProperty(
+                    formType,
+                    form,
+                    "SelectUsersCallback",
+                    new Func<string, IEnumerable<string>, string[]>(
+                        (title, users) => new[] { "Box1" }));
+                SetProperty(
+                    formType,
+                    form,
+                    "SelectDirectoryCallback",
+                    new Func<string, string, string>((title, defaultPath) => saveRoot));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "备份沙盒用户", "backup_sandboxes");
+                WaitForStatus(formType, form, "备份完成");
+
+                Assert.AreEqual(
+                    1,
+                    Directory.GetFiles(saveRoot, "SandboxBackup_*.sbx", SearchOption.TopDirectoryOnly).Length);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
+        public void WiresRestoreMenuActionToBackupRestoreService()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                string sandboxie = Path.Combine(root, "Sandboxie");
+                string sandboxRoot = Path.Combine(root, "SandboxUsers");
+                string archive = Path.Combine(root, "restore.sbx");
+                Directory.CreateDirectory(sandboxie);
+                Directory.CreateDirectory(Path.Combine(sandboxRoot, "Box1"));
+                File.WriteAllText(Path.Combine(sandboxie, "Start.exe"), string.Empty);
+                File.WriteAllText(Path.Combine(sandboxie, "Sandboxie.ini"), "[Box1]\r\nEnabled=old\r\n");
+                File.WriteAllText(Path.Combine(sandboxRoot, "Box1", "data.txt"), "old-data");
+                CreateArchive(archive, new Dictionary<string, byte[]>
+                {
+                    { "SandboxUsers/Box1/data.txt", Bytes("restored-data") },
+                    { "Sandboxie.ini", Bytes("[Box1]\r\nEnabled=new\r\n") }
+                });
+
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(formType, form, "FindSandboxiePathCallback", new Func<string>(() => sandboxie));
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                object sandboxieClient = GetProperty<object>(formType, form, "SandboxieClient");
+                SetProperty(sandboxieClient.GetType(), sandboxieClient, "SandboxiePath", sandboxie);
+                SetProperty(sandboxieClient.GetType(), sandboxieClient, "SandboxRoot", sandboxRoot);
+                Assert.AreEqual(Path.GetFullPath(sandboxRoot), GetProperty<string>(
+                    sandboxieClient.GetType(), sandboxieClient, "SandboxRoot"));
+                Assert.AreEqual(1, Directory.GetDirectories(sandboxRoot).Length);
+                SetProperty(formType, form, "SandboxieIniPathCallback", new Func<string>(() =>
+                    Path.Combine(sandboxie, "Sandboxie.ini")));
+                SetProperty(
+                    formType,
+                    form,
+                    "SelectUsersCallback",
+                    new Func<string, IEnumerable<string>, string[]>(
+                        (title, users) => new[] { "Box1" }));
+                SetProperty(
+                    formType,
+                    form,
+                    "SelectBackupFileCallback",
+                    new Func<string, string>(title => archive));
+                SetProperty(
+                    formType,
+                    form,
+                    "ConfirmMessageCallback",
+                    new Func<string, string, MessageBoxButtons, MessageBoxIcon, DialogResult>(
+                        (text, title, buttons, icon) =>
+                            title == "确认还原" ? DialogResult.Yes : DialogResult.No));
+                SetProperty(formType, form, "StopSandboxieServicesCallback", new Action(() => { }));
+                SetProperty(formType, form, "ReloadSandboxieConfigCallback", new Action(() => { }));
+                SetProperty(formType, form, "RestartSandboxieServicesCallback", new Action(() => { }));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "还原沙盒用户", "restore_sandboxes");
+                WaitForStatus(formType, form, "还原完成");
+
+                Assert.AreEqual("restored-data", File.ReadAllText(Path.Combine(sandboxRoot, "Box1", "data.txt")));
+                StringAssert.Contains(File.ReadAllText(Path.Combine(sandboxie, "Sandboxie.ini")), "Enabled=new");
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
+        public void ExposesRestoreProgressDialogWithAccessibleStageControls()
+        {
+            Type dialogType = Assembly.Load("沙河批量打开器").GetType(
+                "ShaheLauncher.App.UI.Dialogs.Common.BackupRestoreProgressDialog", false);
+            Assert.IsNotNull(dialogType, "restore progress dialog must exist");
+            Form dialog = (Form)Activator.CreateInstance(dialogType, new object[] { null });
+            try
+            {
+                Assert.AreEqual("还原沙盒数据", dialog.Text);
+                ProgressBar progress = GetProperty<ProgressBar>(dialogType, dialog, "ProgressBar");
+                Label stage = GetProperty<Label>(dialogType, dialog, "StageLabel");
+                Assert.AreEqual("还原进度", progress.AccessibleName);
+                Assert.IsFalse(progress.TabStop);
+                ReflectionTestHelpers.InvokeInstance(dialog, "UpdateProgress", 70, "合并配置文件...");
+                Assert.AreEqual(70, progress.Value);
+                Assert.AreEqual("合并配置文件...", stage.Text);
+            }
+            finally
+            {
+                dialog.Dispose();
+            }
+        }
+
         private static object CreateForm(Type formType, string root)
         {
             Type runtimeType = Assembly.Load("ShaheLauncher.Core")
@@ -460,6 +642,23 @@ namespace ShaheLauncher.Tests
             item.PerformClick();
             string status = GetProperty<Label>(formType, form, "StatusLabel").Text;
             Assert.AreNotEqual("已触发操作: " + action, status, action + " must not use the default action fallback");
+        }
+
+        private static void WaitForStatus(Type formType, object form, string expected)
+        {
+            DateTime deadline = DateTime.UtcNow.AddSeconds(5);
+            while (DateTime.UtcNow < deadline)
+            {
+                Application.DoEvents();
+                string status = GetProperty<Label>(formType, form, "StatusLabel").Text;
+                if (status == expected)
+                {
+                    return;
+                }
+                Thread.Sleep(25);
+            }
+
+            Assert.AreEqual(expected, GetProperty<Label>(formType, form, "StatusLabel").Text);
         }
 
         private static string GetVisibleMenuText(MenuItem item)
@@ -535,6 +734,26 @@ namespace ShaheLauncher.Tests
             catch
             {
             }
+        }
+
+        private static void CreateArchive(string path, IDictionary<string, byte[]> entries)
+        {
+            using (ZipArchive archive = ZipFile.Open(path, ZipArchiveMode.Create))
+            {
+                foreach (KeyValuePair<string, byte[]> item in entries)
+                {
+                    ZipArchiveEntry entry = archive.CreateEntry(item.Key);
+                    using (Stream stream = entry.Open())
+                    {
+                        stream.Write(item.Value, 0, item.Value.Length);
+                    }
+                }
+            }
+        }
+
+        private static byte[] Bytes(string value)
+        {
+            return Encoding.UTF8.GetBytes(value ?? string.Empty);
         }
 
         private sealed class StubDisposable : IDisposable

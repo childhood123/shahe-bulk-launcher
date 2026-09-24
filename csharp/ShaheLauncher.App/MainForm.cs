@@ -38,6 +38,7 @@ namespace ShaheLauncher.App
         private bool _sandboxDisplayMapsInitialized;
         private SandboxieDisplayMaps _sandboxDisplayMaps = new SandboxieDisplayMaps();
         private IList<string> _officialSandboxNames = new List<string>();
+        private BackupRestoreProgressDialog _backupRestoreProgressDialog;
 
         public MainForm()
             : this(CreateDefaultRuntime())
@@ -171,6 +172,13 @@ namespace ShaheLauncher.App
         public Func<bool> ShowHotkeySettingsCallback { get; set; }
         public Func<bool> ShowSettingsDialogCallback { get; set; }
         public Func<string, string, string> SelectDirectoryCallback { get; set; }
+        public Func<string, IEnumerable<string>, string[]> SelectUsersCallback { get; set; }
+        public Func<string, string> SelectBackupFileCallback { get; set; }
+        public Func<string> SandboxieIniPathCallback { get; set; }
+        public Func<string, string, MessageBoxButtons, MessageBoxIcon, DialogResult> ConfirmMessageCallback { get; set; }
+        public Action StopSandboxieServicesCallback { get; set; }
+        public Action ReloadSandboxieConfigCallback { get; set; }
+        public Action RestartSandboxieServicesCallback { get; set; }
         public Action<string> ShowQrCodeCallback { get; set; }
         public Func<string> FindSandboxiePathCallback { get; set; }
         public Action<string, string, MessageBoxIcon> ShowMessageCallback { get; set; }
@@ -1078,6 +1086,12 @@ namespace ShaheLauncher.App
                 case "cancel_scheduled_tasks":
                     CancelAllSchedulesCallback?.Invoke(true);
                     break;
+                case "backup_sandboxes":
+                    BackupSandboxes();
+                    break;
+                case "restore_sandboxes":
+                    RestoreSandboxes();
+                    break;
                 case "select_all":
                     SandboxList?.CheckAll();
                     break;
@@ -1103,6 +1117,553 @@ namespace ShaheLauncher.App
                 default:
                     SafeSetStatusLabel("已触发操作: " + action);
                     break;
+            }
+        }
+
+        private void BackupSandboxes()
+        {
+            string usersRoot = GetSandboxUsersRoot();
+            if (!Directory.Exists(usersRoot))
+            {
+                ShowMessageCallback?.Invoke("未找到任何沙盒用户，请先创建沙盒。", "错误", MessageBoxIcon.Error);
+                return;
+            }
+
+            string[] users = GetDirectDirectoryNames(usersRoot);
+            if (users.Length == 0)
+            {
+                ShowMessageCallback?.Invoke("未找到任何沙盒用户。", "错误", MessageBoxIcon.Error);
+                return;
+            }
+
+            string[] selectedUsers = SelectUsers("批量备份", users);
+            if (selectedUsers.Length == 0)
+            {
+                return;
+            }
+
+            string saveDirectory = SelectDirectoryCallback?.Invoke("选择备份保存目录", AppDirectory) ?? string.Empty;
+            if (saveDirectory.Trim().Length == 0)
+            {
+                return;
+            }
+
+            Task<string> operation;
+            try
+            {
+                operation = BackupRestoreService.CreateBackupArchiveAsync(
+                    saveDirectory,
+                    GetSandboxieIniPath(),
+                    usersRoot,
+                    selectedUsers,
+                    DateTime.Now,
+                    CreateBackupRestoreCallbacks());
+            }
+            catch (Exception error)
+            {
+                SafeSetStatusLabel(BackupRestoreService.BackupFailedStatus);
+                ShowMessageCallback?.Invoke("备份失败：" + error.Message, "错误", MessageBoxIcon.Error);
+                return;
+            }
+
+            operation.ContinueWith(completed => SafeCallAfter(() =>
+            {
+                if (completed.IsCanceled || completed.IsFaulted)
+                {
+                    string error = completed.Exception == null
+                        ? string.Empty
+                        : completed.Exception.GetBaseException().Message;
+                    SafeSetStatusLabel(BackupRestoreService.BackupFailedStatus);
+                    ShowMessageCallback?.Invoke("备份失败：" + error, "错误", MessageBoxIcon.Error);
+                    return;
+                }
+
+                ShowMessageCallback?.Invoke(
+                    "备份成功！\n备份文件保存在：\n" + completed.Result
+                        + "\n已备份用户：" + string.Join(", ", selectedUsers),
+                    "备份完成",
+                    MessageBoxIcon.Information);
+            }), TaskScheduler.Default);
+        }
+
+        private void RestoreSandboxes()
+        {
+            string backupPath = SelectBackupFileCallback != null
+                ? SelectBackupFileCallback("选择备份文件")
+                : SelectBackupFile();
+            backupPath = (backupPath ?? string.Empty).Trim();
+            if (backupPath.Length == 0)
+            {
+                return;
+            }
+            if (!string.Equals(Path.GetExtension(backupPath), BackupRestoreService.BackupFileExtension,
+                StringComparison.OrdinalIgnoreCase))
+            {
+                ShowMessageCallback?.Invoke("请选择 .sbx 格式的备份文件。", "错误", MessageBoxIcon.Error);
+                return;
+            }
+
+            string tempDirectory = Path.Combine(
+                CommonUtilities.GetUpdateTempDirectory(AppDirectory),
+                "restore_temp");
+            TryDeleteDirectory(tempDirectory);
+            try
+            {
+                BackupRestoreService.SafeExtractZip(backupPath, tempDirectory);
+            }
+            catch (Exception error)
+            {
+                ShowMessageCallback?.Invoke("无法读取备份文件：" + error.Message, "错误", MessageBoxIcon.Error);
+                TryDeleteDirectory(tempDirectory);
+                return;
+            }
+
+            string backupUsersRoot = FindBackupUsersRoot(tempDirectory);
+            string[] availableUsers = backupUsersRoot.Length == 0
+                ? new string[0]
+                : GetDirectDirectoryNames(backupUsersRoot);
+            if (availableUsers.Length == 0)
+            {
+                ShowMessageCallback?.Invoke("备份文件中没有找到任何沙盒用户数据。", "错误", MessageBoxIcon.Error);
+                TryDeleteDirectory(tempDirectory);
+                return;
+            }
+
+            string[] selectedUsers = SelectUsers("批量还原", availableUsers);
+            if (selectedUsers.Length == 0)
+            {
+                TryDeleteDirectory(tempDirectory);
+                return;
+            }
+
+            if (ConfirmMessage(
+                    "还原将覆盖以下沙盒用户的数据：" + string.Join(", ", selectedUsers) + "\n是否继续？",
+                    "确认还原",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning) != DialogResult.Yes)
+            {
+                TryDeleteDirectory(tempDirectory);
+                return;
+            }
+
+            try
+            {
+                NormalizeBackupUsersRoot(backupUsersRoot, tempDirectory, selectedUsers);
+            }
+            catch (Exception error)
+            {
+                ShowMessageCallback?.Invoke("无法准备备份用户数据：" + error.Message, "错误", MessageBoxIcon.Error);
+                TryDeleteDirectory(tempDirectory);
+                return;
+            }
+
+            BackupRestoreProgressDialog progress = ShowRestoreProgressDialog();
+            progress?.UpdateProgress(0, "停止 Sandboxie 服务...");
+
+            Task<BackupRestoreResult> operation;
+            try
+            {
+                operation = BackupRestoreService.RestoreSelectedUsersAsync(
+                    tempDirectory,
+                    GetSandboxUsersRoot(),
+                    GetSandboxieIniPath(),
+                    selectedUsers,
+                    CreateBackupRestoreCallbacks(progress));
+            }
+            catch (Exception error)
+            {
+                CloseRestoreProgressDialog(progress);
+                ShowMessageCallback?.Invoke("还原失败：" + error.Message, "错误", MessageBoxIcon.Error);
+                TryDeleteDirectory(tempDirectory);
+                return;
+            }
+
+            operation.ContinueWith(completed => SafeCallAfter(() =>
+            {
+                CloseRestoreProgressDialog(progress);
+                TryDeleteDirectory(tempDirectory);
+                if (completed.IsCanceled || completed.IsFaulted || completed.Result == null || !completed.Result.Success)
+                {
+                    string error = completed.IsFaulted && completed.Exception != null
+                        ? completed.Exception.GetBaseException().Message
+                        : completed.IsCanceled ? "操作已取消" : completed.Result == null ? string.Empty : completed.Result.Error;
+                    ShowMessageCallback?.Invoke("还原失败：" + error, "错误", MessageBoxIcon.Error);
+                    return;
+                }
+
+                string control = BackupRestoreService.FindSandboxieControlExecutable(
+                    SandboxieClient.SandboxiePath,
+                    GetSandboxieControlFallbackRoots());
+                if (control.Length != 0)
+                {
+                    if (ConfirmMessage(
+                            BackupRestoreService.FormatRestoreSuccessMessage(true),
+                            "还原完成",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        StartSandboxieControl(control);
+                    }
+                }
+                else
+                {
+                    ShowMessageCallback?.Invoke(
+                        BackupRestoreService.FormatRestoreSuccessMessage(false),
+                        "还原完成",
+                        MessageBoxIcon.Information);
+                }
+
+                if (ConfirmMessage(
+                        BackupRestoreService.RestartPromptText,
+                        "重启提示",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    RestartApplication();
+                }
+            }), TaskScheduler.Default);
+        }
+
+        private BackupRestoreCallbacks CreateBackupRestoreCallbacks(BackupRestoreProgressDialog progress = null)
+        {
+            return new BackupRestoreCallbacks
+            {
+                SetStatus = text => SafeCallAfter(() => SafeSetStatusLabel(text)),
+                UpdateProgress = (value, text) => SafeCallAfter(() =>
+                {
+                    if (progress != null && !progress.IsDisposed)
+                    {
+                        progress.UpdateProgress(value, text);
+                    }
+                    else
+                    {
+                        SafeSetStatusLabel(text);
+                    }
+                }),
+                StopSandboxieServices = () =>
+                {
+                    if (StopSandboxieServicesCallback != null)
+                    {
+                        StopSandboxieServicesCallback();
+                    }
+                    else
+                    {
+                        StopSandboxieServices();
+                    }
+                },
+                ReloadSandboxieConfig = () =>
+                {
+                    if (ReloadSandboxieConfigCallback != null)
+                    {
+                        ReloadSandboxieConfigCallback();
+                    }
+                    else
+                    {
+                        ReloadSandboxieConfig();
+                    }
+                },
+                RestartSandboxieServices = () =>
+                {
+                    if (RestartSandboxieServicesCallback != null)
+                    {
+                        RestartSandboxieServicesCallback();
+                    }
+                    else
+                    {
+                        RestartSandboxieServices();
+                    }
+                },
+                SuppressListRefreshStatus = seconds => SafeCallAfter(() => SuppressListRefreshStatus(seconds)),
+                RefreshSandboxList = () => SafeCallAfter(RefreshSandboxListOnStartup)
+            };
+        }
+
+        private string[] SelectUsers(string title, IEnumerable<string> users)
+        {
+            if (SelectUsersCallback != null)
+            {
+                return SelectUsersCallback(title, users)?.Where(value => !string.IsNullOrWhiteSpace(value)).ToArray()
+                    ?? new string[0];
+            }
+
+            using (var dialog = new SelectUsersDialog(this, title, users))
+            {
+                return dialog.ShowDialog(this) == DialogResult.OK
+                    ? dialog.GetSelectedUsers()
+                    : new string[0];
+            }
+        }
+
+        private string SelectBackupFile()
+        {
+            using (var dialog = new OpenFileDialog
+            {
+                Filter = "备份文件 (*.sbx)|*.sbx",
+                CheckFileExists = true,
+                Multiselect = false
+            })
+            {
+                return dialog.ShowDialog(this) == DialogResult.OK ? dialog.FileName : string.Empty;
+            }
+        }
+
+        private DialogResult ConfirmMessage(
+            string text,
+            string title,
+            MessageBoxButtons buttons,
+            MessageBoxIcon icon)
+        {
+            return ConfirmMessageCallback != null
+                ? ConfirmMessageCallback(text, title, buttons, icon)
+                : MessageBox.Show(this, text, title, buttons, icon);
+        }
+
+        private string GetSandboxUsersRoot()
+        {
+            string root = (SandboxieClient.SandboxRoot ?? string.Empty).Trim();
+            if (root.Length == 0)
+            {
+                root = (_settingsState.SandboxRoot ?? string.Empty).Trim();
+            }
+            return root.Length == 0 ? LauncherConstants.GetDefaultSandboxRoot() : root;
+        }
+
+        private string GetSandboxieIniPath()
+        {
+            if (SandboxieIniPathCallback != null)
+            {
+                return SandboxieIniPathCallback() ?? string.Empty;
+            }
+
+            return SandboxAdminService.GetSandboxieIniPath(
+                Environment.GetFolderPath(Environment.SpecialFolder.Windows),
+                SandboxieClient.SandboxiePath);
+        }
+
+        private static string[] GetDirectDirectoryNames(string root)
+        {
+            try
+            {
+                return Directory.GetDirectories(root)
+                    .Select(Path.GetFileName)
+                    .Where(name => !string.IsNullOrWhiteSpace(name))
+                    .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
+                    .ToArray();
+            }
+            catch
+            {
+                return new string[0];
+            }
+        }
+
+        private static string FindBackupUsersRoot(string extractedRoot)
+        {
+            string username = Environment.UserName;
+            string[] candidates =
+            {
+                Path.Combine(extractedRoot, "SandboxUsers"),
+                Path.Combine(extractedRoot, "Sandbox", string.IsNullOrWhiteSpace(username) ? "Administrator" : username),
+                Path.Combine(extractedRoot, "Sandbox", "Administrator")
+            };
+            foreach (string candidate in candidates.Distinct(StringComparer.OrdinalIgnoreCase))
+            {
+                if (GetDirectDirectoryNames(candidate).Length != 0)
+                {
+                    return candidate;
+                }
+            }
+            return string.Empty;
+        }
+
+        private static void NormalizeBackupUsersRoot(
+            string sourceRoot,
+            string extractedRoot,
+            IEnumerable<string> selectedUsers)
+        {
+            string targetRoot = Path.Combine(extractedRoot, "SandboxUsers");
+            if (string.Equals(
+                    Path.GetFullPath(sourceRoot).TrimEnd(Path.DirectorySeparatorChar),
+                    Path.GetFullPath(targetRoot).TrimEnd(Path.DirectorySeparatorChar),
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            Directory.CreateDirectory(targetRoot);
+            foreach (string user in selectedUsers ?? Enumerable.Empty<string>())
+            {
+                string source = Path.Combine(sourceRoot, user);
+                string target = Path.Combine(targetRoot, user);
+                if (Directory.Exists(source) && !Directory.Exists(target))
+                {
+                    Directory.Move(source, target);
+                }
+            }
+        }
+
+        private IEnumerable<string> GetSandboxieControlFallbackRoots()
+        {
+            return new[]
+            {
+                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Sandboxie-Plus"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Sandboxie-Plus")
+            };
+        }
+
+        private void StopSandboxieServices()
+        {
+            try
+            {
+                RunProcessCommand(new List<string> { "net", "stop", "SbieSvc" });
+                Thread.Sleep(1000);
+            }
+            catch
+            {
+            }
+
+            foreach (string processName in new[]
+            {
+                "Sandboxie.exe", "SandboxieRpcSs.exe", "SandboxieDcomLaunch.exe",
+                "SbieSvc.exe", "SandboxieCrypto.exe", "SandMan.exe", "Start.exe"
+            })
+            {
+                try
+                {
+                    RunProcessCommand(new List<string> { "taskkill", "/f", "/im", processName });
+                    Thread.Sleep(300);
+                }
+                catch
+                {
+                }
+            }
+            Thread.Sleep(1000);
+        }
+
+        private void ReloadSandboxieConfig()
+        {
+            string executable = SandboxieClient.GetStartExecutable(SandboxieClient.SandboxiePath);
+            if (executable.Length == 0)
+            {
+                string fallback = Path.Combine(SandboxieClient.SandboxiePath ?? string.Empty, "Sandboxie.exe");
+                executable = File.Exists(fallback) ? fallback : string.Empty;
+            }
+            if (executable.Length != 0)
+            {
+                RunProcessCommand(new List<string> { executable, "/reload" });
+            }
+        }
+
+        private void RestartSandboxieServices()
+        {
+            try
+            {
+                RunProcessCommand(new List<string> { "net", "start", "SbieSvc" });
+            }
+            catch
+            {
+            }
+        }
+
+        private void StartSandboxieControl(string executable)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = executable,
+                    UseShellExecute = true,
+                    WorkingDirectory = Path.GetDirectoryName(executable) ?? string.Empty
+                });
+            }
+            catch (Exception error)
+            {
+                ShowMessageCallback?.Invoke("启动失败：" + error.Message, "提示", MessageBoxIcon.Information);
+            }
+        }
+
+        private void RestartApplication()
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = Runtime.GetCurrentExecutablePath(),
+                    UseShellExecute = true,
+                    WorkingDirectory = Path.GetDirectoryName(Runtime.GetCurrentExecutablePath()) ?? string.Empty
+                });
+                ForceExitRequested = true;
+                Close();
+            }
+            catch
+            {
+            }
+        }
+
+        private BackupRestoreProgressDialog ShowRestoreProgressDialog()
+        {
+            if (!Visible || IsWindowClosing())
+            {
+                return null;
+            }
+
+            try
+            {
+                var dialog = new BackupRestoreProgressDialog(this);
+                bool wasEnabled = Enabled;
+                _backupRestoreProgressDialog = dialog;
+                Enabled = false;
+                dialog.FormClosed += (sender, eventArgs) =>
+                {
+                    if (ReferenceEquals(_backupRestoreProgressDialog, dialog))
+                    {
+                        _backupRestoreProgressDialog = null;
+                    }
+                    if (!IsDisposed && !Disposing)
+                    {
+                        Enabled = wasEnabled;
+                    }
+                };
+                dialog.Show(this);
+                return dialog;
+            }
+            catch
+            {
+                _backupRestoreProgressDialog = null;
+                Enabled = true;
+                return null;
+            }
+        }
+
+        private void CloseRestoreProgressDialog(BackupRestoreProgressDialog dialog)
+        {
+            if (dialog == null)
+            {
+                return;
+            }
+
+            try
+            {
+                dialog.Close();
+                dialog.Dispose();
+            }
+            catch
+            {
+            }
+        }
+
+        private static void TryDeleteDirectory(string path)
+        {
+            try
+            {
+                if (Directory.Exists(path))
+                {
+                    Directory.Delete(path, true);
+                }
+            }
+            catch
+            {
             }
         }
 
