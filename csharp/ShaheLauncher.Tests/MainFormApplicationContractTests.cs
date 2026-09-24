@@ -9,6 +9,7 @@ using System.Threading;
 using System.Text;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ShaheLauncher.Core.SandboxAdmin;
 using ShaheLauncher.Core.Sandboxie;
 
 namespace ShaheLauncher.Tests
@@ -1062,6 +1063,124 @@ namespace ShaheLauncher.Tests
                 StringAssert.Contains(ini, "[Renamed1]");
                 StringAssert.Contains(ini, "[Renamed2]");
                 Assert.AreEqual("已批量重命名 2 个沙盒用户", GetProperty<Label>(formType, form, "StatusLabel").Text);
+                Assert.AreEqual(1, refreshes);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+        [TestMethod]
+        public void WiresBatchDeleteSandboxesMenuActionToSandboxieClient()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                string sandboxRoot = Path.Combine(root, "SandboxUsers");
+                Directory.CreateDirectory(Path.Combine(sandboxRoot, "Box1"));
+
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "ConfirmMessageCallback",
+                    new Func<string, string, MessageBoxButtons, MessageBoxIcon, DialogResult>(
+                        (text, title, buttons, icon) => DialogResult.Yes));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                object sandboxieClient = GetProperty<object>(formType, form, "SandboxieClient");
+                SetProperty(sandboxieClient.GetType(), sandboxieClient, "SandboxRoot", sandboxRoot);
+
+                object sandboxList = GetProperty<object>(formType, form, "SandboxList");
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "ReplaceItemTexts", new[] { "Box1" }, new int[0]);
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 0, true);
+
+                object state = GetProperty<object>(formType, form, "SandboxAdminState");
+                IDictionary groups = GetProperty<IDictionary>(state.GetType(), state, "SandboxGroups");
+                groups["常用用户"] = new List<string> { "Box1" };
+                IList pinned = GetProperty<IList>(state.GetType(), state, "PinnedSandboxes");
+                pinned.Add("Box1");
+
+                object adminCallbacks = GetProperty<object>(formType, form, "SandboxAdminCallbacks");
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxDisplayNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "NormalizeSandboxName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxDisplayName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxPids",
+                    new Func<string, IEnumerable<int>>(name => new int[0]));
+
+                var deleted = new List<string>();
+                SetProperty(
+                    formType,
+                    form,
+                    "DeleteSandboxCallback",
+                    new Func<string, SandboxieOperationResult>(name =>
+                    {
+                        deleted.Add(name);
+                        return new SandboxieOperationResult
+                        {
+                            Success = true,
+                            InternalName = name
+                        };
+                    }));
+                SetProperty(
+                    formType,
+                    form,
+                    "CleanupSandboxRegistryCallback",
+                    new Func<IEnumerable<string>, SandboxRegistryCleanupResult>(
+                        names => new SandboxRegistryCleanupResult()));
+
+                int refreshes = 0;
+                SetProperty(
+                    formType,
+                    form,
+                    "RefreshSandboxListCallback",
+                    new Action(() => refreshes++));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "批量删除沙盒用户", "batch_delete_sandboxes");
+
+                CollectionAssert.AreEqual(new[] { "Box1" }, deleted.ToArray());
+                Assert.IsFalse(Directory.Exists(Path.Combine(sandboxRoot, "Box1")));
+                Assert.IsFalse(groups.Contains("常用用户"));
+                Assert.AreEqual(0, GetProperty<IList>(state.GetType(), state, "PinnedSandboxes").Count);
+                Assert.AreEqual("已批量删除 1 个沙盒用户", GetProperty<Label>(formType, form, "StatusLabel").Text);
                 Assert.AreEqual(1, refreshes);
             }
             finally

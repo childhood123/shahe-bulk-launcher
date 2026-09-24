@@ -180,6 +180,8 @@ namespace ShaheLauncher.App
         public Action<IEnumerable<string>> LaunchGroupCallback { get; set; }
         public Func<string, string, IDictionary> ShowBatchCreateRuleCallback { get; set; }
         public Func<string, SandboxieOperationResult> CreateSandboxCallback { get; set; }
+        public Func<string, SandboxieOperationResult> DeleteSandboxCallback { get; set; }
+        public Func<IEnumerable<string>, SandboxRegistryCleanupResult> CleanupSandboxRegistryCallback { get; set; }
         public Func<string, string, string, int, IDictionary> ShowBatchRenameRuleCallback { get; set; }
         public Func<string, string, bool> SetSandboxAliasCallback { get; set; }
         public Func<string, string, string> SelectDirectoryCallback { get; set; }
@@ -1097,6 +1099,9 @@ namespace ShaheLauncher.App
                 case "batch_rename_sandboxes":
                     BatchRenameSandboxes();
                     break;
+                case "batch_delete_sandboxes":
+                    BatchDeleteSandboxes();
+                    break;
                 case "hotkey_settings":
                     ShowHotkeySettingsCallback?.Invoke();
                     break;
@@ -1561,6 +1566,187 @@ namespace ShaheLauncher.App
             }
             SafeSetStatusLabel(SandboxAdminService.FormatBatchRenameStatus(renameMap.Count));
         }
+        private void BatchDeleteSandboxes()
+        {
+            IList<string> selected = GetBatchTargetSandboxes();
+            if (selected.Count == 0)
+            {
+                SafeSetStatusLabel("请先勾选或选中要删除的沙盒用户");
+                return;
+            }
+
+            string preview = string.Join("\n", selected.Take(12));
+            if (selected.Count > 12)
+            {
+                preview += "\n... 其余 " + (selected.Count - 12) + " 项已省略";
+            }
+            string message = "确定要删除以下沙盒用户吗？\n\n" + preview + "\n\n该操作不可恢复。";
+            if (ConfirmMessage(
+                    message,
+                    "确认批量删除",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            DeleteSandboxRefsInActiveLaunchByDisplay(selected);
+            var blockedRunning = new List<string>();
+            for (int index = 0; index < selected.Count; index++)
+            {
+                string sandboxName = selected[index];
+                SetStatusLabelImmediately(
+                    "正在检查并终止运行进程 " + (index + 1) + "/" + selected.Count + ": " + sandboxName);
+                bool stopped;
+                try
+                {
+                    stopped = SandboxAdminService.EnsureSandboxStoppedBeforeDelete(
+                        sandboxName,
+                        6.0,
+                        SandboxAdminCallbacks);
+                }
+                catch
+                {
+                    stopped = false;
+                }
+                if (!stopped)
+                {
+                    blockedRunning.Add(sandboxName);
+                }
+            }
+
+            var deleted = new List<string>();
+            var deletedInternal = new List<string>();
+            var failed = new List<string>();
+            var failedDetails = new List<Tuple<string, string>>();
+            IList<string> candidates = selected
+                .Where(name => !blockedRunning.Contains(name, StringComparer.OrdinalIgnoreCase))
+                .ToList();
+            for (int index = 0; index < candidates.Count; index++)
+            {
+                string sandboxName = candidates[index];
+                SetStatusLabelImmediately(
+                    "正在删除沙盒用户 " + (index + 1) + "/" + candidates.Count + ": " + sandboxName);
+                string internalName = SandboxAdminCallbacks?.NormalizeSandboxName?.Invoke(sandboxName)
+                    ?? sandboxName;
+                internalName = (internalName ?? string.Empty).Trim();
+                if (internalName.Length == 0)
+                {
+                    internalName = sandboxName;
+                }
+
+                SandboxieOperationResult result;
+                try
+                {
+                    result = DeleteSandboxCallback == null
+                        ? DeleteSandboxViaOfficial(sandboxName)
+                        : DeleteSandboxCallback(sandboxName);
+                }
+                catch (Exception error)
+                {
+                    result = new SandboxieOperationResult { Detail = error.Message };
+                }
+
+                bool ok = result != null && result.Success;
+                string errorText = result == null || string.IsNullOrWhiteSpace(result.Detail)
+                    ? "删除失败"
+                    : result.Detail.Trim();
+                bool dirDeleted = SandboxAdminService.SafeDeleteDirectory(
+                    Path.Combine(GetSandboxUsersRoot(), internalName));
+                if (!dirDeleted)
+                {
+                    ok = false;
+                    if (errorText == "删除失败")
+                    {
+                        errorText = "目录删除失败";
+                    }
+                }
+
+                if (ok)
+                {
+                    deleted.Add(sandboxName);
+                    if (!string.IsNullOrWhiteSpace(internalName))
+                    {
+                        deletedInternal.Add(internalName);
+                    }
+                }
+                else
+                {
+                    failed.Add(sandboxName);
+                    failedDetails.Add(Tuple.Create(sandboxName, errorText));
+                }
+            }
+
+            bool referencesChanged = SandboxAdminService.DeleteSandboxReferencesByDisplay(
+                SandboxAdminState,
+                deleted);
+            referencesChanged = DeleteSandboxRefsInScheduledJobsByDisplay(deleted) || referencesChanged;
+            if (deletedInternal.Count != 0)
+            {
+                referencesChanged = SandboxAdminService.DeleteSandboxReferences(
+                    SandboxAdminState,
+                    deletedInternal) || referencesChanged;
+            }
+            if (referencesChanged)
+            {
+                SaveSettings();
+            }
+
+            var registryFailed = new List<string>();
+            if (deletedInternal.Count != 0 || deleted.Count != 0)
+            {
+                try
+                {
+                    IEnumerable<string> names = deletedInternal.Count != 0
+                        ? deletedInternal
+                        : deleted;
+                    SandboxRegistryCleanupResult cleanup = CleanupSandboxRegistryCallback == null
+                        ? SandboxAdminService.CleanupSandboxRegistryEntries(names)
+                        : CleanupSandboxRegistryCallback(names);
+                    registryFailed = (cleanup?.FailedPaths ?? new List<string>()).ToList();
+                }
+                catch
+                {
+                    registryFailed = new List<string>();
+                }
+            }
+
+            RefreshSandboxListCallback?.Invoke();
+            if (failed.Count != 0)
+            {
+                IEnumerable<string> lines = failedDetails
+                    .Take(12)
+                    .Select(item => item.Item1 + ": " + item.Item2);
+                string detailText = string.Join("\n", lines);
+                if (detailText.Length == 0)
+                {
+                    detailText = string.Join("\n", failed.Take(12));
+                }
+                ShowMessageCallback?.Invoke(
+                    "以下沙盒用户删除失败：\n" + detailText,
+                    "批量删除结果",
+                    MessageBoxIcon.Warning);
+            }
+            if (blockedRunning.Count != 0)
+            {
+                ShowMessageCallback?.Invoke(
+                    "以下沙盒仍在运行，已跳过删除：\n" + string.Join("\n", blockedRunning.Take(12)),
+                    "批量删除结果",
+                    MessageBoxIcon.Warning);
+            }
+            if (registryFailed.Count != 0)
+            {
+                ShowMessageCallback?.Invoke(
+                    "已删除目录，但以下注册表项清理失败：\n" + string.Join("\n", registryFailed.Take(12)),
+                    "注册表清理提示",
+                    MessageBoxIcon.Warning);
+            }
+
+            SafeSetStatusLabel(SandboxAdminService.FormatBatchDeleteStatus(
+                deleted.Count,
+                failed.Count,
+                blockedRunning.Count));
+        }
         private void DeleteGroup()
         {
             IList<string> groupNames = SandboxAdminService.GetGroupNames(SandboxAdminState);
@@ -1968,6 +2154,60 @@ namespace ShaheLauncher.App
             return selected;
         }
 
+        private bool DeleteSandboxRefsInScheduledJobsByDisplay(IEnumerable<string> namesToDelete)
+        {
+            if (LaunchState?.Jobs == null || LaunchState.Jobs.Count == 0)
+            {
+                return false;
+            }
+
+            ISet<string> lookup = new HashSet<string>(
+                (namesToDelete ?? Enumerable.Empty<string>())
+                    .Select(name => (name ?? string.Empty).Trim().ToLowerInvariant())
+                    .Where(name => name.Length != 0));
+            if (lookup.Count == 0)
+            {
+                return false;
+            }
+
+            bool changed = false;
+            var emptyJobs = new List<string>();
+            foreach (KeyValuePair<string, ScheduledLaunchJob> item in LaunchState.Jobs)
+            {
+                ScheduledLaunchJob job = item.Value;
+                if (job == null || job.SandboxTargets == null)
+                {
+                    continue;
+                }
+
+                IList<string> targets = job.SandboxTargets
+                    .Where(name => !lookup.Contains((name ?? string.Empty).Trim().ToLowerInvariant()))
+                    .ToList();
+                if (!targets.SequenceEqual(job.SandboxTargets))
+                {
+                    job.SandboxTargets = targets;
+                    changed = true;
+                }
+                if (targets.Count == 0)
+                {
+                    emptyJobs.Add(item.Key);
+                }
+                else if ((job.Description ?? string.Empty).Contains("定时启动"))
+                {
+                    job.Description = "定时启动 " + targets.Count + " 个沙盒";
+                }
+                else if ((job.Description ?? string.Empty).Contains("定时关闭"))
+                {
+                    job.Description = "定时关闭 " + targets.Count + " 个沙盒";
+                }
+            }
+
+            foreach (string key in emptyJobs)
+            {
+                LaunchScheduler.CancelScheduleTask(LaunchState, key, false, LaunchCallbacks);
+            }
+            return changed;
+        }
         private bool RenameSandboxRefsInScheduledJobsByDisplay(
             IDictionary<string, string> displayRenameMap)
         {
@@ -2066,6 +2306,25 @@ namespace ShaheLauncher.App
                 });
         }
 
+        private SandboxieOperationResult DeleteSandboxViaOfficial(string displayName)
+        {
+            return SandboxieClient.DeleteSandboxViaOfficial(
+                displayName,
+                GetSandboxDisplayMaps(),
+                GetOfficialSandboxNames(),
+                new SandboxieCallbacks
+                {
+                    RunSbieIni = arguments => SandboxieClient.RunSbieIni(arguments, 8, null),
+                    RunStart = arguments => SandboxieClient.RunSandboxieStart(
+                        arguments, 8, null, true, false),
+                    ListSectionNames = () => SandboxAdminService.ListIniSectionNames(
+                        GetSandboxieIniPath(),
+                        true),
+                    ReloadConfiguration = ReloadSandboxieConfig,
+                    RefreshDisplayMaps = () => { RefreshSandboxDisplayMaps(); },
+                    SetStatus = text => SafeSetStatusLabel(text)
+                });
+        }
         private static string GetRuleText(IDictionary rule, string key)
         {
             return rule == null || !rule.Contains(key) || rule[key] == null
