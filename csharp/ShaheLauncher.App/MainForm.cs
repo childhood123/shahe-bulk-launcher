@@ -141,6 +141,7 @@ namespace ShaheLauncher.App
             ShowGroupNameCallback = ShowGroupNameDialog;
             ShowGroupChoiceCallback = ShowGroupChoiceDialog;
             LaunchGroupCallback = StartLaunchGroup;
+            ShowScheduleDelayCallback = ShowScheduleDelayDialog;
             ShowBatchCreateRuleCallback = ShowBatchCreateRuleDialog;
             SelectDirectoryCallback = SelectDirectory;
             ShowQrCodeCallback = ShowQrCodeDialog;
@@ -178,6 +179,7 @@ namespace ShaheLauncher.App
         public Func<string, string, string> ShowGroupNameCallback { get; set; }
         public Func<string, string, IEnumerable<string>, string> ShowGroupChoiceCallback { get; set; }
         public Action<IEnumerable<string>> LaunchGroupCallback { get; set; }
+        public Func<string, string, int, int> ShowScheduleDelayCallback { get; set; }
         public Func<string, string, IDictionary> ShowBatchCreateRuleCallback { get; set; }
         public Func<string, SandboxieOperationResult> CreateSandboxCallback { get; set; }
         public Func<string, SandboxieOperationResult> DeleteSandboxCallback { get; set; }
@@ -1090,6 +1092,9 @@ namespace ShaheLauncher.App
                 case "launch_group":
                     LaunchGroup();
                     break;
+                case "schedule_launch":
+                    ScheduleLaunch();
+                    break;
                 case "delete_group":
                     DeleteGroup();
                     break;
@@ -1822,6 +1827,44 @@ namespace ShaheLauncher.App
             LaunchGroupCallback?.Invoke(validSandboxes);
         }
 
+        private void ScheduleLaunch()
+        {
+            IList<string> selected = GetBatchTargetSandboxes();
+            if (selected.Count == 0)
+            {
+                SafeSetStatusLabel("请先勾选或选中要定时启动的沙盒用户");
+                return;
+            }
+
+            IList<LaunchAppTarget> appTargets = GetCheckedAppTargets().ToList();
+            if (appTargets.Count == 0)
+            {
+                SafeSetStatusLabel("请先在应用列表中按空格选中要打开的应用");
+                return;
+            }
+
+            int delay = ShowScheduleDelayCallback == null
+                ? ShowScheduleDelayDialog(
+                    LaunchScheduler.ScheduleLaunchDialogTitle,
+                    LaunchScheduler.ScheduleLaunchPromptText,
+                    30)
+                : ShowScheduleDelayCallback(
+                    LaunchScheduler.ScheduleLaunchDialogTitle,
+                    LaunchScheduler.ScheduleLaunchPromptText,
+                    30);
+            if (delay <= 0)
+            {
+                return;
+            }
+
+            LaunchScheduler.ScheduleSelectedLaunch(
+                LaunchState,
+                selected,
+                appTargets,
+                delay,
+                LaunchCallbacks);
+        }
+
         private void BackupSandboxes()
         {
             string usersRoot = GetSandboxUsersRoot();
@@ -2385,6 +2428,60 @@ namespace ShaheLauncher.App
                 return dialog.ShowDialog(this) == DialogResult.OK
                     ? (dialog.Value ?? string.Empty).Trim()
                     : string.Empty;
+            }
+        }
+
+        private int ShowScheduleDelayDialog(string title, string prompt, int defaultSeconds)
+        {
+            using (var dialog = new Form
+            {
+                Text = title,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                StartPosition = FormStartPosition.CenterParent,
+                MinimizeBox = false,
+                MaximizeBox = false,
+                ShowInTaskbar = false,
+                ClientSize = new Size(360, 140)
+            })
+            {
+                var message = new Label
+                {
+                    AutoSize = false,
+                    Text = prompt,
+                    Location = new Point(12, 12),
+                    Size = new Size(336, 36),
+                    AccessibleName = prompt
+                };
+                var value = new NumericUpDown
+                {
+                    Minimum = 1,
+                    Maximum = 86400,
+                    Value = Math.Max(1, Math.Min(86400, defaultSeconds)),
+                    Location = new Point(12, 56),
+                    Size = new Size(120, 23),
+                    AccessibleName = LaunchScheduler.ScheduleDelayLabel,
+                    AccessibleDescription = LaunchScheduler.ScheduleDelayLabel
+                };
+                var okButton = new Button
+                {
+                    Text = "确定",
+                    DialogResult = DialogResult.OK,
+                    Location = new Point(174, 96),
+                    Size = new Size(80, 28),
+                    AccessibleName = "确定"
+                };
+                var cancelButton = new Button
+                {
+                    Text = "取消",
+                    DialogResult = DialogResult.Cancel,
+                    Location = new Point(264, 96),
+                    Size = new Size(80, 28),
+                    AccessibleName = "取消"
+                };
+                dialog.Controls.AddRange(new Control[] { message, value, okButton, cancelButton });
+                dialog.AcceptButton = okButton;
+                dialog.CancelButton = cancelButton;
+                return dialog.ShowDialog(this) == DialogResult.OK ? (int)value.Value : 0;
             }
         }
 
