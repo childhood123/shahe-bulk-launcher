@@ -1170,6 +1170,66 @@ namespace ShaheLauncher.Tests
             }
         }
         [TestMethod]
+        public void WiresRepairSandboxieControlSettingsMenuActionToSandboxAdminService()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                string iniPath = Path.Combine(root, "Sandboxie.ini");
+                File.WriteAllText(
+                    iniPath,
+                    "[UserSettings_Test]\r\nSbieCtrl_WindowCoords=1\r\nEnabled=y\r\nKeep=ok\r\n",
+                    new UTF8Encoding(false));
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                int reloads = 0;
+                var messages = new List<string>();
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => messages.Add(title + ":" + text)));
+                SetProperty(
+                    formType,
+                    form,
+                    "ConfirmMessageCallback",
+                    new Func<string, string, MessageBoxButtons, MessageBoxIcon, DialogResult>(
+                        (text, title, buttons, icon) => DialogResult.Yes));
+                SetProperty(formType, form, "SandboxieIniPathCallback", new Func<string>(() => iniPath));
+                SetProperty(formType, form, "ReloadSandboxieConfigCallback", new Action(() => reloads++));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+                ClickMenuActionAndAssertNoFallback(
+                    formType,
+                    form,
+                    "修复 Sandboxie Control 用户设置",
+                    "repair_sandboxie_control_settings");
+
+                Assert.AreEqual(1, reloads);
+                string repaired = File.ReadAllText(iniPath);
+                StringAssert.Contains(repaired, "Keep=ok");
+                Assert.IsFalse(repaired.Contains("SbieCtrl_WindowCoords="));
+                StringAssert.Contains(string.Join("\n", messages), "修复完成");
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
         public void WiresBatchDeleteSandboxesMenuActionToSandboxieClient()
         {
             string root = CreateTemporaryDirectory();

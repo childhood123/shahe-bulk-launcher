@@ -1122,6 +1122,9 @@ namespace ShaheLauncher.App
                 case "select_sandbox_root":
                     SelectSandboxRoot();
                     break;
+                case "repair_sandboxie_control_settings":
+                    RepairSandboxieControlSettings();
+                    break;
                 case "cancel_scheduled_tasks":
                     CancelAllSchedulesCallback?.Invoke(true);
                     break;
@@ -2987,6 +2990,50 @@ namespace ShaheLauncher.App
             }
 
             SafeSetStatusLabel(LauncherSettingsService.SandboxRootInvalidStatus);
+        }
+
+        private void RepairSandboxieControlSettings()
+        {
+            string message =
+                "该操作会备份 Sandboxie.ini，然后清理 UserSettings 段中的 "
+                + "SbieCtrl_WindowCoords 窗口坐标记录。\n\n"
+                + "建议先关闭 Sandboxie Control 再执行。\n\n"
+                + "不会删除沙盒用户，也不会修改 GlobalSettings 或沙盒配置。是否继续？";
+            if (ConfirmMessage(
+                    message,
+                    "修复 Sandboxie Control 用户设置",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            try
+            {
+                Tuple<bool, string> result = SandboxAdminService.RepairSandboxieControlUserSettings(
+                    GetSandboxieIniPath(),
+                    () =>
+                    {
+                        ReloadSandboxieConfigCallback?.Invoke();
+                        return true;
+                    });
+                if (result.Item1)
+                {
+                    SafeSetStatusLabel("已修复 Sandboxie Control 用户设置");
+                    ShowMessageCallback?.Invoke(result.Item2, "修复完成", MessageBoxIcon.Information);
+                }
+                else
+                {
+                    SafeSetStatusLabel("未发现需要修复的 Sandboxie Control 用户设置");
+                    ShowMessageCallback?.Invoke(result.Item2, "无需修复", MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception error)
+            {
+                string detail = string.IsNullOrEmpty(error.Message) ? "修复失败" : error.Message;
+                SafeSetStatusLabel("修复 Sandboxie Control 用户设置失败");
+                ShowMessageCallback?.Invoke("修复失败：\n" + detail, "修复失败", MessageBoxIcon.Error);
+            }
         }
 
         private string SelectDirectory(string title, string defaultPath)
