@@ -1095,6 +1095,9 @@ namespace ShaheLauncher.App
                 case "schedule_launch":
                     ScheduleLaunch();
                     break;
+                case "schedule_close":
+                    ScheduleClose();
+                    break;
                 case "delete_group":
                     DeleteGroup();
                     break;
@@ -1861,6 +1864,36 @@ namespace ShaheLauncher.App
                 LaunchState,
                 selected,
                 appTargets,
+                delay,
+                LaunchCallbacks);
+        }
+
+        private void ScheduleClose()
+        {
+            IList<string> selected = GetBatchTargetSandboxes();
+            if (selected.Count == 0)
+            {
+                SafeSetStatusLabel("请先勾选或选中要定时关闭的沙盒用户");
+                return;
+            }
+
+            int delay = ShowScheduleDelayCallback == null
+                ? ShowScheduleDelayDialog(
+                    LaunchScheduler.ScheduleCloseDialogTitle,
+                    LaunchScheduler.ScheduleClosePromptText,
+                    30)
+                : ShowScheduleDelayCallback(
+                    LaunchScheduler.ScheduleCloseDialogTitle,
+                    LaunchScheduler.ScheduleClosePromptText,
+                    30);
+            if (delay <= 0)
+            {
+                return;
+            }
+
+            LaunchScheduler.ScheduleSelectedClose(
+                LaunchState,
+                selected,
                 delay,
                 LaunchCallbacks);
         }
