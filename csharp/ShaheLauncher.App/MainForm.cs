@@ -38,6 +38,7 @@ namespace ShaheLauncher.App
         private bool _sandboxDisplayMapsInitialized;
         private SandboxieDisplayMaps _sandboxDisplayMaps = new SandboxieDisplayMaps();
         private IList<string> _officialSandboxNames = new List<string>();
+        private BackupRestoreProgressDialog _backupRestoreProgressDialog;
 
         public MainForm()
             : this(CreateDefaultRuntime())
@@ -137,6 +138,11 @@ namespace ShaheLauncher.App
             SelectNextSandboxCallback = () => SelectAdjacentSandbox(1);
             ShowHotkeySettingsCallback = ShowHotkeySettingsDialog;
             ShowSettingsDialogCallback = ShowSettingsDialog;
+            ShowGroupNameCallback = ShowGroupNameDialog;
+            ShowGroupChoiceCallback = ShowGroupChoiceDialog;
+            LaunchGroupCallback = StartLaunchGroup;
+            ShowScheduleDelayCallback = ShowScheduleDelayDialog;
+            ShowBatchCreateRuleCallback = ShowBatchCreateRuleDialog;
             SelectDirectoryCallback = SelectDirectory;
             ShowQrCodeCallback = ShowQrCodeDialog;
             ShutdownAssistSpeechRuntimeCallback = SpeechService.ShutdownAssistSpeechRuntime;
@@ -170,7 +176,24 @@ namespace ShaheLauncher.App
         public Action SelectNextSandboxCallback { get; set; }
         public Func<bool> ShowHotkeySettingsCallback { get; set; }
         public Func<bool> ShowSettingsDialogCallback { get; set; }
+        public Func<string, string, string> ShowGroupNameCallback { get; set; }
+        public Func<string, string, IEnumerable<string>, string> ShowGroupChoiceCallback { get; set; }
+        public Action<IEnumerable<string>> LaunchGroupCallback { get; set; }
+        public Func<string, string, int, int> ShowScheduleDelayCallback { get; set; }
+        public Func<string, string, IDictionary> ShowBatchCreateRuleCallback { get; set; }
+        public Func<string, SandboxieOperationResult> CreateSandboxCallback { get; set; }
+        public Func<string, SandboxieOperationResult> DeleteSandboxCallback { get; set; }
+        public Func<IEnumerable<string>, SandboxRegistryCleanupResult> CleanupSandboxRegistryCallback { get; set; }
+        public Func<string, string, string, int, IDictionary> ShowBatchRenameRuleCallback { get; set; }
+        public Func<string, string, bool> SetSandboxAliasCallback { get; set; }
         public Func<string, string, string> SelectDirectoryCallback { get; set; }
+        public Func<string, IEnumerable<string>, string[]> SelectUsersCallback { get; set; }
+        public Func<string, string> SelectBackupFileCallback { get; set; }
+        public Func<string> SandboxieIniPathCallback { get; set; }
+        public Func<string, string, MessageBoxButtons, MessageBoxIcon, DialogResult> ConfirmMessageCallback { get; set; }
+        public Action StopSandboxieServicesCallback { get; set; }
+        public Action ReloadSandboxieConfigCallback { get; set; }
+        public Action RestartSandboxieServicesCallback { get; set; }
         public Action<string> ShowQrCodeCallback { get; set; }
         public Func<string> FindSandboxiePathCallback { get; set; }
         public Action<string, string, MessageBoxIcon> ShowMessageCallback { get; set; }
@@ -1063,6 +1086,30 @@ namespace ShaheLauncher.App
                 case "pin_current_user":
                     ExecuteCurrentSandboxAction(PinToggleCallback);
                     break;
+                case "create_group":
+                    CreateGroup();
+                    break;
+                case "launch_group":
+                    LaunchGroup();
+                    break;
+                case "schedule_launch":
+                    ScheduleLaunch();
+                    break;
+                case "schedule_close":
+                    ScheduleClose();
+                    break;
+                case "delete_group":
+                    DeleteGroup();
+                    break;
+                case "batch_create_sandboxes":
+                    BatchCreateSandboxes();
+                    break;
+                case "batch_rename_sandboxes":
+                    BatchRenameSandboxes();
+                    break;
+                case "batch_delete_sandboxes":
+                    BatchDeleteSandboxes();
+                    break;
                 case "hotkey_settings":
                     ShowHotkeySettingsCallback?.Invoke();
                     break;
@@ -1077,6 +1124,12 @@ namespace ShaheLauncher.App
                     break;
                 case "cancel_scheduled_tasks":
                     CancelAllSchedulesCallback?.Invoke(true);
+                    break;
+                case "backup_sandboxes":
+                    BackupSandboxes();
+                    break;
+                case "restore_sandboxes":
+                    RestoreSandboxes();
                     break;
                 case "select_all":
                     SandboxList?.CheckAll();
@@ -1103,6 +1156,1638 @@ namespace ShaheLauncher.App
                 default:
                     SafeSetStatusLabel("已触发操作: " + action);
                     break;
+            }
+        }
+
+        private void CreateGroup()
+        {
+            IList<string> selected = SandboxAdminService.NormalizeSandboxNameList(
+                SandboxList?.GetCheckedEntryTexts() ?? new string[0],
+                SandboxAdminCallbacks);
+            if (selected.Count == 0)
+            {
+                SafeSetStatusLabel("请先勾选要归类的沙盒用户");
+                return;
+            }
+            if (selected.Count < 2)
+            {
+                SafeSetStatusLabel("请至少勾选 2 个用户再新建分组");
+                return;
+            }
+
+            string groupName = PromptGroupName("新建分组", string.Empty);
+            if (groupName.Length == 0)
+            {
+                return;
+            }
+            if (SandboxAdminState.SandboxGroups.ContainsKey(groupName))
+            {
+                SafeSetStatusLabel("分组已存在: " + groupName);
+                return;
+            }
+
+            SandboxAdminState.SandboxGroups[groupName] = selected.ToList();
+            SaveSettings();
+            SandboxList.CurrentGroupView = string.Empty;
+            RefreshSandboxListCallback?.Invoke();
+            SafeSetStatusLabel("已保存分组: " + groupName);
+        }
+
+        private void BatchCreateSandboxes()
+        {
+            IDictionary rule = ShowBatchCreateRuleCallback == null
+                ? ShowBatchCreateRuleDialog("批量创建沙盒用户", SandboxAdminService.BatchCreatePromptText)
+                : ShowBatchCreateRuleCallback("批量创建沙盒用户", SandboxAdminService.BatchCreatePromptText);
+            if (rule == null)
+            {
+                return;
+            }
+
+            IList<string> names = SandboxAdminService.BuildBatchSandboxNames(
+                GetRuleText(rule, "prefix"),
+                GetRuleInt(rule, "start", 1),
+                GetRuleInt(rule, "count", 1),
+                GetRuleInt(rule, "digits", 0));
+            IList<string> errors = SandboxAdminService.ValidateBatchSandboxNames(names);
+            if (errors.Count != 0)
+            {
+                ShowMessageCallback?.Invoke(
+                    string.Join("\n", errors),
+                    SandboxAdminService.NameValidationFailedTitle,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            string sandboxRoot = GetSandboxUsersRoot();
+            try
+            {
+                Directory.CreateDirectory(sandboxRoot);
+            }
+            catch (Exception error)
+            {
+                ShowMessageCallback?.Invoke(
+                    "创建沙盒根目录失败: " + error.Message,
+                    "创建失败",
+                    MessageBoxIcon.Error);
+                return;
+            }
+
+            ISet<string> existingDisplay = new HashSet<string>(
+                (SandboxAdminCallbacks?.GetExistingSandboxDisplayNames?.Invoke()
+                    ?? Enumerable.Empty<string>())
+                .Select(value => (value ?? string.Empty).Trim().ToLowerInvariant())
+                .Where(value => value.Length != 0));
+            ISet<string> existingInternal = new HashSet<string>(
+                (SandboxAdminCallbacks?.GetExistingSandboxNames?.Invoke()
+                    ?? Enumerable.Empty<string>())
+                .Select(value => (value ?? string.Empty).Trim().ToLowerInvariant())
+                .Where(value => value.Length != 0));
+            IList<string> createTargets = names
+                .Where(name => !existingDisplay.Contains(name.ToLowerInvariant())
+                    && !existingInternal.Contains(name.ToLowerInvariant()))
+                .ToList();
+            int skipped = names.Count - createTargets.Count;
+            if (createTargets.Count == 0)
+            {
+                SafeSetStatusLabel("目标沙盒用户已存在，无需创建");
+                return;
+            }
+
+            var reservedInternal = new List<string>(existingInternal);
+            var created = new List<string>();
+            var failed = new List<Tuple<string, string>>();
+            for (int index = 0; index < createTargets.Count; index++)
+            {
+                string name = createTargets[index];
+                SetStatusLabelImmediately(
+                    "正在创建沙盒用户 " + (index + 1) + "/" + createTargets.Count + ": " + name);
+                SandboxieOperationResult result;
+                try
+                {
+                    result = CreateSandboxCallback == null
+                        ? CreateSandboxViaOfficial(name, reservedInternal)
+                        : CreateSandboxCallback(name);
+                }
+                catch (Exception error)
+                {
+                    result = new SandboxieOperationResult { Detail = error.Message };
+                }
+
+                if (result != null && result.Success)
+                {
+                    created.Add(name);
+                    if (!string.IsNullOrWhiteSpace(result.InternalName))
+                    {
+                        reservedInternal.Add(result.InternalName.Trim());
+                    }
+                }
+                else
+                {
+                    failed.Add(Tuple.Create(
+                        name,
+                        result == null || string.IsNullOrWhiteSpace(result.Detail)
+                            ? "创建失败"
+                            : result.Detail.Trim()));
+                }
+            }
+
+            RefreshSandboxListCallback?.Invoke();
+            if (failed.Count != 0)
+            {
+                IEnumerable<string> lines = failed
+                    .Take(8)
+                    .Select(item => item.Item1 + ": " + item.Item2);
+                string message = "以下沙盒用户创建失败：\n" + string.Join("\n", lines);
+                if (failed.Count > 8)
+                {
+                    message += "\n... 其余 " + (failed.Count - 8) + " 项已省略";
+                }
+                ShowMessageCallback?.Invoke(message, "批量创建结果", MessageBoxIcon.Warning);
+            }
+
+            SafeSetStatusLabel(SandboxAdminService.FormatBatchCreateStatus(
+                created.Count,
+                skipped,
+                failed.Count));
+        }
+
+        private void BatchRenameSandboxes()
+        {
+            IList<string> selected = GetBatchTargetSandboxes();
+            if (selected.Count == 0)
+            {
+                SafeSetStatusLabel("请先勾选或选中要重命名的沙盒用户");
+                return;
+            }
+
+            string defaultPrefix = LauncherConstants.MakeDefaultSandboxDisplayPrefix(
+                selected[0],
+                "沙盒用户");
+            IDictionary rule = ShowBatchRenameRuleCallback == null
+                ? ShowBatchRenameRuleDialog(
+                    SandboxAdminService.BatchRenameDialogTitle,
+                    SandboxAdminService.BatchRenamePromptText,
+                    defaultPrefix,
+                    selected.Count)
+                : ShowBatchRenameRuleCallback(
+                    SandboxAdminService.BatchRenameDialogTitle,
+                    SandboxAdminService.BatchRenamePromptText,
+                    defaultPrefix,
+                    selected.Count);
+            if (rule == null)
+            {
+                return;
+            }
+
+            IList<string> targetNames = SandboxAdminService.BuildBatchSandboxNames(
+                GetRuleText(rule, "prefix"),
+                GetRuleInt(rule, "start", 1),
+                GetRuleInt(rule, "count", selected.Count),
+                GetRuleInt(rule, "digits", 0));
+            IList<string> errors = SandboxAdminService.ValidateBatchSandboxNames(targetNames);
+            if (errors.Count != 0)
+            {
+                ShowMessageCallback?.Invoke(
+                    string.Join("\n", errors),
+                    SandboxAdminService.NameValidationFailedTitle,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            ISet<string> existingDisplays = new HashSet<string>(
+                (SandboxAdminCallbacks?.GetExistingSandboxDisplayNames?.Invoke()
+                    ?? Enumerable.Empty<string>())
+                .Select(value => (value ?? string.Empty).Trim())
+                .Where(value => value.Length != 0),
+                StringComparer.OrdinalIgnoreCase);
+            ISet<string> oldDisplays = new HashSet<string>(selected, StringComparer.OrdinalIgnoreCase);
+            IList<string> collisions = targetNames
+                .Where(name => existingDisplays.Contains(name) && !oldDisplays.Contains(name))
+                .ToList();
+            if (collisions.Count != 0)
+            {
+                ShowMessageCallback?.Invoke(
+                    "以下目标名称已存在，无法重命名：\n" + string.Join("\n", collisions.Take(12)),
+                    "重命名冲突",
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            var renameMap = new Dictionary<string, string>(StringComparer.Ordinal);
+            int renameCount = Math.Min(selected.Count, targetNames.Count);
+            for (int index = 0; index < renameCount; index++)
+            {
+                if (!string.Equals(selected[index], targetNames[index], StringComparison.Ordinal))
+                {
+                    renameMap[selected[index]] = targetNames[index];
+                }
+            }
+            if (renameMap.Count == 0)
+            {
+                SafeSetStatusLabel("目标名称与当前名称一致，无需重命名");
+                return;
+            }
+
+            var internalRenameMap = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            var aliasMap = new Dictionary<string, string>(StringComparer.Ordinal);
+            ISet<string> reservedInternal = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            ISet<string> existingInternal = new HashSet<string>(
+                (SandboxAdminCallbacks?.GetExistingSandboxNames?.Invoke()
+                    ?? Enumerable.Empty<string>())
+                .Select(value => (value ?? string.Empty).Trim())
+                .Where(value => value.Length != 0),
+                StringComparer.OrdinalIgnoreCase);
+            ISet<string> selectedInternal = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+            foreach (string displayName in selected)
+            {
+                string internalName = SandboxAdminCallbacks?.NormalizeSandboxName?.Invoke(displayName)
+                    ?? displayName;
+                if (!string.IsNullOrWhiteSpace(internalName))
+                {
+                    selectedInternal.Add(internalName.Trim());
+                }
+            }
+
+            foreach (KeyValuePair<string, string> item in renameMap)
+            {
+                string oldInternal = SandboxAdminCallbacks?.NormalizeSandboxName?.Invoke(item.Key)
+                    ?? item.Key;
+                oldInternal = (oldInternal ?? string.Empty).Trim();
+                if (oldInternal.Length == 0)
+                {
+                    continue;
+                }
+
+                string targetInternal = SandboxieClient.DisplayNameToInternalCandidate(item.Value);
+                bool canRenameInternal = LauncherConstants.IsValidInternalSandboxName(targetInternal)
+                    && (selectedInternal.Contains(targetInternal) || !existingInternal.Contains(targetInternal))
+                    && !reservedInternal.Contains(targetInternal);
+                string effectiveInternal = oldInternal;
+                if (canRenameInternal
+                    && !string.Equals(targetInternal, oldInternal, StringComparison.OrdinalIgnoreCase))
+                {
+                    internalRenameMap[oldInternal] = targetInternal;
+                    reservedInternal.Add(targetInternal);
+                    effectiveInternal = targetInternal;
+                }
+
+                string defaultDisplay = SandboxieClient.DisplayNameForSandbox(
+                    effectiveInternal,
+                    new Dictionary<string, string>());
+                aliasMap[effectiveInternal] = string.Equals(defaultDisplay, item.Value, StringComparison.Ordinal)
+                    ? string.Empty
+                    : item.Value;
+            }
+
+            if (internalRenameMap.Count != 0)
+            {
+                var runningTargets = new List<string>();
+                foreach (string oldDisplay in renameMap.Keys)
+                {
+                    string oldInternal = SandboxAdminCallbacks?.NormalizeSandboxName?.Invoke(oldDisplay)
+                        ?? oldDisplay;
+                    oldInternal = (oldInternal ?? string.Empty).Trim();
+                    if (oldInternal.Length == 0 || !internalRenameMap.ContainsKey(oldInternal))
+                    {
+                        continue;
+                    }
+
+                    try
+                    {
+                        if ((SandboxAdminCallbacks?.GetSandboxPids?.Invoke(oldInternal)
+                            ?? Enumerable.Empty<int>()).Any())
+                        {
+                            runningTargets.Add(oldDisplay);
+                        }
+                    }
+                    catch
+                    {
+                    }
+                }
+                if (runningTargets.Count != 0)
+                {
+                    ShowMessageCallback?.Invoke(
+                        "以下沙盒仍在运行，请先关闭后再重命名：\n"
+                            + string.Join("\n", runningTargets.Take(12)),
+                        "重命名失败",
+                        MessageBoxIcon.Warning);
+                    SafeSetStatusLabel("批量重命名失败");
+                    return;
+                }
+
+                ISet<string> iniSections = new HashSet<string>(
+                    SandboxAdminService.ListIniSectionNames(GetSandboxieIniPath(), true),
+                    StringComparer.OrdinalIgnoreCase);
+                ISet<string> renamedInternal = new HashSet<string>(
+                    internalRenameMap.Keys,
+                    StringComparer.OrdinalIgnoreCase);
+                IList<string> iniCollisions = internalRenameMap.Values
+                    .Where(name => iniSections.Contains(name) && !renamedInternal.Contains(name))
+                    .ToList();
+                if (iniCollisions.Count != 0)
+                {
+                    ShowMessageCallback?.Invoke(
+                        "Sandboxie.ini 中已存在以下同名分节，无法重命名：\n"
+                            + string.Join("\n", iniCollisions.Take(12)),
+                        "INI 冲突",
+                        MessageBoxIcon.Warning);
+                    return;
+                }
+
+                Tuple<bool, string> directories = SandboxAdminService.RenameSandboxDirectories(
+                    GetSandboxUsersRoot(),
+                    internalRenameMap);
+                if (directories == null || !directories.Item1)
+                {
+                    ShowMessageCallback?.Invoke(
+                        "批量重命名目录失败：" + (directories?.Item2 ?? string.Empty),
+                        "重命名失败",
+                        MessageBoxIcon.Error);
+                    SafeSetStatusLabel("批量重命名失败");
+                    return;
+                }
+            }
+
+            string iniError = string.Empty;
+            try
+            {
+                Tuple<bool, string> ini = SandboxAdminService.ApplyIniSectionChanges(
+                    GetSandboxieIniPath(),
+                    internalRenameMap.Values,
+                    new string[0],
+                    internalRenameMap);
+                iniError = ini?.Item2 ?? string.Empty;
+                if (ini != null && ini.Item1)
+                {
+                    ReloadSandboxieConfig();
+                }
+            }
+            catch (Exception error)
+            {
+                iniError = error.Message;
+            }
+
+            SandboxAliasResult aliases = SandboxAdminService.ApplySandboxAliases(
+                aliasMap,
+                SetSandboxAliasViaOfficial);
+            if (aliases != null && aliases.Changed)
+            {
+                ReloadSandboxieConfig();
+            }
+            if (aliases != null && !string.IsNullOrWhiteSpace(aliases.Error) && iniError.Length == 0)
+            {
+                iniError = aliases.Error;
+            }
+
+            bool referencesChanged = SandboxAdminService.RenameSandboxReferencesByDisplay(
+                SandboxAdminState,
+                renameMap);
+            referencesChanged = RenameSandboxRefsInScheduledJobsByDisplay(renameMap) || referencesChanged;
+            referencesChanged = RenameSandboxRefsInActiveLaunchByDisplay(renameMap) || referencesChanged;
+            if (internalRenameMap.Count != 0)
+            {
+                referencesChanged = SandboxAdminService.RenameSandboxReferences(
+                    SandboxAdminState,
+                    internalRenameMap) || referencesChanged;
+            }
+            if (referencesChanged)
+            {
+                SaveSettings();
+            }
+
+            try
+            {
+                RefreshSandboxDisplayMaps();
+            }
+            catch
+            {
+            }
+            SuppressListRefreshStatus(2.0);
+            RefreshSandboxListCallback?.Invoke();
+
+            if (iniError.Length != 0)
+            {
+                ShowMessageCallback?.Invoke(
+                    "目录已重命名，但 Sandboxie.ini 更新失败：" + iniError,
+                    "重命名提示",
+                    MessageBoxIcon.Warning);
+            }
+            SafeSetStatusLabel(SandboxAdminService.FormatBatchRenameStatus(renameMap.Count));
+        }
+        private void BatchDeleteSandboxes()
+        {
+            IList<string> selected = GetBatchTargetSandboxes();
+            if (selected.Count == 0)
+            {
+                SafeSetStatusLabel("请先勾选或选中要删除的沙盒用户");
+                return;
+            }
+
+            string preview = string.Join("\n", selected.Take(12));
+            if (selected.Count > 12)
+            {
+                preview += "\n... 其余 " + (selected.Count - 12) + " 项已省略";
+            }
+            string message = "确定要删除以下沙盒用户吗？\n\n" + preview + "\n\n该操作不可恢复。";
+            if (ConfirmMessage(
+                    message,
+                    "确认批量删除",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            DeleteSandboxRefsInActiveLaunchByDisplay(selected);
+            var blockedRunning = new List<string>();
+            for (int index = 0; index < selected.Count; index++)
+            {
+                string sandboxName = selected[index];
+                SetStatusLabelImmediately(
+                    "正在检查并终止运行进程 " + (index + 1) + "/" + selected.Count + ": " + sandboxName);
+                bool stopped;
+                try
+                {
+                    stopped = SandboxAdminService.EnsureSandboxStoppedBeforeDelete(
+                        sandboxName,
+                        6.0,
+                        SandboxAdminCallbacks);
+                }
+                catch
+                {
+                    stopped = false;
+                }
+                if (!stopped)
+                {
+                    blockedRunning.Add(sandboxName);
+                }
+            }
+
+            var deleted = new List<string>();
+            var deletedInternal = new List<string>();
+            var failed = new List<string>();
+            var failedDetails = new List<Tuple<string, string>>();
+            IList<string> candidates = selected
+                .Where(name => !blockedRunning.Contains(name, StringComparer.OrdinalIgnoreCase))
+                .ToList();
+            for (int index = 0; index < candidates.Count; index++)
+            {
+                string sandboxName = candidates[index];
+                SetStatusLabelImmediately(
+                    "正在删除沙盒用户 " + (index + 1) + "/" + candidates.Count + ": " + sandboxName);
+                string internalName = SandboxAdminCallbacks?.NormalizeSandboxName?.Invoke(sandboxName)
+                    ?? sandboxName;
+                internalName = (internalName ?? string.Empty).Trim();
+                if (internalName.Length == 0)
+                {
+                    internalName = sandboxName;
+                }
+
+                SandboxieOperationResult result;
+                try
+                {
+                    result = DeleteSandboxCallback == null
+                        ? DeleteSandboxViaOfficial(sandboxName)
+                        : DeleteSandboxCallback(sandboxName);
+                }
+                catch (Exception error)
+                {
+                    result = new SandboxieOperationResult { Detail = error.Message };
+                }
+
+                bool ok = result != null && result.Success;
+                string errorText = result == null || string.IsNullOrWhiteSpace(result.Detail)
+                    ? "删除失败"
+                    : result.Detail.Trim();
+                bool dirDeleted = SandboxAdminService.SafeDeleteDirectory(
+                    Path.Combine(GetSandboxUsersRoot(), internalName));
+                if (!dirDeleted)
+                {
+                    ok = false;
+                    if (errorText == "删除失败")
+                    {
+                        errorText = "目录删除失败";
+                    }
+                }
+
+                if (ok)
+                {
+                    deleted.Add(sandboxName);
+                    if (!string.IsNullOrWhiteSpace(internalName))
+                    {
+                        deletedInternal.Add(internalName);
+                    }
+                }
+                else
+                {
+                    failed.Add(sandboxName);
+                    failedDetails.Add(Tuple.Create(sandboxName, errorText));
+                }
+            }
+
+            bool referencesChanged = SandboxAdminService.DeleteSandboxReferencesByDisplay(
+                SandboxAdminState,
+                deleted);
+            referencesChanged = DeleteSandboxRefsInScheduledJobsByDisplay(deleted) || referencesChanged;
+            if (deletedInternal.Count != 0)
+            {
+                referencesChanged = SandboxAdminService.DeleteSandboxReferences(
+                    SandboxAdminState,
+                    deletedInternal) || referencesChanged;
+            }
+            if (referencesChanged)
+            {
+                SaveSettings();
+            }
+
+            var registryFailed = new List<string>();
+            if (deletedInternal.Count != 0 || deleted.Count != 0)
+            {
+                try
+                {
+                    IEnumerable<string> names = deletedInternal.Count != 0
+                        ? deletedInternal
+                        : deleted;
+                    SandboxRegistryCleanupResult cleanup = CleanupSandboxRegistryCallback == null
+                        ? SandboxAdminService.CleanupSandboxRegistryEntries(names)
+                        : CleanupSandboxRegistryCallback(names);
+                    registryFailed = (cleanup?.FailedPaths ?? new List<string>()).ToList();
+                }
+                catch
+                {
+                    registryFailed = new List<string>();
+                }
+            }
+
+            RefreshSandboxListCallback?.Invoke();
+            if (failed.Count != 0)
+            {
+                IEnumerable<string> lines = failedDetails
+                    .Take(12)
+                    .Select(item => item.Item1 + ": " + item.Item2);
+                string detailText = string.Join("\n", lines);
+                if (detailText.Length == 0)
+                {
+                    detailText = string.Join("\n", failed.Take(12));
+                }
+                ShowMessageCallback?.Invoke(
+                    "以下沙盒用户删除失败：\n" + detailText,
+                    "批量删除结果",
+                    MessageBoxIcon.Warning);
+            }
+            if (blockedRunning.Count != 0)
+            {
+                ShowMessageCallback?.Invoke(
+                    "以下沙盒仍在运行，已跳过删除：\n" + string.Join("\n", blockedRunning.Take(12)),
+                    "批量删除结果",
+                    MessageBoxIcon.Warning);
+            }
+            if (registryFailed.Count != 0)
+            {
+                ShowMessageCallback?.Invoke(
+                    "已删除目录，但以下注册表项清理失败：\n" + string.Join("\n", registryFailed.Take(12)),
+                    "注册表清理提示",
+                    MessageBoxIcon.Warning);
+            }
+
+            SafeSetStatusLabel(SandboxAdminService.FormatBatchDeleteStatus(
+                deleted.Count,
+                failed.Count,
+                blockedRunning.Count));
+        }
+        private void DeleteGroup()
+        {
+            IList<string> groupNames = SandboxAdminService.GetGroupNames(SandboxAdminState);
+            if (groupNames.Count == 0)
+            {
+                SafeSetStatusLabel("当前没有已保存的分组");
+                return;
+            }
+
+            string groupName = PromptGroupChoice(
+                "删除分组",
+                "请选择要删除的分组",
+                groupNames);
+            if (groupName.Length == 0)
+            {
+                return;
+            }
+
+            if (!SandboxAdminState.SandboxGroups.Remove(groupName))
+            {
+                return;
+            }
+
+            SaveSettings();
+            if (SandboxList != null && SandboxList.CurrentGroupView == groupName)
+            {
+                SandboxList.CurrentGroupView = string.Empty;
+            }
+            RefreshSandboxListCallback?.Invoke();
+            SafeSetStatusLabel("已删除分组: " + groupName);
+        }
+
+        private void LaunchGroup()
+        {
+            IList<string> groupNames = SandboxAdminService.GetGroupNames(SandboxAdminState);
+            if (groupNames.Count == 0)
+            {
+                SafeSetStatusLabel("当前没有已保存的分组");
+                return;
+            }
+
+            string groupName = PromptGroupChoice(
+                "启动分组",
+                "请选择要启动的分组",
+                groupNames);
+            if (groupName.Length == 0)
+            {
+                return;
+            }
+
+            SuppressListRefreshStatus(2.0);
+            IList<string> sandboxes = SandboxAdminService.GetGroupMembers(
+                SandboxAdminState,
+                groupName);
+            if (sandboxes.Count == 0)
+            {
+                SafeSetStatusLabel("分组为空: " + groupName);
+                return;
+            }
+
+            IList<string> validSandboxes = LaunchScheduler.ResolveLaunchEntries(
+                sandboxes,
+                SandboxAdminCallbacks?.GetExistingSandboxDisplayNames?.Invoke(),
+                SandboxAdminCallbacks?.GetExistingSandboxNames?.Invoke(),
+                SandboxAdminCallbacks?.NormalizeSandboxName,
+                SandboxAdminCallbacks?.GetSandboxDisplayName);
+            if (validSandboxes.Count == 0)
+            {
+                SafeSetStatusLabel("分组内没有可用沙盒: " + groupName);
+                return;
+            }
+
+            LaunchGroupCallback?.Invoke(validSandboxes);
+        }
+
+        private void ScheduleLaunch()
+        {
+            IList<string> selected = GetBatchTargetSandboxes();
+            if (selected.Count == 0)
+            {
+                SafeSetStatusLabel("请先勾选或选中要定时启动的沙盒用户");
+                return;
+            }
+
+            IList<LaunchAppTarget> appTargets = GetCheckedAppTargets().ToList();
+            if (appTargets.Count == 0)
+            {
+                SafeSetStatusLabel("请先在应用列表中按空格选中要打开的应用");
+                return;
+            }
+
+            int delay = ShowScheduleDelayCallback == null
+                ? ShowScheduleDelayDialog(
+                    LaunchScheduler.ScheduleLaunchDialogTitle,
+                    LaunchScheduler.ScheduleLaunchPromptText,
+                    30)
+                : ShowScheduleDelayCallback(
+                    LaunchScheduler.ScheduleLaunchDialogTitle,
+                    LaunchScheduler.ScheduleLaunchPromptText,
+                    30);
+            if (delay <= 0)
+            {
+                return;
+            }
+
+            LaunchScheduler.ScheduleSelectedLaunch(
+                LaunchState,
+                selected,
+                appTargets,
+                delay,
+                LaunchCallbacks);
+        }
+
+        private void ScheduleClose()
+        {
+            IList<string> selected = GetBatchTargetSandboxes();
+            if (selected.Count == 0)
+            {
+                SafeSetStatusLabel("请先勾选或选中要定时关闭的沙盒用户");
+                return;
+            }
+
+            int delay = ShowScheduleDelayCallback == null
+                ? ShowScheduleDelayDialog(
+                    LaunchScheduler.ScheduleCloseDialogTitle,
+                    LaunchScheduler.ScheduleClosePromptText,
+                    30)
+                : ShowScheduleDelayCallback(
+                    LaunchScheduler.ScheduleCloseDialogTitle,
+                    LaunchScheduler.ScheduleClosePromptText,
+                    30);
+            if (delay <= 0)
+            {
+                return;
+            }
+
+            LaunchScheduler.ScheduleSelectedClose(
+                LaunchState,
+                selected,
+                delay,
+                LaunchCallbacks);
+        }
+
+        private void BackupSandboxes()
+        {
+            string usersRoot = GetSandboxUsersRoot();
+            if (!Directory.Exists(usersRoot))
+            {
+                ShowMessageCallback?.Invoke("未找到任何沙盒用户，请先创建沙盒。", "错误", MessageBoxIcon.Error);
+                return;
+            }
+
+            string[] users = GetDirectDirectoryNames(usersRoot);
+            if (users.Length == 0)
+            {
+                ShowMessageCallback?.Invoke("未找到任何沙盒用户。", "错误", MessageBoxIcon.Error);
+                return;
+            }
+
+            string[] selectedUsers = SelectUsers("批量备份", users);
+            if (selectedUsers.Length == 0)
+            {
+                return;
+            }
+
+            string saveDirectory = SelectDirectoryCallback?.Invoke("选择备份保存目录", AppDirectory) ?? string.Empty;
+            if (saveDirectory.Trim().Length == 0)
+            {
+                return;
+            }
+
+            Task<string> operation;
+            try
+            {
+                operation = BackupRestoreService.CreateBackupArchiveAsync(
+                    saveDirectory,
+                    GetSandboxieIniPath(),
+                    usersRoot,
+                    selectedUsers,
+                    DateTime.Now,
+                    CreateBackupRestoreCallbacks());
+            }
+            catch (Exception error)
+            {
+                SafeSetStatusLabel(BackupRestoreService.BackupFailedStatus);
+                ShowMessageCallback?.Invoke("备份失败：" + error.Message, "错误", MessageBoxIcon.Error);
+                return;
+            }
+
+            operation.ContinueWith(completed => SafeCallAfter(() =>
+            {
+                if (completed.IsCanceled || completed.IsFaulted)
+                {
+                    string error = completed.Exception == null
+                        ? string.Empty
+                        : completed.Exception.GetBaseException().Message;
+                    SafeSetStatusLabel(BackupRestoreService.BackupFailedStatus);
+                    ShowMessageCallback?.Invoke("备份失败：" + error, "错误", MessageBoxIcon.Error);
+                    return;
+                }
+
+                ShowMessageCallback?.Invoke(
+                    "备份成功！\n备份文件保存在：\n" + completed.Result
+                        + "\n已备份用户：" + string.Join(", ", selectedUsers),
+                    "备份完成",
+                    MessageBoxIcon.Information);
+            }), TaskScheduler.Default);
+        }
+
+        private void RestoreSandboxes()
+        {
+            string backupPath = SelectBackupFileCallback != null
+                ? SelectBackupFileCallback("选择备份文件")
+                : SelectBackupFile();
+            backupPath = (backupPath ?? string.Empty).Trim();
+            if (backupPath.Length == 0)
+            {
+                return;
+            }
+            if (!string.Equals(Path.GetExtension(backupPath), BackupRestoreService.BackupFileExtension,
+                StringComparison.OrdinalIgnoreCase))
+            {
+                ShowMessageCallback?.Invoke("请选择 .sbx 格式的备份文件。", "错误", MessageBoxIcon.Error);
+                return;
+            }
+
+            string tempDirectory = Path.Combine(
+                CommonUtilities.GetUpdateTempDirectory(AppDirectory),
+                "restore_temp");
+            TryDeleteDirectory(tempDirectory);
+            try
+            {
+                BackupRestoreService.SafeExtractZip(backupPath, tempDirectory);
+            }
+            catch (Exception error)
+            {
+                ShowMessageCallback?.Invoke("无法读取备份文件：" + error.Message, "错误", MessageBoxIcon.Error);
+                TryDeleteDirectory(tempDirectory);
+                return;
+            }
+
+            string backupUsersRoot = FindBackupUsersRoot(tempDirectory);
+            string[] availableUsers = backupUsersRoot.Length == 0
+                ? new string[0]
+                : GetDirectDirectoryNames(backupUsersRoot);
+            if (availableUsers.Length == 0)
+            {
+                ShowMessageCallback?.Invoke("备份文件中没有找到任何沙盒用户数据。", "错误", MessageBoxIcon.Error);
+                TryDeleteDirectory(tempDirectory);
+                return;
+            }
+
+            string[] selectedUsers = SelectUsers("批量还原", availableUsers);
+            if (selectedUsers.Length == 0)
+            {
+                TryDeleteDirectory(tempDirectory);
+                return;
+            }
+
+            if (ConfirmMessage(
+                    "还原将覆盖以下沙盒用户的数据：" + string.Join(", ", selectedUsers) + "\n是否继续？",
+                    "确认还原",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning) != DialogResult.Yes)
+            {
+                TryDeleteDirectory(tempDirectory);
+                return;
+            }
+
+            try
+            {
+                NormalizeBackupUsersRoot(backupUsersRoot, tempDirectory, selectedUsers);
+            }
+            catch (Exception error)
+            {
+                ShowMessageCallback?.Invoke("无法准备备份用户数据：" + error.Message, "错误", MessageBoxIcon.Error);
+                TryDeleteDirectory(tempDirectory);
+                return;
+            }
+
+            BackupRestoreProgressDialog progress = ShowRestoreProgressDialog();
+            progress?.UpdateProgress(0, "停止 Sandboxie 服务...");
+
+            Task<BackupRestoreResult> operation;
+            try
+            {
+                operation = BackupRestoreService.RestoreSelectedUsersAsync(
+                    tempDirectory,
+                    GetSandboxUsersRoot(),
+                    GetSandboxieIniPath(),
+                    selectedUsers,
+                    CreateBackupRestoreCallbacks(progress));
+            }
+            catch (Exception error)
+            {
+                CloseRestoreProgressDialog(progress);
+                ShowMessageCallback?.Invoke("还原失败：" + error.Message, "错误", MessageBoxIcon.Error);
+                TryDeleteDirectory(tempDirectory);
+                return;
+            }
+
+            operation.ContinueWith(completed => SafeCallAfter(() =>
+            {
+                CloseRestoreProgressDialog(progress);
+                TryDeleteDirectory(tempDirectory);
+                if (completed.IsCanceled || completed.IsFaulted || completed.Result == null || !completed.Result.Success)
+                {
+                    string error = completed.IsFaulted && completed.Exception != null
+                        ? completed.Exception.GetBaseException().Message
+                        : completed.IsCanceled ? "操作已取消" : completed.Result == null ? string.Empty : completed.Result.Error;
+                    ShowMessageCallback?.Invoke("还原失败：" + error, "错误", MessageBoxIcon.Error);
+                    return;
+                }
+
+                string control = BackupRestoreService.FindSandboxieControlExecutable(
+                    SandboxieClient.SandboxiePath,
+                    GetSandboxieControlFallbackRoots());
+                if (control.Length != 0)
+                {
+                    if (ConfirmMessage(
+                            BackupRestoreService.FormatRestoreSuccessMessage(true),
+                            "还原完成",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question) == DialogResult.Yes)
+                    {
+                        StartSandboxieControl(control);
+                    }
+                }
+                else
+                {
+                    ShowMessageCallback?.Invoke(
+                        BackupRestoreService.FormatRestoreSuccessMessage(false),
+                        "还原完成",
+                        MessageBoxIcon.Information);
+                }
+
+                if (ConfirmMessage(
+                        BackupRestoreService.RestartPromptText,
+                        "重启提示",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    RestartApplication();
+                }
+            }), TaskScheduler.Default);
+        }
+
+        private BackupRestoreCallbacks CreateBackupRestoreCallbacks(BackupRestoreProgressDialog progress = null)
+        {
+            return new BackupRestoreCallbacks
+            {
+                SetStatus = text => SafeCallAfter(() => SafeSetStatusLabel(text)),
+                UpdateProgress = (value, text) => SafeCallAfter(() =>
+                {
+                    if (progress != null && !progress.IsDisposed)
+                    {
+                        progress.UpdateProgress(value, text);
+                    }
+                    else
+                    {
+                        SafeSetStatusLabel(text);
+                    }
+                }),
+                StopSandboxieServices = () =>
+                {
+                    if (StopSandboxieServicesCallback != null)
+                    {
+                        StopSandboxieServicesCallback();
+                    }
+                    else
+                    {
+                        StopSandboxieServices();
+                    }
+                },
+                ReloadSandboxieConfig = () =>
+                {
+                    if (ReloadSandboxieConfigCallback != null)
+                    {
+                        ReloadSandboxieConfigCallback();
+                    }
+                    else
+                    {
+                        ReloadSandboxieConfig();
+                    }
+                },
+                RestartSandboxieServices = () =>
+                {
+                    if (RestartSandboxieServicesCallback != null)
+                    {
+                        RestartSandboxieServicesCallback();
+                    }
+                    else
+                    {
+                        RestartSandboxieServices();
+                    }
+                },
+                SuppressListRefreshStatus = seconds => SafeCallAfter(() => SuppressListRefreshStatus(seconds)),
+                RefreshSandboxList = () => SafeCallAfter(RefreshSandboxListOnStartup)
+            };
+        }
+
+        private string[] SelectUsers(string title, IEnumerable<string> users)
+        {
+            if (SelectUsersCallback != null)
+            {
+                return SelectUsersCallback(title, users)?.Where(value => !string.IsNullOrWhiteSpace(value)).ToArray()
+                    ?? new string[0];
+            }
+
+            using (var dialog = new SelectUsersDialog(this, title, users))
+            {
+                return dialog.ShowDialog(this) == DialogResult.OK
+                    ? dialog.GetSelectedUsers()
+                    : new string[0];
+            }
+        }
+
+        private IDictionary ShowBatchCreateRuleDialog(string title, string prompt)
+        {
+            using (var dialog = new BatchNameRuleDialog(
+                this,
+                title,
+                prompt,
+                string.Empty,
+                1,
+                0,
+                1,
+                null,
+                new[]
+                {
+                    new KeyValuePair<int, string>(0, "不加0"),
+                    new KeyValuePair<int, string>(2, "前面加0（01）")
+                }))
+            {
+                return dialog.ShowDialog(this) == DialogResult.OK ? dialog.Result : null;
+            }
+        }
+
+        private IDictionary ShowBatchRenameRuleDialog(
+            string title,
+            string prompt,
+            string defaultPrefix,
+            int targetCount)
+        {
+            using (var dialog = new BatchNameRuleDialog(
+                this,
+                title,
+                prompt,
+                defaultPrefix,
+                1,
+                0,
+                targetCount,
+                targetCount,
+                null))
+            {
+                return dialog.ShowDialog(this) == DialogResult.OK ? dialog.Result : null;
+            }
+        }
+
+        private IList<string> GetBatchTargetSandboxes()
+        {
+            IList<string> selected = SandboxAdminService.NormalizeSandboxNameList(
+                SandboxList?.GetCheckedEntryTexts() ?? new string[0],
+                SandboxAdminCallbacks);
+            if (selected.Count == 0)
+            {
+                string current = GetSelectedSandboxName();
+                if (current.Length != 0)
+                {
+                    selected.Add(current);
+                }
+            }
+            return selected;
+        }
+
+        private bool DeleteSandboxRefsInScheduledJobsByDisplay(IEnumerable<string> namesToDelete)
+        {
+            if (LaunchState?.Jobs == null || LaunchState.Jobs.Count == 0)
+            {
+                return false;
+            }
+
+            ISet<string> lookup = new HashSet<string>(
+                (namesToDelete ?? Enumerable.Empty<string>())
+                    .Select(name => (name ?? string.Empty).Trim().ToLowerInvariant())
+                    .Where(name => name.Length != 0));
+            if (lookup.Count == 0)
+            {
+                return false;
+            }
+
+            bool changed = false;
+            var emptyJobs = new List<string>();
+            foreach (KeyValuePair<string, ScheduledLaunchJob> item in LaunchState.Jobs)
+            {
+                ScheduledLaunchJob job = item.Value;
+                if (job == null || job.SandboxTargets == null)
+                {
+                    continue;
+                }
+
+                IList<string> targets = job.SandboxTargets
+                    .Where(name => !lookup.Contains((name ?? string.Empty).Trim().ToLowerInvariant()))
+                    .ToList();
+                if (!targets.SequenceEqual(job.SandboxTargets))
+                {
+                    job.SandboxTargets = targets;
+                    changed = true;
+                }
+                if (targets.Count == 0)
+                {
+                    emptyJobs.Add(item.Key);
+                }
+                else if ((job.Description ?? string.Empty).Contains("定时启动"))
+                {
+                    job.Description = "定时启动 " + targets.Count + " 个沙盒";
+                }
+                else if ((job.Description ?? string.Empty).Contains("定时关闭"))
+                {
+                    job.Description = "定时关闭 " + targets.Count + " 个沙盒";
+                }
+            }
+
+            foreach (string key in emptyJobs)
+            {
+                LaunchScheduler.CancelScheduleTask(LaunchState, key, false, LaunchCallbacks);
+            }
+            return changed;
+        }
+        private bool RenameSandboxRefsInScheduledJobsByDisplay(
+            IDictionary<string, string> displayRenameMap)
+        {
+            if (LaunchState?.Jobs == null || displayRenameMap == null || displayRenameMap.Count == 0)
+            {
+                return false;
+            }
+
+            var lookup = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase);
+            foreach (KeyValuePair<string, string> item in displayRenameMap)
+            {
+                string oldName = (item.Key ?? string.Empty).Trim();
+                string newName = (item.Value ?? string.Empty).Trim();
+                if (oldName.Length != 0 && newName.Length != 0)
+                {
+                    lookup[oldName] = newName;
+                }
+            }
+
+            bool changed = false;
+            var emptyJobs = new List<string>();
+            foreach (KeyValuePair<string, ScheduledLaunchJob> item in LaunchState.Jobs)
+            {
+                ScheduledLaunchJob job = item.Value;
+                if (job == null || job.SandboxTargets == null)
+                {
+                    continue;
+                }
+
+                var targets = new List<string>();
+                foreach (string name in job.SandboxTargets)
+                {
+                    string target = lookup.ContainsKey(name ?? string.Empty)
+                        ? lookup[name ?? string.Empty]
+                        : name;
+                    if (!string.IsNullOrWhiteSpace(target) && !targets.Contains(target))
+                    {
+                        targets.Add(target);
+                    }
+                }
+                if (!targets.SequenceEqual(job.SandboxTargets))
+                {
+                    job.SandboxTargets = targets;
+                    changed = true;
+                }
+                if (targets.Count == 0)
+                {
+                    emptyJobs.Add(item.Key);
+                }
+                else if ((job.Description ?? string.Empty).Contains("定时启动"))
+                {
+                    job.Description = "定时启动 " + targets.Count + " 个沙盒";
+                }
+                else if ((job.Description ?? string.Empty).Contains("定时关闭"))
+                {
+                    job.Description = "定时关闭 " + targets.Count + " 个沙盒";
+                }
+            }
+
+            foreach (string key in emptyJobs)
+            {
+                LaunchScheduler.CancelScheduleTask(LaunchState, key, false, LaunchCallbacks);
+            }
+            return changed;
+        }
+
+        private bool SetSandboxAliasViaOfficial(string internalName, string alias)
+        {
+            if (SetSandboxAliasCallback != null)
+            {
+                return SetSandboxAliasCallback(internalName, alias);
+            }
+
+            Tuple<int, string> result = SandboxieClient.RunSbieIni(
+                new[] { "set", "/drv", internalName, "BoxAlias", alias },
+                10,
+                null);
+            return result != null && result.Item1 == 0;
+        }
+        private SandboxieOperationResult CreateSandboxViaOfficial(
+            string displayName,
+            IEnumerable<string> reservedNames)
+        {
+            return SandboxieClient.CreateSandboxViaOfficial(
+                displayName,
+                SandboxAdminCallbacks?.GetExistingSandboxNames?.Invoke(),
+                reservedNames,
+                new SandboxieCallbacks
+                {
+                    RunSbieIni = arguments => SandboxieClient.RunSbieIni(arguments, 8, null),
+                    ReloadConfiguration = ReloadSandboxieConfig,
+                    RefreshDisplayMaps = () => { RefreshSandboxDisplayMaps(); },
+                    EnsureSandboxDirectory = name => Directory.CreateDirectory(
+                        Path.Combine(GetSandboxUsersRoot(), name)),
+                    SetStatus = text => SafeSetStatusLabel(text)
+                });
+        }
+
+        private SandboxieOperationResult DeleteSandboxViaOfficial(string displayName)
+        {
+            return SandboxieClient.DeleteSandboxViaOfficial(
+                displayName,
+                GetSandboxDisplayMaps(),
+                GetOfficialSandboxNames(),
+                new SandboxieCallbacks
+                {
+                    RunSbieIni = arguments => SandboxieClient.RunSbieIni(arguments, 8, null),
+                    RunStart = arguments => SandboxieClient.RunSandboxieStart(
+                        arguments, 8, null, true, false),
+                    ListSectionNames = () => SandboxAdminService.ListIniSectionNames(
+                        GetSandboxieIniPath(),
+                        true),
+                    ReloadConfiguration = ReloadSandboxieConfig,
+                    RefreshDisplayMaps = () => { RefreshSandboxDisplayMaps(); },
+                    SetStatus = text => SafeSetStatusLabel(text)
+                });
+        }
+        private static string GetRuleText(IDictionary rule, string key)
+        {
+            return rule == null || !rule.Contains(key) || rule[key] == null
+                ? string.Empty
+                : Convert.ToString(rule[key]) ?? string.Empty;
+        }
+
+        private static int GetRuleInt(IDictionary rule, string key, int fallback)
+        {
+            if (rule == null || !rule.Contains(key) || rule[key] == null)
+            {
+                return fallback;
+            }
+
+            try
+            {
+                return Convert.ToInt32(rule[key]);
+            }
+            catch
+            {
+                return fallback;
+            }
+        }
+
+        private string PromptGroupName(string title, string defaultValue)
+        {
+            string value = ShowGroupNameCallback == null
+                ? ShowGroupNameDialog(title, defaultValue)
+                : ShowGroupNameCallback(title, defaultValue);
+            return (value ?? string.Empty).Trim();
+        }
+
+        private string PromptGroupChoice(
+            string title,
+            string prompt,
+            IEnumerable<string> choices)
+        {
+            string value = ShowGroupChoiceCallback == null
+                ? ShowGroupChoiceDialog(title, prompt, choices)
+                : ShowGroupChoiceCallback(title, prompt, choices);
+            return (value ?? string.Empty).Trim();
+        }
+
+        private string ShowGroupChoiceDialog(
+            string title,
+            string prompt,
+            IEnumerable<string> choices)
+        {
+            string[] values = (choices ?? Enumerable.Empty<string>()).ToArray();
+            int selected = ShowSingleChoiceDialog(title, prompt, values, "分组");
+            return selected >= 0 && selected < values.Length ? values[selected] : string.Empty;
+        }
+
+        private string ShowGroupNameDialog(string title, string defaultValue)
+        {
+            using (var dialog = new GroupNameDialog(this, title, defaultValue))
+            {
+                return dialog.ShowDialog(this) == DialogResult.OK
+                    ? (dialog.Value ?? string.Empty).Trim()
+                    : string.Empty;
+            }
+        }
+
+        private int ShowScheduleDelayDialog(string title, string prompt, int defaultSeconds)
+        {
+            using (var dialog = new Form
+            {
+                Text = title,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                StartPosition = FormStartPosition.CenterParent,
+                MinimizeBox = false,
+                MaximizeBox = false,
+                ShowInTaskbar = false,
+                ClientSize = new Size(360, 140)
+            })
+            {
+                var message = new Label
+                {
+                    AutoSize = false,
+                    Text = prompt,
+                    Location = new Point(12, 12),
+                    Size = new Size(336, 36),
+                    AccessibleName = prompt
+                };
+                var value = new NumericUpDown
+                {
+                    Minimum = 1,
+                    Maximum = 86400,
+                    Value = Math.Max(1, Math.Min(86400, defaultSeconds)),
+                    Location = new Point(12, 56),
+                    Size = new Size(120, 23),
+                    AccessibleName = LaunchScheduler.ScheduleDelayLabel,
+                    AccessibleDescription = LaunchScheduler.ScheduleDelayLabel
+                };
+                var okButton = new Button
+                {
+                    Text = "确定",
+                    DialogResult = DialogResult.OK,
+                    Location = new Point(174, 96),
+                    Size = new Size(80, 28),
+                    AccessibleName = "确定"
+                };
+                var cancelButton = new Button
+                {
+                    Text = "取消",
+                    DialogResult = DialogResult.Cancel,
+                    Location = new Point(264, 96),
+                    Size = new Size(80, 28),
+                    AccessibleName = "取消"
+                };
+                dialog.Controls.AddRange(new Control[] { message, value, okButton, cancelButton });
+                dialog.AcceptButton = okButton;
+                dialog.CancelButton = cancelButton;
+                return dialog.ShowDialog(this) == DialogResult.OK ? (int)value.Value : 0;
+            }
+        }
+
+        private string SelectBackupFile()
+        {
+            using (var dialog = new OpenFileDialog
+            {
+                Filter = "备份文件 (*.sbx)|*.sbx",
+                CheckFileExists = true,
+                Multiselect = false
+            })
+            {
+                return dialog.ShowDialog(this) == DialogResult.OK ? dialog.FileName : string.Empty;
+            }
+        }
+
+        private DialogResult ConfirmMessage(
+            string text,
+            string title,
+            MessageBoxButtons buttons,
+            MessageBoxIcon icon)
+        {
+            return ConfirmMessageCallback != null
+                ? ConfirmMessageCallback(text, title, buttons, icon)
+                : MessageBox.Show(this, text, title, buttons, icon);
+        }
+
+        private string GetSandboxUsersRoot()
+        {
+            string root = (SandboxieClient.SandboxRoot ?? string.Empty).Trim();
+            if (root.Length == 0)
+            {
+                root = (_settingsState.SandboxRoot ?? string.Empty).Trim();
+            }
+            return root.Length == 0 ? LauncherConstants.GetDefaultSandboxRoot() : root;
+        }
+
+        private string GetSandboxieIniPath()
+        {
+            if (SandboxieIniPathCallback != null)
+            {
+                return SandboxieIniPathCallback() ?? string.Empty;
+            }
+
+            return SandboxAdminService.GetSandboxieIniPath(
+                Environment.GetFolderPath(Environment.SpecialFolder.Windows),
+                SandboxieClient.SandboxiePath);
+        }
+
+        private static string[] GetDirectDirectoryNames(string root)
+        {
+            try
+            {
+                return Directory.GetDirectories(root)
+                    .Select(Path.GetFileName)
+                    .Where(name => !string.IsNullOrWhiteSpace(name))
+                    .OrderBy(name => name, StringComparer.OrdinalIgnoreCase)
+                    .ToArray();
+            }
+            catch
+            {
+                return new string[0];
+            }
+        }
+
+        private static string FindBackupUsersRoot(string extractedRoot)
+        {
+            string username = Environment.UserName;
+            string[] candidates =
+            {
+                Path.Combine(extractedRoot, "SandboxUsers"),
+                Path.Combine(extractedRoot, "Sandbox", string.IsNullOrWhiteSpace(username) ? "Administrator" : username),
+                Path.Combine(extractedRoot, "Sandbox", "Administrator")
+            };
+            foreach (string candidate in candidates.Distinct(StringComparer.OrdinalIgnoreCase))
+            {
+                if (GetDirectDirectoryNames(candidate).Length != 0)
+                {
+                    return candidate;
+                }
+            }
+            return string.Empty;
+        }
+
+        private static void NormalizeBackupUsersRoot(
+            string sourceRoot,
+            string extractedRoot,
+            IEnumerable<string> selectedUsers)
+        {
+            string targetRoot = Path.Combine(extractedRoot, "SandboxUsers");
+            if (string.Equals(
+                    Path.GetFullPath(sourceRoot).TrimEnd(Path.DirectorySeparatorChar),
+                    Path.GetFullPath(targetRoot).TrimEnd(Path.DirectorySeparatorChar),
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                return;
+            }
+
+            Directory.CreateDirectory(targetRoot);
+            foreach (string user in selectedUsers ?? Enumerable.Empty<string>())
+            {
+                string source = Path.Combine(sourceRoot, user);
+                string target = Path.Combine(targetRoot, user);
+                if (Directory.Exists(source) && !Directory.Exists(target))
+                {
+                    Directory.Move(source, target);
+                }
+            }
+        }
+
+        private IEnumerable<string> GetSandboxieControlFallbackRoots()
+        {
+            return new[]
+            {
+                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles),
+                Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFiles), "Sandboxie-Plus"),
+                Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ProgramFilesX86), "Sandboxie-Plus")
+            };
+        }
+
+        private void StopSandboxieServices()
+        {
+            try
+            {
+                RunProcessCommand(new List<string> { "net", "stop", "SbieSvc" });
+                Thread.Sleep(1000);
+            }
+            catch
+            {
+            }
+
+            foreach (string processName in new[]
+            {
+                "Sandboxie.exe", "SandboxieRpcSs.exe", "SandboxieDcomLaunch.exe",
+                "SbieSvc.exe", "SandboxieCrypto.exe", "SandMan.exe", "Start.exe"
+            })
+            {
+                try
+                {
+                    RunProcessCommand(new List<string> { "taskkill", "/f", "/im", processName });
+                    Thread.Sleep(300);
+                }
+                catch
+                {
+                }
+            }
+            Thread.Sleep(1000);
+        }
+
+        private void ReloadSandboxieConfig()
+        {
+            string executable = SandboxieClient.GetStartExecutable(SandboxieClient.SandboxiePath);
+            if (executable.Length == 0)
+            {
+                string fallback = Path.Combine(SandboxieClient.SandboxiePath ?? string.Empty, "Sandboxie.exe");
+                executable = File.Exists(fallback) ? fallback : string.Empty;
+            }
+            if (executable.Length != 0)
+            {
+                RunProcessCommand(new List<string> { executable, "/reload" });
+            }
+        }
+
+        private void RestartSandboxieServices()
+        {
+            try
+            {
+                RunProcessCommand(new List<string> { "net", "start", "SbieSvc" });
+            }
+            catch
+            {
+            }
+        }
+
+        private void StartSandboxieControl(string executable)
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = executable,
+                    UseShellExecute = true,
+                    WorkingDirectory = Path.GetDirectoryName(executable) ?? string.Empty
+                });
+            }
+            catch (Exception error)
+            {
+                ShowMessageCallback?.Invoke("启动失败：" + error.Message, "提示", MessageBoxIcon.Information);
+            }
+        }
+
+        private void RestartApplication()
+        {
+            try
+            {
+                Process.Start(new ProcessStartInfo
+                {
+                    FileName = Runtime.GetCurrentExecutablePath(),
+                    UseShellExecute = true,
+                    WorkingDirectory = Path.GetDirectoryName(Runtime.GetCurrentExecutablePath()) ?? string.Empty
+                });
+                ForceExitRequested = true;
+                Close();
+            }
+            catch
+            {
+            }
+        }
+
+        private BackupRestoreProgressDialog ShowRestoreProgressDialog()
+        {
+            if (!Visible || IsWindowClosing())
+            {
+                return null;
+            }
+
+            try
+            {
+                var dialog = new BackupRestoreProgressDialog(this);
+                bool wasEnabled = Enabled;
+                _backupRestoreProgressDialog = dialog;
+                Enabled = false;
+                dialog.FormClosed += (sender, eventArgs) =>
+                {
+                    if (ReferenceEquals(_backupRestoreProgressDialog, dialog))
+                    {
+                        _backupRestoreProgressDialog = null;
+                    }
+                    if (!IsDisposed && !Disposing)
+                    {
+                        Enabled = wasEnabled;
+                    }
+                };
+                dialog.Show(this);
+                return dialog;
+            }
+            catch
+            {
+                _backupRestoreProgressDialog = null;
+                Enabled = true;
+                return null;
+            }
+        }
+
+        private void CloseRestoreProgressDialog(BackupRestoreProgressDialog dialog)
+        {
+            if (dialog == null)
+            {
+                return;
+            }
+
+            try
+            {
+                dialog.Close();
+                dialog.Dispose();
+            }
+            catch
+            {
+            }
+        }
+
+        private static void TryDeleteDirectory(string path)
+        {
+            try
+            {
+                if (Directory.Exists(path))
+                {
+                    Directory.Delete(path, true);
+                }
+            }
+            catch
+            {
             }
         }
 
@@ -1416,13 +3101,22 @@ namespace ShaheLauncher.App
         private void LaunchSelectedSandboxes()
         {
             string[] sandboxes = SandboxList?.GetCheckedEntryTexts() ?? new string[0];
-            IEnumerable<LaunchAppTarget> applications = (AppPathList?.GetCheckedValues() ?? new string[0])
+            StartLaunch(sandboxes, GetCheckedAppTargets());
+        }
+
+        private IEnumerable<LaunchAppTarget> GetCheckedAppTargets()
+        {
+            return (AppPathList?.GetCheckedValues() ?? new string[0])
                 .Select(path => new LaunchAppTarget
                 {
                     Path = path,
                     Directory = Path.GetDirectoryName(path) ?? string.Empty
                 });
-            StartLaunch(sandboxes, applications);
+        }
+
+        private void StartLaunchGroup(IEnumerable<string> sandboxes)
+        {
+            StartLaunch(sandboxes, GetCheckedAppTargets());
         }
 
         private void StartLaunch(

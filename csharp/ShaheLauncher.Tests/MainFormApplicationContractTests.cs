@@ -2,10 +2,15 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.IO.Compression;
 using System.Linq;
 using System.Reflection;
+using System.Threading;
+using System.Text;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ShaheLauncher.Core.SandboxAdmin;
+using ShaheLauncher.Core.Sandboxie;
 
 namespace ShaheLauncher.Tests
 {
@@ -413,6 +418,899 @@ namespace ShaheLauncher.Tests
             }
         }
 
+        [TestMethod]
+        public void WiresBackupMenuActionToBackupRestoreService()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                string sandboxie = Path.Combine(root, "Sandboxie");
+                string sandboxRoot = Path.Combine(root, "SandboxUsers");
+                string saveRoot = Path.Combine(root, "backups");
+                Directory.CreateDirectory(sandboxie);
+                Directory.CreateDirectory(Path.Combine(sandboxRoot, "Box1"));
+                Directory.CreateDirectory(saveRoot);
+                File.WriteAllText(Path.Combine(sandboxie, "Start.exe"), string.Empty);
+                File.WriteAllText(Path.Combine(sandboxie, "Sandboxie.ini"), "[Box1]\r\nEnabled=y\r\n");
+                File.WriteAllText(Path.Combine(sandboxRoot, "Box1", "data.txt"), "backup-data");
+
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(formType, form, "FindSandboxiePathCallback", new Func<string>(() => sandboxie));
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                object sandboxieClient = GetProperty<object>(formType, form, "SandboxieClient");
+                SetProperty(sandboxieClient.GetType(), sandboxieClient, "SandboxiePath", sandboxie);
+                SetProperty(sandboxieClient.GetType(), sandboxieClient, "SandboxRoot", sandboxRoot);
+                Assert.AreEqual(Path.GetFullPath(sandboxRoot), GetProperty<string>(
+                    sandboxieClient.GetType(), sandboxieClient, "SandboxRoot"));
+                Assert.AreEqual(1, Directory.GetDirectories(sandboxRoot).Length);
+                SetProperty(formType, form, "SandboxieIniPathCallback", new Func<string>(() =>
+                    Path.Combine(sandboxie, "Sandboxie.ini")));
+                SetProperty(
+                    formType,
+                    form,
+                    "SelectUsersCallback",
+                    new Func<string, IEnumerable<string>, string[]>(
+                        (title, users) => new[] { "Box1" }));
+                SetProperty(
+                    formType,
+                    form,
+                    "SelectDirectoryCallback",
+                    new Func<string, string, string>((title, defaultPath) => saveRoot));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "备份沙盒用户", "backup_sandboxes");
+                WaitForStatus(formType, form, "备份完成");
+
+                Assert.AreEqual(
+                    1,
+                    Directory.GetFiles(saveRoot, "SandboxBackup_*.sbx", SearchOption.TopDirectoryOnly).Length);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
+        public void WiresRestoreMenuActionToBackupRestoreService()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                string sandboxie = Path.Combine(root, "Sandboxie");
+                string sandboxRoot = Path.Combine(root, "SandboxUsers");
+                string archive = Path.Combine(root, "restore.sbx");
+                Directory.CreateDirectory(sandboxie);
+                Directory.CreateDirectory(Path.Combine(sandboxRoot, "Box1"));
+                File.WriteAllText(Path.Combine(sandboxie, "Start.exe"), string.Empty);
+                File.WriteAllText(Path.Combine(sandboxie, "Sandboxie.ini"), "[Box1]\r\nEnabled=old\r\n");
+                File.WriteAllText(Path.Combine(sandboxRoot, "Box1", "data.txt"), "old-data");
+                CreateArchive(archive, new Dictionary<string, byte[]>
+                {
+                    { "SandboxUsers/Box1/data.txt", Bytes("restored-data") },
+                    { "Sandboxie.ini", Bytes("[Box1]\r\nEnabled=new\r\n") }
+                });
+
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(formType, form, "FindSandboxiePathCallback", new Func<string>(() => sandboxie));
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                object sandboxieClient = GetProperty<object>(formType, form, "SandboxieClient");
+                SetProperty(sandboxieClient.GetType(), sandboxieClient, "SandboxiePath", sandboxie);
+                SetProperty(sandboxieClient.GetType(), sandboxieClient, "SandboxRoot", sandboxRoot);
+                Assert.AreEqual(Path.GetFullPath(sandboxRoot), GetProperty<string>(
+                    sandboxieClient.GetType(), sandboxieClient, "SandboxRoot"));
+                Assert.AreEqual(1, Directory.GetDirectories(sandboxRoot).Length);
+                SetProperty(formType, form, "SandboxieIniPathCallback", new Func<string>(() =>
+                    Path.Combine(sandboxie, "Sandboxie.ini")));
+                SetProperty(
+                    formType,
+                    form,
+                    "SelectUsersCallback",
+                    new Func<string, IEnumerable<string>, string[]>(
+                        (title, users) => new[] { "Box1" }));
+                SetProperty(
+                    formType,
+                    form,
+                    "SelectBackupFileCallback",
+                    new Func<string, string>(title => archive));
+                SetProperty(
+                    formType,
+                    form,
+                    "ConfirmMessageCallback",
+                    new Func<string, string, MessageBoxButtons, MessageBoxIcon, DialogResult>(
+                        (text, title, buttons, icon) =>
+                            title == "确认还原" ? DialogResult.Yes : DialogResult.No));
+                SetProperty(formType, form, "StopSandboxieServicesCallback", new Action(() => { }));
+                SetProperty(formType, form, "ReloadSandboxieConfigCallback", new Action(() => { }));
+                SetProperty(formType, form, "RestartSandboxieServicesCallback", new Action(() => { }));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "还原沙盒用户", "restore_sandboxes");
+                WaitForStatus(formType, form, "还原完成");
+
+                Assert.AreEqual("restored-data", File.ReadAllText(Path.Combine(sandboxRoot, "Box1", "data.txt")));
+                StringAssert.Contains(File.ReadAllText(Path.Combine(sandboxie, "Sandboxie.ini")), "Enabled=new");
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
+        public void WiresCreateGroupMenuActionToSandboxAdminState()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                object sandboxList = GetProperty<object>(formType, form, "SandboxList");
+                ReflectionTestHelpers.InvokeInstance(
+                    sandboxList,
+                    "ReplaceItemTexts",
+                    new[] { "Box1", "Box2" },
+                    new int[0]);
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 0, true);
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 1, true);
+                object adminCallbacks = GetProperty<object>(formType, form, "SandboxAdminCallbacks");
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxDisplayNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box2" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box2" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "NormalizeSandboxName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxDisplayName",
+                    new Func<string, string>(name => name));
+                var prompts = new List<string>();
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowGroupNameCallback",
+                    new Func<string, string, string>((title, defaultValue) =>
+                    {
+                        prompts.Add(title + ":" + defaultValue);
+                        return "常用用户";
+                    }));
+                int refreshes = 0;
+                SetProperty(
+                    formType,
+                    form,
+                    "RefreshSandboxListCallback",
+                    new Action(() => refreshes++));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "新建分组", "create_group");
+
+                object state = GetProperty<object>(formType, form, "SandboxAdminState");
+                IDictionary groups = GetProperty<IDictionary>(state.GetType(), state, "SandboxGroups");
+                Assert.IsTrue(groups.Contains("常用用户"));
+                CollectionAssert.AreEqual(
+                    new[] { "Box1", "Box2" },
+                    ((IEnumerable)groups["常用用户"]).Cast<object>().ToArray());
+                Assert.AreEqual("已保存分组: 常用用户", GetProperty<Label>(formType, form, "StatusLabel").Text);
+                Assert.AreEqual(string.Empty, GetProperty<string>(sandboxList.GetType(), sandboxList, "CurrentGroupView"));
+                CollectionAssert.AreEqual(new[] { "新建分组:" }, prompts.ToArray());
+                Assert.AreEqual(1, refreshes);
+
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "UncheckAll");
+                ClickMenuActionAndAssertNoFallback(formType, form, "新建分组", "create_group");
+                Assert.AreEqual("请先勾选要归类的沙盒用户", GetProperty<Label>(formType, form, "StatusLabel").Text);
+
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 0, true);
+                ClickMenuActionAndAssertNoFallback(formType, form, "新建分组", "create_group");
+                Assert.AreEqual("请至少勾选 2 个用户再新建分组", GetProperty<Label>(formType, form, "StatusLabel").Text);
+
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 1, true);
+                ClickMenuActionAndAssertNoFallback(formType, form, "新建分组", "create_group");
+                Assert.AreEqual("分组已存在: 常用用户", GetProperty<Label>(formType, form, "StatusLabel").Text);
+                CollectionAssert.AreEqual(new[] { "新建分组:", "新建分组:" }, prompts.ToArray());
+                Assert.AreEqual(1, refreshes);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+
+        [TestMethod]
+        public void WiresLaunchGroupMenuActionToLaunchScheduler()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                object adminCallbacks = GetProperty<object>(formType, form, "SandboxAdminCallbacks");
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxDisplayNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box2" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box2" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "NormalizeSandboxName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxDisplayName",
+                    new Func<string, string>(name => name));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "启动分组", "launch_group");
+                Assert.AreEqual(
+                    "当前没有已保存的分组",
+                    GetProperty<Label>(formType, form, "StatusLabel").Text);
+
+                object state = GetProperty<object>(formType, form, "SandboxAdminState");
+                IDictionary groups = GetProperty<IDictionary>(state.GetType(), state, "SandboxGroups");
+                groups["A组"] = new List<string> { "Box2", "Box1" };
+                groups["B组"] = new List<string>();
+                groups["C组"] = new List<string> { "Missing" };
+
+                var prompts = new List<string>();
+                var choices = new Queue<string>(new[] { "A组", "B组", "C组" });
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowGroupChoiceCallback",
+                    new Func<string, string, IEnumerable<string>, string>((title, prompt, values) =>
+                    {
+                        prompts.Add(title + "|" + prompt + "|" + string.Join(",", values));
+                        return choices.Dequeue();
+                    }));
+                var launches = new List<string[]>();
+                SetProperty(
+                    formType,
+                    form,
+                    "LaunchGroupCallback",
+                    new Action<IEnumerable<string>>(names => launches.Add(names.ToArray())));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "启动分组", "launch_group");
+                CollectionAssert.AreEqual(new[] { "Box2", "Box1" }, launches.Single());
+                CollectionAssert.AreEqual(
+                    new[] { "启动分组|请选择要启动的分组|A组,B组,C组" },
+                    prompts.ToArray());
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "启动分组", "launch_group");
+                Assert.AreEqual("分组为空: B组", GetProperty<Label>(formType, form, "StatusLabel").Text);
+                Assert.AreEqual(1, launches.Count);
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "启动分组", "launch_group");
+                Assert.AreEqual("分组内没有可用沙盒: C组", GetProperty<Label>(formType, form, "StatusLabel").Text);
+                Assert.AreEqual(1, launches.Count);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
+        public void WiresScheduleLaunchMenuActionToLaunchScheduler()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                string appPath = Path.Combine(root, "demo.exe");
+                File.WriteAllText(appPath, string.Empty);
+
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                var scheduledDelays = new List<int>();
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) =>
+                    {
+                        scheduledDelays.Add(delay);
+                        return new StubDisposable();
+                    }));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowScheduleDelayCallback",
+                    new Func<string, string, int, int>((title, prompt, defaultValue) =>
+                    {
+                        Assert.AreEqual("定时启动沙盒", title);
+                        Assert.AreEqual("请设置多少秒后启动所选沙盒：", prompt);
+                        Assert.AreEqual(30, defaultValue);
+                        return 30;
+                    }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                object sandboxList = GetProperty<object>(formType, form, "SandboxList");
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "ReplaceItemTexts", new[] { "Box1" }, new int[0]);
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 0, true);
+
+                object adminCallbacks = GetProperty<object>(formType, form, "SandboxAdminCallbacks");
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxDisplayNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "NormalizeSandboxName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxDisplayName",
+                    new Func<string, string>(name => name));
+
+                object appList = GetProperty<object>(formType, form, "AppPathList");
+                ReflectionTestHelpers.InvokeInstance(appList, "ReplaceItems", (object)new[] { appPath });
+                GetProperty<ListView>(formType, form, "AppPathList").Items[0].Checked = true;
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "定时启动选中沙盒", "schedule_launch");
+
+                object state = GetProperty<object>(formType, form, "LaunchState");
+                IDictionary jobs = GetProperty<IDictionary>(state.GetType(), state, "Jobs");
+                Assert.AreEqual(1, jobs.Count);
+                object job = jobs.Values.Cast<object>().Single();
+                Assert.AreEqual("launch_selected", GetProperty<string>(job.GetType(), job, "TaskType"));
+                Assert.AreEqual("定时启动 1 个沙盒", GetProperty<string>(job.GetType(), job, "Description"));
+                CollectionAssert.AreEqual(
+                    new[] { "Box1" },
+                    ((IEnumerable)GetProperty<object>(job.GetType(), job, "SandboxTargets")).Cast<object>().ToArray());
+                Assert.AreEqual(1, GetProperty<int>(job.GetType(), job, "RetryDelaySeconds"));
+                CollectionAssert.Contains(scheduledDelays, 30000);
+                Assert.AreEqual("已设置定时任务（30 秒后）: 定时启动 1 个沙盒", GetProperty<Label>(
+                    formType, form, "StatusLabel").Text);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
+        public void WiresDeleteGroupMenuActionToSandboxAdminState()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "删除分组", "delete_group");
+                Assert.AreEqual(
+                    "当前没有已保存的分组",
+                    GetProperty<Label>(formType, form, "StatusLabel").Text);
+
+                object state = GetProperty<object>(formType, form, "SandboxAdminState");
+                IDictionary groups = GetProperty<IDictionary>(state.GetType(), state, "SandboxGroups");
+                groups["常用用户"] = new List<string> { "Box1", "Box2" };
+                object sandboxList = GetProperty<object>(formType, form, "SandboxList");
+                SetProperty(sandboxList.GetType(), sandboxList, "CurrentGroupView", "常用用户");
+                int refreshes = 0;
+                SetProperty(
+                    formType,
+                    form,
+                    "RefreshSandboxListCallback",
+                    new Action(() => refreshes++));
+                var prompts = new List<string>();
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowGroupChoiceCallback",
+                    new Func<string, string, IEnumerable<string>, string>((title, prompt, choices) =>
+                    {
+                        prompts.Add(title + "|" + prompt + "|" + string.Join(",", choices));
+                        return "常用用户";
+                    }));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "删除分组", "delete_group");
+                Assert.IsFalse(groups.Contains("常用用户"));
+                Assert.AreEqual(string.Empty, GetProperty<string>(sandboxList.GetType(), sandboxList, "CurrentGroupView"));
+                Assert.AreEqual("已删除分组: 常用用户", GetProperty<Label>(formType, form, "StatusLabel").Text);
+                CollectionAssert.AreEqual(
+                    new[] { "删除分组|请选择要删除的分组|常用用户" },
+                    prompts.ToArray());
+                Assert.AreEqual(1, refreshes);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+        [TestMethod]
+        public void WiresBatchCreateSandboxesMenuActionToSandboxieClient()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                string sandboxRoot = Path.Combine(root, "SandboxUsers");
+                object sandboxieClient = GetProperty<object>(formType, form, "SandboxieClient");
+                SetProperty(sandboxieClient.GetType(), sandboxieClient, "SandboxRoot", sandboxRoot);
+                object adminCallbacks = GetProperty<object>(formType, form, "SandboxAdminCallbacks");
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxDisplayNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box3" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box3" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "NormalizeSandboxName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxDisplayName",
+                    new Func<string, string>(name => name));
+
+                var prompts = new List<string>();
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowBatchCreateRuleCallback",
+                    new Func<string, string, IDictionary>((title, prompt) =>
+                    {
+                        prompts.Add(title + "|" + prompt);
+                        return new Dictionary<string, object>
+                        {
+                            { "prefix", "Box" },
+                            { "start", 1 },
+                            { "digits", 0 },
+                            { "count", 3 }
+                        };
+                    }));
+                var created = new List<string>();
+                SetProperty(
+                    formType,
+                    form,
+                    "CreateSandboxCallback",
+                    new Func<string, SandboxieOperationResult>(name =>
+                    {
+                        created.Add(name);
+                        return new SandboxieOperationResult { Success = true, InternalName = name };
+                    }));
+                int refreshes = 0;
+                SetProperty(
+                    formType,
+                    form,
+                    "RefreshSandboxListCallback",
+                    new Action(() => refreshes++));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "批量创建沙盒用户", "batch_create_sandboxes");
+                CollectionAssert.AreEqual(new[] { "Box2" }, created.ToArray());
+                CollectionAssert.AreEqual(
+                    new[] { "批量创建沙盒用户|请输入批量创建规则：" },
+                    prompts.ToArray());
+                Assert.AreEqual("已创建 1 个沙盒用户，跳过 2 个已存在", GetProperty<Label>(formType, form, "StatusLabel").Text);
+                Assert.AreEqual(1, refreshes);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
+        public void WiresBatchRenameSandboxesMenuActionToSandboxAdminService()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                string sandboxRoot = Path.Combine(root, "SandboxUsers");
+                Directory.CreateDirectory(Path.Combine(sandboxRoot, "Box1"));
+                Directory.CreateDirectory(Path.Combine(sandboxRoot, "Box2"));
+                string iniPath = Path.Combine(root, "Sandboxie.ini");
+                File.WriteAllText(
+                    iniPath,
+                    "[Box1]\r\nEnabled=y\r\nConfigLevel=9\r\n\r\n[Box2]\r\nEnabled=y\r\nConfigLevel=9\r\n\r\n",
+                    Encoding.UTF8);
+
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                object sandboxieClient = GetProperty<object>(formType, form, "SandboxieClient");
+                SetProperty(sandboxieClient.GetType(), sandboxieClient, "SandboxRoot", sandboxRoot);
+                SetProperty(formType, form, "SandboxieIniPathCallback", new Func<string>(() => iniPath));
+                SetProperty(formType, form, "ReloadSandboxieConfigCallback", new Action(() => { }));
+                SetProperty(formType, form, "SetSandboxAliasCallback", new Func<string, string, bool>((name, alias) => true));
+
+                object sandboxList = GetProperty<object>(formType, form, "SandboxList");
+                ReflectionTestHelpers.InvokeInstance(
+                    sandboxList,
+                    "ReplaceItemTexts",
+                    new[] { "Box1", "Box2" },
+                    new int[0]);
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 0, true);
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 1, true);
+
+                object adminCallbacks = GetProperty<object>(formType, form, "SandboxAdminCallbacks");
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxDisplayNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box2" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box2" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "NormalizeSandboxName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxDisplayName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxPids",
+                    new Func<string, IEnumerable<int>>(name => new int[0]));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "SaveSettings",
+                    new Action(() => { }));
+
+                var prompts = new List<string>();
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowBatchRenameRuleCallback",
+                    new Func<string, string, string, int, IDictionary>((title, prompt, prefix, count) =>
+                    {
+                        prompts.Add(title + "|" + prompt + "|" + prefix + "|" + count);
+                        return new Dictionary<string, object>
+                        {
+                            { "prefix", "Renamed" },
+                            { "start", 1 },
+                            { "digits", 0 },
+                            { "count", 2 }
+                        };
+                    }));
+                int refreshes = 0;
+                SetProperty(
+                    formType,
+                    form,
+                    "RefreshSandboxListCallback",
+                    new Action(() => refreshes++));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "批量重命名沙盒用户", "batch_rename_sandboxes");
+
+                CollectionAssert.AreEqual(
+                    new[] { "批量重命名沙盒用户|将按当前勾选顺序依次重命名，请设置新命名规则：|Box|2" },
+                    prompts.ToArray());
+                Assert.IsFalse(Directory.Exists(Path.Combine(sandboxRoot, "Box1")));
+                Assert.IsFalse(Directory.Exists(Path.Combine(sandboxRoot, "Box2")));
+                Assert.IsTrue(Directory.Exists(Path.Combine(sandboxRoot, "Renamed1")));
+                Assert.IsTrue(Directory.Exists(Path.Combine(sandboxRoot, "Renamed2")));
+                string ini = File.ReadAllText(iniPath);
+                StringAssert.Contains(ini, "[Renamed1]");
+                StringAssert.Contains(ini, "[Renamed2]");
+                Assert.AreEqual("已批量重命名 2 个沙盒用户", GetProperty<Label>(formType, form, "StatusLabel").Text);
+                Assert.AreEqual(1, refreshes);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+        [TestMethod]
+        public void WiresBatchDeleteSandboxesMenuActionToSandboxieClient()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                string sandboxRoot = Path.Combine(root, "SandboxUsers");
+                Directory.CreateDirectory(Path.Combine(sandboxRoot, "Box1"));
+
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "ConfirmMessageCallback",
+                    new Func<string, string, MessageBoxButtons, MessageBoxIcon, DialogResult>(
+                        (text, title, buttons, icon) => DialogResult.Yes));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                object sandboxieClient = GetProperty<object>(formType, form, "SandboxieClient");
+                SetProperty(sandboxieClient.GetType(), sandboxieClient, "SandboxRoot", sandboxRoot);
+
+                object sandboxList = GetProperty<object>(formType, form, "SandboxList");
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "ReplaceItemTexts", new[] { "Box1" }, new int[0]);
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 0, true);
+
+                object state = GetProperty<object>(formType, form, "SandboxAdminState");
+                IDictionary groups = GetProperty<IDictionary>(state.GetType(), state, "SandboxGroups");
+                groups["常用用户"] = new List<string> { "Box1" };
+                IList pinned = GetProperty<IList>(state.GetType(), state, "PinnedSandboxes");
+                pinned.Add("Box1");
+
+                object adminCallbacks = GetProperty<object>(formType, form, "SandboxAdminCallbacks");
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxDisplayNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "NormalizeSandboxName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxDisplayName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxPids",
+                    new Func<string, IEnumerable<int>>(name => new int[0]));
+
+                var deleted = new List<string>();
+                SetProperty(
+                    formType,
+                    form,
+                    "DeleteSandboxCallback",
+                    new Func<string, SandboxieOperationResult>(name =>
+                    {
+                        deleted.Add(name);
+                        return new SandboxieOperationResult
+                        {
+                            Success = true,
+                            InternalName = name
+                        };
+                    }));
+                SetProperty(
+                    formType,
+                    form,
+                    "CleanupSandboxRegistryCallback",
+                    new Func<IEnumerable<string>, SandboxRegistryCleanupResult>(
+                        names => new SandboxRegistryCleanupResult()));
+
+                int refreshes = 0;
+                SetProperty(
+                    formType,
+                    form,
+                    "RefreshSandboxListCallback",
+                    new Action(() => refreshes++));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "批量删除沙盒用户", "batch_delete_sandboxes");
+
+                CollectionAssert.AreEqual(new[] { "Box1" }, deleted.ToArray());
+                Assert.IsFalse(Directory.Exists(Path.Combine(sandboxRoot, "Box1")));
+                Assert.IsFalse(groups.Contains("常用用户"));
+                Assert.AreEqual(0, GetProperty<IList>(state.GetType(), state, "PinnedSandboxes").Count);
+                Assert.AreEqual("已批量删除 1 个沙盒用户", GetProperty<Label>(formType, form, "StatusLabel").Text);
+                Assert.AreEqual(1, refreshes);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+        [TestMethod]
+        public void ExposesRestoreProgressDialogWithAccessibleStageControls()
+        {
+            Type dialogType = Assembly.Load("沙河批量打开器").GetType(
+                "ShaheLauncher.App.UI.Dialogs.Common.BackupRestoreProgressDialog", false);
+            Assert.IsNotNull(dialogType, "restore progress dialog must exist");
+            Form dialog = (Form)Activator.CreateInstance(dialogType, new object[] { null });
+            try
+            {
+                Assert.AreEqual("还原沙盒数据", dialog.Text);
+                ProgressBar progress = GetProperty<ProgressBar>(dialogType, dialog, "ProgressBar");
+                Label stage = GetProperty<Label>(dialogType, dialog, "StageLabel");
+                Assert.AreEqual("还原进度", progress.AccessibleName);
+                Assert.IsFalse(progress.TabStop);
+                ReflectionTestHelpers.InvokeInstance(dialog, "UpdateProgress", 70, "合并配置文件...");
+                Assert.AreEqual(70, progress.Value);
+                Assert.AreEqual("合并配置文件...", stage.Text);
+            }
+            finally
+            {
+                dialog.Dispose();
+            }
+        }
+
         private static object CreateForm(Type formType, string root)
         {
             Type runtimeType = Assembly.Load("ShaheLauncher.Core")
@@ -460,6 +1358,23 @@ namespace ShaheLauncher.Tests
             item.PerformClick();
             string status = GetProperty<Label>(formType, form, "StatusLabel").Text;
             Assert.AreNotEqual("已触发操作: " + action, status, action + " must not use the default action fallback");
+        }
+
+        private static void WaitForStatus(Type formType, object form, string expected)
+        {
+            DateTime deadline = DateTime.UtcNow.AddSeconds(5);
+            while (DateTime.UtcNow < deadline)
+            {
+                Application.DoEvents();
+                string status = GetProperty<Label>(formType, form, "StatusLabel").Text;
+                if (status == expected)
+                {
+                    return;
+                }
+                Thread.Sleep(25);
+            }
+
+            Assert.AreEqual(expected, GetProperty<Label>(formType, form, "StatusLabel").Text);
         }
 
         private static string GetVisibleMenuText(MenuItem item)
@@ -535,6 +1450,26 @@ namespace ShaheLauncher.Tests
             catch
             {
             }
+        }
+
+        private static void CreateArchive(string path, IDictionary<string, byte[]> entries)
+        {
+            using (ZipArchive archive = ZipFile.Open(path, ZipArchiveMode.Create))
+            {
+                foreach (KeyValuePair<string, byte[]> item in entries)
+                {
+                    ZipArchiveEntry entry = archive.CreateEntry(item.Key);
+                    using (Stream stream = entry.Open())
+                    {
+                        stream.Write(item.Value, 0, item.Value.Length);
+                    }
+                }
+            }
+        }
+
+        private static byte[] Bytes(string value)
+        {
+            return Encoding.UTF8.GetBytes(value ?? string.Empty);
         }
 
         private sealed class StubDisposable : IDisposable
