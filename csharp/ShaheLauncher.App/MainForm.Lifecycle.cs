@@ -24,7 +24,9 @@ namespace ShaheLauncher.App
         private ManagedDelayedCall _sandboxSelectionProcessStateTimer;
         private ManualResetEventSlim _locateReinforcementEvent;
         private Thread _locateReinforcementThread;
+        private DateTime _suppressSelectionStatusUntil = DateTime.MinValue;
         private DateTime _suppressListRefreshStatusUntil = DateTime.MinValue;
+        private bool _userInteractedWithSandboxList;
         private bool _windowClosing;
         private bool _destroyStarted;
         private bool _destroyLaterScheduled = false;
@@ -680,6 +682,25 @@ namespace ShaheLauncher.App
             }
         }
 
+        public void SuppressSelectionStatus(double seconds = 1.5)
+        {
+            DateTime now = GetUtcNow();
+            DateTime until;
+            try
+            {
+                until = now.AddSeconds(seconds);
+            }
+            catch
+            {
+                until = now.AddSeconds(1.5);
+            }
+
+            if (until > _suppressSelectionStatusUntil)
+            {
+                _suppressSelectionStatusUntil = until;
+            }
+        }
+
         public bool ShouldSuppressListRefreshStatus()
         {
             try
@@ -999,9 +1020,32 @@ namespace ShaheLauncher.App
             SandboxList.PinToggleCallback = name => PinToggleCallback?.Invoke(name);
             SandboxList.SelectionProcessStateRefreshCallback = () => ScheduleSandboxSelectionProcessStateRefresh();
             SandboxList.ShouldSuppressRefreshStatusProvider = ShouldSuppressListRefreshStatus;
+            SandboxList.UserInteractedProvider = () => _userInteractedWithSandboxList;
             SandboxList.StatusCallback = text => SafeSetStatusLabel(text);
             SandboxList.ProcessMenuInvalidatedCallback = () => HotkeyController.InvalidateProcessMenuStateCache();
             SandboxList.ProcessMenuLiveStateRefreshCallback = delay => ScheduleProcessMenuLiveStateRefreshCallback?.Invoke(delay);
+        }
+
+        private void OnSandboxToggled(int selectedCount)
+        {
+            if (SandboxList?.IsListRefreshInProgress() == true)
+            {
+                return;
+            }
+
+            _userInteractedWithSandboxList = true;
+            try
+            {
+                if (GetUtcNow() < _suppressSelectionStatusUntil)
+                {
+                    return;
+                }
+            }
+            catch
+            {
+            }
+
+            SafeSetStatusLabel("已选中 " + selectedCount + " 个沙盒");
         }
 
         private void WireAppPathCallbacks()

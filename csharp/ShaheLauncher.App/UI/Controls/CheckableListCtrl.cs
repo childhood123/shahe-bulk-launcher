@@ -21,6 +21,7 @@ namespace ShaheLauncher.App.UI.Controls
         private bool _leftRightNavigationEnabled;
         private readonly object _stateRefreshSync = new object();
         private bool _stateRefreshInProgress;
+        private bool _listRefreshInProgress;
         private StateRefreshRequest _pendingStateRefresh;
         private int _refreshToken;
 
@@ -61,6 +62,11 @@ namespace ShaheLauncher.App.UI.Controls
         public string SandboxRoot { get; private set; }
         public int ContextItemIndex { get; set; } = -1;
         public string CurrentGroupView { get; set; } = string.Empty;
+
+        public bool IsListRefreshInProgress()
+        {
+            return _listRefreshInProgress;
+        }
 
         public static string FormatGroupItemText(string groupName)
         {
@@ -347,38 +353,46 @@ namespace ShaheLauncher.App.UI.Controls
 
         public void RefreshSandboxList()
         {
-            int token = ++_refreshToken;
-            if (CurrentGroupView.Length != 0)
+            _listRefreshInProgress = true;
+            try
             {
-                RefreshGroupView(token);
-                return;
-            }
+                int token = ++_refreshToken;
+                if (CurrentGroupView.Length != 0)
+                {
+                    RefreshGroupView(token);
+                    return;
+                }
 
-            string[] sandboxes = ScanSandboxes();
-            string[] groups = GetValues(GroupNamesProvider);
-            var groupedMembers = new HashSet<string>(GetValues(GroupedMembersProvider), StringComparer.Ordinal);
-            var pinnedNames = new HashSet<string>(GetValues(PinnedSandboxesProvider), StringComparer.Ordinal);
-            string[] pinned = sandboxes.Where(name => pinnedNames.Contains(name) && !groupedMembers.Contains(name)).ToArray();
-            string[] normal = sandboxes.Where(name => !pinnedNames.Contains(name) && !groupedMembers.Contains(name)).ToArray();
-            var itemTexts = new List<string>();
-            var groupIndexes = new List<int>();
-            itemTexts.AddRange(pinned);
-            foreach (string group in groups)
+                string[] sandboxes = ScanSandboxes();
+                string[] groups = GetValues(GroupNamesProvider);
+                var groupedMembers = new HashSet<string>(GetValues(GroupedMembersProvider), StringComparer.Ordinal);
+                var pinnedNames = new HashSet<string>(GetValues(PinnedSandboxesProvider), StringComparer.Ordinal);
+                string[] pinned = sandboxes.Where(name => pinnedNames.Contains(name) && !groupedMembers.Contains(name)).ToArray();
+                string[] normal = sandboxes.Where(name => !pinnedNames.Contains(name) && !groupedMembers.Contains(name)).ToArray();
+                var itemTexts = new List<string>();
+                var groupIndexes = new List<int>();
+                itemTexts.AddRange(pinned);
+                foreach (string group in groups)
+                {
+                    groupIndexes.Add(itemTexts.Count);
+                    itemTexts.Add(FormatGroupItemText(group));
+                }
+
+                itemTexts.AddRange(normal);
+                ReplaceItemTexts(itemTexts, groupIndexes);
+                if (Items.Count > 0)
+                {
+                    Items[0].Focused = true;
+                }
+
+                UpdateStatus();
+                SetRefreshStatus("已刷新 " + sandboxes.Length + " 个沙盒用户");
+                RefreshRunningStatesAsync(token, string.Empty, sandboxes);
+            }
+            finally
             {
-                groupIndexes.Add(itemTexts.Count);
-                itemTexts.Add(FormatGroupItemText(group));
+                _listRefreshInProgress = false;
             }
-
-            itemTexts.AddRange(normal);
-            ReplaceItemTexts(itemTexts, groupIndexes);
-            if (Items.Count > 0)
-            {
-                Items[0].Focused = true;
-            }
-
-            UpdateStatus();
-            SetRefreshStatus("已刷新 " + sandboxes.Length + " 个沙盒用户");
-            RefreshRunningStatesAsync(token, string.Empty, sandboxes);
         }
 
         public string[] ScanSandboxes()
@@ -883,7 +897,7 @@ namespace ShaheLauncher.App.UI.Controls
                 .ToArray();
         }
 
-        private int GetSelectedIndex()
+        public int GetSelectedIndex()
         {
             if (SelectedIndices.Count != 0)
             {

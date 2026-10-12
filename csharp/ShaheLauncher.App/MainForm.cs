@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using ShaheLauncher.App.Input;
+using ShaheLauncher.App.UI.Controls;
 using ShaheLauncher.App.UI.Dialogs.Common;
 using ShaheLauncher.App.UI.Dialogs.Settings;
 using ShaheLauncher.Core.AppPaths;
@@ -109,6 +110,7 @@ namespace ShaheLauncher.App
             AppPathSelectionChangedCallback = OnAppPathSelectionChanged;
             AppItemCheckedCallback = OnAppItemChecked;
             AppContextMenuCallback = ShowAppPathContextMenu;
+            SandboxToggledCallback = OnSandboxToggled;
             LaunchSelectedCallback = LaunchSelectedSandboxes;
             MuteCurrentCallback = name => ProcessActionService.OnMuteCurrentSandbox(name, ProcessState, ProcessCallbacks);
             MuteAllCallback = () => ProcessActionService.OnMuteAllSandboxes(ProcessState, ProcessCallbacks);
@@ -272,19 +274,37 @@ namespace ShaheLauncher.App
             AddActions(file, "退出软件", "exit_app");
             menu.MenuItems.Add(file);
 
+            HotkeyProcessMenuState processState = GetProcessMenuStates();
+            HotkeyProcessLiveState liveState = HotkeyController.GetProcessMenuLiveState();
+            bool selectedHasProcess = processState.SelectedHasProcess;
+            bool allHasProcess = processState.AllHasProcess;
             var process = new MenuItem("进程(&P)");
-            AddActions(process,
-                "静音当前打开的进程", "mute_current", "静音全部打开的进程", "mute_all",
-                "提高当前打开的进程音量（+5%）", "volume_current_up",
-                "降低当前打开的进程音量（-5%）", "volume_current_down",
-                "提高全部打开的进程音量（+5%）", "volume_all_up",
-                "降低全部打开的进程音量（-5%）", "volume_all_down",
-                "切换当前打开的进程播放设备", "switch_output_current",
-                "切换全部打开的进程播放设备", "switch_output_all",
-                "关闭当前打开的进程", "close_current_process",
-                "关闭全部打开的进程", "close_all_processes",
-                "定位当前打开的进程", "locate_current_process",
-                "刷新进程状态", "refresh_process_state");
+            AddAction(process,
+                liveState.SelectedMuteState == true
+                    ? "取消静音当前打开的进程"
+                    : "静音当前打开的进程",
+                "mute_current",
+                selectedHasProcess);
+            AddAction(process,
+                liveState.AllMuteState == true
+                    ? "取消静音全部打开的进程"
+                    : "静音全部打开的进程",
+                "mute_all",
+                allHasProcess);
+            process.MenuItems.Add(new MenuItem("-"));
+            AddAction(process, "提高当前打开的进程音量（+5%）", "volume_current_up", selectedHasProcess);
+            AddAction(process, "降低当前打开的进程音量（-5%）", "volume_current_down", selectedHasProcess);
+            AddAction(process, "提高全部打开的进程音量（+5%）", "volume_all_up", allHasProcess);
+            AddAction(process, "降低全部打开的进程音量（-5%）", "volume_all_down", allHasProcess);
+            process.MenuItems.Add(new MenuItem("-"));
+            AddAction(process, "切换当前打开的进程播放设备", "switch_output_current", selectedHasProcess);
+            AddAction(process, "切换全部打开的进程播放设备", "switch_output_all", allHasProcess);
+            process.MenuItems.Add(new MenuItem("-"));
+            AddAction(process, "关闭当前打开的进程", "close_current_process", selectedHasProcess);
+            AddAction(process, "关闭全部打开的进程", "close_all_processes", allHasProcess);
+            AddAction(process, "定位当前打开的进程", "locate_current_process", selectedHasProcess);
+            process.MenuItems.Add(new MenuItem("-"));
+            AddAction(process, "刷新进程状态", "refresh_process_state", true);
             menu.MenuItems.Add(process);
 
             var sandbox = new MenuItem("沙盒管理(&G)");
@@ -779,6 +799,7 @@ namespace ShaheLauncher.App
             HotkeyController.InvalidateProcessMenuLiveStateCache(true);
             if (refreshList)
             {
+                SuppressSelectionStatus(8.0);
                 SandboxList?.FastRefreshSandboxList();
             }
             ScheduleMenuBarRebuild();
@@ -1015,10 +1036,59 @@ namespace ShaheLauncher.App
         {
             for (int index = 0; index + 1 < actions.Length; index += 2)
             {
-                string action = actions[index + 1];
-                string text = HotkeyController.BuildMenuLabel(actions[index], action, _hotkeys, _hotkeysEnabled);
-                parent.MenuItems.Add(new MenuItem(text, (sender, eventArgs) => DispatchApplicationAction(action)));
+                AddAction(parent, actions[index], actions[index + 1], true);
             }
+        }
+
+        private void AddAction(MenuItem parent, string label, string action, bool enabled)
+        {
+            string text = HotkeyController.BuildMenuLabel(label, action, _hotkeys, _hotkeysEnabled);
+            var item = new MenuItem(text, (sender, eventArgs) => DispatchApplicationAction(action))
+            {
+                Enabled = enabled
+            };
+            parent.MenuItems.Add(item);
+        }
+
+        private HotkeyProcessMenuState GetProcessMenuStates()
+        {
+            if (SandboxList == null)
+            {
+                return HotkeyController.GetProcessMenuStates(
+                    Enumerable.Empty<HotkeySandboxItem>(),
+                    -1,
+                    false,
+                    null);
+            }
+
+            List<HotkeySandboxItem> items = SandboxList.Items.Cast<ListViewItem>()
+                .Select((item, index) => new HotkeySandboxItem
+                {
+                    Identity = SandboxList.GetItemIdentityText(index),
+                    IsSpecial = SandboxList.IsSpecialIndex(index),
+                    IsGroup = SandboxList.IsGroupIndex(index),
+                    IsRunning = (item.Text ?? string.Empty).Trim().EndsWith(
+                        CheckableListCtrl.RunningSuffix,
+                        StringComparison.Ordinal)
+                })
+                .ToList();
+            bool listMayHideSandboxMembers = (SandboxList.CurrentGroupView ?? string.Empty).Trim().Length != 0
+                || Enumerable.Range(0, SandboxList.Items.Count).Any(SandboxList.IsGroupIndex);
+            return HotkeyController.GetProcessMenuStates(
+                items,
+                SandboxList.GetSelectedIndex(),
+                listMayHideSandboxMembers,
+                () =>
+                {
+                    try
+                    {
+                        return ProcessCallbacks?.GetAllSandboxPids?.Invoke()?.Any() == true;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                });
         }
 
         private void DispatchApplicationAction(string action)
@@ -1823,6 +1893,7 @@ namespace ShaheLauncher.App
             {
             }
             SuppressListRefreshStatus(2.0);
+            SuppressSelectionStatus(2.0);
             RefreshSandboxListCallback?.Invoke();
 
             if (iniError.Length != 0)
@@ -1979,6 +2050,7 @@ namespace ShaheLauncher.App
                 }
             }
 
+            SuppressSelectionStatus(2.0);
             RefreshSandboxListCallback?.Invoke();
             if (failed.Count != 0)
             {
@@ -2066,6 +2138,7 @@ namespace ShaheLauncher.App
             }
 
             SuppressListRefreshStatus(2.0);
+            SuppressSelectionStatus(2.0);
             IList<string> sandboxes = SandboxAdminService.GetGroupMembers(
                 SandboxAdminState,
                 groupName);
@@ -3418,6 +3491,8 @@ namespace ShaheLauncher.App
 
         private void LaunchSelectedSandboxes()
         {
+            SuppressListRefreshStatus(2.0);
+            SuppressSelectionStatus(2.0);
             string[] sandboxes = SandboxList?.GetCheckedEntryTexts() ?? new string[0];
             StartLaunch(sandboxes, GetCheckedAppTargets());
         }
