@@ -932,6 +932,22 @@ namespace ShaheLauncher.App
 
         protected override bool ProcessCmdKey(ref Message message, Keys keyData)
         {
+            bool extendedKey = false;
+            try
+            {
+                extendedKey = (message.LParam.ToInt64() & 0x01000000L) != 0;
+            }
+            catch
+            {
+            }
+
+            string action = ResolveHotkeyAction(keyData, extendedKey);
+            if (action.Length != 0 && FixedHotkeyActionCallback != null)
+            {
+                FixedHotkeyActionCallback(action);
+                return true;
+            }
+
             try
             {
                 if (FrameKeyCallback != null && FrameKeyCallback(keyData))
@@ -941,13 +957,6 @@ namespace ShaheLauncher.App
             }
             catch
             {
-            }
-
-            string action = HotkeyController.DispatchFixedHotkey(keyData);
-            if (action.Length != 0 && FixedHotkeyActionCallback != null)
-            {
-                FixedHotkeyActionCallback(action);
-                return true;
             }
 
             return base.ProcessCmdKey(ref message, keyData);

@@ -1028,6 +1028,12 @@ namespace ShaheLauncher.App
         {
             switch (action)
             {
+                case "toggle_window":
+                    ToggleWindow();
+                    break;
+                case "reset_settings":
+                    ResetApplicationSettings();
+                    break;
                 case "open_app":
                     SelectApplicationPath();
                     break;
@@ -1137,6 +1143,24 @@ namespace ShaheLauncher.App
                 case "select_all":
                     SandboxList?.CheckAll();
                     break;
+                case "toggle_auto_run":
+                    ToggleAutoRun();
+                    break;
+                case "toggle_show_tray":
+                    ToggleShowTray();
+                    break;
+                case "toggle_auto_select_range":
+                    ToggleAutoSelectRange();
+                    break;
+                case "toggle_skip_running_sandbox_on_launch":
+                    ToggleSkipRunningSandboxOnLaunch();
+                    break;
+                case "toggle_remember_volume":
+                    ToggleRememberVolume();
+                    break;
+                case "toggle_list_left_right_nav":
+                    ToggleListLeftRightNavigation();
+                    break;
                 case "minimize_to_tray":
                     MinimizeToTray();
                     break;
@@ -1160,6 +1184,208 @@ namespace ShaheLauncher.App
                     SafeSetStatusLabel("已触发操作: " + action);
                     break;
             }
+        }
+
+        private void ToggleWindow()
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                WindowState = FormWindowState.Normal;
+                Show();
+                Activate();
+                SafeSetStatusLabel("已显示主窗口");
+                SpeechCallback?.Invoke("已显示主窗口", "launch_done");
+                return;
+            }
+
+            if (Visible)
+            {
+                if (ShowTray)
+                {
+                    CreateTaskBarIcon();
+                }
+
+                if (TaskBarIcon != null && TaskBarIcon.TrayIcon != null)
+                {
+                    Hide();
+                    SafeSetStatusLabel("已隐藏到托盘");
+                    SpeechCallback?.Invoke("已隐藏窗口", "launch_done");
+                    return;
+                }
+
+                WindowState = FormWindowState.Minimized;
+                SafeSetStatusLabel("当前托盘不可用，已最小化窗口");
+                SpeechCallback?.Invoke("当前托盘不可用，已最小化窗口", "launch_done");
+                return;
+            }
+
+            Show();
+            Activate();
+            SafeSetStatusLabel("已显示主窗口");
+            SpeechCallback?.Invoke("已显示主窗口", "launch_done");
+        }
+
+        private void ResetApplicationSettings()
+        {
+            if (ConfirmMessage(
+                    LauncherSettingsService.ResetConfirmationText,
+                    LauncherSettingsService.ResetConfirmationTitle,
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            LauncherSettingsCallbacks callbacks = CreateSettingsCallbacks();
+            callbacks.ApplyHotkeys = () =>
+            {
+                _hotkeys = HotkeyController.NormalizeHotkeyMap(_settingsState.Hotkeys);
+                _hotkeysEnabled = _settingsState.HotkeysEnabled;
+                ApplyHotkeys();
+            };
+            callbacks.ApplyAutoRun = () =>
+            {
+                AutoRun = _settingsState.AutoRun;
+                ApplyAutoRun();
+            };
+            SettingsService.ResetSettings(_settingsState, callbacks);
+            Settings = _settingsState.Settings ?? new Dictionary<string, object>();
+            ShowTray = _settingsState.ShowTray;
+            AutoRun = _settingsState.AutoRun;
+            LogOutputMode = _settingsState.LogOutputMode;
+            SandboxieClient.SandboxiePath = _settingsState.SandboxiePath ?? string.Empty;
+            SandboxieClient.SandboxRoot = _settingsState.SandboxRoot ?? string.Empty;
+            SyncFeatureStatesFromSettings(SandboxAdminService.NormalizeVolumeMemory(
+                _settingsState.SandboxVolumeMemory,
+                SandboxAdminCallbacks));
+            ApplyHotkeys();
+            CreateMenuBar();
+            SafeSetStatusLabel(LauncherSettingsService.ResetCompletedStatus);
+        }
+
+        private bool ToggleBooleanSetting(
+            string settingKey,
+            Func<bool> getValue,
+            Action<bool> setValue,
+            string enabledText,
+            string disabledText,
+            Action<bool> afterApply)
+        {
+            bool newValue = !getValue();
+            setValue(newValue);
+            if (Settings == null)
+            {
+                Settings = new Dictionary<string, object>();
+            }
+            Settings[settingKey] = newValue;
+            try
+            {
+                afterApply?.Invoke(newValue);
+            }
+            catch
+            {
+            }
+
+            bool finalValue = getValue();
+            setValue(finalValue);
+            Settings[settingKey] = finalValue;
+            SaveSettings();
+            CreateMenuBar();
+            SafeSetStatusLabel(finalValue ? enabledText : disabledText);
+            return finalValue;
+        }
+
+        private void ToggleAutoRun()
+        {
+            ToggleBooleanSetting(
+                "auto_run",
+                () => AutoRun,
+                value =>
+                {
+                    AutoRun = value;
+                    _settingsState.AutoRun = value;
+                },
+                "已开启：开机自动启动本程序",
+                "已关闭：开机自动启动本程序",
+                value => ApplyAutoRun());
+        }
+
+        private void ToggleShowTray()
+        {
+            ToggleBooleanSetting(
+                "show_tray",
+                () => ShowTray,
+                value =>
+                {
+                    ShowTray = value;
+                    _settingsState.ShowTray = value;
+                },
+                "已开启：在托盘上显示",
+                "已关闭：在托盘上显示",
+                value =>
+                {
+                    if (value)
+                    {
+                        CreateTaskBarIcon();
+                    }
+                    else
+                    {
+                        DisableTrayDisplay();
+                    }
+                });
+        }
+
+        private void ToggleAutoSelectRange()
+        {
+            ToggleBooleanSetting(
+                "auto_select_range_on_check",
+                () => _settingsState.AutoSelectRangeOnCheck,
+                value => _settingsState.AutoSelectRangeOnCheck = value,
+                "已开启：首尾两点自动勾选中间用户",
+                "已关闭：首尾两点自动勾选中间用户",
+                value => SandboxList?.SetRangeAutoCheckEnabled(value));
+        }
+
+        private void ToggleSkipRunningSandboxOnLaunch()
+        {
+            ToggleBooleanSetting(
+                "skip_running_sandbox_on_launch",
+                () => _settingsState.SkipRunningSandboxOnLaunch,
+                value =>
+                {
+                    _settingsState.SkipRunningSandboxOnLaunch = value;
+                    LaunchState.SkipRunningSandboxOnLaunch = value;
+                },
+                "已开启：启动跳过已运行的沙盒",
+                "已关闭：启动跳过已运行的沙盒",
+                null);
+        }
+
+        private void ToggleRememberVolume()
+        {
+            ToggleBooleanSetting(
+                "remember_volume",
+                () => _settingsState.RememberVolume,
+                value =>
+                {
+                    _settingsState.RememberVolume = value;
+                    ProcessState.RememberVolume = value;
+                    LaunchState.RememberVolume = value;
+                },
+                "已开启：记忆进程音量",
+                "已关闭：记忆进程音量",
+                null);
+        }
+
+        private void ToggleListLeftRightNavigation()
+        {
+            ToggleBooleanSetting(
+                "list_use_left_right_nav",
+                () => _settingsState.ListUseLeftRightNavigation,
+                value => _settingsState.ListUseLeftRightNavigation = value,
+                "已开启：用户列表左右光标选择",
+                "已关闭：用户列表左右光标选择",
+                value => SandboxList?.SetLeftRightNavigationEnabled(value));
         }
 
         private void CreateGroup()
