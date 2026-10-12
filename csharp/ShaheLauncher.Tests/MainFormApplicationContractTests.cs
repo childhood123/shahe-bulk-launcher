@@ -196,7 +196,7 @@ namespace ShaheLauncher.Tests
                 Assert.AreEqual(2, GetProperty<Control>(formType, form, "LaunchButton").TabIndex);
                 Assert.AreEqual("沙盒用户", GetProperty<Control>(formType, form, "SandboxList").AccessibleName);
                 Assert.AreEqual(
-                    "准备要在沙盒中打开的应用，复选列表，按空格选中或取消选中",
+                    "准备要在沙盒中打开的应用",
                     GetProperty<Control>(formType, form, "AppPathList").AccessibleName);
             }
             finally
@@ -1102,6 +1102,114 @@ namespace ShaheLauncher.Tests
                 Assert.AreEqual(1, GetProperty<int>(job.GetType(), job, "RetryDelaySeconds"));
                 CollectionAssert.Contains(scheduledDelays, 30000);
                 Assert.AreEqual("已设置定时任务（30 秒后）: 定时启动 1 个沙盒", GetProperty<Label>(
+                    formType, form, "StatusLabel").Text);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
+        public void WiresScheduleCloseMenuActionToLaunchScheduler()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                var scheduledDelays = new List<int>();
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) =>
+                    {
+                        scheduledDelays.Add(delay);
+                        return new StubDisposable();
+                    }));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowScheduleDelayCallback",
+                    new Func<string, string, int, int>((title, prompt, defaultValue) =>
+                    {
+                        Assert.AreEqual("定时关闭沙盒", title);
+                        Assert.AreEqual("请设置多少秒后关闭所选沙盒：", prompt);
+                        Assert.AreEqual(30, defaultValue);
+                        return 30;
+                    }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                object sandboxList = GetProperty<object>(formType, form, "SandboxList");
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "ReplaceItemTexts", new[] { "Box1" }, new int[0]);
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 0, true);
+
+                object adminCallbacks = GetProperty<object>(formType, form, "SandboxAdminCallbacks");
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxDisplayNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "NormalizeSandboxName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxDisplayName",
+                    new Func<string, string>(name => name));
+
+                object launchCallbacks = GetProperty<object>(formType, form, "LaunchCallbacks");
+                SetProperty(
+                    launchCallbacks.GetType(),
+                    launchCallbacks,
+                    "DeleteActiveLaunchReferencesByDisplay",
+                    new Action<IEnumerable<string>>(names => { }));
+                SetProperty(
+                    launchCallbacks.GetType(),
+                    launchCallbacks,
+                    "CloseSandboxProcesses",
+                    new Func<string, string>(name => "all_closed"));
+                SetProperty(
+                    launchCallbacks.GetType(),
+                    launchCallbacks,
+                    "RefreshProcessUi",
+                    new Action<bool>(refresh => { }));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "定时关闭选中沙盒", "schedule_close");
+
+                object state = GetProperty<object>(formType, form, "LaunchState");
+                IDictionary jobs = GetProperty<IDictionary>(state.GetType(), state, "Jobs");
+                Assert.AreEqual(1, jobs.Count);
+                object job = jobs.Values.Cast<object>().Single();
+                Assert.AreEqual("close_selected", GetProperty<string>(job.GetType(), job, "TaskType"));
+                Assert.AreEqual("定时关闭 1 个沙盒", GetProperty<string>(job.GetType(), job, "Description"));
+                CollectionAssert.AreEqual(
+                    new[] { "Box1" },
+                    ((IEnumerable)GetProperty<object>(job.GetType(), job, "SandboxTargets")).Cast<object>().ToArray());
+                Assert.AreEqual(1, GetProperty<int>(job.GetType(), job, "RetryDelaySeconds"));
+                CollectionAssert.Contains(scheduledDelays, 30000);
+                Assert.AreEqual("已设置定时任务（30 秒后）: 定时关闭 1 个沙盒", GetProperty<Label>(
                     formType, form, "StatusLabel").Text);
             }
             finally

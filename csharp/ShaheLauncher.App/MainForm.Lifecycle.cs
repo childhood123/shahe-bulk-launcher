@@ -475,8 +475,7 @@ namespace ShaheLauncher.App
             var timer = new ManagedDelayedCall(
                 delayMilliseconds,
                 () => SafeCallAfter(callback),
-                item => UnregisterCallLater(item as ManagedDelayedCall),
-                "FrameSafeCallLater");
+                item => UnregisterCallLater(item as ManagedDelayedCall));
             return RegisterCallLater(timer);
         }
 

@@ -14,7 +14,7 @@ namespace ShaheLauncher.App.UI.Controls
         public AppPathListCtrl()
             : base("准备要在沙盒中打开的应用", 520, true)
         {
-            AccessibleName = "准备要在沙盒中打开的应用，复选列表，按空格选中或取消选中";
+            AccessibleName = "准备要在沙盒中打开的应用";
         }
 
         public void BeginProgrammaticUpdate()
