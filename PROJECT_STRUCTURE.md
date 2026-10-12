@@ -46,6 +46,14 @@
 - 2026-10-12 全量重置和设置开关动作定向 GREEN：`MainForm.ResetApplicationSettings()` 继续复用现有 `LauncherSettingsService.ResetSettings()`，并把现有主窗口/进程/启动器/沙盒管理状态同步移动到服务的 `SetSandboxRoot` 回调，确保分组状态先恢复默认再刷新列表；删除服务返回后的重复热键应用、菜单重建和状态写入。`SettingsRuntimeContractTests` 通过 `2/2`，Application + SettingsService + Hotkeys 受影响分类通过 `54/54`；日志在 `artifacts/runs/csharp_settings_actions_20261012/`。
 - 2026-10-12 全量重置和设置开关动作最终门禁：C# 全量 `195/195`、Python 全量 `29/29`、Release x64 构建 `0` 警告/`0` 错误、生产源码 `compileall` 和 `git diff --check` 通过；全仓 `compileall` 仍仅被既有 `artifacts/runs/full_software_test_20261008/probe_debug/no_cleanup.py:39` 阻断。六个设置开关及确认重置后的主窗口、快捷键、托盘、自启动、自动选择、启动跳过、音量记忆、左右导航和分组列表状态均有运行时契约；日志在 `artifacts/runs/csharp_settings_actions_20261012/`。下一模块为“真实音频后端”。
 - 2026-10-12 全量重置和设置开关动作独立提交快照门禁：从 Git 索引导出仅含本模块暂存内容的快照后，C# 全量 `190/190`、Git 已跟踪 Python 基线 `24/24`、全仓 `compileall` 通过，Release x64 构建 `0` 警告/`0` 错误，`git diff --cached --check` 通过。计数少于工作树门禁是因为未纳入用户未提交的其他测试改动；日志在 `artifacts/runs/csharp_settings_actions_20261012/staged-snapshot-*.log`。
+- 2026-10-12 真实音频后端基线：当前工作树 C# 全量 `195/195`、Python 全量 `29/29`、生产源码 `python -m compileall -q shahe_bulk_launcher tests` 通过、Release x64 构建 `0` 警告/`0` 错误，`git diff --check` 退出码为 `0`；全仓 `python -m compileall -q .` 仍仅被既有临时探针 `artifacts/runs/full_software_test_20261008/probe_debug/no_cleanup.py:39` 阻断。基线日志在 `artifacts/runs/csharp_audio_backend_20261012/`；下一步以 RED 契约冻结主窗口真实音频会话、输出设备和进程路由后端接线。
+- 2026-10-12 真实音频后端 RED：新增 `WindowsProcessAudioBackendContractTests` 四项契约，定向运行按预期 `0/4` 通过；失败分别定位为 `MainForm` 未组合真实音频后端，以及 `WindowsProcessAudioBackend` 尚不存在，覆盖回调绑定、PID 会话读写委托、输出设备/默认标记、WinRT 音频策略 ID 和无效路由失败边界。日志为 `artifacts/runs/csharp_audio_backend_20261012/audio-backend-red.log`。
+- 2026-10-12 真实音频后端 GREEN：新增 `WindowsProcessAudioBackend`，使用原生 Core Audio COM 枚举默认多媒体端点会话、活动输出设备和默认设备，并使用本机 `winappaudiorouter 1.1.1` 同源的 `Windows.Media.Internal.AudioPolicyConfig` WinRT vtable 为进程设置 Console/Multimedia 输出路由；`MainForm` 三个音频回调已绑定同一后端实例。音频契约 `4/4` 通过，日志为 `artifacts/runs/csharp_audio_backend_20261012/audio-backend-green2.log`。
+- 2026-10-12 真实音频后端本机 COM 探针：Release 后端枚举到 `8` 个活动会话和 `3` 个活动输出设备，默认设备标记 `1` 个；所有会话均有 PID、静音和音量读写委托，Windows build `19045` 使用 downlevel PolicyConfig IID；`ProcessActions` 定向回归 `12/12` 通过。探针输出和回归日志在 `artifacts/runs/csharp_audio_backend_20261012/`。
+- 2026-10-12 真实音频后端异步边界 RED：新增 `ProcessAudioAsyncContractTests`，定向运行 `0/1` 按预期失败；设备选择前的 `ListOutputDevices` 当前在调用线程同步执行，阻塞时无法立即返回。日志为 `artifacts/runs/csharp_audio_backend_20261012/audio-async-red.log`。
+- 2026-10-12 真实音频后端异步边界 GREEN：`ProcessActionService` 将设备枚举移入 `RunVolumeTaskAsync` 后台任务，使用现有 `PostToUi` 执行选择对话框，再在同一后台任务完成进程路由；`ProcessAudioAsyncContractTests` 通过 `1/1`，不改变原有状态文案和结果聚合。
+- 2026-10-12 真实音频后端专用播放进程探针：临时 Python `winsound` 静音 WAV 进程被真实会话枚举到；静音切换回读 `true`、音量写入 `0.37` 后回读 `0.3700000048` 并恢复到 `1.0`，对默认播放设备的进程路由返回 `true`。临时进程和 WAV 已清理，结果在 `artifacts/runs/csharp_audio_backend_20261012/real-audio-probe.json`。
+- 2026-10-12 真实音频后端最终门禁：音频/进程受影响分类 `13/13`、C# 全量 `200/200`、Python 全量 `29/29`、生产源码 `compileall` 通过、Release x64 构建 `0` 警告/`0` 错误、`git diff --check` 退出码 `0`；全仓 `compileall` 仍仅被既有 `artifacts/runs/full_software_test_20261008/probe_debug/no_cleanup.py:39` 阻断。下一模块为“真实 EXE 与 Sandboxie 集成测试”。日志在 `artifacts/runs/csharp_audio_backend_20261012/`。
 - 2026-09-24 Task 15 应用层接线完成已确认范围：`MainForm` 的 `backup_sandboxes` 与 `restore_sandboxes` 已调用 `BackupRestoreService`，接入用户选择、保存目录/备份文件选择、覆盖确认、异步状态回调、Sandboxie 服务生命周期、配置合并、控制程序启动询问、重启询问和还原阶段进度窗口；Python 正式代码未修改。
 - 2026-08-28 前 20 模块真实调用审计的历史结论为：20/20 均有 C# 可执行测试覆盖；当时真实 EXE 启动与隔离菜单交互合并后 19/20 有应用进程源码执行证据，唯一例外是尚未接线的 Task 15。Task 15 接线后的真实 EXE 动作级审计尚未重新收集，不能把本轮 Application 测试替代为真实进程交互证据。
 - C# `Program.cs` 已接入单实例、`MainForm`、WinForms 消息循环和释放顺序，Release x64 主程序已完成最终真实启动、显示主窗口、生成配置和正常退出烟雾测试；当前 C# 版本可以启动运行，但音频真实后端、部分菜单动作和外部 updater 安装流程仍有未完成或未确认边界。
@@ -132,7 +140,7 @@ csharp/
 | 9 | `features/settings.py` | `ShaheLauncher.Core/Settings/LauncherSettingsService.cs` | 已完成，8/8 |
 | 10 | `features/app_paths.py` | `ShaheLauncher.Core/AppPaths/AppPathHistoryService.cs` 与 `ShaheLauncher.App/MainForm.cs` | 已完成已确认范围，8/8 服务契约与 4/4 运行时接线契约 |
 | 11 | `features/sandboxie.py` | `ShaheLauncher.Core/Sandboxie/SandboxieClient.cs` | 已完成，8/8 |
-| 12 | `features/process_actions.py` | `ShaheLauncher.Core/Processes/ProcessActionService.cs` | 已完成，8/8 |
+| 12 | `features/process_actions.py` | `ShaheLauncher.Core/Processes/ProcessActionService.cs`、`Processes/WindowsProcessAudioBackend.cs` 与 `ShaheLauncher.App/MainForm.cs` | 已完成已确认范围；原服务契约 8/8、真实后端契约 4/4、异步设备枚举契约 1/1 |
 | 13 | `features/sandbox_admin.py` | `ShaheLauncher.Core/SandboxAdmin/SandboxAdminService.cs` | 已完成，8/8 |
 | 14 | `features/scheduling.py` | `ShaheLauncher.Core/Scheduling/LaunchScheduler.cs` | 已完成，8/8 |
 | 15 | `backup.py` | `ShaheLauncher.Core/Backup/BackupRestoreService.cs` 与 `ShaheLauncher.App/MainForm.cs`、`UI/Dialogs/Common/BackupRestoreProgressDialog.cs` | 已完成已确认范围；服务契约 7/7、应用接线/进度窗口契约 3/3；真实 EXE 备份/还原动作级审计待补 |
@@ -159,7 +167,7 @@ csharp/
 | 9 | `features/settings.py` | 启动与交互已调用 | 配置加载/迁移及 Sandboxie 路径、数据根校正已执行 |
 | 10 | `features/app_paths.py` | 启动与交互已调用 | 主窗口通过 `AppPathHistoryService` 接入历史新增、显示、选择、勾选、上下文菜单、管理对话框保存和七个路径记忆动作；真实 EXE 路径记忆全流程仍待人工审计 |
 | 11 | `features/sandboxie.py` | 启动与交互已调用 | 安装路径、INI/显示映射和运行状态路径已执行；真实扫描会只读系统级 `Sandboxie.ini` |
-| 12 | `features/process_actions.py` | 部分交互已调用 | “静音全部”真实进入服务并得到空 PID 结果；真实音频会话和播放设备后端仍为空实现 |
+| 12 | `features/process_actions.py` | 启动与交互已调用 | `MainForm` 已绑定原生 Core Audio 会话/设备枚举、静音、音量和 WinRT PolicyConfig 进程路由；受影响契约、本机 COM 探针和专用播放进程探针均通过，真实 EXE 菜单动作级审计仍待补 |
 | 13 | `features/sandbox_admin.py` | 部分启动与交互已调用 | 设置规范化、INI 读取和临时 `Box1` 置顶已执行；`create_group`、`launch_group`、`delete_group`、`batch_create_sandboxes`、`batch_rename_sandboxes`、`batch_delete_sandboxes` 已进入 Application 契约，真实 EXE 动作级审计待补 |
 | 14 | `features/scheduling.py` | 部分启动与交互已调用 | “取消全部定时任务”和定时启动已进入服务/Application 契约；定时关闭菜单未接线 |
 | 15 | `backup.py` | 应用层测试已调用；真实 EXE 动作级审计待补 | Application 契约已通过真实 `MainMenu/MenuItem.PerformClick()` 进入备份和还原流程，临时目录、用户数据、INI 合并、异步状态和还原进度窗口均有测试覆盖；尚未在真实 EXE 中执行会修改 Sandboxie 数据的菜单动作 |
@@ -193,11 +201,15 @@ csharp/
 - `features/updates.py` 只负责生成更新请求并启动外部 `updater.exe`，仓库没有对应的 Python updater 安装器源码；Task 17 已迁移并验证清单获取、补丁选择、请求生成、后台检查、二维码资源和 SHA-256/既有签名解密公共边界，但未擅自推断未知安装、替换和重启流程。获得原 updater 源码后应另开迁移/契约任务。
 - Task 18 保留的 `NumPadEnter` 风险尚未解除：WinForms 没有独立枚举，当前只验证了 `HotkeyController` 逻辑键码、文本语义和主窗口扩展 Enter 映射契约，真实底层键盘事件接线仍需人工输入验证。
 - Task 15 `BackupRestoreService` 已接入 `MainForm` 备份/还原业务流程，服务调用和还原阶段进度窗口已有 Application 契约；真实 EXE 中直接执行会停止/重启 Sandboxie 服务并覆盖数据的动作级审计仍需在隔离环境人工/探针验证，不能以 Application 测试替代。
-- Task 20 已建立全部迁移服务属性、经典菜单、入口、发布复制、主要进程/窗口/启动/Sandboxie/语音回调、非破坏性菜单动作、Task 15 备份/还原接线和 `create_group`、`launch_group`、`delete_group`、`batch_create_sandboxes`、`batch_rename_sandboxes`、`batch_delete_sandboxes`、`schedule_launch` 菜单接线；音频会话枚举与按进程切换播放设备仍使用安全空结果边界，`schedule_close` 和 `repair_sandboxie_control_settings` 仍有 2 个动作进入统一动作提示，不能据此声明整个软件迁移完成。
+- Task 20 已建立全部迁移服务属性、经典菜单、入口、发布复制、主要进程/窗口/启动/Sandboxie/语音回调、非破坏性菜单动作、Task 15 备份/还原接线和 `create_group`、`launch_group`、`delete_group`、`batch_create_sandboxes`、`batch_rename_sandboxes`、`batch_delete_sandboxes`、`schedule_launch`、`schedule_close`、`repair_sandboxie_control_settings` 菜单接线；真实音频后端已绑定并验证，Windows 10 1803+ 的 PolicyConfig 路由在设备不可用、权限不足、进程无效或无音频会话时返回失败；新增动作的真实 EXE 动作级审计仍待补，不能据此声明整个软件迁移完成。
 - Task 10 路径记忆运行时接线已通过契约验证，但真实 EXE 中的鼠标右键、`Ctrl+H` 弹出位置、剪贴板写入和管理对话框完整保存/取消流程尚未在专用测试环境人工审计；选择/勾选回调已明确避免扫描、启动和进程刷新副作用。
 - 外部 `updater.exe` 已随 Release x64 主程序发布并通过共存烟雾验证，但仓库仍缺少原 updater 安装器源码，未知安装、替换和重启流程尚未迁移或验证。
 
 ## 验证记录
+- 2026-10-12 真实音频后端定向验证：`TestCategory=AudioBackend|ProcessActions` 通过 `13/13`，覆盖原有进程音频契约、Windows 后端四项契约和设备枚举后台边界；日志在 `artifacts/runs/csharp_audio_backend_20261012/audio-process-targeted-final-correct.log`。
+- 2026-10-12 真实音频后端全量门禁：C# `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore` 通过 `200/200`；Python `29/29`；`python -m compileall -q shahe_bulk_launcher tests` 通过；Release x64 构建 `0` 警告/`0` 错误；`git diff --check` 退出码 `0`。全仓 `python -m compileall -q .` 唯一失败仍为既有临时探针 `artifacts/runs/full_software_test_20261008/probe_debug/no_cleanup.py:39`。日志在 `artifacts/runs/csharp_audio_backend_20261012/`。
+- 2026-10-12 真实音频后端运行证据：专用静音 WAV Python 进程实际创建会话，C# 后端完成静音、音量写回/恢复和播放设备路由；结果为 `SessionFound=true`、`MuteAfterToggle=true`、`VolumeAfterWrite=0.3700000047683716`、`VolumeAfterRestore=1.0`、`RouteSucceeded=true`。结果文件为 `artifacts/runs/csharp_audio_backend_20261012/real-audio-probe.json`。
+
 
 - 2026-10-12 Task 10 路径记忆定向验证：`PathMemoryRuntimeContractTests` RED `4/4` 暴露接线缺口；实现后 GREEN `4/4`，覆盖设置菜单独立入口、`Ctrl+H` 经典上下文菜单、八个菜单动作标签/dispatcher、`FormatDisplayText`、`ListViewItem.Tag`、选择/勾选恢复和无高成本副作用。
 - 2026-10-12 Task 10 受影响回归：`TestCategory=Application|Controls|SettingsDialogs|AppPaths` 通过 `65/65`；随后 `PathMemoryRuntimeContractTests`、`UiControlsCSharpContractTests`、`SettingsDialogsCSharpContractTests` 通过 `30/30`。

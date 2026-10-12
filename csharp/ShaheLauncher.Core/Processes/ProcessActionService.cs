@@ -260,6 +260,63 @@ namespace ShaheLauncher.Core.Processes
                 : null;
         }
 
+        private ProcessAudioDevice PromptOutputDeviceChoiceFromWorker(
+            string title,
+            ProcessActionCallbacks callbacks)
+        {
+            IList<ProcessAudioDevice> devices = ListOutputAudioDevicesFromCallbacks(callbacks);
+            if (devices.Count == 0)
+            {
+                Post(callbacks, delegate
+                {
+                    callbacks?.SetStatus?.Invoke(NoOutputDevicesStatus);
+                });
+                return null;
+            }
+            if (callbacks?.ChooseOutputDevice == null)
+            {
+                return null;
+            }
+            if (callbacks.PostToUi == null)
+            {
+                return callbacks.ChooseOutputDevice(Text(title).Trim(), devices);
+            }
+
+            ProcessAudioDevice selected = null;
+            var choiceCompleted = new ManualResetEventSlim(false);
+            try
+            {
+                callbacks.PostToUi(delegate
+                {
+                    try
+                    {
+                        selected = callbacks.ChooseOutputDevice(Text(title).Trim(), devices);
+                    }
+                    catch
+                    {
+                    }
+                    finally
+                    {
+                        choiceCompleted.Set();
+                    }
+                });
+            }
+            catch
+            {
+                return null;
+            }
+
+            DateTime deadline = DateTime.UtcNow.AddSeconds(30);
+            while (!choiceCompleted.Wait(100))
+            {
+                if (IsClosing(callbacks) || DateTime.UtcNow >= deadline)
+                {
+                    return null;
+                }
+            }
+            return selected;
+        }
+
         public long PromptWindowChoice(
             string sandboxName,
             IEnumerable<ProcessWindowCandidate> windows,
@@ -1508,15 +1565,17 @@ namespace ShaheLauncher.Core.Processes
                 callbacks?.SetStatus?.Invoke("当前用户 " + names.Item2 + " 没有可切换设备的已开进程");
                 return false;
             }
-            ProcessAudioDevice device = PromptOutputDeviceChoice(SwitchCurrentOutputTitle, callbacks);
-            if (device == null)
-            {
-                return false;
-            }
             return RunVolumeTaskAsync(
                 "正在切换当前打开进程播放设备: " + names.Item2,
                 delegate
                 {
+                    ProcessAudioDevice device = PromptOutputDeviceChoiceFromWorker(
+                        SwitchCurrentOutputTitle,
+                        callbacks);
+                    if (device == null)
+                    {
+                        return string.Empty;
+                    }
                     ProcessDeviceChangeResult result;
                     bool exceptionFailed = false;
                     try
@@ -1555,15 +1614,17 @@ namespace ShaheLauncher.Core.Processes
                 callbacks?.SetStatus?.Invoke("当前没有可切换设备的全部打开进程");
                 return false;
             }
-            ProcessAudioDevice device = PromptOutputDeviceChoice(SwitchAllOutputTitle, callbacks);
-            if (device == null)
-            {
-                return false;
-            }
             return RunVolumeTaskAsync(
                 "正在切换全部打开进程播放设备...",
                 delegate
                 {
+                    ProcessAudioDevice device = PromptOutputDeviceChoiceFromWorker(
+                        SwitchAllOutputTitle,
+                        callbacks);
+                    if (device == null)
+                    {
+                        return string.Empty;
+                    }
                     ProcessDeviceChangeResult result;
                     bool exceptionFailed = false;
                     try

@@ -63,6 +63,7 @@ namespace ShaheLauncher.App
             AppPathHistoryService = new AppPathHistoryService();
             SandboxieClient = new SandboxieClient();
             ProcessActionService = new ProcessActionService();
+            ProcessAudioBackend = new WindowsProcessAudioBackend();
             SandboxAdminService = new SandboxAdminService();
             LaunchScheduler = new LaunchScheduler();
             BackupRestoreService = new BackupRestoreService();
@@ -162,6 +163,7 @@ namespace ShaheLauncher.App
         public AppPathHistoryService AppPathHistoryService { get; private set; }
         public SandboxieClient SandboxieClient { get; private set; }
         public ProcessActionService ProcessActionService { get; private set; }
+        public WindowsProcessAudioBackend ProcessAudioBackend { get; private set; }
         public SandboxAdminService SandboxAdminService { get; private set; }
         public LaunchScheduler LaunchScheduler { get; private set; }
         public BackupRestoreService BackupRestoreService { get; private set; }
@@ -472,9 +474,9 @@ namespace ShaheLauncher.App
                 GetSandboxPids = GetSandboxPids,
                 GetAllSandboxPids = GetAllSandboxPids,
                 ScanSandboxNames = GetKnownSandboxNames,
-                GetAudioSessions = () => Enumerable.Empty<ProcessAudioSession>(),
-                ListOutputDevices = () => Enumerable.Empty<ProcessAudioDevice>(),
-                SetOutputDevice = (processId, deviceId) => false,
+                GetAudioSessions = ProcessAudioBackend.GetAudioSessions,
+                ListOutputDevices = ProcessAudioBackend.ListOutputDevices,
+                SetOutputDevice = ProcessAudioBackend.SetOutputDevice,
                 GetSandboxieStartExecutable = () => SandboxieClient.GetStartExecutable(
                     SandboxieClient.SandboxiePath),
                 GetOfficialSandboxNames = GetOfficialSandboxNames,
