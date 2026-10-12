@@ -131,13 +131,7 @@ namespace ShaheLauncher.App
             CancelAllSchedulesCallback = updateStatus => LaunchScheduler.CancelAllSchedules(
                 LaunchState, updateStatus, LaunchCallbacks);
             HasScheduleJobsProvider = () => LaunchState.Jobs.Count != 0;
-            ScheduleProcessMenuLiveStateRefreshCallback = delay => StartupDelayCallback?.Invoke(
-                delay,
-                () =>
-                {
-                    ProcessCallbacks.RefreshVisibleStates?.Invoke();
-                    ScheduleMenuBarRebuild();
-                });
+            ScheduleProcessMenuLiveStateRefreshCallback = ScheduleProcessMenuLiveStateRefresh;
             SaveSettingsCallback = SaveSettings;
             LogOperationCallback = Runtime.AppendDailyLog;
             FixedHotkeyActionCallback = ExecuteApplicationAction;
@@ -798,13 +792,158 @@ namespace ShaheLauncher.App
         private void RefreshProcessUi(bool refreshList)
         {
             HotkeyController.InvalidateProcessMenuStateCache();
-            HotkeyController.InvalidateProcessMenuLiveStateCache(true);
+            HotkeyController.InvalidateProcessMenuLiveStateCache(false);
             if (refreshList)
             {
                 SuppressSelectionStatus(8.0);
                 SandboxList?.FastRefreshSandboxList();
             }
-            ScheduleMenuBarRebuild();
+            ScheduleProcessMenuLiveStateRefreshCallback?.Invoke(1);
+            ScheduleMenuBarRebuild(24);
+        }
+
+        private void ScheduleProcessMenuLiveStateRefresh(int delayMilliseconds)
+        {
+            StartupDelayCallback?.Invoke(
+                Math.Max(1, delayMilliseconds),
+                StartProcessMenuLiveStateRefresh);
+        }
+
+        private void StartProcessMenuLiveStateRefresh()
+        {
+            if (IsWindowClosing())
+            {
+                return;
+            }
+
+            try
+            {
+                ProcessCallbacks?.RefreshVisibleStates?.Invoke();
+            }
+            catch
+            {
+            }
+
+            HotkeyProcessMenuState menuState = GetProcessMenuStates();
+            string selectedName = (menuState.SelectedName ?? string.Empty).Trim();
+            int token = HotkeyController.InvalidateProcessMenuLiveStateCache(false);
+            Task.Run(() => ReadProcessMenuLiveState(menuState, selectedName))
+                .ContinueWith(completed =>
+                {
+                    HotkeyProcessLiveState liveState = completed.Status == TaskStatus.RanToCompletion
+                        ? completed.Result
+                        : new HotkeyProcessLiveState();
+                    SafeCallAfter(() => FinishProcessMenuLiveStateRefresh(
+                        token,
+                        selectedName,
+                        liveState));
+                }, TaskScheduler.Default);
+        }
+
+        private HotkeyProcessLiveState ReadProcessMenuLiveState(
+            HotkeyProcessMenuState menuState,
+            string selectedName)
+        {
+            var result = new HotkeyProcessLiveState();
+            try
+            {
+                IList<int> selectedPids = menuState.SelectedHasProcess && selectedName.Length != 0
+                    ? ReadProcessMenuPids(() => ProcessCallbacks?.GetSandboxPids?.Invoke(selectedName))
+                    : new List<int>();
+                IList<int> allPids = menuState.AllHasProcess
+                    ? ReadProcessMenuPids(() => ProcessCallbacks?.GetAllSandboxPids?.Invoke())
+                    : new List<int>();
+                IList<ProcessAudioSession> sessions = selectedPids.Count != 0 || allPids.Count != 0
+                    ? ReadProcessAudioSessions()
+                    : new List<ProcessAudioSession>();
+
+                if (selectedPids.Count != 0)
+                {
+                    result.SelectedMuteState = ProcessActionService.GetMuteStateForPids(
+                        selectedPids,
+                        sessions);
+                    result.SelectedAudioSession = result.SelectedMuteState.HasValue;
+                    result.SelectedHasWindow = ProcessActionService.FindWindowForPids(selectedPids) != 0;
+                }
+                if (allPids.Count != 0)
+                {
+                    result.AllMuteState = ProcessActionService.GetMuteStateForPids(allPids, sessions);
+                    result.AllAudioSession = result.AllMuteState.HasValue;
+                }
+                if (selectedPids.Count != 0 || allPids.Count != 0)
+                {
+                    result.OutputDevicesAvailable = ProcessActionService
+                        .ListOutputAudioDevicesFromCallbacks(ProcessCallbacks)
+                        .Count != 0;
+                }
+            }
+            catch
+            {
+                return new HotkeyProcessLiveState();
+            }
+            return result;
+        }
+
+        private IList<int> ReadProcessMenuPids(Func<IEnumerable<int>> provider)
+        {
+            try
+            {
+                return ProcessActionService.NormalizePidSet(provider?.Invoke());
+            }
+            catch
+            {
+                return new List<int>();
+            }
+        }
+
+        private IList<ProcessAudioSession> ReadProcessAudioSessions()
+        {
+            try
+            {
+                return (ProcessCallbacks?.GetAudioSessions?.Invoke()
+                    ?? Enumerable.Empty<ProcessAudioSession>()).ToList();
+            }
+            catch
+            {
+                return new List<ProcessAudioSession>();
+            }
+        }
+
+        private void FinishProcessMenuLiveStateRefresh(
+            int token,
+            string selectedName,
+            HotkeyProcessLiveState liveState)
+        {
+            if (!HotkeyController.AcceptProcessMenuLiveState(token, liveState, null))
+            {
+                return;
+            }
+
+            string cacheName = selectedName;
+            try
+            {
+                cacheName = ProcessCallbacks?.ResolveSandboxNames?.Invoke(selectedName)?.Item1
+                    ?? selectedName;
+            }
+            catch
+            {
+            }
+            cacheName = (cacheName ?? string.Empty).Trim();
+            if (cacheName.Length != 0)
+            {
+                if (liveState.SelectedMuteState.HasValue)
+                {
+                    ProcessState.CachedMuteStateBySandbox[cacheName] =
+                        liveState.SelectedMuteState.Value;
+                }
+                else
+                {
+                    ProcessState.CachedMuteStateBySandbox.Remove(cacheName);
+                }
+            }
+            ProcessState.CachedMuteStateAll = liveState.AllMuteState;
+            SandboxAdminState.CachedMuteStateAll = liveState.AllMuteState;
+            ScheduleMenuBarRebuild(1);
         }
 
         private long ChooseProcessWindow(string sandboxName, IList<ProcessWindowCandidate> windows)

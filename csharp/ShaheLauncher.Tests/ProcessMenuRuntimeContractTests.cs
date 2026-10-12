@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -8,6 +9,7 @@ using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShaheLauncher.App;
 using ShaheLauncher.App.Input;
+using ShaheLauncher.Core.Processes;
 using ShaheLauncher.Core.Runtime;
 
 namespace ShaheLauncher.Tests
@@ -108,6 +110,72 @@ namespace ShaheLauncher.Tests
                         form, "取消静音当前打开的进程").Enabled);
                     Assert.IsTrue(FindProcessMenuItem(
                         form, "取消静音全部打开的进程").Enabled);
+                }
+                finally
+                {
+                    Destroy(form);
+                    DeleteDirectory(root);
+                }
+            });
+        }
+
+        [TestMethod]
+        public void ProcessUiRefreshRecomputesLiveMuteStateWithoutBlockingUi()
+        {
+            RunInSta(() =>
+            {
+                string root = CreateTemporaryDirectory();
+                MainForm form = null;
+                try
+                {
+                    form = CreateForm(root);
+                    form.InitializeUi();
+                    form.StartupDelayCallback = (delay, callback) =>
+                    {
+                        callback();
+                        return null;
+                    };
+                    form.SandboxList.ReplaceItemTexts(
+                        new[] { "用户A 【运行中】" },
+                        new int[0]);
+                    SelectOnly(form.SandboxList, 0);
+
+                    int audioScans = 0;
+                    form.ProcessCallbacks.GetSandboxPids = name => new[] { 42 };
+                    form.ProcessCallbacks.GetAllSandboxPids = () => new[] { 42 };
+                    form.ProcessCallbacks.GetAudioSessions = () =>
+                    {
+                        Interlocked.Increment(ref audioScans);
+                        Thread.Sleep(600);
+                        return new[]
+                        {
+                            new ProcessAudioSession
+                            {
+                                Pid = 42,
+                                HasVolume = true,
+                                IsMuted = true,
+                                ReadMute = () => true,
+                                ReadMasterVolume = () => 0.5
+                            }
+                        };
+                    };
+                    form.ProcessCallbacks.ListOutputDevices = () => new[]
+                    {
+                        new ProcessAudioDevice { Id = "device", Name = "测试设备" }
+                    };
+
+                    var elapsed = Stopwatch.StartNew();
+                    form.ProcessCallbacks.RefreshProcessUi(false);
+                    elapsed.Stop();
+
+                    Assert.IsTrue(elapsed.ElapsedMilliseconds < 300,
+                        "实时进程状态枚举不能阻塞 WinForms UI 线程");
+                    Assert.IsTrue(WaitUntil(
+                        () => HasProcessMenuItem(form, "取消静音当前打开的进程"),
+                        3000),
+                        "进程动作完成后必须重新计算实时静音状态并刷新菜单标签");
+                    Assert.IsTrue(audioScans > 0,
+                        "运行时刷新必须调用真实音频会话后端，而不是只重建默认菜单");
                 }
                 finally
                 {
@@ -273,6 +341,29 @@ namespace ShaheLauncher.Tests
                 .SingleOrDefault(item => VisibleText(item) == visibleText);
             Assert.IsNotNull(result, visibleText + " 菜单项必须存在");
             return result;
+        }
+
+        private static bool HasProcessMenuItem(MainForm form, string visibleText)
+        {
+            Application.DoEvents();
+            MenuItem processMenu = form.Menu?.MenuItems.Cast<MenuItem>()
+                .SingleOrDefault(item => item.Text == "进程(&P)");
+            return processMenu != null && processMenu.MenuItems.Cast<MenuItem>()
+                .Any(item => VisibleText(item) == visibleText);
+        }
+
+        private static bool WaitUntil(Func<bool> condition, int timeoutMilliseconds)
+        {
+            Stopwatch elapsed = Stopwatch.StartNew();
+            while (elapsed.ElapsedMilliseconds < timeoutMilliseconds)
+            {
+                if (condition())
+                {
+                    return true;
+                }
+                Thread.Sleep(20);
+            }
+            return condition();
         }
 
         private static string VisibleText(MenuItem item)
