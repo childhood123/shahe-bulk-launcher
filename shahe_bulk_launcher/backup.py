@@ -3,12 +3,13 @@ import datetime
 import os
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import threading
 import time
 import zipfile
-from pathlib import Path
+from pathlib import Path, PurePosixPath, PureWindowsPath
 
 import wx
 
@@ -16,6 +17,43 @@ from .bootstrap import get_app_dir, get_current_executable_path, is_packaged_app
 from .common import get_update_temp_dir
 from .constants import get_default_sandbox_root
 from .ui.common_dialogs import SelectUsersDialog
+
+
+def safe_extract_zip(zip_path, extract_dir):
+    root = Path(extract_dir).resolve()
+    root.mkdir(parents=True, exist_ok=True)
+
+    with zipfile.ZipFile(zip_path, "r") as zf:
+        members = []
+        for info in zf.infolist():
+            name = info.filename.replace("\\", "/")
+            parts = PurePosixPath(name).parts
+            windows_path = PureWindowsPath(info.filename)
+            mode = info.external_attr >> 16
+            if (
+                not parts
+                or name.startswith("/")
+                or windows_path.drive
+                or ".." in parts
+                or any(":" in part for part in parts)
+                or stat.S_ISLNK(mode)
+            ):
+                raise ValueError(f"备份文件包含不安全路径：{info.filename}")
+
+            target = (root / Path(*parts)).resolve()
+            try:
+                target.relative_to(root)
+            except ValueError as exc:
+                raise ValueError(f"备份文件包含不安全路径：{info.filename}") from exc
+            members.append((info, target, info.is_dir() or name.endswith("/")))
+
+        for info, target, is_dir in members:
+            if is_dir:
+                target.mkdir(parents=True, exist_ok=True)
+                continue
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with zf.open(info, "r") as source, open(target, "wb") as destination:
+                shutil.copyfileobj(source, destination)
 
 
 class BackupRestoreMgr:
@@ -100,11 +138,12 @@ class BackupRestoreMgr:
     def _find_sandboxie_control_exe(self):
         base = str(getattr(self.frame, "SANDBOXIE_PATH", "") or "").strip()
         if base:
-            for name in ("SandMan.exe", "Sandboxie.exe"):
+            for name in ("SandMan.exe", "SbieCtrl.exe", "Sandboxie.exe"):
                 p = os.path.join(base, name)
                 if os.path.isfile(p):
                     return p
-        for p in [r"C:\Program Files\Sandboxie\Sandboxie.exe", r"C:\Program Files (x86)\Sandboxie\Sandboxie.exe",
+        for p in [r"C:\Program Files\Sandboxie\SandMan.exe", r"C:\Program Files\Sandboxie\SbieCtrl.exe", r"C:\Program Files\Sandboxie\Sandboxie.exe",
+                  r"C:\Program Files (x86)\Sandboxie\SandMan.exe", r"C:\Program Files (x86)\Sandboxie\SbieCtrl.exe", r"C:\Program Files (x86)\Sandboxie\Sandboxie.exe",
                   r"C:\Program Files\Sandboxie-Plus\SandMan.exe", r"C:\Program Files (x86)\Sandboxie-Plus\SandMan.exe"]:
             if os.path.exists(p):
                 return p
