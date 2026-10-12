@@ -24,7 +24,6 @@ class SettingsMixin:
             "sandbox_root": get_default_sandbox_root(),
             "launch_interval": 5,
             "launch_concurrency_limit": 1,
-            "dynamic_launch_delay_by_load": False,
             "show_tray": True,
             "auto_run": False,
             "auto_select_range_on_check": False,
@@ -78,6 +77,7 @@ class SettingsMixin:
                 merged.pop("auto_update_on_startup", None)
                 merged.pop("auto_check_update_on_startup", None)
                 merged.pop("update_manifest_url", None)
+                merged.pop("dynamic_launch_delay_by_load", None)
                 merged["log_output_mode"] = normalize_log_output_mode(merged.get("log_output_mode", LOG_OUTPUT_DETAILED))
                 self.update_manifest_url = self.config_store.get_secret_text("update_manifest_url", UPDATE_MANIFEST_URL) or UPDATE_MANIFEST_URL
                 return merged
@@ -95,6 +95,7 @@ class SettingsMixin:
                     merged.pop("auto_update_on_startup", None)
                     merged.pop("auto_check_update_on_startup", None)
                     merged.pop("update_manifest_url", None)
+                    merged.pop("dynamic_launch_delay_by_load", None)
                     merged["log_output_mode"] = normalize_log_output_mode(merged.get("log_output_mode", LOG_OUTPUT_DETAILED))
                     try:
                         self.config_store.set_json("settings_json", merged)
@@ -126,7 +127,7 @@ class SettingsMixin:
             self.settings["sandbox_root"] = self.sandbox_root
             self.settings["launch_interval"] = self.launch_interval
             self.settings["launch_concurrency_limit"] = self.launch_concurrency_limit
-            self.settings["dynamic_launch_delay_by_load"] = self.dynamic_launch_delay_by_load
+            self.settings.pop("dynamic_launch_delay_by_load", None)
             self.settings["show_tray"] = self.show_tray
             self.settings["auto_run"] = self.auto_run
             self.settings.pop("auto_update_on_startup", None)
@@ -282,10 +283,7 @@ class SettingsMixin:
             1,
             32
         )
-        self.dynamic_launch_delay_by_load = parse_bool_setting(
-            settings.get("dynamic_launch_delay_by_load", self.dynamic_launch_delay_by_load),
-            self.dynamic_launch_delay_by_load
-        )
+        settings.pop("dynamic_launch_delay_by_load", None)
         self.auto_run = parse_bool_setting(settings.get("auto_run", False), False)
         settings.pop("auto_update_on_startup", None)
         settings.pop("auto_check_update_on_startup", None)

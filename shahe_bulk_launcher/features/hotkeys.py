@@ -244,14 +244,6 @@ class HotkeysMixin:
         self.create_menu_bar()
         self.lbl_status.SetLabel(enabled_text if final_value else disabled_text)
 
-    def on_hotkey_toggle_dynamic_launch_delay(self, event):
-        self._toggle_boolean_setting(
-            "dynamic_launch_delay_by_load",
-            "dynamic_launch_delay_by_load",
-            "已开启：批量启动按系统负载动态调整延迟",
-            "已关闭：批量启动按系统负载动态调整延迟"
-        )
-
     def on_hotkey_toggle_auto_run(self, event):
         self._toggle_boolean_setting(
             "auto_run",
@@ -719,7 +711,6 @@ class HotkeysMixin:
             {"category": "工具操作", "action": "restore_sandboxes", "label": "还原沙盒用户", "default": "", "event_id": 3030, "handler": self.on_hotkey_restore_sandboxes},
             {"category": "目录校正", "action": "manual_correct_sandboxie_path", "label": "手动校正 Sandboxie 安装路径", "default": "", "event_id": 3031, "handler": self.on_hotkey_manual_correct_sandboxie_path},
             {"category": "目录校正", "action": "select_sandbox_root", "label": "选择沙盒用户数据目录", "default": "", "event_id": 3032, "handler": self.on_hotkey_select_sandbox_root},
-            {"category": "设置开关", "action": "toggle_dynamic_launch_delay", "label": "切换：按系统负载动态调整延迟", "default": "", "event_id": 3039, "handler": self.on_hotkey_toggle_dynamic_launch_delay},
             {"category": "设置开关", "action": "toggle_auto_run", "label": "切换：开机自动启动本程序", "default": "", "event_id": 3040, "handler": self.on_hotkey_toggle_auto_run},
             {"category": "设置开关", "action": "toggle_show_tray", "label": "切换：在托盘上显示", "default": "", "event_id": 3041, "handler": self.on_hotkey_toggle_show_tray},
             {"category": "设置开关", "action": "toggle_auto_select_range", "label": "切换：首尾两点自动勾选中间用户", "default": "", "event_id": 3042, "handler": self.on_hotkey_toggle_auto_select_range},

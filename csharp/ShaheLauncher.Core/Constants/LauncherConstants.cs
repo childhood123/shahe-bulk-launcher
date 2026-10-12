@@ -93,6 +93,17 @@ namespace ShaheLauncher.Core.Constants
             return drive + @"\Sandbox\" + userName;
         }
 
+        public static int GetLaunchConcurrencyMaximum()
+        {
+            return Math.Max(1, Math.Min(32, Environment.ProcessorCount));
+        }
+
+        public static int GetDefaultLaunchConcurrencyLimit()
+        {
+            int maximum = GetLaunchConcurrencyMaximum();
+            return Math.Min(maximum, Environment.ProcessorCount < 4 ? 2 : 4);
+        }
+
         public static string NormalizeSandboxRootPath(string sandboxRoot)
         {
             string value = (sandboxRoot ?? string.Empty).Trim();

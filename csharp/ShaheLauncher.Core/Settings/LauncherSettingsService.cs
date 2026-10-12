@@ -20,7 +20,7 @@ namespace ShaheLauncher.Core.Settings
             MaxHistoryItems = 10;
             SandboxRoot = LauncherConstants.GetDefaultSandboxRoot();
             LaunchInterval = 5;
-            LaunchConcurrencyLimit = 1;
+            LaunchConcurrencyLimit = LauncherConstants.GetDefaultLaunchConcurrencyLimit();
             ShowTray = true;
             ListUseLeftRightNavigation = true;
             RememberVolume = true;
@@ -47,7 +47,6 @@ namespace ShaheLauncher.Core.Settings
         public string SandboxRoot { get; set; }
         public int LaunchInterval { get; set; }
         public int LaunchConcurrencyLimit { get; set; }
-        public bool DynamicLaunchDelayByLoad { get; set; }
         public bool ShowTray { get; set; }
         public bool AutoRun { get; set; }
         public bool AutoSelectRangeOnCheck { get; set; }
@@ -131,8 +130,7 @@ namespace ShaheLauncher.Core.Settings
                 { "sandboxie_path", string.Empty },
                 { "sandbox_root", LauncherConstants.GetDefaultSandboxRoot() },
                 { "launch_interval", 5 },
-                { "launch_concurrency_limit", 1 },
-                { "dynamic_launch_delay_by_load", false },
+                { "launch_concurrency_limit", LauncherConstants.GetDefaultLaunchConcurrencyLimit() },
                 { "show_tray", true },
                 { "auto_run", false },
                 { "auto_select_range_on_check", false },
@@ -281,7 +279,7 @@ namespace ShaheLauncher.Core.Settings
                 settings["sandbox_root"] = state.SandboxRoot ?? string.Empty;
                 settings["launch_interval"] = state.LaunchInterval;
                 settings["launch_concurrency_limit"] = state.LaunchConcurrencyLimit;
-                settings["dynamic_launch_delay_by_load"] = state.DynamicLaunchDelayByLoad;
+                settings.Remove("dynamic_launch_delay_by_load");
                 settings["show_tray"] = state.ShowTray;
                 settings["auto_run"] = state.AutoRun;
                 settings.Remove("auto_update_on_startup");
@@ -348,13 +346,11 @@ namespace ShaheLauncher.Core.Settings
             state.LaunchInterval = CommonUtilities.ParseIntSetting(
                 Unwrap(GetValue(data, "launch_interval", 5)), 5, 0, 15);
             state.LaunchConcurrencyLimit = CommonUtilities.ParseIntSetting(
-                Unwrap(GetValue(data, "launch_concurrency_limit", state.LaunchConcurrencyLimit)),
+                Unwrap(GetValue(data, "launch_concurrency_limit", LauncherConstants.GetDefaultLaunchConcurrencyLimit())),
                 state.LaunchConcurrencyLimit,
                 1,
-                32);
-            state.DynamicLaunchDelayByLoad = CommonUtilities.ParseBoolSetting(
-                Unwrap(GetValue(data, "dynamic_launch_delay_by_load", state.DynamicLaunchDelayByLoad)),
-                state.DynamicLaunchDelayByLoad);
+                LauncherConstants.GetLaunchConcurrencyMaximum());
+            data.Remove("dynamic_launch_delay_by_load");
             state.AutoRun = CommonUtilities.ParseBoolSetting(
                 Unwrap(GetValue(data, "auto_run", false)), false);
             data.Remove("auto_update_on_startup");

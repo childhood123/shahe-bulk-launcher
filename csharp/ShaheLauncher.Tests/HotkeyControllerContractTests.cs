@@ -38,7 +38,7 @@ namespace ShaheLauncher.Tests
                 fixedTexts.Select(pair => pair.Key + "=" + pair.Value).ToArray());
 
             object specs = controllerType.GetProperty("ActionSpecs").GetValue(controller, null);
-            Assert.AreEqual(48, ((IEnumerable)specs).Cast<object>().Count());
+            Assert.AreEqual(47, ((IEnumerable)specs).Cast<object>().Count());
             object launch = ((IEnumerable)specs).Cast<object>().Single(item =>
                 GetProperty<string>(actionSpecType, item, "Action") == "launch_selected");
             Assert.AreEqual("常用操作", GetProperty<string>(actionSpecType, launch, "Category"));

@@ -38,7 +38,7 @@ class ModularStructureTests(unittest.TestCase):
         self.assertEqual([], missing)
 
     def test_contract_keeps_original_launcher_methods(self):
-        self.assertEqual(400, len(CONTRACT["classes"]["SandboxLauncher"]))
+        self.assertEqual(398, len(CONTRACT["classes"]["SandboxLauncher"]))
 
     def test_feature_modules_do_not_import_app(self):
         feature_dir = ROOT / "shahe_bulk_launcher" / "features"

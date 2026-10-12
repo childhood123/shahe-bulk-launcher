@@ -594,7 +594,6 @@ namespace ShaheLauncher.App.Input
                 Spec("工具操作", "restore_sandboxes", "还原沙盒用户", "", 3030),
                 Spec("目录校正", "manual_correct_sandboxie_path", "手动校正 Sandboxie 安装路径", "", 3031),
                 Spec("目录校正", "select_sandbox_root", "选择沙盒用户数据目录", "", 3032),
-                Spec("设置开关", "toggle_dynamic_launch_delay", "切换：按系统负载动态调整延迟", "", 3039),
                 Spec("设置开关", "toggle_auto_run", "切换：开机自动启动本程序", "", 3040),
                 Spec("设置开关", "toggle_show_tray", "切换：在托盘上显示", "", 3041),
                 Spec("设置开关", "toggle_auto_select_range", "切换：首尾两点自动勾选中间用户", "", 3042),

@@ -31,11 +31,15 @@ namespace ShaheLauncher.Tests
                 object service = CreateService(type, root, out store);
                 var defaults = (IDictionary<string, object>)ReflectionTestHelpers.InvokeInstance(
                     service, "CreateDefaultSettings");
-                Assert.AreEqual(23, defaults.Count);
+                Assert.AreEqual(22, defaults.Count);
                 Assert.AreEqual(10, defaults["max_history_items"]);
                 Assert.AreEqual(false, defaults["hide_path"]);
                 Assert.AreEqual(5, defaults["launch_interval"]);
-                Assert.AreEqual(1, defaults["launch_concurrency_limit"]);
+                Assert.AreEqual(
+                    Math.Min(
+                        Math.Max(1, Math.Min(32, Environment.ProcessorCount)),
+                        Environment.ProcessorCount < 4 ? 2 : 4),
+                    defaults["launch_concurrency_limit"]);
                 Assert.AreEqual(true, defaults["show_tray"]);
                 Assert.AreEqual(true, defaults["list_use_left_right_nav"]);
                 Assert.AreEqual(false, defaults["auto_minimize_to_tray_after_launch"]);
@@ -219,7 +223,6 @@ namespace ShaheLauncher.Tests
                 SetProperty(stateType, state, "SandboxRoot", "D:\\SandboxRoot");
                 SetProperty(stateType, state, "LaunchInterval", 7);
                 SetProperty(stateType, state, "LaunchConcurrencyLimit", 3);
-                SetProperty(stateType, state, "DynamicLaunchDelayByLoad", true);
                 SetProperty(stateType, state, "ShowTray", false);
                 SetProperty(stateType, state, "AutoRun", true);
                 SetProperty(stateType, state, "AutoSelectRangeOnCheck", true);
@@ -248,6 +251,7 @@ namespace ShaheLauncher.Tests
                 Assert.IsFalse(runtimeSettings.ContainsKey("auto_update_on_startup"));
                 Assert.IsFalse(runtimeSettings.ContainsKey("auto_check_update_on_startup"));
                 Assert.IsFalse(runtimeSettings.ContainsKey("update_manifest_url"));
+                Assert.IsFalse(runtimeSettings.ContainsKey("dynamic_launch_delay_by_load"));
                 Assert.AreEqual(false, runtimeSettings["auto_minimize_to_tray_after_launch"]);
                 Assert.AreEqual("off", runtimeSettings["log_output_mode"]);
                 Assert.AreEqual("normalized", AsDictionary(((IList<object>)runtimeSettings["app_history"])[0])["path"]);
@@ -324,7 +328,6 @@ namespace ShaheLauncher.Tests
                     "app_history", new List<object> { Map("path", "A.exe") },
                     "launch_interval", -4,
                     "launch_concurrency_limit", 99,
-                    "dynamic_launch_delay_by_load", "yes",
                     "auto_run", "1",
                     "auto_select_range_on_check", "on",
                     "list_use_left_right_nav", "关闭",
@@ -354,8 +357,9 @@ namespace ShaheLauncher.Tests
                 Assert.AreEqual(true, GetProperty<bool>(stateType, state, "HidePath"));
                 Assert.AreEqual("off", GetProperty<string>(stateType, state, "LogOutputMode"));
                 Assert.AreEqual(0, GetProperty<int>(stateType, state, "LaunchInterval"));
-                Assert.AreEqual(32, GetProperty<int>(stateType, state, "LaunchConcurrencyLimit"));
-                Assert.AreEqual(true, GetProperty<bool>(stateType, state, "DynamicLaunchDelayByLoad"));
+                Assert.AreEqual(
+                    Math.Max(1, Math.Min(32, Environment.ProcessorCount)),
+                    GetProperty<int>(stateType, state, "LaunchConcurrencyLimit"));
                 Assert.AreEqual(true, GetProperty<bool>(stateType, state, "AutoRun"));
                 Assert.AreEqual(true, GetProperty<bool>(stateType, state, "AutoSelectRangeOnCheck"));
                 Assert.AreEqual(false, GetProperty<bool>(stateType, state, "ListUseLeftRightNavigation"));

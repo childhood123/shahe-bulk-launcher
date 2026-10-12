@@ -82,10 +82,6 @@ class SandboxLauncher(
         self.SANDBOX_ROOT = self.sandbox_root
         self.launch_interval = parse_int_setting(self.settings.get("launch_interval", 5), 5, 0, 15)
         self.launch_concurrency_limit = parse_int_setting(self.settings.get("launch_concurrency_limit", 1), 1, 1, 32)
-        self.dynamic_launch_delay_by_load = parse_bool_setting(
-            self.settings.get("dynamic_launch_delay_by_load", False),
-            False
-        )
         self.show_tray = parse_bool_setting(self.settings.get("show_tray", True), True)
         self.auto_run = parse_bool_setting(self.settings.get("auto_run", False), False)
         self.settings.pop("auto_update_on_startup", None)

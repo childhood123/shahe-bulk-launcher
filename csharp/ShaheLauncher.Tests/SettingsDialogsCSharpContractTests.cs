@@ -148,6 +148,37 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
+        public void RemovesAutomaticLoadAdjustmentFromSettings()
+        {
+            Type type = RequireType("SettingsDialog");
+            Assert.IsNull(type.GetProperty("DynamicDelayCheckBox"));
+        }
+
+        [TestMethod]
+        public void BuildsConcurrencyDropdownFromLogicalProcessorCount()
+        {
+            RunInSta(() =>
+            {
+                Type type = RequireType("SettingsDialog");
+                var dialog = (Form)Activator.CreateInstance(
+                    type,
+                    null,
+                    Map(),
+                    new Action<IDictionary<string, object>>(value => { }),
+                    Map());
+                var concurrency = GetProperty<ComboBox>(type, dialog, "LaunchConcurrencyInput");
+                int expectedMaximum = Math.Max(1, Math.Min(32, Environment.ProcessorCount));
+                int expectedDefault = Math.Min(expectedMaximum, Environment.ProcessorCount < 4 ? 2 : 4);
+                Assert.AreEqual(ComboBoxStyle.DropDownList, concurrency.DropDownStyle);
+                CollectionAssert.AreEqual(
+                    Enumerable.Range(1, expectedMaximum).Cast<object>().ToArray(),
+                    concurrency.Items.Cast<object>().ToArray());
+                Assert.AreEqual(expectedDefault, Convert.ToInt32(concurrency.SelectedItem));
+                dialog.Dispose();
+            });
+        }
+
+        [TestMethod]
         public void SettingsDialogPreservesControlsRangesTextAndSaveKeys()
         {
             RunInSta(() =>
@@ -157,7 +188,6 @@ namespace ShaheLauncher.Tests
                 var settings = Map(
                     "launch_interval", "99",
                     "launch_concurrency_limit", "0",
-                    "dynamic_launch_delay_by_load", "开启",
                     "auto_run", false,
                     "show_tray", "关闭",
                     "auto_select_range_on_check", true,
@@ -173,20 +203,20 @@ namespace ShaheLauncher.Tests
                 Assert.AreEqual("设置", dialog.Text);
                 Assert.AreEqual(new Size(560, 640), dialog.Size);
                 var interval = GetProperty<NumericUpDown>(type, dialog, "LaunchIntervalInput");
-                var concurrency = GetProperty<NumericUpDown>(type, dialog, "LaunchConcurrencyInput");
+                var concurrency = GetProperty<ComboBox>(type, dialog, "LaunchConcurrencyInput");
                 var logOutput = GetProperty<ComboBox>(type, dialog, "LogOutputChoice");
+                int expectedMaximum = Math.Max(1, Math.Min(32, Environment.ProcessorCount));
                 Assert.AreEqual("打开沙盒间隔时间", interval.AccessibleName);
                 Assert.AreEqual(0m, interval.Minimum);
                 Assert.AreEqual(15m, interval.Maximum);
                 Assert.AreEqual(15m, interval.Value);
                 Assert.AreEqual("启动并发数量限制", concurrency.AccessibleName);
-                Assert.AreEqual(1m, concurrency.Minimum);
-                Assert.AreEqual(32m, concurrency.Maximum);
-                Assert.AreEqual(1m, concurrency.Value);
+                Assert.AreEqual(ComboBoxStyle.DropDownList, concurrency.DropDownStyle);
+                Assert.AreEqual(expectedMaximum, concurrency.Items.Count);
+                Assert.AreEqual(1, Convert.ToInt32(concurrency.SelectedItem));
                 Assert.AreEqual("日志输出", logOutput.AccessibleName);
                 CollectionAssert.AreEqual(new[] { "关闭日志输出", "详细日志输出" }, logOutput.Items.Cast<string>().ToArray());
                 Assert.AreEqual(0, logOutput.SelectedIndex);
-                AssertControlText(type, dialog, "DynamicDelayCheckBox", "批量启动时按系统负载动态调整延迟");
                 AssertControlText(type, dialog, "AutoRunCheckBox", "开机自动启动本程序");
                 AssertControlText(type, dialog, "ShowTrayCheckBox", "在托盘上显示");
                 AssertControlText(type, dialog, "AutoSelectRangeCheckBox", "首尾两点自动勾选中间用户");
@@ -196,7 +226,6 @@ namespace ShaheLauncher.Tests
                 AssertTabOrder(
                     interval,
                     concurrency,
-                    GetProperty<CheckBox>(type, dialog, "DynamicDelayCheckBox"),
                     GetProperty<CheckBox>(type, dialog, "AutoRunCheckBox"),
                     GetProperty<CheckBox>(type, dialog, "ShowTrayCheckBox"),
                     GetProperty<CheckBox>(type, dialog, "AutoSelectRangeCheckBox"),
@@ -209,18 +238,20 @@ namespace ShaheLauncher.Tests
                     GetProperty<Button>(type, dialog, "CancelActionButton"));
 
                 interval.Value = 3;
-                concurrency.Value = 4;
+                int selectedConcurrency = Math.Min(4, expectedMaximum);
+                concurrency.SelectedItem = selectedConcurrency;
                 GetProperty<CheckBox>(type, dialog, "AutoRunCheckBox").Checked = true;
                 logOutput.SelectedIndex = 1;
                 Assert.AreEqual(true, ReflectionTestHelpers.InvokeInstance(dialog, "SaveSettings"));
                 Assert.AreSame(settings, saved);
                 Assert.AreEqual(3, saved["launch_interval"]);
-                Assert.AreEqual(4, saved["launch_concurrency_limit"]);
+                Assert.AreEqual(selectedConcurrency, saved["launch_concurrency_limit"]);
                 Assert.AreEqual(true, saved["auto_run"]);
                 Assert.AreEqual(false, saved["auto_minimize_to_tray_after_launch"]);
                 Assert.AreEqual("detailed", saved["log_output_mode"]);
                 Assert.IsFalse(saved.ContainsKey("auto_update_on_startup"));
                 Assert.IsFalse(saved.ContainsKey("auto_check_update_on_startup"));
+                Assert.IsFalse(saved.ContainsKey("dynamic_launch_delay_by_load"));
                 Assert.AreEqual(DialogResult.OK, dialog.DialogResult);
                 dialog.Dispose();
             });
@@ -246,7 +277,6 @@ namespace ShaheLauncher.Tests
                     var defaults = Map(
                         "launch_interval", 7,
                         "launch_concurrency_limit", 8,
-                        "dynamic_launch_delay_by_load", true,
                         "show_tray", false,
                         "log_output_mode", "off");
                     var callback = new Action<IDictionary<string, object>>(value => { });
@@ -254,8 +284,10 @@ namespace ShaheLauncher.Tests
                     Assert.AreEqual(true, ReflectionTestHelpers.InvokeInstance(dialog, "ResetDefaults"));
                     Assert.AreEqual("重置设置|确定要将设置窗口中的选项恢复为默认值吗？|32", prompts.Single());
                     Assert.AreEqual(7m, GetProperty<NumericUpDown>(type, dialog, "LaunchIntervalInput").Value);
-                    Assert.AreEqual(8m, GetProperty<NumericUpDown>(type, dialog, "LaunchConcurrencyInput").Value);
-                    Assert.IsTrue(GetProperty<CheckBox>(type, dialog, "DynamicDelayCheckBox").Checked);
+                    int expectedConcurrency = Math.Min(8, Math.Max(1, Math.Min(32, Environment.ProcessorCount)));
+                    Assert.AreEqual(
+                        expectedConcurrency,
+                        Convert.ToInt32(GetProperty<ComboBox>(type, dialog, "LaunchConcurrencyInput").SelectedItem));
                     Assert.IsFalse(GetProperty<CheckBox>(type, dialog, "ShowTrayCheckBox").Checked);
                     Assert.AreEqual(0, GetProperty<ComboBox>(type, dialog, "LogOutputChoice").SelectedIndex);
                     dialog.Dispose();

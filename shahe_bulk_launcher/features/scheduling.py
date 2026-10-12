@@ -334,22 +334,6 @@ class SchedulingMixin:
 
         threading.Thread(target=_prepare, daemon=True).start()
 
-    def _compute_dynamic_launch_delay_seconds(self, batch_size):
-        if not getattr(self, "dynamic_launch_delay_by_load", False):
-            return 0
-        try:
-            import psutil
-            cpu_percent = float(psutil.cpu_percent(interval=0.08))
-        except Exception:
-            return 0
-        if cpu_percent >= 95:
-            return 2
-        if cpu_percent >= 88:
-            return 1
-        if cpu_percent >= 80 and int(max(1, batch_size)) > 1:
-            return 1
-        return 0
-
     def _launch_thread(self, launch_session_id, sandboxes, start_time):
         app_targets = list(getattr(self, "APP_PATHS", []) or [])
         if not app_targets and getattr(self, "APP_PATH", ""):
@@ -454,9 +438,6 @@ class SchedulingMixin:
 
             has_more_batches = (batch_start + batch_size) < total_sandboxes
             effective_interval = interval
-            adaptive_interval = self._compute_dynamic_launch_delay_seconds(batch_size)
-            if adaptive_interval > effective_interval:
-                effective_interval = adaptive_interval
             if self._is_launch_session_cancelled(launch_session_id):
                 break
             if has_more_batches and effective_interval > 0:

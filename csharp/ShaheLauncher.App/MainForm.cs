@@ -370,9 +370,10 @@ namespace ShaheLauncher.App
             _settingsState.LaunchInterval = CommonUtilities.ParseIntSetting(
                 GetSetting("launch_interval"), 5, 0, 15);
             _settingsState.LaunchConcurrencyLimit = CommonUtilities.ParseIntSetting(
-                GetSetting("launch_concurrency_limit"), 1, 1, 32);
-            _settingsState.DynamicLaunchDelayByLoad = CommonUtilities.ParseBoolSetting(
-                GetSetting("dynamic_launch_delay_by_load"), false);
+                GetSetting("launch_concurrency_limit"),
+                LauncherConstants.GetDefaultLaunchConcurrencyLimit(),
+                1,
+                LauncherConstants.GetLaunchConcurrencyMaximum());
             _settingsState.ShowTray = CommonUtilities.ParseBoolSetting(GetSetting("show_tray"), true);
             _settingsState.AutoRun = CommonUtilities.ParseBoolSetting(GetSetting("auto_run"), false);
             _settingsState.AutoSelectRangeOnCheck = CommonUtilities.ParseBoolSetting(GetSetting("auto_select_range_on_check"), false);
@@ -514,7 +515,6 @@ namespace ShaheLauncher.App
                     names, (apps ?? Enumerable.Empty<object>()).OfType<LaunchAppTarget>()),
                 StartAppInSandbox = StartAppInSandbox,
                 GetSandboxPids = GetSandboxPids,
-                GetCpuPercent = () => 0.0,
                 GetVolumeMemoryKey = name => SandboxieClient.GetVolumeMemoryKey(
                     name, GetSandboxDisplayMaps()),
                 RestoreSavedVolume = name => ProcessActionService.RestoreSavedVolumeForSandbox(
@@ -583,7 +583,6 @@ namespace ShaheLauncher.App
             LaunchState.AppDirectory = _settingsState.AppDirectory;
             LaunchState.LaunchInterval = _settingsState.LaunchInterval;
             LaunchState.LaunchConcurrencyLimit = _settingsState.LaunchConcurrencyLimit;
-            LaunchState.DynamicLaunchDelayByLoad = _settingsState.DynamicLaunchDelayByLoad;
             LaunchState.SkipRunningSandboxOnLaunch = _settingsState.SkipRunningSandboxOnLaunch;
             LaunchState.RememberVolume = _settingsState.RememberVolume;
             LaunchState.SandboxVolumeMemory = sharedVolumeMemory;
@@ -4357,7 +4356,6 @@ namespace ShaheLauncher.App
             _settingsState.SandboxRoot = SandboxieClient.SandboxRoot;
             _settingsState.LaunchInterval = LaunchState.LaunchInterval;
             _settingsState.LaunchConcurrencyLimit = LaunchState.LaunchConcurrencyLimit;
-            _settingsState.DynamicLaunchDelayByLoad = LaunchState.DynamicLaunchDelayByLoad;
             _settingsState.SkipRunningSandboxOnLaunch = LaunchState.SkipRunningSandboxOnLaunch;
             _settingsState.RememberVolume = ProcessState.RememberVolume;
             _settingsState.SandboxGroups = SandboxAdminState.SandboxGroups.ToDictionary(

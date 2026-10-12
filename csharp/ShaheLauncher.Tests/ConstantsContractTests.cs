@@ -100,6 +100,17 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
+        public void CalculatesLaunchConcurrencyMaximumAndConservativeDefault()
+        {
+            int expectedMaximum = Math.Max(1, Math.Min(32, Environment.ProcessorCount));
+            int expectedDefault = Math.Min(
+                expectedMaximum,
+                Environment.ProcessorCount < 4 ? 2 : 4);
+            Assert.AreEqual(expectedMaximum, Invoke("GetLaunchConcurrencyMaximum"));
+            Assert.AreEqual(expectedDefault, Invoke("GetDefaultLaunchConcurrencyLimit"));
+        }
+
+        [TestMethod]
         public void NormalizesSandboxRootPaths()
         {
             Assert.AreEqual(string.Empty, Invoke("NormalizeSandboxRootPath", "  "));

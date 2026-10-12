@@ -40,8 +40,7 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
         }
 
         public NumericUpDown LaunchIntervalInput { get; private set; }
-        public NumericUpDown LaunchConcurrencyInput { get; private set; }
-        public CheckBox DynamicDelayCheckBox { get; private set; }
+        public ComboBox LaunchConcurrencyInput { get; private set; }
         public CheckBox AutoRunCheckBox { get; private set; }
         public CheckBox ShowTrayCheckBox { get; private set; }
         public CheckBox AutoSelectRangeCheckBox { get; private set; }
@@ -71,8 +70,8 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
         public bool SaveSettings()
         {
             _settings["launch_interval"] = Decimal.ToInt32(LaunchIntervalInput.Value);
-            _settings["launch_concurrency_limit"] = Decimal.ToInt32(LaunchConcurrencyInput.Value);
-            _settings["dynamic_launch_delay_by_load"] = DynamicDelayCheckBox.Checked;
+            _settings["launch_concurrency_limit"] = Convert.ToInt32(LaunchConcurrencyInput.SelectedItem);
+            _settings.Remove("dynamic_launch_delay_by_load");
             _settings["auto_run"] = AutoRunCheckBox.Checked;
             _settings.Remove("auto_update_on_startup");
             _settings.Remove("auto_check_update_on_startup");
@@ -94,9 +93,13 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
             IDictionary<string, object> data = values ?? new Dictionary<string, object>();
             LaunchIntervalInput.Value = CommonUtilities.ParseIntSetting(
                 GetValue(data, "launch_interval", 5), 5, 0, 15);
-            LaunchConcurrencyInput.Value = CommonUtilities.ParseIntSetting(
-                GetValue(data, "launch_concurrency_limit", 1), 1, 1, 32);
-            DynamicDelayCheckBox.Checked = GetBool(data, "dynamic_launch_delay_by_load", false);
+            int maximumConcurrency = LauncherConstants.GetLaunchConcurrencyMaximum();
+            int selectedConcurrency = CommonUtilities.ParseIntSetting(
+                GetValue(data, "launch_concurrency_limit", LauncherConstants.GetDefaultLaunchConcurrencyLimit()),
+                LauncherConstants.GetDefaultLaunchConcurrencyLimit(),
+                1,
+                maximumConcurrency);
+            LaunchConcurrencyInput.SelectedItem = selectedConcurrency;
             AutoRunCheckBox.Checked = GetBool(data, "auto_run", false);
             ShowTrayCheckBox.Checked = GetBool(data, "show_tray", true);
             AutoSelectRangeCheckBox.Checked = GetBool(data, "auto_select_range_on_check", false);
@@ -137,20 +140,19 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
             };
             layout.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             LaunchIntervalInput = CreateNumberInput(0, 15, "打开沙盒间隔时间", 0);
-            LaunchConcurrencyInput = CreateNumberInput(1, 32, "启动并发数量限制", 1);
-            DynamicDelayCheckBox = CreateCheckBox("批量启动时按系统负载动态调整延迟", 2);
-            AutoRunCheckBox = CreateCheckBox("开机自动启动本程序", 3);
-            ShowTrayCheckBox = CreateCheckBox("在托盘上显示", 4);
-            AutoSelectRangeCheckBox = CreateCheckBox("首尾两点自动勾选中间用户", 5);
-            SkipRunningCheckBox = CreateCheckBox("启动跳过已运行的沙盒", 6);
-            RememberVolumeCheckBox = CreateCheckBox("记忆进程音量（下次启动自动恢复）", 7);
-            ListNavigationCheckBox = CreateCheckBox("用户列表启用左右光标选择", 8);
+            LaunchConcurrencyInput = CreateConcurrencyInput("启动并发数量限制", 1);
+            AutoRunCheckBox = CreateCheckBox("开机自动启动本程序", 2);
+            ShowTrayCheckBox = CreateCheckBox("在托盘上显示", 3);
+            AutoSelectRangeCheckBox = CreateCheckBox("首尾两点自动勾选中间用户", 4);
+            SkipRunningCheckBox = CreateCheckBox("启动跳过已运行的沙盒", 5);
+            RememberVolumeCheckBox = CreateCheckBox("记忆进程音量（下次启动自动恢复）", 6);
+            ListNavigationCheckBox = CreateCheckBox("用户列表启用左右光标选择", 7);
             LogOutputChoice = new ComboBox
             {
                 DropDownStyle = ComboBoxStyle.DropDownList,
                 AccessibleName = "日志输出",
                 Width = 150,
-                TabIndex = 9
+                TabIndex = 8
             };
             foreach (KeyValuePair<string, string> choice in LauncherConstants.LogOutputChoices)
             {
@@ -163,7 +165,6 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
                 "启动并发数量限制:", LaunchConcurrencyInput, "(1=排队顺序启动)"));
             layout.Controls.Add(CreateLabel(
                 "说明：并发上限=同一时刻最多启动几个；启动间隔=每次分配启动任务前的等待秒数。"));
-            layout.Controls.Add(DynamicDelayCheckBox);
             layout.Controls.Add(AutoRunCheckBox);
             layout.Controls.Add(ShowTrayCheckBox);
             layout.Controls.Add(AutoSelectRangeCheckBox);
@@ -172,13 +173,13 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
             layout.Controls.Add(ListNavigationCheckBox);
             layout.Controls.Add(CreateNumberRow("日志输出:", LogOutputChoice, string.Empty));
 
-            ResetButton = new Button { Text = "重置所有设置", AutoSize = true, TabIndex = 10 };
-            OkButton = new Button { Text = "确定", AutoSize = true, TabIndex = 11 };
+            ResetButton = new Button { Text = "重置所有设置", AutoSize = true, TabIndex = 9 };
+            OkButton = new Button { Text = "确定", AutoSize = true, TabIndex = 10 };
             CancelActionButton = new Button
             {
                 Text = "取消",
                 AutoSize = true,
-                TabIndex = 12,
+                TabIndex = 11,
                 DialogResult = DialogResult.Cancel
             };
             layout.Controls.Add(CreateButtonRow());
@@ -260,6 +261,26 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
                 Width = 80,
                 TabIndex = tabIndex
             };
+        }
+
+        private static ComboBox CreateConcurrencyInput(string accessibleName, int tabIndex)
+        {
+            int maximum = LauncherConstants.GetLaunchConcurrencyMaximum();
+            int defaultValue = LauncherConstants.GetDefaultLaunchConcurrencyLimit();
+            var input = new ComboBox
+            {
+                DropDownStyle = ComboBoxStyle.DropDownList,
+                AccessibleName = accessibleName,
+                Width = 80,
+                TabIndex = tabIndex
+            };
+            for (int value = 1; value <= maximum; value++)
+            {
+                input.Items.Add(value);
+            }
+
+            input.SelectedIndex = defaultValue - 1;
+            return input;
         }
 
         private static CheckBox CreateCheckBox(string text, int tabIndex)
