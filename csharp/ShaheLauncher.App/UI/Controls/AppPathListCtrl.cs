@@ -57,9 +57,83 @@ namespace ShaheLauncher.App.UI.Controls
         public string[] GetCheckedValues()
         {
             return GetCheckedItems()
-                .Select(index => Items[index].Text)
+                .Select(index => GetItemPath(index))
+                .Where(path => path.Length != 0)
+                .ToArray();
+        }
+
+        public string GetItemPath(int index)
+        {
+            if (index < 0 || index >= Items.Count)
+            {
+                return string.Empty;
+            }
+
+            return Items[index].Tag == null
+                ? (Items[index].Text ?? string.Empty)
+                : (Convert.ToString(Items[index].Tag) ?? string.Empty);
+        }
+
+        public int GetSelectedIndex()
+        {
+            return GetSelectedIndexCore();
+        }
+
+        public void ReplaceItems(
+            IEnumerable<string> itemTexts,
+            IEnumerable<string> itemPaths,
+            IEnumerable<int> checkedIndices,
+            int selectedIndex)
+        {
+            string[] newTexts = (itemTexts ?? Enumerable.Empty<string>())
+                .Select(text => (text ?? string.Empty).Trim())
                 .Where(text => text.Length != 0)
                 .ToArray();
+            string[] suppliedPaths = (itemPaths ?? Enumerable.Empty<string>())
+                .Select(path => (path ?? string.Empty).Trim())
+                .ToArray();
+            string[] newPaths = newTexts
+                .Select((text, index) => index < suppliedPaths.Length && suppliedPaths[index].Length != 0
+                    ? suppliedPaths[index]
+                    : text)
+                .ToArray();
+            var requestedChecks = checkedIndices == null
+                ? null
+                : new HashSet<int>(checkedIndices.Where(index => index >= 0));
+            var oldCheckedPaths = new HashSet<string>(
+                GetCheckedItems().Select(GetItemPath),
+                StringComparer.Ordinal);
+            int oldSelectedIndex = GetSelectedIndexCore();
+            string oldSelectedPath = oldSelectedIndex < 0 ? string.Empty : GetItemPath(oldSelectedIndex);
+
+            BeginUpdate();
+            try
+            {
+                Items.Clear();
+                for (int index = 0; index < newTexts.Length; index++)
+                {
+                    var item = new ListViewItem(newTexts[index]) { Tag = newPaths[index] };
+                    if (CheckBoxes && (requestedChecks != null
+                        ? requestedChecks.Contains(index)
+                        : oldCheckedPaths.Contains(newPaths[index])))
+                    {
+                        item.Checked = true;
+                    }
+                    Items.Add(item);
+                }
+
+                int restoreIndex = selectedIndex >= 0 && selectedIndex < Items.Count
+                    ? selectedIndex
+                    : (!string.IsNullOrEmpty(oldSelectedPath)
+                        ? Array.FindIndex(newPaths, path => path == oldSelectedPath)
+                        : -1);
+                SelectOnly(restoreIndex);
+                _currentValue = restoreIndex >= 0 ? GetItemPath(restoreIndex) : string.Empty;
+            }
+            finally
+            {
+                EndUpdate();
+            }
         }
 
         public int UpdateStatus()
@@ -80,8 +154,7 @@ namespace ShaheLauncher.App.UI.Controls
 
         public void ReplaceItems(IEnumerable<string> itemTexts)
         {
-            ReplaceItemTextsCore(itemTexts);
-            _currentValue = string.Empty;
+            ReplaceItems(itemTexts, itemTexts, null, -1);
         }
 
         public void SetValue(string text)
@@ -94,7 +167,7 @@ namespace ShaheLauncher.App.UI.Controls
                 int foundIndex = -1;
                 for (int index = 0; index < Items.Count; index++)
                 {
-                    if (Items[index].Text == value)
+                    if (Items[index].Text == value || GetItemPath(index) == value)
                     {
                         foundIndex = index;
                         break;
@@ -111,8 +184,8 @@ namespace ShaheLauncher.App.UI.Controls
 
         public string GetValue()
         {
-            int index = GetSelectedIndex();
-            return index < 0 ? _currentValue : Items[index].Text;
+            int index = GetSelectedIndexCore();
+            return index < 0 ? _currentValue : GetItemPath(index);
         }
 
         public void SetValueByIndex(int index, string text)
@@ -122,7 +195,7 @@ namespace ShaheLauncher.App.UI.Controls
             {
                 if (index >= 0 && index < Items.Count)
                 {
-                    _currentValue = Items[index].Text;
+                    _currentValue = GetItemPath(index);
                     SelectOnly(index);
                 }
                 else
@@ -140,13 +213,13 @@ namespace ShaheLauncher.App.UI.Controls
         protected override void OnSelectedIndexChanged(EventArgs eventArgs)
         {
             base.OnSelectedIndexChanged(eventArgs);
-            int index = GetSelectedIndex();
+            int index = GetSelectedIndexCore();
             if (index < 0)
             {
                 return;
             }
 
-            _currentValue = Items[index].Text;
+            _currentValue = GetItemPath(index);
             AnnounceItemState(index);
         }
 
@@ -161,7 +234,7 @@ namespace ShaheLauncher.App.UI.Controls
 
         protected override void OnKeyDown(KeyEventArgs eventArgs)
         {
-            int index = GetSelectedIndex();
+            int index = GetSelectedIndexCore();
             if (eventArgs.KeyCode == Keys.Space && index >= 0)
             {
                 Items[index].Checked = !Items[index].Checked;
@@ -199,7 +272,7 @@ namespace ShaheLauncher.App.UI.Controls
             EnsureVisible(index);
         }
 
-        private int GetSelectedIndex()
+        private int GetSelectedIndexCore()
         {
             if (SelectedIndices.Count != 0)
             {

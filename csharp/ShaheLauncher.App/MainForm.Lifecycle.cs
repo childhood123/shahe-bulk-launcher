@@ -744,6 +744,7 @@ namespace ShaheLauncher.App
                 TabIndex = 1
             };
             WireAppPathCallbacks();
+            AppPathList.ContextMenu = BuildAppPathContextMenu();
 
             LaunchButton = new Button
             {
@@ -1016,13 +1017,32 @@ namespace ShaheLauncher.App
             {
                 if (!AppPathList.IsProgrammaticUpdate())
                 {
-                    AppItemCheckedCallback?.Invoke();
+                    _appItemCheckedIndex = eventArgs.Item.Index;
+                    try
+                    {
+                        AppItemCheckedCallback?.Invoke();
+                    }
+                    finally
+                    {
+                        _appItemCheckedIndex = -1;
+                    }
                 }
             };
             AppPathList.MouseUp += (sender, eventArgs) =>
             {
                 if (eventArgs.Button == MouseButtons.Right)
                 {
+                    ListViewItem item = AppPathList.GetItemAt(eventArgs.X, eventArgs.Y);
+                    if (item != null)
+                    {
+                        foreach (ListViewItem selected in AppPathList.SelectedItems)
+                        {
+                            selected.Selected = false;
+                        }
+                        item.Selected = true;
+                        item.Focused = true;
+                        item.EnsureVisible();
+                    }
                     AppContextMenuCallback?.Invoke();
                 }
             };

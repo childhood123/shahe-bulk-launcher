@@ -36,6 +36,7 @@ namespace ShaheLauncher.App
         private bool _applicationServicesDisposeStarted;
         private bool _loadingApplicationSettings;
         private bool _sandboxDisplayMapsInitialized;
+        private int _appItemCheckedIndex = -1;
         private SandboxieDisplayMaps _sandboxDisplayMaps = new SandboxieDisplayMaps();
         private IList<string> _officialSandboxNames = new List<string>();
         private BackupRestoreProgressDialog _backupRestoreProgressDialog;
@@ -105,6 +106,9 @@ namespace ShaheLauncher.App
             UpdateComboBoxCallback = UpdateAppPathList;
             ApplyHotkeysCallback = ApplyHotkeys;
             CreateMenuBarCallback = CreateMenuBar;
+            AppPathSelectionChangedCallback = OnAppPathSelectionChanged;
+            AppItemCheckedCallback = OnAppItemChecked;
+            AppContextMenuCallback = ShowAppPathContextMenu;
             LaunchSelectedCallback = LaunchSelectedSandboxes;
             MuteCurrentCallback = name => ProcessActionService.OnMuteCurrentSandbox(name, ProcessState, ProcessCallbacks);
             MuteAllCallback = () => ProcessActionService.OnMuteAllSandboxes(ProcessState, ProcessCallbacks);
@@ -145,6 +149,7 @@ namespace ShaheLauncher.App
             ShowBatchCreateRuleCallback = ShowBatchCreateRuleDialog;
             SelectDirectoryCallback = SelectDirectory;
             ShowQrCodeCallback = ShowQrCodeDialog;
+            ClipboardTextWriter = text => Clipboard.SetText(text);
             ShutdownAssistSpeechRuntimeCallback = SpeechService.ShutdownAssistSpeechRuntime;
             SpeechCallback = (text, eventName) => SpeechService.SpeakProcessAssist(text, true, eventName);
         }
@@ -195,6 +200,7 @@ namespace ShaheLauncher.App
         public Action ReloadSandboxieConfigCallback { get; set; }
         public Action RestartSandboxieServicesCallback { get; set; }
         public Action<string> ShowQrCodeCallback { get; set; }
+        public Action<string> ClipboardTextWriter { get; set; }
         public Func<string> FindSandboxiePathCallback { get; set; }
         public Action<string, string, MessageBoxIcon> ShowMessageCallback { get; set; }
         public Func<int, Action, IDisposable> StartupDelayCallback { get; set; }
@@ -298,7 +304,8 @@ namespace ShaheLauncher.App
                 "定时启动选中沙盒", "schedule_launch", "定时关闭选中沙盒", "schedule_close",
                 "取消全部定时任务", "cancel_scheduled_tasks");
             AddTopMenu(menu, "设置(&S)",
-                "热键设置", "hotkey_settings", "朗读设置", "speech_settings", "软件设置", "settings");
+                "热键设置", "hotkey_settings", "朗读设置", "speech_settings", "软件设置", "settings",
+                "路径记忆管理", "memory_manager_dialog");
             AddTopMenu(menu, "校正(&J)",
                 "手动校正 Sandboxie 安装路径", "manual_correct_sandboxie_path",
                 "选择沙盒用户数据目录", "select_sandbox_root",
@@ -1121,6 +1128,30 @@ namespace ShaheLauncher.App
                     break;
                 case "settings":
                     ShowSettingsDialogCallback?.Invoke();
+                    break;
+                case "memory_manager":
+                    OpenAppPathContextMenu();
+                    break;
+                case "memory_manager_dialog":
+                    ShowPathMemoryManagerDialog();
+                    break;
+                case "memory_edit_note":
+                    EditCurrentAppPathNote();
+                    break;
+                case "memory_adjust_count":
+                    AdjustAppPathHistoryCount();
+                    break;
+                case "memory_toggle_path_display":
+                    ToggleAppPathDisplay();
+                    break;
+                case "memory_delete_current":
+                    DeleteCurrentAppPathMemory();
+                    break;
+                case "memory_clear_all":
+                    ClearAppPathMemory();
+                    break;
+                case "memory_copy_path":
+                    CopyCurrentAppPath();
                     break;
                 case "manual_correct_sandboxie_path":
                     ManualCorrectSandboxiePath();
@@ -3356,19 +3387,33 @@ namespace ShaheLauncher.App
 
         private void AddApplicationPath(string path)
         {
-            string value = (path ?? string.Empty).Trim();
-            if (value.Length == 0 || !File.Exists(value))
+            string value = AppPathHistoryService.ExtractExePathFromText(path);
+            if (value.Length == 0)
             {
                 SafeSetStatusLabel(AppPathHistoryService.InvalidClipboardStatus);
                 return;
             }
-            if (!AppPathList.Items.Cast<ListViewItem>().Any(item => item.Text == value))
+
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            if (!AppPathHistoryService.SetCurrentAppPath(
+                state,
+                value,
+                "已选择",
+                CreateAppPathHistoryCallbacks(state)))
             {
-                AppPathList.Items.Add(new ListViewItem(value) { Checked = true });
+                SafeSetStatusLabel(AppPathHistoryService.InvalidClipboardStatus);
+                return;
             }
-            AppPathList.SetValue(value);
-            AddApplicationPathToHistory(value);
-            SafeSetStatusLabel("已选择应用: " + value);
+
+            CommitAppPathHistoryState(state);
+            if (AppPathList != null && AppPathList.Items.Count > 0)
+            {
+                int index = AppPathList.GetSelectedIndex();
+                if (index >= 0)
+                {
+                    AppPathList.Items[index].Checked = true;
+                }
+            }
         }
 
         private void LaunchSelectedSandboxes()
@@ -3445,36 +3490,159 @@ namespace ShaheLauncher.App
 
         private void AddApplicationPathToHistory(string path)
         {
-            string value = (path ?? string.Empty).Trim();
-            if (value.Length == 0 || !File.Exists(value) || _settingsState.MaxHistoryItems == 0)
+            string value = AppPathHistoryService.ExtractExePathFromText(path);
+            if (value.Length == 0)
             {
                 return;
             }
 
-            IList<AppHistoryItem> history = (_settingsState.AppHistory ?? new List<object>())
-                .OfType<AppHistoryItem>()
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            if (AppPathHistoryService.AddToHistory(state, value, false, null))
+            {
+                CommitAppPathHistoryState(state);
+                SaveSettings();
+            }
+        }
+
+        private AppPathHistoryState CreateAppPathHistoryState()
+        {
+            var state = new AppPathHistoryState
+            {
+                MaxHistoryItems = _settingsState.MaxHistoryItems,
+                HidePath = _settingsState.HidePath,
+                AppPath = _settingsState.AppPath ?? string.Empty,
+                AppDirectory = _settingsState.AppDirectory ?? string.Empty
+            };
+            var rawHistory = new List<object>();
+            foreach (object value in _settingsState.AppHistory ?? new List<object>())
+            {
+                AppHistoryItem item = value as AppHistoryItem;
+                rawHistory.Add(item == null
+                    ? value
+                    : (object)new Dictionary<string, object>
+                    {
+                        { "path", item.Path ?? string.Empty },
+                        { "note", item.Note ?? string.Empty }
+                    });
+            }
+            state.AppHistory = SandboxAdminService.NormalizeAppHistory(rawHistory, null)
+                .Select(item => new AppHistoryItem { Path = item.Path, Note = item.Note })
+                .ToList();
+            return state;
+        }
+
+        private void CommitAppPathHistoryState(AppPathHistoryState state)
+        {
+            if (state == null)
+            {
+                return;
+            }
+
+            _settingsState.MaxHistoryItems = Math.Max(0, Math.Min(20, state.MaxHistoryItems));
+            _settingsState.HidePath = state.HidePath;
+            _settingsState.AppPath = state.AppPath ?? string.Empty;
+            _settingsState.AppDirectory = state.AppDirectory ?? string.Empty;
+            _settingsState.AppHistory = (state.AppHistory ?? new List<AppHistoryItem>())
                 .Where(item => item != null)
-                .ToList();
-            AppHistoryItem existing = history.FirstOrDefault(item =>
-                string.Equals(item.Path, value, StringComparison.Ordinal));
-            if (existing != null)
-            {
-                history.Remove(existing);
-            }
-            else
-            {
-                existing = new AppHistoryItem
+                .Select(item => (object)new AppHistoryItem
                 {
-                    Path = value,
-                    Note = Path.GetFileName(value)
-                };
-            }
-            history.Insert(0, existing);
-            _settingsState.AppHistory = history
-                .Take(Math.Max(0, _settingsState.MaxHistoryItems))
-                .Cast<object>()
+                    Path = item.Path ?? string.Empty,
+                    Note = item.Note ?? string.Empty
+                })
                 .ToList();
+            if (Settings == null)
+            {
+                Settings = new Dictionary<string, object>();
+            }
+            Settings["max_history_items"] = _settingsState.MaxHistoryItems;
+            Settings["hide_path"] = _settingsState.HidePath;
+            LaunchState.AppPath = _settingsState.AppPath;
+            LaunchState.AppDirectory = _settingsState.AppDirectory;
+        }
+
+        private void SaveAppPathHistoryState(AppPathHistoryState state)
+        {
+            CommitAppPathHistoryState(state);
             SaveSettings();
+        }
+
+        private AppPathHistoryCallbacks CreateAppPathHistoryCallbacks(AppPathHistoryState state)
+        {
+            return new AppPathHistoryCallbacks
+            {
+                SaveSettings = () => SaveAppPathHistoryState(state),
+                RefreshComboBox = UpdateAppPathList,
+                SetCurrentValue = value => AppPathList?.SetValue(value),
+                FocusAppPathList = () => AppPathList?.Focus(),
+                SetStatus = text => SafeSetStatusLabel(text)
+            };
+        }
+
+        private AppPathHistoryResolution ResolveCurrentAppPath()
+        {
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            int index = AppPathList?.GetSelectedIndex() ?? -1;
+            string text = AppPathList?.GetValue() ?? string.Empty;
+            return AppPathHistoryService.ExtractPathAndNote(state, text, index);
+        }
+
+        private void OnAppPathSelectionChanged()
+        {
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            int index = AppPathList?.GetSelectedIndex() ?? -1;
+            AppPathHistoryResolution resolution = AppPathHistoryService.ExtractPathAndNote(
+                state,
+                AppPathList?.GetValue() ?? string.Empty,
+                index);
+            if (resolution == null || resolution.Path.Length == 0)
+            {
+                return;
+            }
+            if (!File.Exists(resolution.Path))
+            {
+                return;
+            }
+
+            state.AppPath = resolution.Path;
+            state.AppDirectory = Path.GetDirectoryName(resolution.Path) ?? string.Empty;
+            CommitAppPathHistoryState(state);
+        }
+
+        private void OnAppItemChecked()
+        {
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            int index = _appItemCheckedIndex >= 0
+                ? _appItemCheckedIndex
+                : (AppPathList?.GetSelectedIndex() ?? -1);
+            string text = index >= 0 && AppPathList != null
+                ? AppPathList.GetItemPath(index)
+                : (AppPathList?.GetValue() ?? string.Empty);
+            state.ComboItemPaths = AppPathList == null
+                ? new List<string>()
+                : Enumerable.Range(0, AppPathList.Items.Count)
+                    .Select(AppPathList.GetItemPath)
+                    .ToList();
+            AppPathHistoryResolution resolution = AppPathHistoryService.ExtractPathAndNote(
+                state,
+                text,
+                index);
+            if (resolution == null || resolution.Path.Length == 0)
+            {
+                return;
+            }
+            if (!File.Exists(resolution.Path))
+            {
+                return;
+            }
+
+            state.AppPath = resolution.Path;
+            state.AppDirectory = Path.GetDirectoryName(resolution.Path) ?? string.Empty;
+            bool changed = AppPathHistoryService.AddToHistory(state, resolution.Path, false, null);
+            CommitAppPathHistoryState(state);
+            if (changed)
+            {
+                SaveSettings();
+            }
         }
 
         private void ExecuteCurrentSandboxAction(Action<string> callback)
@@ -3538,11 +3706,420 @@ namespace ShaheLauncher.App
             {
                 return;
             }
-            IEnumerable<string> paths = _settingsState.AppHistory
-                .OfType<AppHistoryItem>()
-                .Select(item => item.Path)
-                .Where(path => !string.IsNullOrWhiteSpace(path));
-            AppPathList.ReplaceItems(paths);
+
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            AppPathList.BeginProgrammaticUpdate();
+            try
+            {
+                string currentText = (_settingsState.AppPath ?? string.Empty).Trim();
+                if (currentText.Length == 0)
+                {
+                    currentText = AppPathList.GetValue();
+                }
+                int currentIndex = currentText.Length == 0 ? AppPathList.GetSelectedIndex() : -1;
+                string[] checkedPaths = AppPathList.GetCheckedValues();
+                AppPathHistoryView view = AppPathHistoryService.UpdateComboBox(
+                    state,
+                    currentText,
+                    currentIndex,
+                    checkedPaths);
+                CommitAppPathHistoryState(state);
+                AppPathList.ReplaceItems(
+                    view.ItemTexts,
+                    view.ItemPaths,
+                    view.CheckedIndices,
+                    view.SelectedIndex);
+            }
+            finally
+            {
+                AppPathList.EndProgrammaticUpdate();
+            }
+            ShowAppPathContextMenu();
+        }
+
+        private void ShowAppPathContextMenu()
+        {
+            if (AppPathList == null)
+            {
+                return;
+            }
+
+            ContextMenu oldMenu = AppPathList.ContextMenu;
+            ContextMenu menu = BuildAppPathContextMenu();
+            AppPathList.ContextMenu = menu;
+            if (oldMenu != null && oldMenu != menu)
+            {
+                oldMenu.Dispose();
+            }
+        }
+
+        private ContextMenu BuildAppPathContextMenu()
+        {
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            bool hasHistory = state.AppHistory != null && state.AppHistory.Count != 0;
+            bool hasCurrent = ResolveCurrentAppPath().Path.Length != 0;
+            var menu = new ContextMenu();
+            AddAppPathContextItem(menu, "选择应用", "open_app", true);
+            AddAppPathContextItem(menu, "粘贴 .exe 或文件路径", "paste_app", true);
+            menu.MenuItems.Add("-");
+            AddAppPathContextItem(menu, AppPathHistoryService.EditNoteMenuText,
+                "memory_edit_note", hasCurrent);
+            AddAppPathContextItem(menu, AppPathHistoryService.AdjustCountMenuText,
+                "memory_adjust_count", true);
+            AddAppPathContextItem(
+                menu,
+                state.HidePath
+                    ? AppPathHistoryService.ShowPathMenuText
+                    : AppPathHistoryService.HidePathMenuText,
+                "memory_toggle_path_display",
+                true);
+            menu.MenuItems.Add("-");
+            AddAppPathContextItem(menu, AppPathHistoryService.DeleteCurrentMenuText,
+                "memory_delete_current", hasCurrent);
+            AddAppPathContextItem(menu, AppPathHistoryService.ClearMemoryMenuText,
+                "memory_clear_all", hasHistory);
+            menu.MenuItems.Add("-");
+            AddAppPathContextItem(menu, AppPathHistoryService.CopyPathMenuText,
+                "memory_copy_path", hasCurrent);
+            return menu;
+        }
+
+        private void AddAppPathContextItem(
+            ContextMenu menu,
+            string text,
+            string action,
+            bool enabled)
+        {
+            string label = HotkeyController.BuildMenuLabel(text, action, _hotkeys, _hotkeysEnabled);
+            menu.MenuItems.Add(new MenuItem(label, (sender, eventArgs) => DispatchApplicationAction(action))
+            {
+                Enabled = enabled
+            });
+        }
+
+        private void OpenAppPathContextMenu()
+        {
+            AppContextMenuCallback?.Invoke();
+            if (AppPathList == null || AppPathList.ContextMenu == null)
+            {
+                return;
+            }
+
+            try
+            {
+                AppPathList.ContextMenu.Show(
+                    AppPathList,
+                    new Point(Math.Max(0, AppPathList.Width / 2), Math.Max(0, AppPathList.Height / 2)));
+            }
+            catch
+            {
+            }
+        }
+
+        private void ShowPathMemoryManagerDialog()
+        {
+            var history = CreateAppPathHistoryState().AppHistory
+                .Select(item => (IDictionary<string, object>)new Dictionary<string, object>
+                {
+                    { "path", item.Path ?? string.Empty },
+                    { "note", item.Note ?? string.Empty }
+                })
+                .ToList();
+            var settings = new Dictionary<string, object>(Settings ?? new Dictionary<string, object>());
+            settings["max_history_items"] = _settingsState.MaxHistoryItems;
+            settings["hide_path"] = _settingsState.HidePath;
+            using (var dialog = new PathMemoryManagerDialog(
+                this,
+                history,
+                settings,
+                OnPathMemorySaved))
+            {
+                dialog.ShowDialog(this);
+            }
+        }
+
+        private void OnPathMemorySaved(
+            IList<IDictionary<string, object>> appHistory,
+            IDictionary<string, object> settings)
+        {
+            IDictionary<string, object> incoming = settings
+                ?? new Dictionary<string, object>();
+            int maxHistoryItems = CommonUtilities.ParseIntSetting(
+                incoming.ContainsKey("max_history_items") ? incoming["max_history_items"] : null,
+                _settingsState.MaxHistoryItems,
+                0,
+                20);
+            bool hidePath = CommonUtilities.ParseBoolSetting(
+                incoming.ContainsKey("hide_path") ? incoming["hide_path"] : null,
+                _settingsState.HidePath);
+            IList<SandboxAdminHistoryEntry> normalized = SandboxAdminService.NormalizeAppHistory(
+                appHistory,
+                maxHistoryItems);
+            var state = CreateAppPathHistoryState();
+            state.MaxHistoryItems = maxHistoryItems;
+            state.HidePath = hidePath;
+            state.AppHistory = normalized
+                .Select(item => new AppHistoryItem { Path = item.Path, Note = item.Note })
+                .ToList();
+            CommitAppPathHistoryState(state);
+            if (Settings == null)
+            {
+                Settings = new Dictionary<string, object>();
+            }
+            foreach (KeyValuePair<string, object> item in incoming)
+            {
+                Settings[item.Key] = item.Value;
+            }
+            SaveSettings();
+            UpdateAppPathList();
+            SafeSetStatusLabel(AppPathHistoryService.MemorySavedStatus);
+        }
+
+        private void EditCurrentAppPathNote()
+        {
+            AppPathHistoryResolution current = ResolveCurrentAppPath();
+            if (current == null || current.Path.Length == 0)
+            {
+                return;
+            }
+
+            string note = PromptAppPathNote(current.Note);
+            if (note == null || note.Length == 0)
+            {
+                return;
+            }
+
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            int index = AppPathHistoryService.FindAppHistoryIndexByPath(state, current.Path);
+            if (index < 0)
+            {
+                if (!AppPathHistoryService.AddToHistory(state, current.Path, false, null))
+                {
+                    SafeSetStatusLabel("路径记忆已关闭，备注未保存");
+                    return;
+                }
+                index = AppPathHistoryService.FindAppHistoryIndexByPath(state, current.Path);
+            }
+            if (index < 0)
+            {
+                SafeSetStatusLabel("备注保存失败");
+                return;
+            }
+
+            state.AppHistory[index].Note = note;
+            CommitAppPathHistoryState(state);
+            SaveSettings();
+            UpdateAppPathList();
+            AppPathList?.SetValue(current.Path);
+            SafeSetStatusLabel(AppPathHistoryService.NoteUpdatedStatus);
+        }
+
+        private string PromptAppPathNote(string currentNote)
+        {
+            using (var dialog = new Form
+            {
+                Text = "路径记忆备注",
+                Size = new Size(400, 150),
+                StartPosition = FormStartPosition.CenterParent,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                ShowInTaskbar = false,
+                AutoScaleMode = AutoScaleMode.None
+            })
+            {
+                var layout = new TableLayoutPanel
+                {
+                    Dock = DockStyle.Fill,
+                    ColumnCount = 1,
+                    RowCount = 3,
+                    Padding = new Padding(10),
+                    TabStop = false
+                };
+                var input = new TextBox
+                {
+                    Text = currentNote ?? string.Empty,
+                    AccessibleName = "路径备注",
+                    TabIndex = 0,
+                    Dock = DockStyle.Fill
+                };
+                var ok = new Button
+                {
+                    Text = "确定",
+                    AccessibleName = "确定",
+                    AutoSize = true,
+                    TabIndex = 1
+                };
+                var cancel = new Button
+                {
+                    Text = "取消",
+                    AccessibleName = "取消",
+                    AutoSize = true,
+                    TabIndex = 2,
+                    DialogResult = DialogResult.Cancel
+                };
+                var buttons = new FlowLayoutPanel
+                {
+                    AutoSize = true,
+                    Dock = DockStyle.Fill,
+                    FlowDirection = FlowDirection.RightToLeft,
+                    WrapContents = false,
+                    TabStop = false
+                };
+                buttons.Controls.Add(cancel);
+                buttons.Controls.Add(ok);
+                layout.Controls.Add(new Label
+                {
+                    Text = AppPathHistoryService.EditNotePrompt,
+                    AutoSize = true,
+                    TabStop = false
+                }, 0, 0);
+                layout.Controls.Add(input, 0, 1);
+                layout.Controls.Add(buttons, 0, 2);
+                dialog.Controls.Add(layout);
+                dialog.AcceptButton = ok;
+                dialog.CancelButton = cancel;
+                ok.Click += (sender, eventArgs) => dialog.DialogResult = DialogResult.OK;
+                return dialog.ShowDialog(this) == DialogResult.OK
+                    ? (input.Text ?? string.Empty).Trim()
+                    : null;
+            }
+        }
+
+        private void AdjustAppPathHistoryCount()
+        {
+            int value = PromptAppPathHistoryCount(_settingsState.MaxHistoryItems);
+            if (value < 0)
+            {
+                return;
+            }
+
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            AppPathHistoryService.ApplyHistoryCount(state, value, CreateAppPathHistoryCallbacks(state));
+        }
+
+        private int PromptAppPathHistoryCount(int currentValue)
+        {
+            using (var dialog = new Form
+            {
+                Text = AppPathHistoryService.HistoryCountDialogTitle,
+                Size = new Size(360, 140),
+                StartPosition = FormStartPosition.CenterParent,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                ShowInTaskbar = false,
+                AutoScaleMode = AutoScaleMode.None
+            })
+            {
+                var input = new NumericUpDown
+                {
+                    Minimum = 0,
+                    Maximum = 20,
+                    Value = Math.Max(0, Math.Min(20, currentValue)),
+                    AccessibleName = AppPathHistoryService.HistoryCountLabel,
+                    Location = new Point(12, 36),
+                    TabIndex = 0
+                };
+                var label = new Label
+                {
+                    Text = AppPathHistoryService.HistoryCountPrompt,
+                    AutoSize = true,
+                    Location = new Point(12, 12),
+                    TabStop = false
+                };
+                var ok = new Button
+                {
+                    Text = "确定",
+                    AccessibleName = "确定",
+                    DialogResult = DialogResult.OK,
+                    Location = new Point(174, 78),
+                    Size = new Size(80, 28),
+                    TabIndex = 1
+                };
+                var cancel = new Button
+                {
+                    Text = "取消",
+                    AccessibleName = "取消",
+                    DialogResult = DialogResult.Cancel,
+                    Location = new Point(264, 78),
+                    Size = new Size(80, 28),
+                    TabIndex = 2
+                };
+                dialog.Controls.AddRange(new Control[] { label, input, ok, cancel });
+                dialog.AcceptButton = ok;
+                dialog.CancelButton = cancel;
+                return dialog.ShowDialog(this) == DialogResult.OK ? (int)input.Value : -1;
+            }
+        }
+
+        private void ToggleAppPathDisplay()
+        {
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            AppPathHistoryService.TogglePathDisplay(state, CreateAppPathHistoryCallbacks(state));
+        }
+
+        private void DeleteCurrentAppPathMemory()
+        {
+            AppPathHistoryResolution current = ResolveCurrentAppPath();
+            if (current == null || current.Path.Length == 0)
+            {
+                return;
+            }
+            if (ConfirmMessage(
+                    AppPathHistoryService.DeleteCurrentConfirmationText,
+                    "确认删除",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            AppPathHistoryService.DeleteCurrent(
+                state,
+                AppPathList?.GetValue() ?? string.Empty,
+                AppPathList?.GetSelectedIndex() ?? -1,
+                true,
+                CreateAppPathHistoryCallbacks(state));
+        }
+
+        private void ClearAppPathMemory()
+        {
+            if (ConfirmMessage(
+                    AppPathHistoryService.ClearMemoryConfirmationText,
+                    "确认清空",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            AppPathHistoryService.ClearMemory(
+                state,
+                true,
+                CreateAppPathHistoryCallbacks(state));
+        }
+
+        private void CopyCurrentAppPath()
+        {
+            AppPathHistoryResolution current = ResolveCurrentAppPath();
+            string path = current == null ? string.Empty : current.Path;
+            if (path.Length == 0)
+            {
+                return;
+            }
+
+            try
+            {
+                ClipboardTextWriter?.Invoke(path);
+                SafeSetStatusLabel(AppPathHistoryService.PathCopiedStatus);
+            }
+            catch
+            {
+                SafeSetStatusLabel(AppPathHistoryService.CopyPathFailedStatus);
+            }
         }
 
         private void SaveSettings()

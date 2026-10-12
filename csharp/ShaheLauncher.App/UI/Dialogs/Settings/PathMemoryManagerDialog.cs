@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 using ShaheLauncher.App.UI.Dialogs.Common;
+using ShaheLauncher.Core.AppPaths;
 using ShaheLauncher.Core.Common;
 
 namespace ShaheLauncher.App.UI.Dialogs.Settings
@@ -54,7 +55,9 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
             {
                 string note = GetText(item, "note");
                 string path = GetText(item, "path");
-                HistoryList.Items.Add(hidePath ? note : note + " - \"" + path + "\"");
+                HistoryList.Items.Add(AppPathHistoryService.FormatDisplayText(
+                    new AppHistoryItem { Note = note, Path = path },
+                    hidePath));
             }
         }
 
@@ -168,6 +171,7 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
             HidePathCheckBox = new CheckBox
             {
                 Text = "隐藏路径",
+                AccessibleName = "隐藏路径",
                 Checked = CommonUtilities.ParseBoolSetting(
                     GetValue(_settings, "hide_path", false), false),
                 AutoSize = true,
@@ -180,10 +184,17 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
                 TabIndex = 2
             };
             HistoryList.ContextMenu = CreateHistoryMenu();
-            OkButton = new Button { Text = "确定", AutoSize = true, TabIndex = 3 };
+            OkButton = new Button
+            {
+                Text = "确定",
+                AccessibleName = "确定",
+                AutoSize = true,
+                TabIndex = 3
+            };
             CancelActionButton = new Button
             {
                 Text = "取消",
+                AccessibleName = "取消",
                 AutoSize = true,
                 TabIndex = 4,
                 DialogResult = DialogResult.Cancel

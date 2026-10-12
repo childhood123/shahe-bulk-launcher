@@ -34,6 +34,9 @@
 - 2026-10-11 快捷键运行时分派全量回归：C# 全量 `183/183`、Python 全量 `29/29`、Release x64 构建 `0` 警告/`0` 错误、`git diff --check` 通过；`python -m compileall -q .` 仍被既有 `artifacts/runs/full_software_test_20261008/probe_debug/no_cleanup.py:39` 语法错误阻断，生产源码未新增编译错误。结果日志在 `artifacts/runs/csharp_task18_runtime_dispatch_validation_20261011/`。
 - 2026-10-11 快捷键运行时分派最终门禁：新增端到端契约后 C# 全量为 `184/184`，显式 `dotnet build ... --property:Platform=x64` 通过，`0` 警告/`0` 错误；Python 全量仍为 `29/29`，`git diff --check` 通过。`compileall` 的唯一失败仍是上述既有调试探针语法错误，未把该临时文件纳入本模块修复。
 - 2026-10-12 提交前最终门禁：C# `TestCategory=Hotkeys|Application` 通过 `36/36`、全量 `184/184`，Release x64 构建 `0` 警告/`0` 错误；Python 全量 `29/29`、快捷键及菜单行为探针 `3/3`、生产源码范围 `compileall` 通过，`git diff --check` 通过。全仓 `python -m compileall -q .` 仍仅被既有临时探针 `artifacts/runs/full_software_test_20261008/probe_debug/no_cleanup.py:39` 阻断；日志保存在 `artifacts/runs/csharp_task18_runtime_dispatch_final_20261012/`。
+- 2026-10-12 路径记忆运行时接线 RED：新增 `PathMemoryRuntimeContractTests` 的 4 个契约先按预期失败，分别暴露设置菜单缺少管理入口、列表未使用 `FormatDisplayText`/真实路径 `Tag`、七个路径动作进入默认回退、`PathMemoryManagerDialog` 保存回调未回写主窗口；日志在 `artifacts/runs/csharp_task19_path_memory_baseline_20261012/path-memory-red.log`。
+- 2026-10-12 路径记忆运行时接线 GREEN：`MainForm` 接入 `AppPathHistoryService` 临时状态适配、经典 `ContextMenu/MenuItem`、`Ctrl+H` 上下文菜单、设置菜单独立管理对话框、路径选择/勾选回调和七个路径记忆动作；`ListViewItem.Tag` 保存真实路径，显示文本复用 `FormatDisplayText()`，管理对话框显示文本也复用同一服务方法。路径记忆契约 `4/4`，受影响分类 `65/65`，日志在 `artifacts/runs/csharp_task19_path_memory_baseline_20261012/`。
+- 2026-10-12 路径记忆运行时接线最终门禁：C# 全量 `188/188`，Release x64 构建 `0` 警告/`0` 错误；Python 全量 `29/29`；`python -m compileall -q shahe_bulk_launcher tests` 通过；全仓 `python -m compileall -q .` 仍仅被既有 `artifacts/runs/full_software_test_20261008/probe_debug/no_cleanup.py:39` 阻断；`git diff --check` 通过。路径列表选择/勾选恢复未触发扫描、启动或进程刷新契约。下一模块为“菜单状态与沙盒选择反馈”。
 - 2026-09-24 Task 15 应用层接线完成已确认范围：`MainForm` 的 `backup_sandboxes` 与 `restore_sandboxes` 已调用 `BackupRestoreService`，接入用户选择、保存目录/备份文件选择、覆盖确认、异步状态回调、Sandboxie 服务生命周期、配置合并、控制程序启动询问、重启询问和还原阶段进度窗口；Python 正式代码未修改。
 - 2026-08-28 前 20 模块真实调用审计的历史结论为：20/20 均有 C# 可执行测试覆盖；当时真实 EXE 启动与隔离菜单交互合并后 19/20 有应用进程源码执行证据，唯一例外是尚未接线的 Task 15。Task 15 接线后的真实 EXE 动作级审计尚未重新收集，不能把本轮 Application 测试替代为真实进程交互证据。
 - C# `Program.cs` 已接入单实例、`MainForm`、WinForms 消息循环和释放顺序，Release x64 主程序已完成最终真实启动、显示主窗口、生成配置和正常退出烟雾测试；当前 C# 版本可以启动运行，但音频真实后端、部分菜单动作和外部 updater 安装流程仍有未完成或未确认边界。
@@ -115,10 +118,10 @@ csharp/
 | 4 | `single_instance.py` | `ShaheLauncher.App/Infrastructure/SingleInstanceGuard.cs` | 已完成，3/3 |
 | 5 | `ui/controls.py` | `ShaheLauncher.App/UI/Controls/` | 已完成，14/14 |
 | 6 | `ui/common_dialogs.py` | `ShaheLauncher.App/UI/Dialogs/Common/` | 已完成，7/7 |
-| 7 | `ui/settings_dialogs.py` | `ShaheLauncher.App/UI/Dialogs/Settings/` | 已完成，10/10 |
+| 7 | `ui/settings_dialogs.py` | `ShaheLauncher.App/UI/Dialogs/Settings/` | 已完成，10/10；`PathMemoryManagerDialog` 已由设置菜单打开并回写主窗口状态 |
 | 8 | `ui/tray.py` | `ShaheLauncher.App/UI/Tray/LauncherTrayIcon.cs` | 已完成，3/3 |
 | 9 | `features/settings.py` | `ShaheLauncher.Core/Settings/LauncherSettingsService.cs` | 已完成，8/8 |
-| 10 | `features/app_paths.py` | `ShaheLauncher.Core/AppPaths/AppPathHistoryService.cs` | 已完成，8/8 |
+| 10 | `features/app_paths.py` | `ShaheLauncher.Core/AppPaths/AppPathHistoryService.cs` 与 `ShaheLauncher.App/MainForm.cs` | 已完成已确认范围，8/8 服务契约与 4/4 运行时接线契约 |
 | 11 | `features/sandboxie.py` | `ShaheLauncher.Core/Sandboxie/SandboxieClient.cs` | 已完成，8/8 |
 | 12 | `features/process_actions.py` | `ShaheLauncher.Core/Processes/ProcessActionService.cs` | 已完成，8/8 |
 | 13 | `features/sandbox_admin.py` | `ShaheLauncher.Core/SandboxAdmin/SandboxAdminService.cs` | 已完成，8/8 |
@@ -142,10 +145,10 @@ csharp/
 | 4 | `single_instance.py` | 真实 EXE 启动已调用 | `Program.Main` 实际执行互斥体检查和释放 |
 | 5 | `ui/controls.py` | 启动与交互已调用 | 主列表、应用列表、状态文本和延迟调用均有执行证据 |
 | 6 | `ui/common_dialogs.py` | 部分交互已调用 | 二维码对话框从真实菜单打开；分组、批量命名和用户选择对话框仅定向测试调用 |
-| 7 | `ui/settings_dialogs.py` | 部分交互已调用 | 热键、软件和朗读设置从真实菜单打开；`PathMemoryManagerDialog` 未发现应用入口 |
+| 7 | `ui/settings_dialogs.py` | 部分交互已调用 | 热键、软件、朗读设置和路径记忆管理均有菜单入口；路径记忆真实 EXE 对话框操作仍待人工审计 |
 | 8 | `ui/tray.py` | 真实 EXE 启动已调用 | `show_tray=true` 时创建托盘图标，退出时移除 |
 | 9 | `features/settings.py` | 启动与交互已调用 | 配置加载/迁移及 Sandboxie 路径、数据根校正已执行 |
-| 10 | `features/app_paths.py` | 部分交互已调用 | 粘贴菜单调用 `ExtractExePathFromText`；历史新增逻辑仍由 `MainForm` 自行实现 |
+| 10 | `features/app_paths.py` | 启动与交互已调用 | 主窗口通过 `AppPathHistoryService` 接入历史新增、显示、选择、勾选、上下文菜单、管理对话框保存和七个路径记忆动作；真实 EXE 路径记忆全流程仍待人工审计 |
 | 11 | `features/sandboxie.py` | 启动与交互已调用 | 安装路径、INI/显示映射和运行状态路径已执行；真实扫描会只读系统级 `Sandboxie.ini` |
 | 12 | `features/process_actions.py` | 部分交互已调用 | “静音全部”真实进入服务并得到空 PID 结果；真实音频会话和播放设备后端仍为空实现 |
 | 13 | `features/sandbox_admin.py` | 部分启动与交互已调用 | 设置规范化、INI 读取和临时 `Box1` 置顶已执行；`create_group`、`launch_group`、`delete_group`、`batch_create_sandboxes`、`batch_rename_sandboxes`、`batch_delete_sandboxes` 已进入 Application 契约，真实 EXE 动作级审计待补 |
@@ -182,9 +185,15 @@ csharp/
 - Task 18 保留的 `NumPadEnter` 风险尚未解除：WinForms 没有独立枚举，当前只验证了 `HotkeyController` 逻辑键码、文本语义和主窗口扩展 Enter 映射契约，真实底层键盘事件接线仍需人工输入验证。
 - Task 15 `BackupRestoreService` 已接入 `MainForm` 备份/还原业务流程，服务调用和还原阶段进度窗口已有 Application 契约；真实 EXE 中直接执行会停止/重启 Sandboxie 服务并覆盖数据的动作级审计仍需在隔离环境人工/探针验证，不能以 Application 测试替代。
 - Task 20 已建立全部迁移服务属性、经典菜单、入口、发布复制、主要进程/窗口/启动/Sandboxie/语音回调、非破坏性菜单动作、Task 15 备份/还原接线和 `create_group`、`launch_group`、`delete_group`、`batch_create_sandboxes`、`batch_rename_sandboxes`、`batch_delete_sandboxes`、`schedule_launch` 菜单接线；音频会话枚举与按进程切换播放设备仍使用安全空结果边界，`schedule_close` 和 `repair_sandboxie_control_settings` 仍有 2 个动作进入统一动作提示，不能据此声明整个软件迁移完成。
+- Task 10 路径记忆运行时接线已通过契约验证，但真实 EXE 中的鼠标右键、`Ctrl+H` 弹出位置、剪贴板写入和管理对话框完整保存/取消流程尚未在专用测试环境人工审计；选择/勾选回调已明确避免扫描、启动和进程刷新副作用。
 - 外部 `updater.exe` 已随 Release x64 主程序发布并通过共存烟雾验证，但仓库仍缺少原 updater 安装器源码，未知安装、替换和重启流程尚未迁移或验证。
 
 ## 验证记录
+
+- 2026-10-12 Task 10 路径记忆定向验证：`PathMemoryRuntimeContractTests` RED `4/4` 暴露接线缺口；实现后 GREEN `4/4`，覆盖设置菜单独立入口、`Ctrl+H` 经典上下文菜单、八个菜单动作标签/dispatcher、`FormatDisplayText`、`ListViewItem.Tag`、选择/勾选恢复和无高成本副作用。
+- 2026-10-12 Task 10 受影响回归：`TestCategory=Application|Controls|SettingsDialogs|AppPaths` 通过 `65/65`；随后 `PathMemoryRuntimeContractTests`、`UiControlsCSharpContractTests`、`SettingsDialogsCSharpContractTests` 通过 `30/30`。
+- 2026-10-12 Task 10 最终验证：`dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore` 通过 `188/188`；`python -m unittest discover -s tests -p "test_*.py" -v` 通过 `29/29`；`python -m compileall -q shahe_bulk_launcher tests` 通过；`dotnet build ... --property:Platform=x64` 为 `0` 警告/`0` 错误；全仓 `compileall` 唯一失败仍是既有 `artifacts/runs/full_software_test_20261008/probe_debug/no_cleanup.py:39`；日志在 `artifacts/runs/csharp_task19_path_memory_baseline_20261012/`。
+- 2026-10-12 Task 10 暂存区独立快照验证：从当前索引导出不含未暂存用户改动的快照，C# 全量 `183/183`、Release x64 构建 `0` 警告/`0` 错误、Git 已跟踪的 Python 基线 `24/24`、全仓 `compileall` 通过；当前工作树额外的 5 个 C# 和 5 个 Python 测试来自既有未暂存改动。Windows `tar` 首次解包把中文入口文件名转码，复制同一已跟踪且未修改的入口文件后 Python 重跑通过；日志保存在同一验证目录的 `staged_snapshot_verify/` 及相邻日志文件。
 
 - 2026-08-28：前 20 模块真实调用审计提交前复核通过。当前工作树重新执行 `ShaheBulkLauncher.sln` `Release|x64` 还原/构建，结果为 0 警告、0 错误；重新运行 `ShaheLauncher.Tests.dll /Platform:x64`，162/162 通过、0 失败、0 跳过。重新从 `module_call_matrix.json` 计算并与 `audit_summary.json` 对照，模块总数 20、应用进程有执行证据 19、测试有执行证据 20、唯一仅测试调用为 Task 15、默认回退动作 11 项，全部一致。
 
