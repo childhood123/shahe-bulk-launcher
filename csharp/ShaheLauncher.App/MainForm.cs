@@ -1338,6 +1338,20 @@ namespace ShaheLauncher.App
             }
 
             LauncherSettingsCallbacks callbacks = CreateSettingsCallbacks();
+            Action<string> setSandboxRoot = callbacks.SetSandboxRoot;
+            callbacks.SetSandboxRoot = value =>
+            {
+                setSandboxRoot?.Invoke(value);
+                Settings = _settingsState.Settings ?? new Dictionary<string, object>();
+                ShowTray = _settingsState.ShowTray;
+                AutoRun = _settingsState.AutoRun;
+                LogOutputMode = _settingsState.LogOutputMode;
+                SandboxieClient.SandboxiePath = _settingsState.SandboxiePath ?? string.Empty;
+                SandboxieClient.SandboxRoot = _settingsState.SandboxRoot ?? string.Empty;
+                SyncFeatureStatesFromSettings(SandboxAdminService.NormalizeVolumeMemory(
+                    _settingsState.SandboxVolumeMemory,
+                    SandboxAdminCallbacks));
+            };
             callbacks.ApplyHotkeys = () =>
             {
                 _hotkeys = HotkeyController.NormalizeHotkeyMap(_settingsState.Hotkeys);
@@ -1350,18 +1364,6 @@ namespace ShaheLauncher.App
                 ApplyAutoRun();
             };
             SettingsService.ResetSettings(_settingsState, callbacks);
-            Settings = _settingsState.Settings ?? new Dictionary<string, object>();
-            ShowTray = _settingsState.ShowTray;
-            AutoRun = _settingsState.AutoRun;
-            LogOutputMode = _settingsState.LogOutputMode;
-            SandboxieClient.SandboxiePath = _settingsState.SandboxiePath ?? string.Empty;
-            SandboxieClient.SandboxRoot = _settingsState.SandboxRoot ?? string.Empty;
-            SyncFeatureStatesFromSettings(SandboxAdminService.NormalizeVolumeMemory(
-                _settingsState.SandboxVolumeMemory,
-                SandboxAdminCallbacks));
-            ApplyHotkeys();
-            CreateMenuBar();
-            SafeSetStatusLabel(LauncherSettingsService.ResetCompletedStatus);
         }
 
         private bool ToggleBooleanSetting(
