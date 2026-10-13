@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShaheLauncher.App;
@@ -105,6 +106,30 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
+        public void UsesActualWindowsBuildForPolicyConfigWhenFrameworkVersionIsVirtualized()
+        {
+            Type backendType = RequireBackendType();
+            MethodInfo getBuild = RequireMethod(backendType, "GetWindowsBuildForRouting");
+            int build = (int)getBuild.Invoke(null, null);
+
+            Assert.AreEqual(
+                ReadNativeWindowsBuild(),
+                build,
+                "Routing capability must be detected from the host OS instead of this machine's compatibility view.");
+
+            MethodInfo resolveIid = RequireMethod(backendType, "ResolvePolicyConfigInterfaceId");
+            Guid interfaceId = (Guid)resolveIid.Invoke(null, new object[] { build });
+            if (build < 17134)
+            {
+                Assert.AreEqual(Guid.Empty, interfaceId);
+            }
+            else
+            {
+                Assert.AreNotEqual(Guid.Empty, interfaceId);
+            }
+        }
+
+        [TestMethod]
         public void NativeBackendReturnsSafeCollectionsAndRejectsInvalidRoutes()
         {
             Type backendType = RequireBackendType();
@@ -139,6 +164,16 @@ namespace ShaheLauncher.Tests
             Type type = Assembly.Load("ShaheLauncher.Core").GetType(BackendTypeName, false);
             Assert.IsNotNull(type, BackendTypeName + " must exist");
             return type;
+        }
+
+        private static int ReadNativeWindowsBuild()
+        {
+            var version = new WindowsVersionInfo
+            {
+                Size = Marshal.SizeOf(typeof(WindowsVersionInfo))
+            };
+            Assert.AreEqual(0, RtlGetVersion(ref version));
+            return version.BuildNumber;
         }
 
         private static MethodInfo RequireMethod(Type type, string name)
@@ -221,5 +256,27 @@ namespace ShaheLauncher.Tests
             {
             }
         }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private struct WindowsVersionInfo
+        {
+            public int Size;
+            public int MajorVersion;
+            public int MinorVersion;
+            public int BuildNumber;
+            public int PlatformId;
+
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+            public string ServicePack;
+
+            public ushort ServicePackMajor;
+            public ushort ServicePackMinor;
+            public ushort SuiteMask;
+            public byte ProductType;
+            public byte Reserved;
+        }
+
+        [DllImport("ntdll.dll")]
+        private static extern int RtlGetVersion(ref WindowsVersionInfo versionInfo);
     }
 }
