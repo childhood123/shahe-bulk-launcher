@@ -111,6 +111,6 @@ Expected: 定向测试和受影响分类均为 `0` 失败、`0` 跳过，选择�
 - [x] 运行 `python -m unittest discover -s tests -p "test_*.py" -v`、`python -m compileall -q shahe_bulk_launcher tests`、标准 Release 构建并记录活动进程锁定失败、隔离 Release 构建和 `git diff --check`。
 - [x] 提交前只暂存本轮实际修复、测试和文档；未暂存用户原有 `HotkeyController.cs`、`SettingsRuntimeContractTests.cs`、临时备份或历史输出。
 - [x] 使用提交消息 `fix: reduce duplicate selection refresh requests`；提交哈希为 `816a797`，本地分支为 `沙河批量打开器`。
-- [x] 远端历史分叉时使用 `git push origin HEAD:fix/multi-user-navigation-20261015`，已推送到远端分支 `fix/multi-user-navigation-20261015`，未使用强制推送。
+- [x] 远端历史分叉时使用 `git push origin HEAD:fix/multi-user-navigation-20261015`，代码修复提交 `816a797` 已推送到该远端分支，未使用强制推送；文档同步提交 `267494d` 已在本地提交，但后续推送因 GitHub 连接超时未确认成功。
 
 **Completion criterion:** 代码、测试、文档、构建、全量回归和真实 EXE 证据与日志一致；仍有未完成审计时，最终报告明确列出当前模块、待验证项、风险和 C# 是否可完整运行。
