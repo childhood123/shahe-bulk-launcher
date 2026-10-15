@@ -306,10 +306,9 @@ namespace ShaheLauncher.Core.Processes
                 return null;
             }
 
-            DateTime deadline = DateTime.UtcNow.AddSeconds(30);
             while (!choiceCompleted.Wait(100))
             {
-                if (IsClosing(callbacks) || DateTime.UtcNow >= deadline)
+                if (IsClosing(callbacks))
                 {
                     return null;
                 }

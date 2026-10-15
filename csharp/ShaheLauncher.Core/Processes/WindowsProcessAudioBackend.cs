@@ -195,7 +195,7 @@ namespace ShaheLauncher.Core.Processes
                 return false;
             }
 
-            Guid policyConfigId = ResolvePolicyConfigInterfaceId(Environment.OSVersion.Version.Build);
+            Guid policyConfigId = ResolvePolicyConfigInterfaceId(GetWindowsBuildForRouting());
             if (policyConfigId == Guid.Empty)
             {
                 return false;
@@ -319,6 +319,22 @@ namespace ShaheLauncher.Core.Processes
             return windowsBuild >= PolicyConfig21H2Build
                 ? PolicyConfig21H2Id
                 : PolicyConfigDownlevelId;
+        }
+
+        internal static int GetWindowsBuildForRouting()
+        {
+            if (!IsWindows())
+            {
+                return 0;
+            }
+
+            var version = new WindowsVersionInfo
+            {
+                Size = Marshal.SizeOf(typeof(WindowsVersionInfo))
+            };
+            return RtlGetVersion(ref version) == 0
+                ? version.BuildNumber
+                : Environment.OSVersion.Version.Build;
         }
 
         private static string GetDefaultDeviceId(IMMDeviceEnumerator deviceEnumerator)
@@ -508,6 +524,25 @@ namespace ShaheLauncher.Core.Processes
 
             [FieldOffset(8)]
             public IntPtr PointerValue;
+        }
+
+        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
+        private struct WindowsVersionInfo
+        {
+            public int Size;
+            public int MajorVersion;
+            public int MinorVersion;
+            public int BuildNumber;
+            public int PlatformId;
+
+            [MarshalAs(UnmanagedType.ByValTStr, SizeConst = 128)]
+            public string ServicePack;
+
+            public ushort ServicePackMajor;
+            public ushort ServicePackMinor;
+            public ushort SuiteMask;
+            public byte ProductType;
+            public byte Reserved;
         }
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
@@ -720,6 +755,9 @@ namespace ShaheLauncher.Core.Processes
 
         [DllImport("ole32.dll")]
         private static extern int PropVariantClear(ref PropVariant value);
+
+        [DllImport("ntdll.dll")]
+        private static extern int RtlGetVersion(ref WindowsVersionInfo versionInfo);
 
         [DllImport("combase.dll", CharSet = CharSet.Unicode)]
         private static extern int WindowsCreateString(

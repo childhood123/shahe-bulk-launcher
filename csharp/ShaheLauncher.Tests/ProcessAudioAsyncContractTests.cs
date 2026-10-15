@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.IO;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using ShaheLauncher.Core.Processes;
@@ -83,6 +84,49 @@ namespace ShaheLauncher.Tests
                     caller.Join(3000);
                 }
             }
+        }
+
+        [TestMethod]
+        public void OutputDeviceChoiceWaitsForTheUserWithoutAFixedDeadline()
+        {
+            string root = FindRepositoryRoot();
+            string source = File.ReadAllText(Path.Combine(
+                root,
+                "csharp",
+                "ShaheLauncher.Core",
+                "Processes",
+                "ProcessActionService.cs"));
+            int start = source.IndexOf(
+                "private ProcessAudioDevice PromptOutputDeviceChoiceFromWorker",
+                StringComparison.Ordinal);
+            Assert.IsTrue(start >= 0, "output-device choice worker must exist");
+            int end = source.IndexOf("public long PromptWindowChoice", start, StringComparison.Ordinal);
+
+            Assert.IsTrue(end > start, "output-device choice worker boundary must be readable");
+            string method = source.Substring(start, end - start);
+            StringAssert.Contains(method, "while (!choiceCompleted.Wait(100))");
+            StringAssert.Contains(method, "IsClosing(callbacks)");
+            Assert.IsFalse(
+                method.Contains("DateTime.UtcNow"),
+                "published builds must not discard a valid device choice because the user needed more than 30 seconds");
+        }
+
+        private static string FindRepositoryRoot()
+        {
+            foreach (string start in new[] { Environment.CurrentDirectory, AppDomain.CurrentDomain.BaseDirectory })
+            {
+                DirectoryInfo directory = new DirectoryInfo(start);
+                while (directory != null)
+                {
+                    if (File.Exists(Path.Combine(directory.FullName, "PROJECT_STRUCTURE.md")))
+                    {
+                        return directory.FullName;
+                    }
+                    directory = directory.Parent;
+                }
+            }
+            Assert.Fail("Repository root not found");
+            return string.Empty;
         }
     }
 }
