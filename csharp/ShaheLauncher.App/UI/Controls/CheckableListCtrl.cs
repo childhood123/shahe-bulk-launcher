@@ -643,12 +643,14 @@ namespace ShaheLauncher.App.UI.Controls
         protected override void OnSelectedIndexChanged(EventArgs eventArgs)
         {
             base.OnSelectedIndexChanged(eventArgs);
-            SelectionProcessStateRefreshCallback?.Invoke();
             int index = GetSelectedIndex();
-            if (index >= 0)
+            if (index < 0)
             {
-                AnnounceItemState(index);
+                return;
             }
+
+            SelectionProcessStateRefreshCallback?.Invoke();
+            AnnounceItemState(index);
         }
 
         protected override void OnKeyDown(KeyEventArgs eventArgs)

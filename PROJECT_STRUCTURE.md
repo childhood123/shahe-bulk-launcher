@@ -1,5 +1,22 @@
 # 沙河批量打开器项目结构
 
+## 文档阅读顺序
+
+新会话按以下顺序读取文档和证据：
+
+1. `AGENTS.md`：长期项目约束、验证和提交规则。
+2. 本文件的“当前摘要”和“当前 C# 迁移计划进度”：当前唯一权威状态。
+3. `docs/superpowers/plans/2026-10-15-multi-user-navigation-and-exe-audit.md`：当前任务的执行步骤和完成标准。
+4. `artifacts/runs/` 下由当前计划引用的最新日志：命令输出和真实 EXE 证据。
+5. 本文件后面的历史记录：只用于追溯，不覆盖当前摘要。
+
+## 当前摘要维护规则
+
+- 顶部当前摘要只记录最新已验证结果、当前模块、待验证项和已知风险。
+- 历史验证记录按日期追加，不删除历史 RED/GREEN 证据，也不把历史中间状态当作当前状态。
+- 测试数量、提交哈希、运行 PID 和日志路径在当前摘要或对应验证记录中只保留一个实时权威值。
+- 本文件记录的是迁移状态，不等同于“整个软件已完成”；整体完成必须满足 `AGENTS.md` 的全部完成标准。
+
 ## 项目用途
 
 本仓库用于维护沙河批量打开器 Python 正式基线，并在 `csharp/` 中按模块迁移到 .NET Framework 4.8 WinForms x64。Python 单文件模块化迁移已完成，界面、文案、快捷键、焦点、无障碍、配置键和运行行为由契约测试与行为探针持续保护；C# 必须逐模块对照这些行为，不能重新设计。
@@ -25,7 +42,8 @@
 - `SandboxLauncher` 的 398 个方法按 1 个应用初始化方法和 10 个业务 mixin 唯一分区，无重复或遗漏；已删除旧的按系统负载动态调整启动延迟方案，启动并发数和启动间隔完全由用户确认后的配置决定。
 - 最终入口 API 审计无缺失导出，`SandboxLauncher` 与 `main` 均由 `shahe_bulk_launcher.app` 提供。
 - C# 迁移工程已建立：`csharp/ShaheBulkLauncher.sln` 包含 Core、App、Updater、Tests 四个 `net48/x64` 项目。
-- C# Task 1 `constants.py` 至 Task 19 `features/lifecycle.py` 已完成已确认范围的模块级迁移；Task 20 `app.py` 已完成应用组装、入口、发布、主要用户动作、非破坏性菜单动作、Task 15 备份/还原以及 `create_group`、`launch_group`、`delete_group`、`batch_create_sandboxes`、`batch_rename_sandboxes`、`batch_delete_sandboxes`、`schedule_launch`、`schedule_close`、`repair_sandboxie_control_settings` 菜单接线的已确认范围；快捷键运行时分派、路径记忆、进程菜单状态/沙盒选择反馈、全量重置和设置开关、真实音频后端及进程菜单实时状态刷新已完成已确认范围。当前最新门禁为 C# 全量测试 `203/203`、Python 全量测试 `29/29`、Release x64 构建和生产源码语法编译通过；真实 EXE 审计已完成启动退出、单/多沙盒启动、并发配置、静音、实时菜单状态、音量操作和当前进程播放设备路由，关闭进程及其余动作仍待完成，未声明整个软件完成迁移。
+- C# Task 1 `constants.py` 至 Task 19 `features/lifecycle.py` 已完成已确认范围的模块级迁移；Task 20 `app.py` 已完成应用组装、入口、发布、主要用户动作、非破坏性菜单动作、Task 15 备份/还原以及 `create_group`、`launch_group`、`delete_group`、`batch_create_sandboxes`、`batch_rename_sandboxes`、`batch_delete_sandboxes`、`schedule_launch`、`schedule_close`、`repair_sandboxie_control_settings` 菜单接线的已确认范围；快捷键运行时分派、路径记忆、进程菜单状态/沙盒选择反馈、全量重置和设置开关、真实音频后端及进程菜单实时状态刷新已完成已确认范围。最近一次完整自动化门禁为 C# 全量测试 `212/212`、Python 全量测试 `29/29`、最终隔离 Release x64 构建 `0` 警告/`0` 错误、Python 生产源码语法编译通过和 `git diff --check` 通过；真实 EXE 审计已完成启动退出、单/多沙盒启动、并发配置、静音、实时菜单状态、音量操作和当前进程播放设备路由，关闭进程及其余动作仍待完成，未声明整个软件完成迁移。
+- 当前活动计划为 `docs/superpowers/plans/2026-10-15-multi-user-navigation-and-exe-audit.md`。本轮列表移动刷新修复已完成自动化门禁；标准 Release 输出仍受运行中实例锁定，真实 EXE 复测需在关闭当前实例后使用最终隔离构建继续执行。
 - 2026-10-11 快捷键运行时分派模块建立验证基线：C# 全量契约 `178/178`、Release x64 构建 `0` 警告/`0` 错误、`git diff --check` 通过，Python 全量测试 `29/29`；`python -m compileall -q .` 被既有临时探针 `artifacts/runs/full_software_test_20261008/probe_debug/no_cleanup.py:39` 的语法错误阻断，未修改该探针或 Python 正式基线。原始日志保存在 `artifacts/runs/csharp_task18_runtime_dispatch_baseline_20261011/`。
 - 2026-10-11 快捷键运行时分派 RED：新增三个 Application 契约，分别覆盖启用自定义动作、固定快捷键优先级，以及禁用/无效/未知快捷键回退；定向运行 `3` 项结果为 `2` 通过、`1` 失败，失败点为 `ProcessCmdKey` 未把 `toggle_window` 等自定义动作送入运行时回调。日志保存在 `artifacts/runs/csharp_task18_runtime_dispatch_red_20261011/targeted_tests.log`。
 - 2026-10-11 快捷键动作接线 RED：新增设置开关执行契约，直接调用真实 `ExecuteApplicationAction` 验证自动运行、托盘、自动选择、跳过运行沙盒、音量记忆和左右导航状态同步；定向运行 `1` 项按预期失败，当前仍落入“已触发操作”默认分支，日志保存在 `artifacts/runs/csharp_task18_runtime_dispatch_red2_20261011/targeted_tests.log`。
@@ -134,6 +152,16 @@
 - 2026-10-15 无效设备扫描修复差异检查：`git diff --check` 退出码 `0`；日志在 `artifacts/runs/csharp_close_process_exe_20261015/unused-live-device-diff-check.log`，仅有 Git 的 LF/CRLF 转换提示，无差异错误。
 - 2026-10-15 无效设备扫描修复 Release x64 构建：`dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64` 成功生成 Core、App、Updater、Tests，`0` 警告、`0` 错误；日志在 `artifacts/runs/csharp_close_process_exe_20261015/unused-live-device-release-build.log`。
 - 2026-10-15 无效设备扫描修复真实 EXE 复测：最新 Release 实例 PID `10444` 启动并完成四个审计沙盒导航压力采样；单键/突发结果因跨进程定位出现起始索引漂移和部分校准超时，不能作为最终产品性能结论，原始结果保留在 `artifacts/runs/csharp_close_process_exe_20261015/navigation-unused-device-scan-result.json`。探针结束后四个审计沙盒均为 `0 PID`，`SbieSvc` 保持 `Running`，最新 EXE 仍保持运行供人工复核。
+- 2026-10-15 多用户列表移动刷新契约 RED：初版测试未显式触发 WinForms `OnSelectedIndexChanged`，结果为 `0` 次刷新，不能作为根因证据；修正测试为显式模拟旧项取消选中和新项选中两个事件后，当前实现稳定产生 `2` 次请求而预期为 `1` 次。日志在 `artifacts/runs/csharp_navigation_followup_20261015/selection-refresh-count-red2.log`。
+- 2026-10-15 多用户列表移动刷新契约 GREEN：`CheckableListCtrl.OnSelectedIndexChanged` 先取得有效选中索引，取消选中导致索引为 `-1` 时不再提交实时进程菜单刷新；隔离 Release x64 构建和 `MovingSelectionSchedulesOneLiveRefreshRequest` 单项契约通过 `1/1`。日志在 `artifacts/runs/csharp_navigation_followup_20261015/isolated-build-green.log` 与 `selection-refresh-count-green.log`。
+- 2026-10-15 多用户列表移动刷新受影响回归：`TestCategory=Application|TestCategory=Controls|TestCategory=Lifecycle` 通过 `69/69`，无失败、无跳过；日志在 `artifacts/runs/csharp_navigation_followup_20261015/selection-refresh-affected-regression.log`。
+- 2026-10-15 多用户列表移动刷新 C# 全量回归：隔离 Release x64 `ShaheLauncher.Tests.dll` 通过 `212/212`，无失败、无跳过；日志在 `artifacts/runs/csharp_navigation_followup_20261015/csharp-full.log`。
+- 2026-10-15 多用户列表移动刷新 Python 对照门禁：`python -m unittest discover -s tests -p "test_*.py" -v` 通过 `29/29`，日志在 `artifacts/runs/csharp_navigation_followup_20261015/python-full.log`。
+- 2026-10-15 多用户列表移动刷新 Python 生产源码语法门禁：`python -m compileall -q shahe_bulk_launcher tests` 通过，退出码 `0`；日志在 `artifacts/runs/csharp_navigation_followup_20261015/python-compile.log`。
+- 2026-10-15 多用户列表移动刷新标准 Release 构建受环境阻断：`dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64` 返回码 `1`，原因是活动进程 `10444` 锁定 `csharp/ShaheLauncher.App/bin/x64/Release/net48/ShaheLauncher.Core.dll`；未停止该进程，完整输出在 `artifacts/runs/csharp_navigation_followup_20261015/release-build-standard.log`。
+- 2026-10-15 多用户列表移动刷新最终隔离 Release x64 构建：`dotnet msbuild csharp\ShaheBulkLauncher.sln /t:Build /p:Configuration=Release /p:Platform=x64 /p:BaseOutputPath=artifacts/runs/csharp_navigation_followup_20261015/isolated-final-bin /m` 成功生成 Core、App、Updater、Tests，`0` 警告、`0` 错误；日志在 `artifacts/runs/csharp_navigation_followup_20261015/release-build-isolated-final.log`。
+- 2026-10-15 多用户列表移动刷新差异检查：`git diff --check` 退出码 `0`；日志在 `artifacts/runs/csharp_navigation_followup_20261015/diff-check.log`，仅有 Git 的换行转换提示。
+- 2026-10-15 多用户列表移动刷新文档与修复最终差异检查：在更新 `AGENTS.md`、当前计划和项目摘要后再次运行 `git diff --check`，退出码 `0`；最终日志在 `artifacts/runs/csharp_navigation_followup_20261015/diff-check-final.log`。
 - 2026-10-03 Task 20 `schedule_close` 迁移：`MainForm` 已将菜单动作接入 `LaunchScheduler.ScheduleSelectedClose`，保持定时关闭文案、30 秒默认值、沙盒目标列表、关闭回调、状态更新和进程 UI 刷新语义；定向契约先按预期 RED（默认动作回退），接线后 GREEN。测试补充 Sandboxie 名称回调以隔离初始化异步刷新，未修改 Python 基线。
 - 2026-10-03 Task 20 回归验证：`dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore` 通过 173/173；`python -m unittest discover -s tests -p "test_*.py" -v` 通过 29/29；`dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64` 通过，0 警告、0 错误。
 - 2026-10-03 Task 20 `repair_sandboxie_control_settings` 定向迁移验证：先新增 `MainFormApplicationContractTests.WiresRepairSandboxieControlSettingsMenuActionToSandboxAdminService`，RED 按预期命中默认动作回退；随后在 `MainForm.ExecuteApplicationAction` 接入应用方法，保持 Python 的确认文案、`Sandboxie.ini` 清理、配置刷新、成功/无需修复/失败状态与提示语义，GREEN 通过 1/1；Python 基线未修改。
@@ -155,7 +183,7 @@
 | 4. 接线菜单状态与沙盒选择反馈 | 已完成 | 运行状态、静音标签、选择反馈及 `F10`、`Alt`、方向键、回车、空格操作已验证。 |
 | 5. 接通全量重置和设置开关动作 | 已完成 | `ResetSettings()`、六个设置开关及重置后的运行时同步顺序已有契约和全量门禁。 |
 | 6. 补齐真实音频后端 | 已完成已确认范围 | Core Audio 会话、设备枚举、静音、音量和播放设备路由已接入；真实宿主 build 检测修复，生产 EXE 菜单动作已选择非默认设备并回读持久路由。 |
-| 7. 真实 EXE 与 Sandboxie 集成测试 | 进行中 | 已完成启动退出、单/多沙盒启动、并发配置、静音、实时菜单状态、音量和播放设备切换，以及真实备份和隔离解压校验；关闭动作及其余菜单动作级审计待完成。 |
+| 7. 真实 EXE 与 Sandboxie 集成测试 | 进行中 | 已完成启动退出、单/多沙盒启动、并发配置、静音、实时菜单状态、音量和播放设备切换，以及真实备份和隔离解压校验；当前继续验证多用户列表导航卡顿和关闭动作，其他菜单动作级审计仍待完成。 |
 | 8. 最终迁移门禁 | 未完成 | 自动化门禁已多轮通过，但真实调用证据、剩余集成审计、最终文档和发布边界尚未全部满足。 |
 
 ### 当前迁移状态声明

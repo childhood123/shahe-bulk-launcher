@@ -307,6 +307,45 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
+        public void MovingSelectionSchedulesOneLiveRefreshRequest()
+        {
+            RunInSta(() =>
+            {
+                string root = CreateTemporaryDirectory();
+                MainForm form = null;
+                try
+                {
+                    form = CreateForm(root);
+                    form.InitializeUi();
+                    int refreshRequests = 0;
+                    form.SandboxList.SelectionProcessStateRefreshCallback = () => refreshRequests++;
+                    form.SandboxList.ReplaceItemTexts(
+                        new[] { "用户A 【空闲中】", "用户B 【空闲中】" },
+                        new int[0]);
+
+                    SelectOnly(form.SandboxList, 0);
+                    RaiseSelectedIndexChanged(form.SandboxList);
+                    int beforeMove = refreshRequests;
+                    form.SandboxList.Items[0].Selected = false;
+                    RaiseSelectedIndexChanged(form.SandboxList);
+                    form.SandboxList.Items[1].Selected = true;
+                    form.SandboxList.Items[1].Focused = true;
+                    RaiseSelectedIndexChanged(form.SandboxList);
+
+                    Assert.AreEqual(
+                        1,
+                        refreshRequests - beforeMove,
+                        "一次列表移动只能提交一次实时进程菜单刷新请求");
+                }
+                finally
+                {
+                    Destroy(form);
+                    DeleteDirectory(root);
+                }
+            });
+        }
+
+        [TestMethod]
         public void ProcessMenuLiveRefreshUsesOneSandboxProcessSnapshot()
         {
             RunInSta(() =>
@@ -862,6 +901,15 @@ namespace ShaheLauncher.Tests
             }
             list.Items[index].Selected = true;
             list.Items[index].Focused = true;
+        }
+
+        private static void RaiseSelectedIndexChanged(ListView list)
+        {
+            MethodInfo method = list.GetType().GetMethod(
+                "OnSelectedIndexChanged",
+                BindingFlags.Instance | BindingFlags.NonPublic);
+            Assert.IsNotNull(method, "列表必须保留选中项变化回调");
+            method.Invoke(list, new object[] { EventArgs.Empty });
         }
 
         private static MainForm CreateForm(string root)
