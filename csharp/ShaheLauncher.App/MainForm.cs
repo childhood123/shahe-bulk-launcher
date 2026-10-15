@@ -41,6 +41,11 @@ namespace ShaheLauncher.App
         private SandboxieDisplayMaps _sandboxDisplayMaps = new SandboxieDisplayMaps();
         private IList<string> _officialSandboxNames = new List<string>();
         private BackupRestoreProgressDialog _backupRestoreProgressDialog;
+        private readonly object _processMenuLiveStateRefreshSync = new object();
+        private IDisposable _processMenuLiveStateRefreshTimer;
+        private bool _processMenuLiveStateRefreshInProgress;
+        private bool _processMenuLiveStateRefreshPending;
+        private int _processMenuLiveStateRefreshToken;
 
         public MainForm()
             : this(CreateDefaultRuntime())
@@ -270,8 +275,20 @@ namespace ShaheLauncher.App
             AddActions(file, "退出软件", "exit_app");
             menu.MenuItems.Add(file);
 
-            HotkeyProcessMenuState processState = GetProcessMenuStates();
             HotkeyProcessLiveState liveState = HotkeyController.GetProcessMenuLiveState();
+            HotkeyProcessMenuState processState = GetProcessMenuStates(false);
+            if (processState.ListMayHideSandboxMembers)
+            {
+                if (!processState.AllHasProcess && liveState.AllHasProcess.HasValue)
+                {
+                    processState.AllHasProcess = liveState.AllHasProcess.Value;
+                    processState.AllHasWindow = processState.AllHasProcess;
+                }
+                else if (!processState.AllHasProcess && !liveState.AllHasProcess.HasValue)
+                {
+                    ScheduleProcessMenuLiveStateRefresh(1);
+                }
+            }
             bool selectedHasProcess = processState.SelectedHasProcess;
             bool allHasProcess = processState.AllHasProcess;
             var process = new MenuItem("进程(&P)");
@@ -353,7 +370,7 @@ namespace ShaheLauncher.App
             Settings = SettingsService.LoadSettings() ?? new Dictionary<string, object>();
             _settingsState.Settings = Settings;
             _settingsState.MaxHistoryItems = CommonUtilities.ParseIntSetting(
-                GetSetting("max_history_items"), 10, 0, 20);
+                GetSetting("max_history_items"), 10, 0, 999);
             _settingsState.HidePath = CommonUtilities.ParseBoolSetting(GetSetting("hide_path"), false);
             _settingsState.AppHistory = SandboxAdminService.NormalizeAppHistory(
                     GetSetting("app_history"),
@@ -468,6 +485,7 @@ namespace ShaheLauncher.App
             {
                 GetSandboxPids = GetSandboxPids,
                 GetAllSandboxPids = GetAllSandboxPids,
+                GetSandboxProcessMap = SandboxieClient.GetSandboxProcessMapViaApi,
                 ScanSandboxNames = GetKnownSandboxNames,
                 GetAudioSessions = ProcessAudioBackend.GetAudioSessions,
                 ListOutputDevices = ProcessAudioBackend.ListOutputDevices,
@@ -794,8 +812,15 @@ namespace ShaheLauncher.App
             HotkeyController.InvalidateProcessMenuLiveStateCache(false);
             if (refreshList)
             {
+                string currentStatus = StatusLabel == null
+                    ? string.Empty
+                    : (StatusLabel.Text ?? string.Empty);
                 SuppressSelectionStatus(8.0);
                 SandboxList?.FastRefreshSandboxList();
+                if (currentStatus.Length != 0)
+                {
+                    SafeSetStatusLabel(currentStatus);
+                }
             }
             ScheduleProcessMenuLiveStateRefreshCallback?.Invoke(1);
             ScheduleMenuBarRebuild(24);
@@ -803,29 +828,91 @@ namespace ShaheLauncher.App
 
         private void ScheduleProcessMenuLiveStateRefresh(int delayMilliseconds)
         {
-            StartupDelayCallback?.Invoke(
-                Math.Max(1, delayMilliseconds),
-                StartProcessMenuLiveStateRefresh);
-        }
-
-        private void StartProcessMenuLiveStateRefresh()
-        {
             if (IsWindowClosing())
             {
                 return;
             }
 
+            IDisposable previousTimer = null;
+            int token;
+            lock (_processMenuLiveStateRefreshSync)
+            {
+                if (_processMenuLiveStateRefreshInProgress)
+                {
+                    _processMenuLiveStateRefreshPending = true;
+                    return;
+                }
+
+                previousTimer = _processMenuLiveStateRefreshTimer;
+                _processMenuLiveStateRefreshTimer = null;
+                token = ++_processMenuLiveStateRefreshToken;
+            }
+
             try
             {
-                ProcessCallbacks?.RefreshVisibleStates?.Invoke();
+                previousTimer?.Dispose();
             }
             catch
             {
             }
 
-            HotkeyProcessMenuState menuState = GetProcessMenuStates();
+            IDisposable timer = null;
+            try
+            {
+                timer = StartupDelayCallback?.Invoke(
+                    Math.Max(1, delayMilliseconds),
+                    () => StartProcessMenuLiveStateRefresh(token));
+            }
+            catch
+            {
+            }
+
+            bool disposeTimer = false;
+            lock (_processMenuLiveStateRefreshSync)
+            {
+                if (token == _processMenuLiveStateRefreshToken
+                    && !_processMenuLiveStateRefreshInProgress)
+                {
+                    _processMenuLiveStateRefreshTimer = timer;
+                }
+                else
+                {
+                    disposeTimer = timer != null;
+                }
+            }
+
+            if (disposeTimer)
+            {
+                try
+                {
+                    timer.Dispose();
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        private void StartProcessMenuLiveStateRefresh(int refreshToken)
+        {
+            lock (_processMenuLiveStateRefreshSync)
+            {
+                _processMenuLiveStateRefreshTimer = null;
+                if (IsWindowClosing() || refreshToken != _processMenuLiveStateRefreshToken)
+                {
+                    return;
+                }
+                if (_processMenuLiveStateRefreshInProgress)
+                {
+                    _processMenuLiveStateRefreshPending = true;
+                    return;
+                }
+                _processMenuLiveStateRefreshInProgress = true;
+            }
+
+            HotkeyProcessMenuState menuState = GetProcessMenuStates(false);
             string selectedName = (menuState.SelectedName ?? string.Empty).Trim();
-            int token = HotkeyController.InvalidateProcessMenuLiveStateCache(false);
+            int liveStateToken = HotkeyController.InvalidateProcessMenuLiveStateCache(false);
             Task.Run(() => ReadProcessMenuLiveState(menuState, selectedName))
                 .ContinueWith(completed =>
                 {
@@ -833,7 +920,7 @@ namespace ShaheLauncher.App
                         ? completed.Result
                         : new HotkeyProcessLiveState();
                     SafeCallAfter(() => FinishProcessMenuLiveStateRefresh(
-                        token,
+                        liveStateToken,
                         selectedName,
                         liveState));
                 }, TaskScheduler.Default);
@@ -846,12 +933,51 @@ namespace ShaheLauncher.App
             var result = new HotkeyProcessLiveState();
             try
             {
-                IList<int> selectedPids = menuState.SelectedHasProcess && selectedName.Length != 0
-                    ? ReadProcessMenuPids(() => ProcessCallbacks?.GetSandboxPids?.Invoke(selectedName))
-                    : new List<int>();
-                IList<int> allPids = menuState.AllHasProcess
-                    ? ReadProcessMenuPids(() => ProcessCallbacks?.GetAllSandboxPids?.Invoke())
-                    : new List<int>();
+                bool shouldReadAllPids = menuState.ListMayHideSandboxMembers
+                    || menuState.AllHasProcess;
+                bool shouldReadSelectedPids = menuState.SelectedHasProcess
+                    && selectedName.Length != 0;
+                bool hasProcessMapProvider = ProcessCallbacks?.GetSandboxProcessMap != null;
+                IDictionary<string, IList<int>> processMap = hasProcessMapProvider
+                    && (shouldReadAllPids || shouldReadSelectedPids)
+                    ? ReadProcessMenuProcessMap(() => ProcessCallbacks?.GetSandboxProcessMap?.Invoke())
+                    : null;
+
+                IList<int> allPids;
+                if (!shouldReadAllPids)
+                {
+                    allPids = new List<int>();
+                }
+                else if (hasProcessMapProvider && processMap != null)
+                {
+                    allPids = ReadProcessMenuSnapshotPids(processMap, string.Empty);
+                    if (allPids.Count == 0 && processMap.Count == 0)
+                    {
+                        allPids = ReadProcessMenuPids(
+                            () => ProcessCallbacks?.GetAllSandboxPids?.Invoke());
+                    }
+                }
+                else
+                {
+                    allPids = ReadProcessMenuPids(
+                        () => ProcessCallbacks?.GetAllSandboxPids?.Invoke());
+                }
+                if (shouldReadAllPids)
+                {
+                    result.AllHasProcess = allPids.Count != 0;
+                }
+
+                IList<int> selectedPids = shouldReadSelectedPids && processMap != null
+                    ? ReadProcessMenuSnapshotPids(processMap, selectedName)
+                    : shouldReadSelectedPids
+                        ? ReadProcessMenuPids(
+                            () => ProcessCallbacks?.GetSandboxPids?.Invoke(selectedName))
+                        : new List<int>();
+                if (shouldReadSelectedPids && selectedPids.Count == 0)
+                {
+                    selectedPids = ReadProcessMenuPids(
+                        () => ProcessCallbacks?.GetSandboxPids?.Invoke(selectedName));
+                }
                 IList<ProcessAudioSession> sessions = selectedPids.Count != 0 || allPids.Count != 0
                     ? ReadProcessAudioSessions()
                     : new List<ProcessAudioSession>();
@@ -862,7 +988,7 @@ namespace ShaheLauncher.App
                         selectedPids,
                         sessions);
                     result.SelectedAudioSession = result.SelectedMuteState.HasValue;
-                    result.SelectedHasWindow = ProcessActionService.FindWindowForPids(selectedPids) != 0;
+                    result.SelectedHasWindow = true;
                 }
                 if (allPids.Count != 0)
                 {
@@ -871,9 +997,7 @@ namespace ShaheLauncher.App
                 }
                 if (selectedPids.Count != 0 || allPids.Count != 0)
                 {
-                    result.OutputDevicesAvailable = ProcessActionService
-                        .ListOutputAudioDevicesFromCallbacks(ProcessCallbacks)
-                        .Count != 0;
+                    result.OutputDevicesAvailable = true;
                 }
             }
             catch
@@ -881,6 +1005,65 @@ namespace ShaheLauncher.App
                 return new HotkeyProcessLiveState();
             }
             return result;
+        }
+
+        private IDictionary<string, IList<int>> ReadProcessMenuProcessMap(
+            Func<IDictionary<string, IList<int>>> provider)
+        {
+            try
+            {
+                return provider?.Invoke();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private IList<int> ReadProcessMenuSnapshotPids(
+            IDictionary<string, IList<int>> processMap,
+            string sandboxName)
+        {
+            var pids = new List<int>();
+            if (processMap == null)
+            {
+                return pids;
+            }
+
+            string targetName = (sandboxName ?? string.Empty).Trim();
+            if (targetName.Length == 0)
+            {
+                foreach (IList<int> values in processMap.Values)
+                {
+                    if (values != null)
+                    {
+                        pids.AddRange(values);
+                    }
+                }
+                return ProcessActionService.NormalizePidSet(pids);
+            }
+
+            string internalName = targetName;
+            try
+            {
+                internalName = ProcessCallbacks?.ResolveSandboxNames?.Invoke(targetName)?.Item1
+                    ?? targetName;
+            }
+            catch
+            {
+            }
+
+            foreach (KeyValuePair<string, IList<int>> entry in processMap)
+            {
+                if (string.Equals(entry.Key, internalName, StringComparison.OrdinalIgnoreCase)
+                    && entry.Value != null)
+                {
+                    pids.AddRange(entry.Value);
+                    break;
+                }
+            }
+
+            return ProcessActionService.NormalizePidSet(pids);
         }
 
         private IList<int> ReadProcessMenuPids(Func<IEnumerable<int>> provider)
@@ -913,36 +1096,52 @@ namespace ShaheLauncher.App
             string selectedName,
             HotkeyProcessLiveState liveState)
         {
-            if (!HotkeyController.AcceptProcessMenuLiveState(token, liveState, null))
-            {
-                return;
-            }
-
-            string cacheName = selectedName;
+            bool pending;
             try
             {
-                cacheName = ProcessCallbacks?.ResolveSandboxNames?.Invoke(selectedName)?.Item1
-                    ?? selectedName;
-            }
-            catch
-            {
-            }
-            cacheName = (cacheName ?? string.Empty).Trim();
-            if (cacheName.Length != 0)
-            {
-                if (liveState.SelectedMuteState.HasValue)
+                if (HotkeyController.AcceptProcessMenuLiveState(token, liveState, null))
                 {
-                    ProcessState.CachedMuteStateBySandbox[cacheName] =
-                        liveState.SelectedMuteState.Value;
-                }
-                else
-                {
-                    ProcessState.CachedMuteStateBySandbox.Remove(cacheName);
+                    string cacheName = selectedName;
+                    try
+                    {
+                        cacheName = ProcessCallbacks?.ResolveSandboxNames?.Invoke(selectedName)?.Item1
+                            ?? selectedName;
+                    }
+                    catch
+                    {
+                    }
+                    cacheName = (cacheName ?? string.Empty).Trim();
+                    if (cacheName.Length != 0)
+                    {
+                        if (liveState.SelectedMuteState.HasValue)
+                        {
+                            ProcessState.CachedMuteStateBySandbox[cacheName] =
+                                liveState.SelectedMuteState.Value;
+                        }
+                        else
+                        {
+                            ProcessState.CachedMuteStateBySandbox.Remove(cacheName);
+                        }
+                    }
+                    ProcessState.CachedMuteStateAll = liveState.AllMuteState;
+                    SandboxAdminState.CachedMuteStateAll = liveState.AllMuteState;
+                    ScheduleMenuBarRebuild(1);
                 }
             }
-            ProcessState.CachedMuteStateAll = liveState.AllMuteState;
-            SandboxAdminState.CachedMuteStateAll = liveState.AllMuteState;
-            ScheduleMenuBarRebuild(1);
+            finally
+            {
+                lock (_processMenuLiveStateRefreshSync)
+                {
+                    _processMenuLiveStateRefreshInProgress = false;
+                    pending = _processMenuLiveStateRefreshPending;
+                    _processMenuLiveStateRefreshPending = false;
+                }
+            }
+
+            if (pending)
+            {
+                ScheduleProcessMenuLiveStateRefresh(24);
+            }
         }
 
         private long ChooseProcessWindow(string sandboxName, IList<ProcessWindowCandidate> windows)
@@ -1192,6 +1391,11 @@ namespace ShaheLauncher.App
 
         private HotkeyProcessMenuState GetProcessMenuStates()
         {
+            return GetProcessMenuStates(false);
+        }
+
+        private HotkeyProcessMenuState GetProcessMenuStates(bool allowGlobalProcessScan)
+        {
             if (SandboxList == null)
             {
                 return HotkeyController.GetProcessMenuStates(
@@ -1214,11 +1418,10 @@ namespace ShaheLauncher.App
                 .ToList();
             bool listMayHideSandboxMembers = (SandboxList.CurrentGroupView ?? string.Empty).Trim().Length != 0
                 || Enumerable.Range(0, SandboxList.Items.Count).Any(SandboxList.IsGroupIndex);
-            return HotkeyController.GetProcessMenuStates(
-                items,
-                SandboxList.GetSelectedIndex(),
-                listMayHideSandboxMembers,
-                () =>
+            Func<bool> globalProcessScan = null;
+            if (allowGlobalProcessScan)
+            {
+                globalProcessScan = () =>
                 {
                     try
                     {
@@ -1228,7 +1431,13 @@ namespace ShaheLauncher.App
                     {
                         return false;
                     }
-                });
+                };
+            }
+            return HotkeyController.GetProcessMenuStates(
+                items,
+                SandboxList.GetSelectedIndex(),
+                listMayHideSandboxMembers,
+                globalProcessScan);
         }
 
         private void DispatchApplicationAction(string action)

@@ -173,6 +173,7 @@ namespace ShaheLauncher.Core.Processes
     {
         public Func<string, IEnumerable<int>> GetSandboxPids { get; set; }
         public Func<IEnumerable<int>> GetAllSandboxPids { get; set; }
+        public Func<IDictionary<string, IList<int>>> GetSandboxProcessMap { get; set; }
         public Func<IEnumerable<string>> ScanSandboxNames { get; set; }
         public Func<IEnumerable<ProcessAudioSession>> GetAudioSessions { get; set; }
         public Func<IEnumerable<ProcessAudioDevice>> ListOutputDevices { get; set; }
