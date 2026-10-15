@@ -109,8 +109,8 @@ Expected: 定向测试和受影响分类均为 `0` 失败、`0` 跳过，选择�
 - [x] 只更新顶部当前摘要和当前计划表；测试数字、当前模块、真实 EXE 证据、待验证项和风险必须与日志一致；历史记录只追加。
 - [x] 运行 C# 受影响分类和全量测试，记录实际通过数、失败数和跳过数。
 - [x] 运行 `python -m unittest discover -s tests -p "test_*.py" -v`、`python -m compileall -q shahe_bulk_launcher tests`、标准 Release 构建并记录活动进程锁定失败、隔离 Release 构建和 `git diff --check`。
-- [ ] 提交前只暂存本轮实际修复、测试和文档；不得暂存用户原有 `AGENTS.md` 无关改动、无关配置、临时备份或历史输出。
-- [ ] 使用提交消息 `fix: reduce duplicate selection refresh requests`；提交后报告提交哈希、本地分支、远端分支和 `git revert <hash>` 回退命令。
-- [ ] 远端历史分叉时使用 `git push origin HEAD:fix/multi-user-navigation-20261015`，不使用强制推送。
+- [x] 提交前只暂存本轮实际修复、测试和文档；未暂存用户原有 `HotkeyController.cs`、`SettingsRuntimeContractTests.cs`、临时备份或历史输出。
+- [x] 使用提交消息 `fix: reduce duplicate selection refresh requests`；提交哈希为 `816a797`，本地分支为 `沙河批量打开器`。
+- [x] 远端历史分叉时使用 `git push origin HEAD:fix/multi-user-navigation-20261015`，已推送到远端分支 `fix/multi-user-navigation-20261015`，未使用强制推送。
 
 **Completion criterion:** 代码、测试、文档、构建、全量回归和真实 EXE 证据与日志一致；仍有未完成审计时，最终报告明确列出当前模块、待验证项、风险和 C# 是否可完整运行。
