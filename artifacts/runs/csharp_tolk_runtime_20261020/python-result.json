@@ -1,0 +1,19 @@
+{
+  "kind": "python",
+  "command": [
+    "python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_tolk_runtime_20261020\\python.log",
+  "passed": 29,
+  "failed": 0,
+  "skipped": 0
+}

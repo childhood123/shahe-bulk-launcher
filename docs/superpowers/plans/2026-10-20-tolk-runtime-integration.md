@@ -39,7 +39,7 @@
 - Consumes: Tolk 源码 `artifacts/probes/tolk-downloaded/boz700908-tolk-add14ac`。
 - Produces: 软件根目录相对路径 `lib/Tolk.dll` 及六个同级运行文件。
 
-- [ ] **Step 1: 建立文件清单和复制规则 RED**
+- [x] **Step 1: 建立文件清单和复制规则 RED**
 
 测试断言源码和构建输出的 `lib` 文件名精确为：
 
@@ -79,7 +79,7 @@ dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore `
 
 预期：因 `lib` 和项目复制规则不存在而失败。
 
-- [ ] **Step 2: 从用户提供源码构建 Tolk**
+- [x] **Step 2: 从用户提供源码构建 Tolk**
 
 在 `artifacts/probes/tolk-downloaded/boz700908-tolk-add14ac` 运行：
 
@@ -89,11 +89,11 @@ dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore `
 
 预期：生成 `dist\x64\Release\Tolk.dll`，返回码 `0`；不得安装或下载构建工具。
 
-- [ ] **Step 3: 复制七个运行文件**
+- [x] **Step 3: 复制七个运行文件**
 
 主库来自 `dist\x64\Release\Tolk.dll`；其余文件来自源码树的 `libs\x64\`。不得从 `D:\Program Files\bilibili-player` 复制旧文件。
 
-- [ ] **Step 4: 添加 App 项目复制规则**
+- [x] **Step 4: 添加 App 项目复制规则**
 
 ```xml
 <ItemGroup>
@@ -104,7 +104,7 @@ dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore `
 </ItemGroup>
 ```
 
-- [ ] **Step 5: 运行文件清单测试取得 GREEN**
+- [x] **Step 5: 运行文件清单测试取得 GREEN**
 
 预期：七个文件存在、没有 `.txt`、五个 DLL 均为 x64 PE，并复制到隔离输出的 `lib/`。
 
@@ -120,7 +120,7 @@ dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore `
 - Consumes: `lib/Tolk.dll` 和现有 `SpeechAssistBackend` 初始化锁、调用锁。
 - Produces: `PreferSapi`、`DetectScreenReader` backend 能力，以及可重复安全关闭的原生模块生命周期。
 
-- [ ] **Step 1: 建立路径、ABI、回退和卸载 RED**
+- [x] **Step 1: 建立路径、ABI、回退和卸载 RED**
 
 ```csharp
 string appRoot = Path.Combine(Path.GetTempPath(), "shahe-tolk-" + Guid.NewGuid().ToString("N"));
@@ -171,7 +171,7 @@ Assert.AreEqual(1, unloadCalls);
 
 当前预期失败：未查找 `lib/Tolk.dll`、调用 `TrySapi(false)`、没有 `PreferSapi`、Tolk bool 使用 `UnmanagedType.Bool`、Shutdown 没有调用 backend `Unload`。
 
-- [ ] **Step 2: 扩展 backend 接口**
+- [x] **Step 2: 扩展 backend 接口**
 
 ```csharp
 public Action<bool> TrySapi { get; set; }
@@ -184,7 +184,7 @@ public Action<string, bool> Output { get; set; }
 public Action Unload { get; set; }
 ```
 
-- [ ] **Step 3: 修改查找和初始化顺序**
+- [x] **Step 3: 修改查找和初始化顺序**
 
 查找顺序：
 
@@ -203,7 +203,7 @@ backend.Load();
 if (!backend.IsLoaded()) throw new InvalidOperationException("Tolk 初始化失败");
 ```
 
-- [ ] **Step 4: 修正 Tolk bool ABI**
+- [x] **Step 4: 修正 Tolk bool ABI**
 
 `Tolk_TrySAPI`、`Tolk_PreferSAPI` 参数，以及 `IsLoaded`、`Silence`、`Output` 返回值和 `Output` 的 interrupt 参数均使用 `[MarshalAs(UnmanagedType.I1)]`。`FreeLibrary` 保持 `[return: MarshalAs(UnmanagedType.Bool)]`。
 
@@ -220,7 +220,7 @@ private delegate IntPtr TolkDetectScreenReaderDelegate();
 
 `DetectScreenReader` 使用 `Marshal.PtrToStringUni(pointer) ?? string.Empty` 返回托管字符串。
 
-- [ ] **Step 5: 补齐清理**
+- [x] **Step 5: 补齐清理**
 
 初始化失败、`IsLoaded=false` 和程序关闭时均执行一次 `Tolk_Unload()` 与 `FreeLibrary(module)`；重复关闭不得重复释放。
 
@@ -245,7 +245,7 @@ Action release = () =>
 
 `EnsureAssistSpeechRuntime()` 的失败分支调用当前局部 backend 的 `Unload`；成功后由 `ShutdownAssistSpeechRuntime()` 取得并清空 `_assistSpeechRuntime`，再调用一次 `Unload`。
 
-- [ ] **Step 6: 运行 Speech 定向测试取得 GREEN**
+- [x] **Step 6: 运行 Speech 定向测试取得 GREEN**
 
 预期：路径、调用顺序、I1 ABI、失败清理和重复关闭全部通过。
 
@@ -262,7 +262,7 @@ Action release = () =>
 - Consumes: 隔离 Release 输出的 `lib/Tolk.dll`。
 - Produces: 原生加载、检测、输出、卸载的 JSON/日志证据，以及 VOICE-01 独立提交。
 
-- [ ] **Step 1: 构建隔离 Release x64**
+- [x] **Step 1: 构建隔离 Release x64**
 
 ```powershell
 dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore `
@@ -272,7 +272,7 @@ dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore `
 
 预期：`0` 警告、`0` 错误，输出含 `lib` 七个文件且无 `.txt`。
 
-- [ ] **Step 2: 执行原生真实调用探针**
+- [x] **Step 2: 执行原生真实调用探针**
 
 探针依次调用：
 
@@ -290,7 +290,7 @@ FreeLibrary
 
 预期：返回码 `0`、`IsLoaded=true`、`Output=true`、模块成功释放；记录实际检测到的读屏器或 OneCore/SAPI。
 
-- [ ] **Step 3: 执行回归门禁**
+- [x] **Step 3: 执行回归门禁**
 
 ```powershell
 dotnet vstest D:\mycodex\git\artifacts\runs\csharp_tolk_runtime_20261020\bin\x64\Release\net48\ShaheLauncher.Tests.dll /Platform:x64 `
@@ -301,15 +301,15 @@ python -m compileall -q shahe_bulk_launcher tests
 git diff --check
 ```
 
-- [ ] **Step 4: 每条验证后同步 PROJECT_STRUCTURE**
+- [x] **Step 4: 每条验证后同步 PROJECT_STRUCTURE**
 
 记录 RED/GREEN、通过/失败/跳过数量、构建警告/错误、DLL 路径、检测名称、输出结果和日志路径。
 
-- [ ] **Step 5: 提交前列出精确暂存文件**
+- [x] **Step 5: 提交前列出精确暂存文件**
 
 排除用户已有的解决方案、AuditRunner、`HotkeyController.cs`、`SettingsRuntimeContractTests.cs`、测试工程历史改动、TRX 和构建目录。
 
-- [ ] **Step 6: 创建并推送独立提交**
+- [x] **Step 6: 创建并推送独立提交**
 
 ```powershell
 git commit -m "feat: bundle and load Tolk x64 runtime"

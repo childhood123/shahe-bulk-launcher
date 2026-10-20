@@ -18,6 +18,8 @@ namespace ShaheLauncher.Core.Speech
     public sealed class SpeechAssistBackend
     {
         public Action<bool> TrySapi { get; set; }
+        public Action<bool> PreferSapi { get; set; }
+        public Func<string> DetectScreenReader { get; set; }
         public Action Load { get; set; }
         public Func<bool> IsLoaded { get; set; }
         public Action Silence { get; set; }
@@ -153,6 +155,7 @@ namespace ShaheLauncher.Core.Speech
         {
             return FirstExistingFile(new[]
             {
+                Path.Combine(AppDirectory, "lib", "Tolk.dll"),
                 Path.Combine(AppDirectory, "internal", "Tolk.dll"),
                 Path.Combine(AppDirectory, "Tolk.dll")
             });
@@ -436,9 +439,10 @@ namespace ShaheLauncher.Core.Speech
                     return false;
                 }
 
+                SpeechAssistBackend backend = null;
                 try
                 {
-                    SpeechAssistBackend backend = Callbacks.LoadAssistBackend != null
+                    backend = Callbacks.LoadAssistBackend != null
                         ? Callbacks.LoadAssistBackend(tolkPath)
                         : CreateNativeBackend(tolkPath);
                     if (backend == null || backend.Load == null || backend.IsLoaded == null)
@@ -446,12 +450,12 @@ namespace ShaheLauncher.Core.Speech
                         throw new InvalidOperationException("Tolk 运行时接口不完整");
                     }
 
-                    backend.TrySapi?.Invoke(false);
+                    backend.TrySapi?.Invoke(true);
+                    backend.PreferSapi?.Invoke(false);
                     backend.Load();
                     if (!backend.IsLoaded())
                     {
-                        AssistSpeechDisabled = true;
-                        return false;
+                        throw new InvalidOperationException("Tolk 初始化失败");
                     }
 
                     _assistSpeechRuntime = backend;
@@ -459,6 +463,13 @@ namespace ShaheLauncher.Core.Speech
                 }
                 catch
                 {
+                    try
+                    {
+                        backend?.Unload?.Invoke();
+                    }
+                    catch
+                    {
+                    }
                     AssistSpeechDisabled = true;
                     _assistSpeechRuntime = null;
                     return false;
@@ -517,10 +528,20 @@ namespace ShaheLauncher.Core.Speech
         {
             lock (_assistSpeechCallLock)
             {
+                SpeechAssistBackend backend;
                 lock (_assistSpeechInitLock)
                 {
+                    backend = _assistSpeechRuntime;
                     _assistSpeechRuntime = null;
                     AssistSpeechDisabled = true;
+                }
+
+                try
+                {
+                    backend?.Unload?.Invoke();
+                }
+                catch
+                {
                 }
             }
         }
@@ -1077,19 +1098,44 @@ namespace ShaheLauncher.Core.Speech
             try
             {
                 TolkTrySapiDelegate trySapi = LoadDelegate<TolkTrySapiDelegate>(module, "Tolk_TrySAPI");
+                TolkPreferSapiDelegate preferSapi = LoadDelegate<TolkPreferSapiDelegate>(module, "Tolk_PreferSAPI");
+                TolkDetectScreenReaderDelegate detectScreenReader = LoadDelegate<TolkDetectScreenReaderDelegate>(module, "Tolk_DetectScreenReader");
                 TolkLoadDelegate load = LoadDelegate<TolkLoadDelegate>(module, "Tolk_Load");
                 TolkIsLoadedDelegate isLoaded = LoadDelegate<TolkIsLoadedDelegate>(module, "Tolk_IsLoaded");
                 TolkSilenceDelegate silence = LoadDelegate<TolkSilenceDelegate>(module, "Tolk_Silence");
                 TolkOutputDelegate output = LoadDelegate<TolkOutputDelegate>(module, "Tolk_Output");
                 TolkUnloadDelegate unload = LoadDelegate<TolkUnloadDelegate>(module, "Tolk_Unload");
+                int released = 0;
                 return new SpeechAssistBackend
                 {
                     TrySapi = value => trySapi(value),
+                    PreferSapi = value => preferSapi(value),
+                    DetectScreenReader = () =>
+                    {
+                        IntPtr value = detectScreenReader();
+                        return value == IntPtr.Zero
+                            ? string.Empty
+                            : Marshal.PtrToStringUni(value) ?? string.Empty;
+                    },
                     Load = () => load(),
                     IsLoaded = () => isLoaded(),
                     Silence = () => silence(),
                     Output = (text, interrupt) => output(text, interrupt),
-                    Unload = () => unload()
+                    Unload = () =>
+                    {
+                        if (Interlocked.Exchange(ref released, 1) != 0)
+                        {
+                            return;
+                        }
+                        try
+                        {
+                            unload();
+                        }
+                        finally
+                        {
+                            NativeMethods.FreeLibrary(module);
+                        }
+                    }
                 };
             }
             catch
@@ -1110,22 +1156,28 @@ namespace ShaheLauncher.Core.Speech
         }
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void TolkTrySapiDelegate([MarshalAs(UnmanagedType.Bool)] bool useSapi);
+        private delegate void TolkTrySapiDelegate([MarshalAs(UnmanagedType.I1)] bool useSapi);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void TolkPreferSapiDelegate([MarshalAs(UnmanagedType.I1)] bool preferSapi);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private delegate IntPtr TolkDetectScreenReaderDelegate();
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void TolkLoadDelegate();
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.Bool)]
+        [return: MarshalAs(UnmanagedType.I1)]
         private delegate bool TolkIsLoadedDelegate();
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.Bool)]
+        [return: MarshalAs(UnmanagedType.I1)]
         private delegate bool TolkSilenceDelegate();
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private delegate bool TolkOutputDelegate([MarshalAs(UnmanagedType.LPWStr)] string text, [MarshalAs(UnmanagedType.Bool)] bool interrupt);
+        [return: MarshalAs(UnmanagedType.I1)]
+        private delegate bool TolkOutputDelegate([MarshalAs(UnmanagedType.LPWStr)] string text, [MarshalAs(UnmanagedType.I1)] bool interrupt);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void TolkUnloadDelegate();

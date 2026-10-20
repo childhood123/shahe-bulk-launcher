@@ -1,0 +1,2 @@
+dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_tolk_runtime_20261020\bin\ --filter TestCategory=Speech|TestCategory=Application|FullyQualifiedName~TolkRuntime
+Failed: 0, Passed: 100, Skipped: 0, Total: 100

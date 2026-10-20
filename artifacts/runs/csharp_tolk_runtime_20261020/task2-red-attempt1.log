@@ -1,0 +1,4 @@
+dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_tolk_runtime_20261020\bin\ --filter FullyQualifiedName~TolkRuntimeIntegrationContractTests
+Failed: 12, Passed: 3, Skipped: 0, Total: 15
+Valid product failures: lib path priority, PreferSapi/DetectScreenReader contract, six I1 ABI cases, shutdown unload.
+Invalid test-infrastructure failures: two EnsureAssistSpeechRuntime calls used NonPublic-only reflection and did not find the actual method.

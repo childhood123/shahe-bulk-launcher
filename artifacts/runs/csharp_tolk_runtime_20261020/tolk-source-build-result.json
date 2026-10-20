@@ -1,0 +1,17 @@
+{
+  "kind": "native-build",
+  "command": [
+    ".\\build.bat",
+    "release",
+    "--x64",
+    "--no-bootstrap"
+  ],
+  "workdir": "D:\\mycodex\\git\\artifacts\\probes\\tolk-downloaded\\boz700908-tolk-add14ac",
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_tolk_runtime_20261020\\tolk-source-build.log",
+  "architecturesSucceeded": 1,
+  "architecturesFailed": 0,
+  "warnings": ["C4819", "C4127", "CS1668"],
+  "errors": 0,
+  "outputDirectory": "D:\\mycodex\\git\\artifacts\\probes\\tolk-downloaded\\boz700908-tolk-add14ac\\dist\\x64\\Release"
+}

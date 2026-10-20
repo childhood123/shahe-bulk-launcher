@@ -1,0 +1,30 @@
+{
+  "zdsrInitial": {
+    "returnCode": 0,
+    "detectedScreenReader": "ZDSR",
+    "outputResult": true,
+    "result": "tolk-native-zdsr-result.json"
+  },
+  "fallbackWithoutZdsr": {
+    "returnCode": 0,
+    "detectedScreenReader": "OneCore",
+    "outputResult": true,
+    "result": "tolk-native-sapi-result.json"
+  },
+  "nvda": {
+    "launchedProcessId": 11660,
+    "returnCode": 0,
+    "detectedScreenReader": "NVDA",
+    "outputResult": true,
+    "result": "tolk-native-nvda-result.json"
+  },
+  "cleanup": {
+    "nvdaQuitCommandReturnCode": 0,
+    "nvdaProcessesRemaining": 0,
+    "zdsrRestarted": true,
+    "zdsrMainProcessId": 13636,
+    "restoredDetectedScreenReader": "ZDSR",
+    "restoredOutputResult": true,
+    "result": "tolk-native-zdsr-restored-result.json"
+  }
+}

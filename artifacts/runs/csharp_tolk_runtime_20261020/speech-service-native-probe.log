@@ -1,0 +1,8 @@
+returnCode: 0
+outputDirectory: D:\mycodex\git\artifacts\runs\csharp_tolk_runtime_20261020\bin\x64\Release\net48
+ensureAssistSpeechRuntime: True
+detectedScreenReader: ZDSR
+outputInvoked: True
+runtimeCleared: True
+disabledAfterShutdown: True
+error:

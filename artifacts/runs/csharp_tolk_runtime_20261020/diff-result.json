@@ -1,0 +1,9 @@
+{
+  "kind": "diff",
+  "command": ["git", "diff", "--check"],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_tolk_runtime_20261020\\diff.log",
+  "passed": null,
+  "failed": null,
+  "skipped": null
+}

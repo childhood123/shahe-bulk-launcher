@@ -1,0 +1,3 @@
+dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_tolk_runtime_20261020\bin\ --filter FullyQualifiedName~TolkRuntimeIntegrationContractTests
+Failed: 0, Passed: 15, Skipped: 0, Total: 15
+Verified: exact runtime packaging; lib path priority; PreferSapi/DetectScreenReader backend contract; reader-first SAPI fallback order; six I1 ABI cases; failed-init cleanup; idempotent shutdown unload.

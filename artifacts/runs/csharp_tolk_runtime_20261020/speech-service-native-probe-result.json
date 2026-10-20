@@ -1,0 +1,11 @@
+{
+  "command": "speech-service-native-probe.ps1",
+  "returnCode": 0,
+  "outputDirectory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_tolk_runtime_20261020\\bin\\x64\\Release\\net48",
+  "ensureAssistSpeechRuntime": true,
+  "detectedScreenReader": "ZDSR",
+  "outputInvoked": true,
+  "runtimeCleared": true,
+  "disabledAfterShutdown": true,
+  "error": ""
+}

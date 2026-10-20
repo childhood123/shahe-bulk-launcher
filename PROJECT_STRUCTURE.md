@@ -4,8 +4,8 @@
 
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-tolk-runtime-integration.md`。用户确认优先接入 Tolk x64 运行库；`docs/superpowers/plans/2026-10-20-non-update-migration-gaps.md` 保留为历史计划，其 `GAP-07` 至 `GAP-10` 未完成项继续保留。
 - 暂缓：GitCode 更新源配置、`GAP-01` 更新结果 UI/下载启动链、`GAP-02` Updater 安装入口；这些项目仍未完成。
-- 当前模块：`VOICE-01` Tolk x64 运行库接入。设计文档已确认，活动计划 `docs/superpowers/plans/2026-10-20-tolk-runtime-integration.md` 已建立，当前从运行文件清单 RED 开始执行；`GAP-07` 至 `GAP-10` 和真实 EXE 全面审计继续保留。
-- 本轮验证：`GAP-06` 定向 GREEN `5/5`、受影响回归 `85/85`、C# 全量 `261/261`、Python `29/29`、隔离 Python 全选语义探针 `6/6`，生产源码编译和 Release x64 构建均返回 `0`，构建警告/错误 `0/0`。独立提交 `f089cf3` 已推送 `origin/fix/non-update-gaps-20261020`；真实 EXE 键盘/菜单交互仍待审计。
+- 当前模块：`VOICE-01` Tolk x64 运行库接入的代码、运行文件、RED/GREEN、回归门禁、原生真实调用和计划同步均已完成，独立提交收口中；`GAP-07` 至 `GAP-10` 和既有真实 EXE 全面审计继续保留。
+- 本轮验证：VOICE-01 定向 GREEN `15/15`、受影响回归 `100/100`、C# 全量 `276/276`、Python `29/29`，应用 Release x64 构建 `0` 警告/`0` 错误。原生场景已验证 ZDSR、无读屏时 OneCore 回退、NVDA，以及恢复 ZDSR；各场景均 `Output=true`、卸载/释放成功，生产 `SpeechService` 原生探针也返回 `0`。
 - 已完成范围：现有主窗口/生命周期、快捷键分派、路径记忆接线、菜单状态、设置开关和音频后端的已验证部分。C# 可以启动并运行已验证功能，整体迁移尚未完成。
 - 历史衔接：旧导航/真实 EXE 计划保留为历史，其未完成审计继续保留；下方较早“当前状态”中的执行顺序由本摘要覆盖，历史验证结论不改写。
 
@@ -116,6 +116,46 @@
 - GAP-06 提交：独立提交 `f089cf3` 已推送 `origin/fix/non-update-gaps-20261020`，推送返回码 `0`；回退命令为 `git revert f089cf3`。仅提交 GAP-06 分派修复、独立测试、计划、顶部项目摘要和文本证据，用户已有解决方案、HotkeyController、SettingsRuntimeContractTests、测试工程、AuditRunner 和文档历史差异保持未提交。
 
 - VOICE-01 设计：Tolk x64 运行库接入设计已写入 `docs/superpowers/specs/2026-10-20-tolk-runtime-integration-design.md`；初始提交 `ce5b91e`、`lib` 参考布局修订 `d192b9d` 和不复制 `.txt` 的最终修订 `ff05d61` 均已推送 `origin/fix/non-update-gaps-20261020`，最新回退命令为 `git revert ff05d61`。当前仅完成设计和源码/工具链调查，未复制 DLL、未修改 SpeechService、未运行原生朗读调用。
+
+- VOICE-01 Task 1 RED：隔离 `dotnet test` 定向运行 `TolkRuntimeIntegrationContractTests`，返回码 `1`，通过 `0`、失败 `3`、跳过 `0`。三个断言分别确认 App 源码 `lib` 目录尚无七个运行文件、`ShaheLauncher.App.csproj` 尚无 `lib` 复制规则、隔离输出尚无 `lib` 运行文件；测试已正常编译和执行。日志、命令索引和 TRX：`artifacts/runs/csharp_tolk_runtime_20261020/task1-red.log`、`task1-red-result.json`、`task1-red.trx`。
+
+- VOICE-01 Tolk 源码构建：在用户提供源码根目录运行 `.\build.bat release --x64 --no-bootstrap`，返回码 `0`，x64 Release 架构成功 `1`、失败 `0`，生成 `dist/x64/Release/Tolk.dll`。构建未安装或下载工具；上游源码出现 C4819/C4127 和托管包装层 CS1668 警告，错误 `0`，该第三方构建不替代后续应用 Release 的零警告门禁。日志和命令索引：`artifacts/runs/csharp_tolk_runtime_20261020/tolk-source-build.log`、`tolk-source-build-result.json`。
+
+- VOICE-01 Task 1 GREEN：复制用户源码构建的 `Tolk.dll` 和 `libs/x64` 中六个批准文件到 `csharp/ShaheLauncher.App/lib/`，并为 App 项目添加 `lib/**` 构建/发布复制规则后，同一定向测试返回码 `0`，通过 `3`、失败 `0`、跳过 `0`。已验证源码与隔离输出均精确包含七个文件、无 `.txt`，五个 DLL 的 PE machine 均为 x64。日志、命令索引和 TRX：`artifacts/runs/csharp_tolk_runtime_20261020/task1-green.log`、`task1-green-result.json`、`task1-green.trx`。
+
+- VOICE-01 Task 2 RED 首次尝试：定向测试返回码 `1`，通过 `3`、失败 `12`、跳过 `0`。其中路径优先级、两个 backend 接口、六个 I1 ABI 断言和关闭卸载共 `10` 项为有效产品失败；初始化顺序与失败清理两项因测试 helper 仅用 NonPublic 反射而未找到实际入口，属于无效测试基础设施失败，不作为产品结论。日志、命令索引和 TRX：`artifacts/runs/csharp_tolk_runtime_20261020/task2-red-attempt1.log`、`task2-red-attempt1-result.json`、`task2-red.trx`。
+
+- VOICE-01 Task 2 有效 RED：测试 helper 同时查找 public/nonpublic 入口后，定向测试返回码 `1`，通过 `3`、失败 `12`、跳过 `0`。`lib` 路径优先级、`PreferSapi`/`DetectScreenReader`、活动读屏优先的 SAPI 回退调用顺序、六个 Tolk bool I1 ABI、关闭卸载和初始化失败清理均形成有效断言失败。日志、命令索引和 TRX：`artifacts/runs/csharp_tolk_runtime_20261020/task2-red-valid.log`、`task2-red-valid-result.json`、`task2-red-valid.trx`。
+
+- VOICE-01 Task 2 GREEN：`SpeechService` 增加 `lib/Tolk.dll` 优先查找、`PreferSapi`/`DetectScreenReader` backend 能力、`TrySAPI(true)` + `PreferSAPI(false)` 调用顺序、Tolk bool I1 ABI，以及初始化失败和关闭时的单次 `Tolk_Unload`/`FreeLibrary` 清理后，同一定向测试返回码 `0`，通过 `15`、失败 `0`、跳过 `0`。日志、命令索引和 TRX：`artifacts/runs/csharp_tolk_runtime_20261020/task2-green.log`、`task2-green-result.json`、`task2-green.trx`。
+
+- VOICE-01 受影响回归首次运行：Speech/Application/TolkRuntime 筛选返回码 `1`，通过 `99`、失败 `1`、跳过 `0`。唯一失败为既有 `SpeaksAssistTextOnWorkerThreadAndShutdownDisablesRuntime` 调用序列索引 4 不匹配；在核对测试是否仍表达旧的“不卸载”语义前，不把该失败归类为产品回归，也不继续全量门禁。日志、命令索引和 TRX：`artifacts/runs/csharp_tolk_runtime_20261020/affected-attempt1.log`、`affected-attempt1-result.json`、`affected.trx`。
+
+- VOICE-01 受影响回归 GREEN：既有 Speech 契约更新为 `TrySapi(true) -> PreferSapi(false)` 并验证关闭时 `Unload` 后，Speech/Application/TolkRuntime 筛选返回码 `0`，通过 `100`、失败 `0`、跳过 `0`。日志、命令索引和 TRX：`artifacts/runs/csharp_tolk_runtime_20261020/affected-green.log`、`affected-green-result.json`、`affected-green.trx`。
+
+- VOICE-01 原生真实调用：以 x64 STA PowerShell 执行 `artifacts/runs/csharp_tolk_runtime_20261020/tolk-native-probe.ps1`，从隔离应用输出 `bin/x64/Release/net48/lib/Tolk.dll` 加载运行库；返回码 `0`，`IsLoaded=true`，实际检测名称为 `ZDSR`，`Tolk_Output("沙河批量打开器朗读测试", true)=true`，`Tolk_Unload` 与 `FreeLibrary` 均成功，错误为空。探针未启动或停止任何读屏器进程。结果和日志：同目录 `tolk-native-probe-result.json`、`tolk-native-probe.log`。
+
+- VOICE-01 C# 全量：直接执行本轮隔离程序集，返回码 `0`，通过 `276`、失败 `0`、跳过 `0`。日志、命令索引和 TRX：`artifacts/runs/csharp_tolk_runtime_20261020/full.log`、`full-result.json`、`full.trx`。
+
+- VOICE-01 OneCore/SAPI 回退真实验证：经用户明确授权，先请求争渡主进程 PID `10024` 正常退出但 `CloseMainWindow=false`，随后仅终止已核验属于 `C:\Program Files (x86)\zdsr\zdsr` 的争渡 PID `4040`、`844`、`9488`、`10024`、`6972`、`10364`；确认无 `ZDSR*` 进程残留后运行原生探针。返回码 `0`，`IsLoaded=true`，实际检测名称 `OneCore`，`Output=true`，卸载和释放均成功。结果和日志：`artifacts/runs/csharp_tolk_runtime_20261020/tolk-native-sapi-result.json`、`tolk-native-sapi.log`；此前争渡场景已另存为 `tolk-native-zdsr-result.json`、`tolk-native-zdsr.log`。
+
+- VOICE-01 NVDA 真实验证：经用户授权启动 `C:\Program Files\NVDA\nvda.exe`；Computer Use 启动调用未返回可目标化窗口，但只读进程复核确认 NVDA PID `11660` 已运行。随后原生探针返回码 `0`，`IsLoaded=true`，实际检测名称 `NVDA`，`Output=true`，卸载和释放均成功。结果和日志：`artifacts/runs/csharp_tolk_runtime_20261020/tolk-native-nvda-result.json`、`tolk-native-nvda.log`。
+
+- VOICE-01 读屏场景清理与恢复：使用 NVDA 自带 `nvda.exe -q` 正常退出本轮启动实例，确认 NVDA 相关进程为 `0`；随后启动原安装路径 `ZDSRStart.exe`，确认 `ZDSRMain PID 13636`，恢复后原生探针再次返回码 `0`、检测 `ZDSR`、`Output=true`、卸载/释放成功。三场景和恢复索引：`artifacts/runs/csharp_tolk_runtime_20261020/reader-scenarios-result.json`、`reader-scenarios.log`、`tolk-native-zdsr-restored-result.json`、`tolk-native-zdsr-restored.log`。
+
+- VOICE-01 Python 全量：`python -m unittest discover -s tests -p "test_*.py" -v` 返回码 `0`，通过 `29`、失败 `0`、跳过 `0`。日志和命令索引：`artifacts/runs/csharp_tolk_runtime_20261020/python.log`、`python-result.json`。
+
+- VOICE-01 Python 生产源码编译：`python -m compileall -q shahe_bulk_launcher tests` 返回码 `0`，无语法错误；测试计数不适用。日志和命令索引：`artifacts/runs/csharp_tolk_runtime_20261020/compile.log`、`compile-result.json`。
+
+- VOICE-01 Release x64：隔离解决方案构建返回码 `0`，警告 `0`、错误 `0`，测试计数不适用；实际输出为 `artifacts/runs/csharp_tolk_runtime_20261020/bin/x64/Release/net48/`。日志和命令索引：同目录 `release.log`、`release-result.json`。
+
+- VOICE-01 最终运行文件清单：隔离输出 `lib` 精确包含 `Tolk.dll`、`nvdaControllerClient64.dll`、`SAAPI64.dll`、`ZDSRAPI_x64.dll`、`ZDSRAPI.ini`、`byctrl-x64.dll`、`byctrl.conf` 七个文件，`.txt` 数量为 `0`。文件大小索引：`artifacts/runs/csharp_tolk_runtime_20261020/runtime-inventory-result.json`。
+
+- VOICE-01 差异检查：`git diff --check` 返回码 `0`，无空白错误，仅有工作树既有 LF/CRLF 转换提示；测试计数不适用。日志和命令索引：`artifacts/runs/csharp_tolk_runtime_20261020/diff.log`、`diff-result.json`。
+
+- VOICE-01 生产 SpeechService 原生探针：以 x64 STA PowerShell 加载隔离输出 `ShaheLauncher.Core.dll`，通过真实 `SpeechService.EnsureAssistSpeechRuntime()` 解析 `lib/Tolk.dll`；返回码 `0`，初始化结果 `true`，检测名称 `ZDSR`，生产 backend 的 `Output` 已调用，Shutdown 后 `_assistSpeechRuntime` 已清空且 `AssistSpeechDisabled=true`，错误为空。脚本、结果和日志：`artifacts/runs/csharp_tolk_runtime_20261020/speech-service-native-probe.ps1`、`speech-service-native-probe-result.json`、`speech-service-native-probe.log`。
+
+- VOICE-01 提交前暂存差异检查：`git diff --cached --check` 返回码 `0`；仅暂存 Tolk 运行文件、App 复制规则、SpeechService、两份测试和本轮文本证据，用户已有解决方案、AuditRunner、HotkeyController、SettingsRuntimeContractTests、测试工程历史改动、Tolk 源码构建目录、TRX 和隔离输出均未纳入。
 
 ## 文档阅读顺序
 

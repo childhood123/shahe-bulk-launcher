@@ -282,6 +282,7 @@ namespace ShaheLauncher.Tests
                 int callerThread = Thread.CurrentThread.ManagedThreadId;
                 int outputThread = 0;
                 SetProperty(backendType, backend, "TrySapi", new Action<bool>(value => calls.Add("try:" + value)));
+                SetProperty(backendType, backend, "PreferSapi", new Action<bool>(value => calls.Add("prefer:" + value)));
                 SetProperty(backendType, backend, "Load", new Action(() => calls.Add("load")));
                 SetProperty(backendType, backend, "IsLoaded", new Func<bool>(() => true));
                 SetProperty(backendType, backend, "Silence", new Action(() => calls.Add("silence")));
@@ -291,6 +292,7 @@ namespace ShaheLauncher.Tests
                     calls.Add("output:" + text + ":" + interrupt);
                     done.Set();
                 }));
+                SetProperty(backendType, backend, "Unload", new Action(() => calls.Add("unload")));
                 SetBackendLoader(callbacksType, callbacks, backend);
                 SetProperty(callbacksType, callbacks, "IsWindowClosing", new Func<bool>(() => false));
                 SetProperty(callbacksType, callbacks, "IsDestroyStarted", new Func<bool>(() => false));
@@ -300,10 +302,13 @@ namespace ShaheLauncher.Tests
                 Assert.IsTrue(done.Wait(3000));
                 Assert.AreNotEqual(callerThread, outputThread);
                 CollectionAssert.AreEqual(
-                    new[] { "try:False", "load", "silence", "output:测试朗读:True" },
+                    new[] { "try:True", "prefer:False", "load", "silence", "output:测试朗读:True" },
                     calls.ToArray());
 
                 ReflectionTestHelpers.InvokeInstance(service, "ShutdownAssistSpeechRuntime");
+                CollectionAssert.AreEqual(
+                    new[] { "try:True", "prefer:False", "load", "silence", "output:测试朗读:True", "unload" },
+                    calls.ToArray());
                 Assert.AreEqual(true, GetProperty(serviceType, service, "AssistSpeechDisabled"));
                 Assert.AreEqual(false, ReflectionTestHelpers.InvokeInstance(service, "EnsureAssistSpeechRuntime"));
             }

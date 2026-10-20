@@ -1,0 +1,27 @@
+{
+  "kind": "test",
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\csharp_tolk_runtime_20261020\\bin\\",
+    "--logger",
+    "trx;LogFileName=task2-red.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_tolk_runtime_20261020",
+    "--filter",
+    "FullyQualifiedName~TolkRuntimeIntegrationContractTests"
+  ],
+  "returnCode": 1,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_tolk_runtime_20261020\\task2-red-attempt1.log",
+  "passed": 3,
+  "failed": 12,
+  "skipped": 0,
+  "validProductFailures": 10,
+  "invalidInfrastructureFailures": 2,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\csharp_tolk_runtime_20261020\\task2-red.trx"
+}

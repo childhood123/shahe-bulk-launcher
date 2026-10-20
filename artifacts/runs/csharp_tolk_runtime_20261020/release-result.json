@@ -1,0 +1,20 @@
+{
+  "kind": "build",
+  "command": [
+    "dotnet",
+    "build",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\csharp_tolk_runtime_20261020\\bin\\"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_tolk_runtime_20261020\\release.log",
+  "warnings": 0,
+  "errors": 0,
+  "passed": null,
+  "failed": null,
+  "skipped": null
+}

@@ -10,6 +10,12 @@
     <ProjectReference Include="..\ShaheLauncher.Updater\ShaheLauncher.Updater.csproj" ReferenceOutputAssembly="false" />
     <Reference Include="System.Net.Http" />
   </ItemGroup>
+  <ItemGroup>
+    <None Update="lib\**\*">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
   <Target Name="CopyUpdater" AfterTargets="Build">
     <Copy
       SourceFiles="$(MSBuildThisFileDirectory)..\ShaheLauncher.Updater\bin\$(Platform)\$(Configuration)\net48\updater.exe"

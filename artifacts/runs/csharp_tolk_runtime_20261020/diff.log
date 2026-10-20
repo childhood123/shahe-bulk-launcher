@@ -1,0 +1,3 @@
+git diff --check
+returnCode: 0
+warnings: existing LF/CRLF conversion notices only

@@ -1,0 +1,13 @@
+{
+  "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_tolk_runtime_20261020\\bin\\x64\\Release\\net48\\lib",
+  "files": [
+    { "name": "byctrl-x64.dll", "bytes": 412320 },
+    { "name": "byctrl.conf", "bytes": 921 },
+    { "name": "nvdaControllerClient64.dll", "bytes": 263832 },
+    { "name": "SAAPI64.dll", "bytes": 85984 },
+    { "name": "Tolk.dll", "bytes": 199680 },
+    { "name": "ZDSRAPI_x64.dll", "bytes": 404624 },
+    { "name": "ZDSRAPI.ini", "bytes": 414 }
+  ],
+  "textFileCount": 0
+}

@@ -1,0 +1,8 @@
+Command: .\build.bat release --x64 --no-bootstrap
+Workdir: D:\mycodex\git\artifacts\probes\tolk-downloaded\boz700908-tolk-add14ac
+Result: SUCCESS
+Architectures succeeded: 1
+Architectures failed: 0
+Output: D:\mycodex\git\artifacts\probes\tolk-downloaded\boz700908-tolk-add14ac\dist\x64\Release
+Warnings observed in upstream build: C4819, C4127, CS1668
+Errors: 0

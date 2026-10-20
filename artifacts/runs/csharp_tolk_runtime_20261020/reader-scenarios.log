@@ -1,0 +1,6 @@
+Initial ZDSR: detected=ZDSR output=true
+After authorized ZDSR shutdown: detected=OneCore output=true
+After authorized NVDA launch (PID 11660): detected=NVDA output=true
+NVDA quit with nvda.exe -q: remaining NVDA processes=0
+ZDSR restarted with ZDSRStart.exe: ZDSRMain PID 13636
+Restored state probe: detected=ZDSR output=true
