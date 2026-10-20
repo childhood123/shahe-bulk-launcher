@@ -2,10 +2,11 @@
 
 ## 当前执行摘要（2026-10-20 非更新缺口）
 
-- 当前唯一计划：`docs/superpowers/plans/2026-10-20-tolk-runtime-integration.md`。用户确认优先接入 Tolk x64 运行库；`docs/superpowers/plans/2026-10-20-non-update-migration-gaps.md` 保留为历史计划，其 `GAP-07` 至 `GAP-10` 未完成项继续保留。
+- 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。已完成的 Tolk 与非更新缺口计划保留为历史；本计划统一收口剩余代码差异、真实审计、更新子系统和最终发布。
 - 暂缓：GitCode 更新源配置、`GAP-01` 更新结果 UI/下载启动链、`GAP-02` Updater 安装入口；这些项目仍未完成。
-- 当前模块：`VOICE-01` Tolk x64 运行库接入的代码、运行文件、RED/GREEN、回归门禁、原生真实调用和计划同步均已完成，独立提交收口中；`GAP-07` 至 `GAP-10` 和既有真实 EXE 全面审计继续保留。
-- 本轮验证：VOICE-01 定向 GREEN `15/15`、受影响回归 `100/100`、C# 全量 `276/276`、Python `29/29`，应用 Release x64 构建 `0` 警告/`0` 错误。原生场景已验证 ZDSR、无读屏时 OneCore 回退、NVDA，以及恢复 ZDSR；各场景均 `Output=true`、卸载/释放成功，生产 `SpeechService` 原生探针也返回 `0`。
+- 当前模块：全量只读源码复核已完成，下一模块为 `GAP-07` Esc、Alt+F4 与退出反馈；`GAP-01`、`GAP-02` 和 GitCode 更新源继续暂缓。
+- 本轮验证：VOICE-01 定向 GREEN `15/15`、受影响回归 `100/100`、C# 全量 `276/276`、Python `29/29`，应用 Release x64 构建 `0` 警告/`0` 错误。原生场景已验证 ZDSR、无读屏时 OneCore 回退、NVDA，以及恢复 ZDSR；各场景均 `Output=true`、卸载/释放成功，生产 `SpeechService` 原生探针返回 `0`。独立提交 `4ebe6c6` 已推送 `origin/fix/non-update-gaps-20261020`。
+- 本轮只读源码复核新增结论：确认 `GAP-07` 至 `GAP-10` 四个非更新代码差异、`VOICE-02` 一项运行时配置风险、更新源/UI/Updater 三项更新工作，以及八组真实审计/发布门禁仍未完成；未修改业务代码、未运行新测试或真实 EXE。
 - 已完成范围：现有主窗口/生命周期、快捷键分派、路径记忆接线、菜单状态、设置开关和音频后端的已验证部分。C# 可以启动并运行已验证功能，整体迁移尚未完成。
 - 历史衔接：旧导航/真实 EXE 计划保留为历史，其未完成审计继续保留；下方较早“当前状态”中的执行顺序由本摘要覆盖，历史验证结论不改写。
 
@@ -156,6 +157,8 @@
 - VOICE-01 生产 SpeechService 原生探针：以 x64 STA PowerShell 加载隔离输出 `ShaheLauncher.Core.dll`，通过真实 `SpeechService.EnsureAssistSpeechRuntime()` 解析 `lib/Tolk.dll`；返回码 `0`，初始化结果 `true`，检测名称 `ZDSR`，生产 backend 的 `Output` 已调用，Shutdown 后 `_assistSpeechRuntime` 已清空且 `AssistSpeechDisabled=true`，错误为空。脚本、结果和日志：`artifacts/runs/csharp_tolk_runtime_20261020/speech-service-native-probe.ps1`、`speech-service-native-probe-result.json`、`speech-service-native-probe.log`。
 
 - VOICE-01 提交前暂存差异检查：`git diff --cached --check` 返回码 `0`；仅暂存 Tolk 运行文件、App 复制规则、SpeechService、两份测试和本轮文本证据，用户已有解决方案、AuditRunner、HotkeyController、SettingsRuntimeContractTests、测试工程历史改动、Tolk 源码构建目录、TRX 和隔离输出均未纳入。
+
+- VOICE-01 提交：独立提交 `4ebe6c6c4700e854c17664c8ca8fbe734b1b296f` 已推送 `origin/fix/non-update-gaps-20261020`，推送返回码 `0`；回退命令为 `git revert 4ebe6c6`。提交包含七个 `lib` 运行文件、App 复制规则、SpeechService 原生 ABI/生命周期修复、两份测试、完成计划和本轮文本证据；用户已有无关改动保持未提交。
 
 ## 文档阅读顺序
 
