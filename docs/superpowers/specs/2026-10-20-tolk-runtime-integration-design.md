@@ -60,14 +60,14 @@ csharp/ShaheLauncher.App/lib/
 ├── ZDSRAPI_x64.dll
 ├── ZDSRAPI.ini
 ├── byctrl-x64.dll
-├── byctrl.conf
-├── LICENSE.txt
-└── LICENSE-NVDA.txt
+└── byctrl.conf
 ```
 
 该布局参考 `D:\Program Files\bilibili-player`：EXE 位于软件根目录，旁边只有一层 `lib/`。参考目录只用于确定布局和文件集合；实际复制内容全部来自用户提供的 Tolk 源码构建及其 `libs/x64/`，不复用参考软件中的旧版 `Tolk.dll` 或客户端 DLL。
 
-这些文件分别提供 Tolk 主库、NVDA、System Access、争渡、保益 x64 客户端模块、争渡/保益默认配置及随源码提供的许可证。其他 x86-only 或非目标读屏模块不复制；缺少它们时对应驱动不可用，但不得影响三个目标读屏器和 OneCore/SAPI 回退。
+这些文件分别提供 Tolk 主库、NVDA、System Access、争渡、保益 x64 客户端模块及争渡/保益默认配置。其他 x86-only 或非目标读屏模块不复制；缺少它们时对应驱动不可用，但不得影响三个目标读屏器和 OneCore/SAPI 回退。
+
+用户明确要求软件运行目录不复制 `.txt` 文件，因此 `LICENSE.txt` 和 `LICENSE-NVDA.txt` 只保留在 Tolk 源码证据目录，不进入 App 项目或 Release 输出。
 
 `TolkDotNet.dll`、`Tolk.lib`、`Tolk.exp`、`TolkGml.dll`、PDB、包装示例和构建中间文件不进入应用运行目录。
 
@@ -81,7 +81,7 @@ csharp/ShaheLauncher.App/lib/
 
 不得把 DLL 平铺到 EXE 根目录。隔离构建、标准 Release 构建和后续发布目录必须得到同一相对布局。
 
-发布验证必须检查九个文件均存在，且 `Tolk.dll` 和四个客户端模块为 x64 PE 文件。`byctrl.conf` 与 `ZDSRAPI.ini` 必须使用用户提供源码树中的版本，不复制参考软件内的旧配置。
+发布验证必须检查七个文件均存在，且 `Tolk.dll` 和四个客户端模块为 x64 PE 文件。`byctrl.conf` 与 `ZDSRAPI.ini` 必须使用用户提供源码树中的版本，不复制参考软件内的旧配置。
 
 ## 运行时查找
 
@@ -150,7 +150,7 @@ Tolk 的自动检测负责选择活动读屏器。三个目标读屏器中任一
 ### GREEN
 
 - 单元测试验证路径优先级、调用顺序、I1 标注、失败清理和只卸载一次。
-- 构建契约验证九个运行时文件复制到隔离输出的 `lib/`。
+- 构建契约验证七个运行时文件复制到隔离输出的 `lib/`，并确认该目录没有 `.txt` 文件。
 - 原生加载探针从隔离输出加载 `Tolk.dll`，核验必需导出，并依次执行 `TrySAPI(true)`、`PreferSAPI(false)`、`Load`、`IsLoaded`、`DetectScreenReader`、`Output`、`Unload`。
 - 真实输出短句固定为“沙河批量打开器朗读测试”。如果没有活动读屏器，应由 OneCore/SAPI 回退输出。
 - 探针记录实际检测名称、每个 API 的结果、进程位数、DLL 路径、返回码和清理结果。
@@ -167,7 +167,7 @@ Tolk 的自动检测负责选择活动读屏器。三个目标读屏器中任一
 ## 完成标准
 
 - x64 `Tolk.dll` 从用户提供源码成功构建，不依赖下载的预编译主库。
-- 应用源码和 Release 输出均具有规定的根目录 `lib/` 布局及许可证。
+- 应用源码和 Release 输出均具有规定的根目录 `lib/` 布局，且不包含 `.txt` 文件。
 - C# 原生接口的 Tolk `bool` 全部使用 I1，Win32 `BOOL` 保持 Bool。
 - 三个目标读屏器运行时可以由 Tolk 自动检测并输出；无活动读屏器时 OneCore/SAPI 可以输出测试短句。
 - 初始化失败和退出路径均能释放原生运行时，主程序不崩溃。
@@ -179,4 +179,4 @@ Tolk 的自动检测负责选择活动读屏器。三个目标读屏器中任一
 - 实际读屏输出依赖用户机器上对应读屏进程和客户端 API 的兼容性；自动化加载通过不能代替三个真实读屏器逐一审计。
 - OneCore/SAPI 真实输出会产生可听见的测试短句，执行探针时必须明确记录场景。
 - 上游 Tolk 支持的其他 COM/UIA 读屏器仍可能参与自动检测；若后续要求严格只允许三种读屏器，需要单独修改并维护 Tolk 原生源码分支。
-- 客户端模块由各厂商授权；发布时必须保留源码包提供的许可证，并在正式发布前复核各厂商再分发条款。
+- 客户端模块由各厂商授权；用户要求运行目录不复制许可证 `.txt`，因此正式发布前仍需单独复核再分发条款和许可证呈现方式。
