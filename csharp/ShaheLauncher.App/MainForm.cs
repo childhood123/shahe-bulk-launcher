@@ -1593,7 +1593,7 @@ namespace ShaheLauncher.App
                     RestoreSandboxes();
                     break;
                 case "select_all":
-                    SandboxList?.CheckAll();
+                    SandboxList?.ToggleSelectAll();
                     break;
                 case "toggle_auto_run":
                     ToggleAutoRun();

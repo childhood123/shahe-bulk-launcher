@@ -1,0 +1,2 @@
+dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap06\bin\ --filter FullyQualifiedName~SelectAllToggleRuntimeContractTests
+Failed: 0, Passed: 5, Skipped: 0, Total: 5

@@ -4,8 +4,8 @@
 
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-non-update-migration-gaps.md`。用户明确要求先不做更新相关功能，先完成其他迁移缺口，并将该决定写入计划。
 - 暂缓：GitCode 更新源配置、`GAP-01` 更新结果 UI/下载启动链、`GAP-02` Updater 安装入口；这些项目仍未完成。
-- 当前模块：`GAP-05` 剪贴板文件列表优先的代码、RED/GREEN、共用自动化门禁、Python 原版行为探针和计划同步已完成，待独立提交；随后依次处理 `GAP-06` 至 `GAP-10`。`GAP-03`、`GAP-04` 已完成并推送，真实 EXE 全面审计继续保留。
-- 本轮验证：`GAP-05` 定向 GREEN `4/4`、受影响回归 `74/74`、C# 全量 `256/256`、Python `29/29`、隔离 Python 剪贴板优先级探针 `4/4`，生产源码编译和 Release x64 构建均返回 `0`，构建警告/错误 `0/0`。探针使用内存假剪贴板，未读取或改写用户系统剪贴板；真实 EXE 剪贴板交互仍待审计，不能据此声明完整交互验证完成。
+- 当前模块：`GAP-06` 全选切换的代码、RED/GREEN、共用自动化门禁、Python 原版行为探针和计划已同步，独立提交收口中；本轮不进入 `GAP-07`。`GAP-03` 至 `GAP-05` 已完成并推送，真实 EXE 全面审计继续保留。
+- 本轮验证：`GAP-06` 定向 GREEN `5/5`、受影响回归 `85/85`、C# 全量 `261/261`、Python `29/29`、隔离 Python 全选语义探针 `6/6`，生产源码编译和 Release x64 构建均返回 `0`，构建警告/错误 `0/0`。未启动真实 GUI 或发送真实按键，真实 EXE 键盘/菜单交互仍待审计。
 - 已完成范围：现有主窗口/生命周期、快捷键分派、路径记忆接线、菜单状态、设置开关和音频后端的已验证部分。C# 可以启动并运行已验证功能，整体迁移尚未完成。
 - 历史衔接：旧导航/真实 EXE 计划保留为历史，其未完成审计继续保留；下方较早“当前状态”中的执行顺序由本摘要覆盖，历史验证结论不改写。
 
@@ -90,6 +90,28 @@
 - GAP-05 提交前 Release x64：隔离解决方案构建返回码 `0`，警告 `0`、错误 `0`，测试计数不适用；实际输出为 `artifacts/runs/csharp_non_update_gaps_20261020/gap05/final-bin/x64/Release/net48/`。日志和命令索引：同目录 `final-release-20261020.log`、`final-release-20261020-result.json`。
 
 - GAP-05 提交前差异检查：`git diff --check` 返回码 `0`，无空白错误，仅有工作树既有 LF/CRLF 转换提示；测试计数不适用。日志和命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/gap05/final-diff-20261020.log`、`final-diff-20261020-result.json`。
+
+- GAP-05 提交：独立提交 `be7c6f3` 已推送 `origin/fix/non-update-gaps-20261020`，推送返回码 `0`；回退命令为 `git revert be7c6f3`。仅提交 GAP-05 代码、测试、计划、顶部项目摘要和文本证据，用户已有解决方案、HotkeyController、SettingsRuntimeContractTests、测试工程、AuditRunner 和文档历史差异保持未提交。
+
+- GAP-06 RED：隔离 `dotnet test` 定向运行 `SelectAllToggleRuntimeContractTests`，返回码 `1`，通过 `1`、失败 `4`、跳过 `0`。文件菜单与固定 `Ctrl+A` 连续触发第二次仍保持全选，空列表每次触发仍产生勾选状态更新；右键“全选”保持单向行为的基线项通过。日志、命令索引和 TRX：`artifacts/runs/csharp_non_update_gaps_20261020/gap06/red-20261020.log`、`red-20261020-result.json`、`red-20261020.trx`。
+
+- GAP-06 GREEN：将 `MainForm` 的 `select_all` 分派从 `CheckAll()` 改为复用现有 `ToggleSelectAll()` 后，同一定向测试返回码 `0`，通过 `5`、失败 `0`、跳过 `0`。文件菜单和固定 `Ctrl+A` 连续两次切换、部分选择、空列表及右键单向全选边界均通过。日志、命令索引和 TRX：`artifacts/runs/csharp_non_update_gaps_20261020/gap06/green-20261020.log`、`green-20261020-result.json`、`green-20261020.trx`。
+
+- GAP-06 受影响回归：对新程序集运行 Application 与 `UiControlsCSharpContractTests` 筛选，返回码 `0`，通过 `85`、失败 `0`、跳过 `0`。日志、命令索引和 TRX：`artifacts/runs/csharp_non_update_gaps_20261020/gap06/affected-20261020.log`、`affected-20261020-result.json`、`affected-20261020.trx`。
+
+- GAP-06 C# 全量：直接执行本轮隔离程序集，返回码 `0`，通过 `261`、失败 `0`、跳过 `0`。日志、命令索引和 TRX：`artifacts/runs/csharp_non_update_gaps_20261020/gap06/full-20261020.log`、`full-20261020-result.json`、`full-20261020.trx`。
+
+- GAP-06 Python 原版行为探针：`python artifacts/runs/csharp_non_update_gaps_20261020/gap06/python-select-all-probe.py` 返回码 `0`，通过 `6`、失败 `0`、跳过 `0`。探针从原版 AST 执行 `toggle_select_all`、`on_select_all` 和 `on_ctrl_a_select`，并确认文件菜单绑定到切换入口；未导入 wxPython、未启动 GUI 或发送真实按键。脚本、日志和命令索引：同目录 `python-select-all-probe.py`、`.log`、`-result.json`。
+
+- GAP-06 Python 全量：`python -m unittest discover -s tests -p "test_*.py" -v` 返回码 `0`，通过 `29`、失败 `0`、跳过 `0`。日志和命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/gap06/python-20261020.log`、`python-20261020-result.json`。
+
+- GAP-06 Python 生产源码编译：`python -m compileall -q shahe_bulk_launcher tests` 返回码 `0`，无语法错误；测试计数不适用。日志和命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/gap06/compile-20261020.log`、`compile-20261020-result.json`。
+
+- GAP-06 Release x64：隔离解决方案构建返回码 `0`，警告 `0`、错误 `0`，测试计数不适用；实际输出为 `artifacts/runs/csharp_non_update_gaps_20261020/gap06/bin/x64/Release/net48/`。日志和命令索引：同目录 `release-20261020.log`、`release-20261020-result.json`。
+
+- GAP-06 差异检查：`git diff --check` 返回码 `0`，无空白错误，仅有工作树既有 LF/CRLF 转换提示；测试计数不适用。日志和命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/gap06/diff-20261020.log`、`diff-20261020-result.json`。
+
+- GAP-06 提交前定向复核：从当前源码重新生成隔离程序集并运行 `SelectAllToggleRuntimeContractTests`，返回码 `0`，通过 `5`、失败 `0`、跳过 `0`。日志、命令索引和 TRX：`artifacts/runs/csharp_non_update_gaps_20261020/gap06/final-targeted-20261020.log`、`final-targeted-20261020-result.json`、`final-targeted-20261020.trx`。
 
 ## 文档阅读顺序
 

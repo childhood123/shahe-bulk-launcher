@@ -1,0 +1,13 @@
+{
+  "kind": "python-probe",
+  "command": [
+    "python",
+    "artifacts\\runs\\csharp_non_update_gaps_20261020\\gap06\\python-select-all-probe.py"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap06\\python-select-all-probe.log",
+  "passed": 6,
+  "failed": 0,
+  "skipped": 0,
+  "usesGui": false
+}

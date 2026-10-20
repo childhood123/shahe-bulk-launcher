@@ -1,0 +1,4 @@
+dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap06\bin\ --filter FullyQualifiedName~SelectAllToggleRuntimeContractTests
+Failed: 4, Passed: 1, Skipped: 0, Total: 5
+Expected failures: file-menu and Ctrl+A remain checked after the second trigger; empty-list actions announce two selection updates.
+Passing baseline: the context-menu "全选" command remains one-way.

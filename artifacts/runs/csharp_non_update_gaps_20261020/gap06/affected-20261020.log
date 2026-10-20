@@ -1,0 +1,2 @@
+dotnet vstest artifacts\runs\csharp_non_update_gaps_20261020\gap06\bin\x64\Release\net48\ShaheLauncher.Tests.dll /Platform:x64 /TestCaseFilter:TestCategory=Application|FullyQualifiedName~UiControlsCSharpContractTests
+Failed: 0, Passed: 85, Skipped: 0, Total: 85

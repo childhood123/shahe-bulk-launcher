@@ -1,0 +1,90 @@
+生成启动时间为 2026/10/20 11:13:59。
+日志记录详细程度设置为: Normal。     1>节点 1 上的项目“D:\mycodex\git\csharp\ShaheBulkLauncher.sln”(默认目标)。
+     1>ValidateSolutionConfiguration:
+         正在生成解决方案配置“Release|x64”。
+     1>项目“D:\mycodex\git\csharp\ShaheBulkLauncher.sln”(1)正在节点 1 上生成“D:\mycodex\git\csharp\ShaheLauncher.Core\ShaheLauncher.Core.csproj”(2) (默认目标)。
+     2>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+       CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+       _GenerateSourceLinkFile:
+         Source Link 文件 "obj\x64\Release\net48\ShaheLauncher.Core.sourcelink.json" 是最新的。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap06\bin\x64\Release\net48\ShaheLauncher.Core.dll
+     2>已完成生成项目“D:\mycodex\git\csharp\ShaheLauncher.Core\ShaheLauncher.Core.csproj”(默认目标)的操作。
+     1>项目“D:\mycodex\git\csharp\ShaheBulkLauncher.sln”(1)正在节点 5 上生成“D:\mycodex\git\csharp\ShaheLauncher.Updater\ShaheLauncher.Updater.csproj”(3) (默认目标)。
+     3>_WriteAppConfigWithSupportedRuntime:
+       正在跳过目标“_WriteAppConfigWithSupportedRuntime”，因为所有输出文件相对于输入文件而言都是最新的。
+     1>项目“D:\mycodex\git\csharp\ShaheBulkLauncher.sln”(1)正在节点 2 上生成“D:\mycodex\git\csharp\ShaheLauncher.AuditRunner\ShaheLauncher.AuditRunner.csproj”(5) (默认目标)。
+     5>_WriteAppConfigWithSupportedRuntime:
+       正在跳过目标“_WriteAppConfigWithSupportedRuntime”，因为所有输出文件相对于输入文件而言都是最新的。
+     3>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+     5>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+     3>CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+     5>CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+     3>_GenerateSourceLinkFile:
+         Source Link 文件 "obj\x64\Release\net48\ShaheLauncher.Updater.sourcelink.json" 是最新的。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+     5>_GenerateSourceLinkFile:
+         Source Link 文件 "obj\x64\Release\net48\ShaheLauncher.AuditRunner.sourcelink.json" 是最新的。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+     3>_CopyAppConfigFile:
+       正在跳过目标“_CopyAppConfigFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         正在将文件从“D:\mycodex\git\csharp\ShaheLauncher.Updater\obj\x64\Release\net48\updater.exe”复制到“D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap06\bin\x64\Release\net48\updater.exe”。
+         ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap06\bin\x64\Release\net48\updater.exe
+     5>_CopyAppConfigFile:
+       正在跳过目标“_CopyAppConfigFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap06\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+     3>已完成生成项目“D:\mycodex\git\csharp\ShaheLauncher.Updater\ShaheLauncher.Updater.csproj”(默认目标)的操作。
+     5>已完成生成项目“D:\mycodex\git\csharp\ShaheLauncher.AuditRunner\ShaheLauncher.AuditRunner.csproj”(默认目标)的操作。
+     1>项目“D:\mycodex\git\csharp\ShaheBulkLauncher.sln”(1)正在节点 3 上生成“D:\mycodex\git\csharp\ShaheLauncher.App\ShaheLauncher.App.csproj”(4) (默认目标)。
+     4>_WriteAppConfigWithSupportedRuntime:
+       正在跳过目标“_WriteAppConfigWithSupportedRuntime”，因为所有输出文件相对于输入文件而言都是最新的。
+       GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+       CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+       _GenerateSourceLinkFile:
+         Source Link 文件 "obj\x64\Release\net48\ShaheLauncher.App.sourcelink.json" 是最新的。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+       _CopyAppConfigFile:
+       正在跳过目标“_CopyAppConfigFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap06\bin\x64\Release\net48\沙河批量打开器.exe
+       CopyUpdater:
+         正在将文件从“D:\mycodex\git\csharp\ShaheLauncher.Updater\bin\x64\Release\net48\updater.exe”复制到“D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap06\bin\x64\Release\net48\updater.exe”。
+     4>已完成生成项目“D:\mycodex\git\csharp\ShaheLauncher.App\ShaheLauncher.App.csproj”(默认目标)的操作。
+     1>项目“D:\mycodex\git\csharp\ShaheBulkLauncher.sln”(1)正在节点 4 上生成“D:\mycodex\git\csharp\ShaheLauncher.Tests\ShaheLauncher.Tests.csproj”(6) (默认目标)。
+     6>GenerateTargetFrameworkMonikerAttribute:
+       正在跳过目标“GenerateTargetFrameworkMonikerAttribute”，因为所有输出文件相对于输入文件而言都是最新的。
+       CoreGenerateAssemblyInfo:
+       正在跳过目标“CoreGenerateAssemblyInfo”，因为所有输出文件相对于输入文件而言都是最新的。
+       _GenerateSourceLinkFile:
+         Source Link 文件 "obj\x64\Release\net48\ShaheLauncher.Tests.sourcelink.json" 是最新的。
+       CoreCompile:
+       正在跳过目标“CoreCompile”，因为所有输出文件相对于输入文件而言都是最新的。
+       _CopyOutOfDateSourceItemsToOutputDirectory:
+       正在跳过目标“_CopyOutOfDateSourceItemsToOutputDirectory”，因为所有输出文件相对于输入文件而言都是最新的。
+       _CopyAppConfigFile:
+       正在跳过目标“_CopyAppConfigFile”，因为所有输出文件相对于输入文件而言都是最新的。
+       CopyFilesToOutputDirectory:
+         ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap06\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+     6>已完成生成项目“D:\mycodex\git\csharp\ShaheLauncher.Tests\ShaheLauncher.Tests.csproj”(默认目标)的操作。
+     1>已完成生成项目“D:\mycodex\git\csharp\ShaheBulkLauncher.sln”(默认目标)的操作。
+
+已成功生成。
+    0 个警告
+    0 个错误
+
+已用时间 00:00:02.88
