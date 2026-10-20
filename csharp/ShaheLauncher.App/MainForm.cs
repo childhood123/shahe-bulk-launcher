@@ -152,6 +152,7 @@ namespace ShaheLauncher.App
             SelectDirectoryCallback = SelectDirectory;
             ShowQrCodeCallback = ShowQrCodeDialog;
             ClipboardTextWriter = text => Clipboard.SetText(text);
+            ClipboardDataReader = Clipboard.GetDataObject;
             ShutdownAssistSpeechRuntimeCallback = SpeechService.ShutdownAssistSpeechRuntime;
             SpeechCallback = (text, eventName) => SpeechService.SpeakProcessAssist(text, true, eventName);
         }
@@ -204,6 +205,7 @@ namespace ShaheLauncher.App
         public Action RestartSandboxieServicesCallback { get; set; }
         public Action<string> ShowQrCodeCallback { get; set; }
         public Action<string> ClipboardTextWriter { get; set; }
+        public Func<IDataObject> ClipboardDataReader { get; set; }
         public Func<string> FindSandboxiePathCallback { get; set; }
         public Action<string, string, MessageBoxIcon> ShowMessageCallback { get; set; }
         public Func<int, Action, IDisposable> StartupDelayCallback { get; set; }
@@ -3801,7 +3803,15 @@ namespace ShaheLauncher.App
         {
             try
             {
-                AddApplicationPath(AppPathHistoryService.ExtractExePathFromText(Clipboard.GetText()));
+                IDataObject data = ClipboardDataReader?.Invoke();
+                string path = AppPathHistoryService.ResolvePastedAppPath(
+                    data?.GetData(DataFormats.FileDrop) as string[], string.Empty);
+                if (path.Length == 0)
+                {
+                    path = AppPathHistoryService.ResolvePastedAppPath(
+                        null, data?.GetData(DataFormats.UnicodeText) as string);
+                }
+                SetApplicationPath(path, AppPathHistoryService.PastedAppStatusPrefix);
             }
             catch
             {
@@ -3810,6 +3820,11 @@ namespace ShaheLauncher.App
         }
 
         private void AddApplicationPath(string path)
+        {
+            SetApplicationPath(path, "已选择");
+        }
+
+        private void SetApplicationPath(string path, string statusPrefix)
         {
             string value = AppPathHistoryService.ExtractExePathFromText(path);
             if (value.Length == 0)
@@ -3822,7 +3837,7 @@ namespace ShaheLauncher.App
             if (!AppPathHistoryService.SetCurrentAppPath(
                 state,
                 value,
-                "已选择",
+                statusPrefix,
                 CreateAppPathHistoryCallbacks(state)))
             {
                 SafeSetStatusLabel(AppPathHistoryService.InvalidClipboardStatus);

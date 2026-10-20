@@ -4,8 +4,8 @@
 
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-non-update-migration-gaps.md`。用户明确要求先不做更新相关功能，先完成其他迁移缺口，并将该决定写入计划。
 - 暂缓：GitCode 更新源配置、`GAP-01` 更新结果 UI/下载启动链、`GAP-02` Updater 安装入口；这些项目仍未完成。
-- 当前模块：`GAP-04` 朗读配置保留；随后依次处理 `GAP-05` 至 `GAP-10`。`GAP-03` 的配置恢复与持久化修复已完成并推送，真实 EXE 全面审计继续保留。
-- 本轮验证：`GAP-03` 已完成并推送；`GAP-04` 已取得配置覆盖 RED/GREEN 和全部自动化门禁，独立提交收口中。原生 AuditRunner 输入测试曾失败两次，同入口新旧程序集单项及新程序集完整全量复核均通过；失败记录保留，不据此声称真实 EXE 审计完成。
+- 当前模块：`GAP-05` 剪贴板文件列表优先的代码、RED/GREEN、共用自动化门禁、Python 原版行为探针和计划同步已完成，待独立提交；随后依次处理 `GAP-06` 至 `GAP-10`。`GAP-03`、`GAP-04` 已完成并推送，真实 EXE 全面审计继续保留。
+- 本轮验证：`GAP-05` 定向 GREEN `4/4`、受影响回归 `74/74`、C# 全量 `256/256`、Python `29/29`、隔离 Python 剪贴板优先级探针 `4/4`，生产源码编译和 Release x64 构建均返回 `0`，构建警告/错误 `0/0`。探针使用内存假剪贴板，未读取或改写用户系统剪贴板；真实 EXE 剪贴板交互仍待审计，不能据此声明完整交互验证完成。
 - 已完成范围：现有主窗口/生命周期、快捷键分派、路径记忆接线、菜单状态、设置开关和音频后端的已验证部分。C# 可以启动并运行已验证功能，整体迁移尚未完成。
 - 历史衔接：旧导航/真实 EXE 计划保留为历史，其未完成审计继续保留；下方较早“当前状态”中的执行顺序由本摘要覆盖，历史验证结论不改写。
 
@@ -56,6 +56,40 @@
 - GAP-04 diff：diff 验证返回码 0，计数不适用。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap04/diff-20261020_102904_498-result.json`；日志为同名前缀 .log。
 
 - 用户提供语音源码：`artifacts/probes/tolk-downloaded/boz700908-tolk-add14ac/src/dotnet/Tolk.cs`、`TolkDotNet.csproj` 和 `examples/c#/ConsoleApp.cs` 已只读对照。包装工程目标为 net40/netstandard2.0；源码中 Tolk 的 C++ bool 参数/返回值使用 `MarshalAs(UnmanagedType.I1)`，当前 SpeechService 使用 `Bool`，登记为 `VOICE-01` 静态 ABI 差异，待单独 RED/GREEN，不与 GAP-04 配置保留混合修复。该源码目录尚未发现编译好的 `Tolk.dll`；存在 x64 的 NVDA、ZDSR、保益等厂商依赖。未加载库或改变用户语音配置。
+
+- GAP-04 提交：暂存差异检查返回码 `0`；独立提交 `9930f14` 已推送 `origin/fix/non-update-gaps-20261020`，返回码 `0`，回退 `git revert 9930f14`。用户原有 AuditRunner、两个 C# 修改和文档历史保持未暂存；新增原生输入稳定性风险与语音参考源码已记录。
+
+- GAP-05 reader-entry-red：test 验证返回码 1，通过 0、失败 4、跳过 0。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap05/reader-entry-red-20261020_103407_696-result.json`；日志为同名前缀 .log，另有 .trx。
+
+- GAP-05 priority-red：test 验证返回码 1，通过 2、失败 2、跳过 0。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap05/priority-red-20261020_103451_389-result.json`；日志为同名前缀 .log，另有 .trx。
+
+- GAP-05 green：test 验证返回码 0，通过 4、失败 0、跳过 0。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap05/green-20261020_103534_942-result.json`；日志为同名前缀 .log，另有 .trx。
+
+- GAP-05 affected：vstest 验证返回码 0，通过 74、失败 0、跳过 0。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap05/affected-20261020_103545_516-result.json`；日志为同名前缀 .log，另有 .trx。
+
+- GAP-05 full：vstest 验证返回码 0，通过 256、失败 0、跳过 0。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap05/full-20261020_103557_545-result.json`；日志为同名前缀 .log，另有 .trx。
+
+- GAP-05 python：python 验证返回码 0，通过 29、失败 0、跳过 0。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap05/python-20261020_103616_139-result.json`；日志为同名前缀 .log。
+
+- GAP-05 compile：compile 验证返回码 0，计数不适用。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap05/compile-20261020_103617_820-result.json`；日志为同名前缀 .log。
+
+- GAP-05 release：build 验证返回码 0，警告 0、错误 0；测试计数不适用。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap05/release-20261020_103618_764-result.json`；日志为同名前缀 .log。
+
+- GAP-05 diff：diff 验证返回码 0，计数不适用。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap05/diff-20261020_103621_248-result.json`；日志为同名前缀 .log。
+
+- GAP-05 Python 原版行为探针：`python artifacts/runs/csharp_non_update_gaps_20261020/gap05/python-clipboard-priority-probe.py` 返回码 `0`，通过 `4`、失败 `0`、跳过 `0`；从 `features/app_paths.py` 的 AST 提取真实 `on_paste_file`，验证文件列表优先、无有效文件时文本回退、无效数据反馈和剪贴板无法打开反馈。探针只使用内存假剪贴板，未启动 GUI、未访问系统剪贴板。脚本、日志和结果：同目录 `python-clipboard-priority-probe.py`、`.log`、`-result.json`。
+
+- GAP-05 提交前定向复核：隔离 `dotnet test` 返回码 `0`，通过 `4`、失败 `0`、跳过 `0`；重新验证文件列表优先、文本回退、无效数据及空剪贴板。命令索引和 TRX：`artifacts/runs/csharp_non_update_gaps_20261020/gap05/final-targeted-20261020-result.json`、`final-targeted-20261020.trx`。
+
+- GAP-05 提交前 C# 全量复核：隔离解决方案测试返回码 `0`，通过 `256`、失败 `0`、跳过 `0`。命令索引和 TRX：`artifacts/runs/csharp_non_update_gaps_20261020/gap05/final-full-20261020-result.json`、`final-full-20261020.trx`。
+
+- GAP-05 提交前 Python 全量复核：`python -m unittest discover -s tests -p "test_*.py" -v` 返回码 `0`，通过 `29`、失败 `0`、跳过 `0`。日志和命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/gap05/final-python-20261020.log`、`final-python-20261020-result.json`。
+
+- GAP-05 提交前 Python 生产源码编译：`python -m compileall -q shahe_bulk_launcher tests` 返回码 `0`，无语法错误；测试计数不适用。日志和命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/gap05/final-compile-20261020.log`、`final-compile-20261020-result.json`。
+
+- GAP-05 提交前 Release x64：隔离解决方案构建返回码 `0`，警告 `0`、错误 `0`，测试计数不适用；实际输出为 `artifacts/runs/csharp_non_update_gaps_20261020/gap05/final-bin/x64/Release/net48/`。日志和命令索引：同目录 `final-release-20261020.log`、`final-release-20261020-result.json`。
+
+- GAP-05 提交前差异检查：`git diff --check` 返回码 `0`，无空白错误，仅有工作树既有 LF/CRLF 转换提示；测试计数不适用。日志和命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/gap05/final-diff-20261020.log`、`final-diff-20261020-result.json`。
 
 ## 文档阅读顺序
 

@@ -1,0 +1,33 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap05\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap05\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap05\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap05\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap05\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap05\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 PasteActionResolvesClipboardDataLikePython ("files-first") [1 s]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: <C:\Users\Administrator\AppData\Local\Temp\shahe_migration_d4a4c9da9a9249b790520c90aab2b962\文件应用.exe>，实际为: <C:\Users\Administrator\AppData\Local\Temp\shahe_migration_d4a4c9da9a9249b790520c90aab2b962\文本应用.exe>。
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201
+   在 ShaheLauncher.Tests.ClipboardPasteRuntimeContractTests.<>c__DisplayClass0_0.<PasteActionResolvesClipboardDataLikePython>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ClipboardPasteRuntimeContractTests.cs:行号 45
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 PasteActionResolvesClipboardDataLikePython ("text-fallback") [29 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: <已从剪贴板粘贴应用: 文本应用.exe>，实际为: <已选择: 文本应用.exe>。
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201
+   在 ShaheLauncher.Tests.ClipboardPasteRuntimeContractTests.<>c__DisplayClass0_0.<PasteActionResolvesClipboardDataLikePython>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ClipboardPasteRuntimeContractTests.cs:行号 53
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+结果文件: D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap05\priority-red-20261020_103451_389.trx
+
+失败!  - 失败:     2，通过:     2，已跳过:     0，总计:     4，持续时间: 1 s - ShaheLauncher.Tests.dll (net48)

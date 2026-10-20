@@ -1,0 +1,53 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap05\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap05\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap05\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap05\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap05\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap05\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 PasteActionResolvesClipboardDataLikePython ("files-first") [401 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。粘贴动作必须接入可读取文件列表和文本的剪贴板入口
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123
+   在 ShaheLauncher.Tests.ClipboardPasteRuntimeContractTests.<>c__DisplayClass0_0.<PasteActionResolvesClipboardDataLikePython>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ClipboardPasteRuntimeContractTests.cs:行号 30
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 PasteActionResolvesClipboardDataLikePython ("text-fallback") [7 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。粘贴动作必须接入可读取文件列表和文本的剪贴板入口
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123
+   在 ShaheLauncher.Tests.ClipboardPasteRuntimeContractTests.<>c__DisplayClass0_0.<PasteActionResolvesClipboardDataLikePython>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ClipboardPasteRuntimeContractTests.cs:行号 30
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 PasteActionResolvesClipboardDataLikePython ("invalid") [7 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。粘贴动作必须接入可读取文件列表和文本的剪贴板入口
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123
+   在 ShaheLauncher.Tests.ClipboardPasteRuntimeContractTests.<>c__DisplayClass0_0.<PasteActionResolvesClipboardDataLikePython>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ClipboardPasteRuntimeContractTests.cs:行号 30
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 PasteActionResolvesClipboardDataLikePython ("empty") [6 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。粘贴动作必须接入可读取文件列表和文本的剪贴板入口
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123
+   在 ShaheLauncher.Tests.ClipboardPasteRuntimeContractTests.<>c__DisplayClass0_0.<PasteActionResolvesClipboardDataLikePython>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ClipboardPasteRuntimeContractTests.cs:行号 30
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+结果文件: D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap05\reader-entry-red-20261020_103407_696.trx
+
+失败!  - 失败:     4，通过:     0，已跳过:     0，总计:     4，持续时间: 930 ms - ShaheLauncher.Tests.dll (net48)

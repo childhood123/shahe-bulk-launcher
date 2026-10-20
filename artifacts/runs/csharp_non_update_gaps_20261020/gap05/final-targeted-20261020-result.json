@@ -1,0 +1,24 @@
+{
+  "kind": "test",
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap05\\final-bin\\",
+    "--logger",
+    "trx;LogFileName=final-targeted-20261020.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap05",
+    "--filter",
+    "FullyQualifiedName~ClipboardPasteRuntimeContractTests"
+  ],
+  "returnCode": 0,
+  "passed": 4,
+  "failed": 0,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap05\\final-targeted-20261020.trx"
+}
