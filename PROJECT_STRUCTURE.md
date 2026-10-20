@@ -2,10 +2,10 @@
 
 ## 当前执行摘要（2026-10-20 非更新缺口）
 
-- 当前唯一计划：`docs/superpowers/plans/2026-10-20-non-update-migration-gaps.md`。用户明确要求先不做更新相关功能，先完成其他迁移缺口，并将该决定写入计划。
+- 当前唯一计划：`docs/superpowers/plans/2026-10-20-tolk-runtime-integration.md`。用户确认优先接入 Tolk x64 运行库；`docs/superpowers/plans/2026-10-20-non-update-migration-gaps.md` 保留为历史计划，其 `GAP-07` 至 `GAP-10` 未完成项继续保留。
 - 暂缓：GitCode 更新源配置、`GAP-01` 更新结果 UI/下载启动链、`GAP-02` Updater 安装入口；这些项目仍未完成。
-- 当前模块：`GAP-06` 全选切换的代码、RED/GREEN、共用自动化门禁、Python 原版行为探针和计划已同步，独立提交收口中；本轮不进入 `GAP-07`。`GAP-03` 至 `GAP-05` 已完成并推送，真实 EXE 全面审计继续保留。
-- 本轮验证：`GAP-06` 定向 GREEN `5/5`、受影响回归 `85/85`、C# 全量 `261/261`、Python `29/29`、隔离 Python 全选语义探针 `6/6`，生产源码编译和 Release x64 构建均返回 `0`，构建警告/错误 `0/0`。未启动真实 GUI 或发送真实按键，真实 EXE 键盘/菜单交互仍待审计。
+- 当前模块：`VOICE-01` Tolk x64 运行库接入。设计文档已确认，活动计划 `docs/superpowers/plans/2026-10-20-tolk-runtime-integration.md` 已建立，当前从运行文件清单 RED 开始执行；`GAP-07` 至 `GAP-10` 和真实 EXE 全面审计继续保留。
+- 本轮验证：`GAP-06` 定向 GREEN `5/5`、受影响回归 `85/85`、C# 全量 `261/261`、Python `29/29`、隔离 Python 全选语义探针 `6/6`，生产源码编译和 Release x64 构建均返回 `0`，构建警告/错误 `0/0`。独立提交 `f089cf3` 已推送 `origin/fix/non-update-gaps-20261020`；真实 EXE 键盘/菜单交互仍待审计。
 - 已完成范围：现有主窗口/生命周期、快捷键分派、路径记忆接线、菜单状态、设置开关和音频后端的已验证部分。C# 可以启动并运行已验证功能，整体迁移尚未完成。
 - 历史衔接：旧导航/真实 EXE 计划保留为历史，其未完成审计继续保留；下方较早“当前状态”中的执行顺序由本摘要覆盖，历史验证结论不改写。
 
@@ -112,6 +112,10 @@
 - GAP-06 差异检查：`git diff --check` 返回码 `0`，无空白错误，仅有工作树既有 LF/CRLF 转换提示；测试计数不适用。日志和命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/gap06/diff-20261020.log`、`diff-20261020-result.json`。
 
 - GAP-06 提交前定向复核：从当前源码重新生成隔离程序集并运行 `SelectAllToggleRuntimeContractTests`，返回码 `0`，通过 `5`、失败 `0`、跳过 `0`。日志、命令索引和 TRX：`artifacts/runs/csharp_non_update_gaps_20261020/gap06/final-targeted-20261020.log`、`final-targeted-20261020-result.json`、`final-targeted-20261020.trx`。
+
+- GAP-06 提交：独立提交 `f089cf3` 已推送 `origin/fix/non-update-gaps-20261020`，推送返回码 `0`；回退命令为 `git revert f089cf3`。仅提交 GAP-06 分派修复、独立测试、计划、顶部项目摘要和文本证据，用户已有解决方案、HotkeyController、SettingsRuntimeContractTests、测试工程、AuditRunner 和文档历史差异保持未提交。
+
+- VOICE-01 设计：Tolk x64 运行库接入设计已写入 `docs/superpowers/specs/2026-10-20-tolk-runtime-integration-design.md`；初始提交 `ce5b91e`、`lib` 参考布局修订 `d192b9d` 和不复制 `.txt` 的最终修订 `ff05d61` 均已推送 `origin/fix/non-update-gaps-20261020`，最新回退命令为 `git revert ff05d61`。当前仅完成设计和源码/工具链调查，未复制 DLL、未修改 SpeechService、未运行原生朗读调用。
 
 ## 文档阅读顺序
 
