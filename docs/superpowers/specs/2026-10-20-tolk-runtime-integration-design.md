@@ -7,7 +7,7 @@
 ## 目标
 
 - 使用用户提供的 Tolk 源码构建 x64 Release 原生运行库。
-- 在 C# 应用项目中新建自包含的 `libs/tolk/` 目录，并随 Release x64 输出复制到 `libs/tolk/`。
+- 在 C# 应用项目中新建自包含的 `lib/` 目录，并随 Release x64 输出复制到软件根目录旁的 `lib/`。
 - 当 NVDA、争渡或保益读屏器运行时，通过 Tolk 向活动读屏器输出文本。
 - 当没有活动读屏器时，启用 Tolk 的 OneCore/SAPI 回退语音。
 - 修正当前 C# 原生委托与 Tolk C++ `bool` ABI 不一致的问题。
@@ -26,11 +26,11 @@
 
 ### 采用：现有 `SpeechService` 动态加载原生 Tolk
 
-保留 `SpeechService` 通过 `LoadLibrary`/`GetProcAddress` 创建 `SpeechAssistBackend` 的现有边界。该方案能使用绝对路径加载 `libs/tolk/Tolk.dll`，不需要修改进程级 DLL 搜索路径，也不会引入重复的托管包装层。
+保留 `SpeechService` 通过 `LoadLibrary`/`GetProcAddress` 创建 `SpeechAssistBackend` 的现有边界。该方案能使用绝对路径加载 `lib/Tolk.dll`，不需要修改进程级 DLL 搜索路径，也不会引入重复的托管包装层。
 
 ### 未采用：引用 `TolkDotNet.dll`
 
-官方 C# 包装层使用 `[DllImport("Tolk.dll")]`。当主库位于 `libs/tolk/` 子目录时，还需要额外修改全局 DLL 搜索路径；同时会与当前 `SpeechService` 的生命周期、锁和回调结构重复。
+官方 C# 包装层使用 `[DllImport("Tolk.dll")]`。当主库位于 `lib/` 子目录时，还需要额外修改全局 DLL 搜索路径；同时会与当前 `SpeechService` 的生命周期、锁和回调结构重复。
 
 ### 未采用：每次应用构建时编译 Tolk
 
@@ -53,36 +53,41 @@ build.bat release --x64 --no-bootstrap
 应用源码目录：
 
 ```text
-csharp/ShaheLauncher.App/libs/tolk/
+csharp/ShaheLauncher.App/lib/
 ├── Tolk.dll
 ├── nvdaControllerClient64.dll
+├── SAAPI64.dll
 ├── ZDSRAPI_x64.dll
+├── ZDSRAPI.ini
 ├── byctrl-x64.dll
+├── byctrl.conf
 ├── LICENSE.txt
 └── LICENSE-NVDA.txt
 ```
 
-这些文件分别提供 Tolk 主库、NVDA、争渡、保益 x64 客户端模块及随源码提供的许可证。其他 x86-only 或非目标读屏模块不复制；缺少它们时对应驱动不可用，但不得影响三个目标读屏器和 OneCore/SAPI 回退。
+该布局参考 `D:\Program Files\bilibili-player`：EXE 位于软件根目录，旁边只有一层 `lib/`。参考目录只用于确定布局和文件集合；实际复制内容全部来自用户提供的 Tolk 源码构建及其 `libs/x64/`，不复用参考软件中的旧版 `Tolk.dll` 或客户端 DLL。
+
+这些文件分别提供 Tolk 主库、NVDA、System Access、争渡、保益 x64 客户端模块、争渡/保益默认配置及随源码提供的许可证。其他 x86-only 或非目标读屏模块不复制；缺少它们时对应驱动不可用，但不得影响三个目标读屏器和 OneCore/SAPI 回退。
 
 `TolkDotNet.dll`、`Tolk.lib`、`Tolk.exp`、`TolkGml.dll`、PDB、包装示例和构建中间文件不进入应用运行目录。
 
 ## 构建与发布布局
 
-`ShaheLauncher.App.csproj` 将 `libs/tolk/**` 声明为内容文件，并在 Debug/Release 构建后复制到：
+`ShaheLauncher.App.csproj` 将 `lib/**` 声明为内容文件，并在 Debug/Release 构建后复制到：
 
 ```text
-<OutputDirectory>/libs/tolk/
+<OutputDirectory>/lib/
 ```
 
 不得把 DLL 平铺到 EXE 根目录。隔离构建、标准 Release 构建和后续发布目录必须得到同一相对布局。
 
-发布验证必须检查六个文件均存在，且 `Tolk.dll` 和三个客户端模块为 x64 PE 文件。
+发布验证必须检查九个文件均存在，且 `Tolk.dll` 和四个客户端模块为 x64 PE 文件。`byctrl.conf` 与 `ZDSRAPI.ini` 必须使用用户提供源码树中的版本，不复制参考软件内的旧配置。
 
 ## 运行时查找
 
 `SpeechService.GetTolkDllPath()` 的顺序调整为：
 
-1. `<AppDirectory>/libs/tolk/Tolk.dll`
+1. `<AppDirectory>/lib/Tolk.dll`
 2. `<AppDirectory>/internal/Tolk.dll`，保留旧发布兼容
 3. `<AppDirectory>/Tolk.dll`，保留旧发布兼容
 
@@ -111,7 +116,7 @@ Win32 `FreeLibrary` 返回的是四字节 `BOOL`，继续使用 `UnmanagedType.B
 
 首次需要辅助朗读时，在现有 `_assistSpeechInitLock` 下执行：
 
-1. 从 `libs/tolk` 解析 `Tolk.dll`。
+1. 从软件根目录旁的 `lib` 解析 `Tolk.dll`。
 2. 加载导出并构造 `SpeechAssistBackend`。
 3. 调用 `Tolk_TrySAPI(true)`，启用 OneCore/SAPI。
 4. 调用 `Tolk_PreferSAPI(false)`，保持活动读屏器优先、系统语音仅作为回退。
@@ -136,8 +141,8 @@ Tolk 的自动检测负责选择活动读屏器。三个目标读屏器中任一
 
 先建立失败测试证明：
 
-- `GetTolkDllPath()` 尚未查找 `libs/tolk/Tolk.dll`。
-- App 项目尚未把 `libs/tolk` 复制到输出目录。
+- `GetTolkDllPath()` 尚未查找 `lib/Tolk.dll`。
+- App 项目尚未把 `lib` 复制到输出目录。
 - Tolk 委托仍使用错误的 `UnmanagedType.Bool`。
 - 当前初始化调用 `TrySapi(false)`，不符合回退要求。
 - 当前关闭路径没有调用 backend `Unload`。
@@ -145,7 +150,7 @@ Tolk 的自动检测负责选择活动读屏器。三个目标读屏器中任一
 ### GREEN
 
 - 单元测试验证路径优先级、调用顺序、I1 标注、失败清理和只卸载一次。
-- 构建契约验证六个运行时文件复制到隔离输出的 `libs/tolk/`。
+- 构建契约验证九个运行时文件复制到隔离输出的 `lib/`。
 - 原生加载探针从隔离输出加载 `Tolk.dll`，核验必需导出，并依次执行 `TrySAPI(true)`、`PreferSAPI(false)`、`Load`、`IsLoaded`、`DetectScreenReader`、`Output`、`Unload`。
 - 真实输出短句固定为“沙河批量打开器朗读测试”。如果没有活动读屏器，应由 OneCore/SAPI 回退输出。
 - 探针记录实际检测名称、每个 API 的结果、进程位数、DLL 路径、返回码和清理结果。
@@ -162,7 +167,7 @@ Tolk 的自动检测负责选择活动读屏器。三个目标读屏器中任一
 ## 完成标准
 
 - x64 `Tolk.dll` 从用户提供源码成功构建，不依赖下载的预编译主库。
-- 应用源码和 Release 输出均具有规定的 `libs/tolk` 布局及许可证。
+- 应用源码和 Release 输出均具有规定的根目录 `lib/` 布局及许可证。
 - C# 原生接口的 Tolk `bool` 全部使用 I1，Win32 `BOOL` 保持 Bool。
 - 三个目标读屏器运行时可以由 Tolk 自动检测并输出；无活动读屏器时 OneCore/SAPI 可以输出测试短句。
 - 初始化失败和退出路径均能释放原生运行时，主程序不崩溃。
