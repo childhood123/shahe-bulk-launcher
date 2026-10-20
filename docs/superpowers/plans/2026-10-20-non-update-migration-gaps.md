@@ -30,14 +30,14 @@
 
 - [x] 建立模块映射和隔离配置 RED。
 - [x] 修复已确认的 JSON 类型兼容偏差，定向 GREEN。
-- [ ] 完成共用验证门禁、文档同步和独立提交。
+- [x] 完成共用验证门禁、文档同步和独立提交。
 
 ### GAP-04：朗读配置保留
 
 参考：`shahe_bulk_launcher/features/speech.py`。范围：`MainForm.cs`、`ShaheLauncher.Core/Speech/SpeechService.cs` 及现有朗读设置对话框；测试新增独立运行时契约文件。
 
-- [ ] 用已有非空朗读配置验证打开、取消、确定各路径，固定 Python 保存回调语义。
-- [ ] RED 确认后修复空配置覆盖路径，验证原有语音配置保留。
+- [x] 用已有非空朗读配置验证打开、取消、确定各路径，固定 Python 保存回调语义。
+- [x] RED 确认后修复空配置覆盖路径，验证原有语音配置保留。
 - [ ] 完成共用验证门禁、文档同步和独立提交。
 
 ### GAP-05：剪贴板文件列表优先
@@ -59,6 +59,8 @@
 ### GAP-07：Esc 与退出反馈
 
 参考：`shahe_bulk_launcher/features/hotkeys.py`、`features/lifecycle.py`。范围：`MainForm.cs`、`MainForm.Lifecycle.cs`，优先复用已有状态和朗读回调，不混入用户原有 HotkeyController 改动。
+
+用户补充的 Tolk C# 参考源码为 `artifacts/probes/tolk-downloaded/boz700908-tolk-add14ac/src/dotnet/Tolk.cs`，配套工程和示例位于同一源码树。实际语音验证前单独核验项目与该源码的 bool ABI 差异（VOICE-01），以及原生 Tolk.dll 的可用性；该核验与 GAP-04 配置保存分开记录。
 
 - [ ] 建立 Esc、Alt+F4、退出菜单对应的状态/读屏反馈 RED。
 - [ ] 对齐 Python 文案、反馈顺序和窗口生命周期，回归托盘与重复关闭。

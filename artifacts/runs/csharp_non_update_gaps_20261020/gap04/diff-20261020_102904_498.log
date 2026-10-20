@@ -1,0 +1,8 @@
+warning: in the working copy of 'PROJECT_STRUCTURE.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'artifacts/runs/csharp_non_update_gaps_20261020/run-validation.ps1', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheBulkLauncher.sln', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.App/Input/HotkeyController.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.Core/Speech/SpeechService.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.Tests/SettingsRuntimeContractTests.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.Tests/ShaheLauncher.Tests.csproj', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/superpowers/plans/2026-10-20-non-update-migration-gaps.md', LF will be replaced by CRLF the next time Git touches it

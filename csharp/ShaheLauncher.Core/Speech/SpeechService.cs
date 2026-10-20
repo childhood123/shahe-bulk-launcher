@@ -730,7 +730,7 @@ namespace ShaheLauncher.Core.Speech
                 SaveReaderIniSettings = SaveReaderIniSettings,
                 SaveInterfaceDll = SaveSpeechInterfaceDll,
                 SaveAssistHints = SaveSpeechAssistHints,
-                SaveSpeechConfig = SaveSpeechConfig
+                SaveSpeechConfig = config => true
             };
             bool accepted = Callbacks.ShowSettings != null && Callbacks.ShowSettings(request);
             if (accepted)

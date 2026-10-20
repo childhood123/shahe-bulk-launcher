@@ -4,8 +4,8 @@
 
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-non-update-migration-gaps.md`。用户明确要求先不做更新相关功能，先完成其他迁移缺口，并将该决定写入计划。
 - 暂缓：GitCode 更新源配置、`GAP-01` 更新结果 UI/下载启动链、`GAP-02` Updater 安装入口；这些项目仍未完成。
-- 当前模块：`GAP-03` 复杂 JSON 配置恢复；随后依次处理 `GAP-04` 至 `GAP-10`，逐项 RED/GREEN、全量验证、文档同步和独立提交。
-- 本轮验证：`GAP-03` 已取得 RED/GREEN、受影响及全量回归、Python 对照/行为探针和生产源码编译、隔离 Release x64 构建；差异检查和独立提交收口中。设置加载边界递归还原 JSON 字典、数组和标量，路径历史序列化使用 Python 的小写键。
+- 当前模块：`GAP-04` 朗读配置保留；随后依次处理 `GAP-05` 至 `GAP-10`。`GAP-03` 的配置恢复与持久化修复已完成并推送，真实 EXE 全面审计继续保留。
+- 本轮验证：`GAP-03` 已完成并推送；`GAP-04` 已取得配置覆盖 RED/GREEN 和全部自动化门禁，独立提交收口中。原生 AuditRunner 输入测试曾失败两次，同入口新旧程序集单项及新程序集完整全量复核均通过；失败记录保留，不据此声称真实 EXE 审计完成。
 - 已完成范围：现有主窗口/生命周期、快捷键分派、路径记忆接线、菜单状态、设置开关和音频后端的已验证部分。C# 可以启动并运行已验证功能，整体迁移尚未完成。
 - 历史衔接：旧导航/真实 EXE 计划保留为历史，其未完成审计继续保留；下方较早“当前状态”中的执行顺序由本摘要覆盖，历史验证结论不改写。
 
@@ -28,6 +28,34 @@
 - GAP-03 Release x64：隔离解决方案构建返回码 `0`，警告 `0`、错误 `0`，测试计数不适用；实际输出目录、命令和日志：`artifacts/runs/csharp_non_update_gaps_20261020/gap03/release-20261020_101249_151-result.json` 及同名前缀 `.log`。本模块配置恢复已由真实持久化和 WinForms STA 运行时验证，未新增外部真实 EXE/读屏审计；既有真实审计风险继续保留。
 
 - GAP-03 差异检查：`git diff --check` 返回码 `0`，无空白错误，只有既有 LF/CRLF 提示；测试计数不适用。日志与命令返回码：`artifacts/runs/csharp_non_update_gaps_20261020/gap03/diff-20261020_101348_769-result.json` 及同名前缀 `.log`。
+
+- GAP-03 提交：暂存检查返回码 `0`；仅提交两个 Core 修复文件、独立测试、当前计划、PROJECT_STRUCTURE 本轮摘要差异和本轮脚本/文本证据，原有文档差异及用户代码保持未暂存。独立提交 `ae87be1` 已成功推送 `origin/fix/non-update-gaps-20261020`（返回码 `0`），回退命令 `git revert ae87be1`。
+
+- GAP-04 RED：隔离 `SpeechSettingsPreservationContractTests` 返回码 `1`，通过 `2`、失败 `2`、跳过 `0`。真实设置对话框的确定路径把已有 SpeechConfig 覆盖为空，缺文件时创建空配置；取消路径正常。命令和日志：`artifacts/runs/csharp_non_update_gaps_20261020/gap04/red-20261020_101922_404-result.json` 及同名前缀 `.log/.trx`；仅操作测试目录。
+
+- GAP-04 GREEN：同一定向测试返回码 `0`，通过 `4`、失败 `0`、跳过 `0`；保存回调已与 Python 的 `lambda config: True` 对齐，真实对话框确定/取消均保留已有 SpeechConfig，读屏接口和辅助提示仍可保存。命令和日志：`artifacts/runs/csharp_non_update_gaps_20261020/gap04/green-20261020_102019_862-result.json` 及同名前缀 `.log/.trx`。
+
+- GAP-04 affected：test 验证返回码 0，通过 88、失败 0、跳过 0。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap04/affected-20261020_102146_492-result.json`；日志为同名前缀 .log，另有 .trx。
+
+- GAP-04 full：test 验证返回码 1，通过 251、失败 1、跳过 0。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap04/full-20261020_102203_265-result.json`；日志为同名前缀 .log，另有 .trx。
+
+- GAP-04 audit-input-recheck：test 验证返回码 1，通过 0、失败 1、跳过 0。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap04/audit-input-recheck-20261020_102325_208-result.json`；日志为同名前缀 .log，另有 .trx。
+
+- GAP-04 审计输入基线对照：使用 GAP-03 已通过全量的旧测试程序集，执行 `dotnet vstest artifacts/runs/csharp_non_update_gaps_20261020/gap03/bin/x64/Release/net48/ShaheLauncher.Tests.dll /TestCaseFilter:FullyQualifiedName~BatchCreateValuesAreSetByAccessibleNamesNotWindowOrder /Platform:x64`（追加日志/结果参数），返回码 `0`，通过 `1`、失败 `0`、跳过 `0`。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap04/gap03-binary-audit-input-baseline.log/.trx`。失败点为既有 AuditRunner 通过原生 ComboBox 消息设置索引后的托管回读差异，根因尚未稳定确认，未修改用户原有审计器代码。
+
+- GAP-04 同入口新程序集复核：`dotnet vstest` 直接执行 GAP-04 隔离程序集中的 `BatchCreateValuesAreSetByAccessibleNamesNotWindowOrder`，返回码 `0`，通过 `1`、失败 `0`、跳过 `0`；命令参数同旧程序集对照，结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap04/gap04-binary-audit-input-recheck.log/.trx`。新旧单项在同入口均通过；此前两次原生输入失败保留，尚不归因为朗读配置修复。
+
+- GAP-04 full-vstest：vstest 验证返回码 0，通过 252、失败 0、跳过 0。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap04/full-vstest-20261020_102839_212-result.json`；日志为同名前缀 .log，另有 .trx。
+
+- GAP-04 python：python 验证返回码 0，通过 29、失败 0、跳过 0。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap04/python-20261020_102857_701-result.json`；日志为同名前缀 .log。
+
+- GAP-04 compile：compile 验证返回码 0，计数不适用。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap04/compile-20261020_102859_381-result.json`；日志为同名前缀 .log。
+
+- GAP-04 release：build 验证返回码 0，警告 0、错误 0；测试计数不适用。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap04/release-20261020_102900_319-result.json`；日志为同名前缀 .log。
+
+- GAP-04 diff：diff 验证返回码 0，计数不适用。完整命令和结果：`artifacts/runs/csharp_non_update_gaps_20261020/gap04/diff-20261020_102904_498-result.json`；日志为同名前缀 .log。
+
+- 用户提供语音源码：`artifacts/probes/tolk-downloaded/boz700908-tolk-add14ac/src/dotnet/Tolk.cs`、`TolkDotNet.csproj` 和 `examples/c#/ConsoleApp.cs` 已只读对照。包装工程目标为 net40/netstandard2.0；源码中 Tolk 的 C++ bool 参数/返回值使用 `MarshalAs(UnmanagedType.I1)`，当前 SpeechService 使用 `Bool`，登记为 `VOICE-01` 静态 ABI 差异，待单独 RED/GREEN，不与 GAP-04 配置保留混合修复。该源码目录尚未发现编译好的 `Tolk.dll`；存在 x64 的 NVDA、ZDSR、保益等厂商依赖。未加载库或改变用户语音配置。
 
 ## 文档阅读顺序
 
