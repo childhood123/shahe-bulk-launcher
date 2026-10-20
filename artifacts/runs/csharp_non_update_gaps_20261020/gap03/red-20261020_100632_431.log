@@ -1,0 +1,114 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap03\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap03\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap03\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap03\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap03\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap03\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 ReloadsPythonJsonFieldsIntoRuntime ("history",False) [826 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: <1>，实际为: <0>。路径历史必须从持久化 JSON 恢复
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.AssertHistory(String root, LauncherSettingsState state) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 149
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c__DisplayClass8_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 181
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 189
+
+  失败 ReloadsPythonJsonFieldsIntoRuntime ("groups",False) [15 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsTrue 失败。分组必须从持久化 JSON 恢复
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(Boolean condition, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsTrue.cs:行号 99
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c__DisplayClass0_0.<ReloadsPythonJsonFieldsIntoRuntime>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 58
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c__DisplayClass8_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 181
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 189
+
+  失败 ReloadsPythonJsonFieldsIntoRuntime ("volume",False) [13 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsTrue 失败。音量记忆必须从持久化 JSON 恢复
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(Boolean condition, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsTrue.cs:行号 99
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c__DisplayClass0_0.<ReloadsPythonJsonFieldsIntoRuntime>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 65
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c__DisplayClass8_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 181
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 189
+
+  失败 ReloadsPythonJsonFieldsIntoRuntime ("hotkeys",False) [13 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsTrue 失败。自定义快捷键必须从持久化 JSON 恢复
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(Boolean condition, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsTrue.cs:行号 99
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c__DisplayClass0_0.<ReloadsPythonJsonFieldsIntoRuntime>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 66
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c__DisplayClass8_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 181
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 189
+
+  失败 ReloadsPythonJsonFieldsIntoRuntime ("history",True) [106 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: <1>，实际为: <0>。路径历史必须从持久化 JSON 恢复
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.AssertHistory(String root, LauncherSettingsState state) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 149
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c__DisplayClass8_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 181
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 189
+
+  失败 ReloadsPythonJsonFieldsIntoRuntime ("groups",True) [23 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsTrue 失败。分组必须从持久化 JSON 恢复
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(Boolean condition, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsTrue.cs:行号 99
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c__DisplayClass0_0.<ReloadsPythonJsonFieldsIntoRuntime>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 58
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c__DisplayClass8_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 181
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 189
+
+  失败 ReloadsPythonJsonFieldsIntoRuntime ("volume",True) [23 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsTrue 失败。音量记忆必须从持久化 JSON 恢复
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(Boolean condition, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsTrue.cs:行号 99
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c__DisplayClass0_0.<ReloadsPythonJsonFieldsIntoRuntime>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 65
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c__DisplayClass8_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 181
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 189
+
+  失败 ReloadsPythonJsonFieldsIntoRuntime ("hotkeys",True) [20 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsTrue 失败。自定义快捷键必须从持久化 JSON 恢复
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(Boolean condition, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsTrue.cs:行号 99
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c__DisplayClass0_0.<ReloadsPythonJsonFieldsIntoRuntime>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 66
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c__DisplayClass8_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 181
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 189
+
+  失败 SavingTypedHistoryKeepsPythonKeysAndSurvivesNextLoad [64 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: <C:\Users\Administrator\AppData\Local\Temp\shahe_json_settings_111726fd2f3b4eb99779a7b05c3fa938\应用.exe>，实际为: <(NULL)>。保存键必须与 Python 的 path 一致
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c.<SavingTypedHistoryKeepsPythonKeysAndSurvivesNextLoad>b__1_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 101
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c__DisplayClass8_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 181
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 189
+
+  失败 LoadingAndSavingAgainPreservesNestedSettingsAcrossInstances [38 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: <1>，实际为: <0>。路径历史必须从持久化 JSON 恢复
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.AssertHistory(String root, LauncherSettingsState state) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 149
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c.<LoadingAndSavingAgainPreservesNestedSettingsAcrossInstances>b__2_0(String root, MainForm first) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 122
+   在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.<>c__DisplayClass8_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 181
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.JsonSettingsRuntimeContractTests.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\JsonSettingsRuntimeContractTests.cs:行号 189
+
+结果文件: D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap03\red-20261020_100632_431.trx
+
+失败!  - 失败:    10，通过:     4，已跳过:     0，总计:    14，持续时间: 1 s - ShaheLauncher.Tests.dll (net48)

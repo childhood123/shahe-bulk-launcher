@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace ShaheLauncher.Core.AppPaths
 {
@@ -14,7 +15,9 @@ namespace ShaheLauncher.Core.AppPaths
             Note = string.Empty;
         }
 
+        [JsonProperty("path")]
         public string Path { get; set; }
+        [JsonProperty("note")]
         public string Note { get; set; }
     }
 

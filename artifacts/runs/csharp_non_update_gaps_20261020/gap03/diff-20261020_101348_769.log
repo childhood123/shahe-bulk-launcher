@@ -1,0 +1,7 @@
+warning: in the working copy of 'PROJECT_STRUCTURE.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheBulkLauncher.sln', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.App/Input/HotkeyController.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.Core/AppPaths/AppPathHistoryService.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.Core/Settings/LauncherSettingsService.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.Tests/SettingsRuntimeContractTests.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.Tests/ShaheLauncher.Tests.csproj', LF will be replaced by CRLF the next time Git touches it

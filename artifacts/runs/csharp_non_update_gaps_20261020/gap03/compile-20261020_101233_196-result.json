@@ -1,0 +1,16 @@
+{
+  "kind": "compile",
+  "command": [
+    "python",
+    "-m",
+    "compileall",
+    "-q",
+    "shahe_bulk_launcher",
+    "tests"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap03\\compile-20261020_101233_196.log",
+  "passed": null,
+  "failed": null,
+  "skipped": null
+}

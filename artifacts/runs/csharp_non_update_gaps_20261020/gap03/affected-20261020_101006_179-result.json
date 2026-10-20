@@ -1,0 +1,25 @@
+{
+  "kind": "test",
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap03\\bin\\",
+    "--logger",
+    "trx;LogFileName=affected-20261020_101006_179.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap03",
+    "--filter",
+    "TestCategory=Application|TestCategory=SettingsService|TestCategory=SandboxAdmin|TestCategory=AppPaths|FullyQualifiedName~ConfigStoreContractTests"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap03\\affected-20261020_101006_179.log",
+  "passed": 89,
+  "failed": 0,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap03\\affected-20261020_101006_179.trx"
+}

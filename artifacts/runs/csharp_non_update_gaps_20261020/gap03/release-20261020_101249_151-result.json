@@ -1,0 +1,18 @@
+{
+  "kind": "build",
+  "command": [
+    "dotnet",
+    "build",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap03\\bin\\"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap03\\release-20261020_101249_151.log",
+  "passed": null,
+  "failed": null,
+  "skipped": null
+}

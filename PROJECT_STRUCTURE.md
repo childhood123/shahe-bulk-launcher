@@ -1,12 +1,41 @@
 # 沙河批量打开器项目结构
 
+## 当前执行摘要（2026-10-20 非更新缺口）
+
+- 当前唯一计划：`docs/superpowers/plans/2026-10-20-non-update-migration-gaps.md`。用户明确要求先不做更新相关功能，先完成其他迁移缺口，并将该决定写入计划。
+- 暂缓：GitCode 更新源配置、`GAP-01` 更新结果 UI/下载启动链、`GAP-02` Updater 安装入口；这些项目仍未完成。
+- 当前模块：`GAP-03` 复杂 JSON 配置恢复；随后依次处理 `GAP-04` 至 `GAP-10`，逐项 RED/GREEN、全量验证、文档同步和独立提交。
+- 本轮验证：`GAP-03` 已取得 RED/GREEN、受影响及全量回归、Python 对照/行为探针和生产源码编译、隔离 Release x64 构建；差异检查和独立提交收口中。设置加载边界递归还原 JSON 字典、数组和标量，路径历史序列化使用 Python 的小写键。
+- 已完成范围：现有主窗口/生命周期、快捷键分派、路径记忆接线、菜单状态、设置开关和音频后端的已验证部分。C# 可以启动并运行已验证功能，整体迁移尚未完成。
+- 历史衔接：旧导航/真实 EXE 计划保留为历史，其未完成审计继续保留；下方较早“当前状态”中的执行顺序由本摘要覆盖，历史验证结论不改写。
+
+### 本轮验证记录（只追加）
+
+- GAP-03 GREEN：同一定向测试返回码 `0`，通过 `14`、失败 `0`、跳过 `0`；新旧配置的六类字段、类型化历史保存和跨实例加载/保存均通过。实际命令、日志和 TRX：`artifacts/runs/csharp_non_update_gaps_20261020/gap03/green-20261020_100744_829-result.json` 及同名前缀 `.log/.trx`。
+
+- GAP-03 RED：隔离 `dotnet test` 定向运行 `FullyQualifiedName~JsonSettingsRuntimeContractTests`，返回码 `1`，通过 `4`、失败 `10`、跳过 `0`。现代 INI 和旧 JSON 两条加载路径均确认路径历史、分组、音量、自定义快捷键丢失；置顶和朗读提示对照通过。另确认类型化路径历史保存为 `Path/Note`，不符合 Python 的 `path/note`，加载再保存后仍丢历史。完整命令、日志和 TRX：`artifacts/runs/csharp_non_update_gaps_20261020/gap03/red-20261020_100632_431-result.json` 及同名前缀 `.log/.trx`。测试未访问真实沙盒、未启动更新。
+
+- GAP-03 受影响回归：Application、SettingsService、SandboxAdmin、AppPaths 和 ConfigStore 筛选运行返回码 `0`，通过 `89`、失败 `0`、跳过 `0`；命令和日志索引：`artifacts/runs/csharp_non_update_gaps_20261020/gap03/affected-20261020_101006_179-result.json`，同名前缀 `.log/.trx`。
+
+- GAP-03 C# 全量：隔离解决方案测试返回码 `0`，通过 `248`、失败 `0`、跳过 `0`；包含当前工作树原有 AuditRunner 测试，未把这些原有修改纳入本轮修复。命令和日志索引：`artifacts/runs/csharp_non_update_gaps_20261020/gap03/full-20261020_101103_857-result.json`，同名前缀 `.log/.trx`。
+
+- GAP-03 Python 对照：`python -m unittest discover -s tests -p "test_*.py" -v` 返回码 `0`，通过 `29`、失败 `0`、跳过 `0`；日志 `artifacts/runs/csharp_non_update_gaps_20261020/gap03/python-20261020_101154_336.log`，命令返回码另有同名前缀 `-result.json`。
+
+- GAP-03 Python 原版行为探针：`python artifacts/runs/csharp_non_update_gaps_20261020/gap03/python-json-roundtrip-probe.py` 返回码 `0`，原源码 AST 提取的路径历史、分组、置顶、音量归一化及 JSON 往返共 `5` 项通过、失败 `0`、跳过 `0`；日志为同目录 `python-json-roundtrip-probe.log`。探针不导入 GUI、不触发真实系统动作。
+
+- GAP-03 Python 生产源码编译：`python -m compileall -q shahe_bulk_launcher tests` 返回码 `0`，无语法错误；测试计数不适用。日志/命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/gap03/compile-20261020_101233_196-result.json` 及同名前缀 `.log`。
+
+- GAP-03 Release x64：隔离解决方案构建返回码 `0`，警告 `0`、错误 `0`，测试计数不适用；实际输出目录、命令和日志：`artifacts/runs/csharp_non_update_gaps_20261020/gap03/release-20261020_101249_151-result.json` 及同名前缀 `.log`。本模块配置恢复已由真实持久化和 WinForms STA 运行时验证，未新增外部真实 EXE/读屏审计；既有真实审计风险继续保留。
+
+- GAP-03 差异检查：`git diff --check` 返回码 `0`，无空白错误，只有既有 LF/CRLF 提示；测试计数不适用。日志与命令返回码：`artifacts/runs/csharp_non_update_gaps_20261020/gap03/diff-20261020_101348_769-result.json` 及同名前缀 `.log`。
+
 ## 文档阅读顺序
 
 新会话按以下顺序读取文档和证据：
 
 1. `AGENTS.md`：长期项目约束、验证和提交规则。
 2. 本文件的“当前摘要”和“当前 C# 迁移计划进度”：当前唯一权威状态。
-3. `docs/superpowers/plans/2026-10-15-multi-user-navigation-and-exe-audit.md`：当前任务的执行步骤和完成标准。
+3. `docs/superpowers/plans/2026-10-20-non-update-migration-gaps.md`：当前任务的执行步骤和完成标准；旧导航计划仅用于历史追溯。
 4. `artifacts/runs/` 下由当前计划引用的最新日志：命令输出和真实 EXE 证据。
 5. 本文件后面的历史记录：只用于追溯，不覆盖当前摘要。
 

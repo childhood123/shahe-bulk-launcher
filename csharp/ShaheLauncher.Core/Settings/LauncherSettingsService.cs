@@ -563,14 +563,14 @@ namespace ShaheLauncher.Core.Settings
             var merged = new Dictionary<string, object>(defaults);
             foreach (KeyValuePair<string, object> item in loaded)
             {
-                merged[item.Key] = item.Value;
+                merged[item.Key] = RestoreJsonValue(item.Value);
             }
 
             IDictionary<string, object> hints = CopyDictionary(
                 GetValue(defaults, "speech_assist_hints", null))
                 ?? new Dictionary<string, object>();
             IDictionary<string, object> loadedHints = CopyDictionary(
-                GetValue(loaded, "speech_assist_hints", null));
+                GetValue(merged, "speech_assist_hints", null));
             if (loadedHints != null)
             {
                 foreach (KeyValuePair<string, object> item in loadedHints)
@@ -585,6 +585,26 @@ namespace ShaheLauncher.Core.Settings
             merged["log_output_mode"] = LauncherConstants.NormalizeLogOutputMode(
                 StringValue(GetValue(merged, "log_output_mode", LauncherConstants.LogOutputDetailed)));
             return merged;
+        }
+
+        private static object RestoreJsonValue(object value)
+        {
+            JObject jsonObject = value as JObject;
+            if (jsonObject != null)
+            {
+                return jsonObject.Properties().ToDictionary(
+                    property => property.Name,
+                    property => RestoreJsonValue(property.Value),
+                    StringComparer.Ordinal);
+            }
+
+            JArray jsonArray = value as JArray;
+            if (jsonArray != null)
+            {
+                return jsonArray.Select(item => RestoreJsonValue(item)).ToList();
+            }
+
+            return Unwrap(value);
         }
 
         private static object GetValue(
