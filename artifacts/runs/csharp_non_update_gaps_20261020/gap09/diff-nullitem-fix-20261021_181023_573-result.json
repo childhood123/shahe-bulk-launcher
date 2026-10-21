@@ -1,0 +1,13 @@
+{
+  "kind": "diff",
+  "command": [
+    "git",
+    "diff",
+    "--check"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\diff-nullitem-fix-20261021_181023_573.log",
+  "passed": null,
+  "failed": null,
+  "skipped": null
+}

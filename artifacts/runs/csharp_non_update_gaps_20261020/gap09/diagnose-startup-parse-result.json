@@ -1,0 +1,6 @@
+{
+  "timestamp": "2026-10-21T17:22:02.2650337+08:00",
+  "returnCode": 0,
+  "output": "PARSE_OK",
+  "log": "artifacts/runs/csharp_non_update_gaps_20261020/gap09/diagnose-startup-parse.log"
+}

@@ -1,0 +1,52 @@
+{
+  "timestamp": "2026-10-21T16:23:38.6739241+08:00",
+  "success": false,
+  "buildDirectory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\bin\\x64\\Release\\net48",
+  "sourceExecutable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\bin\\x64\\Release\\net48\\沙河批量打开器.exe",
+  "sourceSha256": "0CD3DD3667E9EE9AEA890B520EE8DC24BB4B5A9AECD096ABD25BD99A1F5A1C1A",
+  "runRoot": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\real-exe-20261021_162338_630",
+  "inputMethod": "exact classic-menu WM_COMMAND plus UI Automation patterns; no keyboard input",
+  "registryBefore": {
+    "Exists": false,
+    "Value": null,
+    "Kind": null
+  },
+  "registryAfter": {
+    "Exists": false,
+    "Value": null,
+    "Kind": null
+  },
+  "registryRestored": true,
+  "scenarios": [
+    {
+      "target": 0,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\real-exe-20261021_162338_630\\history-0",
+      "executableSha256": "0CD3DD3667E9EE9AEA890B520EE8DC24BB4B5A9AECD096ABD25BD99A1F5A1C1A",
+      "configPath": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\real-exe-20261021_162338_630\\history-0\\Configuration\\shahe_config.ini",
+      "firstPid": null,
+      "firstMainWindowHandle": null,
+      "firstDialogWindowHandle": null,
+      "memoryMenuCommandId": null,
+      "initialSpinner": null,
+      "initialHistoryCount": null,
+      "savedSpinner": null,
+      "savedConfig": null,
+      "firstExit": null,
+      "restartPid": null,
+      "restartMainWindowHandle": null,
+      "restartDialogWindowHandle": null,
+      "restartSpinner": null,
+      "restartHistoryCount": null,
+      "rangeHintFound": false,
+      "restartConfig": null,
+      "restartExit": null,
+      "remainingOwnedPids": null
+    }
+  ],
+  "cleanup": {
+    "ownedPids": [],
+    "forcedPids": [],
+    "remainingPids": []
+  },
+  "error": "System.Management.Automation.RuntimeException: 等待主窗口超时，PID=13012，Title=Microsoft .NET Framework"
+}

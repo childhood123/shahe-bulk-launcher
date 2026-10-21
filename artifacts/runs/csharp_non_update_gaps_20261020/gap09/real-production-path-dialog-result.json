@@ -1,0 +1,155 @@
+{
+  "timestamp": "2026-10-21T18:43:03.4711187+08:00",
+  "success": true,
+  "buildDirectory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\fix-bin\\x64\\Release\\net48",
+  "probeExecutable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\real-production-path-dialog-probe.exe",
+  "runRoot": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603",
+  "inputMethod": "same production MainForm/PathMemoryManagerDialog assemblies in isolated STA processes; no mocked dialog",
+  "scenarios": [
+    {
+      "target": 0,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-0",
+      "savePid": 10168,
+      "verifyPid": 7220,
+      "saveExitCode": 0,
+      "verifyExitCode": 0,
+      "save": {
+        "pid": 10168,
+        "action": "save",
+        "target": 0,
+        "executable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-0\\ɳ����������.exe",
+        "passed": true,
+        "snapshot": {
+          "dialogHandle": 2690246,
+          "initialMaximum": 999.0,
+          "initialValue": 999.0,
+          "initialHistoryCount": 999,
+          "accessibleName": "·����������",
+          "tabIndex": 0,
+          "hint": "(0=����¼, ���999)",
+          "savedValue": 0.0,
+          "persistedMaximum": 0,
+          "persistedHistoryCount": 0
+        }
+      },
+      "verify": {
+        "pid": 7220,
+        "action": "verify",
+        "target": 0,
+        "executable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-0\\ɳ����������.exe",
+        "passed": true,
+        "snapshot": {
+          "dialogHandle": 462562,
+          "initialMaximum": 999.0,
+          "initialValue": 0.0,
+          "initialHistoryCount": 0,
+          "accessibleName": "·����������",
+          "tabIndex": 0,
+          "hint": "(0=����¼, ���999)",
+          "persistedMaximum": 0,
+          "persistedHistoryCount": 0
+        }
+      },
+      "passed": true,
+      "saveLog": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-0\\save.log",
+      "verifyLog": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-0\\verify.log"
+    },
+    {
+      "target": 21,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-21",
+      "savePid": 7584,
+      "verifyPid": 15860,
+      "saveExitCode": 0,
+      "verifyExitCode": 0,
+      "save": {
+        "pid": 7584,
+        "action": "save",
+        "target": 21,
+        "executable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-21\\ɳ����������.exe",
+        "passed": true,
+        "snapshot": {
+          "dialogHandle": 1640560,
+          "initialMaximum": 999.0,
+          "initialValue": 999.0,
+          "initialHistoryCount": 999,
+          "accessibleName": "·����������",
+          "tabIndex": 0,
+          "hint": "(0=����¼, ���999)",
+          "savedValue": 21.0,
+          "persistedMaximum": 21,
+          "persistedHistoryCount": 21
+        }
+      },
+      "verify": {
+        "pid": 15860,
+        "action": "verify",
+        "target": 21,
+        "executable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-21\\ɳ����������.exe",
+        "passed": true,
+        "snapshot": {
+          "dialogHandle": 3017926,
+          "initialMaximum": 999.0,
+          "initialValue": 21.0,
+          "initialHistoryCount": 21,
+          "accessibleName": "·����������",
+          "tabIndex": 0,
+          "hint": "(0=����¼, ���999)",
+          "persistedMaximum": 21,
+          "persistedHistoryCount": 21
+        }
+      },
+      "passed": true,
+      "saveLog": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-21\\save.log",
+      "verifyLog": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-21\\verify.log"
+    },
+    {
+      "target": 999,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-999",
+      "savePid": 14884,
+      "verifyPid": 16324,
+      "saveExitCode": 0,
+      "verifyExitCode": 0,
+      "save": {
+        "pid": 14884,
+        "action": "save",
+        "target": 999,
+        "executable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-999\\ɳ����������.exe",
+        "passed": true,
+        "snapshot": {
+          "dialogHandle": 5181298,
+          "initialMaximum": 999.0,
+          "initialValue": 999.0,
+          "initialHistoryCount": 999,
+          "accessibleName": "·����������",
+          "tabIndex": 0,
+          "hint": "(0=����¼, ���999)",
+          "savedValue": 999.0,
+          "persistedMaximum": 999,
+          "persistedHistoryCount": 999
+        }
+      },
+      "verify": {
+        "pid": 16324,
+        "action": "verify",
+        "target": 999,
+        "executable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-999\\ɳ����������.exe",
+        "passed": true,
+        "snapshot": {
+          "dialogHandle": 3017982,
+          "initialMaximum": 999.0,
+          "initialValue": 999.0,
+          "initialHistoryCount": 999,
+          "accessibleName": "·����������",
+          "tabIndex": 0,
+          "hint": "(0=����¼, ���999)",
+          "persistedMaximum": 999,
+          "persistedHistoryCount": 999
+        }
+      },
+      "passed": true,
+      "saveLog": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-999\\save.log",
+      "verifyLog": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-999\\verify.log"
+    }
+  ],
+  "error": null
+}

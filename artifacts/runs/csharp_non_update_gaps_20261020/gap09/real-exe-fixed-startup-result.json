@@ -1,0 +1,21 @@
+{
+  "timestamp": "2026-10-21T19:02:44.3739892+08:00",
+  "buildDirectory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\fix-bin\\x64\\Release\\net48",
+  "scenario": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\real-exe-fixed-20261021_190232_825\\history-999",
+  "executable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\real-exe-fixed-20261021_190232_825\\history-999\\沙河批量打开器.exe",
+  "executableSha256": "5A253034720FC367A710AAF355A8BAB90075376BFFDF771289C2D3DB5053DDF8",
+  "configPath": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\real-exe-fixed-20261021_190232_825\\history-999\\Configuration\\shahe_config.ini",
+  "pid": 13636,
+  "mainWindowHandle": "0x820F74",
+  "windowObserved": true,
+  "readyObserved": true,
+  "exceptionObserved": false,
+  "exceptionText": "",
+  "closeMainWindow": true,
+  "naturalExit": true,
+  "forcedCleanup": false,
+  "exitCode": 0,
+  "remaining": false,
+  "lastLog": "[2026-10-21 19:02:34] 启动软件: 4.0.46\n[2026-10-21 19:02:34] 状态: 正在初始化...\n[2026-10-21 19:02:35] 状态: 正在刷新沙盒用户...\n[2026-10-21 19:02:43] 状态: 就绪",
+  "passed": true
+}

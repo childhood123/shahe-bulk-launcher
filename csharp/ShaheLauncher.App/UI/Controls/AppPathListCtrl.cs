@@ -49,7 +49,7 @@ namespace ShaheLauncher.App.UI.Controls
         {
             return Items.Cast<ListViewItem>()
                 .Select((item, index) => new { item, index })
-                .Where(value => value.item.Checked)
+                .Where(value => value.item != null && value.item.Checked)
                 .Select(value => value.index)
                 .ToArray();
         }
@@ -69,9 +69,15 @@ namespace ShaheLauncher.App.UI.Controls
                 return string.Empty;
             }
 
-            return Items[index].Tag == null
-                ? (Items[index].Text ?? string.Empty)
-                : (Convert.ToString(Items[index].Tag) ?? string.Empty);
+            ListViewItem item = Items[index];
+            if (item == null)
+            {
+                return string.Empty;
+            }
+
+            return item.Tag == null
+                ? (item.Text ?? string.Empty)
+                : (Convert.ToString(item.Tag) ?? string.Empty);
         }
 
         public int GetSelectedIndex()

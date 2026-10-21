@@ -1,0 +1,30 @@
+{
+  "timestamp": "2026-10-21T18:46:34.4558499+08:00",
+  "buildDirectory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-999",
+  "executable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-999\\沙河批量打开器.exe",
+  "pid": 3400,
+  "mainWindowHandle": "0x1270EAC",
+  "windowObserved": true,
+  "readyObserved": false,
+  "closeMainWindow": false,
+  "naturalExit": false,
+  "forcedCleanup": true,
+  "exitCode": -1,
+  "remaining": false,
+  "logFile": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\production-path-dialog-20261021_184214_603\\history-999\\log\\2026-10-21.log",
+  "logTail": [
+    "[2026-10-21 18:42:43] 启动软件: 4.0.46",
+    "[2026-10-21 18:42:44] 状态: 正在初始化...",
+    "[2026-10-21 18:42:53] 状态: 路径记忆设置已保存",
+    "[2026-10-21 18:42:54] 启动软件: 4.0.46",
+    "[2026-10-21 18:42:54] 状态: 正在初始化...",
+    "[2026-10-21 18:46:00] 启动软件: 4.0.46",
+    "[2026-10-21 18:46:00] 状态: 正在初始化...",
+    "[2026-10-21 18:46:00] 状态: 正在刷新沙盒用户...",
+    "[2026-10-21 18:46:09] 状态: 已扫描到 Sandboxie 安装位置：C:\\Program Files\\Sandboxie",
+    "[2026-10-21 18:46:29] 检查更新成功",
+    "[2026-10-21 18:46:33] 检查更新成功",
+    "[2026-10-21 18:46:33] 状态: 沙河批量打开器 已是最新版本: 4.0.46"
+  ],
+  "passed": false
+}

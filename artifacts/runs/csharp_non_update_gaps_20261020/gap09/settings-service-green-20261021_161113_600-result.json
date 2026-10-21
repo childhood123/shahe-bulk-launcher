@@ -1,0 +1,25 @@
+{
+  "kind": "test",
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\bin\\",
+    "--logger",
+    "trx;LogFileName=settings-service-green-20261021_161113_600.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09",
+    "--filter",
+    "FullyQualifiedName~PathHistoryLimitRuntimeContractTests.SettingsServiceKeeps999WhenApplyingOtherSettings"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\settings-service-green-20261021_161113_600.log",
+  "passed": 1,
+  "failed": 0,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\settings-service-green-20261021_161113_600.trx"
+}

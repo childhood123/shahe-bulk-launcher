@@ -161,9 +161,12 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
             HistoryCountInput = new NumericUpDown
             {
                 Minimum = 0,
-                Maximum = 20,
+                Maximum = AppPathHistoryService.MaximumHistoryItems,
                 Value = CommonUtilities.ParseIntSetting(
-                    GetValue(_settings, "max_history_items", 10), 10, 0, 20),
+                    GetValue(_settings, "max_history_items", 10),
+                    10,
+                    0,
+                    AppPathHistoryService.MaximumHistoryItems),
                 AccessibleName = "路径记忆数量",
                 Width = 80,
                 TabIndex = 0
@@ -230,7 +233,8 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
             };
             row.Controls.Add(CreateLabel("路径记忆数量:"));
             row.Controls.Add(HistoryCountInput);
-            row.Controls.Add(CreateLabel("(0=不记录, 最大20)"));
+            row.Controls.Add(CreateLabel(
+                "(0=不记录, 最大" + AppPathHistoryService.MaximumHistoryItems + ")"));
             return row;
         }
 

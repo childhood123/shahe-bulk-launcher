@@ -306,7 +306,7 @@ namespace ShaheLauncher.Tests
             {
                 Type type = RequireType("PathMemoryManagerDialog");
                 var history = CreateHistory();
-                var settings = Map("max_history_items", "30", "hide_path", false);
+                var settings = Map("max_history_items", "999", "hide_path", false);
                 var callback = new Action<IList<IDictionary<string, object>>, IDictionary<string, object>>((items, values) => { });
                 var dialog = (Form)Activator.CreateInstance(type, null, history, settings, callback);
                 Assert.AreEqual("路径记忆管理", dialog.Text);
@@ -316,8 +316,8 @@ namespace ShaheLauncher.Tests
                 var list = GetProperty<ListBox>(type, dialog, "HistoryList");
                 Assert.AreEqual("路径记忆数量", count.AccessibleName);
                 Assert.AreEqual(0m, count.Minimum);
-                Assert.AreEqual(20m, count.Maximum);
-                Assert.AreEqual(20m, count.Value);
+                Assert.AreEqual(999m, count.Maximum);
+                Assert.AreEqual(999m, count.Value);
                 Assert.AreEqual("隐藏路径", hide.Text);
                 Assert.AreEqual("已记忆的路径列表", list.AccessibleName);
                 CollectionAssert.AreEqual(

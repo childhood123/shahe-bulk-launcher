@@ -1,0 +1,18 @@
+{
+  "kind": "vstest",
+  "command": [
+    "dotnet",
+    "vstest",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\bin\\x64\\Release\\net48\\ShaheLauncher.Tests.dll",
+    "/Platform:x64",
+    "/Logger:trx;LogFileName=affected-final-20261021_161221_857.trx",
+    "/ResultsDirectory:D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09",
+    "/TestCaseFilter:TestCategory=Application|TestCategory=AppPaths|TestCategory=SettingsDialogs|TestCategory=SettingsService"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\affected-final-20261021_161221_857.log",
+  "passed": 109,
+  "failed": 0,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\affected-final-20261021_161221_857.trx"
+}

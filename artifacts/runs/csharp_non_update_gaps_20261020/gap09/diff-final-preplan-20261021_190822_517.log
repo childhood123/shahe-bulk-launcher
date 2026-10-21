@@ -1,0 +1,13 @@
+warning: in the working copy of 'PROJECT_STRUCTURE.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheBulkLauncher.sln', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.App/Input/HotkeyController.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.App/MainForm.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.App/UI/Controls/AppPathListCtrl.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.App/UI/Dialogs/Settings/PathMemoryManagerDialog.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.Core/AppPaths/AppPathHistoryService.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.Core/Settings/LauncherSettingsService.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.Tests/LauncherSettingsServiceContractTests.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.Tests/SettingsDialogsCSharpContractTests.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.Tests/SettingsRuntimeContractTests.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.Tests/ShaheLauncher.Tests.csproj', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/superpowers/plans/2026-10-20-remaining-migration-closure.md', LF will be replaced by CRLF the next time Git touches it

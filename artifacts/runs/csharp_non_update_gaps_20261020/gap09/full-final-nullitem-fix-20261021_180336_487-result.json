@@ -1,0 +1,10 @@
+{
+  "kind": "vstest",
+  "command": "dotnet vstest D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\fix-bin\\x64\\Release\\net48\\ShaheLauncher.Tests.dll /Platform:x64 /Logger:trx;LogFileName=full-final-nullitem-fix-20261021_180336_487.trx /ResultsDirectory:D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09",
+  "returnCode": 1,
+  "passed": 303,
+  "failed": 1,
+  "skipped": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\full-final-nullitem-fix-20261021_180336_487.log",
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\full-final-nullitem-fix-20261021_180336_487.trx"
+}

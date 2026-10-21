@@ -1,0 +1,6 @@
+{
+  "timestamp": "2026-10-21T17:36:26.5938325+08:00",
+  "command": "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe /nologo /target:exe /platform:x64 /optimize+ /out:D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\bin\\x64\\Release\\net48\\diagnostic-startup-harness.exe /reference:System.dll /reference:System.Core.dll /reference:System.Drawing.dll /reference:System.Windows.Forms.dll /reference:D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\bin\\x64\\Release\\net48\\ShaheLauncher.Core.dll /reference:D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\bin\\x64\\Release\\net48\\沙河批量打开器.exe D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\diagnostic-startup-harness.cs",
+  "returnCode": 0,
+  "output": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\bin\\x64\\Release\\net48\\diagnostic-startup-harness.exe"
+}

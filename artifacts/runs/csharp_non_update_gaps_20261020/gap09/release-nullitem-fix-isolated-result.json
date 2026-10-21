@@ -1,0 +1,7 @@
+{
+  "kind": "build",
+  "command": "dotnet build csharp\\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\fix-bin\\",
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\release-nullitem-fix-isolated.log",
+  "outputDirectory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\fix-bin"
+}

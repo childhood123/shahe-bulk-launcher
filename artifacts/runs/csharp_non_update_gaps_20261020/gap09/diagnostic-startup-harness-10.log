@@ -1,0 +1,13 @@
+[2026-10-21T17:37:21.2383274+08:00] THREAD_EXCEPTION
+System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ShaheLauncher.App.UI.Controls.AppPathListCtrl.GetItemPath(Int32 index)
+   在 System.Linq.Enumerable.WhereSelectEnumerableIterator`2.MoveNext()
+   在 System.Collections.Generic.List`1..ctor(IEnumerable`1 collection)
+   在 System.Linq.Enumerable.ToList[TSource](IEnumerable`1 source)
+   在 ShaheLauncher.App.MainForm.OnAppItemChecked()
+   在 ShaheLauncher.App.MainForm.<WireAppPathCallbacks>b__648_1(Object sender, ItemCheckedEventArgs eventArgs)
+   在 System.Windows.Forms.ListView.OnItemChecked(ItemCheckedEventArgs e)
+   在 ShaheLauncher.App.UI.Controls.AppPathListCtrl.OnItemChecked(ItemCheckedEventArgs eventArgs)
+   在 System.Windows.Forms.ListView.WmReflectNotify(Message& m)
+   在 System.Windows.Forms.ListView.WndProc(Message& m)
+   在 System.Windows.Forms.NativeWindow.Callback(IntPtr hWnd, Int32 msg, IntPtr wparam, IntPtr lparam)

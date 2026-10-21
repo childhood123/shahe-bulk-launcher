@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ShaheLauncher.Core.AppPaths;
 using ShaheLauncher.Core.Common;
 using ShaheLauncher.Core.Configuration;
 using ShaheLauncher.Core.Constants;
@@ -327,7 +328,7 @@ namespace ShaheLauncher.Core.Settings
                 Unwrap(GetValue(data, "max_history_items", state.MaxHistoryItems)),
                 state.MaxHistoryItems,
                 0,
-                20);
+                AppPathHistoryService.MaximumHistoryItems);
             state.HidePath = CommonUtilities.ParseBoolSetting(
                 Unwrap(GetValue(data, "hide_path", state.HidePath)), state.HidePath);
             state.LogOutputMode = LauncherConstants.NormalizeLogOutputMode(
@@ -462,7 +463,10 @@ namespace ShaheLauncher.Core.Settings
             IDictionary<string, object> defaults = CreateDefaultSettings();
             state.AppHistory = CopyObjectList(defaults["app_history"]) ?? new List<object>();
             state.MaxHistoryItems = CommonUtilities.ParseIntSetting(
-                defaults["max_history_items"], 10, 0, 20);
+                defaults["max_history_items"],
+                10,
+                0,
+                AppPathHistoryService.MaximumHistoryItems);
             state.HidePath = CommonUtilities.ParseBoolSetting(defaults["hide_path"], false);
             state.AppPath = string.Empty;
             state.AppDirectory = string.Empty;

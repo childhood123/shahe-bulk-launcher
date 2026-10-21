@@ -1,0 +1,12 @@
+{
+  "timestamp": "2026-10-21T15:59:57.0087800+08:00",
+  "command": "dotnet test csharp\\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\bin\\ --filter FullyQualifiedName~PathHistoryLimitRuntimeContractTests --logger trx;LogFileName=red-20261021_155943_230.trx --results-directory D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09 --verbosity normal",
+  "exit_code": 1,
+  "total": 3,
+  "passed": 0,
+  "failed": 3,
+  "skipped": 0,
+  "valid_red": true,
+  "log": "artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\red-20261021_155943_230.log",
+  "trx": "artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\red-20261021_155943_230.trx"
+}

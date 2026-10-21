@@ -1,0 +1,7 @@
+{
+  "timestamp": "2026-10-21T16:22:05.8846169+08:00",
+  "command": "[scriptblock]::Create(real-path-history-probe.ps1)",
+  "returnCode": 0,
+  "output": "PARSE_OK",
+  "log": "artifacts/runs/csharp_non_update_gaps_20261020/gap09/real-path-history-parse.log"
+}

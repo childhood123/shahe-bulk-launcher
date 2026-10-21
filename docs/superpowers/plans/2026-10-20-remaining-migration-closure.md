@@ -25,7 +25,7 @@
 | 状态 | 模块 |
 | --- | --- |
 | 已完成，不重做 | Task 1–20 已确认范围、GAP-03 至 GAP-08、VOICE-01、UPDATE-01、GAP-01、GAP-02 |
-| 当前模块 | GAP-09 路径记忆数量范围 |
+| 当前模块 | GAP-10 路径选择与剪贴板文案 |
 | 后续代码模块 | GAP-10、VOICE-02 |
 | 真实审计 | AUDIT-01 至 AUDIT-08 |
 | 最终收口 | RELEASE-01 |
@@ -102,18 +102,27 @@
 - [x] 真实验证只使用隔离 INI，不修改用户 Sandboxie 资源。
 - [x] 完成共用门禁、文档、独立提交和推送。
 
-### GAP-09: 路径记忆数量范围
+### GAP-09: 路径记忆数量范围（用户指定最大 999）
 
-**Python reference:** `features/settings.py`、`features/app_paths.py`、`ui/settings_dialogs.py`
+**Python reference:** `features/settings.py`、`features/app_paths.py`、`ui/settings_dialogs.py`。Python 原版上限为 20；用户已明确要求 C# 上限采用 999，本模块将该差异记录为产品要求，不修改 Python 源码。
+
+**Design:** `docs/superpowers/specs/2026-10-21-path-history-999-design.md`
 
 **Files:**
 - Modify: `csharp/ShaheLauncher.App/MainForm.cs`
+- Modify: `csharp/ShaheLauncher.Core/AppPaths/AppPathHistoryService.cs`
+- Modify: `csharp/ShaheLauncher.App/UI/Controls/AppPathListCtrl.cs`
+- Modify: `csharp/ShaheLauncher.App/UI/Dialogs/Settings/PathMemoryManagerDialog.cs`
+- Modify: `csharp/ShaheLauncher.Core/Settings/LauncherSettingsService.cs`
+- Modify targeted assertions only: `csharp/ShaheLauncher.Tests/SettingsDialogsCSharpContractTests.cs`
+- Modify targeted assertions only: `csharp/ShaheLauncher.Tests/LauncherSettingsServiceContractTests.cs`
 - Create: `csharp/ShaheLauncher.Tests/PathHistoryLimitRuntimeContractTests.cs`
 
-- [ ] 对 `-1`、`0`、`20`、`21`、`999` 和无效值建立 Python/C# 对照 RED。
-- [ ] 将 `MainForm.LoadApplicationSettings()` 的范围从 `0–999` 恢复为 `0–20`。
-- [ ] 回归 `LauncherSettingsService`、管理对话框、保存重载和历史裁剪。
-- [ ] 真实 EXE 验证 `0`、普通值和 `20` 的保存及重启恢复。
+- [x] 对 `-1`、`0`、`20`、`21`、`999`、`1000` 和无效值建立 C# 运行时 RED，同时记录 Python 原版 `0–20` 与用户指定 `0–999` 的有意差异。
+- [x] 在 `AppPathHistoryService` 建立唯一最大值 `999`，统一启动加载、状态提交、管理器保存、其他设置保存、右键调整入口和历史裁剪。
+- [x] 将提示文案更新为“(0=不记录, 最大999)”；保留其余 Python 文案、快捷键、焦点顺序、`TabIndex` 和 `AccessibleName`。
+- [x] 回归 `LauncherSettingsService`、两个数量设置入口、保存重载、历史裁剪和多条历史启动空项防护；验证负数归零、超过上限归 `999`、无效启动值归默认 `10`。
+- [x] 完成真实生产 UI 模态对话框的 `0/21/999` 保存与重启恢复验证，并完成修复后二进制真实 EXE 启动烟雾验证。
 - [ ] 完成共用门禁、文档、独立提交和推送。
 
 ### GAP-10: 路径选择与剪贴板文案
@@ -262,6 +271,7 @@ git diff --cached --check
 
 ## 当前阻断与风险
 
+- GAP-09 的 C# 最大值 `999` 是用户明确指定的产品要求，与 Python 原版最大值 `20` 有意不同；后续对照不得再把 C# 回退到 `20`。
 - 原 updater 源码未提供；当前实现按用户批准的现有请求协议重建，后续取得原源码时需另做差异审计，不回写本轮结论。
 - GitCode 清单与应用当前同为 `4.0.46`，只构成发布基线；未来升级发布必须提高版本号。
 - `restart=true` 已证明精确隔离路径进程被启动，但该场景未取得主窗口句柄，发布目录 UI 启动仍由 AUDIT-07 验证。

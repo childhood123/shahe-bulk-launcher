@@ -1,0 +1,223 @@
+{
+  "timestamp": "2026-10-21T17:24:26.5591857+08:00",
+  "success": true,
+  "buildDirectory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\bin\\x64\\Release\\net48",
+  "outputRoot": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\startup-matrix-20261021_172349_341",
+  "rows": [
+    {
+      "historyCount": 0,
+      "fakeSandboxie": false,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\startup-matrix-20261021_172349_341\\history-0-fake-0",
+      "pid": 2180,
+      "windowName": "沙河批量打开器",
+      "mainWindowTitle": "",
+      "exited": true,
+      "exitCode": -1,
+      "logTail": [
+        "[2026-10-21 17:23:50] 启动软件: 4.0.46",
+        "[2026-10-21 17:23:51] 状态: 正在初始化...",
+        "[2026-10-21 17:23:51] 状态: 正在刷新沙盒用户...",
+        "[2026-10-21 17:23:51] 状态: 已扫描到 Sandboxie 安装位置：C:\\Program Files\\Sandboxie"
+      ]
+    },
+    {
+      "historyCount": 0,
+      "fakeSandboxie": true,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\startup-matrix-20261021_172349_341\\history-0-fake-1",
+      "pid": 13960,
+      "windowName": "沙河批量打开器",
+      "mainWindowTitle": "",
+      "exited": true,
+      "exitCode": -1,
+      "logTail": [
+        "[2026-10-21 17:23:53] 启动软件: 4.0.46",
+        "[2026-10-21 17:23:54] 状态: 正在初始化...",
+        "[2026-10-21 17:23:54] 状态: 正在刷新沙盒用户...",
+        "[2026-10-21 17:23:54] 状态: 就绪"
+      ]
+    },
+    {
+      "historyCount": 1,
+      "fakeSandboxie": false,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\startup-matrix-20261021_172349_341\\history-1-fake-0",
+      "pid": 12388,
+      "windowName": "沙河批量打开器",
+      "mainWindowTitle": "",
+      "exited": true,
+      "exitCode": -1,
+      "logTail": [
+        "[2026-10-21 17:23:56] 启动软件: 4.0.46",
+        "[2026-10-21 17:23:56] 状态: 正在初始化...",
+        "[2026-10-21 17:23:56] 状态: 正在刷新沙盒用户...",
+        "[2026-10-21 17:23:57] 状态: 已扫描到 Sandboxie 安装位置：C:\\Program Files\\Sandboxie"
+      ]
+    },
+    {
+      "historyCount": 1,
+      "fakeSandboxie": true,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\startup-matrix-20261021_172349_341\\history-1-fake-1",
+      "pid": 7556,
+      "windowName": "沙河批量打开器",
+      "mainWindowTitle": "",
+      "exited": true,
+      "exitCode": -1,
+      "logTail": [
+        "[2026-10-21 17:23:59] 启动软件: 4.0.46",
+        "[2026-10-21 17:23:59] 状态: 正在初始化...",
+        "[2026-10-21 17:23:59] 状态: 正在刷新沙盒用户...",
+        "[2026-10-21 17:23:59] 状态: 就绪"
+      ]
+    },
+    {
+      "historyCount": 10,
+      "fakeSandboxie": false,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\startup-matrix-20261021_172349_341\\history-10-fake-0",
+      "pid": 14132,
+      "windowName": "Microsoft .NET Framework",
+      "mainWindowTitle": "",
+      "exited": true,
+      "exitCode": -1,
+      "logTail": [
+        "[2026-10-21 17:24:02] 启动软件: 4.0.46",
+        "[2026-10-21 17:24:02] 状态: 正在初始化...",
+        "[2026-10-21 17:24:02] 状态: 正在刷新沙盒用户..."
+      ]
+    },
+    {
+      "historyCount": 10,
+      "fakeSandboxie": true,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\startup-matrix-20261021_172349_341\\history-10-fake-1",
+      "pid": 5128,
+      "windowName": "Microsoft .NET Framework",
+      "mainWindowTitle": "",
+      "exited": true,
+      "exitCode": -1,
+      "logTail": [
+        "[2026-10-21 17:24:04] 启动软件: 4.0.46",
+        "[2026-10-21 17:24:05] 状态: 正在初始化...",
+        "[2026-10-21 17:24:05] 状态: 正在刷新沙盒用户..."
+      ]
+    },
+    {
+      "historyCount": 20,
+      "fakeSandboxie": false,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\startup-matrix-20261021_172349_341\\history-20-fake-0",
+      "pid": 14112,
+      "windowName": "Microsoft .NET Framework",
+      "mainWindowTitle": "",
+      "exited": true,
+      "exitCode": -1,
+      "logTail": [
+        "[2026-10-21 17:24:07] 启动软件: 4.0.46",
+        "[2026-10-21 17:24:07] 状态: 正在初始化...",
+        "[2026-10-21 17:24:07] 状态: 正在刷新沙盒用户..."
+      ]
+    },
+    {
+      "historyCount": 20,
+      "fakeSandboxie": true,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\startup-matrix-20261021_172349_341\\history-20-fake-1",
+      "pid": 9988,
+      "windowName": "Microsoft .NET Framework",
+      "mainWindowTitle": "",
+      "exited": true,
+      "exitCode": -1,
+      "logTail": [
+        "[2026-10-21 17:24:09] 启动软件: 4.0.46",
+        "[2026-10-21 17:24:10] 状态: 正在初始化...",
+        "[2026-10-21 17:24:10] 状态: 正在刷新沙盒用户..."
+      ]
+    },
+    {
+      "historyCount": 21,
+      "fakeSandboxie": false,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\startup-matrix-20261021_172349_341\\history-21-fake-0",
+      "pid": 13644,
+      "windowName": "Microsoft .NET Framework",
+      "mainWindowTitle": "",
+      "exited": true,
+      "exitCode": -1,
+      "logTail": [
+        "[2026-10-21 17:24:12] 启动软件: 4.0.46",
+        "[2026-10-21 17:24:12] 状态: 正在初始化...",
+        "[2026-10-21 17:24:12] 状态: 正在刷新沙盒用户..."
+      ]
+    },
+    {
+      "historyCount": 21,
+      "fakeSandboxie": true,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\startup-matrix-20261021_172349_341\\history-21-fake-1",
+      "pid": 4136,
+      "windowName": "Microsoft .NET Framework",
+      "mainWindowTitle": "",
+      "exited": true,
+      "exitCode": -1,
+      "logTail": [
+        "[2026-10-21 17:24:15] 启动软件: 4.0.46",
+        "[2026-10-21 17:24:15] 状态: 正在初始化...",
+        "[2026-10-21 17:24:15] 状态: 正在刷新沙盒用户..."
+      ]
+    },
+    {
+      "historyCount": 100,
+      "fakeSandboxie": false,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\startup-matrix-20261021_172349_341\\history-100-fake-0",
+      "pid": 2440,
+      "windowName": "Microsoft .NET Framework",
+      "mainWindowTitle": "",
+      "exited": true,
+      "exitCode": -1,
+      "logTail": [
+        "[2026-10-21 17:24:17] 启动软件: 4.0.46",
+        "[2026-10-21 17:24:17] 状态: 正在初始化...",
+        "[2026-10-21 17:24:18] 状态: 正在刷新沙盒用户..."
+      ]
+    },
+    {
+      "historyCount": 100,
+      "fakeSandboxie": true,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\startup-matrix-20261021_172349_341\\history-100-fake-1",
+      "pid": 15168,
+      "windowName": "Microsoft .NET Framework",
+      "mainWindowTitle": "",
+      "exited": true,
+      "exitCode": -1,
+      "logTail": [
+        "[2026-10-21 17:24:20] 启动软件: 4.0.46",
+        "[2026-10-21 17:24:20] 状态: 正在初始化...",
+        "[2026-10-21 17:24:20] 状态: 正在刷新沙盒用户..."
+      ]
+    },
+    {
+      "historyCount": 999,
+      "fakeSandboxie": false,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\startup-matrix-20261021_172349_341\\history-999-fake-0",
+      "pid": 14768,
+      "windowName": "Microsoft .NET Framework",
+      "mainWindowTitle": "",
+      "exited": true,
+      "exitCode": -1,
+      "logTail": [
+        "[2026-10-21 17:24:22] 启动软件: 4.0.46",
+        "[2026-10-21 17:24:23] 状态: 正在初始化...",
+        "[2026-10-21 17:24:23] 状态: 正在刷新沙盒用户..."
+      ]
+    },
+    {
+      "historyCount": 999,
+      "fakeSandboxie": true,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\startup-matrix-20261021_172349_341\\history-999-fake-1",
+      "pid": 2700,
+      "windowName": "Microsoft .NET Framework",
+      "mainWindowTitle": "",
+      "exited": true,
+      "exitCode": -1,
+      "logTail": [
+        "[2026-10-21 17:24:25] 启动软件: 4.0.46",
+        "[2026-10-21 17:24:25] 状态: 正在初始化...",
+        "[2026-10-21 17:24:25] 状态: 正在刷新沙盒用户..."
+      ]
+    }
+  ],
+  "error": null
+}

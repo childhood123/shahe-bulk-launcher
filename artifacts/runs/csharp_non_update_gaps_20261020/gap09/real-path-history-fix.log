@@ -1,0 +1,57 @@
+{
+  "timestamp": "2026-10-21T18:11:54.3556783+08:00",
+  "success": false,
+  "buildDirectory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\fix-bin\\x64\\Release\\net48",
+  "sourceExecutable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\fix-bin\\x64\\Release\\net48\\沙河批量打开器.exe",
+  "sourceSha256": "5A253034720FC367A710AAF355A8BAB90075376BFFDF771289C2D3DB5053DDF8",
+  "runRoot": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\real-exe-20261021_181154_313",
+  "inputMethod": "exact classic-menu WM_COMMAND plus UI Automation patterns; no keyboard input",
+  "registryBefore": {
+    "Exists": false,
+    "Value": null,
+    "Kind": null
+  },
+  "registryAfter": {
+    "Exists": false,
+    "Value": null,
+    "Kind": null
+  },
+  "registryRestored": true,
+  "scenarios": [
+    {
+      "target": 0,
+      "directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\real-exe-20261021_181154_313\\history-0",
+      "executableSha256": "5A253034720FC367A710AAF355A8BAB90075376BFFDF771289C2D3DB5053DDF8",
+      "configPath": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\real-exe-20261021_181154_313\\history-0\\Configuration\\shahe_config.ini",
+      "firstPid": 14440,
+      "firstMainWindowHandle": "0x60F32",
+      "firstDialogWindowHandle": null,
+      "memoryMenuCommandId": null,
+      "initialSpinner": null,
+      "initialHistoryCount": null,
+      "savedSpinner": null,
+      "savedConfig": null,
+      "firstExit": null,
+      "restartPid": null,
+      "restartMainWindowHandle": null,
+      "restartDialogWindowHandle": null,
+      "restartSpinner": null,
+      "restartHistoryCount": null,
+      "rangeHintFound": false,
+      "restartConfig": null,
+      "restartExit": null,
+      "remainingOwnedPids": null
+    }
+  ],
+  "cleanup": {
+    "ownedPids": [
+      14440
+    ],
+    "forcedPids": [
+      14440
+    ],
+    "remainingPids": []
+  },
+  "error": "System.Management.Automation.RuntimeException: 等待窗口状态超时：PID=14440，Name=路径记忆管理，Present=True"
+}
+Write-Error: 等待窗口状态超时：PID=14440，Name=路径记忆管理，Present=True

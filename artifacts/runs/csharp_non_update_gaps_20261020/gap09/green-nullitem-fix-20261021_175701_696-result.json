@@ -1,0 +1,10 @@
+{
+  "kind": "vstest",
+  "command": "dotnet vstest D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\fix-bin\\x64\\Release\\net48\\ShaheLauncher.Tests.dll /Platform:x64 /Logger:trx;LogFileName=green-nullitem-fix-20261021_175701_696.trx /ResultsDirectory:D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09 /TestCaseFilter:FullyQualifiedName~PathHistoryLimitRuntimeContractTests",
+  "returnCode": 0,
+  "passed": 6,
+  "failed": 0,
+  "skipped": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\green-nullitem-fix-20261021_175701_696.log",
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\green-nullitem-fix-20261021_175701_696.trx"
+}

@@ -1,0 +1,14 @@
+{
+  "timestamp": "2026-10-21T18:54:03.4996521+08:00",
+  "pid": 11068,
+  "scenario": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\real-exe-20261021_162338_630\\history-0",
+  "windowObserved": true,
+  "readyObserved": false,
+  "closeMainWindow": true,
+  "naturalExit": false,
+  "forcedCleanup": true,
+  "exitCode": -1,
+  "remaining": false,
+  "lastLog": "[2026-10-21 18:52:13] 状态: 正在刷新沙盒用户...",
+  "passed": false
+}

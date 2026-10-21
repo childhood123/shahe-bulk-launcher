@@ -1,0 +1,59 @@
+window=0x160E4C
+position=0 command=256 state=0x0 text=文件(&F)
+  position=0 command=257 state=0x0 text=选择应用	Ctrl+O
+  position=1 command=258 state=0x0 text=粘贴 .exe 或文件路径	Ctrl+V
+  position=2 command=259 state=0x0 text=启动选中沙盒
+  position=3 command=260 state=0x0 text=刷新沙盒用户	F5
+  position=4 command=261 state=0x0 text=切换到上一个用户
+  position=5 command=262 state=0x0 text=切换到下一个用户
+  position=6 command=263 state=0x0 text=全选	Ctrl+A
+  position=7 command=264 state=0x3 text=
+  position=8 command=265 state=0x0 text=退出软件	Alt+F4
+position=1 command=266 state=0x0 text=进程(&P)
+  position=0 command=267 state=0x3 text=静音当前打开的进程
+  position=1 command=268 state=0x3 text=静音全部打开的进程
+  position=2 command=269 state=0x3 text=
+  position=3 command=270 state=0x3 text=提高当前打开的进程音量（+5%）
+  position=4 command=271 state=0x3 text=降低当前打开的进程音量（-5%）
+  position=5 command=272 state=0x3 text=提高全部打开的进程音量（+5%）
+  position=6 command=273 state=0x3 text=降低全部打开的进程音量（-5%）
+  position=7 command=274 state=0x3 text=
+  position=8 command=275 state=0x3 text=切换当前打开的进程播放设备
+  position=9 command=276 state=0x3 text=切换全部打开的进程播放设备
+  position=10 command=277 state=0x3 text=
+  position=11 command=278 state=0x3 text=关闭当前打开的进程
+  position=12 command=279 state=0x3 text=关闭全部打开的进程
+  position=13 command=280 state=0x3 text=定位当前打开的进程
+  position=14 command=281 state=0x3 text=
+  position=15 command=282 state=0x0 text=刷新进程状态
+position=2 command=283 state=0x0 text=沙盒管理(&G)
+  position=0 command=284 state=0x0 text=分组管理
+    position=0 command=285 state=0x0 text=新建分组
+    position=1 command=286 state=0x0 text=启动分组
+    position=2 command=287 state=0x0 text=删除分组
+  position=1 command=288 state=0x0 text=用户管理
+    position=0 command=289 state=0x0 text=置顶/取消置顶当前用户
+    position=1 command=290 state=0x0 text=批量创建沙盒用户
+    position=2 command=291 state=0x0 text=批量重命名沙盒用户
+    position=3 command=292 state=0x0 text=批量删除沙盒用户
+position=3 command=293 state=0x0 text=定时(&D)
+  position=0 command=294 state=0x0 text=定时启动选中沙盒
+  position=1 command=295 state=0x0 text=定时关闭选中沙盒
+  position=2 command=296 state=0x0 text=取消全部定时任务
+position=4 command=297 state=0x0 text=设置(&S)
+  position=0 command=298 state=0x0 text=热键设置
+  position=1 command=299 state=0x0 text=朗读设置
+  position=2 command=300 state=0x0 text=软件设置
+  position=3 command=301 state=0x0 text=路径记忆管理
+position=5 command=302 state=0x0 text=校正(&J)
+  position=0 command=303 state=0x0 text=手动校正 Sandboxie 安装路径
+  position=1 command=304 state=0x0 text=选择沙盒用户数据目录
+  position=2 command=305 state=0x0 text=修复 Sandboxie Control 用户设置
+position=6 command=306 state=0x0 text=工具(&T)
+  position=0 command=307 state=0x0 text=备份沙盒用户
+  position=1 command=308 state=0x0 text=还原沙盒用户
+position=7 command=309 state=0x0 text=关于(&A)
+  position=0 command=310 state=0x0 text=检查更新
+  position=1 command=311 state=0x0 text=请作者吃辣条
+    position=0 command=312 state=0x0 text=微信打赏
+    position=1 command=313 state=0x0 text=支付宝打赏

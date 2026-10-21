@@ -1,0 +1,1048 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="4e037ca1-fc0d-459f-9ddd-25b822bc2f9a" name="Administrator@CHILDHOOD 2026-10-21 17:58:34" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-21T17:58:34.1095475+08:00" queuing="2026-10-21T17:58:34.1095478+08:00" start="2026-10-21T17:58:29.7237303+08:00" finish="2026-10-21T17:58:41.3174268+08:00" />
+  <TestSettings name="default" id="fe24ab43-dee9-45eb-86b6-1c0e06763667">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-21_17_58_34" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="4c5b4a6b-0adf-4274-a0dd-89aa62fdf1d1" testId="bc1ae7e1-b1af-5727-7461-228d18b3f769" testName="FileMenuAndCtrlAToggleCheckableRowsLikePython (&quot;ctrl-a&quot;)" computerName="CHILDHOOD" duration="00:00:00.0128257" startTime="2026-10-21T17:58:40.4630937+08:00" endTime="2026-10-21T17:58:40.4760687+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4c5b4a6b-0adf-4274-a0dd-89aa62fdf1d1" />
+    <UnitTestResult executionId="5d0fd6f5-0a48-4813-8058-112568aa8ed4" testId="a7edcb2a-ccdb-4dcc-d2e4-2c542e2c6c3f" testName="WiresScheduleCloseMenuActionToLaunchScheduler" computerName="CHILDHOOD" duration="00:00:00.0567603" startTime="2026-10-21T17:58:36.2403424+08:00" endTime="2026-10-21T17:58:36.2981954+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5d0fd6f5-0a48-4813-8058-112568aa8ed4" />
+    <UnitTestResult executionId="b06343b5-a02d-4e3a-98a4-ba4719089458" testId="51a14bc8-ec46-cee6-42b7-e8dfa4e5418e" testName="PasteActionResolvesClipboardDataLikePython (&quot;text-fallback&quot;)" computerName="CHILDHOOD" duration="00:00:00.0269146" startTime="2026-10-21T17:58:34.0881836+08:00" endTime="2026-10-21T17:58:34.1161090+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b06343b5-a02d-4e3a-98a4-ba4719089458" />
+    <UnitTestResult executionId="1c72649b-ef72-4746-addb-cd250cd5d55f" testId="ceb0da76-aa8a-6358-0fe1-a60991a4d20c" testName="WiresBatchCreateSandboxesMenuActionToSandboxieClient" computerName="CHILDHOOD" duration="00:00:00.0487355" startTime="2026-10-21T17:58:36.3490675+08:00" endTime="2026-10-21T17:58:36.3989260+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1c72649b-ef72-4746-addb-cd250cd5d55f" />
+    <UnitTestResult executionId="5c7a6231-647c-4f6a-bd08-51dd77fff4ff" testId="7c2f358c-136c-d790-54b4-cb936023f9ec" testName="MovingSelectionSchedulesOneLiveRefreshRequest" computerName="CHILDHOOD" duration="00:00:00.0153576" startTime="2026-10-21T17:58:38.1689418+08:00" endTime="2026-10-21T17:58:38.1848990+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5c7a6231-647c-4f6a-bd08-51dd77fff4ff" />
+    <UnitTestResult executionId="76df90c8-1afa-4a83-9a66-521a54b79601" testId="636fc3ca-87cb-34ef-366e-a80ee0fa216a" testName="BuildsExactClassicMenusWithoutChangingAccessibilityOrder" computerName="CHILDHOOD" duration="00:00:00.0383269" startTime="2026-10-21T17:58:35.3197407+08:00" endTime="2026-10-21T17:58:35.3586367+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="76df90c8-1afa-4a83-9a66-521a54b79601" />
+    <UnitTestResult executionId="2411efe4-1332-47ba-afcc-a1d3b31a9cd7" testId="20692c15-9840-a3dd-03b3-fefeed645367" testName="ProcessCmdKeyLeavesDisabledInvalidAndUnknownHotkeysToWinForms" computerName="CHILDHOOD" duration="00:00:00.0082794" startTime="2026-10-21T17:58:35.4005258+08:00" endTime="2026-10-21T17:58:35.4085367+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2411efe4-1332-47ba-afcc-a1d3b31a9cd7" />
+    <UnitTestResult executionId="e9dbf0c3-11df-411b-8ef4-976055ee3533" testId="2fffb28a-167a-69cb-bd2a-cd5120b86195" testName="NormalizesAndPersistsUpdateManifestUrlLikePython" computerName="CHILDHOOD" duration="00:00:00.0110141" startTime="2026-10-21T17:58:34.9875790+08:00" endTime="2026-10-21T17:58:34.9985495+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e9dbf0c3-11df-411b-8ef4-976055ee3533" />
+    <UnitTestResult executionId="28a5d04e-3614-4662-bdd5-6da4bfe597df" testId="2f312f75-7ee2-06cb-2a06-0bf41e5de625" testName="HotkeyDialogUsesExactValidationMessagesAndNormalizedResults" computerName="CHILDHOOD" duration="00:00:00.0220796" startTime="2026-10-21T17:58:40.5797944+08:00" endTime="2026-10-21T17:58:40.6027358+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="28a5d04e-3614-4662-bdd5-6da4bfe597df" />
+    <UnitTestResult executionId="11c92e8b-5f46-4b78-96df-8e50124e1772" testId="ea98e8a6-db99-8a9b-b057-56736e992a5f" testName="ResolvesClipboardCandidatesInPythonFileThenTextOrder" computerName="CHILDHOOD" duration="00:00:00.0046356" startTime="2026-10-21T17:58:33.2933131+08:00" endTime="2026-10-21T17:58:33.2993286+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="11c92e8b-5f46-4b78-96df-8e50124e1772" />
+    <UnitTestResult executionId="81f3d807-6e88-413a-ad03-9c9caccf55ca" testId="631aad6b-4ff1-b86d-469a-0256f47741db" testName="MapsExtendedEnterToPythonNumPadEnterAndKeepsFixedKeys" computerName="CHILDHOOD" duration="00:00:00.0025213" startTime="2026-10-21T17:58:35.3586367+08:00" endTime="2026-10-21T17:58:35.3606310+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="81f3d807-6e88-413a-ad03-9c9caccf55ca" />
+    <UnitTestResult executionId="fad985b8-3169-471a-8e99-bc3c712ea485" testId="9744b414-ac03-343e-c202-7489378b617f" testName="RepairReloadsOnceOnlyAfterWritingAndKeepsPythonFeedbackOnReloadFailure" computerName="CHILDHOOD" duration="00:00:00.0217811" startTime="2026-10-21T17:58:40.3533924+08:00" endTime="2026-10-21T17:58:40.3753031+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fad985b8-3169-471a-8e99-bc3c712ea485" />
+    <UnitTestResult executionId="0263a5d1-2d59-4d24-8db2-a234e046727d" testId="59e0c620-847a-373e-dc59-8b9d60042337" testName="EmptyListToggleDoesNotAnnounceASelectionChange (&quot;file-menu&quot;)" computerName="CHILDHOOD" duration="00:00:00.0118053" startTime="2026-10-21T17:58:40.4760687+08:00" endTime="2026-10-21T17:58:40.4880017+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0263a5d1-2d59-4d24-8db2-a234e046727d" />
+    <UnitTestResult executionId="61d0581e-2d32-4365-badf-7414495e8332" testId="7ca1b94b-8f20-e171-3061-7a375af2fb36" testName="SelectionFeedbackHonorsTemporarySuppression" computerName="CHILDHOOD" duration="00:00:00.0157684" startTime="2026-10-21T17:58:40.3324192+08:00" endTime="2026-10-21T17:58:40.3483755+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="61d0581e-2d32-4365-badf-7414495e8332" />
+    <UnitTestResult executionId="bacbc946-ab01-44c1-945a-f715dcd72ef6" testId="2c2fde88-f72d-55a6-cc04-dffe40f146ab" testName="SavingTypedHistoryKeepsPythonKeysAndSurvivesNextLoad" computerName="CHILDHOOD" duration="00:00:00.0263399" startTime="2026-10-21T17:58:34.9257449+08:00" endTime="2026-10-21T17:58:34.9526739+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bacbc946-ab01-44c1-945a-f715dcd72ef6" />
+    <UnitTestResult executionId="01b4006b-dc93-4b84-9079-ba091a8735b8" testId="8bd9c144-70a5-9c1b-c3da-e637fc5614b8" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;history&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0273305" startTime="2026-10-21T17:58:34.8136080+08:00" endTime="2026-10-21T17:58:34.8409733+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="01b4006b-dc93-4b84-9079-ba091a8735b8" />
+    <UnitTestResult executionId="5be16871-58b1-48c0-8a92-9e979d42c9ee" testId="600ab9eb-2a61-6a65-819f-94c6830bbda8" testName="PathMemoryDialogUsesExactConfirmationsAndSavePayload" computerName="CHILDHOOD" duration="00:00:00.0159917" startTime="2026-10-21T17:58:40.7773073+08:00" endTime="2026-10-21T17:58:40.7932639+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5be16871-58b1-48c0-8a92-9e979d42c9ee" />
+    <UnitTestResult executionId="3e38f736-3003-4707-a2a7-68017fddc8ef" testId="96b2a265-7c5f-0572-e32c-8f9ea070175e" testName="ProcessCmdKeyKeepsFixedHotkeysAheadOfCustomBindings" computerName="CHILDHOOD" duration="00:00:00.0024328" startTime="2026-10-21T17:58:35.3706368+08:00" endTime="2026-10-21T17:58:35.3735970+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3e38f736-3003-4707-a2a7-68017fddc8ef" />
+    <UnitTestResult executionId="2b02f0fb-c448-44aa-b013-53ece8966f86" testId="f1e08235-6951-6ad7-c34e-aa0bc20bb164" testName="NormalConstructionWiresExistingReloadMethod" computerName="CHILDHOOD" duration="00:00:00.0047736" startTime="2026-10-21T17:58:40.3483755+08:00" endTime="2026-10-21T17:58:40.3533924+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2b02f0fb-c448-44aa-b013-53ece8966f86" />
+    <UnitTestResult executionId="f49dce5d-aeb6-457f-aea4-43f9b30bdddc" testId="2daa5bac-8a01-1cbb-1eb6-110a75c15e1a" testName="ApplySettingsNormalizesStateAndRunsCallbacksInPythonOrder" computerName="CHILDHOOD" duration="00:00:00.0289692" startTime="2026-10-21T17:58:35.1102581+08:00" endTime="2026-10-21T17:58:35.1391885+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f49dce5d-aeb6-457f-aea4-43f9b30bdddc" />
+    <UnitTestResult executionId="bc1ee994-9802-4eb6-87e5-bb965af8588e" testId="ea02dc25-9688-2ce5-784a-b8cc8d2e1238" testName="DestroyDisposesComposedApplicationServices" computerName="CHILDHOOD" duration="00:00:00.0028179" startTime="2026-10-21T17:58:35.6796750+08:00" endTime="2026-10-21T17:58:35.6826670+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bc1ee994-9802-4eb6-87e5-bb965af8588e" />
+    <UnitTestResult executionId="406508f8-a600-460b-b0b7-8f5799f6e7b4" testId="c5052007-6a11-17d4-6792-553e3b8602ed" testName="ResetSettingsRestoresSwitchesWithoutSynchronousProcessScan" computerName="CHILDHOOD" duration="00:00:00.2813602" startTime="2026-10-21T17:58:40.8151984+08:00" endTime="2026-10-21T17:58:41.1004024+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="406508f8-a600-460b-b0b7-8f5799f6e7b4" />
+    <UnitTestResult executionId="fbdda1ae-e92a-4a7d-98cc-699e403afdbd" testId="b3359c62-e1c9-80c1-0e6a-8853a17a4b52" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;groups&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.0078508" startTime="2026-10-21T17:58:34.7605117+08:00" endTime="2026-10-21T17:58:34.7684882+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fbdda1ae-e92a-4a7d-98cc-699e403afdbd" />
+    <UnitTestResult executionId="ff61ba49-d4e9-45ba-8f03-0408e52ed34a" testId="25887a69-fce0-ae3c-d202-a1dd4d6351dd" testName="SetsCurrentExecutableAndRunsPythonCallbackOrder" computerName="CHILDHOOD" duration="00:00:00.0053703" startTime="2026-10-21T17:58:33.2793473+08:00" endTime="2026-10-21T17:58:33.2853303+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ff61ba49-d4e9-45ba-8f03-0408e52ed34a" />
+    <UnitTestResult executionId="6f6f06a1-af5e-42db-aa27-d56df4ff467d" testId="957e4b11-c62d-2bbc-7d4c-2f197db567ba" testName="CancellationAndWriteFailureKeepPythonFeedbackWithoutReload" computerName="CHILDHOOD" duration="00:00:00.0683825" startTime="2026-10-21T17:58:40.3753031+08:00" endTime="2026-10-21T17:58:40.4441568+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6f6f06a1-af5e-42db-aa27-d56df4ff467d" />
+    <UnitTestResult executionId="7a469a90-8e2d-4575-a894-95027c81dd04" testId="f116790d-5638-b374-cded-f9ff7574f76b" testName="WiresDeleteGroupMenuActionToSandboxAdminState" computerName="CHILDHOOD" duration="00:00:00.0513416" startTime="2026-10-21T17:58:36.2981954+08:00" endTime="2026-10-21T17:58:36.3490675+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7a469a90-8e2d-4575-a894-95027c81dd04" />
+    <UnitTestResult executionId="7a22a7f3-dcc6-436e-b89b-b0c7c5919827" testId="6f8cb3f1-b4ae-a631-a64f-9ad5a052b7c0" testName="MigratesPreviousOfficialUpdateSourceAndPreservesCustomSource" computerName="CHILDHOOD" duration="00:00:00.0338611" startTime="2026-10-21T17:58:34.9985495+08:00" endTime="2026-10-21T17:58:35.0322494+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7a22a7f3-dcc6-436e-b89b-b0c7c5919827" />
+    <UnitTestResult executionId="bc69615e-4dcb-4345-b2e8-0264315a98cc" testId="bb959113-afa0-0fab-0c93-1fd13e1d724e" testName="ProgramPreservesCleanupSingleInstanceRunAndReleaseOrder" computerName="CHILDHOOD" duration="00:00:00.0019477" startTime="2026-10-21T17:58:35.6756852+08:00" endTime="2026-10-21T17:58:35.6786774+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bc69615e-4dcb-4345-b2e8-0264315a98cc" />
+    <UnitTestResult executionId="af9c9b7c-9673-49f6-ad11-56e9862338fa" testId="727c92e3-60ce-2387-ddb0-dfda56ad366d" testName="ProcessMenuUsesVisibleRunningMarkersWithoutUiThreadFallbackScan" computerName="CHILDHOOD" duration="00:00:00.0196598" startTime="2026-10-21T17:58:37.3440288+08:00" endTime="2026-10-21T17:58:37.3639754+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="af9c9b7c-9673-49f6-ad11-56e9862338fa" />
+    <UnitTestResult executionId="21830a79-8f4a-47d3-9a0a-e18c31cdb79d" testId="b46f1114-9d43-ed6e-9acb-7df28128a402" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;pinned&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0135612" startTime="2026-10-21T17:58:34.8888446+08:00" endTime="2026-10-21T17:58:34.9018099+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="21830a79-8f4a-47d3-9a0a-e18c31cdb79d" />
+    <UnitTestResult executionId="549901be-12c2-4c6e-b84f-4aef64734338" testId="76d61324-2402-764a-8f21-34e9f4ebc925" testName="HotkeyDialogResetsDefaultsAndDisablesHotkeysWithExactPrompt" computerName="CHILDHOOD" duration="00:00:00.0157576" startTime="2026-10-21T17:58:40.5638375+08:00" endTime="2026-10-21T17:58:40.5797944+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="549901be-12c2-4c6e-b84f-4aef64734338" />
+    <UnitTestResult executionId="ec715acb-4a08-4ce2-99f8-47491dcb917e" testId="46ecab02-53d1-5499-109a-306f8c7cdcde" testName="WiresRepairSandboxieControlSettingsMenuActionToSandboxAdminService" computerName="CHILDHOOD" duration="00:00:00.0827708" startTime="2026-10-21T17:58:36.6961313+08:00" endTime="2026-10-21T17:58:36.7800231+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ec715acb-4a08-4ce2-99f8-47491dcb917e" />
+    <UnitTestResult executionId="f765be3d-688c-42aa-b329-b64b1491b713" testId="84407a57-0392-e867-1db2-62c360212786" testName="ProcessMenuLiveStateRefreshCoalescesWhileWorkerIsRunning" computerName="CHILDHOOD" duration="00:00:00.2721756" startTime="2026-10-21T17:58:38.4033152+08:00" endTime="2026-10-21T17:58:38.6752109+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f765be3d-688c-42aa-b329-b64b1491b713" />
+    <UnitTestResult executionId="3e20c945-746b-4e38-bbc3-041d72d92abb" testId="f732718f-b45f-f3a2-a241-deeea3483b2d" testName="FileMenuAndCtrlAToggleCheckableRowsLikePython (&quot;file-menu&quot;)" computerName="CHILDHOOD" duration="00:00:00.0185739" startTime="2026-10-21T17:58:40.4441568+08:00" endTime="2026-10-21T17:58:40.4630937+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3e20c945-746b-4e38-bbc3-041d72d92abb" />
+    <UnitTestResult executionId="7e7f658c-2931-40ac-a37a-b18828b24648" testId="8ce1f4db-1c10-02f4-d58b-b7bf229430f9" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;speech&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0231378" startTime="2026-10-21T17:58:34.9028071+08:00" endTime="2026-10-21T17:58:34.9257449+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7e7f658c-2931-40ac-a37a-b18828b24648" />
+    <UnitTestResult executionId="a6fb12e8-af27-4d6c-97f9-2eebdc915862" testId="07d51fef-1e55-17f4-7922-5fa68764e5c7" testName="PasteActionResolvesClipboardDataLikePython (&quot;empty&quot;)" computerName="CHILDHOOD" duration="00:00:00.0149701" startTime="2026-10-21T17:58:34.1300712+08:00" endTime="2026-10-21T17:58:34.1460287+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a6fb12e8-af27-4d6c-97f9-2eebdc915862" />
+    <UnitTestResult executionId="e1dd27e1-27d8-48c4-a6c0-66c0cdc0af1d" testId="ecf02a38-7bc9-df33-85e1-bb45900e7608" testName="ProcessCmdKeyRunsCustomActionThroughMainFormDispatcher" computerName="CHILDHOOD" duration="00:00:00.0263304" startTime="2026-10-21T17:58:35.3735970+08:00" endTime="2026-10-21T17:58:35.4005258+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e1dd27e1-27d8-48c4-a6c0-66c0cdc0af1d" />
+    <UnitTestResult executionId="9230be5d-6470-47ce-834f-09c58c5ff53c" testId="5780c807-24c7-602b-b3b7-2784393d723d" testName="HistoryServiceNormalizesZeroTo999AndRetains999Records" computerName="CHILDHOOD" duration="00:00:00.0048209" startTime="2026-10-21T17:58:36.8627831+08:00" endTime="2026-10-21T17:58:36.8677685+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9230be5d-6470-47ce-834f-09c58c5ff53c" />
+    <UnitTestResult executionId="e0599938-edd4-4444-8ebc-6e90890ca2ff" testId="b6804cd3-5f54-0f4e-8ec2-78b9bd81d362" testName="WiresBatchDeleteSandboxesMenuActionToSandboxieClient" computerName="CHILDHOOD" duration="00:00:00.0705336" startTime="2026-10-21T17:58:36.7800231+08:00" endTime="2026-10-21T17:58:36.8508480+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e0599938-edd4-4444-8ebc-6e90890ca2ff" />
+    <UnitTestResult executionId="0bfc6c8e-2120-4a16-ae37-7a2e0376c051" testId="5260c7c2-dd81-693e-1c3a-7d73a14c94f2" testName="WiresMigratedFeatureServicesIntoInteractiveApplicationCallbacks" computerName="CHILDHOOD" duration="00:00:00.0048708" startTime="2026-10-21T17:58:35.6826670+08:00" endTime="2026-10-21T17:58:35.6876528+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0bfc6c8e-2120-4a16-ae37-7a2e0376c051" />
+    <UnitTestResult executionId="913ed15e-d512-4efb-81d8-f924627e5e94" testId="026916d9-7ec4-d6e2-c44a-75213c2cb3b1" testName="PathMemoryDialogPreservesListClassicMenuAndEditing" computerName="CHILDHOOD" duration="00:00:00.0203207" startTime="2026-10-21T17:58:40.7553255+08:00" endTime="2026-10-21T17:58:40.7762690+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="913ed15e-d512-4efb-81d8-f924627e5e94" />
+    <UnitTestResult executionId="55c08ed0-0bad-47f9-8d51-2f9f9933a4b6" testId="12724ff0-636d-9e3c-20ad-439dee247752" testName="ProcessMenuLiveRefreshUsesOneSandboxProcessSnapshot" computerName="CHILDHOOD" duration="00:00:00.0443234" startTime="2026-10-21T17:58:38.1848990+08:00" endTime="2026-10-21T17:58:38.2297782+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="55c08ed0-0bad-47f9-8d51-2f9f9933a4b6" />
+    <UnitTestResult executionId="3513d152-6d0d-43e6-b611-e63900a4af21" testId="f4d2db73-ac01-8c05-37d6-77148e553b14" testName="SpeechDialogSanitizesConfigExactlyLikePython" computerName="CHILDHOOD" duration="00:00:00.0035447" startTime="2026-10-21T17:58:40.7932639+08:00" endTime="2026-10-21T17:58:40.7972455+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3513d152-6d0d-43e6-b611-e63900a4af21" />
+    <UnitTestResult executionId="6fb8d395-773f-4085-8c4b-e08ff41e0f74" testId="3413b1c2-9d35-9b1a-eb8f-36f9efd2018e" testName="ProcessUiRefreshRecomputesLiveMuteStateWithoutBlockingUi" computerName="CHILDHOOD" duration="00:00:00.6696400" startTime="2026-10-21T17:58:37.4846549+08:00" endTime="2026-10-21T17:58:38.1549804+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6fb8d395-773f-4085-8c4b-e08ff41e0f74" />
+    <UnitTestResult executionId="245143e2-522a-4627-ba18-8c866a130939" testId="f073f54f-090b-563d-8da7-1f04d7b61f4f" testName="MainFormKeeps999AcrossLoadCommitAndManagerSave" computerName="CHILDHOOD" duration="00:00:00.0404256" startTime="2026-10-21T17:58:36.8677685+08:00" endTime="2026-10-21T17:58:36.9086597+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="245143e2-522a-4627-ba18-8c866a130939" />
+    <UnitTestResult executionId="742fcc3e-e7a3-497b-8594-a7179c81f9ba" testId="af86417c-8309-61a0-dc79-a0f53ec71b21" testName="SaveSettingsWritesRuntimeStateAndRemovesLegacyKeys" computerName="CHILDHOOD" duration="00:00:00.0215806" startTime="2026-10-21T17:58:35.0883177+08:00" endTime="2026-10-21T17:58:35.1102581+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="742fcc3e-e7a3-497b-8594-a7179c81f9ba" />
+    <UnitTestResult executionId="c6db78c7-0bb9-468f-83fa-05c70c1b6604" testId="a22f90d0-f7ca-1e0f-573a-03b28e03fa40" testName="ProcessUiRefreshDoesNotScanAllSandboxPidsOnUiThread" computerName="CHILDHOOD" duration="00:00:00.6308245" startTime="2026-10-21T17:58:38.6752109+08:00" endTime="2026-10-21T17:58:39.3069602+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6db78c7-0bb9-468f-83fa-05c70c1b6604" />
+    <UnitTestResult executionId="1de1e0e1-8b21-47f5-a4a6-c2ed1b76d4e9" testId="6713a573-9ea2-4253-5d96-5e38cfe4dd05" testName="AltF4AndFileMenuExitUseOriginalPythonStatusAndSpeech" computerName="CHILDHOOD" duration="00:00:00.1445126" startTime="2026-10-21T17:58:34.5105377+08:00" endTime="2026-10-21T17:58:34.6551351+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1de1e0e1-8b21-47f5-a4a6-c2ed1b76d4e9" />
+    <UnitTestResult executionId="da02702b-ee8c-4fcf-b43f-e6c2e4c822ce" testId="9b23deb2-7679-6c47-4b30-a0a3955ebf6e" testName="AppPathHistoryViewUsesDisplayTextTagsAndRestoresSelectionChecksWithoutScanning" computerName="CHILDHOOD" duration="00:00:00.0179291" startTime="2026-10-21T17:58:37.2328144+08:00" endTime="2026-10-21T17:58:37.2507653+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="da02702b-ee8c-4fcf-b43f-e6c2e4c822ce" />
+    <UnitTestResult executionId="e6c633ca-3f4d-400d-abdf-92209151d2f0" testId="c0e37ffa-58a3-a6d3-d74a-cdf8e55892d8" testName="BuildsComboBoxViewWithSelectionApplicationDirectoryAndCheckedIndices" computerName="CHILDHOOD" duration="00:00:00.0189967" startTime="2026-10-21T17:58:33.2604003+08:00" endTime="2026-10-21T17:58:33.2793473+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e6c633ca-3f4d-400d-abdf-92209151d2f0" />
+    <UnitTestResult executionId="64dcc33b-372c-48d1-8306-1eb8063a7294" testId="bce6a397-5805-e944-5c01-7622d2e1b40f" testName="SettingsDialogPreservesControlsRangesTextAndSaveKeys" computerName="CHILDHOOD" duration="00:00:00.0409027" startTime="2026-10-21T17:58:40.6755393+08:00" endTime="2026-10-21T17:58:40.7174266+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="64dcc33b-372c-48d1-8306-1eb8063a7294" />
+    <UnitTestResult executionId="b4a052b5-e5c1-47ed-b06c-92da3874b946" testId="1cb91b49-7df0-e1d7-08ea-3b054f8784e8" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;volume&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.0103253" startTime="2026-10-21T17:58:34.7694859+08:00" endTime="2026-10-21T17:58:34.7794595+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b4a052b5-e5c1-47ed-b06c-92da3874b946" />
+    <UnitTestResult executionId="649b323b-88d0-4274-b8e4-8fd78879cd01" testId="6ae7cc97-89a1-02fc-f91f-29d3bcc3c057" testName="CreatesExactDefaultsAndIndependentNestedCollections" computerName="CHILDHOOD" duration="00:00:00.0059557" startTime="2026-10-21T17:58:34.9805991+08:00" endTime="2026-10-21T17:58:34.9875790+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="649b323b-88d0-4274-b8e4-8fd78879cd01" />
+    <UnitTestResult executionId="f38ada74-d4ac-4bae-9819-7f015d654475" testId="eca42174-47f6-9118-8fef-1e218208cb56" testName="MenuBarRebuildDoesNotScanAllSandboxPidsOnUiThread" computerName="CHILDHOOD" duration="00:00:01.0249818" startTime="2026-10-21T17:58:39.3069602+08:00" endTime="2026-10-21T17:58:40.3324192+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f38ada74-d4ac-4bae-9819-7f015d654475" />
+    <UnitTestResult executionId="74b89d92-d7df-4aea-9b7c-c9da7cea72e2" testId="0bf6c7e0-a2f7-b151-0d6c-8553140d0f6b" testName="ExtractsExecutableFromRawQuotedNewlineAndFileUriText" computerName="CHILDHOOD" duration="00:00:00.0788632" startTime="2026-10-21T17:58:33.1725263+08:00" endTime="2026-10-21T17:58:33.2524193+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="74b89d92-d7df-4aea-9b7c-c9da7cea72e2" />
+    <UnitTestResult executionId="1ba7d024-a90c-4803-9226-a7d396745f8f" testId="048275ef-060d-4793-b22c-7f03f9cfbf8e" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;speech&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.0091166" startTime="2026-10-21T17:58:34.8041214+08:00" endTime="2026-10-21T17:58:34.8136080+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1ba7d024-a90c-4803-9226-a7d396745f8f" />
+    <UnitTestResult executionId="cbb82b36-19ee-41c9-aaeb-c6a5822a5fe8" testId="0e35004b-e2b9-8c0a-af36-abdc32237683" testName="SettingsServiceKeeps999WhenApplyingOtherSettings" computerName="CHILDHOOD" duration="00:00:00.0162568" startTime="2026-10-21T17:58:36.9086597+08:00" endTime="2026-10-21T17:58:36.9246156+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cbb82b36-19ee-41c9-aaeb-c6a5822a5fe8" />
+    <UnitTestResult executionId="22d4b3f5-16ea-481d-b2e5-fc7c4908ceb4" testId="71dde45c-9603-2052-7e8e-57b8e0086f03" testName="SpeechDialogPreservesVisibleUiChoiceMappingAndSaveShortCircuitOrder" computerName="CHILDHOOD" duration="00:00:00.0159284" startTime="2026-10-21T17:58:40.7992404+08:00" endTime="2026-10-21T17:58:40.8151984+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="22d4b3f5-16ea-481d-b2e5-fc7c4908ceb4" />
+    <UnitTestResult executionId="9671facd-e93d-4d77-90f7-a5bd6f49f31d" testId="9234197d-7632-2b33-2802-ea0512c47840" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;hotkeys&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.0121743" startTime="2026-10-21T17:58:34.7794595+08:00" endTime="2026-10-21T17:58:34.7924250+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9671facd-e93d-4d77-90f7-a5bd6f49f31d" />
+    <UnitTestResult executionId="bd479327-941a-46f1-a43d-3004e37113ca" testId="60f30418-30c5-6c3b-91dd-e709ba6ce6a5" testName="WiresBackupMenuActionToBackupRestoreService" computerName="CHILDHOOD" duration="00:00:00.1216573" startTime="2026-10-21T17:58:35.8072839+08:00" endTime="2026-10-21T17:58:35.9289924+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bd479327-941a-46f1-a43d-3004e37113ca" />
+    <UnitTestResult executionId="ab2b278f-a125-4d1e-8989-4a4c2977d07c" testId="0c973e17-24c7-3635-5e45-ae9cbf94cef1" testName="HiddenGroupProcessMenuStateRefreshesOffUiThread" computerName="CHILDHOOD" duration="00:00:00.1072681" startTime="2026-10-21T17:58:37.3639754+08:00" endTime="2026-10-21T17:58:37.4716882+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ab2b278f-a125-4d1e-8989-4a4c2977d07c" />
+    <UnitTestResult executionId="dea86801-8e04-4e29-be77-c8c22611c66e" testId="0de3126d-78a1-8dd5-5cf7-c0458606e691" testName="ResolvesHistoryEntriesAndPreservesHiddenAndFullDisplayText" computerName="CHILDHOOD" duration="00:00:00.0081481" startTime="2026-10-21T17:58:33.2524193+08:00" endTime="2026-10-21T17:58:33.2604003+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dea86801-8e04-4e29-be77-c8c22611c66e" />
+    <UnitTestResult executionId="84572749-10db-418d-8d42-b27409b7f406" testId="dce173e3-3407-2731-d41a-e8a361512fb4" testName="ProcessMenuLiveRefreshDoesNotEnumerateOutputDevices" computerName="CHILDHOOD" duration="00:00:00.1274582" startTime="2026-10-21T17:58:38.2307758+08:00" endTime="2026-10-21T17:58:38.3584341+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="84572749-10db-418d-8d42-b27409b7f406" />
+    <UnitTestResult executionId="fde22301-457b-4bd4-a1e9-0159b952c151" testId="5c09a045-aa2b-ecea-41fe-e79809a29260" testName="SettingsDialogResetUsesExactPromptAndPythonDefaults" computerName="CHILDHOOD" duration="00:00:00.0380330" startTime="2026-10-21T17:58:40.7174266+08:00" endTime="2026-10-21T17:58:40.7553255+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fde22301-457b-4bd4-a1e9-0159b952c151" />
+    <UnitTestResult executionId="c2514e5e-d518-4ed1-907c-9e512387b3f4" testId="2479a255-a448-0719-8054-929ed8e0ff09" testName="MainFormInitializesTenPersistedHistoryItemsWithoutThreadException" computerName="CHILDHOOD" duration="00:00:00.0295124" startTime="2026-10-21T17:58:36.9385774+08:00" endTime="2026-10-21T17:58:36.9684981+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c2514e5e-d518-4ed1-907c-9e512387b3f4" />
+    <UnitTestResult executionId="828e29ba-7d47-4cce-bde2-975f615ccdc2" testId="e076638e-a700-2bb2-29f1-971f9985cbfa" testName="LoadsStoredSettingsWithNestedSpeechMergeAndLegacyKeyRemoval" computerName="CHILDHOOD" duration="00:00:00.0177646" startTime="2026-10-21T17:58:35.0322494+08:00" endTime="2026-10-21T17:58:35.0504521+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="828e29ba-7d47-4cce-bde2-975f615ccdc2" />
+    <UnitTestResult executionId="a129c46d-0a10-4ce0-82b3-3af3952286dc" testId="3d71b52b-e4ad-93c2-416e-ac5675ec62cb" testName="PathMemoryMenuAndCtrlHUseClassicContextMenuRuntime" computerName="CHILDHOOD" duration="00:00:00.0295837" startTime="2026-10-21T17:58:37.2023874+08:00" endTime="2026-10-21T17:58:37.2328144+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a129c46d-0a10-4ce0-82b3-3af3952286dc" />
+    <UnitTestResult executionId="db835648-3726-43d9-b866-f93e38cbe507" testId="1e2e96cc-4d49-dd97-935a-ffd5f96ec0e4" testName="WiresNonDestructiveMenuActionsWithoutDefaultStatusFallback" computerName="CHILDHOOD" duration="00:00:00.1195911" startTime="2026-10-21T17:58:35.6876528+08:00" endTime="2026-10-21T17:58:35.8072839+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="db835648-3726-43d9-b866-f93e38cbe507" />
+    <UnitTestResult executionId="9a5af37e-42b9-4ff7-8b09-fae0cbae9b35" testId="a843aa91-1dba-88cb-818f-28d7a7379572" testName="WiresBatchRenameSandboxesMenuActionToSandboxAdminService" computerName="CHILDHOOD" duration="00:00:00.2977415" startTime="2026-10-21T17:58:36.3989260+08:00" endTime="2026-10-21T17:58:36.6961313+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9a5af37e-42b9-4ff7-8b09-fae0cbae9b35" />
+    <UnitTestResult executionId="d0e762f2-f63f-4d1e-b666-ee32d15a4ab6" testId="447b69eb-55c7-900a-5c78-1fcadb354988" testName="BothCountDialogsExpose999WithoutChangingAccessibility" computerName="CHILDHOOD" duration="00:00:00.2333720" startTime="2026-10-21T17:58:36.9684981+08:00" endTime="2026-10-21T17:58:37.2023874+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d0e762f2-f63f-4d1e-b666-ee32d15a4ab6" />
+    <UnitTestResult executionId="495d0d02-b2dc-48be-95e5-827c0a68828d" testId="2642f7b7-2bc4-16b6-05ef-d5c323a2143b" testName="MigratesLegacyJsonAndFallsBackFromMalformedData" computerName="CHILDHOOD" duration="00:00:00.0373843" startTime="2026-10-21T17:58:35.0504521+08:00" endTime="2026-10-21T17:58:35.0883177+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="495d0d02-b2dc-48be-95e5-827c0a68828d" />
+    <UnitTestResult executionId="7b71dbc8-0ed9-4ec7-9b88-b028c5103855" testId="0ab644f4-250a-f01b-61ea-1366e585ebd1" testName="ContextMenuSelectAllRemainsOneWay" computerName="CHILDHOOD" duration="00:00:00.0194640" startTime="2026-10-21T17:58:40.5009665+08:00" endTime="2026-10-21T17:58:40.5199183+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7b71dbc8-0ed9-4ec7-9b88-b028c5103855" />
+    <UnitTestResult executionId="90c3e96a-60de-4359-8fb4-5c020c18f00b" testId="6581bfd1-c9b2-3a99-15ea-b7afb279074a" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;volume&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0139112" startTime="2026-10-21T17:58:34.8569298+08:00" endTime="2026-10-21T17:58:34.8708917+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="90c3e96a-60de-4359-8fb4-5c020c18f00b" />
+    <UnitTestResult executionId="0f53dd20-3496-4e43-8082-739711742cc5" testId="495d8325-dbf2-caaa-f063-842fcbea65bd" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;pinned&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.0092241" startTime="2026-10-21T17:58:34.7944196+08:00" endTime="2026-10-21T17:58:34.8035801+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0f53dd20-3496-4e43-8082-739711742cc5" />
+    <UnitTestResult executionId="954bea3b-95fb-43d2-b049-eaaa13b9aa18" testId="a738381f-9d56-8d22-5ae3-4a5a170f7618" testName="ResetSettingsUsesExactTextAndClearsPathsBeforeApplyingDefaults" computerName="CHILDHOOD" duration="00:00:00.0139739" startTime="2026-10-21T17:58:35.1391885+08:00" endTime="2026-10-21T17:58:35.1541474+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="954bea3b-95fb-43d2-b049-eaaa13b9aa18" />
+    <UnitTestResult executionId="dda4b614-8685-4ebb-a27f-54370118a777" testId="11c8ca57-ba29-4380-1039-577fb30c8ea6" testName="ReleaseBuildCopiesUpdaterBesideMainExecutable" computerName="CHILDHOOD" duration="00:00:00.0005906" startTime="2026-10-21T17:58:35.6786774+08:00" endTime="2026-10-21T17:58:35.6786774+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dda4b614-8685-4ebb-a27f-54370118a777" />
+    <UnitTestResult executionId="ef8ea415-56d3-4275-84c2-f8bae67b022d" testId="f8ba1c4b-3618-3a2f-ac2b-085fe7cf1494" testName="WiresRestoreMenuActionToBackupRestoreService" computerName="CHILDHOOD" duration="00:00:00.1230842" startTime="2026-10-21T17:58:35.9289924+08:00" endTime="2026-10-21T17:58:36.0528279+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ef8ea415-56d3-4275-84c2-f8bae67b022d" />
+    <UnitTestResult executionId="c1335307-e923-42d2-a1d3-f1dcb2b6b343" testId="15267194-8447-90c8-680e-ca6abb3728dd" testName="SpeechDialogNormalizesReaderIniValuesExactlyLikePython" computerName="CHILDHOOD" duration="00:00:00.0018084" startTime="2026-10-21T17:58:40.7972455+08:00" endTime="2026-10-21T17:58:40.7992404+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c1335307-e923-42d2-a1d3-f1dcb2b6b343" />
+    <UnitTestResult executionId="60f65ef7-181e-4c61-afd3-0373f3b611ea" testId="7bfacf11-5773-4b7a-ac00-71673f7fa8b2" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;hotkeys&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0166040" startTime="2026-10-21T17:58:34.8708917+08:00" endTime="2026-10-21T17:58:34.8878457+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="60f65ef7-181e-4c61-afd3-0373f3b611ea" />
+    <UnitTestResult executionId="7c53ca38-2f1a-48f0-88b0-34a969a4d7e1" testId="18556597-b825-2706-ef32-c65b06f20a65" testName="EscapeUsesOriginalPythonStatusAndSpeechForTrayAndWindowFallback" computerName="CHILDHOOD" duration="00:00:00.3638040" startTime="2026-10-21T17:58:34.1460287+08:00" endTime="2026-10-21T17:58:34.5095213+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7c53ca38-2f1a-48f0-88b0-34a969a4d7e1" />
+    <UnitTestResult executionId="53b073cd-9e4c-4672-bfd7-25985def0c31" testId="d78f26f6-5951-f426-13e8-8e696e097147" testName="ExplicitSandboxChecksUpdateSelectionFeedback" computerName="CHILDHOOD" duration="00:00:00.0126489" startTime="2026-10-21T17:58:38.3584341+08:00" endTime="2026-10-21T17:58:38.3713999+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="53b073cd-9e4c-4672-bfd7-25985def0c31" />
+    <UnitTestResult executionId="8520bd91-12ff-49c4-b8d6-1014d73d8a76" testId="d22670d9-30b2-a68b-0523-9e30f14d0dfb" testName="PathMemoryActionsUseHistoryServiceInsteadOfDefaultFallback" computerName="CHILDHOOD" duration="00:00:00.0634957" startTime="2026-10-21T17:58:37.2517630+08:00" endTime="2026-10-21T17:58:37.3155913+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8520bd91-12ff-49c4-b8d6-1014d73d8a76" />
+    <UnitTestResult executionId="4c755819-63e2-4b67-8786-f7657310a609" testId="c5e2dff6-5a09-0a87-5b3c-0fb1c5345882" testName="SandboxListRefreshSuppressesToggleFeedbackAndKeepsRefreshStatus" computerName="CHILDHOOD" duration="00:00:00.0159050" startTime="2026-10-21T17:58:38.3713999+08:00" endTime="2026-10-21T17:58:38.3873575+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4c755819-63e2-4b67-8786-f7657310a609" />
+    <UnitTestResult executionId="3907aedb-be49-4145-8bb1-9057868ffaf0" testId="3f738417-32ea-ef95-7e42-880741c226a4" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;history&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.0994886" startTime="2026-10-21T17:58:34.6551351+08:00" endTime="2026-10-21T17:58:34.7605117+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3907aedb-be49-4145-8bb1-9057868ffaf0" />
+    <UnitTestResult executionId="6cf0f2f5-51f3-4b57-b44a-31ad88548f13" testId="51afc166-df50-8764-c54f-0d5ab8a59011" testName="PasteActionResolvesClipboardDataLikePython (&quot;files-first&quot;)" computerName="CHILDHOOD" duration="00:00:00.6873082" startTime="2026-10-21T17:58:33.2993286+08:00" endTime="2026-10-21T17:58:34.0762148+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6cf0f2f5-51f3-4b57-b44a-31ad88548f13" />
+    <UnitTestResult executionId="8c035753-d0c2-405c-ab8e-0c144b18d451" testId="36a26bdc-e19a-139c-167d-d4867d5285c7" testName="BuildsConcurrencyDropdownFromLogicalProcessorCount" computerName="CHILDHOOD" duration="00:00:00.0720857" startTime="2026-10-21T17:58:40.6037309+08:00" endTime="2026-10-21T17:58:40.6755393+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8c035753-d0c2-405c-ab8e-0c144b18d451" />
+    <UnitTestResult executionId="1ac0dc3f-4e30-4a57-87c1-6727a7a2737e" testId="24780c34-97ce-0056-d77c-5617b8622702" testName="AddsExistingExecutablesWithPythonOrderingDeduplicationAndCallbacks" computerName="CHILDHOOD" duration="00:00:00.1489373" startTime="2026-10-21T17:58:33.0227434+08:00" endTime="2026-10-21T17:58:33.1725263+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1ac0dc3f-4e30-4a57-87c1-6727a7a2737e" />
+    <UnitTestResult executionId="a6d58878-56c1-46c1-b1b6-ee875ff64608" testId="8f3a139e-c36d-cb51-ed11-8457d8f42423" testName="ProcessCmdKeyDispatchesEnabledCustomActionsThroughRuntimePath" computerName="CHILDHOOD" duration="00:00:00.0098013" startTime="2026-10-21T17:58:35.3606310+08:00" endTime="2026-10-21T17:58:35.3706368+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a6d58878-56c1-46c1-b1b6-ee875ff64608" />
+    <UnitTestResult executionId="36ef6422-2a70-4bf0-b311-347e87ddbcc3" testId="f71baf06-e5b4-9f4b-e457-b7bb7fd4013f" testName="AppliesMemoryMutationsWithExactStatusesAndSaveRefreshCallbacks" computerName="CHILDHOOD" duration="00:00:00.0070764" startTime="2026-10-21T17:58:33.2853303+08:00" endTime="2026-10-21T17:58:33.2923123+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="36ef6422-2a70-4bf0-b311-347e87ddbcc3" />
+    <UnitTestResult executionId="e4167e74-c639-4a7a-96a3-aa4b128aad34" testId="ff76b6ae-2ce3-d31b-c70a-0b5be30ecd1b" testName="InitializesPythonPathsStateAndStartupOrder" computerName="CHILDHOOD" duration="00:00:00.0387339" startTime="2026-10-21T17:58:35.2809472+08:00" endTime="2026-10-21T17:58:35.3197407+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e4167e74-c639-4a7a-96a3-aa4b128aad34" />
+    <UnitTestResult executionId="57f43570-10e4-4373-8195-39445812887d" testId="cd58d65c-b724-864a-52fe-b835af84109a" testName="EmptyListToggleDoesNotAnnounceASelectionChange (&quot;ctrl-a&quot;)" computerName="CHILDHOOD" duration="00:00:00.0108038" startTime="2026-10-21T17:58:40.4880017+08:00" endTime="2026-10-21T17:58:40.4999692+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="57f43570-10e4-4373-8195-39445812887d" />
+    <UnitTestResult executionId="1b916928-7f85-4670-8be8-d30889c2d398" testId="aed0f9ea-b0be-7e20-828a-c01552f6bebb" testName="ComposesEveryMigratedServiceAndRealProcessBoundary" computerName="CHILDHOOD" duration="00:00:00.0980152" startTime="2026-10-21T17:58:35.1820723+08:00" endTime="2026-10-21T17:58:35.2809472+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1b916928-7f85-4670-8be8-d30889c2d398" />
+    <UnitTestResult executionId="7324ae90-f32c-42ea-9e21-37a134c7c7ff" testId="b132a21e-eac1-13dd-8894-84726424c59e" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;groups&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0159370" startTime="2026-10-21T17:58:34.8409733+08:00" endTime="2026-10-21T17:58:34.8569298+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7324ae90-f32c-42ea-9e21-37a134c7c7ff" />
+    <UnitTestResult executionId="7c6876a8-471e-4384-9816-bc3e17728f16" testId="b15a1075-2d16-9b00-592d-e7d05e4784bd" testName="ExposesRestoreProgressDialogWithAccessibleStageControls" computerName="CHILDHOOD" duration="00:00:00.0111391" startTime="2026-10-21T17:58:36.8508480+08:00" endTime="2026-10-21T17:58:36.8627831+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7c6876a8-471e-4384-9816-bc3e17728f16" />
+    <UnitTestResult executionId="3c515a9c-715a-42d7-87e2-002a9cd8ab6e" testId="2c625c59-fd85-ef59-9be4-22e69697ddcd" testName="ExecutesSettingToggleActionsAndUpdatesRuntimeState" computerName="CHILDHOOD" duration="00:00:00.2000478" startTime="2026-10-21T17:58:35.4095353+08:00" endTime="2026-10-21T17:58:35.6098617+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3c515a9c-715a-42d7-87e2-002a9cd8ab6e" />
+    <UnitTestResult executionId="dc6e3eec-5b27-47cb-b51b-d1dde6d1517b" testId="403aba01-5e36-e63b-5af1-91350f204058" testName="PathMemoryManagerSaveCallbackUpdatesPersistentStateAndDisplay" computerName="CHILDHOOD" duration="00:00:00.0282586" startTime="2026-10-21T17:58:37.3155913+08:00" endTime="2026-10-21T17:58:37.3440288+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dc6e3eec-5b27-47cb-b51b-d1dde6d1517b" />
+    <UnitTestResult executionId="5b0676a7-59c5-4914-bcbf-b0f31b84ae60" testId="2782277f-70fa-7005-f912-c0afa38c164f" testName="ExecutesWindowToggleAndHonorsResetCancellation" computerName="CHILDHOOD" duration="00:00:00.0659460" startTime="2026-10-21T17:58:35.6098617+08:00" endTime="2026-10-21T17:58:35.6756852+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5b0676a7-59c5-4914-bcbf-b0f31b84ae60" />
+    <UnitTestResult executionId="6ba7057e-4bde-4109-9633-29a149dd3caf" testId="f8e7fde3-93ea-43b0-7988-0e7b724d95e9" testName="ResetSettingsSynchronizesGroupsBeforeRefreshingSandboxList" computerName="CHILDHOOD" duration="00:00:00.0337502" startTime="2026-10-21T17:58:41.1004024+08:00" endTime="2026-10-21T17:58:41.1363061+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6ba7057e-4bde-4109-9633-29a149dd3caf" />
+    <UnitTestResult executionId="7261dce0-1172-4c72-8764-8eb81cec5cd5" testId="5f0b1fe4-a00a-c807-eb67-9bae685e449f" testName="ProcessMenuUsesCachedMuteStateForToggleLabels" computerName="CHILDHOOD" duration="00:00:00.0123531" startTime="2026-10-21T17:58:37.4716882+08:00" endTime="2026-10-21T17:58:37.4846549+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7261dce0-1172-4c72-8764-8eb81cec5cd5" />
+    <UnitTestResult executionId="57b9abc5-afa2-49a5-84af-b6f77da3925e" testId="c9256c5a-eb81-c170-fd5a-364150a0708c" testName="PasteActionResolvesClipboardDataLikePython (&quot;invalid&quot;)" computerName="CHILDHOOD" duration="00:00:00.0142997" startTime="2026-10-21T17:58:34.1161090+08:00" endTime="2026-10-21T17:58:34.1300712+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="57b9abc5-afa2-49a5-84af-b6f77da3925e" />
+    <UnitTestResult executionId="37cb3b25-defa-4caf-a02e-da80e48fa7f0" testId="070119dd-cb56-d25a-7065-034aaf67faa5" testName="AppliesSandboxRootAndSandboxiePathOnlyWhenValid" computerName="CHILDHOOD" duration="00:00:00.0275550" startTime="2026-10-21T17:58:35.1541474+08:00" endTime="2026-10-21T17:58:35.1820723+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="37cb3b25-defa-4caf-a02e-da80e48fa7f0" />
+    <UnitTestResult executionId="5f27fa2b-37a6-4bf3-b17d-f0aa81d4bdac" testId="a32ac3f7-f710-c01a-b324-ebcf2d980003" testName="WiresScheduleLaunchMenuActionToLaunchScheduler" computerName="CHILDHOOD" duration="00:00:00.0483306" startTime="2026-10-21T17:58:36.1914766+08:00" endTime="2026-10-21T17:58:36.2403424+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5f27fa2b-37a6-4bf3-b17d-f0aa81d4bdac" />
+    <UnitTestResult executionId="de67bd5c-398c-4740-b72f-473fee1465f4" testId="bef24808-c3e1-7b92-2aac-088f7f0f139e" testName="RemovesAutomaticLoadAdjustmentFromSettings" computerName="CHILDHOOD" duration="00:00:00.0004531" startTime="2026-10-21T17:58:40.6027358+08:00" endTime="2026-10-21T17:58:40.6037309+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="de67bd5c-398c-4740-b72f-473fee1465f4" />
+    <UnitTestResult executionId="78d57bca-4a4e-41ed-98b0-ece6d5a49311" testId="ff1e312b-84ca-bd99-596a-16a89a80e01b" testName="LoadingAndSavingAgainPreservesNestedSettingsAcrossInstances" computerName="CHILDHOOD" duration="00:00:00.0275680" startTime="2026-10-21T17:58:34.9526739+08:00" endTime="2026-10-21T17:58:34.9805991+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="78d57bca-4a4e-41ed-98b0-ece6d5a49311" />
+    <UnitTestResult executionId="98e4ac65-40ce-4229-b309-c402b0fe29db" testId="a8063c51-9bcd-dd62-b7e4-fc3f56d5a870" testName="MainFormRendersTenHistoryItemsWithoutNullListViewItem" computerName="CHILDHOOD" duration="00:00:00.0137140" startTime="2026-10-21T17:58:36.9246156+08:00" endTime="2026-10-21T17:58:36.9385774+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="98e4ac65-40ce-4229-b309-c402b0fe29db" />
+    <UnitTestResult executionId="ae3b0eff-c1f3-451e-a32d-e45c1514f847" testId="4d62f8de-7bb4-0720-0021-8add2b1c801a" testName="ProcessUiRefreshPreservesActionStatusAfterRefreshingSandboxList" computerName="CHILDHOOD" duration="00:00:00.0152290" startTime="2026-10-21T17:58:38.3873575+08:00" endTime="2026-10-21T17:58:38.4033152+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ae3b0eff-c1f3-451e-a32d-e45c1514f847" />
+    <UnitTestResult executionId="c6d4a97a-1f81-4dee-8910-c42e0b183d28" testId="4cbffe59-e3d7-b758-da76-8b11a0684b4d" testName="HotkeyDialogPreservesLayoutFocusOrderAndEditorBehavior" computerName="CHILDHOOD" duration="00:00:00.0432501" startTime="2026-10-21T17:58:40.5199183+08:00" endTime="2026-10-21T17:58:40.5638375+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6d4a97a-1f81-4dee-8910-c42e0b183d28" />
+    <UnitTestResult executionId="66fa2338-2fdd-4bf7-87d9-66a354e14e91" testId="d5868b90-b7d3-dec4-df07-3cfd0c3d3426" testName="SelectionLiveRefreshDoesNotRefreshVisibleRunningStates" computerName="CHILDHOOD" duration="00:00:00.0141438" startTime="2026-10-21T17:58:38.1549804+08:00" endTime="2026-10-21T17:58:38.1689418+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="66fa2338-2fdd-4bf7-87d9-66a354e14e91" />
+    <UnitTestResult executionId="51f42bc4-ccfa-4d44-9192-9b6f05391ac8" testId="d20d3451-cbad-eda1-a226-10624ea63d11" testName="ExposesExactDefaultsAndPathMemoryText" computerName="CHILDHOOD" duration="00:00:00.0160851" startTime="2026-10-21T17:58:32.7045931+08:00" endTime="2026-10-21T17:58:33.0028318+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="51f42bc4-ccfa-4d44-9192-9b6f05391ac8" />
+    <UnitTestResult executionId="aa38a527-2cb9-4885-a9f5-326eaf0424ce" testId="f7a3d43c-ff10-9a0a-6b7f-ae60a5c65736" testName="WiresCreateGroupMenuActionToSandboxAdminState" computerName="CHILDHOOD" duration="00:00:00.0745540" startTime="2026-10-21T17:58:36.0538257+08:00" endTime="2026-10-21T17:58:36.1286321+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aa38a527-2cb9-4885-a9f5-326eaf0424ce" />
+    <UnitTestResult executionId="3ea6e7de-4047-40b7-ab56-493fd22dad0e" testId="65886f82-559e-80d4-4273-18d854d9eadb" testName="WiresLaunchGroupMenuActionToLaunchScheduler" computerName="CHILDHOOD" duration="00:00:00.0625775" startTime="2026-10-21T17:58:36.1286321+08:00" endTime="2026-10-21T17:58:36.1914766+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3ea6e7de-4047-40b7-ab56-493fd22dad0e" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="ProcessUiRefreshPreservesActionStatusAfterRefreshingSandboxList" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="4d62f8de-7bb4-0720-0021-8add2b1c801a">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="ae3b0eff-c1f3-451e-a32d-e45c1514f847" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessMenuRuntimeContractTests" name="ProcessUiRefreshPreservesActionStatusAfterRefreshingSandboxList" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;groups&quot;,True)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="b132a21e-eac1-13dd-8894-84726424c59e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="7324ae90-f32c-42ea-9e21-37a134c7c7ff" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;speech&quot;,True)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="8ce1f4db-1c10-02f4-d58b-b7bf229430f9">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="7e7f658c-2931-40ac-a37a-b18828b24648" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ResetSettingsUsesExactTextAndClearsPathsBeforeApplyingDefaults" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="a738381f-9d56-8d22-5ae3-4a5a170f7618">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsService" />
+      </TestCategory>
+      <Execution id="954bea3b-95fb-43d2-b049-eaaa13b9aa18" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LauncherSettingsServiceContractTests" name="ResetSettingsUsesExactTextAndClearsPathsBeforeApplyingDefaults" />
+    </UnitTest>
+    <UnitTest name="ProcessMenuUsesVisibleRunningMarkersWithoutUiThreadFallbackScan" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="727c92e3-60ce-2387-ddb0-dfda56ad366d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="af9c9b7c-9673-49f6-ad11-56e9862338fa" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessMenuRuntimeContractTests" name="ProcessMenuUsesVisibleRunningMarkersWithoutUiThreadFallbackScan" />
+    </UnitTest>
+    <UnitTest name="ReleaseBuildCopiesUpdaterBesideMainExecutable" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="11c8ca57-ba29-4380-1039-577fb30c8ea6">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="dda4b614-8685-4ebb-a27f-54370118a777" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ReleaseBuildCopiesUpdaterBesideMainExecutable" />
+    </UnitTest>
+    <UnitTest name="ExposesExactDefaultsAndPathMemoryText" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="d20d3451-cbad-eda1-a226-10624ea63d11">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="51f42bc4-ccfa-4d44-9192-9b6f05391ac8" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathHistoryServiceContractTests" name="ExposesExactDefaultsAndPathMemoryText" />
+    </UnitTest>
+    <UnitTest name="WiresDeleteGroupMenuActionToSandboxAdminState" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="f116790d-5638-b374-cded-f9ff7574f76b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="7a469a90-8e2d-4575-a894-95027c81dd04" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresDeleteGroupMenuActionToSandboxAdminState" />
+    </UnitTest>
+    <UnitTest name="SettingsDialogPreservesControlsRangesTextAndSaveKeys" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="bce6a397-5805-e944-5c01-7622d2e1b40f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="64dcc33b-372c-48d1-8306-1eb8063a7294" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="SettingsDialogPreservesControlsRangesTextAndSaveKeys" />
+    </UnitTest>
+    <UnitTest name="SandboxListRefreshSuppressesToggleFeedbackAndKeepsRefreshStatus" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="c5e2dff6-5a09-0a87-5b3c-0fb1c5345882">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="4c755819-63e2-4b67-8786-f7657310a609" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessMenuRuntimeContractTests" name="SandboxListRefreshSuppressesToggleFeedbackAndKeepsRefreshStatus" />
+    </UnitTest>
+    <UnitTest name="ProcessMenuLiveRefreshUsesOneSandboxProcessSnapshot" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="12724ff0-636d-9e3c-20ad-439dee247752">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="55c08ed0-0bad-47f9-8d51-2f9f9933a4b6" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessMenuRuntimeContractTests" name="ProcessMenuLiveRefreshUsesOneSandboxProcessSnapshot" />
+    </UnitTest>
+    <UnitTest name="ExtractsExecutableFromRawQuotedNewlineAndFileUriText" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="0bf6c7e0-a2f7-b151-0d6c-8553140d0f6b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="74b89d92-d7df-4aea-9b7c-c9da7cea72e2" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathHistoryServiceContractTests" name="ExtractsExecutableFromRawQuotedNewlineAndFileUriText" />
+    </UnitTest>
+    <UnitTest name="PathMemoryManagerSaveCallbackUpdatesPersistentStateAndDisplay" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="403aba01-5e36-e63b-5af1-91350f204058">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="dc6e3eec-5b27-47cb-b51b-d1dde6d1517b" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathMemoryRuntimeContractTests" name="PathMemoryManagerSaveCallbackUpdatesPersistentStateAndDisplay" />
+    </UnitTest>
+    <UnitTest name="SelectionLiveRefreshDoesNotRefreshVisibleRunningStates" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="d5868b90-b7d3-dec4-df07-3cfd0c3d3426">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="66fa2338-2fdd-4bf7-87d9-66a354e14e91" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessMenuRuntimeContractTests" name="SelectionLiveRefreshDoesNotRefreshVisibleRunningStates" />
+    </UnitTest>
+    <UnitTest name="ExecutesWindowToggleAndHonorsResetCancellation" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="2782277f-70fa-7005-f912-c0afa38c164f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="5b0676a7-59c5-4914-bcbf-b0f31b84ae60" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ExecutesWindowToggleAndHonorsResetCancellation" />
+    </UnitTest>
+    <UnitTest name="WiresRepairSandboxieControlSettingsMenuActionToSandboxAdminService" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="46ecab02-53d1-5499-109a-306f8c7cdcde">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="ec715acb-4a08-4ce2-99f8-47491dcb917e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresRepairSandboxieControlSettingsMenuActionToSandboxAdminService" />
+    </UnitTest>
+    <UnitTest name="CancellationAndWriteFailureKeepPythonFeedbackWithoutReload" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="957e4b11-c62d-2bbc-7d4c-2f197db567ba">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SandboxAdmin" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="6f6f06a1-af5e-42db-aa27-d56df4ff467d" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieRepairReloadRuntimeContractTests" name="CancellationAndWriteFailureKeepPythonFeedbackWithoutReload" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;speech&quot;,False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="048275ef-060d-4793-b22c-7f03f9cfbf8e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="1ba7d024-a90c-4803-9226-a7d396745f8f" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="AddsExistingExecutablesWithPythonOrderingDeduplicationAndCallbacks" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="24780c34-97ce-0056-d77c-5617b8622702">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="1ac0dc3f-4e30-4a57-87c1-6727a7a2737e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathHistoryServiceContractTests" name="AddsExistingExecutablesWithPythonOrderingDeduplicationAndCallbacks" />
+    </UnitTest>
+    <UnitTest name="HotkeyDialogPreservesLayoutFocusOrderAndEditorBehavior" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="4cbffe59-e3d7-b758-da76-8b11a0684b4d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="c6d4a97a-1f81-4dee-8910-c42e0b183d28" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="HotkeyDialogPreservesLayoutFocusOrderAndEditorBehavior" />
+    </UnitTest>
+    <UnitTest name="HistoryServiceNormalizesZeroTo999AndRetains999Records" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="5780c807-24c7-602b-b3b7-2784393d723d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="9230be5d-6470-47ce-834f-09c58c5ff53c" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="HistoryServiceNormalizesZeroTo999AndRetains999Records" />
+    </UnitTest>
+    <UnitTest name="RemovesAutomaticLoadAdjustmentFromSettings" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="bef24808-c3e1-7b92-2aac-088f7f0f139e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="de67bd5c-398c-4740-b72f-473fee1465f4" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="RemovesAutomaticLoadAdjustmentFromSettings" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;hotkeys&quot;,True)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="7bfacf11-5773-4b7a-ac00-71673f7fa8b2">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="60f65ef7-181e-4c61-afd3-0373f3b611ea" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="InitializesPythonPathsStateAndStartupOrder" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="ff76b6ae-2ce3-d31b-c70a-0b5be30ecd1b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="e4167e74-c639-4a7a-96a3-aa4b128aad34" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="InitializesPythonPathsStateAndStartupOrder" />
+    </UnitTest>
+    <UnitTest name="ExposesRestoreProgressDialogWithAccessibleStageControls" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="b15a1075-2d16-9b00-592d-e7d05e4784bd">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="7c6876a8-471e-4384-9816-bc3e17728f16" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ExposesRestoreProgressDialogWithAccessibleStageControls" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;history&quot;,True)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="8bd9c144-70a5-9c1b-c3da-e637fc5614b8">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="01b4006b-dc93-4b84-9079-ba091a8735b8" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="FileMenuAndCtrlAToggleCheckableRowsLikePython (&quot;ctrl-a&quot;)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="bc1ae7e1-b1af-5727-7461-228d18b3f769">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="4c5b4a6b-0adf-4274-a0dd-89aa62fdf1d1" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SelectAllToggleRuntimeContractTests" name="FileMenuAndCtrlAToggleCheckableRowsLikePython" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;pinned&quot;,False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="495d8325-dbf2-caaa-f063-842fcbea65bd">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="0f53dd20-3496-4e43-8082-739711742cc5" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ProcessUiRefreshRecomputesLiveMuteStateWithoutBlockingUi" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="3413b1c2-9d35-9b1a-eb8f-36f9efd2018e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="6fb8d395-773f-4085-8c4b-e08ff41e0f74" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessMenuRuntimeContractTests" name="ProcessUiRefreshRecomputesLiveMuteStateWithoutBlockingUi" />
+    </UnitTest>
+    <UnitTest name="ResolvesClipboardCandidatesInPythonFileThenTextOrder" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="ea98e8a6-db99-8a9b-b057-56736e992a5f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="11c92e8b-5f46-4b78-96df-8e50124e1772" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathHistoryServiceContractTests" name="ResolvesClipboardCandidatesInPythonFileThenTextOrder" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;hotkeys&quot;,False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="9234197d-7632-2b33-2802-ea0512c47840">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="9671facd-e93d-4d77-90f7-a5bd6f49f31d" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ProcessCmdKeyLeavesDisabledInvalidAndUnknownHotkeysToWinForms" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="20692c15-9840-a3dd-03b3-fefeed645367">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="2411efe4-1332-47ba-afcc-a1d3b31a9cd7" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ProcessCmdKeyLeavesDisabledInvalidAndUnknownHotkeysToWinForms" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;pinned&quot;,True)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="b46f1114-9d43-ed6e-9acb-7df28128a402">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="21830a79-8f4a-47d3-9a0a-e18c31cdb79d" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="WiresBatchCreateSandboxesMenuActionToSandboxieClient" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="ceb0da76-aa8a-6358-0fe1-a60991a4d20c">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="1c72649b-ef72-4746-addb-cd250cd5d55f" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresBatchCreateSandboxesMenuActionToSandboxieClient" />
+    </UnitTest>
+    <UnitTest name="ProcessUiRefreshDoesNotScanAllSandboxPidsOnUiThread" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="a22f90d0-f7ca-1e0f-573a-03b28e03fa40">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="c6db78c7-0bb9-468f-83fa-05c70c1b6604" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessMenuRuntimeContractTests" name="ProcessUiRefreshDoesNotScanAllSandboxPidsOnUiThread" />
+    </UnitTest>
+    <UnitTest name="SpeechDialogPreservesVisibleUiChoiceMappingAndSaveShortCircuitOrder" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="71dde45c-9603-2052-7e8e-57b8e0086f03">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="22d4b3f5-16ea-481d-b2e5-fc7c4908ceb4" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="SpeechDialogPreservesVisibleUiChoiceMappingAndSaveShortCircuitOrder" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;volume&quot;,True)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="6581bfd1-c9b2-3a99-15ea-b7afb279074a">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="90c3e96a-60de-4359-8fb4-5c020c18f00b" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="AppPathHistoryViewUsesDisplayTextTagsAndRestoresSelectionChecksWithoutScanning" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="9b23deb2-7679-6c47-4b30-a0a3955ebf6e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="da02702b-ee8c-4fcf-b43f-e6c2e4c822ce" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathMemoryRuntimeContractTests" name="AppPathHistoryViewUsesDisplayTextTagsAndRestoresSelectionChecksWithoutScanning" />
+    </UnitTest>
+    <UnitTest name="WiresScheduleCloseMenuActionToLaunchScheduler" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="a7edcb2a-ccdb-4dcc-d2e4-2c542e2c6c3f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="5d0fd6f5-0a48-4813-8058-112568aa8ed4" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresScheduleCloseMenuActionToLaunchScheduler" />
+    </UnitTest>
+    <UnitTest name="LoadingAndSavingAgainPreservesNestedSettingsAcrossInstances" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="ff1e312b-84ca-bd99-596a-16a89a80e01b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="78d57bca-4a4e-41ed-98b0-ece6d5a49311" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="LoadingAndSavingAgainPreservesNestedSettingsAcrossInstances" />
+    </UnitTest>
+    <UnitTest name="NormalConstructionWiresExistingReloadMethod" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="f1e08235-6951-6ad7-c34e-aa0bc20bb164">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SandboxAdmin" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="2b02f0fb-c448-44aa-b013-53ece8966f86" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieRepairReloadRuntimeContractTests" name="NormalConstructionWiresExistingReloadMethod" />
+    </UnitTest>
+    <UnitTest name="MigratesLegacyJsonAndFallsBackFromMalformedData" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="2642f7b7-2bc4-16b6-05ef-d5c323a2143b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsService" />
+      </TestCategory>
+      <Execution id="495d0d02-b2dc-48be-95e5-827c0a68828d" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LauncherSettingsServiceContractTests" name="MigratesLegacyJsonAndFallsBackFromMalformedData" />
+    </UnitTest>
+    <UnitTest name="ProcessCmdKeyRunsCustomActionThroughMainFormDispatcher" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="ecf02a38-7bc9-df33-85e1-bb45900e7608">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="e1dd27e1-27d8-48c4-a6c0-66c0cdc0af1d" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ProcessCmdKeyRunsCustomActionThroughMainFormDispatcher" />
+    </UnitTest>
+    <UnitTest name="SelectionFeedbackHonorsTemporarySuppression" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="7ca1b94b-8f20-e171-3061-7a375af2fb36">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="61d0581e-2d32-4365-badf-7414495e8332" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessMenuRuntimeContractTests" name="SelectionFeedbackHonorsTemporarySuppression" />
+    </UnitTest>
+    <UnitTest name="ProcessMenuLiveStateRefreshCoalescesWhileWorkerIsRunning" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="84407a57-0392-e867-1db2-62c360212786">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="f765be3d-688c-42aa-b329-b64b1491b713" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessMenuRuntimeContractTests" name="ProcessMenuLiveStateRefreshCoalescesWhileWorkerIsRunning" />
+    </UnitTest>
+    <UnitTest name="WiresRestoreMenuActionToBackupRestoreService" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="f8ba1c4b-3618-3a2f-ac2b-085fe7cf1494">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="ef8ea415-56d3-4275-84c2-f8bae67b022d" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresRestoreMenuActionToBackupRestoreService" />
+    </UnitTest>
+    <UnitTest name="ExecutesSettingToggleActionsAndUpdatesRuntimeState" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="2c625c59-fd85-ef59-9be4-22e69697ddcd">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="3c515a9c-715a-42d7-87e2-002a9cd8ab6e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ExecutesSettingToggleActionsAndUpdatesRuntimeState" />
+    </UnitTest>
+    <UnitTest name="MenuBarRebuildDoesNotScanAllSandboxPidsOnUiThread" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="eca42174-47f6-9118-8fef-1e218208cb56">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="f38ada74-d4ac-4bae-9819-7f015d654475" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessMenuRuntimeContractTests" name="MenuBarRebuildDoesNotScanAllSandboxPidsOnUiThread" />
+    </UnitTest>
+    <UnitTest name="SaveSettingsWritesRuntimeStateAndRemovesLegacyKeys" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="af86417c-8309-61a0-dc79-a0f53ec71b21">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsService" />
+      </TestCategory>
+      <Execution id="742fcc3e-e7a3-497b-8594-a7179c81f9ba" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LauncherSettingsServiceContractTests" name="SaveSettingsWritesRuntimeStateAndRemovesLegacyKeys" />
+    </UnitTest>
+    <UnitTest name="ResetSettingsSynchronizesGroupsBeforeRefreshingSandboxList" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="f8e7fde3-93ea-43b0-7988-0e7b724d95e9">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="6ba7057e-4bde-4109-9633-29a149dd3caf" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsRuntimeContractTests" name="ResetSettingsSynchronizesGroupsBeforeRefreshingSandboxList" />
+    </UnitTest>
+    <UnitTest name="WiresMigratedFeatureServicesIntoInteractiveApplicationCallbacks" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="5260c7c2-dd81-693e-1c3a-7d73a14c94f2">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="0bfc6c8e-2120-4a16-ae37-7a2e0376c051" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresMigratedFeatureServicesIntoInteractiveApplicationCallbacks" />
+    </UnitTest>
+    <UnitTest name="ProgramPreservesCleanupSingleInstanceRunAndReleaseOrder" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="bb959113-afa0-0fab-0c93-1fd13e1d724e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="bc69615e-4dcb-4345-b2e8-0264315a98cc" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ProgramPreservesCleanupSingleInstanceRunAndReleaseOrder" />
+    </UnitTest>
+    <UnitTest name="ResolvesHistoryEntriesAndPreservesHiddenAndFullDisplayText" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="0de3126d-78a1-8dd5-5cf7-c0458606e691">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="dea86801-8e04-4e29-be77-c8c22611c66e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathHistoryServiceContractTests" name="ResolvesHistoryEntriesAndPreservesHiddenAndFullDisplayText" />
+    </UnitTest>
+    <UnitTest name="ExplicitSandboxChecksUpdateSelectionFeedback" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="d78f26f6-5951-f426-13e8-8e696e097147">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="53b073cd-9e4c-4672-bfd7-25985def0c31" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessMenuRuntimeContractTests" name="ExplicitSandboxChecksUpdateSelectionFeedback" />
+    </UnitTest>
+    <UnitTest name="PathMemoryDialogPreservesListClassicMenuAndEditing" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="026916d9-7ec4-d6e2-c44a-75213c2cb3b1">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="913ed15e-d512-4efb-81d8-f924627e5e94" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="PathMemoryDialogPreservesListClassicMenuAndEditing" />
+    </UnitTest>
+    <UnitTest name="ProcessCmdKeyDispatchesEnabledCustomActionsThroughRuntimePath" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="8f3a139e-c36d-cb51-ed11-8457d8f42423">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="a6d58878-56c1-46c1-b1b6-ee875ff64608" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ProcessCmdKeyDispatchesEnabledCustomActionsThroughRuntimePath" />
+    </UnitTest>
+    <UnitTest name="AltF4AndFileMenuExitUseOriginalPythonStatusAndSpeech" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="6713a573-9ea2-4253-5d96-5e38cfe4dd05">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Lifecycle" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="1de1e0e1-8b21-47f5-a4a6-c2ed1b76d4e9" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ExitFeedbackRuntimeContractTests" name="AltF4AndFileMenuExitUseOriginalPythonStatusAndSpeech" />
+    </UnitTest>
+    <UnitTest name="SetsCurrentExecutableAndRunsPythonCallbackOrder" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="25887a69-fce0-ae3c-d202-a1dd4d6351dd">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="ff61ba49-d4e9-45ba-8f03-0408e52ed34a" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathHistoryServiceContractTests" name="SetsCurrentExecutableAndRunsPythonCallbackOrder" />
+    </UnitTest>
+    <UnitTest name="AppliesMemoryMutationsWithExactStatusesAndSaveRefreshCallbacks" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="f71baf06-e5b4-9f4b-e457-b7bb7fd4013f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="36ef6422-2a70-4bf0-b311-347e87ddbcc3" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathHistoryServiceContractTests" name="AppliesMemoryMutationsWithExactStatusesAndSaveRefreshCallbacks" />
+    </UnitTest>
+    <UnitTest name="RepairReloadsOnceOnlyAfterWritingAndKeepsPythonFeedbackOnReloadFailure" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="9744b414-ac03-343e-c202-7489378b617f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SandboxAdmin" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="fad985b8-3169-471a-8e99-bc3c712ea485" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieRepairReloadRuntimeContractTests" name="RepairReloadsOnceOnlyAfterWritingAndKeepsPythonFeedbackOnReloadFailure" />
+    </UnitTest>
+    <UnitTest name="EmptyListToggleDoesNotAnnounceASelectionChange (&quot;file-menu&quot;)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="59e0c620-847a-373e-dc59-8b9d60042337">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="0263a5d1-2d59-4d24-8db2-a234e046727d" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SelectAllToggleRuntimeContractTests" name="EmptyListToggleDoesNotAnnounceASelectionChange" />
+    </UnitTest>
+    <UnitTest name="EscapeUsesOriginalPythonStatusAndSpeechForTrayAndWindowFallback" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="18556597-b825-2706-ef32-c65b06f20a65">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Lifecycle" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="7c53ca38-2f1a-48f0-88b0-34a969a4d7e1" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ExitFeedbackRuntimeContractTests" name="EscapeUsesOriginalPythonStatusAndSpeechForTrayAndWindowFallback" />
+    </UnitTest>
+    <UnitTest name="MainFormInitializesTenPersistedHistoryItemsWithoutThreadException" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="2479a255-a448-0719-8054-929ed8e0ff09">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="c2514e5e-d518-4ed1-907c-9e512387b3f4" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="MainFormInitializesTenPersistedHistoryItemsWithoutThreadException" />
+    </UnitTest>
+    <UnitTest name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="636fc3ca-87cb-34ef-366e-a80ee0fa216a">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="76df90c8-1afa-4a83-9a66-521a54b79601" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder" />
+    </UnitTest>
+    <UnitTest name="AppliesSandboxRootAndSandboxiePathOnlyWhenValid" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="070119dd-cb56-d25a-7065-034aaf67faa5">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsService" />
+      </TestCategory>
+      <Execution id="37cb3b25-defa-4caf-a02e-da80e48fa7f0" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LauncherSettingsServiceContractTests" name="AppliesSandboxRootAndSandboxiePathOnlyWhenValid" />
+    </UnitTest>
+    <UnitTest name="WiresBatchDeleteSandboxesMenuActionToSandboxieClient" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="b6804cd3-5f54-0f4e-8ec2-78b9bd81d362">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="e0599938-edd4-4444-8ebc-6e90890ca2ff" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresBatchDeleteSandboxesMenuActionToSandboxieClient" />
+    </UnitTest>
+    <UnitTest name="DestroyDisposesComposedApplicationServices" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="ea02dc25-9688-2ce5-784a-b8cc8d2e1238">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="bc1ee994-9802-4eb6-87e5-bb965af8588e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="DestroyDisposesComposedApplicationServices" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;groups&quot;,False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="b3359c62-e1c9-80c1-0e6a-8853a17a4b52">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="fbdda1ae-e92a-4a7d-98cc-699e403afdbd" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ProcessCmdKeyKeepsFixedHotkeysAheadOfCustomBindings" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="96b2a265-7c5f-0572-e32c-8f9ea070175e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="3e38f736-3003-4707-a2a7-68017fddc8ef" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ProcessCmdKeyKeepsFixedHotkeysAheadOfCustomBindings" />
+    </UnitTest>
+    <UnitTest name="MovingSelectionSchedulesOneLiveRefreshRequest" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="7c2f358c-136c-d790-54b4-cb936023f9ec">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="5c7a6231-647c-4f6a-bd08-51dd77fff4ff" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessMenuRuntimeContractTests" name="MovingSelectionSchedulesOneLiveRefreshRequest" />
+    </UnitTest>
+    <UnitTest name="PasteActionResolvesClipboardDataLikePython (&quot;text-fallback&quot;)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="51a14bc8-ec46-cee6-42b7-e8dfa4e5418e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="b06343b5-a02d-4e3a-98a4-ba4719089458" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ClipboardPasteRuntimeContractTests" name="PasteActionResolvesClipboardDataLikePython" />
+    </UnitTest>
+    <UnitTest name="WiresBackupMenuActionToBackupRestoreService" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="60f30418-30c5-6c3b-91dd-e709ba6ce6a5">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="bd479327-941a-46f1-a43d-3004e37113ca" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresBackupMenuActionToBackupRestoreService" />
+    </UnitTest>
+    <UnitTest name="SpeechDialogNormalizesReaderIniValuesExactlyLikePython" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="15267194-8447-90c8-680e-ca6abb3728dd">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="c1335307-e923-42d2-a1d3-f1dcb2b6b343" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="SpeechDialogNormalizesReaderIniValuesExactlyLikePython" />
+    </UnitTest>
+    <UnitTest name="SpeechDialogSanitizesConfigExactlyLikePython" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="f4d2db73-ac01-8c05-37d6-77148e553b14">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="3513d152-6d0d-43e6-b611-e63900a4af21" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="SpeechDialogSanitizesConfigExactlyLikePython" />
+    </UnitTest>
+    <UnitTest name="MainFormKeeps999AcrossLoadCommitAndManagerSave" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="f073f54f-090b-563d-8da7-1f04d7b61f4f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="245143e2-522a-4627-ba18-8c866a130939" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="MainFormKeeps999AcrossLoadCommitAndManagerSave" />
+    </UnitTest>
+    <UnitTest name="HiddenGroupProcessMenuStateRefreshesOffUiThread" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="0c973e17-24c7-3635-5e45-ae9cbf94cef1">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="ab2b278f-a125-4d1e-8989-4a4c2977d07c" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessMenuRuntimeContractTests" name="HiddenGroupProcessMenuStateRefreshesOffUiThread" />
+    </UnitTest>
+    <UnitTest name="ApplySettingsNormalizesStateAndRunsCallbacksInPythonOrder" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="2daa5bac-8a01-1cbb-1eb6-110a75c15e1a">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsService" />
+      </TestCategory>
+      <Execution id="f49dce5d-aeb6-457f-aea4-43f9b30bdddc" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LauncherSettingsServiceContractTests" name="ApplySettingsNormalizesStateAndRunsCallbacksInPythonOrder" />
+    </UnitTest>
+    <UnitTest name="PathMemoryMenuAndCtrlHUseClassicContextMenuRuntime" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="3d71b52b-e4ad-93c2-416e-ac5675ec62cb">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="a129c46d-0a10-4ce0-82b3-3af3952286dc" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathMemoryRuntimeContractTests" name="PathMemoryMenuAndCtrlHUseClassicContextMenuRuntime" />
+    </UnitTest>
+    <UnitTest name="ResetSettingsRestoresSwitchesWithoutSynchronousProcessScan" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="c5052007-6a11-17d4-6792-553e3b8602ed">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="406508f8-a600-460b-b0b7-8f5799f6e7b4" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsRuntimeContractTests" name="ResetSettingsRestoresSwitchesWithoutSynchronousProcessScan" />
+    </UnitTest>
+    <UnitTest name="WiresNonDestructiveMenuActionsWithoutDefaultStatusFallback" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="1e2e96cc-4d49-dd97-935a-ffd5f96ec0e4">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="db835648-3726-43d9-b866-f93e38cbe507" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresNonDestructiveMenuActionsWithoutDefaultStatusFallback" />
+    </UnitTest>
+    <UnitTest name="WiresCreateGroupMenuActionToSandboxAdminState" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="f7a3d43c-ff10-9a0a-6b7f-ae60a5c65736">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="aa38a527-2cb9-4885-a9f5-326eaf0424ce" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresCreateGroupMenuActionToSandboxAdminState" />
+    </UnitTest>
+    <UnitTest name="BuildsComboBoxViewWithSelectionApplicationDirectoryAndCheckedIndices" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="c0e37ffa-58a3-a6d3-d74a-cdf8e55892d8">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="e6c633ca-3f4d-400d-abdf-92209151d2f0" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathHistoryServiceContractTests" name="BuildsComboBoxViewWithSelectionApplicationDirectoryAndCheckedIndices" />
+    </UnitTest>
+    <UnitTest name="PasteActionResolvesClipboardDataLikePython (&quot;empty&quot;)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="07d51fef-1e55-17f4-7922-5fa68764e5c7">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="a6fb12e8-af27-4d6c-97f9-2eebdc915862" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ClipboardPasteRuntimeContractTests" name="PasteActionResolvesClipboardDataLikePython" />
+    </UnitTest>
+    <UnitTest name="BuildsConcurrencyDropdownFromLogicalProcessorCount" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="36a26bdc-e19a-139c-167d-d4867d5285c7">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="8c035753-d0c2-405c-ab8e-0c144b18d451" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="BuildsConcurrencyDropdownFromLogicalProcessorCount" />
+    </UnitTest>
+    <UnitTest name="MigratesPreviousOfficialUpdateSourceAndPreservesCustomSource" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="6f8cb3f1-b4ae-a631-a64f-9ad5a052b7c0">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsService" />
+      </TestCategory>
+      <Execution id="7a22a7f3-dcc6-436e-b89b-b0c7c5919827" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LauncherSettingsServiceContractTests" name="MigratesPreviousOfficialUpdateSourceAndPreservesCustomSource" />
+    </UnitTest>
+    <UnitTest name="ProcessMenuLiveRefreshDoesNotEnumerateOutputDevices" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="dce173e3-3407-2731-d41a-e8a361512fb4">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="84572749-10db-418d-8d42-b27409b7f406" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessMenuRuntimeContractTests" name="ProcessMenuLiveRefreshDoesNotEnumerateOutputDevices" />
+    </UnitTest>
+    <UnitTest name="WiresBatchRenameSandboxesMenuActionToSandboxAdminService" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="a843aa91-1dba-88cb-818f-28d7a7379572">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="9a5af37e-42b9-4ff7-8b09-fae0cbae9b35" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresBatchRenameSandboxesMenuActionToSandboxAdminService" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;volume&quot;,False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="1cb91b49-7df0-e1d7-08ea-3b054f8784e8">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="b4a052b5-e5c1-47ed-b06c-92da3874b946" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="MapsExtendedEnterToPythonNumPadEnterAndKeepsFixedKeys" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="631aad6b-4ff1-b86d-469a-0256f47741db">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="81f3d807-6e88-413a-ad03-9c9caccf55ca" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="MapsExtendedEnterToPythonNumPadEnterAndKeepsFixedKeys" />
+    </UnitTest>
+    <UnitTest name="ComposesEveryMigratedServiceAndRealProcessBoundary" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="aed0f9ea-b0be-7e20-828a-c01552f6bebb">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="1b916928-7f85-4670-8be8-d30889c2d398" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ComposesEveryMigratedServiceAndRealProcessBoundary" />
+    </UnitTest>
+    <UnitTest name="CreatesExactDefaultsAndIndependentNestedCollections" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="6ae7cc97-89a1-02fc-f91f-29d3bcc3c057">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsService" />
+      </TestCategory>
+      <Execution id="649b323b-88d0-4274-b8e4-8fd78879cd01" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LauncherSettingsServiceContractTests" name="CreatesExactDefaultsAndIndependentNestedCollections" />
+    </UnitTest>
+    <UnitTest name="PasteActionResolvesClipboardDataLikePython (&quot;invalid&quot;)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="c9256c5a-eb81-c170-fd5a-364150a0708c">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="57b9abc5-afa2-49a5-84af-b6f77da3925e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ClipboardPasteRuntimeContractTests" name="PasteActionResolvesClipboardDataLikePython" />
+    </UnitTest>
+    <UnitTest name="MainFormRendersTenHistoryItemsWithoutNullListViewItem" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="a8063c51-9bcd-dd62-b7e4-fc3f56d5a870">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="98e4ac65-40ce-4229-b309-c402b0fe29db" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="MainFormRendersTenHistoryItemsWithoutNullListViewItem" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;history&quot;,False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="3f738417-32ea-ef95-7e42-880741c226a4">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="3907aedb-be49-4145-8bb1-9057868ffaf0" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="LoadsStoredSettingsWithNestedSpeechMergeAndLegacyKeyRemoval" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="e076638e-a700-2bb2-29f1-971f9985cbfa">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsService" />
+      </TestCategory>
+      <Execution id="828e29ba-7d47-4cce-bde2-975f615ccdc2" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LauncherSettingsServiceContractTests" name="LoadsStoredSettingsWithNestedSpeechMergeAndLegacyKeyRemoval" />
+    </UnitTest>
+    <UnitTest name="SavingTypedHistoryKeepsPythonKeysAndSurvivesNextLoad" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="2c2fde88-f72d-55a6-cc04-dffe40f146ab">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="bacbc946-ab01-44c1-945a-f715dcd72ef6" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="SavingTypedHistoryKeepsPythonKeysAndSurvivesNextLoad" />
+    </UnitTest>
+    <UnitTest name="PathMemoryActionsUseHistoryServiceInsteadOfDefaultFallback" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="d22670d9-30b2-a68b-0523-9e30f14d0dfb">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="8520bd91-12ff-49c4-b8d6-1014d73d8a76" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathMemoryRuntimeContractTests" name="PathMemoryActionsUseHistoryServiceInsteadOfDefaultFallback" />
+    </UnitTest>
+    <UnitTest name="PathMemoryDialogUsesExactConfirmationsAndSavePayload" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="600ab9eb-2a61-6a65-819f-94c6830bbda8">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="5be16871-58b1-48c0-8a92-9e979d42c9ee" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="PathMemoryDialogUsesExactConfirmationsAndSavePayload" />
+    </UnitTest>
+    <UnitTest name="HotkeyDialogUsesExactValidationMessagesAndNormalizedResults" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="2f312f75-7ee2-06cb-2a06-0bf41e5de625">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="28a5d04e-3614-4662-bdd5-6da4bfe597df" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="HotkeyDialogUsesExactValidationMessagesAndNormalizedResults" />
+    </UnitTest>
+    <UnitTest name="EmptyListToggleDoesNotAnnounceASelectionChange (&quot;ctrl-a&quot;)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="cd58d65c-b724-864a-52fe-b835af84109a">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="57f43570-10e4-4373-8195-39445812887d" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SelectAllToggleRuntimeContractTests" name="EmptyListToggleDoesNotAnnounceASelectionChange" />
+    </UnitTest>
+    <UnitTest name="SettingsDialogResetUsesExactPromptAndPythonDefaults" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="5c09a045-aa2b-ecea-41fe-e79809a29260">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="fde22301-457b-4bd4-a1e9-0159b952c151" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="SettingsDialogResetUsesExactPromptAndPythonDefaults" />
+    </UnitTest>
+    <UnitTest name="WiresScheduleLaunchMenuActionToLaunchScheduler" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="a32ac3f7-f710-c01a-b324-ebcf2d980003">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="5f27fa2b-37a6-4bf3-b17d-f0aa81d4bdac" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresScheduleLaunchMenuActionToLaunchScheduler" />
+    </UnitTest>
+    <UnitTest name="WiresLaunchGroupMenuActionToLaunchScheduler" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="65886f82-559e-80d4-4273-18d854d9eadb">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="3ea6e7de-4047-40b7-ab56-493fd22dad0e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresLaunchGroupMenuActionToLaunchScheduler" />
+    </UnitTest>
+    <UnitTest name="HotkeyDialogResetsDefaultsAndDisablesHotkeysWithExactPrompt" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="76d61324-2402-764a-8f21-34e9f4ebc925">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="549901be-12c2-4c6e-b84f-4aef64734338" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="HotkeyDialogResetsDefaultsAndDisablesHotkeysWithExactPrompt" />
+    </UnitTest>
+    <UnitTest name="SettingsServiceKeeps999WhenApplyingOtherSettings" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="0e35004b-e2b9-8c0a-af36-abdc32237683">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="SettingsService" />
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="cbb82b36-19ee-41c9-aaeb-c6a5822a5fe8" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="SettingsServiceKeeps999WhenApplyingOtherSettings" />
+    </UnitTest>
+    <UnitTest name="FileMenuAndCtrlAToggleCheckableRowsLikePython (&quot;file-menu&quot;)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="f732718f-b45f-f3a2-a241-deeea3483b2d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="3e20c945-746b-4e38-bbc3-041d72d92abb" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SelectAllToggleRuntimeContractTests" name="FileMenuAndCtrlAToggleCheckableRowsLikePython" />
+    </UnitTest>
+    <UnitTest name="ProcessMenuUsesCachedMuteStateForToggleLabels" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="5f0b1fe4-a00a-c807-eb67-9bae685e449f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="7261dce0-1172-4c72-8764-8eb81cec5cd5" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessMenuRuntimeContractTests" name="ProcessMenuUsesCachedMuteStateForToggleLabels" />
+    </UnitTest>
+    <UnitTest name="PasteActionResolvesClipboardDataLikePython (&quot;files-first&quot;)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="51afc166-df50-8764-c54f-0d5ab8a59011">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="6cf0f2f5-51f3-4b57-b44a-31ad88548f13" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ClipboardPasteRuntimeContractTests" name="PasteActionResolvesClipboardDataLikePython" />
+    </UnitTest>
+    <UnitTest name="BothCountDialogsExpose999WithoutChangingAccessibility" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="447b69eb-55c7-900a-5c78-1fcadb354988">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="d0e762f2-f63f-4d1e-b666-ee32d15a4ab6" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="BothCountDialogsExpose999WithoutChangingAccessibility" />
+    </UnitTest>
+    <UnitTest name="NormalizesAndPersistsUpdateManifestUrlLikePython" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="2fffb28a-167a-69cb-bd2a-cd5120b86195">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsService" />
+      </TestCategory>
+      <Execution id="e9dbf0c3-11df-411b-8ef4-976055ee3533" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LauncherSettingsServiceContractTests" name="NormalizesAndPersistsUpdateManifestUrlLikePython" />
+    </UnitTest>
+    <UnitTest name="ContextMenuSelectAllRemainsOneWay" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\release\net48\shahelauncher.tests.dll" id="0ab644f4-250a-f01b-61ea-1366e585ebd1">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="7b71dbc8-0ed9-4ec7-9b88-b028c5103855" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\fix-bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SelectAllToggleRuntimeContractTests" name="ContextMenuSelectAllRemainsOneWay" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="bc1ae7e1-b1af-5727-7461-228d18b3f769" executionId="4c5b4a6b-0adf-4274-a0dd-89aa62fdf1d1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a7edcb2a-ccdb-4dcc-d2e4-2c542e2c6c3f" executionId="5d0fd6f5-0a48-4813-8058-112568aa8ed4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="51a14bc8-ec46-cee6-42b7-e8dfa4e5418e" executionId="b06343b5-a02d-4e3a-98a4-ba4719089458" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ceb0da76-aa8a-6358-0fe1-a60991a4d20c" executionId="1c72649b-ef72-4746-addb-cd250cd5d55f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7c2f358c-136c-d790-54b4-cb936023f9ec" executionId="5c7a6231-647c-4f6a-bd08-51dd77fff4ff" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="636fc3ca-87cb-34ef-366e-a80ee0fa216a" executionId="76df90c8-1afa-4a83-9a66-521a54b79601" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="20692c15-9840-a3dd-03b3-fefeed645367" executionId="2411efe4-1332-47ba-afcc-a1d3b31a9cd7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2fffb28a-167a-69cb-bd2a-cd5120b86195" executionId="e9dbf0c3-11df-411b-8ef4-976055ee3533" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2f312f75-7ee2-06cb-2a06-0bf41e5de625" executionId="28a5d04e-3614-4662-bdd5-6da4bfe597df" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ea98e8a6-db99-8a9b-b057-56736e992a5f" executionId="11c92e8b-5f46-4b78-96df-8e50124e1772" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="631aad6b-4ff1-b86d-469a-0256f47741db" executionId="81f3d807-6e88-413a-ad03-9c9caccf55ca" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9744b414-ac03-343e-c202-7489378b617f" executionId="fad985b8-3169-471a-8e99-bc3c712ea485" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="59e0c620-847a-373e-dc59-8b9d60042337" executionId="0263a5d1-2d59-4d24-8db2-a234e046727d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7ca1b94b-8f20-e171-3061-7a375af2fb36" executionId="61d0581e-2d32-4365-badf-7414495e8332" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2c2fde88-f72d-55a6-cc04-dffe40f146ab" executionId="bacbc946-ab01-44c1-945a-f715dcd72ef6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8bd9c144-70a5-9c1b-c3da-e637fc5614b8" executionId="01b4006b-dc93-4b84-9079-ba091a8735b8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="600ab9eb-2a61-6a65-819f-94c6830bbda8" executionId="5be16871-58b1-48c0-8a92-9e979d42c9ee" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="96b2a265-7c5f-0572-e32c-8f9ea070175e" executionId="3e38f736-3003-4707-a2a7-68017fddc8ef" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f1e08235-6951-6ad7-c34e-aa0bc20bb164" executionId="2b02f0fb-c448-44aa-b013-53ece8966f86" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2daa5bac-8a01-1cbb-1eb6-110a75c15e1a" executionId="f49dce5d-aeb6-457f-aea4-43f9b30bdddc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ea02dc25-9688-2ce5-784a-b8cc8d2e1238" executionId="bc1ee994-9802-4eb6-87e5-bb965af8588e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c5052007-6a11-17d4-6792-553e3b8602ed" executionId="406508f8-a600-460b-b0b7-8f5799f6e7b4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b3359c62-e1c9-80c1-0e6a-8853a17a4b52" executionId="fbdda1ae-e92a-4a7d-98cc-699e403afdbd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="25887a69-fce0-ae3c-d202-a1dd4d6351dd" executionId="ff61ba49-d4e9-45ba-8f03-0408e52ed34a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="957e4b11-c62d-2bbc-7d4c-2f197db567ba" executionId="6f6f06a1-af5e-42db-aa27-d56df4ff467d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f116790d-5638-b374-cded-f9ff7574f76b" executionId="7a469a90-8e2d-4575-a894-95027c81dd04" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6f8cb3f1-b4ae-a631-a64f-9ad5a052b7c0" executionId="7a22a7f3-dcc6-436e-b89b-b0c7c5919827" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bb959113-afa0-0fab-0c93-1fd13e1d724e" executionId="bc69615e-4dcb-4345-b2e8-0264315a98cc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="727c92e3-60ce-2387-ddb0-dfda56ad366d" executionId="af9c9b7c-9673-49f6-ad11-56e9862338fa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b46f1114-9d43-ed6e-9acb-7df28128a402" executionId="21830a79-8f4a-47d3-9a0a-e18c31cdb79d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="76d61324-2402-764a-8f21-34e9f4ebc925" executionId="549901be-12c2-4c6e-b84f-4aef64734338" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="46ecab02-53d1-5499-109a-306f8c7cdcde" executionId="ec715acb-4a08-4ce2-99f8-47491dcb917e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="84407a57-0392-e867-1db2-62c360212786" executionId="f765be3d-688c-42aa-b329-b64b1491b713" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f732718f-b45f-f3a2-a241-deeea3483b2d" executionId="3e20c945-746b-4e38-bbc3-041d72d92abb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8ce1f4db-1c10-02f4-d58b-b7bf229430f9" executionId="7e7f658c-2931-40ac-a37a-b18828b24648" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="07d51fef-1e55-17f4-7922-5fa68764e5c7" executionId="a6fb12e8-af27-4d6c-97f9-2eebdc915862" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ecf02a38-7bc9-df33-85e1-bb45900e7608" executionId="e1dd27e1-27d8-48c4-a6c0-66c0cdc0af1d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5780c807-24c7-602b-b3b7-2784393d723d" executionId="9230be5d-6470-47ce-834f-09c58c5ff53c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b6804cd3-5f54-0f4e-8ec2-78b9bd81d362" executionId="e0599938-edd4-4444-8ebc-6e90890ca2ff" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5260c7c2-dd81-693e-1c3a-7d73a14c94f2" executionId="0bfc6c8e-2120-4a16-ae37-7a2e0376c051" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="026916d9-7ec4-d6e2-c44a-75213c2cb3b1" executionId="913ed15e-d512-4efb-81d8-f924627e5e94" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="12724ff0-636d-9e3c-20ad-439dee247752" executionId="55c08ed0-0bad-47f9-8d51-2f9f9933a4b6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f4d2db73-ac01-8c05-37d6-77148e553b14" executionId="3513d152-6d0d-43e6-b611-e63900a4af21" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3413b1c2-9d35-9b1a-eb8f-36f9efd2018e" executionId="6fb8d395-773f-4085-8c4b-e08ff41e0f74" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f073f54f-090b-563d-8da7-1f04d7b61f4f" executionId="245143e2-522a-4627-ba18-8c866a130939" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="af86417c-8309-61a0-dc79-a0f53ec71b21" executionId="742fcc3e-e7a3-497b-8594-a7179c81f9ba" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a22f90d0-f7ca-1e0f-573a-03b28e03fa40" executionId="c6db78c7-0bb9-468f-83fa-05c70c1b6604" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6713a573-9ea2-4253-5d96-5e38cfe4dd05" executionId="1de1e0e1-8b21-47f5-a4a6-c2ed1b76d4e9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9b23deb2-7679-6c47-4b30-a0a3955ebf6e" executionId="da02702b-ee8c-4fcf-b43f-e6c2e4c822ce" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c0e37ffa-58a3-a6d3-d74a-cdf8e55892d8" executionId="e6c633ca-3f4d-400d-abdf-92209151d2f0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bce6a397-5805-e944-5c01-7622d2e1b40f" executionId="64dcc33b-372c-48d1-8306-1eb8063a7294" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1cb91b49-7df0-e1d7-08ea-3b054f8784e8" executionId="b4a052b5-e5c1-47ed-b06c-92da3874b946" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6ae7cc97-89a1-02fc-f91f-29d3bcc3c057" executionId="649b323b-88d0-4274-b8e4-8fd78879cd01" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="eca42174-47f6-9118-8fef-1e218208cb56" executionId="f38ada74-d4ac-4bae-9819-7f015d654475" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0bf6c7e0-a2f7-b151-0d6c-8553140d0f6b" executionId="74b89d92-d7df-4aea-9b7c-c9da7cea72e2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="048275ef-060d-4793-b22c-7f03f9cfbf8e" executionId="1ba7d024-a90c-4803-9226-a7d396745f8f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0e35004b-e2b9-8c0a-af36-abdc32237683" executionId="cbb82b36-19ee-41c9-aaeb-c6a5822a5fe8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="71dde45c-9603-2052-7e8e-57b8e0086f03" executionId="22d4b3f5-16ea-481d-b2e5-fc7c4908ceb4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9234197d-7632-2b33-2802-ea0512c47840" executionId="9671facd-e93d-4d77-90f7-a5bd6f49f31d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="60f30418-30c5-6c3b-91dd-e709ba6ce6a5" executionId="bd479327-941a-46f1-a43d-3004e37113ca" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0c973e17-24c7-3635-5e45-ae9cbf94cef1" executionId="ab2b278f-a125-4d1e-8989-4a4c2977d07c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0de3126d-78a1-8dd5-5cf7-c0458606e691" executionId="dea86801-8e04-4e29-be77-c8c22611c66e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dce173e3-3407-2731-d41a-e8a361512fb4" executionId="84572749-10db-418d-8d42-b27409b7f406" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5c09a045-aa2b-ecea-41fe-e79809a29260" executionId="fde22301-457b-4bd4-a1e9-0159b952c151" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2479a255-a448-0719-8054-929ed8e0ff09" executionId="c2514e5e-d518-4ed1-907c-9e512387b3f4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e076638e-a700-2bb2-29f1-971f9985cbfa" executionId="828e29ba-7d47-4cce-bde2-975f615ccdc2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3d71b52b-e4ad-93c2-416e-ac5675ec62cb" executionId="a129c46d-0a10-4ce0-82b3-3af3952286dc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1e2e96cc-4d49-dd97-935a-ffd5f96ec0e4" executionId="db835648-3726-43d9-b866-f93e38cbe507" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a843aa91-1dba-88cb-818f-28d7a7379572" executionId="9a5af37e-42b9-4ff7-8b09-fae0cbae9b35" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="447b69eb-55c7-900a-5c78-1fcadb354988" executionId="d0e762f2-f63f-4d1e-b666-ee32d15a4ab6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2642f7b7-2bc4-16b6-05ef-d5c323a2143b" executionId="495d0d02-b2dc-48be-95e5-827c0a68828d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0ab644f4-250a-f01b-61ea-1366e585ebd1" executionId="7b71dbc8-0ed9-4ec7-9b88-b028c5103855" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6581bfd1-c9b2-3a99-15ea-b7afb279074a" executionId="90c3e96a-60de-4359-8fb4-5c020c18f00b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="495d8325-dbf2-caaa-f063-842fcbea65bd" executionId="0f53dd20-3496-4e43-8082-739711742cc5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a738381f-9d56-8d22-5ae3-4a5a170f7618" executionId="954bea3b-95fb-43d2-b049-eaaa13b9aa18" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="11c8ca57-ba29-4380-1039-577fb30c8ea6" executionId="dda4b614-8685-4ebb-a27f-54370118a777" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f8ba1c4b-3618-3a2f-ac2b-085fe7cf1494" executionId="ef8ea415-56d3-4275-84c2-f8bae67b022d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="15267194-8447-90c8-680e-ca6abb3728dd" executionId="c1335307-e923-42d2-a1d3-f1dcb2b6b343" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7bfacf11-5773-4b7a-ac00-71673f7fa8b2" executionId="60f65ef7-181e-4c61-afd3-0373f3b611ea" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="18556597-b825-2706-ef32-c65b06f20a65" executionId="7c53ca38-2f1a-48f0-88b0-34a969a4d7e1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d78f26f6-5951-f426-13e8-8e696e097147" executionId="53b073cd-9e4c-4672-bfd7-25985def0c31" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d22670d9-30b2-a68b-0523-9e30f14d0dfb" executionId="8520bd91-12ff-49c4-b8d6-1014d73d8a76" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c5e2dff6-5a09-0a87-5b3c-0fb1c5345882" executionId="4c755819-63e2-4b67-8786-f7657310a609" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3f738417-32ea-ef95-7e42-880741c226a4" executionId="3907aedb-be49-4145-8bb1-9057868ffaf0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="51afc166-df50-8764-c54f-0d5ab8a59011" executionId="6cf0f2f5-51f3-4b57-b44a-31ad88548f13" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="36a26bdc-e19a-139c-167d-d4867d5285c7" executionId="8c035753-d0c2-405c-ab8e-0c144b18d451" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="24780c34-97ce-0056-d77c-5617b8622702" executionId="1ac0dc3f-4e30-4a57-87c1-6727a7a2737e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8f3a139e-c36d-cb51-ed11-8457d8f42423" executionId="a6d58878-56c1-46c1-b1b6-ee875ff64608" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f71baf06-e5b4-9f4b-e457-b7bb7fd4013f" executionId="36ef6422-2a70-4bf0-b311-347e87ddbcc3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ff76b6ae-2ce3-d31b-c70a-0b5be30ecd1b" executionId="e4167e74-c639-4a7a-96a3-aa4b128aad34" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cd58d65c-b724-864a-52fe-b835af84109a" executionId="57f43570-10e4-4373-8195-39445812887d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="aed0f9ea-b0be-7e20-828a-c01552f6bebb" executionId="1b916928-7f85-4670-8be8-d30889c2d398" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b132a21e-eac1-13dd-8894-84726424c59e" executionId="7324ae90-f32c-42ea-9e21-37a134c7c7ff" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b15a1075-2d16-9b00-592d-e7d05e4784bd" executionId="7c6876a8-471e-4384-9816-bc3e17728f16" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2c625c59-fd85-ef59-9be4-22e69697ddcd" executionId="3c515a9c-715a-42d7-87e2-002a9cd8ab6e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="403aba01-5e36-e63b-5af1-91350f204058" executionId="dc6e3eec-5b27-47cb-b51b-d1dde6d1517b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2782277f-70fa-7005-f912-c0afa38c164f" executionId="5b0676a7-59c5-4914-bcbf-b0f31b84ae60" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f8e7fde3-93ea-43b0-7988-0e7b724d95e9" executionId="6ba7057e-4bde-4109-9633-29a149dd3caf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5f0b1fe4-a00a-c807-eb67-9bae685e449f" executionId="7261dce0-1172-4c72-8764-8eb81cec5cd5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c9256c5a-eb81-c170-fd5a-364150a0708c" executionId="57b9abc5-afa2-49a5-84af-b6f77da3925e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="070119dd-cb56-d25a-7065-034aaf67faa5" executionId="37cb3b25-defa-4caf-a02e-da80e48fa7f0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a32ac3f7-f710-c01a-b324-ebcf2d980003" executionId="5f27fa2b-37a6-4bf3-b17d-f0aa81d4bdac" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bef24808-c3e1-7b92-2aac-088f7f0f139e" executionId="de67bd5c-398c-4740-b72f-473fee1465f4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ff1e312b-84ca-bd99-596a-16a89a80e01b" executionId="78d57bca-4a4e-41ed-98b0-ece6d5a49311" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a8063c51-9bcd-dd62-b7e4-fc3f56d5a870" executionId="98e4ac65-40ce-4229-b309-c402b0fe29db" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4d62f8de-7bb4-0720-0021-8add2b1c801a" executionId="ae3b0eff-c1f3-451e-a32d-e45c1514f847" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4cbffe59-e3d7-b758-da76-8b11a0684b4d" executionId="c6d4a97a-1f81-4dee-8910-c42e0b183d28" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d5868b90-b7d3-dec4-df07-3cfd0c3d3426" executionId="66fa2338-2fdd-4bf7-87d9-66a354e14e91" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d20d3451-cbad-eda1-a226-10624ea63d11" executionId="51f42bc4-ccfa-4d44-9192-9b6f05391ac8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f7a3d43c-ff10-9a0a-6b7f-ae60a5c65736" executionId="aa38a527-2cb9-4885-a9f5-326eaf0424ce" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="65886f82-559e-80d4-4273-18d854d9eadb" executionId="3ea6e7de-4047-40b7-ab56-493fd22dad0e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="111" executed="111" passed="111" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>δ���������쳣:  System.UnauthorizedAccessException: ��·����Sandboxie.ini.ɳ��������������_20261021_175840.bak���ķ��ʱ��ܾ���&#xD;
+   �� System.IO.Directory.DeleteHelper(String fullPath, String userPath, Boolean recursive, Boolean throwOnTopLevelDirectoryNotFound, WIN32_FIND_DATA&amp; data)&#xD;
+   �� System.IO.Directory.Delete(String fullPath, String userPath, Boolean recursive, Boolean checkHost)&#xD;
+   �� ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() λ�� D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:�к� 40&#xD;
+   �� System.Threading.ExecutionContext.RunInternal(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)&#xD;
+   �� System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state, Boolean preserveSyncCtx)&#xD;
+   �� System.Threading.ExecutionContext.Run(ExecutionContext executionContext, ContextCallback callback, Object state)&#xD;
+   �� System.Threading.ThreadHelper.ThreadStart()&#xD;
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-10-21T16:22:52.6182542+08:00",
+  "command": "powershell.exe -File real-path-history-probe.ps1",
+  "returnCode": 1,
+  "validProductEvidence": false,
+  "reason": "Windows PowerShell misdecoded the UTF-8 no-BOM script and failed during parsing before target launch.",
+  "resultFileCreated": false,
+  "targetProcessesAfterFailure": [],
+  "log": "artifacts/runs/csharp_non_update_gaps_20261020/gap09/real-path-history.log"
+}

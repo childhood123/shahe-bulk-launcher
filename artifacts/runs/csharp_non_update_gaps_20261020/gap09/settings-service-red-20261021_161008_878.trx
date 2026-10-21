@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="3131acc7-d57f-45ab-be50-3989383733b5" name="Administrator@CHILDHOOD 2026-10-21 16:10:17" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-21T16:10:17.7756467+08:00" queuing="2026-10-21T16:10:17.7756468+08:00" start="2026-10-21T16:10:13.4788676+08:00" finish="2026-10-21T16:10:17.7816428+08:00" />
+  <TestSettings name="default" id="36f36f66-5682-46c4-a6da-5ad0aa4a2f64">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-21_16_10_17" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="07e6b449-470d-493a-b4e7-4cc8adefbda0" testId="0e35004b-e2b9-8c0a-af36-abdc32237683" testName="SettingsServiceKeeps999WhenApplyingOtherSettings" computerName="CHILDHOOD" duration="00:00:00.6327125" startTime="2026-10-21T16:10:16.6237336+08:00" endTime="2026-10-21T16:10:17.5753465+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="07e6b449-470d-493a-b4e7-4cc8adefbda0">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: &lt;999&gt;，实际为: &lt;20&gt;。保存其他软件设置不得把 999 压回 20。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201&#xD;
+   在 ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests.&lt;&gt;c.&lt;SettingsServiceKeeps999WhenApplyingOtherSettings&gt;b__2_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\PathHistoryLimitRuntimeContractTests.cs:行号 123&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="SettingsServiceKeeps999WhenApplyingOtherSettings" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\bin\x64\release\net48\shahelauncher.tests.dll" id="0e35004b-e2b9-8c0a-af36-abdc32237683">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="SettingsService" />
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="07e6b449-470d-493a-b4e7-4cc8adefbda0" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="SettingsServiceKeeps999WhenApplyingOtherSettings" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="0e35004b-e2b9-8c0a-af36-abdc32237683" executionId="07e6b449-470d-493a-b4e7-4cc8adefbda0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" passed="0" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

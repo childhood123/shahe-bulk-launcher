@@ -1,16 +1,16 @@
 # 沙河批量打开器项目结构
 
-## 当前执行摘要（2026-10-21 GAP-09 启动）
+## 当前执行摘要（2026-10-21 GAP-09 完成待提交）
 
-- 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-08 计划复选框已按用户“搞成功来”的明确确认更新；所有后续功能继续保留 Python 原文案和行为，只用 C# 实现。
-- 当前模块：GAP-09 路径记忆数量范围。GAP-08 Sandboxie repair reload 已完成实现、自动化门禁和隔离真实进程验证；正常 `MainForm` 构造路径已接入既有 `ReloadSandboxieConfig()`，只有实际写入配置后调用一次 reload，取消、无需修复、写入失败均不调用，reload 异常继续保留 Python 原版修复成功反馈。
+- 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-09 已按用户“反正能记忆到999条记录就行之前是20”的明确要求更新为 C# `0–999`；除该用户指定差异外，后续功能继续保留 Python 原文案和行为，只用 C# 实现。
+- 当前模块：GAP-09 路径记忆数量范围（用户指定最大 999）已完成实现和验证，计划复选框已确认并更新；当前只剩选择性暂存、独立提交和推送。下一个代码模块为 GAP-10。C# 统一使用 `AppPathHistoryService.MaximumHistoryItems = 999`，Python 源码继续保留原上限 `20` 作为有意记录的产品差异。
 - GitCode 发布状态：公开仓库 `https://gitcode.com/childhood123/shahe-bulk-launcher-releases` 的 `main` 已指向 `18caa88287fc5714a90528e88cd732d0204ec135`。默认清单 `https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json` 匿名生产式请求为 HTTP `200`；清单内 content-addressed ZIP 匿名请求为 HTTP `200`。
 - 发布包状态：版本 `4.0.46`，ZIP 大小 `2785203` 字节，SHA-256 `D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8`；匿名下载后的实际大小和哈希完全一致。最终证据为 `artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-final.json`。
-- 最新自动化门禁：GAP-08 定向 `3/3`、受影响回归 `99/99`、同一隔离程序集 C# 未过滤全量复跑 `298/298`、Python 对照 `29/29` 均通过；Python 生产源码编译、Release x64 隔离构建和 `git diff --check` 返回码 `0`，构建警告 `0`、错误 `0`。首次全量的工作区原有 AuditRunner 原生输入漂移 `297/298` 保留为历史失败证据。
+- 最新自动化门禁：GAP-09 定向 `6/6`、受影响回归 `111/111`、同一 `fix-bin` 隔离程序集 C# 未过滤全量最终复跑 `304/304`、Python 对照 `29/29` 均通过；Python 生产源码编译、Release x64 隔离构建和 `git diff --check` 返回码 `0`，构建警告 `0`、错误 `0`。首次全量 `303/304` 及两次原生 AuditRunner 单项复核证据均保留，最新全量为有效复跑。
 - 版本触发边界：应用 `AppVersion` 与公开清单 `latest_version` 当前同为 `4.0.46`。本次发布建立了可用更新基线，但已运行同版本客户端不会收到“有新版本”提示；后续真实升级发布必须使用更高版本号并重新生成包、清单和校验值。
 - 已完成模块：GAP-03 至 GAP-08、VOICE-01、UPDATE-01、GAP-01、GAP-02 及此前模块保持完成；更新链路提交 `3442158`、GAP-07 提交 `0adb65e` 均已推送 `origin/fix/non-update-gaps-20261020`。剩余代码级迁移项为 GAP-09、GAP-10、VOICE-02；另有 AUDIT-01 至 AUDIT-08 和最终发布门禁。
 - 真实 updater 证据：GitCode 匿名 ZIP 在隔离生产 helper 布局下以 `restart=true` 完成下载、替换和进程重启；updater PID `11448` 返回 `0`，精确隔离路径主进程 PID `5364` 被观测并清理，安装文件哈希、用户配置和 `lib 7/7` 均通过。该场景主窗口句柄为 `0`，只证明进程重启，不替代后续发布目录 UI 启动审计。
-- C# 当前可以启动并运行已验证功能；GAP-08 单模块已完成代码、自动化和隔离真实进程验证，当前迁移 GAP-09。整体 Python→C# 迁移仍未完成，下一待迁移模块为 GAP-09。
+- C# 当前可以启动并运行已验证功能；GAP-09 已完成代码、自动化验证、生产 UI 模态对话框隔离进程验证（`0/21/999` 保存与重启）和修复后二进制真实启动烟雾测试。整体 Python→C# 迁移仍未完成，下一待迁移模块为 GAP-10；GAP-09 独立 Git 提交尚未完成。
 
 ### 本轮验证记录（只追加）
 
@@ -1114,3 +1114,81 @@ csharp/
 - 2026-10-21 GAP-08 隔离真实进程验证通过：独立 x64 探针 PID `8896` 加载本轮 Release App/Core 程序集，确认正常构造的默认委托目标为真实 `MainForm.ReloadSandboxieConfig()`；随后把 INI 路径和 reload 动作替换为隔离对象，点击真实“修复 Sandboxie Control 用户设置”菜单项，实际写入临时 INI、reload 计数 `1`，状态为“已修复 Sandboxie Control 用户设置”，消息标题/正文为 Python 原版“修复完成/已清理…”。探针返回码 `0`、自然退出，临时 INI 已清理；未执行真实 `/reload`。`C:\Windows\Sandboxie.ini` 前后 SHA-256 均为 `2709ADB23A9D1080D91C0401DC86A9F954AF81DEAFB5FFD7DF03F5AA30E75A6D`，保持未修改。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap08/real-probe-result.json`、`real-probe.log`。
 
 - 2026-10-21 GAP-08 最终差异检查：隔离真实进程证据和文档同步后 `git diff --check` 返回码 `0`，无空白错误；仅有工作区既有 LF/CRLF 提示。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap08/diff-final-20261021_152344_593-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-09 模块映射完成：用户明确要求 C# 路径记忆由原来的最大 `20` 扩展为最大 `999`，Python 源码保持原样并把该范围差异记录为产品要求。源码映射确认 `MainForm.LoadApplicationSettings()` 已按 `0–999` 加载，但 `CommitAppPathHistoryState()`、`OnPathMemorySaved()`、右键调整输入框、`AppPathHistoryService.ApplyHistoryCount()` 和 `PathMemoryManagerDialog` 仍限制为 `20`，导致 `21–999` 后续可能被静默压回 `20`。批准设计：`docs/superpowers/specs/2026-10-21-path-history-999-design.md`；映射：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/mapping.md`。下一步先建立运行时 RED；生产代码尚未修改。
+
+- 2026-10-21 GAP-09 有效 RED：使用隔离 `BaseOutputPath=artifacts/runs/csharp_non_update_gaps_20261020/gap09/bin/` 定向运行 `PathHistoryLimitRuntimeContractTests`，返回码 `1`，通过 `0`、失败 `3`、跳过 `0`；构建警告 `0`、错误 `0`。三个运行时失败分别确认：`AppPathHistoryService` 把输入 `21` 截断为 `20`；`MainForm` 从配置加载 `999` 后提交仍写回 `20`；主窗体快速调整对话框的最大值仍为 `20`。该 RED 已进入真实服务、主窗体保存链路和实际 WinForms 对话框，属于有效产品行为证据。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/red-20261021_155943_230-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 定向 GREEN：新增唯一共享边界 `AppPathHistoryService.MaximumHistoryItems = 999`，并让服务裁剪、主窗体加载/提交、管理器保存、快速调整框和路径记忆管理框统一引用该值；保留默认值 `10`、`0=不记录`、中文文案、快捷键、焦点顺序和 `AccessibleName`，仅把范围提示更新为“最大999”。同一 `PathHistoryLimitRuntimeContractTests` 隔离运行返回码 `0`，通过 `3`、失败 `0`、跳过 `0`：验证 `-1/0/20/21/999/1000` 归一化、真实保留 `999` 条记录、加载/提交/保存 `999`、无效启动值回退 `10`，以及两个实际 WinForms 数量控件均暴露 `0–999`。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/green-20261021_160309_601-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 受影响回归：直接运行同一隔离程序集的 Application、AppPaths、SettingsDialogs、SettingsService 分类，返回码 `0`，通过 `108`、失败 `0`、跳过 `0`。路径历史新增/裁剪、主窗体设置加载与保存、路径记忆管理器既有中文文案/经典菜单/编辑操作、设置服务均未回归。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/affected-20261021_160403_316-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 首次 C# 未过滤全量：直接运行同一隔离 `ShaheLauncher.Tests.dll`，返回码 `1`，通过 `300`、失败 `1`、跳过 `0`。唯一失败为工作区原有且未纳入本模块的 `SandboxieLifecycleAuditRunnerTests.BatchCreateConfirmationWaitsForTheButtonHandler`，等待原生确认按钮处理时预期 `True`、实际 `False`；GAP-09 定向 `3/3` 和受影响回归 `108/108` 已通过，当前不能把该全量写成通过，也不能直接归因 GAP-09。下一步从同一程序集单项复跑并保留首次失败证据。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/full-20261021_160435_636-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 AuditRunner 原生输入单项复核：直接对首次全量生成的同一 `ShaheLauncher.Tests.dll` 运行 `BatchCreateConfirmationWaitsForTheButtonHandler`，返回码 `0`，通过 `1`、失败 `0`、跳过 `0`。该测试文件及 AuditRunner 均是工作区原有未提交内容，未为 GAP-09 修改；结果与既往原生窗口输入漂移一致。全量门禁尚未关闭，下一步重跑同一未过滤全量。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/audit-input-recheck-20261021_160519_642-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 C# 未过滤全量复跑：直接执行同一隔离 `ShaheLauncher.Tests.dll`，返回码 `0`，通过 `301`、失败 `0`、跳过 `0`。首次 `300/301` 的 AuditRunner 原生输入失败和随后单项 `1/1` 通过证据均保留；当前全量门禁以本次同程序集有效复跑为最新结论。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/full-final-20261021_160542_567-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 Python 对照：`python -m unittest discover -s tests -p "test_*.py" -v` 返回码 `0`，实际通过 `29`、失败 `0`、跳过 `0`；runner JSON 对 Python 计数记为 `null`，以日志中的 `Ran 29 tests`/`OK` 为准。Python 原版继续保留最大 `20` 的既有行为，本轮没有修改 Python 源码；C# 最大 `999` 是用户明确指定的产品差异。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/python-20261021_160619_497-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-09 Python 生产源码编译：`python -m compileall -q shahe_bulk_launcher tests` 返回码 `0`，无语法错误；测试计数不适用。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/compile-20261021_160638_999-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-09 Release x64：使用隔离 `BaseOutputPath=artifacts/runs/csharp_non_update_gaps_20261020/gap09/bin/` 构建解决方案，返回码 `0`，警告 `0`、错误 `0`；实际应用输出位于 `artifacts/runs/csharp_non_update_gaps_20261020/gap09/bin/x64/Release/net48/`，未停止或覆盖用户运行中的程序。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/release-20261021_160657_953-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-09 差异检查：`git diff --check` 返回码 `0`，无空白错误；仅输出工作区既有 LF/CRLF 转换提示。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/diff-20261021_160723_306-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-09 补充全链路有效 RED：真实进程验证前重新审计所有 `max_history_items` 入口，发现 `LauncherSettingsService.ApplySettings()` 仍使用旧上限 `20`，这会让用户保存任意其他软件设置时把已有 `999` 静默压回 `20`。新增 `SettingsServiceKeeps999WhenApplyingOtherSettings` 后隔离定向运行返回码 `1`，通过 `0`、失败 `1`、跳过 `0`，实际值明确为 `20`、预期 `999`；该失败进入真实设置服务应用及持久化链路，属于有效产品行为证据。映射已同步补充该入口。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/settings-service-red-20261021_161008_878-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 设置服务补充 GREEN：`LauncherSettingsService.ApplySettings()` 和重置路径改为引用同一个 `AppPathHistoryService.MaximumHistoryItems`，并把既有 `99` 输入契约从旧预期 `20` 校正为保留 `99`。同一 `SettingsServiceKeeps999WhenApplyingOtherSettings` 隔离定向运行返回码 `0`，通过 `1`、失败 `0`、跳过 `0`；确认保存其他软件设置后内存状态和隔离 INI 持久化值都仍为 `999`。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/settings-service-green-20261021_161113_600-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 最终定向 GREEN：补齐设置服务入口后重新构建并运行完整 `PathHistoryLimitRuntimeContractTests`，返回码 `0`，通过 `4`、失败 `0`、跳过 `0`。最终覆盖服务归一化与 999 条实际保留、主窗体加载/提交/路径管理器保存、其他软件设置保存后的内存与持久化、两个实际 WinForms 数量控件和无障碍属性。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/green-final-20261021_161149_034-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 最终受影响回归：补齐设置服务入口后直接运行同一隔离程序集的 Application、AppPaths、SettingsDialogs、SettingsService 分类，返回码 `0`，通过 `109`、失败 `0`、跳过 `0`。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/affected-final-20261021_161221_857-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 最终 C# 未过滤全量：补齐设置服务入口后的同一隔离程序集返回码 `0`，通过 `302`、失败 `0`、跳过 `0`；本次无需复核原生输入。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/full-post-service-20261021_161250_026-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 最终 Python 对照：补齐 C# 设置服务入口后再次运行 `python -m unittest discover -s tests -p "test_*.py" -v`，返回码 `0`，实际通过 `29`、失败 `0`、跳过 `0`；以日志 `Ran 29 tests`/`OK` 为准。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/python-final-20261021_161319_432-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-09 最终 Python 生产源码编译：补齐 C# 设置服务入口后再次运行 `python -m compileall -q shahe_bulk_launcher tests`，返回码 `0`，无语法错误；测试计数不适用。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/compile-final-20261021_161332_648-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-09 最终 Release x64：补齐设置服务入口后再次使用隔离 `BaseOutputPath=artifacts/runs/csharp_non_update_gaps_20261020/gap09/bin/` 构建解决方案，返回码 `0`，警告 `0`、错误 `0`；实际应用输出位于 `artifacts/runs/csharp_non_update_gaps_20261020/gap09/bin/x64/Release/net48/`。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/release-final-20261021_161352_297-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-09 设置服务补齐后差异检查：`git diff --check` 返回码 `0`，无空白错误；仅输出工作区既有 LF/CRLF 转换提示。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/diff-post-service-20261021_161404_899-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-09 真实 EXE 探针解析门禁：`real-path-history-probe.ps1` 经 PowerShell `[scriptblock]::Create` 检查返回码 `0`、输出 `PARSE_OK`；尚未启动目标 EXE。探针将从本轮隔离 Release 输出复制三个独立场景，用精确经典菜单 `WM_COMMAND` 和 UI Automation 模式操作实际路径记忆管理框，不发送键盘输入；同时快照并在结束时恢复当前用户 `SandboxLauncher` 自启动注册表值。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/real-path-history-parse-result.json` 和同名 `.log`。
+
+- 2026-10-21 GAP-09 真实 EXE 首轮调用无产品结论：外层错误地使用 Windows PowerShell 读取 UTF-8 无 BOM 的 `real-path-history-probe.ps1`，中文字符串在脚本解析时被错误解码，返回码 `1`；失败发生在目标启动前，结果文件未创建，目标进程数为 `0`，没有配置或注册表动作，不能登记为产品失败。下一步不改产品或探针逻辑，仅改用正确读取 UTF-8 的当前 `pwsh` 重跑。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/real-path-history-launch-failure-result.json`、`real-path-history.log`。
+
+- 2026-10-21 GAP-09 真实启动诊断：首轮真实 EXE 在隔离配置含 `10/20/21/100/999` 条历史时均于启动刷新阶段弹出 .NET Framework `NullReferenceException`，`0/1` 条可启动；是否提供假 Sandboxie 路径不改变结果。启动矩阵证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/diagnose-startup-result.json`，覆盖 `14` 个组合，所有目标进程均已按精确隔离路径清理。随后用同一 Release App/Core 程序集的最小 STA harness 捕获到完整栈：`AppPathListCtrl.GetItemPath(Int32)` -> `MainForm.OnAppItemChecked()` -> WinForms `ListView.OnItemChecked`；原因是原生 ListView 勾选通知中间态暂时返回空 `ListViewItem`，多条历史填充时触发，未涉及 999 归一化逻辑。原始异常日志：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/diagnostic-startup-harness-10.log`；harness 构建证据：`diagnostic-startup-harness-build-result.json`。本轮只修复该真实启动阻断，增加 `AppPathListCtrl` 对空项的防护。
+
+- 2026-10-21 GAP-09 空项防护后首次 Release 构建未形成产品结论：返回码 `1`，因为诊断 harness PID `6952` 仍锁定本轮隔离输出 `artifacts/runs/csharp_non_update_gaps_20261020/gap09/bin/x64/Release/net48/沙河批量打开器.exe`；未停止用户进程，已按精确路径校验仅结束该自有 harness PID，最终残留 `0`。失败证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/release-nullitem-fix-20261021_175158_201-result.json`、同名前缀 `.log`；清理记录在本轮命令输出中。下一步使用新的隔离 `BaseOutputPath` 重建，避免锁定输出。
+
+- 2026-10-21 GAP-09 空项防护隔离 Release GREEN：改用未锁定 `BaseOutputPath=artifacts/runs/csharp_non_update_gaps_20261020/gap09/fix-bin/` 构建，返回码 `0`，警告 `0`、错误 `0`；随后运行完整 `PathHistoryLimitRuntimeContractTests` 返回码 `0`，通过 `6`、失败 `0`、跳过 `0`。除原有 999 范围契约外，新增启动列表防护覆盖已通过；该轮包含真实空项防护代码。证据：`release-nullitem-fix-isolated-result.json`、`green-nullitem-fix-20261021_175701_696-result.json` 及同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 空项防护后受影响回归：使用 `fix-bin` 隔离程序集运行 Application、AppPaths、SettingsDialogs、SettingsService 分类，返回码 `0`，通过 `111`、失败 `0`、跳过 `0`。新增启动历史覆盖与 999 范围链路均通过。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/affected-nullitem-fix-20261021_175829_315-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 空项防护后首次全量：`fix-bin` 隔离程序集返回码 `1`，通过 `303`、失败 `1`、跳过 `0`；唯一失败仍是工作区原有 `SandboxieLifecycleAuditRunnerTests.BatchCreateConfirmationWaitsForTheButtonHandler` 原生确认按钮等待，预期 `True`、实际 `False`，与本模块无关。受影响回归 `111/111` 已通过，不能把该轮全量记为通过。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/full-nullitem-fix-20261021_180054_594-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 空项防护后 AuditRunner 单项复核：对首次全量使用的同一 `fix-bin` 程序集重跑原生输入测试，返回码 `0`，通过 `1`、失败 `0`、跳过 `0`；测试文件和 AuditRunner 均为工作区既有未提交内容，未被本模块修改。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/audit-input-recheck-fix-20261021_180234_310-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 空项防护后全量复跑第一次仍受原生输入漂移影响：`fix-bin` 返回码 `1`，通过 `303`、失败 `1`、跳过 `0`，唯一失败仍为 `BatchCreateConfirmationWaitsForTheButtonHandler`，与本模块无关；上一次同程序集单项复核已通过。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/full-final-nullitem-fix-20261021_180336_487-result.json`、同名前缀 `.log/.trx`。继续保留失败证据并再次单项复核后重跑全量。
+
+- 2026-10-21 GAP-09 空项防护后 AuditRunner 第二次单项复核：同一 `fix-bin` 程序集返回码 `0`，通过 `1`、失败 `0`、跳过 `0`；确认全量失败仍是既有原生输入漂移。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/audit-input-recheck2-fix-20261021_180445_416-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 空项防护后最终 C# 未过滤全量：第二次同一 `fix-bin` 程序集运行返回码 `0`，通过 `304`、失败 `0`、跳过 `0`；首次 `303/304` 失败、两次单项复核和原生输入漂移证据均保留，当前全量门禁以本次有效复跑为最新结论。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/full-final2-nullitem-fix-20261021_180706_883-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-09 空项修复后 Python 对照：`python -m unittest discover -s tests -p "test_*.py" -v` 返回码 `0`，日志实际 `29/29` 通过、失败 `0`、跳过 `0`；Python 源码仍保持最大 `20` 的参考行为。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/python-nullitem-fix-20261021_180858_267-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-09 空项修复后 Python 生产源码编译：`python -m compileall -q shahe_bulk_launcher tests` 返回码 `0`，无语法错误；测试计数不适用。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/compile-nullitem-fix-20261021_180940_573-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-09 空项修复后差异检查：`git diff --check` 返回码 `0`，无空白错误；仅输出工作区既有 LF/CRLF 转换提示。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/diff-nullitem-fix-20261021_181023_573-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-09 修复后真实 EXE 探针结果：使用 `fix-bin` 启动实际 `沙河批量打开器.exe`，第一个 `0` 场景已成功取得主窗口句柄，未再出现启动 `NullReferenceException`；但经典 `MainMenu` 的外部 `WM_COMMAND`/菜单探针只能确认命令 `301` 可用，未能让设置对话框在当前桌面会话中出现，探针在等待“路径记忆管理”窗口超时。该轮没有保存或修改配置，注册表快照恢复、唯一自有 PID `14440` 被强制清理后残留 `0`；属于 UI 输入/菜单投递无效证据，不得记为产品失败或通过。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/real-path-history-fix-result.json`、同名 `.log`，以及 `menu-dump-fix.log`、`menu-invoke-fix.log`。下一步保留实际 EXE 启动证据，改用同一生产 App/Core 程序集的隔离 UI 进程探针验证模态对话框保存/重启链路，并明确标注证据边界。
+
+- 2026-10-21 GAP-09 生产 UI 模态对话框隔离进程验证通过：使用本轮 `fix-bin` 的真实 `MainForm`、`PathMemoryManagerDialog` 和 `ConfigStore` 程序集，在独立 STA 进程中实际打开模态“路径记忆管理”窗口、读取 `NumericUpDown`/列表/文案/无障碍属性并调用真实 `SaveChanges()`；每个场景随后以新进程重新加载同一隔离配置。`0`、`21`、`999` 三个场景共 `6` 个自有 PID（`10168/7220`、`7584/15860`、`14884/16324`）均返回码 `0`、自然结束、无残留；三场景首次最大值均为 `999`、初始记录 `999`，保存后及重启后分别保持 `0/0`、`21/21`、`999/999`，`AccessibleName=路径记忆数量`、`TabIndex=0`、提示“(0=不记录, 最大999)”均保留。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/real-production-path-dialog-result.json`、各场景 `save.log`/`verify.log`；探针构建：`real-production-path-dialog-probe-build-result.json`。该证据覆盖生产 App/Core UI 与持久化回调，外部经典菜单投递无效证据仍单独保留。
+
+- 2026-10-21 GAP-09 旧真实 EXE 场景异常复核：长等待期间弹出的 .NET Framework 栈再次确认 `AppPathListCtrl.GetItemPath` 空项问题，但异常程序集路径来自旧目录 `artifacts/runs/csharp_non_update_gaps_20261020/gap09/real-exe-20261021_162338_630/history-0/`，该目录在空项修复前复制，不能作为修复后产品结论。栈、行号和加载程序集详情已保留在本轮异常窗口取证；旧场景 PID `11068` 已按精确隔离目录清理，残留 `0`。后续真实 EXE 必须从 `fix-bin` 新复制，不能复用该旧目录。
+
+- 2026-10-21 GAP-09 修复后二进制真实 EXE 启动烟雾通过：从 `fix-bin` 新复制隔离目录，配置含 `max_history_items=999`、`1000` 条历史和假 Sandboxie `Start.exe`；实际 `沙河批量打开器.exe` PID `13636` 建立主窗口句柄 `0x820F74`，在约 `10` 秒内记录“状态: 就绪”，未出现 .NET Framework 异常窗；`CloseMainWindow` 返回成功，进程自然退出码 `0`，未强制清理，残留 `0`。EXE SHA-256 `5A253034720FC367A710AAF355A8BAB90075376BFFDF771289C2D3DB5053DDF8`。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/real-exe-fixed-startup-result.json` 及隔离目录日志。
+
+- 2026-10-21 GAP-09 最终提交前差异检查：在当前摘要同步、真实生产 UI 对话框验证和修复后二进制启动烟雾证据写入后，`git diff --check` 返回码 `0`，无空白错误；仅输出工作区既有 LF/CRLF 转换提示。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap09/diff-final-preplan-20261021_190822_517-result.json` 和同名前缀 `.log`。

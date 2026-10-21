@@ -381,7 +381,7 @@ namespace ShaheLauncher.Tests
                         "apps:update", "hotkeys", "menu", "auto-run", "schedule:1", "status:设置已保存"
                     },
                     calls.ToArray());
-                Assert.AreEqual(20, GetProperty<int>(stateType, state, "MaxHistoryItems"));
+                Assert.AreEqual(99, GetProperty<int>(stateType, state, "MaxHistoryItems"));
                 Assert.AreEqual(true, GetProperty<bool>(stateType, state, "HidePath"));
                 Assert.AreEqual("off", GetProperty<string>(stateType, state, "LogOutputMode"));
                 Assert.AreEqual(0, GetProperty<int>(stateType, state, "LaunchInterval"));

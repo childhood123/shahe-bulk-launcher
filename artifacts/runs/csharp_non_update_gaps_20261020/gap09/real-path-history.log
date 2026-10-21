@@ -1,0 +1,56 @@
+At D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\real-path-history-probe.ps1:299 char:53
++ ... Root $Dialog -Name '璺緞璁板繂鏁伴噺' -ControlTypeName 'ControlType.Spinner'
++                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Unexpected token '璺緞璁板繂鏁伴噺' -ControlTypeName 'ControlType.Spinner'
+    if ($null -eq $spinner) {
+        $spinner = Find-Descendant -Root $Dialog -Name '璺緞璁板繂鏁伴噺' -ControlTypeName ''
+    }
+    Require ($null -ne $spinner) '鏈壘鍒?AccessibleName=璺緞璁板繂鏁伴噺' in expression or statement.
+At D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\real-path-history-probe.ps1:299 char:53
++ ... Root $Dialog -Name '璺緞璁板繂鏁伴噺' -ControlTypeName 'ControlType.Spinner'
++                         ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Missing closing ')' after expression in 'if' statement.
+At D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\real-path-history-probe.ps1:398 char:47
++ $sourceExecutable = Join-Path $resolvedBuild '娌欐渤鎵归噺鎵撳紑鍣?exe'
++                                               ~~~~~~~~~~~~~~~
+Unexpected token '娌欐渤鎵归噺鎵撳紑鍣?exe'
+Require (Test-Path -LiteralPath $sourceExecutable -PathType Leaf) "鏈壘鍒版湰杞?Release EXE锛?sourceExecutable"
+$resultFile = [System.IO.Path]::GetFullPath($ResultPath)
+$runRoot = Join-Path (Split-Path -Parent $resultFile) ('real-exe-' + (Get-Date -Format 'yyyyMMdd_HHmmss_fff'))
+$null = New-Item -ItemType Directory -Path $runRoot -Force
+$registryBefore = Get-RunValueSnapshot
+$ownedPids = [System.Collections.Generic.List[int]]::new()
+$forcedCleanup = [System.Collections.Generic.List[int]]::new()
+$scenarios = [System.Collections.ArrayList]::new()
+$caught = $null
+$result = [ordered]@{
+    timestamp = (Get-Date).ToString('o')
+    success = $false
+    buildDirectory = $resolvedBuild
+    sourceExecutable = $sourceExecutable
+    sourceSha256 = (Get-FileHash -LiteralPath $sourceExecutable -Algorithm SHA256).Hash
+    runRoot = $runRoot
+    inputMethod = 'exact' in expression or statement.
+At D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\real-path-history-probe.ps1:498 char:65
++         Require $scenario.rangeHintFound '鏈壘鍒扳€?0=涓嶈褰? 鏈€澶?99)鈥濇彁绀?
++                                                                 ~~~~~
+Unexpected token '鈥濇彁绀?' in expression or statement.
+At D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\real-path-history-probe.ps1:545 char:39
++     $ErrorActionPreference = 'Continue'
++                                       ~
+The string is missing the terminator: '.
+At D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\real-path-history-probe.ps1:375 char:23
++ function Close-Target {
++                       ~
+Missing closing '}' in statement block or type definition.
+At D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\real-path-history-probe.ps1:239 char:23
++ function Start-Target {
++                       ~
+Missing closing '}' in statement block or type definition.
+At D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap09\real-path-history-probe.ps1:493 char:94
++ ... = $null -ne (Find-Descendant -Root $reopened.Dialog -Name '(0=涓嶈褰? 鏈 ...
++                                                                 ~
+The assignment expression is not valid. The input to an assignment operator must be an object that is able to accept as
+signments, such as a variable or a property.
+    + CategoryInfo          : ParserError: (:) [], ParentContainsErrorRecordException
+    + FullyQualifiedErrorId : UnexpectedToken

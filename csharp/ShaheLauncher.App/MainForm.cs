@@ -375,7 +375,7 @@ namespace ShaheLauncher.App
             Settings = SettingsService.LoadSettings() ?? new Dictionary<string, object>();
             _settingsState.Settings = Settings;
             _settingsState.MaxHistoryItems = CommonUtilities.ParseIntSetting(
-                GetSetting("max_history_items"), 10, 0, 999);
+                GetSetting("max_history_items"), 10, 0, AppPathHistoryService.MaximumHistoryItems);
             _settingsState.HidePath = CommonUtilities.ParseBoolSetting(GetSetting("hide_path"), false);
             _settingsState.AppHistory = SandboxAdminService.NormalizeAppHistory(
                     GetSetting("app_history"),
@@ -4119,7 +4119,9 @@ namespace ShaheLauncher.App
                 return;
             }
 
-            _settingsState.MaxHistoryItems = Math.Max(0, Math.Min(20, state.MaxHistoryItems));
+            _settingsState.MaxHistoryItems = Math.Max(
+                0,
+                Math.Min(AppPathHistoryService.MaximumHistoryItems, state.MaxHistoryItems));
             _settingsState.HidePath = state.HidePath;
             _settingsState.AppPath = state.AppPath ?? string.Empty;
             _settingsState.AppDirectory = state.AppDirectory ?? string.Empty;
@@ -4435,7 +4437,7 @@ namespace ShaheLauncher.App
                 incoming.ContainsKey("max_history_items") ? incoming["max_history_items"] : null,
                 _settingsState.MaxHistoryItems,
                 0,
-                20);
+                AppPathHistoryService.MaximumHistoryItems);
             bool hidePath = CommonUtilities.ParseBoolSetting(
                 incoming.ContainsKey("hide_path") ? incoming["hide_path"] : null,
                 _settingsState.HidePath);
@@ -4602,8 +4604,10 @@ namespace ShaheLauncher.App
                 var input = new NumericUpDown
                 {
                     Minimum = 0,
-                    Maximum = 20,
-                    Value = Math.Max(0, Math.Min(20, currentValue)),
+                    Maximum = AppPathHistoryService.MaximumHistoryItems,
+                    Value = Math.Max(
+                        0,
+                        Math.Min(AppPathHistoryService.MaximumHistoryItems, currentValue)),
                     AccessibleName = AppPathHistoryService.HistoryCountLabel,
                     Location = new Point(12, 36),
                     TabIndex = 0

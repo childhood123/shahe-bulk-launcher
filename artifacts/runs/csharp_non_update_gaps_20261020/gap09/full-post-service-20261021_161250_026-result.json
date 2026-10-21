@@ -1,0 +1,17 @@
+{
+  "kind": "vstest",
+  "command": [
+    "dotnet",
+    "vstest",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\bin\\x64\\Release\\net48\\ShaheLauncher.Tests.dll",
+    "/Platform:x64",
+    "/Logger:trx;LogFileName=full-post-service-20261021_161250_026.trx",
+    "/ResultsDirectory:D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\full-post-service-20261021_161250_026.log",
+  "passed": 302,
+  "failed": 0,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap09\\full-post-service-20261021_161250_026.trx"
+}
