@@ -1,0 +1,17 @@
+{
+  "command": [
+    "dotnet",
+    "vstest",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\review01\\bin\\x64\\Release\\net48\\ShaheLauncher.Tests.dll",
+    "/Platform:x64",
+    "/Logger:trx;LogFileName=audit-accessible-recheck.trx",
+    "/ResultsDirectory:D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\review01",
+    "/TestCaseFilter:FullyQualifiedName~BatchCreateValuesAreSetByAccessibleNamesNotWindowOrder"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\review01\\audit-accessible-recheck.log",
+  "passed": 1,
+  "failed": 0,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\review01\\audit-accessible-recheck.trx"
+}

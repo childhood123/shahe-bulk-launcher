@@ -1,0 +1,7 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01\bin\x64\Release\net48\沙河批量打开器.exe
+D:\mycodex\git\csharp\ShaheLauncher.Tests\LaunchEntryPreflightRuntimeContractTests.cs(54,46): error CS0246: 未能找到类型或命名空间名“MainForm”(是否缺少 using 指令或程序集引用?) [D:\mycodex\git\csharp\ShaheLauncher.Tests\ShaheLauncher.Tests.csproj]
+D:\mycodex\git\csharp\ShaheLauncher.Tests\LaunchEntryPreflightRuntimeContractTests.cs(56,53): error CS0246: 未能找到类型或命名空间名“MainForm”(是否缺少 using 指令或程序集引用?) [D:\mycodex\git\csharp\ShaheLauncher.Tests\ShaheLauncher.Tests.csproj]
+D:\mycodex\git\csharp\ShaheLauncher.Tests\LaunchEntryPreflightRuntimeContractTests.cs(58,50): error CS0246: 未能找到类型或命名空间名“MainForm”(是否缺少 using 指令或程序集引用?) [D:\mycodex\git\csharp\ShaheLauncher.Tests\ShaheLauncher.Tests.csproj]

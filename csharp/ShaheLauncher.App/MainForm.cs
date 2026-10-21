@@ -4035,6 +4035,32 @@ namespace ShaheLauncher.App
         {
             IList<string> targets = (sandboxes ?? Enumerable.Empty<string>()).ToList();
             IList<LaunchAppTarget> apps = (applications ?? Enumerable.Empty<LaunchAppTarget>()).ToList();
+            if (!LaunchScheduler.PrepareLaunchTargetFromAppTargets(
+                LaunchState,
+                apps,
+                SandboxieClient.SandboxiePath,
+                SandboxieClient.GetStartExecutable(SandboxieClient.SandboxiePath),
+                LaunchCallbacks))
+            {
+                return;
+            }
+            IList<string> knownSandboxNames = GetKnownSandboxNames().ToList();
+            IList<string> officialSandboxNames = GetOfficialSandboxNames().ToList();
+            if (knownSandboxNames.Count != 0 || officialSandboxNames.Count != 0)
+            {
+                IList<string> resolvedTargets = LaunchScheduler.ResolveLaunchEntries(
+                    targets,
+                    knownSandboxNames,
+                    officialSandboxNames,
+                    name => SandboxieClient.NormalizeSandboxName(name, GetSandboxDisplayMaps()),
+                    name => SandboxieClient.GetDisplayName(name, GetSandboxDisplayMaps()));
+                if (resolvedTargets.Count == 0)
+                {
+                    SafeSetStatusLabel("请先在沙盒用户列表中按空格选中要启动的沙盒");
+                    return;
+                }
+                targets = resolvedTargets;
+            }
             if (!LaunchScheduler.BeginLaunch(LaunchState, targets, apps, LaunchCallbacks))
             {
                 return;

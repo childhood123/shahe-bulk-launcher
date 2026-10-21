@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="4fe44f7d-5e25-4f13-ba56-828477762fe3" name="Administrator@CHILDHOOD 2026-10-21 21:17:13" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-21T21:17:13.2962028+08:00" queuing="2026-10-21T21:17:13.2962031+08:00" start="2026-10-21T21:17:08.5803073+08:00" finish="2026-10-21T21:17:13.3039652+08:00" />
+  <TestSettings name="default" id="3937a6ee-003a-4e4b-8c19-976e3df50b54">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-21_21_17_13" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="e73a0551-0eff-496a-98e5-17724b1062b5" testId="29c431f8-79d8-42e0-cd06-2ecdcca23e83" testName="MainLaunchRejectsMissingApplicationBeforeStartingSession" computerName="CHILDHOOD" duration="00:00:00.7018829" startTime="2026-10-21T21:17:12.1023586+08:00" endTime="2026-10-21T21:17:13.1563703+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e73a0551-0eff-496a-98e5-17724b1062b5" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="MainLaunchRejectsMissingApplicationBeforeStartingSession" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01\bin\x64\release\net48\shahelauncher.tests.dll" id="29c431f8-79d8-42e0-cd06-2ecdcca23e83">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Scheduling" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="e73a0551-0eff-496a-98e5-17724b1062b5" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LaunchEntryPreflightRuntimeContractTests" name="MainLaunchRejectsMissingApplicationBeforeStartingSession" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="29c431f8-79d8-42e0-cd06-2ecdcca23e83" executionId="e73a0551-0eff-496a-98e5-17724b1062b5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

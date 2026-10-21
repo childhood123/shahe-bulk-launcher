@@ -1,0 +1,29 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="b5a7b864-68a2-4830-8cbf-b7520512e4b7" name="Administrator@CHILDHOOD 2026-10-21 21:24:37" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-21T21:24:37.6838896+08:00" queuing="2026-10-21T21:24:37.6838899+08:00" start="2026-10-21T21:24:31.4951419+08:00" finish="2026-10-21T21:24:37.6907863+08:00" />
+  <TestSettings name="default" id="b7b1608d-b4d0-41a7-9327-7166059316f6">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-21_21_24_37" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="a9529d76-ca25-4913-a368-bcb368087fe8" testId="757d15ba-b84d-a7da-e965-815d6c70af09" testName="BatchCreateValuesAreSetByAccessibleNamesNotWindowOrder" computerName="CHILDHOOD" duration="00:00:02.5780087" startTime="2026-10-21T21:24:34.5737163+08:00" endTime="2026-10-21T21:24:37.4567626+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a9529d76-ca25-4913-a368-bcb368087fe8" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="BatchCreateValuesAreSetByAccessibleNamesNotWindowOrder" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01\bin\x64\release\net48\shahelauncher.tests.dll" id="757d15ba-b84d-a7da-e965-815d6c70af09">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="a9529d76-ca25-4913-a368-bcb368087fe8" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="BatchCreateValuesAreSetByAccessibleNamesNotWindowOrder" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="757d15ba-b84d-a7da-e965-815d6c70af09" executionId="a9529d76-ca25-4913-a368-bcb368087fe8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="1" executed="1" passed="1" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>
