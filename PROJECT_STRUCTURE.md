@@ -1,16 +1,16 @@
 # 沙河批量打开器项目结构
 
-## 当前执行摘要（2026-10-21 GAP-08 启动）
+## 当前执行摘要（2026-10-21 GAP-09 启动）
 
-- 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-07 计划复选框已按用户“写好计划迁移下一个”指令更新；所有后续功能继续保留 Python 原文案和行为，只用 C# 实现。
-- 当前模块：GAP-08 Sandboxie repair reload。GAP-07 Esc、Alt+F4 与退出反馈已完成实现、自动化门禁和真实键盘/菜单验证，严格保留 Python 原文案“已最小化到托盘”“当前托盘不可用，已最小化窗口”“正在退出软件”及 `SpeechCallback(text, \"launch_done\")` 次数与顺序。
+- 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-08 计划复选框已按用户“搞成功来”的明确确认更新；所有后续功能继续保留 Python 原文案和行为，只用 C# 实现。
+- 当前模块：GAP-09 路径记忆数量范围。GAP-08 Sandboxie repair reload 已完成实现、自动化门禁和隔离真实进程验证；正常 `MainForm` 构造路径已接入既有 `ReloadSandboxieConfig()`，只有实际写入配置后调用一次 reload，取消、无需修复、写入失败均不调用，reload 异常继续保留 Python 原版修复成功反馈。
 - GitCode 发布状态：公开仓库 `https://gitcode.com/childhood123/shahe-bulk-launcher-releases` 的 `main` 已指向 `18caa88287fc5714a90528e88cd732d0204ec135`。默认清单 `https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json` 匿名生产式请求为 HTTP `200`；清单内 content-addressed ZIP 匿名请求为 HTTP `200`。
 - 发布包状态：版本 `4.0.46`，ZIP 大小 `2785203` 字节，SHA-256 `D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8`；匿名下载后的实际大小和哈希完全一致。最终证据为 `artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-final.json`。
-- 最新自动化门禁：GAP-07 定向 `2/2`、受影响回归 `120/120`、C# 未过滤全量 `295/295`、Python 对照 `29/29` 均通过；Python 生产源码编译、Release x64 隔离构建和 `git diff --check` 返回码均为 `0`，Release 构建警告 `0`、错误 `0`。
+- 最新自动化门禁：GAP-08 定向 `3/3`、受影响回归 `99/99`、同一隔离程序集 C# 未过滤全量复跑 `298/298`、Python 对照 `29/29` 均通过；Python 生产源码编译、Release x64 隔离构建和 `git diff --check` 返回码 `0`，构建警告 `0`、错误 `0`。首次全量的工作区原有 AuditRunner 原生输入漂移 `297/298` 保留为历史失败证据。
 - 版本触发边界：应用 `AppVersion` 与公开清单 `latest_version` 当前同为 `4.0.46`。本次发布建立了可用更新基线，但已运行同版本客户端不会收到“有新版本”提示；后续真实升级发布必须使用更高版本号并重新生成包、清单和校验值。
-- 已完成模块：GAP-03 至 GAP-07、VOICE-01、UPDATE-01、GAP-01、GAP-02 及此前模块保持完成；更新链路独立提交 `3442158` 已推送 `origin/fix/non-update-gaps-20261020`。剩余代码级迁移项为 GAP-08 至 GAP-10、VOICE-02；另有 AUDIT-01 至 AUDIT-08 和最终发布门禁。
+- 已完成模块：GAP-03 至 GAP-08、VOICE-01、UPDATE-01、GAP-01、GAP-02 及此前模块保持完成；更新链路提交 `3442158`、GAP-07 提交 `0adb65e` 均已推送 `origin/fix/non-update-gaps-20261020`。剩余代码级迁移项为 GAP-09、GAP-10、VOICE-02；另有 AUDIT-01 至 AUDIT-08 和最终发布门禁。
 - 真实 updater 证据：GitCode 匿名 ZIP 在隔离生产 helper 布局下以 `restart=true` 完成下载、替换和进程重启；updater PID `11448` 返回 `0`，精确隔离路径主进程 PID `5364` 被观测并清理，安装文件哈希、用户配置和 `lib 7/7` 均通过。该场景主窗口句柄为 `0`，只证明进程重启，不替代后续发布目录 UI 启动审计。
-- C# 当前可以启动并运行已验证功能；GAP-07 单模块已完成，当前进入 GAP-08。整体 Python→C# 迁移仍未完成。
+- C# 当前可以启动并运行已验证功能；GAP-08 单模块已完成代码、自动化和隔离真实进程验证，当前迁移 GAP-09。整体 Python→C# 迁移仍未完成，下一待迁移模块为 GAP-09。
 
 ### 本轮验证记录（只追加）
 
@@ -1086,3 +1086,31 @@ csharp/
 - 2026-10-21 GAP-07 真实键盘/菜单验证通过：Open Computer Use 在每次动作前读取并锁定 `沙河批量打开器` 目标窗口，Esc 无托盘回退 PID `2628` 观察到“当前托盘不可用，已最小化窗口”并最小化；Esc 托盘 PID `1720` 观察到“已最小化到托盘”并隐藏到托盘；Alt+F4 PID `5524` 使用 `F4` + `ALT` 修饰键，应用日志观察到“正在退出软件”且进程自然退出；文件菜单退出 PID `9152` 动态解析命令 ID `323`，日志观察到同一文案并以退出码 `0` 自然退出。托盘隐藏场景取证后仅强制清理本轮精确 PID `1720`，其余正常退出；最终目标进程残留 `0`。自动化定向测试另已固定每条路径恰好一次 `SpeechCallback(text, "launch_done")` 且顺序为先状态后朗读。汇总证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/ocu-real-exit-feedback-result.json`、`ocu-tray-escape.log`、`ocu-altf4-modifier.log`、各隔离应用日志及 `real-exit-feedback-retry3-result.json`。
 
 - 2026-10-21 GAP-07 最终差异检查：真实键盘/菜单证据和文档同步后 `git diff --check` 返回码 `0`，无空白错误；仅有既有 LF/CRLF 提示。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/diff-final-20261021_115001_611-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-08 模块映射完成：Python `_repair_sandboxie_control_user_settings()` 仅在实际写入隔离 INI 后调用一次 `_reload_sandboxie_config()`，reload 异常被吞掉并继续返回修复成功；取消、无需修复和写入异常沿用原版中文反馈。C# `SandboxAdminService` 已迁移这些行为，`MainForm.ReloadSandboxieConfig()` 也已实现现有 `/reload` 命令；确认的唯一接线缺口是正常构造路径 `ReloadSandboxieConfigCallback` 为 `null`，repair 的 nullable 调用可能跳过 reload。映射：`artifacts/runs/csharp_non_update_gaps_20261020/gap08/mapping.md`。下一步建立正常构造路径运行时 RED；只使用临时隔离 INI，不读取或修改用户 Sandboxie 资源。
+
+- 2026-10-21 GAP-08 有效 RED：隔离 `dotnet test` 定向运行 `SandboxieRepairReloadRuntimeContractTests`，返回码 `1`，通过 `2`、失败 `1`、跳过 `0`。唯一失败为 `NormalConstructionWiresExistingReloadMethod`：正常构造的 `MainForm.ReloadSandboxieConfigCallback` 实际为 `null`；另外两项已证明取消、无需修复、写入失败时不 reload，并固定 Python 原版反馈，实际写入后 reload 异常仍按原版返回“已修复/修复完成”。测试仅操作临时隔离 INI。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap08/red-20261021_151201_330-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-08 定向 GREEN：在 `MainForm` 正常构造路径把 `ReloadSandboxieConfigCallback` 直接绑定到已有 `ReloadSandboxieConfig()` 后，同一运行时测试返回码 `0`，通过 `3`、失败 `0`、跳过 `0`。确认只有实际清理并写入隔离 INI 后调用一次 reload；取消、无需修复和写入失败均为 `0` 次；reload 抛出异常时仍按 Python 原版显示“已修复 Sandboxie Control 用户设置”/“修复完成”。未新增第二套 `/reload` 实现。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap08/green-20261021_151308_571-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-08 受影响回归：隔离运行 Application、SandboxAdmin、Backup、Sandboxie 分类，返回码 `0`，通过 `99`、失败 `0`、跳过 `0`。主窗口 repair、SandboxAdmin 服务、备份还原 reload 回退和 Sandboxie 客户端命令均未回归。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap08/affected-20261021_151416_677-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-08 首次 C# 未过滤全量：返回码 `1`，通过 `297`、失败 `1`、跳过 `0`。唯一失败为工作区原有且未纳入本模块的 `SandboxieLifecycleAuditRunnerTests.BatchCreateConfirmationWaitsForTheButtonHandler`，在等待原生确认按钮处理时实际为 `False`；GAP-08 定向和受影响回归均已通过，当前不能把该全量写成通过，也不能直接归因 GAP-08。下一步从同一隔离程序集单项复跑并检查原生输入漂移。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap08/full-20261021_151505_970-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-08 AuditRunner 原生输入单项复核：直接对首次全量生成的同一 `ShaheLauncher.Tests.dll` 运行 `BatchCreateConfirmationWaitsForTheButtonHandler`，返回码 `0`，通过 `1`、失败 `0`、跳过 `0`。该测试文件及 AuditRunner 均是工作区原有未提交内容，未为 GAP-08 修改；结果与既往原生窗口输入漂移一致。全量门禁尚未关闭，下一步重跑同一未过滤全量。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap08/audit-input-recheck-20261021_151619_528-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-08 C# 未过滤全量复跑：直接执行同一隔离 `ShaheLauncher.Tests.dll`，返回码 `0`，通过 `298`、失败 `0`、跳过 `0`。首次 `297/298` 失败和单项复核证据均保留；当前全量门禁以本次同程序集有效复跑为最新结论。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap08/full-final-20261021_151652_443-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-08 Python 对照：`python -m unittest discover -s tests -p "test_*.py" -v` 返回码 `0`，通过 `29`、失败 `0`、跳过 `0`。Python 原版模块结构和 SandboxAdmin 方法归属未回归。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap08/python-20261021_151746_723-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-08 Python 生产源码编译：`python -m compileall -q shahe_bulk_launcher tests` 返回码 `0`，无语法错误；测试计数不适用。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap08/compile-20261021_151810_677-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-08 Release x64：使用隔离 `BaseOutputPath=artifacts/runs/csharp_non_update_gaps_20261020/gap08/release-bin/` 构建解决方案，返回码 `0`，警告 `0`、错误 `0`；未停止或覆盖用户运行中的程序。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap08/release-20261021_151845_542-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-08 差异检查：`git diff --check` 返回码 `0`，无空白错误；仅输出工作区既有 LF/CRLF 转换提示。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap08/diff-20261021_151935_199-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-08 隔离真实进程探针构建：使用系统 .NET Framework x64 C# 编译器，对本轮 Release App/Core 程序集编译 `real-repair-reload-probe.cs`，返回码 `0`。探针将在独立进程中实例化真实 `MainForm`、确认默认 reload 委托、点击真实修复菜单项，并把 INI 路径与 reload 动作替换为临时隔离对象；不会读取用户 Sandboxie.ini 或执行真实 `/reload`。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap08/real-probe-build-result.json`、`real-probe-build.log`。
+
+- 2026-10-21 GAP-08 隔离真实进程验证通过：独立 x64 探针 PID `8896` 加载本轮 Release App/Core 程序集，确认正常构造的默认委托目标为真实 `MainForm.ReloadSandboxieConfig()`；随后把 INI 路径和 reload 动作替换为隔离对象，点击真实“修复 Sandboxie Control 用户设置”菜单项，实际写入临时 INI、reload 计数 `1`，状态为“已修复 Sandboxie Control 用户设置”，消息标题/正文为 Python 原版“修复完成/已清理…”。探针返回码 `0`、自然退出，临时 INI 已清理；未执行真实 `/reload`。`C:\Windows\Sandboxie.ini` 前后 SHA-256 均为 `2709ADB23A9D1080D91C0401DC86A9F954AF81DEAFB5FFD7DF03F5AA30E75A6D`，保持未修改。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap08/real-probe-result.json`、`real-probe.log`。
+
+- 2026-10-21 GAP-08 最终差异检查：隔离真实进程证据和文档同步后 `git diff --check` 返回码 `0`，无空白错误；仅有工作区既有 LF/CRLF 提示。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap08/diff-final-20261021_152344_593-result.json` 和同名前缀 `.log`。

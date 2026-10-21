@@ -1,0 +1,21 @@
+{
+  "kind": "real-process-probe",
+  "command": [
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap08\\release-bin\\x64\\Release\\net48\\gap08-real-repair-probe.exe"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap08\\real-probe.log",
+  "targetPid": 8896,
+  "releaseDirectory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap08\\release-bin\\x64\\Release\\net48",
+  "isolatedIni": "C:\\Users\\Administrator\\AppData\\Local\\Temp\\shahe_gap08_d910d4504a6144a181915f5f6395c0fd\\Sandboxie.ini",
+  "isolatedIniRemoved": true,
+  "defaultReloadMethod": "ReloadSandboxieConfig",
+  "reloads": 1,
+  "status": "已修复 Sandboxie Control 用户设置",
+  "passed": true,
+  "actualSandboxieReloadExecuted": false,
+  "systemSandboxieIni": "C:\\Windows\\Sandboxie.ini",
+  "systemIniBeforeSha256": "2709ADB23A9D1080D91C0401DC86A9F954AF81DEAFB5FFD7DF03F5AA30E75A6D",
+  "systemIniAfterSha256": "2709ADB23A9D1080D91C0401DC86A9F954AF81DEAFB5FFD7DF03F5AA30E75A6D",
+  "systemIniUnchanged": true
+}

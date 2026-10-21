@@ -1,0 +1,8 @@
+pid=8896
+defaultReloadMethod=ReloadSandboxieConfig
+reloads=1
+status=已修复 Sandboxie Control 用户设置
+message=修复完成|已清理 1 个 UserSettings 段中的 2 条异常/易冲突记录
+已备份原配置：C:\Users\Administrator\AppData\Local\Temp\shahe_gap08_d910d4504a6144a181915f5f6395c0fd\Sandboxie.ini.沙河批量打开器备份_20261021_152255.bak
+isolatedIni=C:\Users\Administrator\AppData\Local\Temp\shahe_gap08_d910d4504a6144a181915f5f6395c0fd\Sandboxie.ini
+PASS

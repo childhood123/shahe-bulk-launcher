@@ -109,6 +109,7 @@ namespace ShaheLauncher.App
             SandboxAdminCallbacks = CreateSandboxAdminCallbacks();
 
             FindSandboxiePathCallback = SandboxieClient.FindSandboxiePath;
+            ReloadSandboxieConfigCallback = ReloadSandboxieConfig;
             ShowMessageCallback = ShowMessage;
             StartupDelayCallback = (delay, callback) => SafeCallLater(delay, callback);
             UpdateComboBoxCallback = UpdateAppPathList;

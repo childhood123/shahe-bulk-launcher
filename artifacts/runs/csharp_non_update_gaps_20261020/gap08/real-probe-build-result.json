@@ -1,0 +1,20 @@
+{
+  "kind": "probe-build",
+  "command": [
+    "C:\\Windows\\Microsoft.NET\\Framework64\\v4.0.30319\\csc.exe",
+    "/nologo",
+    "/target:exe",
+    "/platform:x64",
+    "/out:D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap08\\release-bin\\x64\\Release\\net48\\gap08-real-repair-probe.exe",
+    "/reference:System.dll",
+    "/reference:System.Core.dll",
+    "/reference:System.Drawing.dll",
+    "/reference:System.Windows.Forms.dll",
+    "/reference:D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap08\\release-bin\\x64\\Release\\net48\\沙河批量打开器.exe",
+    "/reference:D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap08\\release-bin\\x64\\Release\\net48\\ShaheLauncher.Core.dll",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap08\\real-repair-reload-probe.cs"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap08\\real-probe-build.log",
+  "output": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap08\\release-bin\\x64\\Release\\net48\\gap08-real-repair-probe.exe"
+}

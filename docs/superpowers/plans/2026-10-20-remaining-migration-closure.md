@@ -4,7 +4,7 @@
 
 **Goal:** 收口全部已确认的 Python→C# 行为差异、运行时接线、真实 EXE 审计和发布流程，最终满足 `AGENTS.md` 的整体迁移完成标准。
 
-**Architecture:** 保持现有 Core、App、Updater 和 AuditRunner 边界，不重设计 UI。UPDATE-01、GAP-01、GAP-02 已完成实现、验证和 GitCode 发布；GAP-07 已完成，当前从 GAP-08 继续非更新代码差异，随后处理读屏配置集成和真实审计。
+**Architecture:** 保持现有 Core、App、Updater 和 AuditRunner 边界，不重设计 UI。UPDATE-01、GAP-01、GAP-02 已完成实现、验证和 GitCode 发布；GAP-07、GAP-08 已完成，当前从 GAP-09 继续非更新代码差异，随后处理读屏配置集成和真实审计。
 
 **Tech Stack:** .NET Framework 4.8、WinForms、C# 7.3、Release x64、MSTest、Python unittest、Sandboxie、Tolk。
 
@@ -24,9 +24,9 @@
 
 | 状态 | 模块 |
 | --- | --- |
-| 已完成，不重做 | Task 1–20 已确认范围、GAP-03 至 GAP-07、VOICE-01、UPDATE-01、GAP-01、GAP-02 |
-| 当前模块 | GAP-08 Sandboxie repair reload |
-| 后续代码模块 | GAP-09、GAP-10、VOICE-02 |
+| 已完成，不重做 | Task 1–20 已确认范围、GAP-03 至 GAP-08、VOICE-01、UPDATE-01、GAP-01、GAP-02 |
+| 当前模块 | GAP-09 路径记忆数量范围 |
+| 后续代码模块 | GAP-10、VOICE-02 |
 | 真实审计 | AUDIT-01 至 AUDIT-08 |
 | 最终收口 | RELEASE-01 |
 
@@ -34,12 +34,11 @@
 
 ## 严格执行顺序
 
-1. GAP-08 Sandboxie repair reload
-2. GAP-09 路径记忆数量范围
-3. GAP-10 路径选择与剪贴板文案
-4. VOICE-02 读屏配置与 `lib` 运行时接线
-5. AUDIT-01 至 AUDIT-08 真实审计
-6. RELEASE-01 最终发布与整体完成门禁
+1. GAP-09 路径记忆数量范围
+2. GAP-10 路径选择与剪贴板文案
+3. VOICE-02 读屏配置与 `lib` 运行时接线
+4. AUDIT-01 至 AUDIT-08 真实审计
+5. RELEASE-01 最终发布与整体完成门禁
 
 禁止跳过当前模块，也禁止把多个模块混合迁移后统一测试。已完成的更新链路不得重复迁移；后续版本发布只更新版本、包、清单和校验证据。
 
@@ -96,12 +95,12 @@
 - Modify: `csharp/ShaheLauncher.App/MainForm.cs`
 - Create: `csharp/ShaheLauncher.Tests/SandboxieRepairReloadRuntimeContractTests.cs`
 
-- [ ] RED 证明正常构造路径的 `ReloadSandboxieConfigCallback` 当前为 null。
-- [ ] 接线已有 `ReloadSandboxieConfig()`；不得新增第二套 `/reload` 命令实现。
-- [ ] 验证只有实际写入配置后调用一次 reload。
-- [ ] 验证取消、无需修复、写入失败和 reload 异常反馈。
-- [ ] 真实验证只使用隔离 INI，不修改用户 Sandboxie 资源。
-- [ ] 完成共用门禁、文档、独立提交和推送。
+- [x] RED 证明正常构造路径的 `ReloadSandboxieConfigCallback` 当前为 null。
+- [x] 接线已有 `ReloadSandboxieConfig()`；不得新增第二套 `/reload` 命令实现。
+- [x] 验证只有实际写入配置后调用一次 reload。
+- [x] 验证取消、无需修复、写入失败和 reload 异常反馈。
+- [x] 真实验证只使用隔离 INI，不修改用户 Sandboxie 资源。
+- [x] 完成共用门禁、文档、独立提交和推送。
 
 ### GAP-09: 路径记忆数量范围
 
@@ -254,7 +253,7 @@ git diff --cached --check
 
 ## 新会话恢复规则
 
-- 用户说“继续工作”时，从本计划第一个未完成模块开始；当前首先执行 GAP-08。
+- 用户说“继续工作”时，从本计划第一个未完成模块开始；当前首先执行 GAP-09。
 - 如果模块已有 RED 没有 GREEN，从修复阶段继续。
 - 如果代码和验证完成但未提交，先做计划核对、暂存审计、提交和推送。
 - 如果真实探针为 inconclusive，保留证据并停在该模块，不写成产品通过或失败。
