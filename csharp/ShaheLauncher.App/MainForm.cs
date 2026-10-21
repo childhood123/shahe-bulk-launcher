@@ -4075,6 +4075,28 @@ namespace ShaheLauncher.App
                 LaunchCallbacks);
         }
 
+        private SandboxieCallbacks CreateSandboxieLaunchCallbacks()
+        {
+            return new SandboxieCallbacks
+            {
+                ListOfficialSandboxNames = () => GetOfficialSandboxNames().ToList(),
+                ReloadConfiguration = () =>
+                {
+                    if (ReloadSandboxieConfigCallback != null)
+                    {
+                        ReloadSandboxieConfigCallback();
+                    }
+                    else
+                    {
+                        ReloadSandboxieConfig();
+                    }
+                },
+                RefreshDisplayMaps = () => RefreshSandboxDisplayMaps(),
+                RefreshSandboxList = RefreshSandboxListFromRuntime,
+                SetStatus = text => SafeSetStatusLabel(text)
+            };
+        }
+
         private bool StartAppInSandbox(string sandboxName, string appPath, string appDirectory)
         {
             SandboxieLaunchResult result = SandboxieClient.StartAppInSandbox(
@@ -4083,12 +4105,7 @@ namespace ShaheLauncher.App
                 appDirectory,
                 GetSandboxDisplayMaps(),
                 GetOfficialSandboxNames(),
-                new SandboxieCallbacks
-                {
-                    RefreshDisplayMaps = () => RefreshSandboxDisplayMaps(),
-                    RefreshSandboxList = RefreshSandboxListFromRuntime,
-                    SetStatus = text => SafeSetStatusLabel(text)
-                });
+                CreateSandboxieLaunchCallbacks());
             return result.Success;
         }
 
