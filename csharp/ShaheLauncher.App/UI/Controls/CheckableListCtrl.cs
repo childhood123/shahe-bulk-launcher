@@ -57,6 +57,7 @@ namespace ShaheLauncher.App.UI.Controls
         public Func<bool> ShouldSuppressRefreshStatusProvider { get; set; }
         public Func<bool> UserInteractedProvider { get; set; }
         public Func<IEnumerable<string>, IDictionary<string, bool>> RunningStatesProvider { get; set; }
+        public Action RunningStatesRefreshCompletedCallback { get; set; }
         public Action ProcessMenuInvalidatedCallback { get; set; }
         public Action<int> ProcessMenuLiveStateRefreshCallback { get; set; }
         public string SandboxRoot { get; private set; }
@@ -531,6 +532,11 @@ namespace ShaheLauncher.App.UI.Controls
                     pending.Token,
                     pending.GroupName,
                     pending.SandboxNames));
+            }
+            else
+            {
+                try { RunningStatesRefreshCompletedCallback?.Invoke(); }
+                catch { }
             }
         }
 

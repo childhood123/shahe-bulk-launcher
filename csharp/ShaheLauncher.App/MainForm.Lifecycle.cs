@@ -1024,6 +1024,7 @@ namespace ShaheLauncher.App
             SandboxList.ShouldSuppressRefreshStatusProvider = ShouldSuppressListRefreshStatus;
             SandboxList.UserInteractedProvider = () => _userInteractedWithSandboxList;
             SandboxList.StatusCallback = text => SafeSetStatusLabel(text);
+            SandboxList.RunningStatesRefreshCompletedCallback = OnRunningStatesRefreshCompleted;
             SandboxList.ProcessMenuInvalidatedCallback = () => HotkeyController.InvalidateProcessMenuStateCache();
             SandboxList.ProcessMenuLiveStateRefreshCallback = delay => ScheduleProcessMenuLiveStateRefreshCallback?.Invoke(delay);
         }

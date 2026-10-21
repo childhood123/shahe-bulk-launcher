@@ -1,0 +1,24 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\review03\\bin\\",
+    "--logger",
+    "trx;LogFileName=red-valid.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\review03",
+    "--filter",
+    "FullyQualifiedName~ProcessRefreshFeedbackRuntimeContractTests"
+  ],
+  "returnCode": 1,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\review03\\red-valid.log",
+  "passed": 0,
+  "failed": 2,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\review03\\red-valid.trx"
+}

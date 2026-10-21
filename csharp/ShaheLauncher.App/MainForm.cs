@@ -46,6 +46,7 @@ namespace ShaheLauncher.App
         private bool _processMenuLiveStateRefreshInProgress;
         private bool _processMenuLiveStateRefreshPending;
         private int _processMenuLiveStateRefreshToken;
+        private bool _manualProcessRefreshStatusPending;
 
         public MainForm()
             : this(CreateDefaultRuntime())
@@ -831,6 +832,34 @@ namespace ShaheLauncher.App
             ScheduleMenuBarRebuild(24);
         }
 
+        private void RefreshProcessStateOnly()
+        {
+            RefreshProcessUi(false);
+            bool refreshed = false;
+            try
+            {
+                refreshed = ProcessCallbacks?.RefreshVisibleStates?.Invoke() == true;
+            }
+            catch
+            {
+                refreshed = false;
+            }
+
+            _manualProcessRefreshStatusPending = refreshed;
+            SafeSetStatusLabel(refreshed ? "正在刷新进程状态" : "没有可刷新的进程状态");
+        }
+
+        private void OnRunningStatesRefreshCompleted()
+        {
+            if (!_manualProcessRefreshStatusPending)
+            {
+                return;
+            }
+
+            _manualProcessRefreshStatusPending = false;
+            SafeSetStatusLabel("已刷新进程状态");
+        }
+
         private void ScheduleProcessMenuLiveStateRefresh(int delayMilliseconds)
         {
             if (IsWindowClosing())
@@ -1517,8 +1546,7 @@ namespace ShaheLauncher.App
                     ExecuteCurrentSandboxAction(LocateCurrentCallback);
                     break;
                 case "refresh_process_state":
-                    RefreshProcessUi(true);
-                    ProcessCallbacks.RefreshVisibleStates?.Invoke();
+                    RefreshProcessStateOnly();
                     break;
                 case "pin_current_user":
                     ExecuteCurrentSandboxAction(PinToggleCallback);

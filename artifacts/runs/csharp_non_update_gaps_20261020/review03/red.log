@@ -1,0 +1,6 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review03\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review03\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review03\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review03\bin\x64\Release\net48\沙河批量打开器.exe
+D:\mycodex\git\csharp\ShaheLauncher.Tests\ProcessRefreshFeedbackRuntimeContractTests.cs(21,51): error CS1061: “CheckableListCtrl”未包含“RunningStatesRefreshCompletedCallback”的定义，并且找不到可接受第一个“CheckableListCtrl”类型参数的可访问扩展方法“RunningStatesRefreshCompletedCallback”(是否缺少 using 指令或程序集引用?) [D:\mycodex\git\csharp\ShaheLauncher.Tests\ShaheLauncher.Tests.csproj]
+D:\mycodex\git\csharp\ShaheLauncher.Tests\ProcessRefreshFeedbackRuntimeContractTests.cs(22,34): error CS1061: “CheckableListCtrl”未包含“RunningStatesRefreshCompletedCallback”的定义，并且找不到可接受第一个“CheckableListCtrl”类型参数的可访问扩展方法“RunningStatesRefreshCompletedCallback”(是否缺少 using 指令或程序集引用?) [D:\mycodex\git\csharp\ShaheLauncher.Tests\ShaheLauncher.Tests.csproj]
