@@ -1,0 +1,13 @@
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 BatchCreateValuesAreSetByAccessibleNamesNotWindowOrder [2 s]
+  错误消息:
+   CollectionAssert.AreEqual 失败。Actual: 王五 | 8 | 0 | 1; Start children: System.Windows.Forms.UpDownBase+UpDownButtons=0x1F076E, System.Windows.Forms.UpDownBase+UpDownEdit=0x80774; Count children: System.Windows.Forms.UpDownBase+UpDownButtons=0x1E0780, System.Windows.Forms.UpDownBase+UpDownEdit=0x140756(索引 0 处的元素不匹配。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.BatchCreateValuesAreSetByAccessibleNamesNotWindowOrder() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 470
+
+结果文件: D:\mycodex\git\artifacts\runs\csharp_gitcode_release_20261020\full-post-ui-final.trx
+
+失败!  - 失败:     1，通过:   292，已跳过:     0，总计:   293，持续时间: 14 s - ShaheLauncher.Tests.dll (net48)

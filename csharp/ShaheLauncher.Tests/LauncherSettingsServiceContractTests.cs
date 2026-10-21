@@ -18,7 +18,7 @@ namespace ShaheLauncher.Tests
         private const string StateTypeName = "ShaheLauncher.Core.Settings.LauncherSettingsState";
         private const string CallbacksTypeName = "ShaheLauncher.Core.Settings.LauncherSettingsCallbacks";
         private const string StoreTypeName = "ShaheLauncher.Core.Configuration.ConfigStore";
-        private const string DefaultUpdateUrl = "https://lqh.viyf.net/shahe-bulk-launcher/update.json";
+        private const string DefaultUpdateUrl = "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json";
 
         [TestMethod]
         public void CreatesExactDefaultsAndIndependentNestedCollections()
@@ -100,6 +100,34 @@ namespace ShaheLauncher.Tests
                 Assert.AreEqual(
                     custom,
                     ReflectionTestHelpers.InvokeInstance(store, "GetSecretText", "update_manifest_url", "fallback"));
+            }
+            finally
+            {
+                Directory.Delete(root, true);
+            }
+        }
+
+        [TestMethod]
+        public void MigratesPreviousOfficialUpdateSourceAndPreservesCustomSource()
+        {
+            string root = CreateTemporaryDirectory();
+            try
+            {
+                Type type = RequireType(ServiceTypeName);
+                object store;
+                object service = CreateService(type, root, out store);
+                const string previous = "https://lqh.viyf.net/shahe-bulk-launcher/update.json";
+                ReflectionTestHelpers.InvokeInstance(store, "SetJson", "settings_json", new Dictionary<string, object>());
+                ReflectionTestHelpers.InvokeInstance(store, "SetSecretText", "update_manifest_url", previous);
+                ReflectionTestHelpers.InvokeInstance(service, "LoadSettings");
+                Assert.AreEqual(DefaultUpdateUrl, ReflectionTestHelpers.InvokeInstance(service, "GetUpdateManifestUrl"));
+                Assert.AreEqual(DefaultUpdateUrl, ReflectionTestHelpers.InvokeInstance(service, "SetUpdateManifestUrl", previous));
+                Assert.AreEqual(DefaultUpdateUrl, ReflectionTestHelpers.InvokeInstance(store, "GetSecretText", "update_manifest_url", ""));
+
+                const string custom = "https://example.test/custom-update.json";
+                ReflectionTestHelpers.InvokeInstance(service, "SetUpdateManifestUrl", custom);
+                ReflectionTestHelpers.InvokeInstance(service, "LoadSettings");
+                Assert.AreEqual(custom, ReflectionTestHelpers.InvokeInstance(service, "GetUpdateManifestUrl"));
             }
             finally
             {

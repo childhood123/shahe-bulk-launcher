@@ -1,14 +1,16 @@
 # 沙河批量打开器项目结构
 
-## 当前执行摘要（2026-10-20 非更新缺口）
+## 当前执行摘要（2026-10-21 GAP-07 启动）
 
-- 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。已完成的 Tolk 与非更新缺口计划保留为历史；本计划统一收口剩余代码差异、真实审计、更新子系统和最终发布。
-- 暂缓：GitCode 更新源配置、`GAP-01` 更新结果 UI/下载启动链、`GAP-02` Updater 安装入口；这些项目仍未完成。
-- 当前模块：全量只读源码复核已完成，下一模块为 `GAP-07` Esc、Alt+F4 与退出反馈；`GAP-01`、`GAP-02` 和 GitCode 更新源继续暂缓。
-- 本轮验证：VOICE-01 定向 GREEN `15/15`、受影响回归 `100/100`、C# 全量 `276/276`、Python `29/29`，应用 Release x64 构建 `0` 警告/`0` 错误。原生场景已验证 ZDSR、无读屏时 OneCore 回退、NVDA，以及恢复 ZDSR；各场景均 `Output=true`、卸载/释放成功，生产 `SpeechService` 原生探针返回 `0`。独立提交 `4ebe6c6` 已推送 `origin/fix/non-update-gaps-20261020`。
-- 本轮只读源码复核新增结论：确认 `GAP-07` 至 `GAP-10` 四个非更新代码差异、`VOICE-02` 一项运行时配置风险、更新源/UI/Updater 三项更新工作，以及八组真实审计/发布门禁仍未完成；未修改业务代码、未运行新测试或真实 EXE。
-- 已完成范围：现有主窗口/生命周期、快捷键分派、路径记忆接线、菜单状态、设置开关和音频后端的已验证部分。C# 可以启动并运行已验证功能，整体迁移尚未完成。
-- 历史衔接：旧导航/真实 EXE 计划保留为历史，其未完成审计继续保留；下方较早“当前状态”中的执行顺序由本摘要覆盖，历史验证结论不改写。
+- 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。用户已明确指令从 GAP-07 开始，并要求所有功能保留 Python 原文案、只用 C# 实现；UPDATE-01、GAP-01、GAP-02 已在计划中标记完成。
+- 当前模块：GAP-07 Esc、Alt+F4 与退出反馈。先完成更新链路独立提交和推送，再按 Python 原版固定“已最小化到托盘”“当前托盘不可用，已最小化窗口”“正在退出软件”及 `SpeechCallback(text, "launch_done")` 次数与顺序；不修改 Python 文案、不重设计交互。
+- GitCode 发布状态：公开仓库 `https://gitcode.com/childhood123/shahe-bulk-launcher-releases` 的 `main` 已指向 `18caa88287fc5714a90528e88cd732d0204ec135`。默认清单 `https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json` 匿名生产式请求为 HTTP `200`；清单内 content-addressed ZIP 匿名请求为 HTTP `200`。
+- 发布包状态：版本 `4.0.46`，ZIP 大小 `2785203` 字节，SHA-256 `D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8`；匿名下载后的实际大小和哈希完全一致。最终证据为 `artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-final.json`。
+- 最新自动化门禁：更新分类 `27/27`、受影响回归 `157/157`、C# 未过滤全量 `293/293`、Python 对照 `29/29` 均通过；Python 生产源码编译、Release x64 隔离构建和 `git diff --check` 返回码均为 `0`，Release 构建警告 `0`、错误 `0`。本轮未过滤全量曾因既有 AuditRunner 原生输入漂移得到 `292/293`，单项也曾失败；随后同一程序集单项 `1/1` 和全量 `293/293` 通过，历史中间结果保留在下方。
+- 版本触发边界：应用 `AppVersion` 与公开清单 `latest_version` 当前同为 `4.0.46`。本次发布建立了可用更新基线，但已运行同版本客户端不会收到“有新版本”提示；后续真实升级发布必须使用更高版本号并重新生成包、清单和校验值。
+- 已完成模块：GAP-03 至 GAP-06、VOICE-01 及此前已提交的迁移模块保持完成；UPDATE-01、GAP-01、GAP-02 已完成实现和验证，当前作为独立提交收口。剩余代码级迁移项为 GAP-07 至 GAP-10、VOICE-02；另有 AUDIT-01 至 AUDIT-08 和最终发布门禁。
+- 真实 updater 证据：GitCode 匿名 ZIP 在隔离生产 helper 布局下以 `restart=true` 完成下载、替换和进程重启；updater PID `11448` 返回 `0`，精确隔离路径主进程 PID `5364` 被观测并清理，安装文件哈希、用户配置和 `lib 7/7` 均通过。该场景主窗口句柄为 `0`，只证明进程重启，不替代后续发布目录 UI 启动审计。
+- C# 当前可以启动并运行已验证功能，更新源与发布包现可匿名读取；整体 Python→C# 迁移仍未完成。更新提交完成后立即建立 GAP-07 运行时 RED。
 
 ### 本轮验证记录（只追加）
 
@@ -967,3 +969,88 @@ csharp/
 - 2026-08-04：Task 2 基础模块 RED 验证：运行 `python -m unittest tests.test_foundation_modules -v`，1 项测试因 `ModuleNotFoundError: No module named 'shahe_bulk_launcher'` 按预期失败，确认测试覆盖目标包而非旧单文件定义。
 - 2026-08-04：完成拆分前 API 契约捕获，记录 19 个顶层函数、17 个顶层类、11 个全大写常量和 `SandboxLauncher` 400 个方法；方法目标模块清单合计同为 400，无遗漏。运行 `python -m py_compile artifacts\tools\capture_launcher_contract.py tests\test_modular_structure.py` 通过。运行 `python -m unittest tests.test_modular_structure.ModularStructureTests.test_target_modules_exist -v` 按预期失败，唯一原因是设计中的 20 个目标模块尚未创建，作为后续迁移的 RED 基线。
 - 2026-08-04：建立拆分前项目基线和原项目到模块的映射；尚未执行迁移或测试。
+
+- 2026-10-20 GitCode 更新续接 rollback-red：test 返回码 1，通过 0、失败 1、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/rollback-red-result.json；同名前缀 .log/.trx。
+
+- 2026-10-20 GitCode 原始下载入口只读验证：Invoke-WebRequest 匿名读取仓库 main/README.md，返回码 0，HTTP 200。原始地址由已登录仓库文件页的源码链接取得；命令目标、响应和状态记录：artifacts/runs/csharp_gitcode_release_20261020/raw-readme-result.json。未上传任何文件。
+
+- 2026-10-20 GitCode 更新续接 source-red：test 返回码 1，通过 23、失败 4、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/source-red-result.json；同名前缀 .log/.trx。
+
+- 2026-10-20 GitCode 更新续接 update-source-green：test 返回码 0，通过 42、失败 0、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/update-source-green-result.json；同名前缀 .log/.trx。
+
+- 2026-10-20 GitCode 更新续接 affected：vstest 返回码 0，通过 154、失败 0、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/affected-result.json；同名前缀 .log/.trx。
+
+- 2026-10-20 GitCode 更新续接 rollback-green：vstest 返回码 0，通过 1、失败 0、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/rollback-green-result.json；同名前缀 .log/.trx。
+
+- 2026-10-20 GitCode 更新续接 updates-final：vstest 返回码 0，通过 24、失败 0、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/updates-final-result.json；同名前缀 .log/.trx。
+
+- 2026-10-20 GitCode 更新续接 affected-final：vstest 返回码 0，通过 154、失败 0、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/affected-final-result.json；同名前缀 .log/.trx。
+
+- 2026-10-20 GitCode 更新续接 release-build：build 返回码 0，计数不适用（未产生测试结果时不能作为测试通过）。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/release-build-result.json；同名前缀 .log/.trx。
+
+- 2026-10-20 GitCode 更新续接 release-build-final：build 返回码 0，计数不适用（未产生测试结果时不能作为测试通过）。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/release-build-final-result.json；同名前缀 .log/.trx。
+
+- 2026-10-20 GitCode 发布包组装：从隔离 Release 输出按白名单生成 artifacts\runs\csharp_gitcode_release_20261020\public-package-4.0.46-gitcode-final\shahe-bulk-launcher-4.0.46-win-x64.zip，大小 2785203 字节，SHA-256 D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8；清单为 artifacts\runs\csharp_gitcode_release_20261020\public-package-4.0.46-gitcode-final\update.json，目标版本 4.0.46，包 URL 指向 GitCode raw main。文件清单和哈希证据：artifacts\runs\csharp_gitcode_release_20261020\public-package-4.0.46-gitcode-final/package-result.json。
+
+- 2026-10-20 GitCode 发布包本地校验：ZIP 条目 14，sizeMatches=True，hashMatches=True，hasTests=False；结果：artifacts\runs\csharp_gitcode_release_20261020\public-package-4.0.46-gitcode-final\package-verification.json。
+
+- 2026-10-20 GitCode 更新续接 compile-final：compile 返回码 0，计数不适用（未产生测试结果时不能作为测试通过）。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/compile-final-result.json；同名前缀 .log/.trx。
+
+- 2026-10-20 GitCode 更新续接 diff-final：diff 返回码 0，计数不适用（未产生测试结果时不能作为测试通过）。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/diff-final-result.json；同名前缀 .log/.trx。
+
+- 2026-10-20 GitCode 更新续接 python-final：python 返回码 0，通过 29、失败 0、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/python-final-result.json；同名前缀 .log/.trx。
+
+- 2026-10-20 GitCode 更新续接 full-excluding-audit-final：vstest 返回码 0，通过 268、失败 0、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/full-excluding-audit-final-result.json；同名前缀 .log/.trx。
+
+- 2026-10-20 GitCode 更新续接 full-unfiltered-final：vstest 返回码 0，通过 290、失败 0、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/full-unfiltered-final-result.json；同名前缀 .log/.trx。
+
+- 2026-10-21 GitCode 清单匿名请求探针：无查询参数与客户端实际追加 ?t= 的响应记录在 artifacts/runs/csharp_gitcode_release_20261020/gitcode-manifest-query-result.json；探针返回码 1。带时间戳请求未成功时，当前 GitCode 默认源不得记为可用，须先建立 RED/GREEN 修复客户端请求兼容性。
+
+- 2026-10-21 GitCode 匿名下载矩阵：对 raw README、update.json、download=1、GitLab 风格路径、blob 下载与官方 contents API，分别使用默认、生产客户端和浏览器 Referer 请求；完整状态记录：artifacts/runs/csharp_gitcode_release_20261020/gitcode-download-matrix.json。此矩阵只定位可公开读取端点，不改变远端文件。
+
+- 2026-10-21 GitCode ZIP contents API 探针：匿名请求官方 /api/v5/repos/.../contents/...zip?ref=main，状态 200，响应 3714507 字节；编码、内容长度、download_url 和 blob SHA 记录在 artifacts/runs/csharp_gitcode_release_20261020/gitcode-package-contents-api-result.json。原始 API JSON 仅留在同一专用运行目录。
+
+- 2026-10-21 GitCode blob 下载探针：使用 contents API 返回的 content-addressed download_url 并追加生产式 ?t=，HTTP 200、sizeMatches=True、hashMatches=True。证据：artifacts/runs/csharp_gitcode_release_20261020/gitcode-blob-download-result.json。
+
+- 2026-10-21 GitCode 发布后匿名验证首次调用返回码 `1`，属于探针脚本错误、无产品结论：PowerShell 把 `$manifestUrl?t=...` 误解析为变量名，12 次尝试均在发起 HTTP 前得到无效地址 `=时间戳`；远端只读查询同时确认 `main` 已指向 `18caa88287fc5714a90528e88cd732d0204ec135`。失败证据：`artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-probe-failure.json`。下一步只修正为 `${manifestUrl}?t=...` 后重跑同一验证。
+
+- 2026-10-21 GitCode 发布后匿名端到端验证通过：返回码 `0`，第 `1/12` 次尝试即成功；生产式 `User-Agent`、禁缓存请求读取 `update.json` 为 HTTP `200`，清单版本 `4.0.46`，content-addressed ZIP 为 HTTP `200`，下载大小 `2785203` 字节，SHA-256 `D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8`，均与发布包一致；GitCode `main` 为 `18caa88287fc5714a90528e88cd732d0204ec135`。证据：`artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-final.json`、同目录下载样本和验证脚本。
+
+
+- 2026-10-21 GitCode 更新续接 update-ui-red：test 返回码 1，通过 5、失败 3、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/update-ui-red-result.json；同名前缀 .log/.trx。
+
+- 2026-10-21 更新 UI 首次 RED 调用无效：上述 `update-ui-red` 的 3 个失败均为测试 helper 把实际位于 Core 的 `LauncherRuntime` 错写成 App 命名空间而触发 `TypeLoadException`，新断言未进入产品行为；既有 5 项通过。该结果只作为测试基础设施失败保留，修正类型名后必须重跑有效 RED。
+
+- 2026-10-21 GitCode 更新续接 update-ui-red-valid：test 返回码 1，通过 5、失败 3、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/update-ui-red-valid-result.json；同名前缀 .log/.trx。
+
+- 2026-10-21 GitCode 更新续接 update-worker-error-red：test 返回码 1，通过 0、失败 1、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/update-worker-error-red-result.json；同名前缀 .log/.trx。
+
+- 2026-10-21 GitCode 更新续接 update-ui-green：test 返回码 1，通过 8、失败 1、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/update-ui-green-result.json；同名前缀 .log/.trx。
+
+- 2026-10-21 更新 UI 首次 GREEN 调用尚无完整结论：`8/9` 已通过，唯一失败是测试错误地用只支持 public 方法的 helper 调用私有 `DownloadUpdate`，在“稍后下载不重复询问”产品断言前停止；改为调用界面真实绑定的公开 `DownloadUpdateCallback` 后重跑。
+
+- 2026-10-21 GitCode 更新续接 update-ui-green-final：test 返回码 0，通过 9、失败 0、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/update-ui-green-final-result.json；同名前缀 .log/.trx。
+
+- 2026-10-21 GitCode 公开包真实 updater `restart=true` 端到端通过：返回码 `0`；使用匿名下载且已校验的 `4.0.46` ZIP，在生产式 `app/tenp/updater_helper` 布局运行真实 `updater.exe`（PID `11448`），其返回码 `0`；隔离主程序从精确路径启动为 PID `5364`，安装后主 EXE/updater 哈希均匹配包内文件，`Configuration/user.ini` 精确保留，`lib` 为 `7/7`。本场景只验证进程重启，主窗口句柄未建立（`0`），未作为 UI 启动证据；无键盘输入、无索引校准、无超时或丢键。清理先请求关闭窗口但返回 false，随后仅强制结束本轮精确 PID `5364`，最终目标进程和 updater 均归零。隔离目录与完整结果：`artifacts/runs/csharp_gitcode_release_20261020/gitcode-restart-e2e-20261021-002619668/`、`gitcode-restart-e2e-final.json` 和同名 `.log`。
+
+- 2026-10-21 GitCode 更新续接 updates-post-ui-final：test 返回码 0，通过 27、失败 0、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/updates-post-ui-final-result.json；同名前缀 .log/.trx。
+
+- 2026-10-21 GitCode 更新续接 affected-post-ui-final：vstest 返回码 0，通过 157、失败 0、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/affected-post-ui-final-result.json；同名前缀 .log/.trx。
+
+- 2026-10-21 GitCode 更新续接 full-post-ui-final：vstest 返回码 1，通过 292、失败 1、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/full-post-ui-final-result.json；同名前缀 .log/.trx。
+
+- 2026-10-21 GitCode 更新续接 audit-input-post-ui-recheck：vstest 返回码 1，通过 0、失败 1、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/audit-input-post-ui-recheck-result.json；同名前缀 .log/.trx。
+
+- 2026-10-21 更新 UI 后首次未过滤全量为 `292/293`，唯一失败仍是工作树既有 AuditRunner 原生输入测试；同程序集单项复核再次失败，但实际值由全量时的 `王五 | 8 | 0 | 1` 变为 `ShaheAudit_Test_ | 1 | 0 | 2`，失败字段发生漂移。当前更新改动不引用该审计输入路径，更新分类 `27/27` 和受影响回归 `157/157` 已通过；此处记录为既有原生控件提交不稳定性，未过滤全量门禁仍未通过，不能据受影响回归替代。
+
+- 2026-10-21 GitCode 更新续接 audit-input-post-ui-recheck2：vstest 返回码 0，通过 1、失败 0、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/audit-input-post-ui-recheck2-result.json；同名前缀 .log/.trx。
+
+- 2026-10-21 GitCode 更新续接 full-post-ui-final2：vstest 返回码 0，通过 293、失败 0、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/full-post-ui-final2-result.json；同名前缀 .log/.trx。
+
+- 2026-10-21 GitCode 更新续接 python-post-ui-final：python 返回码 0，通过 29、失败 0、跳过 0。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/python-post-ui-final-result.json；同名前缀 .log/.trx。
+
+- 2026-10-21 GitCode 更新续接 compile-post-ui-final：compile 返回码 0，计数不适用（未产生测试结果时不能作为测试通过）。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/compile-post-ui-final-result.json；同名前缀 .log/.trx。
+
+- 2026-10-21 GitCode 更新续接 release-post-ui-final：build 返回码 0，计数不适用（未产生测试结果时不能作为测试通过）。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/release-post-ui-final-result.json；同名前缀 .log/.trx。
+
+- 2026-10-21 GitCode 更新续接 diff-post-ui-final：diff 返回码 0，计数不适用（未产生测试结果时不能作为测试通过）。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/diff-post-ui-final-result.json；同名前缀 .log/.trx。

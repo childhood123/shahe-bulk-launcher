@@ -1,0 +1,102 @@
+{
+  "verified": false,
+  "verified_at": "2026-10-21T00:10:57.6373115+00:00",
+  "gitcode_remote": "https://gitcode.com/childhood123/shahe-bulk-launcher-releases.git",
+  "remote_branch": "main",
+  "remote_head": "18caa88287fc5714a90528e88cd732d0204ec135",
+  "manifest_url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json",
+  "manifest_status": null,
+  "latest_version": null,
+  "package_url": null,
+  "package_status": null,
+  "expected_size": 2785203,
+  "downloaded_size": null,
+  "expected_sha256": "D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8",
+  "downloaded_sha256": null,
+  "attempts": [
+    {
+      "attempt": 1,
+      "started_at": "2026-10-21T00:10:01.7993454+00:00",
+      "manifest_url": "=1792541401794",
+      "error": "Invalid URI: The hostname could not be parsed.",
+      "completed_at": "2026-10-21T00:10:01.8504999+00:00"
+    },
+    {
+      "attempt": 2,
+      "started_at": "2026-10-21T00:10:06.8602027+00:00",
+      "manifest_url": "=1792541406859",
+      "error": "Invalid URI: The hostname could not be parsed.",
+      "completed_at": "2026-10-21T00:10:06.8617632+00:00"
+    },
+    {
+      "attempt": 3,
+      "started_at": "2026-10-21T00:10:11.8666933+00:00",
+      "manifest_url": "=1792541411866",
+      "error": "Invalid URI: The hostname could not be parsed.",
+      "completed_at": "2026-10-21T00:10:11.8678482+00:00"
+    },
+    {
+      "attempt": 4,
+      "started_at": "2026-10-21T00:10:16.8724471+00:00",
+      "manifest_url": "=1792541416872",
+      "error": "Invalid URI: The hostname could not be parsed.",
+      "completed_at": "2026-10-21T00:10:16.8739907+00:00"
+    },
+    {
+      "attempt": 5,
+      "started_at": "2026-10-21T00:10:21.8841947+00:00",
+      "manifest_url": "=1792541421884",
+      "error": "Invalid URI: The hostname could not be parsed.",
+      "completed_at": "2026-10-21T00:10:21.8851841+00:00"
+    },
+    {
+      "attempt": 6,
+      "started_at": "2026-10-21T00:10:26.8986802+00:00",
+      "manifest_url": "=1792541426898",
+      "error": "Invalid URI: The hostname could not be parsed.",
+      "completed_at": "2026-10-21T00:10:26.9003358+00:00"
+    },
+    {
+      "attempt": 7,
+      "started_at": "2026-10-21T00:10:31.9031471+00:00",
+      "manifest_url": "=1792541431902",
+      "error": "Invalid URI: The hostname could not be parsed.",
+      "completed_at": "2026-10-21T00:10:31.9041649+00:00"
+    },
+    {
+      "attempt": 8,
+      "started_at": "2026-10-21T00:10:36.9160467+00:00",
+      "manifest_url": "=1792541436915",
+      "error": "Invalid URI: The hostname could not be parsed.",
+      "completed_at": "2026-10-21T00:10:36.9169008+00:00"
+    },
+    {
+      "attempt": 9,
+      "started_at": "2026-10-21T00:10:41.9174546+00:00",
+      "manifest_url": "=1792541441917",
+      "error": "Invalid URI: The hostname could not be parsed.",
+      "completed_at": "2026-10-21T00:10:41.9186732+00:00"
+    },
+    {
+      "attempt": 10,
+      "started_at": "2026-10-21T00:10:46.9267761+00:00",
+      "manifest_url": "=1792541446926",
+      "error": "Invalid URI: The hostname could not be parsed.",
+      "completed_at": "2026-10-21T00:10:46.9399536+00:00"
+    },
+    {
+      "attempt": 11,
+      "started_at": "2026-10-21T00:10:51.9540029+00:00",
+      "manifest_url": "=1792541451953",
+      "error": "Invalid URI: The hostname could not be parsed.",
+      "completed_at": "2026-10-21T00:10:51.9551783+00:00"
+    },
+    {
+      "attempt": 12,
+      "started_at": "2026-10-21T00:10:56.9572936+00:00",
+      "manifest_url": "=1792541456957",
+      "error": "Invalid URI: The hostname could not be parsed.",
+      "completed_at": "2026-10-21T00:10:56.9581040+00:00"
+    }
+  ]
+}

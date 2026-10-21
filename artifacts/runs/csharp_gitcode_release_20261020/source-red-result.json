@@ -1,0 +1,23 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020\\bin\\",
+    "--logger",
+    "trx;LogFileName=source-red.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020",
+    "--filter",
+    "FullyQualifiedName~ConstantsContractTests|FullyQualifiedName~LauncherSettingsServiceContractTests|FullyQualifiedName~UpdateServiceContractTests"
+  ],
+  "returnCode": 1,
+  "passed": 23,
+  "failed": 4,
+  "skipped": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020\\source-red.log"
+}

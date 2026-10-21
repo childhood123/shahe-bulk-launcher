@@ -1,0 +1,23 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020\\bin\\",
+    "--logger",
+    "trx;LogFileName=update-ui-red-valid.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020",
+    "--filter",
+    "FullyQualifiedName~UpdateFullPackageContractTests"
+  ],
+  "returnCode": 1,
+  "passed": 5,
+  "failed": 3,
+  "skipped": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020\\update-ui-red-valid.log"
+}

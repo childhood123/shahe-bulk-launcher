@@ -161,18 +161,15 @@ namespace ShaheLauncher.Core.Settings
         {
             string value = StringValue(UpdateManifestUrl).Trim();
             return value.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
+                && !string.Equals(value, "https://lqh.viyf.net/shahe-bulk-launcher/update.json", StringComparison.OrdinalIgnoreCase)
                 ? value
                 : LauncherConstants.UpdateManifestUrl;
         }
 
         public string SetUpdateManifestUrl(string value)
         {
-            string normalized = StringValue(value).Trim();
-            if (!normalized.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-            {
-                normalized = LauncherConstants.UpdateManifestUrl;
-            }
-
+            UpdateManifestUrl = StringValue(value).Trim();
+            string normalized = GetUpdateManifestUrl();
             UpdateManifestUrl = normalized;
             try
             {

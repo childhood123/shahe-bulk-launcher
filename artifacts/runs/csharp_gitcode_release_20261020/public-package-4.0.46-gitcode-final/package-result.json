@@ -1,0 +1,23 @@
+{
+  "version": "4.0.46",
+  "package": "D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020\\public-package-4.0.46-gitcode-final\\shahe-bulk-launcher-4.0.46-win-x64.zip",
+  "size": 2785203,
+  "sha256": "D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8",
+  "files": [
+    "沙河批量打开器.exe",
+    "沙河批量打开器.exe.config",
+    "BouncyCastle.Crypto.dll",
+    "lib/byctrl-x64.dll",
+    "lib/byctrl.conf",
+    "lib/nvdaControllerClient64.dll",
+    "lib/SAAPI64.dll",
+    "lib/Tolk.dll",
+    "lib/ZDSRAPI_x64.dll",
+    "lib/ZDSRAPI.ini",
+    "Newtonsoft.Json.dll",
+    "ShaheLauncher.Core.dll",
+    "updater.exe",
+    "updater.exe.config"
+  ],
+  "manifest": "D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020\\public-package-4.0.46-gitcode-final\\update.json"
+}

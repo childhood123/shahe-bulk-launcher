@@ -1,0 +1,19 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_gitcode_release_20261020\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_gitcode_release_20261020\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\csharp_gitcode_release_20261020\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_gitcode_release_20261020\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\csharp_gitcode_release_20261020\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\csharp_gitcode_release_20261020\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 PreservesRecoveryFilesWhenInstallFailsWithRunningHelper [597 ms]
+  错误消息:
+   Assert.IsTrue 失败。Rollback must preserve the old main executable while the helper is running.
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.UpdateRunnerContractTests.PreservesRecoveryFilesWhenInstallFailsWithRunningHelper() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\UpdateRunnerContractTests.cs:行号 372
+
+结果文件: D:\mycodex\git\artifacts\runs\csharp_gitcode_release_20261020\rollback-red.trx
+
+失败!  - 失败:     1，通过:     0，已跳过:     0，总计:     1，持续时间: 948 ms - ShaheLauncher.Tests.dll (net48)

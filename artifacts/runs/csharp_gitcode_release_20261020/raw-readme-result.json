@@ -1,0 +1,8 @@
+{
+  "url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/README.md",
+  "status": 200,
+  "contentType": "text/plain; charset=UTF-8",
+  "body": "# shahe-bulk-launcher-releases\n\n沙河批量打开器公开发布仓库，仅存放编译后的 Windows x64 更新包、版本清单和校验信息。",
+  "authenticated": false,
+  "returnCode": 0
+}

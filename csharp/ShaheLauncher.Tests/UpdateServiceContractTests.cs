@@ -23,7 +23,7 @@ namespace ShaheLauncher.Tests
         private const string CallbacksTypeName = "ShaheLauncher.Core.Updates.UpdateServiceCallbacks";
         private const string PackageTypeName = "ShaheLauncher.Core.Updates.UpdatePackageInfo";
         private const string ResultTypeName = "ShaheLauncher.Core.Updates.UpdateDisplayResult";
-        private static readonly string DefaultUpdateUrl = "https://lqh.viyf.net/shahe-bulk-launcher/update.json";
+        private static readonly string DefaultUpdateUrl = "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json";
 
         [TestMethod]
         public void NormalizesPatchPackageAndRejectsLegacyDownloadUrlLikePython()
@@ -297,10 +297,12 @@ namespace ShaheLauncher.Tests
             object callbacks = Activator.CreateInstance(callbacksType);
             var posted = new ManualResetEventSlim(false);
             var statuses = new List<string>();
+            object displayResult = null;
             int callerThread = Thread.CurrentThread.ManagedThreadId;
             int workerThread = 0;
             SetProperty(callbacksType, callbacks, "GetManifestUrl", new Func<string>(() => "https://example.invalid/update.json"));
             SetProperty(callbacksType, callbacks, "SetStatus", new Action<string>(statuses.Add));
+            SetProperty(callbacksType, callbacks, "ShowUpdateResult", new Action<object>(result => displayResult = result));
             SetProperty(callbacksType, callbacks, "PostToUi", new Action<Action>(action =>
             {
                 workerThread = Thread.CurrentThread.ManagedThreadId;
@@ -318,6 +320,8 @@ namespace ShaheLauncher.Tests
             Assert.IsTrue(posted.Wait(3000));
             Assert.AreNotEqual(callerThread, workerThread);
             CollectionAssert.Contains(statuses, "检查更新失败: network down");
+            Assert.IsNotNull(displayResult);
+            Assert.AreEqual("network down", GetProperty<string>(displayResult.GetType(), displayResult, "ErrorText"));
         }
 
         [TestMethod]

@@ -1,0 +1,10 @@
+﻿{
+  "url": "http://127.0.0.1:38147/shahe-bulk-launcher-4.0.46-win-x64.zip",
+  "package_kind": "full",
+  "current_version": "4.0.45",
+  "target_version": "4.0.46",
+  "sha256": "7921F9E70344CF1826F82D74BE0B31E31F5006B76559AAF561DE96A99E8058D0",
+  "size": 2784586,
+  "restart": false,
+  "encrypted": false
+}

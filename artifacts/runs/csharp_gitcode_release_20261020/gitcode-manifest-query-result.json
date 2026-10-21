@@ -1,0 +1,31 @@
+{
+  "returnCode": 1,
+  "checks": [
+    {
+      "url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json",
+      "status": 403,
+      "contentType": "text/plain; charset=utf-8",
+      "body": "暂不支持预览\n"
+    },
+    {
+      "url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json",
+      "status": null,
+      "contentType": "",
+      "body": "",
+      "error": "The term 'if' is not recognized as a name of a cmdlet, function, script file, or executable program.\r\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+    },
+    {
+      "url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json?t=1792540409",
+      "status": 403,
+      "contentType": "text/plain; charset=utf-8",
+      "body": "暂不支持预览\n"
+    },
+    {
+      "url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json?t=1792540409",
+      "status": null,
+      "contentType": "",
+      "body": "",
+      "error": "The term 'if' is not recognized as a name of a cmdlet, function, script file, or executable program.\r\nCheck the spelling of the name, or if a path was included, verify that the path is correct and try again."
+    }
+  ]
+}

@@ -1,0 +1,11 @@
+﻿{
+  "updater_exit_code": 0,
+  "package": "public-package-4.0.46-final/shahe-bulk-launcher-4.0.46-win-x64.zip",
+  "package_size": 2784833,
+  "package_sha256": "C61DE1650CDE08F338399AFAB6C8F30E744A182CBA8572F7DCCE15EDCE67B04B",
+  "main_match": true,
+  "updater_match": true,
+  "configuration_preserved": true,
+  "lib_file_count": 7,
+  "http_log": "127.0.0.1 - - [20/Oct/2026 20:46:15] \"GET /shahe-bulk-launcher-4.0.46-win-x64.zip HTTP/1.1\" 200 -"
+}

@@ -1,0 +1,23 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020\\bin\\",
+    "--logger",
+    "trx;LogFileName=update-source-green.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020",
+    "--filter",
+    "FullyQualifiedName~ConstantsContractTests|FullyQualifiedName~LauncherSettingsServiceContractTests|TestCategory=Updates"
+  ],
+  "returnCode": 0,
+  "passed": 42,
+  "failed": 0,
+  "skipped": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020\\update-source-green.log"
+}

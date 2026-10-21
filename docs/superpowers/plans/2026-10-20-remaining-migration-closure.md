@@ -4,7 +4,7 @@
 
 **Goal:** 收口全部已确认的 Python→C# 行为差异、运行时接线、真实 EXE 审计和发布流程，最终满足 `AGENTS.md` 的整体迁移完成标准。
 
-**Architecture:** 保持现有 Core、App、Updater 和 AuditRunner 边界，不重设计 UI。先处理非更新代码差异，再处理读屏配置集成和真实审计；更新子系统继续暂缓，直到用户明确恢复更新工作。
+**Architecture:** 保持现有 Core、App、Updater 和 AuditRunner 边界，不重设计 UI。UPDATE-01、GAP-01、GAP-02 已完成实现、验证和 GitCode 发布；当前从 GAP-07 继续非更新代码差异，随后处理读屏配置集成和真实审计。
 
 **Tech Stack:** .NET Framework 4.8、WinForms、C# 7.3、Release x64、MSTest、Python unittest、Sandboxie、Tolk。
 
@@ -24,14 +24,13 @@
 
 | 状态 | 模块 |
 | --- | --- |
-| 已完成，不重做 | Task 1–20 已确认范围、GAP-03 至 GAP-06、VOICE-01 |
+| 已完成，不重做 | Task 1–20 已确认范围、GAP-03 至 GAP-06、VOICE-01、UPDATE-01、GAP-01、GAP-02 |
 | 当前模块 | GAP-07 Esc、Alt+F4 与退出反馈 |
 | 后续代码模块 | GAP-08、GAP-09、GAP-10、VOICE-02 |
 | 真实审计 | AUDIT-01 至 AUDIT-08 |
-| 暂缓更新 | UPDATE-01、GAP-01、GAP-02 |
 | 最终收口 | RELEASE-01 |
 
-当前 C# 主程序能够启动、显示主窗口、执行已验证功能并正常退出；整体迁移尚未完成。唯一确认的空生产入口是 `csharp/ShaheLauncher.Updater/Program.cs`。
+当前 C# 主程序能够启动、显示主窗口、执行已验证功能并正常退出；Updater 生产入口已接通并通过隔离真实进程验证。整体迁移尚未完成。
 
 ## 严格执行顺序
 
@@ -41,10 +40,9 @@
 4. GAP-10 路径选择与剪贴板文案
 5. VOICE-02 读屏配置与 `lib` 运行时接线
 6. AUDIT-01 至 AUDIT-08 真实审计
-7. UPDATE-01、GAP-01、GAP-02 更新子系统
-8. RELEASE-01 最终发布与整体完成门禁
+7. RELEASE-01 最终发布与整体完成门禁
 
-禁止跳过当前模块，也禁止把多个模块混合迁移后统一测试。更新功能继续暂缓，除非用户明确恢复更新工作。
+禁止跳过当前模块，也禁止把多个模块混合迁移后统一测试。已完成的更新链路不得重复迁移；后续版本发布只更新版本、包、清单和校验证据。
 
 ## 已完成且不得重复
 
@@ -52,6 +50,7 @@
 - `Program.cs`、`MainForm`、单实例和 WinForms 生命周期已接入真实启动流程。
 - GAP-03 复杂 JSON、GAP-04 朗读配置保留、GAP-05 剪贴板文件优先、GAP-06 全选切换已完成并推送。
 - VOICE-01 Tolk x64 已完成 ZDSR、NVDA、OneCore 回退和生产 `SpeechService` 原生调用验证。
+- UPDATE-01、GAP-01、GAP-02 已完成 GitCode 默认源、更新 UI、完整包、Updater 安装/回滚/重启和匿名发布验证；当前 `4.0.46` 清单是同版本发布基线。
 - 关闭当前/全部进程真实验证已完成。
 - `batch-create`、`create-group`、`launch-group`、`schedule-launch` 和 cleanup 已取得真实证据。
 - 真实备份和独立安全解压一致性验证已完成；真实覆盖还原仍未完成。
@@ -204,32 +203,30 @@
 
 ---
 
-## 更新子系统：继续暂缓
+## 更新子系统：已完成
 
-本节只记录，未获用户明确恢复更新工作的指令前不得实施。
+本节于 2026-10-21 完成实现和验证；实时测试数字、GitCode 提交、包哈希和日志路径以 `PROJECT_STRUCTURE.md` 顶部摘要及最新验证记录为准。
 
 ### UPDATE-01: GitCode 更新源
 
-- [ ] 用户提供 GitCode 仓库、正式清单 URL、分支/tag 和发布约定。
-- [ ] 替换当前 `https://lqh.viyf.net/shahe-bulk-launcher/update.json`。
-- [ ] 验证缓存、签名、哈希、超时、错误响应和回退规则。
+- [x] 确定公开仓库 `childhood123/shahe-bulk-launcher-releases`、`main` 分支、正式清单 URL 和完整包发布约定。
+- [x] 将旧默认源 `https://lqh.viyf.net/shahe-bulk-launcher/update.json` 迁移到 GitCode，并保留自定义 HTTPS 源。
+- [x] 验证禁缓存请求、HTTPS、size/SHA-256、超时、错误响应和旧默认源回退；签名/解密继续由已有更新契约保护。
 
 ### GAP-01: 更新结果 UI 和下载链
 
-**Confirmed gaps:** `UpdateNoticePanel` 已创建但没有结果接线；`DownloadUpdateCallback` 正常构造未赋值；`CheckUpdateWorker()` 只设置状态文本。
-
-- [ ] 建立版本结果、面板显示/隐藏、稍后下载和强制更新 RED。
-- [ ] 接线 `UpdateNoticePanel`、`UpdateNoticeLabel`、`DownloadUpdateButton` 和 `DownloadUpdateCallback`。
-- [ ] 接线 updater 命令准备、进程启动、主程序关闭和错误反馈。
+- [x] RED/GREEN 覆盖最新版、清单错误、无适用包、普通更新稍后下载和强制更新拒绝退出。
+- [x] 接线 `UpdateNoticePanel`、`UpdateNoticeLabel`、`DownloadUpdateButton` 和 `DownloadUpdateCallback`，保持 AccessibleName 与键盘焦点。
+- [x] 接线 updater 命令准备、进程启动、主程序关闭和错误反馈。
 
 ### GAP-02: Updater 安装入口
 
-**Confirmed gap:** `csharp/ShaheLauncher.Updater/Program.Main` 为空；`UpdateInstaller` 目前只有参数、请求和哈希 helper。
+- [x] 用户确认恢复更新工作，并批准在原 updater 源码缺失时按现有请求协议重建生产入口。
+- [x] RED/GREEN 覆盖等待主 PID、下载、大小/哈希/签名、解密、安全解压、备份、替换、回滚和重启。
+- [x] 仅在隔离发布副本执行端到端更新，未覆盖仓库工作目录或用户正式安装目录。
+- [x] 完成 GitCode 匿名清单/包验证及生产 helper 布局 `restart=true` 真实进程验证。
 
-- [ ] 获取原 updater 源码；没有源码时必须由用户明确批准按现有请求协议重建。
-- [ ] RED 覆盖等待主 PID、下载、大小/哈希/签名、解密、解压、原子替换、回滚和重启。
-- [ ] 只在隔离发布副本执行端到端更新，不直接覆盖仓库或用户正式安装目录。
-- [ ] 完成 GitCode 清单到新版本启动的完整真实验证。
+边界：公开清单与应用 `AppVersion` 当前同为 `4.0.46`，因此这是可用发布基线，同版本客户端不会触发升级提示；下一次真实升级发布必须提高版本号并重新生成包、清单和校验证据。
 
 ---
 
@@ -263,12 +260,13 @@ git diff --cached --check
 - 如果代码和验证完成但未提交，先做计划核对、暂存审计、提交和推送。
 - 如果真实探针为 inconclusive，保留证据并停在该模块，不写成产品通过或失败。
 - 历史计划只用于追溯，不覆盖本计划和 `PROJECT_STRUCTURE.md` 顶部摘要。
-- 更新模块必须等待用户明确恢复更新工作。
+- UPDATE-01、GAP-01、GAP-02 已完成；后续新版本发布不改变当前模块顺序。
 
 ## 当前阻断与风险
 
-- 原 updater 源码尚未提供。
-- GitCode 仓库和正式清单地址尚未确定。
+- 原 updater 源码未提供；当前实现按用户批准的现有请求协议重建，后续取得原源码时需另做差异审计，不回写本轮结论。
+- GitCode 清单与应用当前同为 `4.0.46`，只构成发布基线；未来升级发布必须提高版本号。
+- `restart=true` 已证明精确隔离路径进程被启动，但该场景未取得主窗口句柄，发布目录 UI 启动仍由 AUDIT-07 验证。
 - SbieCtrl 运行会阻断 schedule-close 的安全执行。
 - 真实覆盖还原需要专用 VM/测试机。
 - Python 3.14 环境缺少 `cryptography`，Python 加密真实执行只能记录环境阻断。

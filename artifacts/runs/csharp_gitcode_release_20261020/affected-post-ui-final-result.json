@@ -1,0 +1,16 @@
+{
+  "command": [
+    "dotnet",
+    "vstest",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020\\bin\\x64\\Release\\net48\\ShaheLauncher.Tests.dll",
+    "/Platform:x64",
+    "/Logger:trx;LogFileName=affected-post-ui-final.trx",
+    "/ResultsDirectory:D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020",
+    "/TestCaseFilter:TestCategory=Updates|TestCategory=Application|TestCategory=Lifecycle|TestCategory=Common|TestCategory=Controls|TestCategory=Tray|TestCategory=Bootstrap|TestCategory=SettingsService|TestCategory=Constants"
+  ],
+  "returnCode": 0,
+  "passed": 157,
+  "failed": 0,
+  "skipped": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020\\affected-post-ui-final.log"
+}

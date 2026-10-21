@@ -1,6 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
     <RootNamespace>ShaheLauncher.Updater</RootNamespace>
     <AssemblyName>updater</AssemblyName>
   </PropertyGroup>

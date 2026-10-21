@@ -1,0 +1,173 @@
+{
+  "checkedAt": "2026-10-21T07:54:39.7709828+08:00",
+  "checks": [
+    {
+      "url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/README.md",
+      "profile": "default",
+      "status": 200,
+      "contentType": "text/plain; charset=UTF-8",
+      "length": 80,
+      "preview": "# shahe-bulk-launcher-releases\n\n沙河批量打开器公开发布仓库，仅存放编译后的 Windows x64 更新包、版本清单和校验信息。"
+    },
+    {
+      "url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/README.md",
+      "profile": "client",
+      "status": 200,
+      "contentType": "text/plain; charset=UTF-8",
+      "length": 80,
+      "preview": "# shahe-bulk-launcher-releases\n\n沙河批量打开器公开发布仓库，仅存放编译后的 Windows x64 更新包、版本清单和校验信息。"
+    },
+    {
+      "url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/README.md",
+      "profile": "browser-referer",
+      "status": 200,
+      "contentType": "text/plain; charset=UTF-8",
+      "length": 80,
+      "preview": "# shahe-bulk-launcher-releases\n\n沙河批量打开器公开发布仓库，仅存放编译后的 Windows x64 更新包、版本清单和校验信息。"
+    },
+    {
+      "url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json",
+      "profile": "default",
+      "status": 200,
+      "contentType": "text/plain; charset=UTF-8",
+      "length": 467,
+      "preview": "{\r\n  \"latest_version\": \"4.0.46\",\r\n  \"force_update\": false,\r\n  \"release_notes\": [\r\n    \"GitCode Windows x64 发布包\",\r\n    \"更"
+    },
+    {
+      "url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json",
+      "profile": "client",
+      "status": 200,
+      "contentType": "text/plain; charset=UTF-8",
+      "length": 467,
+      "preview": "{\r\n  \"latest_version\": \"4.0.46\",\r\n  \"force_update\": false,\r\n  \"release_notes\": [\r\n    \"GitCode Windows x64 发布包\",\r\n    \"更"
+    },
+    {
+      "url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json",
+      "profile": "browser-referer",
+      "status": 200,
+      "contentType": "text/plain; charset=UTF-8",
+      "length": 467,
+      "preview": "{\r\n  \"latest_version\": \"4.0.46\",\r\n  \"force_update\": false,\r\n  \"release_notes\": [\r\n    \"GitCode Windows x64 发布包\",\r\n    \"更"
+    },
+    {
+      "url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json?download=1",
+      "profile": "default",
+      "status": 200,
+      "contentType": "text/plain; charset=UTF-8",
+      "length": 467,
+      "preview": "{\r\n  \"latest_version\": \"4.0.46\",\r\n  \"force_update\": false,\r\n  \"release_notes\": [\r\n    \"GitCode Windows x64 发布包\",\r\n    \"更"
+    },
+    {
+      "url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json?download=1",
+      "profile": "client",
+      "status": 200,
+      "contentType": "text/plain; charset=UTF-8",
+      "length": 467,
+      "preview": "{\r\n  \"latest_version\": \"4.0.46\",\r\n  \"force_update\": false,\r\n  \"release_notes\": [\r\n    \"GitCode Windows x64 发布包\",\r\n    \"更"
+    },
+    {
+      "url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json?download=1",
+      "profile": "browser-referer",
+      "status": 200,
+      "contentType": "text/plain; charset=UTF-8",
+      "length": 467,
+      "preview": "{\r\n  \"latest_version\": \"4.0.46\",\r\n  \"force_update\": false,\r\n  \"release_notes\": [\r\n    \"GitCode Windows x64 发布包\",\r\n    \"更"
+    },
+    {
+      "url": "https://gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json",
+      "profile": "default",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "length": 5526,
+      "preview": "<!DOCTYPE html>\n<html lang=\"zh\">\n  <head>\n    <script>\n      if (window.parent !== window && !window.location.search.inc"
+    },
+    {
+      "url": "https://gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json",
+      "profile": "client",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "length": 5526,
+      "preview": "<!DOCTYPE html>\n<html lang=\"zh\">\n  <head>\n    <script>\n      if (window.parent !== window && !window.location.search.inc"
+    },
+    {
+      "url": "https://gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json",
+      "profile": "browser-referer",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "length": 5526,
+      "preview": "<!DOCTYPE html>\n<html lang=\"zh\">\n  <head>\n    <script>\n      if (window.parent !== window && !window.location.search.inc"
+    },
+    {
+      "url": "https://gitcode.com/childhood123/shahe-bulk-launcher-releases/-/raw/main/update.json",
+      "profile": "default",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "length": 5526,
+      "preview": "<!DOCTYPE html>\n<html lang=\"zh\">\n  <head>\n    <script>\n      if (window.parent !== window && !window.location.search.inc"
+    },
+    {
+      "url": "https://gitcode.com/childhood123/shahe-bulk-launcher-releases/-/raw/main/update.json",
+      "profile": "client",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "length": 5526,
+      "preview": "<!DOCTYPE html>\n<html lang=\"zh\">\n  <head>\n    <script>\n      if (window.parent !== window && !window.location.search.inc"
+    },
+    {
+      "url": "https://gitcode.com/childhood123/shahe-bulk-launcher-releases/-/raw/main/update.json",
+      "profile": "browser-referer",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "length": 5526,
+      "preview": "<!DOCTYPE html>\n<html lang=\"zh\">\n  <head>\n    <script>\n      if (window.parent !== window && !window.location.search.inc"
+    },
+    {
+      "url": "https://gitcode.com/childhood123/shahe-bulk-launcher-releases/blob/main/update.json?download=1",
+      "profile": "default",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "length": 146955,
+      "preview": "<!DOCTYPE html><html  data-theme=\"white\" class=\"\" lang=\"zh-CN\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content"
+    },
+    {
+      "url": "https://gitcode.com/childhood123/shahe-bulk-launcher-releases/blob/main/update.json?download=1",
+      "profile": "client",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "length": 146955,
+      "preview": "<!DOCTYPE html><html  data-theme=\"white\" class=\"\" lang=\"zh-CN\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content"
+    },
+    {
+      "url": "https://gitcode.com/childhood123/shahe-bulk-launcher-releases/blob/main/update.json?download=1",
+      "profile": "browser-referer",
+      "status": 200,
+      "contentType": "text/html; charset=utf-8",
+      "length": 146955,
+      "preview": "<!DOCTYPE html><html  data-theme=\"white\" class=\"\" lang=\"zh-CN\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content"
+    },
+    {
+      "url": "https://api.gitcode.com/api/v5/repos/childhood123/shahe-bulk-launcher-releases/contents/update.json?ref=main",
+      "profile": "default",
+      "status": 200,
+      "contentType": "application/json",
+      "length": 1362,
+      "preview": "{\"type\":\"file\",\"encoding\":\"base64\",\"size\":487,\"name\":\"update.json\",\"path\":\"update.json\",\"content\":\"ew0KICAibGF0ZXN0X3Zlc"
+    },
+    {
+      "url": "https://api.gitcode.com/api/v5/repos/childhood123/shahe-bulk-launcher-releases/contents/update.json?ref=main",
+      "profile": "client",
+      "status": 200,
+      "contentType": "application/json",
+      "length": 1362,
+      "preview": "{\"type\":\"file\",\"encoding\":\"base64\",\"size\":487,\"name\":\"update.json\",\"path\":\"update.json\",\"content\":\"ew0KICAibGF0ZXN0X3Zlc"
+    },
+    {
+      "url": "https://api.gitcode.com/api/v5/repos/childhood123/shahe-bulk-launcher-releases/contents/update.json?ref=main",
+      "profile": "browser-referer",
+      "status": 200,
+      "contentType": "application/json",
+      "length": 1362,
+      "preview": "{\"type\":\"file\",\"encoding\":\"base64\",\"size\":487,\"name\":\"update.json\",\"path\":\"update.json\",\"content\":\"ew0KICAibGF0ZXN0X3Zlc"
+    }
+  ]
+}

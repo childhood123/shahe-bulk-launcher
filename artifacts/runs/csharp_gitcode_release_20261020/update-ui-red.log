@@ -1,0 +1,43 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_gitcode_release_20261020\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\csharp_gitcode_release_20261020\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_gitcode_release_20261020\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_gitcode_release_20261020\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\csharp_gitcode_release_20261020\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\csharp_gitcode_release_20261020\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 MainFormConsumesLatestAndInvalidManifestMessages [100 ms]
+  错误消息:
+   测试方法 ShaheLauncher.Tests.UpdateFullPackageContractTests.MainFormConsumesLatestAndInvalidManifestMessages 引发了异常:
+System.TypeLoadException: 未能从程序集“沙河批量打开器, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“ShaheLauncher.App.LauncherRuntime”。
+  堆栈跟踪:
+      在 System.Reflection.RuntimeAssembly.GetType(RuntimeAssembly assembly, String name, Boolean throwOnError, Boolean ignoreCase, ObjectHandleOnStack type)
+   在 System.Reflection.RuntimeAssembly.GetType(String name, Boolean throwOnError, Boolean ignoreCase)
+   在 ShaheLauncher.Tests.UpdateFullPackageContractTests.CreateForm(Type formType, String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\UpdateFullPackageContractTests.cs:行号 309
+   在 ShaheLauncher.Tests.UpdateFullPackageContractTests.MainFormConsumesLatestAndInvalidManifestMessages() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\UpdateFullPackageContractTests.cs:行号 152
+
+  失败 MainFormPromptsBeforeKeepingNormalUpdateForLater [4 ms]
+  错误消息:
+   测试方法 ShaheLauncher.Tests.UpdateFullPackageContractTests.MainFormPromptsBeforeKeepingNormalUpdateForLater 引发了异常:
+System.TypeLoadException: 未能从程序集“沙河批量打开器, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“ShaheLauncher.App.LauncherRuntime”。
+  堆栈跟踪:
+      在 System.Reflection.RuntimeAssembly.GetType(RuntimeAssembly assembly, String name, Boolean throwOnError, Boolean ignoreCase, ObjectHandleOnStack type)
+   在 System.Reflection.RuntimeAssembly.GetType(String name, Boolean throwOnError, Boolean ignoreCase)
+   在 ShaheLauncher.Tests.UpdateFullPackageContractTests.CreateForm(Type formType, String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\UpdateFullPackageContractTests.cs:行号 309
+   在 ShaheLauncher.Tests.UpdateFullPackageContractTests.MainFormPromptsBeforeKeepingNormalUpdateForLater() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\UpdateFullPackageContractTests.cs:行号 208
+
+  失败 MainFormExitsWhenForcedUpdateIsDeclined [5 ms]
+  错误消息:
+   测试方法 ShaheLauncher.Tests.UpdateFullPackageContractTests.MainFormExitsWhenForcedUpdateIsDeclined 引发了异常:
+System.TypeLoadException: 未能从程序集“沙河批量打开器, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null”中加载类型“ShaheLauncher.App.LauncherRuntime”。
+  堆栈跟踪:
+      在 System.Reflection.RuntimeAssembly.GetType(RuntimeAssembly assembly, String name, Boolean throwOnError, Boolean ignoreCase, ObjectHandleOnStack type)
+   在 System.Reflection.RuntimeAssembly.GetType(String name, Boolean throwOnError, Boolean ignoreCase)
+   在 ShaheLauncher.Tests.UpdateFullPackageContractTests.CreateForm(Type formType, String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\UpdateFullPackageContractTests.cs:行号 309
+   在 ShaheLauncher.Tests.UpdateFullPackageContractTests.MainFormExitsWhenForcedUpdateIsDeclined() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\UpdateFullPackageContractTests.cs:行号 268
+
+结果文件: D:\mycodex\git\artifacts\runs\csharp_gitcode_release_20261020\update-ui-red.trx
+
+失败!  - 失败:     3，通过:     5，已跳过:     0，总计:     8，持续时间: 1 s - ShaheLauncher.Tests.dll (net48)

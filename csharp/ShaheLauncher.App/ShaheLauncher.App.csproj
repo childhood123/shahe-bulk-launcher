@@ -21,6 +21,6 @@
       SourceFiles="$(MSBuildThisFileDirectory)..\ShaheLauncher.Updater\bin\$(Platform)\$(Configuration)\net48\updater.exe"
       DestinationFolder="$(OutDir)"
       SkipUnchangedFiles="true"
-      Condition="Exists('$(MSBuildThisFileDirectory)..\ShaheLauncher.Updater\bin\$(Platform)\$(Configuration)\net48\updater.exe')" />
+      Condition="'$(BaseOutputPath)' == 'bin\' and Exists('$(MSBuildThisFileDirectory)..\ShaheLauncher.Updater\bin\$(Platform)\$(Configuration)\net48\updater.exe')" />
   </Target>
 </Project>

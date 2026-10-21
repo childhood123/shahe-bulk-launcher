@@ -101,7 +101,8 @@ namespace ShaheLauncher.App
                     SetStatus = text => SafeSetStatusLabel(text),
                     PostToUi = SafeCallAfter,
                     GetProcessId = () => Process.GetCurrentProcess().Id,
-                    GetUnixTimeSeconds = () => DateTimeOffset.UtcNow.ToUnixTimeSeconds()
+                    GetUnixTimeSeconds = () => DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+                    ShowUpdateResult = ShowUpdateNotice
                 });
             ProcessCallbacks = CreateProcessCallbacks();
             LaunchCallbacks = CreateLaunchSchedulerCallbacks();
@@ -118,6 +119,7 @@ namespace ShaheLauncher.App
             AppContextMenuCallback = ShowAppPathContextMenu;
             SandboxToggledCallback = OnSandboxToggled;
             LaunchSelectedCallback = LaunchSelectedSandboxes;
+            DownloadUpdateCallback = DownloadUpdate;
             MuteCurrentCallback = name => ProcessActionService.OnMuteCurrentSandbox(name, ProcessState, ProcessCallbacks);
             MuteAllCallback = () => ProcessActionService.OnMuteAllSandboxes(ProcessState, ProcessCallbacks);
             VolumeCurrentCallback = (name, step) => ProcessActionService.OnAdjustVolumeCurrentSandbox(
@@ -3861,6 +3863,141 @@ namespace ShaheLauncher.App
             SuppressSelectionStatus(2.0);
             string[] sandboxes = SandboxList?.GetCheckedEntryTexts() ?? new string[0];
             StartLaunch(sandboxes, GetCheckedAppTargets());
+        }
+
+        public void ShowUpdateNotice(UpdateDisplayResult result)
+        {
+            _pendingUpdateResult = null;
+            if (UpdateNoticeLabel != null)
+            {
+                UpdateNoticeLabel.Text = string.Empty;
+            }
+
+            if (DownloadUpdateButton != null)
+            {
+                DownloadUpdateButton.Enabled = false;
+            }
+
+            UpdateNoticePanel?.Hide();
+            if (result == null)
+            {
+                return;
+            }
+
+            if (result.ErrorText.Length != 0)
+            {
+                SafeSetStatusLabel("检查更新失败: " + result.ErrorText);
+                ShowMessageCallback?.Invoke(
+                    "检查更新失败：\n" + result.ErrorText,
+                    result.MessageTitle.Length == 0 ? "检查更新" : result.MessageTitle,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (result.ShouldShowMessage)
+            {
+                if (result.StatusText.Length != 0)
+                {
+                    SafeSetStatusLabel(result.StatusText);
+                }
+
+                ShowMessageCallback?.Invoke(
+                    result.MessageText,
+                    result.MessageTitle.Length == 0 ? "检查更新" : result.MessageTitle,
+                    result.HasUpdate ? MessageBoxIcon.Warning : MessageBoxIcon.Information);
+                return;
+            }
+
+            if (result.Package == null || result.LatestVersion.Length == 0)
+            {
+                return;
+            }
+
+            if (result.ShouldPrompt)
+            {
+                DialogResult answer = ConfirmMessage(
+                    result.PromptText,
+                    "提示",
+                    MessageBoxButtons.YesNo,
+                    result.ForceUpdate ? MessageBoxIcon.Warning : MessageBoxIcon.Information);
+                if (answer == DialogResult.Yes)
+                {
+                    LaunchUpdate(result);
+                    return;
+                }
+
+                if (result.ForceUpdate)
+                {
+                    SafeSetStatusLabel("发现新版本 " + result.LatestVersion + "，已退出更新");
+                    ForceExitRequested = true;
+                    Close();
+                    return;
+                }
+            }
+
+            if (!result.ShouldShowNotice)
+            {
+                return;
+            }
+
+            _pendingUpdateResult = result;
+            UpdateNoticeLabel.Text = "检测到新版本：" + result.LatestVersion;
+            DownloadUpdateButton.Enabled = true;
+            UpdateNoticePanel.Show();
+            if (result.StatusText.Length != 0)
+            {
+                SafeSetStatusLabel(result.StatusText);
+            }
+        }
+
+        private void DownloadUpdate()
+        {
+            UpdateDisplayResult result = _pendingUpdateResult;
+            if (result == null || result.Package == null)
+            {
+                SafeSetStatusLabel("当前没有可下载的新版本");
+                ShowUpdateNotice(null);
+                return;
+            }
+
+            LaunchUpdate(result);
+        }
+
+        private void LaunchUpdate(UpdateDisplayResult result)
+        {
+            UpdateCommandPreparation preparation = UpdateService.PrepareUpdaterCommand(
+                result.Package,
+                result.LatestVersion);
+            if (preparation.Error.Length != 0 || preparation.Command == null)
+            {
+                SafeSetStatusLabel("启动更新失败: " + preparation.Error);
+                ShowMessageCallback?.Invoke(
+                    "启动更新失败：\n" + preparation.Error,
+                    "下载更新",
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            try
+            {
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = preparation.Command[0],
+                    Arguments = string.Join(" ", preparation.Command.Skip(1).Select(QuoteArgument)),
+                    UseShellExecute = true
+                };
+                Process.Start(startInfo);
+                ForceExitRequested = true;
+                Close();
+            }
+            catch (Exception error)
+            {
+                SafeSetStatusLabel("启动更新失败: " + error.Message);
+                ShowMessageCallback?.Invoke(
+                    "启动更新失败：\n" + error.Message,
+                    "下载更新",
+                    MessageBoxIcon.Warning);
+            }
         }
 
         private IEnumerable<LaunchAppTarget> GetCheckedAppTargets()

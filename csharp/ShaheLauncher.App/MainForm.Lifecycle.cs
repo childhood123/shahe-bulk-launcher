@@ -9,6 +9,7 @@ using ShaheLauncher.App.Input;
 using ShaheLauncher.App.UI.Controls;
 using ShaheLauncher.App.UI.Tray;
 using ShaheLauncher.Core.Constants;
+using ShaheLauncher.Core.Updates;
 
 namespace ShaheLauncher.App
 {
@@ -33,6 +34,7 @@ namespace ShaheLauncher.App
         private bool _destroyPreparationCompleted;
         private bool _menuBarRebuildPending;
         private bool _uiInitialized;
+        private UpdateDisplayResult _pendingUpdateResult;
         private ToolTip _toolTip;
         private int _launchSessionId;
 
@@ -791,6 +793,7 @@ namespace ShaheLauncher.App
                 Text = string.Empty,
                 AutoSize = true,
                 Anchor = AnchorStyles.Left,
+                AccessibleName = "更新提示",
                 TabStop = false,
                 Margin = new Padding(0, 6, 8, 0)
             };

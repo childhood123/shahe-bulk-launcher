@@ -1,0 +1,11 @@
+{
+  "zip": "D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020\\public-package-4.0.46-gitcode-final\\shahe-bulk-launcher-4.0.46-win-x64.zip",
+  "actualSize": 2785203,
+  "manifestSize": 2785203,
+  "actualSha256": "D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8",
+  "manifestSha256": "D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8",
+  "sizeMatches": true,
+  "hashMatches": true,
+  "entryCount": 14,
+  "hasTests": false
+}

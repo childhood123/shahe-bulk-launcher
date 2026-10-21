@@ -1,0 +1,12 @@
+{
+  "url": "https://api.gitcode.com/api/v5/repos/childhood123/shahe-bulk-launcher-releases/contents/shahe-bulk-launcher-4.0.46-win-x64.zip?ref=main",
+  "status": 200,
+  "contentType": "application/json",
+  "responseBytes": 3714507,
+  "type": "file",
+  "encoding": "base64",
+  "size": 2785203,
+  "contentChars": 3713604,
+  "downloadUrl": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/blobs/ab39c61fecdcd38d737ef615bb84fb2cbf055051/shahe-bulk-launcher-4.0.46-win-x64.zip",
+  "sha": "ab39c61fecdcd38d737ef615bb84fb2cbf055051"
+}

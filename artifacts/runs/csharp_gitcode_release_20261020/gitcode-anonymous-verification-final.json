@@ -1,0 +1,33 @@
+{
+  "verified": true,
+  "verified_at": "2026-10-21T00:11:57.7705205+00:00",
+  "gitcode_remote": "https://gitcode.com/childhood123/shahe-bulk-launcher-releases.git",
+  "remote_branch": "main",
+  "remote_head": "18caa88287fc5714a90528e88cd732d0204ec135",
+  "manifest_url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json",
+  "manifest_status": 200,
+  "latest_version": "4.0.46",
+  "package_url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/blobs/ab39c61fecdcd38d737ef615bb84fb2cbf055051/shahe-bulk-launcher-4.0.46-win-x64.zip",
+  "package_status": 200,
+  "expected_size": 2785203,
+  "downloaded_size": 2785203,
+  "expected_sha256": "D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8",
+  "downloaded_sha256": "D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8",
+  "attempts": [
+    {
+      "attempt": 1,
+      "started_at": "2026-10-21T00:11:55.8046446+00:00",
+      "manifest_url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json?t=1792541515799",
+      "manifest_status": 200,
+      "latest_version": "4.0.46",
+      "package_url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/blobs/ab39c61fecdcd38d737ef615bb84fb2cbf055051/shahe-bulk-launcher-4.0.46-win-x64.zip",
+      "manifest_size": 2785203,
+      "manifest_sha256": "D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8",
+      "package_request_url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/blobs/ab39c61fecdcd38d737ef615bb84fb2cbf055051/shahe-bulk-launcher-4.0.46-win-x64.zip?t=1792541515799",
+      "package_status": 200,
+      "downloaded_size": 2785203,
+      "downloaded_sha256": "D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8",
+      "completed_at": "2026-10-21T00:11:57.1409748+00:00"
+    }
+  ]
+}
