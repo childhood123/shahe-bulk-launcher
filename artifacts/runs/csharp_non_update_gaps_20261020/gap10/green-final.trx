@@ -1,0 +1,130 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="f273aca5-d73e-4c50-96d9-4ccb3a0e3d28" name="Administrator@CHILDHOOD 2026-10-21 20:11:14" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-21T20:11:14.7790471+08:00" queuing="2026-10-21T20:11:14.7790474+08:00" start="2026-10-21T20:11:09.7284744+08:00" finish="2026-10-21T20:11:15.1310888+08:00" />
+  <TestSettings name="default" id="0623ebbe-0950-4f4a-8eb9-f8fcba647c66">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-21_20_11_14" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="6b4b84a9-ca4e-4eaa-8a47-14322372487c" testId="b9297281-c304-99e5-74f9-3b6d2bce1da7" testName="CopyRequiresExactReadbackAndRetries (&quot;mismatch&quot;,&quot;复制路径失败&quot;,5)" computerName="CHILDHOOD" duration="00:00:00.1695619" startTime="2026-10-21T20:11:14.5038116+08:00" endTime="2026-10-21T20:11:14.6735000+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6b4b84a9-ca4e-4eaa-8a47-14322372487c" />
+    <UnitTestResult executionId="27f13bda-8c09-4590-a372-9c1b2ba970ae" testId="89a57f67-6335-2749-2752-be22dd082976" testName="PasteDistinguishesAccessFailureAndDataException (False,&quot;无法访问剪贴板&quot;)" computerName="CHILDHOOD" duration="00:00:00.0162943" startTime="2026-10-21T20:11:14.2532675+08:00" endTime="2026-10-21T20:11:14.3640790+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="27f13bda-8c09-4590-a372-9c1b2ba970ae" />
+    <UnitTestResult executionId="7e21f3a8-7b51-46c6-9c0e-52dea7c8ff5c" testId="14a4af34-e628-38d5-b035-4d2bce1489c0" testName="CopyRequiresExactReadbackAndRetries (&quot;read-error&quot;,&quot;复制路径失败&quot;,5)" computerName="CHILDHOOD" duration="00:00:00.1849059" startTime="2026-10-21T20:11:14.6735000+08:00" endTime="2026-10-21T20:11:14.8593902+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7e21f3a8-7b51-46c6-9c0e-52dea7c8ff5c" />
+    <UnitTestResult executionId="10a370ab-609d-4fda-ac23-1e6b181379fc" testId="06a854f7-0e27-7ecf-5bd1-086526a2decd" testName="CopyRequiresExactReadbackAndRetries (&quot;retry&quot;,&quot;路径已复制到剪贴板&quot;,3)" computerName="CHILDHOOD" duration="00:00:00.0895647" startTime="2026-10-21T20:11:14.4143420+08:00" endTime="2026-10-21T20:11:14.5038116+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="10a370ab-609d-4fda-ac23-1e6b181379fc" />
+    <UnitTestResult executionId="368c6fbb-1d9d-4f86-aeff-f2fb064fae40" testId="cfb54c89-7d0c-cd0d-0bb7-59358ca545f2" testName="CopyRequiresExactReadbackAndRetries (&quot;match&quot;,&quot;路径已复制到剪贴板&quot;,1)" computerName="CHILDHOOD" duration="00:00:00.0329850" startTime="2026-10-21T20:11:14.3777864+08:00" endTime="2026-10-21T20:11:14.4143420+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="368c6fbb-1d9d-4f86-aeff-f2fb064fae40" />
+    <UnitTestResult executionId="c2083074-d566-4d90-b283-e30202678c41" testId="fc8c7193-8919-e665-ccae-e82718edb600" testName="CopyRequiresExactReadbackAndRetries (&quot;no-writer&quot;,&quot;复制路径失败&quot;,0)" computerName="CHILDHOOD" duration="00:00:00.0252280" startTime="2026-10-21T20:11:14.9162374+08:00" endTime="2026-10-21T20:11:14.9461192+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c2083074-d566-4d90-b283-e30202678c41" />
+    <UnitTestResult executionId="9139aaaa-439f-4c2c-a262-92a1a3a9ee04" testId="6b2fe37d-efdb-972b-b646-fc2530f46f8c" testName="SelectingExistingApplicationRetainsSuccessText" computerName="CHILDHOOD" duration="00:00:00.6771802" startTime="2026-10-21T20:11:13.5750833+08:00" endTime="2026-10-21T20:11:14.2532675+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9139aaaa-439f-4c2c-a262-92a1a3a9ee04" />
+    <UnitTestResult executionId="3df18ecf-345c-489b-b0e0-29db3a7dea66" testId="128763c9-dfa3-b28e-83b0-63ffaddc8dd5" testName="CopyRequiresExactReadbackAndRetries (&quot;access-error&quot;,&quot;无法访问剪贴板&quot;,0)" computerName="CHILDHOOD" duration="00:00:00.0279201" startTime="2026-10-21T20:11:14.8873156+08:00" endTime="2026-10-21T20:11:14.9162374+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3df18ecf-345c-489b-b0e0-29db3a7dea66" />
+    <UnitTestResult executionId="274a78e4-085d-4105-933b-5981ec5720d5" testId="a1089625-f4ac-f3aa-a8c4-74bccf671c2f" testName="CopyRequiresExactReadbackAndRetries (&quot;write-error&quot;,&quot;复制路径失败&quot;,0)" computerName="CHILDHOOD" duration="00:00:00.0282668" startTime="2026-10-21T20:11:14.8593902+08:00" endTime="2026-10-21T20:11:14.8873156+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="274a78e4-085d-4105-933b-5981ec5720d5" />
+    <UnitTestResult executionId="0093c90f-cade-43a5-9acf-9b5cb1eab2b2" testId="d9646cd0-1cd1-2870-a26b-7cc93be7f967" testName="PasteDistinguishesAccessFailureAndDataException (True,&quot;粘贴文件时出错: 数据读取失败&quot;)" computerName="CHILDHOOD" duration="00:00:00.0134612" startTime="2026-10-21T20:11:14.3640790+08:00" endTime="2026-10-21T20:11:14.3777864+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0093c90f-cade-43a5-9acf-9b5cb1eab2b2" />
+    <UnitTestResult executionId="705cd454-da4c-45d1-9fb3-58aa463e3446" testId="8b045617-d77c-bc2e-2c6e-9a7035c3b862" testName="BrowseDialogRetainsPythonTitleAndExeOnlyFilter" computerName="CHILDHOOD" duration="00:00:00.2074081" startTime="2026-10-21T20:11:13.0533090+08:00" endTime="2026-10-21T20:11:13.5610877+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="705cd454-da4c-45d1-9fb3-58aa463e3446" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="CopyRequiresExactReadbackAndRetries (&quot;read-error&quot;,&quot;复制路径失败&quot;,5)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="14a4af34-e628-38d5-b035-4d2bce1489c0">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="7e21f3a8-7b51-46c6-9c0e-52dea7c8ff5c" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="CopyRequiresExactReadbackAndRetries" />
+    </UnitTest>
+    <UnitTest name="CopyRequiresExactReadbackAndRetries (&quot;write-error&quot;,&quot;复制路径失败&quot;,0)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="a1089625-f4ac-f3aa-a8c4-74bccf671c2f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="274a78e4-085d-4105-933b-5981ec5720d5" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="CopyRequiresExactReadbackAndRetries" />
+    </UnitTest>
+    <UnitTest name="SelectingExistingApplicationRetainsSuccessText" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="6b2fe37d-efdb-972b-b646-fc2530f46f8c">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="9139aaaa-439f-4c2c-a262-92a1a3a9ee04" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="SelectingExistingApplicationRetainsSuccessText" />
+    </UnitTest>
+    <UnitTest name="CopyRequiresExactReadbackAndRetries (&quot;mismatch&quot;,&quot;复制路径失败&quot;,5)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="b9297281-c304-99e5-74f9-3b6d2bce1da7">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="6b4b84a9-ca4e-4eaa-8a47-14322372487c" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="CopyRequiresExactReadbackAndRetries" />
+    </UnitTest>
+    <UnitTest name="CopyRequiresExactReadbackAndRetries (&quot;match&quot;,&quot;路径已复制到剪贴板&quot;,1)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="cfb54c89-7d0c-cd0d-0bb7-59358ca545f2">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="368c6fbb-1d9d-4f86-aeff-f2fb064fae40" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="CopyRequiresExactReadbackAndRetries" />
+    </UnitTest>
+    <UnitTest name="PasteDistinguishesAccessFailureAndDataException (False,&quot;无法访问剪贴板&quot;)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="89a57f67-6335-2749-2752-be22dd082976">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="27f13bda-8c09-4590-a372-9c1b2ba970ae" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="PasteDistinguishesAccessFailureAndDataException" />
+    </UnitTest>
+    <UnitTest name="CopyRequiresExactReadbackAndRetries (&quot;no-writer&quot;,&quot;复制路径失败&quot;,0)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="fc8c7193-8919-e665-ccae-e82718edb600">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="c2083074-d566-4d90-b283-e30202678c41" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="CopyRequiresExactReadbackAndRetries" />
+    </UnitTest>
+    <UnitTest name="CopyRequiresExactReadbackAndRetries (&quot;access-error&quot;,&quot;无法访问剪贴板&quot;,0)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="128763c9-dfa3-b28e-83b0-63ffaddc8dd5">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="3df18ecf-345c-489b-b0e0-29db3a7dea66" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="CopyRequiresExactReadbackAndRetries" />
+    </UnitTest>
+    <UnitTest name="BrowseDialogRetainsPythonTitleAndExeOnlyFilter" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="8b045617-d77c-bc2e-2c6e-9a7035c3b862">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="705cd454-da4c-45d1-9fb3-58aa463e3446" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="BrowseDialogRetainsPythonTitleAndExeOnlyFilter" />
+    </UnitTest>
+    <UnitTest name="CopyRequiresExactReadbackAndRetries (&quot;retry&quot;,&quot;路径已复制到剪贴板&quot;,3)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="06a854f7-0e27-7ecf-5bd1-086526a2decd">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="10a370ab-609d-4fda-ac23-1e6b181379fc" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="CopyRequiresExactReadbackAndRetries" />
+    </UnitTest>
+    <UnitTest name="PasteDistinguishesAccessFailureAndDataException (True,&quot;粘贴文件时出错: 数据读取失败&quot;)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="d9646cd0-1cd1-2870-a26b-7cc93be7f967">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="0093c90f-cade-43a5-9acf-9b5cb1eab2b2" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="PasteDistinguishesAccessFailureAndDataException" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="b9297281-c304-99e5-74f9-3b6d2bce1da7" executionId="6b4b84a9-ca4e-4eaa-8a47-14322372487c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="89a57f67-6335-2749-2752-be22dd082976" executionId="27f13bda-8c09-4590-a372-9c1b2ba970ae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="14a4af34-e628-38d5-b035-4d2bce1489c0" executionId="7e21f3a8-7b51-46c6-9c0e-52dea7c8ff5c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="06a854f7-0e27-7ecf-5bd1-086526a2decd" executionId="10a370ab-609d-4fda-ac23-1e6b181379fc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cfb54c89-7d0c-cd0d-0bb7-59358ca545f2" executionId="368c6fbb-1d9d-4f86-aeff-f2fb064fae40" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fc8c7193-8919-e665-ccae-e82718edb600" executionId="c2083074-d566-4d90-b283-e30202678c41" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6b2fe37d-efdb-972b-b646-fc2530f46f8c" executionId="9139aaaa-439f-4c2c-a262-92a1a3a9ee04" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="128763c9-dfa3-b28e-83b0-63ffaddc8dd5" executionId="3df18ecf-345c-489b-b0e0-29db3a7dea66" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a1089625-f4ac-f3aa-a8c4-74bccf671c2f" executionId="274a78e4-085d-4105-933b-5981ec5720d5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d9646cd0-1cd1-2870-a26b-7cc93be7f967" executionId="0093c90f-cade-43a5-9acf-9b5cb1eab2b2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8b045617-d77c-bc2e-2c6e-9a7035c3b862" executionId="705cd454-da4c-45d1-9fb3-58aa463e3446" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="11" executed="11" passed="11" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

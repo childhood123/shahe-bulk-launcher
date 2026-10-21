@@ -1,0 +1,226 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="98d4c5f3-60d8-4f8d-800b-dc7f85c3a2b6" name="Administrator@CHILDHOOD 2026-10-21 20:09:45" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-21T20:09:45.2559218+08:00" queuing="2026-10-21T20:09:45.2559221+08:00" start="2026-10-21T20:09:39.7798129+08:00" finish="2026-10-21T20:09:45.7361454+08:00" />
+  <TestSettings name="default" id="89d0a5fb-212c-4aaa-8752-c2ddde998540">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-21_20_09_45" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="f30cf72e-bb91-471e-aa1c-f29f758b4ce6" testId="d9646cd0-1cd1-2870-a26b-7cc93be7f967" testName="PasteDistinguishesAccessFailureAndDataException (True,&quot;粘贴文件时出错: 数据读取失败&quot;)" computerName="CHILDHOOD" duration="00:00:00.0145393" startTime="2026-10-21T20:09:45.2813489+08:00" endTime="2026-10-21T20:09:45.2968195+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f30cf72e-bb91-471e-aa1c-f29f758b4ce6">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: &lt;粘贴文件时出错: 数据读取失败&gt;，实际为: &lt;无法访问剪贴板&gt;。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201&#xD;
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.&lt;&gt;c__DisplayClass2_0.&lt;PasteDistinguishesAccessFailureAndDataException&gt;b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 54&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="53b93211-f362-45c9-b430-afc82589f1ec" testId="89a57f67-6335-2749-2752-be22dd082976" testName="PasteDistinguishesAccessFailureAndDataException (False,&quot;无法访问剪贴板&quot;)" computerName="CHILDHOOD" duration="00:00:00.0188502" startTime="2026-10-21T20:09:45.1405056+08:00" endTime="2026-10-21T20:09:45.2803518+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="53b93211-f362-45c9-b430-afc82589f1ec" />
+    <UnitTestResult executionId="78a4b6e6-6734-4529-b0ee-33a0e5ae920e" testId="6b2fe37d-efdb-972b-b646-fc2530f46f8c" testName="SelectingExistingApplicationRetainsSuccessText" computerName="CHILDHOOD" duration="00:00:00.7273334" startTime="2026-10-21T20:09:44.4123114+08:00" endTime="2026-10-21T20:09:45.1405056+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="78a4b6e6-6734-4529-b0ee-33a0e5ae920e" />
+    <UnitTestResult executionId="a0f2a970-2e78-4c14-b2b8-14d12842094c" testId="8b045617-d77c-bc2e-2c6e-9a7035c3b862" testName="BrowseDialogRetainsPythonTitleAndExeOnlyFilter" computerName="CHILDHOOD" duration="00:00:00.4216720" startTime="2026-10-21T20:09:43.5914167+08:00" endTime="2026-10-21T20:09:44.3953916+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a0f2a970-2e78-4c14-b2b8-14d12842094c">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。选择应用对话框必须可独立核对配置&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123&#xD;
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.&lt;&gt;c.&lt;BrowseDialogRetainsPythonTitleAndExeOnlyFilter&gt;b__0_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 18&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e6ccedaa-941e-43d5-b539-3d4fb3641cfc" testId="cfb54c89-7d0c-cd0d-0bb7-59358ca545f2" testName="CopyRequiresExactReadbackAndRetries (&quot;match&quot;,&quot;路径已复制到剪贴板&quot;,1)" computerName="CHILDHOOD" duration="00:00:00.0341475" startTime="2026-10-21T20:09:45.2968195+08:00" endTime="2026-10-21T20:09:45.3337200+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e6ccedaa-941e-43d5-b539-3d4fb3641cfc">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: &lt;1&gt;，实际为: &lt;0&gt;。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201&#xD;
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.&lt;&gt;c__DisplayClass3_0.&lt;CopyRequiresExactReadbackAndRetries&gt;b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 91&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="5ac5255e-46b7-4c6b-abb8-125aa0fc745a" testId="14a4af34-e628-38d5-b035-4d2bce1489c0" testName="CopyRequiresExactReadbackAndRetries (&quot;read-error&quot;,&quot;复制路径失败&quot;,5)" computerName="CHILDHOOD" duration="00:00:00.0328948" startTime="2026-10-21T20:09:45.3950755+08:00" endTime="2026-10-21T20:09:45.4289849+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5ac5255e-46b7-4c6b-abb8-125aa0fc745a">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: &lt;复制路径失败&gt;，实际为: &lt;路径已复制到剪贴板&gt;。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201&#xD;
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.&lt;&gt;c__DisplayClass3_0.&lt;CopyRequiresExactReadbackAndRetries&gt;b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 90&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e6631f5a-00da-4c2a-b43c-d790ad95ed9a" testId="06a854f7-0e27-7ecf-5bd1-086526a2decd" testName="CopyRequiresExactReadbackAndRetries (&quot;retry&quot;,&quot;路径已复制到剪贴板&quot;,3)" computerName="CHILDHOOD" duration="00:00:00.0272018" startTime="2026-10-21T20:09:45.3337200+08:00" endTime="2026-10-21T20:09:45.3616455+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e6631f5a-00da-4c2a-b43c-d790ad95ed9a">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: &lt;3&gt;，实际为: &lt;0&gt;。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201&#xD;
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.&lt;&gt;c__DisplayClass3_0.&lt;CopyRequiresExactReadbackAndRetries&gt;b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 91&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="486b2737-c339-4912-b141-813341d3b8e4" testId="a1089625-f4ac-f3aa-a8c4-74bccf671c2f" testName="CopyRequiresExactReadbackAndRetries (&quot;write-error&quot;,&quot;复制路径失败&quot;,0)" computerName="CHILDHOOD" duration="00:00:00.0369991" startTime="2026-10-21T20:09:45.4289849+08:00" endTime="2026-10-21T20:09:45.4658857+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="486b2737-c339-4912-b141-813341d3b8e4" />
+    <UnitTestResult executionId="8b831ca3-f268-4c65-b64c-da1c77ae62ca" testId="fc8c7193-8919-e665-ccae-e82718edb600" testName="CopyRequiresExactReadbackAndRetries (&quot;no-writer&quot;,&quot;复制路径失败&quot;,0)" computerName="CHILDHOOD" duration="00:00:00.0316921" startTime="2026-10-21T20:09:45.4987974+08:00" endTime="2026-10-21T20:09:45.5347022+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8b831ca3-f268-4c65-b64c-da1c77ae62ca">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: &lt;复制路径失败&gt;，实际为: &lt;路径已复制到剪贴板&gt;。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201&#xD;
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.&lt;&gt;c__DisplayClass3_0.&lt;CopyRequiresExactReadbackAndRetries&gt;b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 90&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="aff37e76-c7e4-4609-89aa-ac89350fdc14" testId="128763c9-dfa3-b28e-83b0-63ffaddc8dd5" testName="CopyRequiresExactReadbackAndRetries (&quot;access-error&quot;,&quot;无法访问剪贴板&quot;,0)" computerName="CHILDHOOD" duration="00:00:00.0320518" startTime="2026-10-21T20:09:45.4658857+08:00" endTime="2026-10-21T20:09:45.4987974+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="aff37e76-c7e4-4609-89aa-ac89350fdc14">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: &lt;无法访问剪贴板&gt;，实际为: &lt;复制路径失败&gt;。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201&#xD;
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.&lt;&gt;c__DisplayClass3_0.&lt;CopyRequiresExactReadbackAndRetries&gt;b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 90&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="864362bd-ed9a-46b6-876f-a379bd1dddfb" testId="b9297281-c304-99e5-74f9-3b6d2bce1da7" testName="CopyRequiresExactReadbackAndRetries (&quot;mismatch&quot;,&quot;复制路径失败&quot;,5)" computerName="CHILDHOOD" duration="00:00:00.0333927" startTime="2026-10-21T20:09:45.3616455+08:00" endTime="2026-10-21T20:09:45.3950755+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="864362bd-ed9a-46b6-876f-a379bd1dddfb">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: &lt;复制路径失败&gt;，实际为: &lt;路径已复制到剪贴板&gt;。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201&#xD;
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.&lt;&gt;c__DisplayClass3_0.&lt;CopyRequiresExactReadbackAndRetries&gt;b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 90&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="CopyRequiresExactReadbackAndRetries (&quot;read-error&quot;,&quot;复制路径失败&quot;,5)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="14a4af34-e628-38d5-b035-4d2bce1489c0">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="5ac5255e-46b7-4c6b-abb8-125aa0fc745a" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="CopyRequiresExactReadbackAndRetries" />
+    </UnitTest>
+    <UnitTest name="CopyRequiresExactReadbackAndRetries (&quot;write-error&quot;,&quot;复制路径失败&quot;,0)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="a1089625-f4ac-f3aa-a8c4-74bccf671c2f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="486b2737-c339-4912-b141-813341d3b8e4" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="CopyRequiresExactReadbackAndRetries" />
+    </UnitTest>
+    <UnitTest name="SelectingExistingApplicationRetainsSuccessText" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="6b2fe37d-efdb-972b-b646-fc2530f46f8c">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="78a4b6e6-6734-4529-b0ee-33a0e5ae920e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="SelectingExistingApplicationRetainsSuccessText" />
+    </UnitTest>
+    <UnitTest name="CopyRequiresExactReadbackAndRetries (&quot;mismatch&quot;,&quot;复制路径失败&quot;,5)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="b9297281-c304-99e5-74f9-3b6d2bce1da7">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="864362bd-ed9a-46b6-876f-a379bd1dddfb" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="CopyRequiresExactReadbackAndRetries" />
+    </UnitTest>
+    <UnitTest name="CopyRequiresExactReadbackAndRetries (&quot;match&quot;,&quot;路径已复制到剪贴板&quot;,1)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="cfb54c89-7d0c-cd0d-0bb7-59358ca545f2">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="e6ccedaa-941e-43d5-b539-3d4fb3641cfc" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="CopyRequiresExactReadbackAndRetries" />
+    </UnitTest>
+    <UnitTest name="PasteDistinguishesAccessFailureAndDataException (False,&quot;无法访问剪贴板&quot;)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="89a57f67-6335-2749-2752-be22dd082976">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="53b93211-f362-45c9-b430-afc82589f1ec" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="PasteDistinguishesAccessFailureAndDataException" />
+    </UnitTest>
+    <UnitTest name="CopyRequiresExactReadbackAndRetries (&quot;no-writer&quot;,&quot;复制路径失败&quot;,0)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="fc8c7193-8919-e665-ccae-e82718edb600">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="8b831ca3-f268-4c65-b64c-da1c77ae62ca" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="CopyRequiresExactReadbackAndRetries" />
+    </UnitTest>
+    <UnitTest name="CopyRequiresExactReadbackAndRetries (&quot;access-error&quot;,&quot;无法访问剪贴板&quot;,0)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="128763c9-dfa3-b28e-83b0-63ffaddc8dd5">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="aff37e76-c7e4-4609-89aa-ac89350fdc14" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="CopyRequiresExactReadbackAndRetries" />
+    </UnitTest>
+    <UnitTest name="BrowseDialogRetainsPythonTitleAndExeOnlyFilter" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="8b045617-d77c-bc2e-2c6e-9a7035c3b862">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="a0f2a970-2e78-4c14-b2b8-14d12842094c" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="BrowseDialogRetainsPythonTitleAndExeOnlyFilter" />
+    </UnitTest>
+    <UnitTest name="CopyRequiresExactReadbackAndRetries (&quot;retry&quot;,&quot;路径已复制到剪贴板&quot;,3)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="06a854f7-0e27-7ecf-5bd1-086526a2decd">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="e6631f5a-00da-4c2a-b43c-d790ad95ed9a" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="CopyRequiresExactReadbackAndRetries" />
+    </UnitTest>
+    <UnitTest name="PasteDistinguishesAccessFailureAndDataException (True,&quot;粘贴文件时出错: 数据读取失败&quot;)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\release\net48\shahelauncher.tests.dll" id="d9646cd0-1cd1-2870-a26b-7cc93be7f967">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="f30cf72e-bb91-471e-aa1c-f29f758b4ce6" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests" name="PasteDistinguishesAccessFailureAndDataException" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="d9646cd0-1cd1-2870-a26b-7cc93be7f967" executionId="f30cf72e-bb91-471e-aa1c-f29f758b4ce6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="89a57f67-6335-2749-2752-be22dd082976" executionId="53b93211-f362-45c9-b430-afc82589f1ec" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6b2fe37d-efdb-972b-b646-fc2530f46f8c" executionId="78a4b6e6-6734-4529-b0ee-33a0e5ae920e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8b045617-d77c-bc2e-2c6e-9a7035c3b862" executionId="a0f2a970-2e78-4c14-b2b8-14d12842094c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cfb54c89-7d0c-cd0d-0bb7-59358ca545f2" executionId="e6ccedaa-941e-43d5-b539-3d4fb3641cfc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="14a4af34-e628-38d5-b035-4d2bce1489c0" executionId="5ac5255e-46b7-4c6b-abb8-125aa0fc745a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="06a854f7-0e27-7ecf-5bd1-086526a2decd" executionId="e6631f5a-00da-4c2a-b43c-d790ad95ed9a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a1089625-f4ac-f3aa-a8c4-74bccf671c2f" executionId="486b2737-c339-4912-b141-813341d3b8e4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fc8c7193-8919-e665-ccae-e82718edb600" executionId="8b831ca3-f268-4c65-b64c-da1c77ae62ca" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="128763c9-dfa3-b28e-83b0-63ffaddc8dd5" executionId="aff37e76-c7e4-4609-89aa-ac89350fdc14" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b9297281-c304-99e5-74f9-3b6d2bce1da7" executionId="864362bd-ed9a-46b6-876f-a379bd1dddfb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="11" executed="11" passed="3" failed="8" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

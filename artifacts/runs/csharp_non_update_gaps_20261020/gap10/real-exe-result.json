@@ -1,0 +1,26 @@
+{
+  "status": "inconclusive",
+  "buildDirectory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap10\\bin\\x64\\Release\\net48",
+  "executable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap10\\real-exe-20261021_201758_720\\app\\沙河批量打开器.exe",
+  "sha256": "30FC45F3D9505FF89B288DB9B8A777BC41927C75DF2B828166E43214DBC23121",
+  "observedTargetPids": [],
+  "mainWindowConfirmed": false,
+  "scenario": "real browse/copy/paste and Ctrl+O/Ctrl+V",
+  "inputCalibration": "No usable window observation obtained; no input keys sent",
+  "completedInteractionCases": 0,
+  "commandReturnCode": null,
+  "errors": [
+    "CUA_WINDOW_OBSERVER_NOT_READY",
+    "CUA_EXECUTION_FAILED",
+    "CUA_TURN_NOT_ACTIVE"
+  ],
+  "forcedCleanupPids": [],
+  "environment": {
+    "clipboardRestored": false,
+    "autoRunRestored": true,
+    "otherClipboardContentPreserved": true,
+    "success": true,
+    "pid": 15256
+  },
+  "remainingTargets": []
+}

@@ -1,0 +1,103 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 BrowseDialogRetainsPythonTitleAndExeOnlyFilter [412 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。选择应用对话框必须可独立核对配置
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.<>c.<BrowseDialogRetainsPythonTitleAndExeOnlyFilter>b__0_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 18
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 SelectingExistingApplicationRetainsSuccessText [385 ms]
+  错误消息:
+   STA action failed: System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.<>c.<SelectingExistingApplicationRetainsSuccessText>b__1_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 38
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 PasteDistinguishesAccessFailureAndDataException (False,"无法访问剪贴板") [6 ms]
+  错误消息:
+   STA action failed: System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.<>c__DisplayClass2_0.<PasteDistinguishesAccessFailureAndDataException>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 51
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 PasteDistinguishesAccessFailureAndDataException (True,"粘贴文件时出错: 数据读取失败") [4 ms]
+  错误消息:
+   STA action failed: System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.<>c__DisplayClass2_0.<PasteDistinguishesAccessFailureAndDataException>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 51
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 CopyRequiresExactReadbackAndRetries ("match","路径已复制到剪贴板",1) [24 ms]
+  错误消息:
+   STA action failed: System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.<>c__DisplayClass3_0.<CopyRequiresExactReadbackAndRetries>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 86
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 CopyRequiresExactReadbackAndRetries ("retry","路径已复制到剪贴板",3) [24 ms]
+  错误消息:
+   STA action failed: System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.<>c__DisplayClass3_0.<CopyRequiresExactReadbackAndRetries>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 86
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 CopyRequiresExactReadbackAndRetries ("mismatch","复制路径失败",5) [20 ms]
+  错误消息:
+   STA action failed: System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.<>c__DisplayClass3_0.<CopyRequiresExactReadbackAndRetries>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 86
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 CopyRequiresExactReadbackAndRetries ("read-error","复制路径失败",5) [17 ms]
+  错误消息:
+   STA action failed: System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.<>c__DisplayClass3_0.<CopyRequiresExactReadbackAndRetries>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 86
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 CopyRequiresExactReadbackAndRetries ("write-error","复制路径失败",0) [19 ms]
+  错误消息:
+   STA action failed: System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.<>c__DisplayClass3_0.<CopyRequiresExactReadbackAndRetries>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 86
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 CopyRequiresExactReadbackAndRetries ("access-error","无法访问剪贴板",0) [22 ms]
+  错误消息:
+   STA action failed: System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.<>c__DisplayClass3_0.<CopyRequiresExactReadbackAndRetries>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 86
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 CopyRequiresExactReadbackAndRetries ("no-writer","复制路径失败",0) [19 ms]
+  错误消息:
+   STA action failed: System.NullReferenceException: 未将对象引用设置到对象的实例。
+   在 ShaheLauncher.Tests.AppPathDialogTextRuntimeContractTests.<>c__DisplayClass3_0.<CopyRequiresExactReadbackAndRetries>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\AppPathDialogTextRuntimeContractTests.cs:行号 86
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+结果文件: D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\red.trx
+
+失败!  - 失败:    11，通过:     0，已跳过:     0，总计:    11，持续时间: 1 s - ShaheLauncher.Tests.dll (net48)

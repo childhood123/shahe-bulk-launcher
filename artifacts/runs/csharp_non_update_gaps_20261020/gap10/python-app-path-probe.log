@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap10\python-app-path-probe.py", line 40, in <module>
+    namespace['on_copy_path'](owner, None)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "shahe_bulk_launcher\features\app_paths.py", line 514, in on_copy_path
+    current_index = self.combo_app_path.GetFirstSelected() if hasattr(self, "combo_app_path") else -1
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'types.SimpleNamespace' object has no attribute 'GetFirstSelected'

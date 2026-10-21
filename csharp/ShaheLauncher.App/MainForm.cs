@@ -3788,14 +3788,21 @@ namespace ShaheLauncher.App
             };
         }
 
-        private void SelectApplicationPath()
+        private static OpenFileDialog CreateApplicationPathDialog()
         {
-            using (var dialog = new OpenFileDialog
+            return new OpenFileDialog
             {
-                Filter = "应用程序 (*.exe)|*.exe|所有文件 (*.*)|*.*",
+                Title = "选择要在沙盒中打开的应用",
+                InitialDirectory = Environment.CurrentDirectory,
+                Filter = "可执行文件 (*.exe)|*.exe",
                 CheckFileExists = true,
                 Multiselect = false
-            })
+            };
+        }
+
+        private void SelectApplicationPath()
+        {
+            using (var dialog = CreateApplicationPathDialog())
             {
                 if (dialog.ShowDialog(this) == DialogResult.OK)
                 {
@@ -3818,9 +3825,13 @@ namespace ShaheLauncher.App
                 }
                 SetApplicationPath(path, AppPathHistoryService.PastedAppStatusPrefix);
             }
-            catch
+            catch (System.Runtime.InteropServices.ExternalException)
             {
                 SafeSetStatusLabel(AppPathHistoryService.CannotAccessClipboardStatus);
+            }
+            catch (Exception error)
+            {
+                SafeSetStatusLabel("粘贴文件时出错: " + error.Message);
             }
         }
 
@@ -4702,15 +4713,38 @@ namespace ShaheLauncher.App
                 return;
             }
 
+            bool copied = false;
             try
             {
-                ClipboardTextWriter?.Invoke(path);
-                SafeSetStatusLabel(AppPathHistoryService.PathCopiedStatus);
+                if (ClipboardTextWriter != null)
+                {
+                    ClipboardTextWriter(path);
+                    for (int attempt = 0; attempt < 5; attempt++)
+                    {
+                        try
+                        {
+                            IDataObject data = ClipboardDataReader?.Invoke();
+                            if (string.Equals(data?.GetData(DataFormats.UnicodeText) as string,
+                                path, StringComparison.Ordinal))
+                            {
+                                copied = true;
+                                break;
+                            }
+                        }
+                        catch { }
+                        System.Threading.Thread.Sleep(20);
+                    }
+                }
             }
-            catch
+            catch (System.Runtime.InteropServices.ExternalException)
             {
-                SafeSetStatusLabel(AppPathHistoryService.CopyPathFailedStatus);
+                SafeSetStatusLabel(AppPathHistoryService.CannotAccessClipboardStatus);
+                return;
             }
+            catch { }
+            SafeSetStatusLabel(copied
+                ? AppPathHistoryService.PathCopiedStatus
+                : AppPathHistoryService.CopyPathFailedStatus);
         }
 
         private void SaveSettings()

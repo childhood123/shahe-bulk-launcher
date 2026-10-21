@@ -1,0 +1,8 @@
+{
+  "runDirectory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap10\\real-exe-20261021_201758_720",
+  "buildDirectory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap10\\bin\\x64\\Release\\net48",
+  "executable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap10\\real-exe-20261021_201758_720\\app\\沙河批量打开器.exe",
+  "sha256": "30FC45F3D9505FF89B288DB9B8A777BC41927C75DF2B828166E43214DBC23121",
+  "fixturePath": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap10\\real-exe-20261021_201758_720\\Gap10-selected.exe",
+  "guardPid": 15256
+}

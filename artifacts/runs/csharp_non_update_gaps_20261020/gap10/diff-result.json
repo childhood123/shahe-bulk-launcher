@@ -1,0 +1,12 @@
+{
+  "command": [
+    "git",
+    "diff",
+    "--check"
+  ],
+  "returnCode": 2,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap10\\diff.log",
+  "passed": null,
+  "failed": null,
+  "skipped": null
+}

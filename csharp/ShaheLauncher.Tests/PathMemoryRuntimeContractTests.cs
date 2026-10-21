@@ -199,6 +199,13 @@ namespace ShaheLauncher.Tests
                     string copiedPath = string.Empty;
                     SetProperty(formType, form, "ClipboardTextWriter",
                         new Action<string>(value => copiedPath = value));
+                    SetProperty(formType, form, "ClipboardDataReader",
+                        new Func<IDataObject>(() =>
+                        {
+                            var data = new DataObject();
+                            data.SetData(DataFormats.UnicodeText, copiedPath);
+                            return data;
+                        }));
                     InvokePrivate(form, "ExecuteApplicationAction", "memory_copy_path");
                     Assert.AreEqual(firstPath, copiedPath);
                     Assert.AreEqual("路径已复制到剪贴板",
