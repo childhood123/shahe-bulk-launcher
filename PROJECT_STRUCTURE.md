@@ -1,16 +1,16 @@
 # 沙河批量打开器项目结构
 
-## 当前执行摘要（2026-10-21 GAP-07 启动）
+## 当前执行摘要（2026-10-21 GAP-08 启动）
 
-- 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。用户已明确指令从 GAP-07 开始，并要求所有功能保留 Python 原文案、只用 C# 实现；UPDATE-01、GAP-01、GAP-02 已在计划中标记完成。
-- 当前模块：GAP-07 Esc、Alt+F4 与退出反馈。先完成更新链路独立提交和推送，再按 Python 原版固定“已最小化到托盘”“当前托盘不可用，已最小化窗口”“正在退出软件”及 `SpeechCallback(text, "launch_done")` 次数与顺序；不修改 Python 文案、不重设计交互。
+- 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-07 计划复选框已按用户“写好计划迁移下一个”指令更新；所有后续功能继续保留 Python 原文案和行为，只用 C# 实现。
+- 当前模块：GAP-08 Sandboxie repair reload。GAP-07 Esc、Alt+F4 与退出反馈已完成实现、自动化门禁和真实键盘/菜单验证，严格保留 Python 原文案“已最小化到托盘”“当前托盘不可用，已最小化窗口”“正在退出软件”及 `SpeechCallback(text, \"launch_done\")` 次数与顺序。
 - GitCode 发布状态：公开仓库 `https://gitcode.com/childhood123/shahe-bulk-launcher-releases` 的 `main` 已指向 `18caa88287fc5714a90528e88cd732d0204ec135`。默认清单 `https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json` 匿名生产式请求为 HTTP `200`；清单内 content-addressed ZIP 匿名请求为 HTTP `200`。
 - 发布包状态：版本 `4.0.46`，ZIP 大小 `2785203` 字节，SHA-256 `D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8`；匿名下载后的实际大小和哈希完全一致。最终证据为 `artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-final.json`。
-- 最新自动化门禁：更新分类 `27/27`、受影响回归 `157/157`、C# 未过滤全量 `293/293`、Python 对照 `29/29` 均通过；Python 生产源码编译、Release x64 隔离构建和 `git diff --check` 返回码均为 `0`，Release 构建警告 `0`、错误 `0`。本轮未过滤全量曾因既有 AuditRunner 原生输入漂移得到 `292/293`，单项也曾失败；随后同一程序集单项 `1/1` 和全量 `293/293` 通过，历史中间结果保留在下方。
+- 最新自动化门禁：GAP-07 定向 `2/2`、受影响回归 `120/120`、C# 未过滤全量 `295/295`、Python 对照 `29/29` 均通过；Python 生产源码编译、Release x64 隔离构建和 `git diff --check` 返回码均为 `0`，Release 构建警告 `0`、错误 `0`。
 - 版本触发边界：应用 `AppVersion` 与公开清单 `latest_version` 当前同为 `4.0.46`。本次发布建立了可用更新基线，但已运行同版本客户端不会收到“有新版本”提示；后续真实升级发布必须使用更高版本号并重新生成包、清单和校验值。
-- 已完成模块：GAP-03 至 GAP-06、VOICE-01 及此前已提交的迁移模块保持完成；UPDATE-01、GAP-01、GAP-02 已完成实现和验证，当前作为独立提交收口。剩余代码级迁移项为 GAP-07 至 GAP-10、VOICE-02；另有 AUDIT-01 至 AUDIT-08 和最终发布门禁。
+- 已完成模块：GAP-03 至 GAP-07、VOICE-01、UPDATE-01、GAP-01、GAP-02 及此前模块保持完成；更新链路独立提交 `3442158` 已推送 `origin/fix/non-update-gaps-20261020`。剩余代码级迁移项为 GAP-08 至 GAP-10、VOICE-02；另有 AUDIT-01 至 AUDIT-08 和最终发布门禁。
 - 真实 updater 证据：GitCode 匿名 ZIP 在隔离生产 helper 布局下以 `restart=true` 完成下载、替换和进程重启；updater PID `11448` 返回 `0`，精确隔离路径主进程 PID `5364` 被观测并清理，安装文件哈希、用户配置和 `lib 7/7` 均通过。该场景主窗口句柄为 `0`，只证明进程重启，不替代后续发布目录 UI 启动审计。
-- C# 当前可以启动并运行已验证功能，更新源与发布包现可匿名读取；整体 Python→C# 迁移仍未完成。更新提交完成后立即建立 GAP-07 运行时 RED。
+- C# 当前可以启动并运行已验证功能；GAP-07 单模块已完成，当前进入 GAP-08。整体 Python→C# 迁移仍未完成。
 
 ### 本轮验证记录（只追加）
 
@@ -1054,3 +1054,35 @@ csharp/
 - 2026-10-21 GitCode 更新续接 release-post-ui-final：build 返回码 0，计数不适用（未产生测试结果时不能作为测试通过）。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/release-post-ui-final-result.json；同名前缀 .log/.trx。
 
 - 2026-10-21 GitCode 更新续接 diff-post-ui-final：diff 返回码 0，计数不适用（未产生测试结果时不能作为测试通过）。实际命令与日志索引：artifacts/runs/csharp_gitcode_release_20261020/diff-post-ui-final-result.json；同名前缀 .log/.trx。
+
+- 2026-10-21 GAP-07 有效 RED：隔离 `dotnet test` 定向运行 `ExitFeedbackRuntimeContractTests`，返回码 `1`，通过 `0`、失败 `2`、跳过 `0`。Esc 的托盘成功/不可用回退路径以及 Alt+F4/文件菜单退出均已进入真实 `MainForm` 动作分派；失败为当前 C# 未按 Python 原文案产生完整的“状态更新 -> `SpeechCallback(text, "launch_done")`”事件序列。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/red-20261021_111927_864-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-07 定向 GREEN：同一 `ExitFeedbackRuntimeContractTests` 隔离运行返回码 `0`，通过 `2`、失败 `0`、跳过 `0`。C# 现按 Python 原版顺序执行 Esc 托盘成功/不可用回退和 Alt+F4/文件菜单退出：先设置原文案状态，再调用一次 `SpeechCallback(text, "launch_done")`；退出路径随后关闭窗口。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/green-20261021_112034_736-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-07 受影响回归：直接执行同一隔离程序集的 Application、Lifecycle、Tray、Hotkeys、Speech 分类，返回码 `0`，通过 `120`、失败 `0`、跳过 `0`。托盘关闭隐藏、ForceExit、重复关闭、固定快捷键和 Tolk/朗读关闭链均未回归。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/affected-20261021_112143_201-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-07 C# 未过滤全量：同一隔离程序集返回码 `0`，通过 `295`、失败 `0`、跳过 `0`。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/full-20261021_112221_249-result.json`、同名前缀 `.log/.trx`。
+
+- 2026-10-21 GAP-07 Python 对照：`python -m unittest discover -s tests -p "test_*.py" -v` 返回码 `0`，实际 `29/29` 通过、失败 `0`、跳过 `0`；runner 结果 JSON 未解析 Python 计数，以日志中的 `Ran 29 tests`/`OK` 为准。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/python-20261021_112306_753-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-07 Python 生产源码编译：`python -m compileall -q shahe_bulk_launcher tests` 返回码 `0`，无语法错误；测试计数不适用。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/compile-20261021_112338_048-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-07 Release x64：隔离解决方案构建返回码 `0`，警告 `0`、错误 `0`；输出位于 `artifacts/runs/csharp_non_update_gaps_20261020/gap07/bin/x64/Release/net48/`。证据：`release-20261021_112409_061-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-07 差异检查：`git diff --check` 返回码 `0`，无空白错误；仅输出工作树既有 LF/CRLF 转换警告。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/diff-20261021_112435_998-result.json` 和同名前缀 `.log`。
+
+- 2026-10-21 GAP-07 真实 EXE 探针解析门禁：`real-exit-feedback-probe.ps1` 经 PowerShell `[scriptblock]::Create` 检查返回码 `0`、输出 `PARSE_OK`；尚未启动目标 EXE。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/real-exit-feedback-parse-result.json` 和同名 `.log`。
+
+- 2026-10-21 GAP-07 真实 EXE 首轮探针无结论：4 个隔离场景目标窗口均成功取得句柄，三个键盘场景前台焦点均确认；但探针自定义 Win32 `INPUT` union 尺寸错误，Esc/Alt+F4 在动作发送前以 Win32 错误 `87` 停止，文件菜单探针也未解析到命令 ID。四个产品动作均未形成有效执行证据，不能记为产品失败；自有 PID `10524`、`13172`、`5452`、`11908` 均通过 `CloseMainWindow` 正常退出，退出码 `0`，未强制结束。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/real-exit-feedback-result.json`、同名 `.log`。下一步只修正探针的 INPUT 布局和菜单解析后重跑。
+
+- 2026-10-21 GAP-07 真实 EXE 探针修正解析门禁：将 Win32 `INPUT` union 固定为 x64 所需 `Size=32`，文件菜单调用改为复用已验证的动态菜单命令探针；PowerShell 解析返回码 `0`、输出 `PROBE_FIXED_PARSE_OK`。尚未重启目标。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/real-exit-feedback-parse2-result.json` 和同名 `.log`。
+
+- 2026-10-21 GAP-07 真实 EXE 第二轮结果：文件菜单退出有效通过（动态命令 ID `323`，动作投递成功，日志观察到“状态: 正在退出软件”，目标正常退出码 `0`）。Esc 无托盘/托盘和真实 Alt+F4 三场景均已确认前台焦点且 `SendInput` 成功，但未满足状态/窗口或退出断言；所有自有 PID `12484`、`5124`、`12780`、`10524` 均最终正常退出码 `0`、无强制清理。该轮暂登记为待诊断，不能直接归因产品：无托盘场景也表现为隐藏而非最小化，需先核对隔离配置加载；隐藏后跨进程子控件文本读取也需核对；Alt+F4 可能进入标题栏关闭链而非固定动作分派。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/real-exit-feedback-retry-result.json`、同名 `.log`。
+
+- 2026-10-21 GAP-07 真实键盘探针第二次修正解析门禁：键盘输入改为按目标 PID 激活后的 `WScript.Shell.SendKeys`，仍要求 Win32 前台句柄精确确认；Esc 状态改从应用自身同步日志读取，避免隐藏窗口子控件枚举歧义。PowerShell 解析返回码 `0`、输出 `SENDKEYS_PARSE_OK`。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/real-exit-feedback-parse3-result.json` 和同名 `.log`。
+
+- 2026-10-21 GAP-07 真实键盘探针第三次修正门禁：改为向已确认前台 UI 线程的实际焦点句柄投递 `WM_KEYDOWN/WM_KEYUP`，Alt+F4 使用 `WM_SYSKEYDOWN/WM_SYSKEYUP`；脚本解析和原生 C# `Add-Type` 编译均返回 `0`（`POSTMESSAGE_PARSE_OK`、`NATIVE_COMPILE_OK`）。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/real-exit-feedback-parse4-result.json` 和同名 `.log`。
+
+- 2026-10-21 GAP-07 真实键盘/菜单验证通过：Open Computer Use 在每次动作前读取并锁定 `沙河批量打开器` 目标窗口，Esc 无托盘回退 PID `2628` 观察到“当前托盘不可用，已最小化窗口”并最小化；Esc 托盘 PID `1720` 观察到“已最小化到托盘”并隐藏到托盘；Alt+F4 PID `5524` 使用 `F4` + `ALT` 修饰键，应用日志观察到“正在退出软件”且进程自然退出；文件菜单退出 PID `9152` 动态解析命令 ID `323`，日志观察到同一文案并以退出码 `0` 自然退出。托盘隐藏场景取证后仅强制清理本轮精确 PID `1720`，其余正常退出；最终目标进程残留 `0`。自动化定向测试另已固定每条路径恰好一次 `SpeechCallback(text, "launch_done")` 且顺序为先状态后朗读。汇总证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/ocu-real-exit-feedback-result.json`、`ocu-tray-escape.log`、`ocu-altf4-modifier.log`、各隔离应用日志及 `real-exit-feedback-retry3-result.json`。
+
+- 2026-10-21 GAP-07 最终差异检查：真实键盘/菜单证据和文档同步后 `git diff --check` 返回码 `0`，无空白错误；仅有既有 LF/CRLF 提示。证据：`artifacts/runs/csharp_non_update_gaps_20261020/gap07/diff-final-20261021_115001_611-result.json` 和同名前缀 `.log`。

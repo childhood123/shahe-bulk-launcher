@@ -1,0 +1,5 @@
+{
+  "returnCode": 0,
+  "result": "POSTMESSAGE_PARSE_OK; NATIVE_COMPILE_OK",
+  "change": "post WM_KEYDOWN/WM_SYSKEYDOWN to confirmed focused WinForms handle"
+}

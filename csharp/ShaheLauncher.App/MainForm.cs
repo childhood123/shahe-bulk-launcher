@@ -1620,6 +1620,8 @@ namespace ShaheLauncher.App
                     break;
                 case "exit_app":
                     ForceExitRequested = true;
+                    SafeSetStatusLabel("正在退出软件");
+                    SpeechCallback?.Invoke("正在退出软件", "launch_done");
                     Close();
                     break;
                 case "check_update":
@@ -4254,6 +4256,7 @@ namespace ShaheLauncher.App
 
         private void MinimizeToTray()
         {
+            string feedback;
             if (ShowTray)
             {
                 CreateTaskBarIcon();
@@ -4261,11 +4264,16 @@ namespace ShaheLauncher.App
             if (TaskBarIcon != null && TaskBarIcon.TrayIcon != null)
             {
                 Hide();
-                SafeSetStatusLabel("已最小化到托盘");
-                return;
+                feedback = "已最小化到托盘";
             }
-            WindowState = FormWindowState.Minimized;
-            SafeSetStatusLabel("当前托盘不可用，已最小化窗口");
+            else
+            {
+                WindowState = FormWindowState.Minimized;
+                feedback = "当前托盘不可用，已最小化窗口";
+            }
+
+            SafeSetStatusLabel(feedback);
+            SpeechCallback?.Invoke(feedback, "launch_done");
         }
 
         private void AutoCheckUpdateAfterStartup()

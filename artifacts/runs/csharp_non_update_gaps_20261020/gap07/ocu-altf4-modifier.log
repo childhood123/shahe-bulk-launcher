@@ -1,0 +1,15 @@
+[
+  {
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "appNotFound(\"沙河批量打开器\") at at Resolve-App, C:\\Users\\Administrator\\AppData\\Local\\Temp\\open-computer-use-windows-1031622163\\runtime.ps1: line 329\r\nat Build-Snapshot, C:\\Users\\Administrator\\AppData\\Local\\Temp\\open-computer-use-windows-1031622163\\runtime.ps1: line 619\r\nat \u003cScriptBlock\u003e, C:\\Users\\Administrator\\AppData\\Local\\Temp\\open-computer-use-windows-1031622163\\runtime.ps1: line 905"
+        }
+      ],
+      "isError": true
+    },
+    "tool": "get_app_state"
+  }
+]
+tool call returned isError=true

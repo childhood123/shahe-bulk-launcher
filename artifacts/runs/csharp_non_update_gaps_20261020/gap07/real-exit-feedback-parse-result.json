@@ -1,0 +1,5 @@
+{
+  "returnCode": 0,
+  "result": "PARSE_OK",
+  "script": "artifacts/runs/csharp_non_update_gaps_20261020/gap07/real-exit-feedback-probe.ps1"
+}

@@ -1,0 +1,106 @@
+{
+  "tested_at": "2026-10-21T11:33:38.2952703+08:00",
+  "source_directory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap07\\bin\\x64\\Release\\net48",
+  "scenario_root": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap07\\real-exe",
+  "passed": 0,
+  "failed": 0,
+  "inconclusive": 4,
+  "scenarios": [
+    {
+      "name": "escape-window-fallback",
+      "action": "escape",
+      "show_tray": false,
+      "pid": 10524,
+      "executable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap07\\real-exe\\escape-window-fallback\\沙河批量打开器.exe",
+      "main_window": "0x360886",
+      "focus_confirmed": true,
+      "command_id": null,
+      "action_sent": false,
+      "status_observed": false,
+      "visible_after": null,
+      "iconic_after": null,
+      "exited_after_action": false,
+      "exit_code": null,
+      "cleanup": {
+        "close_main_window": true,
+        "forced": false,
+        "exited": true,
+        "exit_code": 0
+      },
+      "result": "inconclusive",
+      "error": "Exception calling \"Escape\" with \"0\" argument(s): \"SendInput failed: 87\""
+    },
+    {
+      "name": "escape-tray",
+      "action": "escape",
+      "show_tray": true,
+      "pid": 13172,
+      "executable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap07\\real-exe\\escape-tray\\沙河批量打开器.exe",
+      "main_window": "0x100946",
+      "focus_confirmed": true,
+      "command_id": null,
+      "action_sent": false,
+      "status_observed": false,
+      "visible_after": null,
+      "iconic_after": null,
+      "exited_after_action": false,
+      "exit_code": null,
+      "cleanup": {
+        "close_main_window": true,
+        "forced": false,
+        "exited": true,
+        "exit_code": 0
+      },
+      "result": "inconclusive",
+      "error": "Exception calling \"Escape\" with \"0\" argument(s): \"SendInput failed: 87\""
+    },
+    {
+      "name": "alt-f4",
+      "action": "alt-f4",
+      "show_tray": false,
+      "pid": 5452,
+      "executable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap07\\real-exe\\alt-f4\\沙河批量打开器.exe",
+      "main_window": "0x22093C",
+      "focus_confirmed": true,
+      "command_id": null,
+      "action_sent": false,
+      "status_observed": false,
+      "visible_after": null,
+      "iconic_after": null,
+      "exited_after_action": false,
+      "exit_code": null,
+      "cleanup": {
+        "close_main_window": true,
+        "forced": false,
+        "exited": true,
+        "exit_code": 0
+      },
+      "result": "inconclusive",
+      "error": "Exception calling \"AltF4\" with \"0\" argument(s): \"SendInput failed: 87\""
+    },
+    {
+      "name": "file-menu-exit",
+      "action": "menu",
+      "show_tray": false,
+      "pid": 11908,
+      "executable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap07\\real-exe\\file-menu-exit\\沙河批量打开器.exe",
+      "main_window": "0x10094A",
+      "focus_confirmed": null,
+      "command_id": -1,
+      "action_sent": false,
+      "status_observed": false,
+      "visible_after": null,
+      "iconic_after": null,
+      "exited_after_action": false,
+      "exit_code": null,
+      "cleanup": {
+        "close_main_window": true,
+        "forced": false,
+        "exited": true,
+        "exit_code": 0
+      },
+      "result": "inconclusive",
+      "error": "Exit menu command was not found or invoked."
+    }
+  ]
+}

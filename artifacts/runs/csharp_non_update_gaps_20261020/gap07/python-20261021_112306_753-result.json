@@ -1,0 +1,19 @@
+{
+  "kind": "python",
+  "command": [
+    "python",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "tests",
+    "-p",
+    "test_*.py",
+    "-v"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\gap07\\python-20261021_112306_753.log",
+  "passed": null,
+  "failed": null,
+  "skipped": null
+}

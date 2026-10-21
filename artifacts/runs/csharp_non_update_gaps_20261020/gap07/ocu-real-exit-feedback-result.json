@@ -1,0 +1,54 @@
+{
+  "tested_at": "2026-10-21T11:48:55.7467618+08:00",
+  "tool": "open-computer-use + dynamic Win32 menu command",
+  "passed": 4,
+  "failed": 0,
+  "inconclusive": 0,
+  "scenarios": [
+    {
+      "name": "escape-window-fallback",
+      "pid": 2628,
+      "input": "Open Computer Use press_key ESC",
+      "focus_confirmed": true,
+      "expected": "当前托盘不可用，已最小化窗口",
+      "status_log_observed": true,
+      "window_result": "minimized",
+      "cleanup": "CloseMainWindow; exited",
+      "evidence": "ocu fallback action and isolated application log"
+    },
+    {
+      "name": "escape-tray",
+      "pid": 1720,
+      "input": "Open Computer Use press_key ESC",
+      "focus_confirmed": true,
+      "expected": "已最小化到托盘",
+      "status_log_observed": true,
+      "window_result": "hidden to tray",
+      "cleanup": "exact owned PID force cleanup after evidence",
+      "evidence": "ocu-tray-escape.log and isolated application log"
+    },
+    {
+      "name": "alt-f4",
+      "pid": 5524,
+      "input": "Open Computer Use press_key F4 modifiers ALT",
+      "focus_confirmed": true,
+      "expected": "正在退出软件",
+      "status_log_observed": true,
+      "window_result": "process exited",
+      "cleanup": "natural exit",
+      "evidence": "ocu-altf4-modifier.log and isolated application log"
+    },
+    {
+      "name": "file-menu-exit",
+      "pid": 9152,
+      "input": "dynamic main-menu WM_COMMAND",
+      "command_id": 323,
+      "expected": "正在退出软件",
+      "status_log_observed": true,
+      "window_result": "process exited with code 0",
+      "cleanup": "natural exit",
+      "evidence": "real-exit-feedback-retry3-result.json"
+    }
+  ],
+  "remaining_target_processes": 0
+}

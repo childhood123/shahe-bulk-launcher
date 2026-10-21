@@ -1,0 +1,35 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap07\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap07\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap07\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap07\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap07\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap07\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 EscapeUsesOriginalPythonStatusAndSpeechForTrayAndWindowFallback [849 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: CollectionAssert.AreEqual 失败。(不同数量的元素。)
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(ICollection expected, ICollection actual, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/CollectionAssert.cs:行号 1163
+   在 ShaheLauncher.Tests.ExitFeedbackRuntimeContractTests.AssertFeedback(IList`1 events, String text) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ExitFeedbackRuntimeContractTests.cs:行号 96
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+   在 ShaheLauncher.Tests.ExitFeedbackRuntimeContractTests.EscapeUsesOriginalPythonStatusAndSpeechForTrayAndWindowFallback() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ExitFeedbackRuntimeContractTests.cs:行号 31
+
+  失败 AltF4AndFileMenuExitUseOriginalPythonStatusAndSpeech [307 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: CollectionAssert.AreEqual 失败。(不同数量的元素。)
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(ICollection expected, ICollection actual, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/CollectionAssert.cs:行号 1163
+   在 ShaheLauncher.Tests.ExitFeedbackRuntimeContractTests.AssertFeedback(IList`1 events, String text) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ExitFeedbackRuntimeContractTests.cs:行号 96
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+   在 ShaheLauncher.Tests.ExitFeedbackRuntimeContractTests.AltF4AndFileMenuExitUseOriginalPythonStatusAndSpeech() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ExitFeedbackRuntimeContractTests.cs:行号 51
+
+结果文件: D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\gap07\red-20261021_111927_864.trx
+
+失败!  - 失败:     2，通过:     0，已跳过:     0，总计:     2，持续时间: 1 s - ShaheLauncher.Tests.dll (net48)

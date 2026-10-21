@@ -1,0 +1,5 @@
+{
+  "returnCode": 0,
+  "result": "SENDKEYS_PARSE_OK",
+  "change": "use WScript.Shell.SendKeys after PID activation and exact foreground confirmation; verify status via app log"
+}

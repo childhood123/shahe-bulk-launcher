@@ -1,0 +1,8 @@
+{
+  "returnCode": 0,
+  "result": "PROBE_FIXED_PARSE_OK",
+  "changes": [
+    "INPUT union Size=32",
+    "reuse validated menu command probe"
+  ]
+}
