@@ -1,0 +1,142 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="bfab39c9-7b6c-4d2a-a191-28cba49da87a" name="Administrator@CHILDHOOD 2026-10-22 07:46:19" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T07:46:19.4954419+08:00" queuing="2026-10-22T07:46:19.4954434+08:00" start="2026-10-22T07:46:14.5261389+08:00" finish="2026-10-22T07:46:19.5085862+08:00" />
+  <TestSettings name="default" id="5735d3fb-9d82-4537-b2e4-4b7695742a6a">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_07_46_19" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="d28e742a-be67-4315-ac43-c33b311b252b" testId="2c1ac7d1-cefd-80f9-d77c-65775903525b" testName="CloseCompletionPreservesSpeechAndRefreshScope (False,True)" computerName="CHILDHOOD" duration="00:00:00.0097785" startTime="2026-10-22T07:46:19.2340469+08:00" endTime="2026-10-22T07:46:19.2445603+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d28e742a-be67-4315-ac43-c33b311b252b">
+      <Output>
+        <ErrorInfo>
+          <Message>CollectionAssert.AreEqual 失败。(不同数量的元素。)</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests.CloseCompletionPreservesSpeechAndRefreshScope(Boolean all, Boolean hasTargets) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\CloseProcessFeedbackRuntimeContractTests.cs:行号 56&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="cf650842-ffd1-44b6-bc08-13c0848bec66" testId="856dfe01-9cba-b334-695b-7e42ebf1a21a" testName="CloseAllPartialFeedbackMatchesPython (&quot;none_closed&quot;,0,False,False)" computerName="CHILDHOOD" duration="00:00:00.0003568" startTime="2026-10-22T07:46:19.2684871+08:00" endTime="2026-10-22T07:46:19.2724757+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cf650842-ffd1-44b6-bc08-13c0848bec66">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.IsNotNull 失败。PostCloseStatus must be public</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.ReflectionTestHelpers.InvokeInstance(Object target, String methodName, Object[] args) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ReflectionTestHelpers.cs:行号 30&#xD;
+   在 ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests.CloseAllPartialFeedbackMatchesPython(String status, Int32 closed, Boolean any, Boolean speaks) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\CloseProcessFeedbackRuntimeContractTests.cs:行号 77&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="332aea5a-554f-4eae-9588-02794007e3c1" testId="1918df6c-9926-f348-a155-678396458725" testName="CloseAllPartialFeedbackMatchesPython (&quot;partially_closed&quot;,0,True,False)" computerName="CHILDHOOD" duration="00:00:00.0004013" startTime="2026-10-22T07:46:19.2674646+08:00" endTime="2026-10-22T07:46:19.2684871+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="332aea5a-554f-4eae-9588-02794007e3c1">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.IsNotNull 失败。PostCloseStatus must be public</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.ReflectionTestHelpers.InvokeInstance(Object target, String methodName, Object[] args) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ReflectionTestHelpers.cs:行号 30&#xD;
+   在 ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests.CloseAllPartialFeedbackMatchesPython(String status, Int32 closed, Boolean any, Boolean speaks) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\CloseProcessFeedbackRuntimeContractTests.cs:行号 77&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="eb1f6f3c-d35e-4d19-940f-44390f4a0569" testId="85d77a52-b662-da05-41c7-8621f57969de" testName="CloseCompletionPreservesSpeechAndRefreshScope (True,True)" computerName="CHILDHOOD" duration="00:00:00.0004638" startTime="2026-10-22T07:46:19.2525381+08:00" endTime="2026-10-22T07:46:19.2535358+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eb1f6f3c-d35e-4d19-940f-44390f4a0569">
+      <Output>
+        <ErrorInfo>
+          <Message>CollectionAssert.AreEqual 失败。(不同数量的元素。)</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests.CloseCompletionPreservesSpeechAndRefreshScope(Boolean all, Boolean hasTargets) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\CloseProcessFeedbackRuntimeContractTests.cs:行号 56&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="4edd369c-e730-4534-838a-46a292997213" testId="12711f58-22fb-a725-c3a6-289511aa1523" testName="CloseCompletionPreservesSpeechAndRefreshScope (False,False)" computerName="CHILDHOOD" duration="00:00:00.2588251" startTime="2026-10-22T07:46:18.5713919+08:00" endTime="2026-10-22T07:46:19.2240777+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4edd369c-e730-4534-838a-46a292997213">
+      <Output>
+        <ErrorInfo>
+          <Message>CollectionAssert.AreEqual 失败。(索引 8 处的元素不匹配。)</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests.CloseCompletionPreservesSpeechAndRefreshScope(Boolean all, Boolean hasTargets) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\CloseProcessFeedbackRuntimeContractTests.cs:行号 56&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="a9dd7455-8665-4e7f-80d3-e3598de86042" testId="d373a5cd-44df-2089-818e-1dab4ee8cad5" testName="CloseAllPartialFeedbackMatchesPython (&quot;closed_some&quot;,2,True,True)" computerName="CHILDHOOD" duration="00:00:00.0029003" startTime="2026-10-22T07:46:19.2535358+08:00" endTime="2026-10-22T07:46:19.2674646+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a9dd7455-8665-4e7f-80d3-e3598de86042">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.IsNotNull 失败。PostCloseStatus must be public</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.ReflectionTestHelpers.InvokeInstance(Object target, String methodName, Object[] args) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ReflectionTestHelpers.cs:行号 30&#xD;
+   在 ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests.CloseAllPartialFeedbackMatchesPython(String status, Int32 closed, Boolean any, Boolean speaks) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\CloseProcessFeedbackRuntimeContractTests.cs:行号 77&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="93b221ed-c97a-4475-bc55-87e0da33e184" testId="4553b9b2-4adb-a56f-c75e-e616362c4544" testName="CloseCompletionPreservesSpeechAndRefreshScope (True,False)" computerName="CHILDHOOD" duration="00:00:00.0072697" startTime="2026-10-22T07:46:19.2445603+08:00" endTime="2026-10-22T07:46:19.2525381+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="93b221ed-c97a-4475-bc55-87e0da33e184">
+      <Output>
+        <ErrorInfo>
+          <Message>CollectionAssert.AreEqual 失败。(索引 8 处的元素不匹配。)</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests.CloseCompletionPreservesSpeechAndRefreshScope(Boolean all, Boolean hasTargets) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\CloseProcessFeedbackRuntimeContractTests.cs:行号 56&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="CloseAllPartialFeedbackMatchesPython (&quot;closed_some&quot;,2,True,True)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\release\net48\shahelauncher.tests.dll" id="d373a5cd-44df-2089-818e-1dab4ee8cad5">
+      <TestCategory>
+        <TestCategoryItem TestCategory="ProcessActions" />
+      </TestCategory>
+      <Execution id="a9dd7455-8665-4e7f-80d3-e3598de86042" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests" name="CloseAllPartialFeedbackMatchesPython" />
+    </UnitTest>
+    <UnitTest name="CloseAllPartialFeedbackMatchesPython (&quot;none_closed&quot;,0,False,False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\release\net48\shahelauncher.tests.dll" id="856dfe01-9cba-b334-695b-7e42ebf1a21a">
+      <TestCategory>
+        <TestCategoryItem TestCategory="ProcessActions" />
+      </TestCategory>
+      <Execution id="cf650842-ffd1-44b6-bc08-13c0848bec66" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests" name="CloseAllPartialFeedbackMatchesPython" />
+    </UnitTest>
+    <UnitTest name="CloseCompletionPreservesSpeechAndRefreshScope (True,True)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\release\net48\shahelauncher.tests.dll" id="85d77a52-b662-da05-41c7-8621f57969de">
+      <TestCategory>
+        <TestCategoryItem TestCategory="ProcessActions" />
+      </TestCategory>
+      <Execution id="eb1f6f3c-d35e-4d19-940f-44390f4a0569" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests" name="CloseCompletionPreservesSpeechAndRefreshScope" />
+    </UnitTest>
+    <UnitTest name="CloseCompletionPreservesSpeechAndRefreshScope (True,False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\release\net48\shahelauncher.tests.dll" id="4553b9b2-4adb-a56f-c75e-e616362c4544">
+      <TestCategory>
+        <TestCategoryItem TestCategory="ProcessActions" />
+      </TestCategory>
+      <Execution id="93b221ed-c97a-4475-bc55-87e0da33e184" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests" name="CloseCompletionPreservesSpeechAndRefreshScope" />
+    </UnitTest>
+    <UnitTest name="CloseCompletionPreservesSpeechAndRefreshScope (False,False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\release\net48\shahelauncher.tests.dll" id="12711f58-22fb-a725-c3a6-289511aa1523">
+      <TestCategory>
+        <TestCategoryItem TestCategory="ProcessActions" />
+      </TestCategory>
+      <Execution id="4edd369c-e730-4534-838a-46a292997213" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests" name="CloseCompletionPreservesSpeechAndRefreshScope" />
+    </UnitTest>
+    <UnitTest name="CloseAllPartialFeedbackMatchesPython (&quot;partially_closed&quot;,0,True,False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\release\net48\shahelauncher.tests.dll" id="1918df6c-9926-f348-a155-678396458725">
+      <TestCategory>
+        <TestCategoryItem TestCategory="ProcessActions" />
+      </TestCategory>
+      <Execution id="332aea5a-554f-4eae-9588-02794007e3c1" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests" name="CloseAllPartialFeedbackMatchesPython" />
+    </UnitTest>
+    <UnitTest name="CloseCompletionPreservesSpeechAndRefreshScope (False,True)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\release\net48\shahelauncher.tests.dll" id="2c1ac7d1-cefd-80f9-d77c-65775903525b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="ProcessActions" />
+      </TestCategory>
+      <Execution id="d28e742a-be67-4315-ac43-c33b311b252b" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests" name="CloseCompletionPreservesSpeechAndRefreshScope" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="2c1ac7d1-cefd-80f9-d77c-65775903525b" executionId="d28e742a-be67-4315-ac43-c33b311b252b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="856dfe01-9cba-b334-695b-7e42ebf1a21a" executionId="cf650842-ffd1-44b6-bc08-13c0848bec66" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1918df6c-9926-f348-a155-678396458725" executionId="332aea5a-554f-4eae-9588-02794007e3c1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="85d77a52-b662-da05-41c7-8621f57969de" executionId="eb1f6f3c-d35e-4d19-940f-44390f4a0569" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="12711f58-22fb-a725-c3a6-289511aa1523" executionId="4edd369c-e730-4534-838a-46a292997213" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d373a5cd-44df-2089-818e-1dab4ee8cad5" executionId="a9dd7455-8665-4e7f-80d3-e3598de86042" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4553b9b2-4adb-a56f-c75e-e616362c4544" executionId="93b221ed-c97a-4475-bc55-87e0da33e184" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="7" executed="7" passed="0" failed="7" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

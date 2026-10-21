@@ -1,0 +1,43 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 CloseCompletionPreservesSpeechAndRefreshScope (False,False) [287 ms]
+  错误消息:
+   CollectionAssert.AreEqual 失败。(索引 8 处的元素不匹配。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests.CloseCompletionPreservesSpeechAndRefreshScope(Boolean all, Boolean hasTargets) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\CloseProcessFeedbackRuntimeContractTests.cs:行号 56
+
+  失败 CloseCompletionPreservesSpeechAndRefreshScope (False,True) [9 ms]
+  错误消息:
+   CollectionAssert.AreEqual 失败。(不同数量的元素。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests.CloseCompletionPreservesSpeechAndRefreshScope(Boolean all, Boolean hasTargets) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\CloseProcessFeedbackRuntimeContractTests.cs:行号 56
+
+  失败 CloseCompletionPreservesSpeechAndRefreshScope (True,False) [7 ms]
+  错误消息:
+   CollectionAssert.AreEqual 失败。(索引 8 处的元素不匹配。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests.CloseCompletionPreservesSpeechAndRefreshScope(Boolean all, Boolean hasTargets) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\CloseProcessFeedbackRuntimeContractTests.cs:行号 56
+
+  失败 CloseCompletionPreservesSpeechAndRefreshScope (True,True) [< 1 ms]
+  错误消息:
+   CollectionAssert.AreEqual 失败。(不同数量的元素。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests.CloseCompletionPreservesSpeechAndRefreshScope(Boolean all, Boolean hasTargets) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\CloseProcessFeedbackRuntimeContractTests.cs:行号 56
+
+  失败 CloseAllPartialFeedbackMatchesPython ("closed_some",2,True,True) [1 ms]
+  错误消息:
+   CollectionAssert.AreEqual 失败。(不同数量的元素。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests.CloseAllPartialFeedbackMatchesPython(String status, Int32 closed, Boolean any, Boolean speaks) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\CloseProcessFeedbackRuntimeContractTests.cs:行号 80
+
+结果文件: D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\red-valid.trx
+
+失败!  - 失败:     5，通过:     2，已跳过:     0，总计:     7，持续时间: 749 ms - ShaheLauncher.Tests.dll (net48)

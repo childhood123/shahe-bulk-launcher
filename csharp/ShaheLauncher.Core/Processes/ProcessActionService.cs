@@ -1979,7 +1979,12 @@ namespace ShaheLauncher.Core.Processes
                     Post(callbacks, delegate
                     {
                         callbacks?.SetStatus?.Invoke(FinishCloseCurrentSandbox(names.Item2, result));
-                        RefreshProcessUiAfterAction(true, callbacks);
+                        if (result.Status == "all_closed"
+                            || (result.Status != "no_target" && result.Status != "partially_closed" && result.Closed > 0))
+                        {
+                            callbacks?.Speak?.Invoke("已关闭" + names.Item2 + "进程", "close_current");
+                        }
+                        RefreshProcessUiAfterAction(result.Status != "no_target", callbacks);
                     });
                 },
                 callbacks?.SetStatus);
@@ -2393,7 +2398,11 @@ namespace ShaheLauncher.Core.Processes
             Post(callbacks, delegate
             {
                 callbacks?.SetStatus?.Invoke(FinishCloseAllSandboxes(status, closed, anyTerminated));
-                RefreshProcessUiAfterAction(true, callbacks);
+                if (status == "all_closed" || status == "closed_some")
+                {
+                    callbacks?.Speak?.Invoke("已关闭全部进程", "close_all");
+                }
+                RefreshProcessUiAfterAction(status != "no_target", callbacks);
             });
         }
 

@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="5f18f542-689a-49cb-b6c5-d34e31ce6710" name="Administrator@CHILDHOOD 2026-10-22 07:48:57" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T07:48:57.8955671+08:00" queuing="2026-10-22T07:48:57.8955673+08:00" start="2026-10-22T07:48:52.7122614+08:00" finish="2026-10-22T07:48:59.2619838+08:00" />
+  <TestSettings name="default" id="8ec55609-0469-4ec0-b6f5-c21f871dc7c8">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_07_48_57" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="da87b2e1-63a4-4a47-bf6f-2c36736b4b5a" testId="d373a5cd-44df-2089-818e-1dab4ee8cad5" testName="CloseAllPartialFeedbackMatchesPython (&quot;closed_some&quot;,2,True,True)" computerName="CHILDHOOD" duration="00:00:00.0034300" startTime="2026-10-22T07:48:59.0763179+08:00" endTime="2026-10-22T07:48:59.0911555+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="da87b2e1-63a4-4a47-bf6f-2c36736b4b5a" />
+    <UnitTestResult executionId="c3b85693-0edc-4ef9-8d7e-5d6efada697d" testId="12711f58-22fb-a725-c3a6-289511aa1523" testName="CloseCompletionPreservesSpeechAndRefreshScope (False,False)" computerName="CHILDHOOD" duration="00:00:00.1630182" startTime="2026-10-22T07:48:56.0460389+08:00" endTime="2026-10-22T07:48:56.5806274+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c3b85693-0edc-4ef9-8d7e-5d6efada697d" />
+    <UnitTestResult executionId="882958d4-60d3-47fd-be3d-f62701ee6f0c" testId="85d77a52-b662-da05-41c7-8621f57969de" testName="CloseCompletionPreservesSpeechAndRefreshScope (True,True)" computerName="CHILDHOOD" duration="00:00:00.0002380" startTime="2026-10-22T07:48:56.6092232+08:00" endTime="2026-10-22T07:48:56.6092232+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="882958d4-60d3-47fd-be3d-f62701ee6f0c" />
+    <UnitTestResult executionId="e9d42ecb-0039-437f-a947-730a8466daaf" testId="2c1ac7d1-cefd-80f9-d77c-65775903525b" testName="CloseCompletionPreservesSpeechAndRefreshScope (False,True)" computerName="CHILDHOOD" duration="00:00:00.0085457" startTime="2026-10-22T07:48:56.5922698+08:00" endTime="2026-10-22T07:48:56.6012763+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e9d42ecb-0039-437f-a947-730a8466daaf" />
+    <UnitTestResult executionId="a2491dfe-237c-4892-b008-4d8e43eb6c3f" testId="856dfe01-9cba-b334-695b-7e42ebf1a21a" testName="CloseAllPartialFeedbackMatchesPython (&quot;none_closed&quot;,0,False,False)" computerName="CHILDHOOD" duration="00:00:00.0000071" startTime="2026-10-22T07:48:59.0911555+08:00" endTime="2026-10-22T07:48:59.0951451+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a2491dfe-237c-4892-b008-4d8e43eb6c3f" />
+    <UnitTestResult executionId="af1260df-4bcf-488e-a669-72523c959c3e" testId="83d3811c-d615-e627-4a43-87bc7e5b2da3" testName="CurrentPartialOrFailedCloseDoesNotAnnounceSuccess (False)" computerName="CHILDHOOD" duration="00:00:01.2398438" startTime="2026-10-22T07:48:56.6092232+08:00" endTime="2026-10-22T07:48:57.8498050+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="af1260df-4bcf-488e-a669-72523c959c3e" />
+    <UnitTestResult executionId="d7febde4-3820-4a7c-86ed-3d7825a3e1c6" testId="1b16ded6-b65b-f4e7-38dc-f2b2a673d4ae" testName="CurrentPartialOrFailedCloseDoesNotAnnounceSuccess (True)" computerName="CHILDHOOD" duration="00:00:01.2261364" startTime="2026-10-22T07:48:57.8498050+08:00" endTime="2026-10-22T07:48:59.0763179+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d7febde4-3820-4a7c-86ed-3d7825a3e1c6" />
+    <UnitTestResult executionId="f7e093b1-3a57-4c8c-a3bd-f1edc1de55c6" testId="4553b9b2-4adb-a56f-c75e-e616362c4544" testName="CloseCompletionPreservesSpeechAndRefreshScope (True,False)" computerName="CHILDHOOD" duration="00:00:00.0071157" startTime="2026-10-22T07:48:56.6012763+08:00" endTime="2026-10-22T07:48:56.6092232+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f7e093b1-3a57-4c8c-a3bd-f1edc1de55c6" />
+    <UnitTestResult executionId="967bc798-4333-4c4e-bb22-8e2b65891f54" testId="1918df6c-9926-f348-a155-678396458725" testName="CloseAllPartialFeedbackMatchesPython (&quot;partially_closed&quot;,0,True,False)" computerName="CHILDHOOD" duration="00:00:00.0000152" startTime="2026-10-22T07:48:59.0911555+08:00" endTime="2026-10-22T07:48:59.0911555+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="967bc798-4333-4c4e-bb22-8e2b65891f54" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="CloseAllPartialFeedbackMatchesPython (&quot;closed_some&quot;,2,True,True)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\release\net48\shahelauncher.tests.dll" id="d373a5cd-44df-2089-818e-1dab4ee8cad5">
+      <TestCategory>
+        <TestCategoryItem TestCategory="ProcessActions" />
+      </TestCategory>
+      <Execution id="da87b2e1-63a4-4a47-bf6f-2c36736b4b5a" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests" name="CloseAllPartialFeedbackMatchesPython" />
+    </UnitTest>
+    <UnitTest name="CurrentPartialOrFailedCloseDoesNotAnnounceSuccess (False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\release\net48\shahelauncher.tests.dll" id="83d3811c-d615-e627-4a43-87bc7e5b2da3">
+      <TestCategory>
+        <TestCategoryItem TestCategory="ProcessActions" />
+      </TestCategory>
+      <Execution id="af1260df-4bcf-488e-a669-72523c959c3e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests" name="CurrentPartialOrFailedCloseDoesNotAnnounceSuccess" />
+    </UnitTest>
+    <UnitTest name="CurrentPartialOrFailedCloseDoesNotAnnounceSuccess (True)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\release\net48\shahelauncher.tests.dll" id="1b16ded6-b65b-f4e7-38dc-f2b2a673d4ae">
+      <TestCategory>
+        <TestCategoryItem TestCategory="ProcessActions" />
+      </TestCategory>
+      <Execution id="d7febde4-3820-4a7c-86ed-3d7825a3e1c6" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests" name="CurrentPartialOrFailedCloseDoesNotAnnounceSuccess" />
+    </UnitTest>
+    <UnitTest name="CloseAllPartialFeedbackMatchesPython (&quot;none_closed&quot;,0,False,False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\release\net48\shahelauncher.tests.dll" id="856dfe01-9cba-b334-695b-7e42ebf1a21a">
+      <TestCategory>
+        <TestCategoryItem TestCategory="ProcessActions" />
+      </TestCategory>
+      <Execution id="a2491dfe-237c-4892-b008-4d8e43eb6c3f" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests" name="CloseAllPartialFeedbackMatchesPython" />
+    </UnitTest>
+    <UnitTest name="CloseCompletionPreservesSpeechAndRefreshScope (True,True)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\release\net48\shahelauncher.tests.dll" id="85d77a52-b662-da05-41c7-8621f57969de">
+      <TestCategory>
+        <TestCategoryItem TestCategory="ProcessActions" />
+      </TestCategory>
+      <Execution id="882958d4-60d3-47fd-be3d-f62701ee6f0c" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests" name="CloseCompletionPreservesSpeechAndRefreshScope" />
+    </UnitTest>
+    <UnitTest name="CloseCompletionPreservesSpeechAndRefreshScope (True,False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\release\net48\shahelauncher.tests.dll" id="4553b9b2-4adb-a56f-c75e-e616362c4544">
+      <TestCategory>
+        <TestCategoryItem TestCategory="ProcessActions" />
+      </TestCategory>
+      <Execution id="f7e093b1-3a57-4c8c-a3bd-f1edc1de55c6" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests" name="CloseCompletionPreservesSpeechAndRefreshScope" />
+    </UnitTest>
+    <UnitTest name="CloseCompletionPreservesSpeechAndRefreshScope (False,False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\release\net48\shahelauncher.tests.dll" id="12711f58-22fb-a725-c3a6-289511aa1523">
+      <TestCategory>
+        <TestCategoryItem TestCategory="ProcessActions" />
+      </TestCategory>
+      <Execution id="c3b85693-0edc-4ef9-8d7e-5d6efada697d" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests" name="CloseCompletionPreservesSpeechAndRefreshScope" />
+    </UnitTest>
+    <UnitTest name="CloseAllPartialFeedbackMatchesPython (&quot;partially_closed&quot;,0,True,False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\release\net48\shahelauncher.tests.dll" id="1918df6c-9926-f348-a155-678396458725">
+      <TestCategory>
+        <TestCategoryItem TestCategory="ProcessActions" />
+      </TestCategory>
+      <Execution id="967bc798-4333-4c4e-bb22-8e2b65891f54" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests" name="CloseAllPartialFeedbackMatchesPython" />
+    </UnitTest>
+    <UnitTest name="CloseCompletionPreservesSpeechAndRefreshScope (False,True)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\release\net48\shahelauncher.tests.dll" id="2c1ac7d1-cefd-80f9-d77c-65775903525b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="ProcessActions" />
+      </TestCategory>
+      <Execution id="e9d42ecb-0039-437f-a947-730a8466daaf" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.CloseProcessFeedbackRuntimeContractTests" name="CloseCompletionPreservesSpeechAndRefreshScope" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="d373a5cd-44df-2089-818e-1dab4ee8cad5" executionId="da87b2e1-63a4-4a47-bf6f-2c36736b4b5a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="12711f58-22fb-a725-c3a6-289511aa1523" executionId="c3b85693-0edc-4ef9-8d7e-5d6efada697d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="85d77a52-b662-da05-41c7-8621f57969de" executionId="882958d4-60d3-47fd-be3d-f62701ee6f0c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2c1ac7d1-cefd-80f9-d77c-65775903525b" executionId="e9d42ecb-0039-437f-a947-730a8466daaf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="856dfe01-9cba-b334-695b-7e42ebf1a21a" executionId="a2491dfe-237c-4892-b008-4d8e43eb6c3f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="83d3811c-d615-e627-4a43-87bc7e5b2da3" executionId="af1260df-4bcf-488e-a669-72523c959c3e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1b16ded6-b65b-f4e7-38dc-f2b2a673d4ae" executionId="d7febde4-3820-4a7c-86ed-3d7825a3e1c6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4553b9b2-4adb-a56f-c75e-e616362c4544" executionId="f7e093b1-3a57-4c8c-a3bd-f1edc1de55c6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1918df6c-9926-f348-a155-678396458725" executionId="967bc798-4333-4c4e-bb22-8e2b65891f54" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="9" executed="9" passed="9" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

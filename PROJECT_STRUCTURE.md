@@ -3,12 +3,12 @@
 ## 当前执行摘要（2026-10-21 GAP-10 对照与剩余缺口复核）
 
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-09 已按用户“反正能记忆到999条记录就行之前是20”的明确要求更新为 C# `0–999`；除该用户指定差异外，后续功能继续保留 Python 原文案和行为，只用 C# 实现。
-- 当前模块：REVIEW-04 关闭进程完成朗读与无目标分支；REVIEW-03 已完成代码、自动化验证、文档和独立提交。GAP-10 已独立提交，真实 EXE 交互仍因 Computer Use 无有效窗口证据而保留风险；C# 最大 999、Python 原上限 20 是用户明确要求的有意差异。
+- 当前模块：REVIEW-01 至 REVIEW-03 边界复核修正；REVIEW-04 关闭进程反馈已完成代码和自动化验证，随后继续 REVIEW-05。GAP-10 已独立提交，真实 EXE 交互仍因 Computer Use 无有效窗口证据而保留风险；C# 最大 999、Python 原上限 20 是用户明确要求的有意差异。
 - GitCode 发布状态：公开仓库 `https://gitcode.com/childhood123/shahe-bulk-launcher-releases` 的 `main` 已指向 `18caa88287fc5714a90528e88cd732d0204ec135`。默认清单 `https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json` 匿名生产式请求为 HTTP `200`；清单内 content-addressed ZIP 匿名请求为 HTTP `200`。
 - 发布包状态：版本 `4.0.46`，ZIP 大小 `2785203` 字节，SHA-256 `D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8`；匿名下载后的实际大小和哈希完全一致。最终证据为 `artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-final.json`。
-- 最新自动化门禁：GAP-10 定向与受影响回归、重建后未过滤 C# 全量、Python 全量及原版 AST 对照均通过；生产源码编译与 Release x64 隔离构建成功。实际计数、命令、返回码与日志路径只保留在本轮只追加验证记录。此前 AuditRunner 原生前台/索引失败均保留，最终全量为有效复跑。全工作树差异检查仍被 GAP-09 历史日志空白阻断，GAP-10 范围检查通过。
+- 最新自动化门禁：REVIEW-04 定向与受影响回归、重建后未过滤 C# 全量、Python 全量及原版 AST 对照均通过；生产源码编译与 Release x64 隔离构建成功。实际计数、命令、返回码与日志路径只保留在本轮只追加验证记录。此前 AuditRunner 原生前台/索引失败均保留，最终全量为有效复跑。全工作树差异检查仍被 GAP-09 历史日志空白阻断，本模块范围检查通过。
 - 版本触发边界：应用 `AppVersion` 与公开清单 `latest_version` 当前同为 `4.0.46`。本次发布建立了可用更新基线，但已运行同版本客户端不会收到“有新版本”提示；后续真实升级发布必须使用更高版本号并重新生成包、清单和校验值。
-- 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-03、VOICE-01、UPDATE-01 及此前已确认范围。当前已登记的剩余代码级迁移项为 REVIEW-04 至 REVIEW-06、VOICE-02；另有 AUDIT-01 至 AUDIT-08 和最终发布门禁。
+- 已完成模块：GAP-01 至 GAP-10、REVIEW-04、VOICE-01、UPDATE-01 及此前已确认范围。当前已登记的剩余代码级迁移项为 REVIEW-01 至 REVIEW-03 的边界修正、REVIEW-05 至 REVIEW-06、VOICE-02；另有 AUDIT-01 至 AUDIT-08 和最终发布门禁。
 - 真实 updater 证据：GitCode 匿名 ZIP 在隔离生产 helper 布局下以 `restart=true` 完成下载、替换和进程重启；updater PID `11448` 返回 `0`，精确隔离路径主进程 PID `5364` 被观测并清理，安装文件哈希、用户配置和 `lib 7/7` 均通过。该场景主窗口句柄为 `0`，只证明进程重启，不替代后续发布目录 UI 启动审计。
 - C# 当前可以启动并运行已验证功能；GAP-09 已完成代码、自动化验证、生产 UI 模态对话框隔离进程验证（`0/21/999` 保存与重启）和修复后二进制真实启动烟雾测试。整体 Python→C# 迁移仍未完成，完整运行和发布验收仍有待办；活动计划内残留的 GAP-09 未勾选提交项属于文档进度滞后，以本摘要和实际提交为准。
 
@@ -168,7 +168,7 @@
 
 1. `AGENTS.md`：长期项目约束、验证和提交规则。
 2. 本文件的“当前摘要”和“当前 C# 迁移计划进度”：当前唯一权威状态。
-3. `docs/superpowers/plans/2026-10-20-non-update-migration-gaps.md`：当前任务的执行步骤和完成标准；旧导航计划仅用于历史追溯。
+3. `docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`：当前唯一活动计划；文内进度滞后以顶部摘要和最新日志为准。
 4. `artifacts/runs/` 下由当前计划引用的最新日志：命令输出和真实 EXE 证据。
 5. 本文件后面的历史记录：只用于追溯，不覆盖当前摘要。
 
@@ -631,6 +631,8 @@
 - 2026-10-15 无效设备扫描修复 Release x64 构建：`dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64` 成功生成 Core、App、Updater、Tests，`0` 警告、`0` 错误；日志在 `artifacts/runs/csharp_close_process_exe_20261015/unused-live-device-release-build.log`。
 - 2026-10-15 无效设备扫描修复真实 EXE 复测：最新 Release 实例 PID `10444` 启动并完成四个审计沙盒导航压力采样；单键/突发结果因跨进程定位出现起始索引漂移和部分校准超时，不能作为最终产品性能结论，原始结果保留在 `artifacts/runs/csharp_close_process_exe_20261015/navigation-unused-device-scan-result.json`。探针结束后四个审计沙盒均为 `0 PID`，`SbieSvc` 保持 `Running`，最新 EXE 仍保持运行供人工复核。
 - 2026-10-15 多用户列表移动刷新契约 RED：初版测试未显式触发 WinForms `OnSelectedIndexChanged`，结果为 `0` 次刷新，不能作为根因证据；修正测试为显式模拟旧项取消选中和新项选中两个事件后，当前实现稳定产生 `2` 次请求而预期为 `1` 次。日志在 `artifacts/runs/csharp_navigation_followup_20261015/selection-refresh-count-red2.log`。
+- 2026-10-15 多用户列表移动刷新契约 GREEN：`CheckableListCtrl.OnSelectedIndexChanged` 先取得有效选中索引，取消选中导致索引为 `-1` 时不再提交实时进程菜单刷新；隔离 Release x64 构建和 `MovingSelectionSchedulesOneLiveRefreshRequest` 单项契约通过 `1/1`。日志在 `artifacts/runs/csharp_navigation_followup_20261015/isolated-build-green.log` 与 `selection-refresh-count-green.log`。
+
 - 2026-10-16 多用户列表移动刷新契约复核 GREEN：`CheckableListCtrl.OnSelectedIndexChanged` 先取得有效选中索引，取消选中导致索引为 `-1` 时不再提交实时进程菜单刷新；使用最终隔离 Release x64 测试程序集运行 `MovingSelectionSchedulesOneLiveRefreshRequest`，返回码 `0`，实际执行 `1` 项，通过 `1`、失败 `0`、跳过 `0`，总时间 `3.3026` 秒。最新日志为 `artifacts/runs/csharp_navigation_followup_20261015/csharp-task3-selection-refresh-recheck-20261016_195108_210.log`；原隔离构建证据仍为 `isolated-build-green.log`。
 - 2026-10-15 多用户列表移动刷新受影响回归：`TestCategory=Application|TestCategory=Controls|TestCategory=Lifecycle` 通过 `69/69`，无失败、无跳过；日志在 `artifacts/runs/csharp_navigation_followup_20261015/selection-refresh-affected-regression.log`。
 - 2026-10-15 多用户列表移动刷新 C# 全量回归：隔离 Release x64 `ShaheLauncher.Tests.dll` 通过 `212/212`，无失败、无跳过；日志在 `artifacts/runs/csharp_navigation_followup_20261015/csharp-full.log`。
@@ -1904,3 +1906,31 @@ csharp/
 - REVIEW-03 release：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review03\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/review03/release.log`、`release-result.json`；如为 C# 测试，另有同名 TRX。
 
 - 2026-10-21 REVIEW-03 完成：Ctrl+F5/`refresh_process_state` 现在只刷新可见运行状态，不再触发完整沙盒列表刷新；恢复 Python 的“正在刷新进程状态/没有可刷新的进程状态/已刷新进程状态”反馈，并用异步完成回调收口。定向 GREEN 2/2、受影响 98/98、C# 全量最终 320/320、Python 29/29、compileall 0、Release x64 0 警告/0 错误；证据：`artifacts/runs/csharp_non_update_gaps_20261020/review03/`。真实键盘输入仍待 AUDIT-04。
+
+- REVIEW-04 red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\ --logger trx;LogFileName=red.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04 --filter FullyQualifiedName~CloseProcessFeedbackRuntimeContractTests`；返回码 1，通过 0、失败 7、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/review04/red.log`、`red-result.json`；如为 C# 测试，另有同名 TRX。
+`n- REVIEW-04 首次 RED 中四个真实服务入口失败分别命中缺失朗读/无目标错误全表刷新；三个私有方法测试因辅助反射仅允许 public 而失败，不计为产品 RED。已修正测试访问方式后重新运行。
+
+- REVIEW-04 red-valid：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\ --logger trx;LogFileName=red-valid.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04 --filter FullyQualifiedName~CloseProcessFeedbackRuntimeContractTests`；返回码 1，通过 2、失败 5、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/review04/red-valid.log`、`red-valid-result.json`；如为 C# 测试，另有同名 TRX。
+
+- REVIEW-04 green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\ --logger trx;LogFileName=green.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04 --filter FullyQualifiedName~CloseProcessFeedbackRuntimeContractTests`；返回码 0，通过 7、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/review04/green.log`、`green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- REVIEW-04 affected：命令 `dotnet vstest D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll /Platform:x64 /Logger:trx;LogFileName=affected.trx /ResultsDirectory:D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04 /TestCaseFilter:TestCategory=ProcessActions|TestCategory=Application|TestCategory=Processes`；返回码 0，通过 120、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/review04/affected.log`、`affected-result.json`；如为 C# 测试，另有同名 TRX。
+
+- REVIEW-04 full：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\ --logger trx;LogFileName=full.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04`；返回码 0，通过 327、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/review04/full.log`、`full-result.json`；如为 C# 测试，另有同名 TRX。
+
+- REVIEW-04 python：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 0，通过 29、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/review04/python.log`、`python-result.json`；如为 C# 测试，另有同名 TRX。
+
+- REVIEW-04 compile：命令 `python -m compileall -q shahe_bulk_launcher tests`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/review04/compile.log`、`compile-result.json`；如为 C# 测试，另有同名 TRX。
+
+- REVIEW-04 release：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/review04/release.log`、`release-result.json`；如为 C# 测试，另有同名 TRX。
+`n- 2026-10-22 文档范围纠正：此前 GAP-10 提交纳入了超出本模块范围的既有项目结构差异；复核发现一条 2026-10-15 GREEN 历史被后来复核记录替换，现已原文恢复并保留较新记录。未改写或回退用户代码。阅读顺序入口更正为顶部唯一活动计划；活动计划正文仍等待先前展示差异的明确确认，未写入。REVIEW-01 至 REVIEW-03 初次自动化通过不覆盖本轮发现的忙时启动状态、官方沙盒缓存和刷新状态覆盖边界，仍需分别修正。
+
+- REVIEW-04 Python 源码 AST 行为探针：命令 `python artifacts/runs/csharp_non_update_gaps_20261020/review04/python-close-feedback-probe.py`，返回码 0；实际输出见 `artifacts/runs/csharp_non_update_gaps_20261020/review04/python-probe.log`，计数见 `python-probe-result.json`。
+
+- REVIEW-04 green-final：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\ --logger trx;LogFileName=green-final.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04 --filter FullyQualifiedName~CloseProcessFeedbackRuntimeContractTests`；返回码 0，通过 9、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/review04/green-final.log`、`green-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- REVIEW-04 范围差异检查：返回码 0，计数不适用；命令和输出见 `artifacts/runs/csharp_non_update_gaps_20261020/review04/diff-result.json` 与 `diff.log`。全工作树原有 GAP-09 日志空白改动仍保留，不纳入本模块。
+
+- REVIEW-04 full-final：命令 `dotnet vstest D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04\bin\x64\Release\net48\ShaheLauncher.Tests.dll /Platform:x64 /Logger:trx;LogFileName=full-final.trx /ResultsDirectory:D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review04`；返回码 0，通过 329、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/review04/full-final.log`、`full-final-result.json`；如为 C# 测试，另有同名 TRX。
+`n- 2026-10-22 REVIEW-04 收口：完成关闭当前/全部成功朗读、无目标仅状态刷新和部分失败不误报；定向、受影响、两次全量、Python unittest、Python 源码行为探针、compileall、隔离 Release 与差异检查的实际计数见上述本模块记录。代码评审未发现生产差异，已补当前用户部分关闭/零关闭测试。未在真实进程上再次执行关闭或验证扬声器输出，这些外部验收仍按 AUDIT 保留。已重新核对活动计划：GAP-10 真实交互、VOICE-02、AUDIT-01 至 AUDIT-08、最终发布仍待办；未修改需用户确认的计划正文。
+`n- REVIEW-04 暂存差异检查初次返回 2：验证脚本末尾多一个空行；已仅清理该脚本末尾空行，随后暂存检查返回 0。未改动原始测试日志。

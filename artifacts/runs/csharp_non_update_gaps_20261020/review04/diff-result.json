@@ -1,0 +1,7 @@
+{
+  "failed": null,
+  "command": "git diff --check -- PROJECT_STRUCTURE.md csharp/ShaheLauncher.Core/Processes/ProcessActionService.cs",
+  "returnCode": 0,
+  "passed": null,
+  "skipped": null
+}
