@@ -1,0 +1,17 @@
+{
+  "command": [
+    "dotnet",
+    "vstest",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\review06-update-ui\\bin\\x64\\Release\\net48\\ShaheLauncher.Tests.dll",
+    "/Platform:x64",
+    "/Logger:trx;LogFileName=affected.trx",
+    "/ResultsDirectory:D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\review06-update-ui",
+    "/TestCaseFilter:TestCategory=Application|TestCategory=Updates"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\review06-update-ui\\affected.log",
+  "passed": 136,
+  "failed": 0,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\review06-update-ui\\affected.trx"
+}

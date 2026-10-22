@@ -1657,7 +1657,7 @@ namespace ShaheLauncher.App
                     Close();
                     break;
                 case "check_update":
-                    UpdateService.CheckUpdateWorker(false, true);
+                    CheckForUpdatesManually();
                     break;
                 case "speech_settings":
                     SpeechService.OnSpeechSettings();
@@ -4048,16 +4048,20 @@ namespace ShaheLauncher.App
 
         private void LaunchUpdate(UpdateDisplayResult result)
         {
+            string latestVersion = result == null ? string.Empty : result.LatestVersion;
+            Runtime.AppendDailyLog("准备启动更新程序: " + latestVersion);
+            SafeSetStatusLabel("正在准备更新程序...");
             UpdateCommandPreparation preparation = UpdateService.PrepareUpdaterCommand(
                 result.Package,
                 result.LatestVersion);
             if (preparation.Error.Length != 0 || preparation.Command == null)
             {
-                SafeSetStatusLabel("启动更新失败: " + preparation.Error);
+                Runtime.AppendDailyLog("自动更新不可用: " + preparation.Error);
+                SafeSetStatusLabel("自动更新不可用，请稍后重试");
                 ShowMessageCallback?.Invoke(
-                    "启动更新失败：\n" + preparation.Error,
-                    "下载更新",
-                    MessageBoxIcon.Warning);
+                    preparation.Error + "\n\n当前版本只支持通过内置更新程序安装增量补丁，请稍后重试。",
+                    "自动更新不可用",
+                    MessageBoxIcon.Information);
                 return;
             }
 
@@ -4067,20 +4071,32 @@ namespace ShaheLauncher.App
                 {
                     FileName = preparation.Command[0],
                     Arguments = string.Join(" ", preparation.Command.Skip(1).Select(QuoteArgument)),
-                    UseShellExecute = true
+                    UseShellExecute = true,
+                    WorkingDirectory = Path.GetDirectoryName(preparation.Command[0]) ?? string.Empty
                 };
                 Process.Start(startInfo);
+                Runtime.AppendDailyLog("更新程序已启动: " + latestVersion);
+                SafeSetStatusLabel("更新程序已启动，正在关闭主程序...");
                 ForceExitRequested = true;
                 Close();
             }
             catch (Exception error)
             {
-                SafeSetStatusLabel("启动更新失败: " + error.Message);
+                Runtime.AppendDailyLog("自动更新启动失败: " + error.Message);
+                SafeSetStatusLabel("自动更新启动失败，请稍后重试");
                 ShowMessageCallback?.Invoke(
-                    "启动更新失败：\n" + error.Message,
-                    "下载更新",
+                    "启动更新程序失败：\n" + error.Message + "\n\n当前版本只支持通过内置更新程序安装增量补丁，请稍后重试。",
+                    "自动更新失败",
                     MessageBoxIcon.Warning);
             }
+        }
+
+        private void CheckForUpdatesManually()
+        {
+            Runtime.AppendDailyLog("手动检查更新");
+            ShowUpdateNotice(null);
+            SafeSetStatusLabel("正在检查更新...");
+            UpdateService.CheckUpdateWorker(false, false);
         }
 
         private IEnumerable<LaunchAppTarget> GetCheckedAppTargets()
