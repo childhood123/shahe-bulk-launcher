@@ -4358,7 +4358,7 @@ namespace ShaheLauncher.App
             string name = GetSelectedSandboxName();
             if (name.Length == 0)
             {
-                SafeSetStatusLabel("请先选择沙盒用户");
+                SafeSetStatusLabel("请先在用户列表中选中一个用户");
                 return;
             }
             callback?.Invoke(name);
