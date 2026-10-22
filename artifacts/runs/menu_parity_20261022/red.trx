@@ -1,0 +1,109 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="c46d0551-f436-4b81-a3c9-67707e37cf1f" name="Administrator@CHILDHOOD 2026-10-22 15:53:50" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T15:53:50.0620914+08:00" queuing="2026-10-22T15:53:50.0620918+08:00" start="2026-10-22T15:53:44.7396745+08:00" finish="2026-10-22T15:53:50.4238262+08:00" />
+  <TestSettings name="default" id="de72a262-c1e3-4a0e-9b75-eda293fafd76">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_15_53_50" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="5639bd81-c96e-41c2-8b76-7a0460ed8c50" testId="62af5068-525c-59fc-d99c-53d86870890b" testName="BuildsExactClassicMenusWithoutChangingAccessibilityOrder (&quot;关于(&amp;A)&quot;,&quot;检查更新|-|请作者吃辣条&quot;)" computerName="CHILDHOOD" duration="00:00:00.0413768" startTime="2026-10-22T15:53:50.1384684+08:00" endTime="2026-10-22T15:53:50.1833483+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5639bd81-c96e-41c2-8b76-7a0460ed8c50">
+      <Output>
+        <ErrorInfo>
+          <Message>CollectionAssert.AreEqual 失败。Menu wording, order and separators must match the Python branch.(不同数量的元素。)</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MainFormApplicationContractTests.BuildsExactClassicMenusWithoutChangingAccessibilityOrder(String branchTitle, String expectedChildren) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MainFormApplicationContractTests.cs:行号 191&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="77df0634-f6f4-4a00-934b-77a8366b2d88" testId="3d71b52b-e4ad-93c2-416e-ac5675ec62cb" testName="PathMemoryMenuAndCtrlHUseClassicContextMenuRuntime" computerName="CHILDHOOD" duration="00:00:00.0385420" startTime="2026-10-22T15:53:50.1833483+08:00" endTime="2026-10-22T15:53:50.2302227+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="77df0634-f6f4-4a00-934b-77a8366b2d88">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: CollectionAssert.AreEqual 失败。(不同数量的元素。)&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(ICollection expected, ICollection actual, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/CollectionAssert.cs:行号 1163&#xD;
+   在 ShaheLauncher.Tests.PathMemoryRuntimeContractTests.&lt;&gt;c.&lt;PathMemoryMenuAndCtrlHUseClassicContextMenuRuntime&gt;b__1_0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\PathMemoryRuntimeContractTests.cs:行号 39&#xD;
+   在 ShaheLauncher.Tests.PathMemoryRuntimeContractTests.&lt;&gt;c__DisplayClass18_0.&lt;RunInSta&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\PathMemoryRuntimeContractTests.cs:行号 398</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.PathMemoryRuntimeContractTests.RunInSta(Action action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\PathMemoryRuntimeContractTests.cs:行号 406&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="41d13a53-aa17-4b4d-b16e-e27274c7b567" testId="008837c5-677a-211e-af13-d5541628b41d" testName="BuildsExactClassicMenusWithoutChangingAccessibilityOrder (&quot;校正(&amp;J)&quot;,&quot;手动校正 Sandboxie 安装路径|选择沙盒用户数据目录|-|修复 Sandboxie Control 用户设置&quot;)" computerName="CHILDHOOD" duration="00:00:00.0461124" startTime="2026-10-22T15:53:50.0915939+08:00" endTime="2026-10-22T15:53:50.1384684+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="41d13a53-aa17-4b4d-b16e-e27274c7b567">
+      <Output>
+        <ErrorInfo>
+          <Message>CollectionAssert.AreEqual 失败。Menu wording, order and separators must match the Python branch.(不同数量的元素。)</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MainFormApplicationContractTests.BuildsExactClassicMenusWithoutChangingAccessibilityOrder(String branchTitle, String expectedChildren) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MainFormApplicationContractTests.cs:行号 191&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="949d0c26-2e60-4048-9e77-59f52ddea430" testId="aefcb51b-a42c-405f-fff8-e412d66a46f0" testName="BuildsExactClassicMenusWithoutChangingAccessibilityOrder (&quot;用户管理&quot;,&quot;置顶/取消置顶当前用户|-|批量创建沙盒用户|批量重命名沙盒用户|批量删除沙盒用户&quot;)" computerName="CHILDHOOD" duration="00:00:01.1042157" startTime="2026-10-22T15:53:48.4414742+08:00" endTime="2026-10-22T15:53:50.0109986+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="949d0c26-2e60-4048-9e77-59f52ddea430">
+      <Output>
+        <ErrorInfo>
+          <Message>CollectionAssert.AreEqual 失败。Menu wording, order and separators must match the Python branch.(不同数量的元素。)</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MainFormApplicationContractTests.BuildsExactClassicMenusWithoutChangingAccessibilityOrder(String branchTitle, String expectedChildren) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MainFormApplicationContractTests.cs:行号 191&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="84ad9811-1966-4017-b4c0-dbdc617ab345" testId="cc644c40-1ed1-faf8-7e16-501a2c044c01" testName="BuildsExactClassicMenusWithoutChangingAccessibilityOrder (&quot;设置(&amp;S)&quot;,&quot;热键设置|朗读设置|软件设置&quot;)" computerName="CHILDHOOD" duration="00:00:00.0497633" startTime="2026-10-22T15:53:50.0418766+08:00" endTime="2026-10-22T15:53:50.0915939+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="84ad9811-1966-4017-b4c0-dbdc617ab345">
+      <Output>
+        <ErrorInfo>
+          <Message>CollectionAssert.AreEqual 失败。Menu wording, order and separators must match the Python branch.(不同数量的元素。)</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MainFormApplicationContractTests.BuildsExactClassicMenusWithoutChangingAccessibilityOrder(String branchTitle, String expectedChildren) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MainFormApplicationContractTests.cs:行号 191&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder (&quot;关于(&amp;A)&quot;,&quot;检查更新|-|请作者吃辣条&quot;)" storage="d:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="62af5068-525c-59fc-d99c-53d86870890b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="5639bd81-c96e-41c2-8b76-7a0460ed8c50" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder" />
+    </UnitTest>
+    <UnitTest name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder (&quot;设置(&amp;S)&quot;,&quot;热键设置|朗读设置|软件设置&quot;)" storage="d:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="cc644c40-1ed1-faf8-7e16-501a2c044c01">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="84ad9811-1966-4017-b4c0-dbdc617ab345" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder" />
+    </UnitTest>
+    <UnitTest name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder (&quot;校正(&amp;J)&quot;,&quot;手动校正 Sandboxie 安装路径|选择沙盒用户数据目录|-|修复 Sandboxie Control 用户设置&quot;)" storage="d:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="008837c5-677a-211e-af13-d5541628b41d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="41d13a53-aa17-4b4d-b16e-e27274c7b567" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder" />
+    </UnitTest>
+    <UnitTest name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder (&quot;用户管理&quot;,&quot;置顶/取消置顶当前用户|-|批量创建沙盒用户|批量重命名沙盒用户|批量删除沙盒用户&quot;)" storage="d:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="aefcb51b-a42c-405f-fff8-e412d66a46f0">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="949d0c26-2e60-4048-9e77-59f52ddea430" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder" />
+    </UnitTest>
+    <UnitTest name="PathMemoryMenuAndCtrlHUseClassicContextMenuRuntime" storage="d:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="3d71b52b-e4ad-93c2-416e-ac5675ec62cb">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="77df0634-f6f4-4a00-934b-77a8366b2d88" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathMemoryRuntimeContractTests" name="PathMemoryMenuAndCtrlHUseClassicContextMenuRuntime" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="62af5068-525c-59fc-d99c-53d86870890b" executionId="5639bd81-c96e-41c2-8b76-7a0460ed8c50" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3d71b52b-e4ad-93c2-416e-ac5675ec62cb" executionId="77df0634-f6f4-4a00-934b-77a8366b2d88" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="008837c5-677a-211e-af13-d5541628b41d" executionId="41d13a53-aa17-4b4d-b16e-e27274c7b567" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="aefcb51b-a42c-405f-fff8-e412d66a46f0" executionId="949d0c26-2e60-4048-9e77-59f52ddea430" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cc644c40-1ed1-faf8-7e16-501a2c044c01" executionId="84ad9811-1966-4017-b4c0-dbdc617ab345" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="5" executed="5" passed="0" failed="5" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

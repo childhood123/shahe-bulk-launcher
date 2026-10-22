@@ -1,0 +1,24 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\menu_parity_20261022\\bin\\",
+    "--logger",
+    "trx;LogFileName=affected.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\menu_parity_20261022",
+    "--filter",
+    "FullyQualifiedName~MainFormApplicationContractTests|FullyQualifiedName~PathMemoryRuntimeContractTests|FullyQualifiedName~HotkeyControllerContractTests|FullyQualifiedName~SettingsDialogsCSharpContractTests|FullyQualifiedName~DonationQrRuntimeContractTests|TestCategory=Tray|TestCategory=AuditRunner"
+  ],
+  "returnCode": 1,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\menu_parity_20261022\\affected.log",
+  "passed": 99,
+  "failed": 1,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\menu_parity_20261022\\affected.trx"
+}

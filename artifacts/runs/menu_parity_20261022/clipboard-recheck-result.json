@@ -1,0 +1,24 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\menu_parity_20261022\\bin\\",
+    "--logger",
+    "trx;LogFileName=clipboard-recheck.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\menu_parity_20261022",
+    "--filter",
+    "FullyQualifiedName~DonationButtonCopiesShippedOriginalImage"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\menu_parity_20261022\\clipboard-recheck.log",
+  "passed": 2,
+  "failed": 0,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\menu_parity_20261022\\clipboard-recheck.trx"
+}

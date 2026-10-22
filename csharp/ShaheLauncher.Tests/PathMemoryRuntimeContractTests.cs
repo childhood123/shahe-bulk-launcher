@@ -34,14 +34,11 @@ namespace ShaheLauncher.Tests
                     Form window = GetProperty<Form>(formType, form, "SelfForm");
                     MenuItem settings = window.Menu.MenuItems.Cast<MenuItem>()
                         .Single(item => item.Text == "设置(&S)");
-                    MenuItem manager = settings.MenuItems.Cast<MenuItem>()
-                        .SingleOrDefault(item => VisibleText(item) == "路径记忆管理");
-                    Assert.IsNotNull(manager, "设置菜单必须提供路径记忆管理入口");
+                    CollectionAssert.AreEqual(new[] { "热键设置", "朗读设置", "软件设置" },
+                        settings.MenuItems.Cast<MenuItem>().Select(VisibleText).ToArray());
                     var menuActions = new List<string>();
                     SetProperty(formType, form, "ApplicationActionCallback",
                         new Action<string>(menuActions.Add));
-                    manager.PerformClick();
-                    CollectionAssert.AreEqual(new[] { "memory_manager_dialog" }, menuActions.ToArray());
 
                     ListView appList = GetProperty<ListView>(formType, form, "AppPathList");
                     Assert.IsNotNull(GetProperty<Action>(formType, form, "AppPathSelectionChangedCallback"));

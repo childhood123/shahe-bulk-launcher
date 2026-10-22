@@ -141,8 +141,12 @@ namespace ShaheLauncher.Tests
             }
         }
 
-        [TestMethod]
-        public void BuildsExactClassicMenusWithoutChangingAccessibilityOrder()
+        [DataTestMethod]
+        [DataRow("用户管理", "置顶/取消置顶当前用户|-|批量创建沙盒用户|批量重命名沙盒用户|批量删除沙盒用户")]
+        [DataRow("设置(&S)", "热键设置|朗读设置|软件设置")]
+        [DataRow("校正(&J)", "手动校正 Sandboxie 安装路径|选择沙盒用户数据目录|-|修复 Sandboxie Control 用户设置")]
+        [DataRow("关于(&A)", "检查更新|-|请作者吃辣条")]
+        public void BuildsExactClassicMenusWithoutChangingAccessibilityOrder(string branchTitle, string expectedChildren)
         {
             string root = CreateTemporaryDirectory();
             object form = null;
@@ -177,6 +181,12 @@ namespace ShaheLauncher.Tests
                 CollectionAssert.AreEqual(
                     new[] { "文件(&F)", "进程(&P)", "沙盒管理(&G)", "定时(&D)", "设置(&S)", "校正(&J)", "工具(&T)", "关于(&A)" },
                     window.Menu.MenuItems.Cast<MenuItem>().Select(item => item.Text).ToArray());
+
+                MenuItem branch = FlattenMenu(window.Menu.MenuItems)
+                    .Single(item => item.Text.Split('\t')[0] == branchTitle);
+                CollectionAssert.AreEqual(expectedChildren.Split('|'),
+                    branch.MenuItems.Cast<MenuItem>().Select(item => item.Text.Split('\t')[0]).ToArray(),
+                    "Menu wording, order and separators must match the Python branch.");
 
                 string[] allItems = FlattenMenu(window.Menu.MenuItems).Select(item => item.Text).ToArray();
                 foreach (string text in new[]

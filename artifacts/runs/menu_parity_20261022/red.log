@@ -1,0 +1,47 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 BuildsExactClassicMenusWithoutChangingAccessibilityOrder ("用户管理","置顶/取消置顶当前用户|-|批量创建沙盒用户|批量重命名沙盒用户|批量删除沙盒用户") [1 s]
+  错误消息:
+   CollectionAssert.AreEqual 失败。Menu wording, order and separators must match the Python branch.(不同数量的元素。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MainFormApplicationContractTests.BuildsExactClassicMenusWithoutChangingAccessibilityOrder(String branchTitle, String expectedChildren) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MainFormApplicationContractTests.cs:行号 191
+
+  失败 BuildsExactClassicMenusWithoutChangingAccessibilityOrder ("设置(&S)","热键设置|朗读设置|软件设置") [49 ms]
+  错误消息:
+   CollectionAssert.AreEqual 失败。Menu wording, order and separators must match the Python branch.(不同数量的元素。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MainFormApplicationContractTests.BuildsExactClassicMenusWithoutChangingAccessibilityOrder(String branchTitle, String expectedChildren) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MainFormApplicationContractTests.cs:行号 191
+
+  失败 BuildsExactClassicMenusWithoutChangingAccessibilityOrder ("校正(&J)","手动校正 Sandboxie 安装路径|选择沙盒用户数据目录|-|修复 Sandboxie Control 用户设置") [46 ms]
+  错误消息:
+   CollectionAssert.AreEqual 失败。Menu wording, order and separators must match the Python branch.(不同数量的元素。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MainFormApplicationContractTests.BuildsExactClassicMenusWithoutChangingAccessibilityOrder(String branchTitle, String expectedChildren) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MainFormApplicationContractTests.cs:行号 191
+
+  失败 BuildsExactClassicMenusWithoutChangingAccessibilityOrder ("关于(&A)","检查更新|-|请作者吃辣条") [41 ms]
+  错误消息:
+   CollectionAssert.AreEqual 失败。Menu wording, order and separators must match the Python branch.(不同数量的元素。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MainFormApplicationContractTests.BuildsExactClassicMenusWithoutChangingAccessibilityOrder(String branchTitle, String expectedChildren) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MainFormApplicationContractTests.cs:行号 191
+
+  失败 PathMemoryMenuAndCtrlHUseClassicContextMenuRuntime [38 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: CollectionAssert.AreEqual 失败。(不同数量的元素。)
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(ICollection expected, ICollection actual, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/CollectionAssert.cs:行号 1163
+   在 ShaheLauncher.Tests.PathMemoryRuntimeContractTests.<>c.<PathMemoryMenuAndCtrlHUseClassicContextMenuRuntime>b__1_0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\PathMemoryRuntimeContractTests.cs:行号 39
+   在 ShaheLauncher.Tests.PathMemoryRuntimeContractTests.<>c__DisplayClass18_0.<RunInSta>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\PathMemoryRuntimeContractTests.cs:行号 398
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.PathMemoryRuntimeContractTests.RunInSta(Action action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\PathMemoryRuntimeContractTests.cs:行号 406
+
+结果文件: D:\mycodex\git\artifacts\runs\menu_parity_20261022\red.trx
+
+失败!  - 失败:     5，通过:     0，已跳过:     0，总计:     5，持续时间: 1 s - ShaheLauncher.Tests.dll (net48)

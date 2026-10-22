@@ -1,0 +1,5 @@
+{
+  "command": "python artifacts/runs/menu_parity_20261022/python-menu-structure-probe.py",
+  "returnCode": 0,
+  "log": "artifacts/runs/menu_parity_20261022/python-structure.log"
+}

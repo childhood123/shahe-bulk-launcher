@@ -5,10 +5,10 @@
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-09 已按用户“反正能记忆到999条记录就行之前是20”的明确要求更新为 C# `0–999`；除该用户指定差异外，后续功能继续保留 Python 原文案和行为，只用 C# 实现。
 - 当前模块：AUDIT-03 Sandboxie 剩余生命周期。真实 `batch-create`、`create-group`、`launch-group`、`schedule-launch` 和精确 cleanup 已通过；`schedule-close` 被当前运行的 `SbieCtrl.exe` 安全门禁阻断，真实 `delete-group`、`cancel-schedules`、`batch-rename`、`batch-delete` 尚未取得有效执行证据。因此 AUDIT-03 尚未完成，不能进入 AUDIT-04，整体迁移仍未完成。
 - 用户追加任务 DONATE-01：已按最新明确要求，将原始支付宝/微信图片放入根目录 `打赏/`，C# 菜单优先从该目录读取，构建/发布自动带上图片；复用原有“复制二维码”按钮复制原图位图。此追加任务已实现并验证，不改变 AUDIT-03 的未完成状态或其后审计顺序。
-- 用户追加设置/菜单核对：普通软件设置已追踪到 C# 实际执行链；SETTINGS-01 已修复保存时自启动写入旧值。菜单另发现三条分隔线和一个额外入口的结构差异，将按 Python 单独修正。读屏 API 下拉框在 Python 与 C# 均只保存/回显、未决定实际 Tolk 输出，这是原版遗留行为，已单列风险，不作为功能生效证据。
+- 用户追加设置/菜单核对：SETTINGS-01 已修复普通软件设置保存时自启动写入旧值；MENU-01 已按 Python 恢复三条分隔线，并将设置菜单恢复为“热键设置、朗读设置、软件设置”。路径列表原有操作和用户指定 999 上限保留。读屏 API 下拉框在 Python 与 C# 均只保存/回显、未决定实际 Tolk 输出；这是已记录的原版遗留功能问题，尚未修复，不能据界面选择声明实际切换生效。
 - GitCode 发布状态：公开仓库 `https://gitcode.com/childhood123/shahe-bulk-launcher-releases` 的 `main` 已指向 `18caa88287fc5714a90528e88cd732d0204ec135`。默认清单 `https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json` 匿名生产式请求为 HTTP `200`；清单内 content-addressed ZIP 匿名请求为 HTTP `200`。
 - 发布包状态：版本 `4.0.46`，ZIP 大小 `2785203` 字节，SHA-256 `D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8`；匿名下载后的实际大小和哈希完全一致。最终证据为 `artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-final.json`。
-- 最新自动化门禁：SETTINGS-01 软件设置保存链有效 RED 为启用/关闭自启动两例；修复后设置相关定向 18/18、受影响 109/109、C# 全量 366/366、Python 29/29，原版顺序探针通过、compileall 与隔离 Release x64 返回码 0，构建 0 警告/0 错误。注册表边界使用记录回调，没有修改真实开机启动项；本轮无 UI 文案/排列改动。详细命令与计数见文末最新记录，菜单结构缺口和读屏原版遗留风险仍单列。
+- 最新自动化门禁：MENU-01 结构定向 5/5、受影响复跑 100/100、C# 全量 369/369、Python 29/29，Python 四分支菜单顺序探针通过；compileall 和隔离 Release x64 返回码 0，构建 0 警告/0 错误。初次受影响回归因二维码测试还原剪贴板发生 ExternalException 失败 1 项，原始记录保留，单项与受影响复跑及最终全量均通过。SETTINGS-01 自启动新值传递已有双向 RED/GREEN；真实启动项未改动，后续硬件/真实生命周期风险继续保留。
 - 版本触发边界：应用 `AppVersion` 与公开清单 `latest_version` 当前同为 `4.0.46`。本次发布建立了可用更新基线，但已运行同版本客户端不会收到“有新版本”提示；后续真实升级发布必须使用更高版本号并重新生成包、清单和校验值。
 - 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、AUDIT-02、UPDATE-01 及此前已确认范围。当前模块为未完成的 AUDIT-03；其后待迁移/审计模块为 AUDIT-04 至 AUDIT-08 和 RELEASE-01。整体迁移仍未完成。
 - 真实 updater 证据：GitCode 匿名 ZIP 在隔离生产 helper 布局下以 `restart=true` 完成下载、替换和进程重启；updater PID `11448` 返回 `0`，精确隔离路径主进程 PID `5364` 被观测并清理，安装文件哈希、用户配置和 `lib 7/7` 均通过。该场景主窗口句柄为 `0`，只证明进程重启，不替代后续发布目录 UI 启动审计。
@@ -2363,3 +2363,29 @@ csharp/
 - SETTINGS-01 结论：Python on_settings_saved 先写入新 auto_run 再应用自启动；C# 普通设置入口此前先调用旧 MainForm.AutoRun。将同步移动到共享 CreateSettingsCallbacks.ApplyAutoRun，普通保存与重置共用此逻辑，删除仅重置路径的重复补丁。两个方向的有效 RED 均已 GREEN；同一生产窗体保存链同时验证调度参数、跳过运行标志、音量记忆标志、范围勾选、左右导航门禁、日志开关及配置持久化。详表与读屏原版遗留问题见 artifacts/runs/settings_effects_20261022/settings-effect-audit.md。
 
 - SETTINGS-01 本轮源码/文档差异检查返回码 0，记录为 artifacts/runs/settings_effects_20261022/diff-result.json。用户原有 GAP-09 日志空白未改动。
+
+- SETTINGS-01 独立提交 68c83a7 已推送 origin/fix/non-update-gaps-20261020（返回码 0），回退命令 git revert 68c83a7。直连网络失败后，本次使用 Windows 已配置的本机代理完成推送，未更改全局代理。开始按用户要求单独修正 MENU-01 的四处结构差异。
+
+- MENU-01 red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\ --logger trx;LogFileName=red.trx --results-directory D:\mycodex\git\artifacts\runs\menu_parity_20261022 --filter FullyQualifiedName~BuildsExactClassicMenusWithoutChangingAccessibilityOrder|FullyQualifiedName~PathMemoryMenuAndCtrlHUseClassicContextMenuRuntime`；返回码 1，通过 0、失败 5、跳过 0。日志与命令索引：`artifacts/runs/menu_parity_20261022/red.log`、`red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- MENU-01 green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\ --logger trx;LogFileName=green.trx --results-directory D:\mycodex\git\artifacts\runs\menu_parity_20261022 --filter FullyQualifiedName~BuildsExactClassicMenusWithoutChangingAccessibilityOrder|FullyQualifiedName~PathMemoryMenuAndCtrlHUseClassicContextMenuRuntime`；返回码 0，通过 5、失败 0、跳过 0。日志与命令索引：`artifacts/runs/menu_parity_20261022/green.log`、`green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- MENU-01 Python 原版菜单结构探针返回码 0；直接解析 hotkeys.py 中四个受影响分支，核对文字、顺序、分隔线。结果与完整序列见 artifacts/runs/menu_parity_20261022/python-structure.log、python-structure-result.json。
+
+- MENU-01 affected：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\ --logger trx;LogFileName=affected.trx --results-directory D:\mycodex\git\artifacts\runs\menu_parity_20261022 --filter FullyQualifiedName~MainFormApplicationContractTests|FullyQualifiedName~PathMemoryRuntimeContractTests|FullyQualifiedName~HotkeyControllerContractTests|FullyQualifiedName~SettingsDialogsCSharpContractTests|FullyQualifiedName~DonationQrRuntimeContractTests|TestCategory=Tray|TestCategory=AuditRunner`；返回码 1，通过 99、失败 1、跳过 0。日志与命令索引：`artifacts/runs/menu_parity_20261022/affected.log`、`affected-result.json`；如为 C# 测试，另有同名 TRX。
+
+- MENU-01 clipboard-recheck：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\ --logger trx;LogFileName=clipboard-recheck.trx --results-directory D:\mycodex\git\artifacts\runs\menu_parity_20261022 --filter FullyQualifiedName~DonationButtonCopiesShippedOriginalImage`；返回码 0，通过 2、失败 0、跳过 0。日志与命令索引：`artifacts/runs/menu_parity_20261022/clipboard-recheck.log`、`clipboard-recheck-result.json`；如为 C# 测试，另有同名 TRX。
+
+- MENU-01 affected-final：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\ --logger trx;LogFileName=affected-final.trx --results-directory D:\mycodex\git\artifacts\runs\menu_parity_20261022 --filter FullyQualifiedName~MainFormApplicationContractTests|FullyQualifiedName~PathMemoryRuntimeContractTests|FullyQualifiedName~HotkeyControllerContractTests|FullyQualifiedName~SettingsDialogsCSharpContractTests|FullyQualifiedName~DonationQrRuntimeContractTests|TestCategory=Tray|TestCategory=AuditRunner`；返回码 0，通过 100、失败 0、跳过 0。日志与命令索引：`artifacts/runs/menu_parity_20261022/affected-final.log`、`affected-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- MENU-01 full：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\ --logger trx;LogFileName=full.trx --results-directory D:\mycodex\git\artifacts\runs\menu_parity_20261022`；返回码 0，通过 369、失败 0、跳过 0。日志与命令索引：`artifacts/runs/menu_parity_20261022/full.log`、`full-result.json`；如为 C# 测试，另有同名 TRX。
+
+- MENU-01 python：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 0，通过 29、失败 0、跳过 0。日志与命令索引：`artifacts/runs/menu_parity_20261022/python.log`、`python-result.json`；如为 C# 测试，另有同名 TRX。
+
+- MENU-01 compile：命令 `python -m compileall -q shahe_bulk_launcher tests`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/menu_parity_20261022/compile.log`、`compile-result.json`；如为 C# 测试，另有同名 TRX。
+
+- MENU-01 release：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\menu_parity_20261022\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/menu_parity_20261022/release.log`、`release-result.json`；如为 C# 测试，另有同名 TRX。
+
+- MENU-01 结论：恢复用户管理的置顶后分隔线、校正的修复 Control 前分隔线、关于的检查更新后分隔线；设置菜单移除 Python 中没有的额外“路径记忆管理”入口。保留路径列表八项上下文动作、Ctrl+H、数量上限和对话框类既有保存测试。生产 MainMenu 四个完整子序列及 Python AST 原版序列均匹配。初次受影响失败位于旧二维码测试 finally 还原剪贴板，未修改业务实现；单项复测、受影响复跑和全量已通过。
+
+- MENU-01 本轮源码/文档差异检查返回码 0，命令和日志见 artifacts/runs/menu_parity_20261022/diff-result.json。未修改既有迁移计划与用户历史日志。

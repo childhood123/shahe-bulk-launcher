@@ -331,8 +331,9 @@ namespace ShaheLauncher.App
             AddActions(groups, "新建分组", "create_group", "启动分组", "launch_group", "删除分组", "delete_group");
             sandbox.MenuItems.Add(groups);
             var users = new MenuItem("用户管理");
+            AddActions(users, "置顶/取消置顶当前用户", "pin_current_user");
+            users.MenuItems.Add(new MenuItem("-"));
             AddActions(users,
-                "置顶/取消置顶当前用户", "pin_current_user",
                 "批量创建沙盒用户", "batch_create_sandboxes",
                 "批量重命名沙盒用户", "batch_rename_sandboxes",
                 "批量删除沙盒用户", "batch_delete_sandboxes");
@@ -343,17 +344,20 @@ namespace ShaheLauncher.App
                 "定时启动选中沙盒", "schedule_launch", "定时关闭选中沙盒", "schedule_close",
                 "取消全部定时任务", "cancel_scheduled_tasks");
             AddTopMenu(menu, "设置(&S)",
-                "热键设置", "hotkey_settings", "朗读设置", "speech_settings", "软件设置", "settings",
-                "路径记忆管理", "memory_manager_dialog");
-            AddTopMenu(menu, "校正(&J)",
+                "热键设置", "hotkey_settings", "朗读设置", "speech_settings", "软件设置", "settings");
+            var correction = new MenuItem("校正(&J)");
+            AddActions(correction,
                 "手动校正 Sandboxie 安装路径", "manual_correct_sandboxie_path",
-                "选择沙盒用户数据目录", "select_sandbox_root",
-                "修复 Sandboxie Control 用户设置", "repair_sandboxie_control_settings");
+                "选择沙盒用户数据目录", "select_sandbox_root");
+            correction.MenuItems.Add(new MenuItem("-"));
+            AddActions(correction, "修复 Sandboxie Control 用户设置", "repair_sandboxie_control_settings");
+            menu.MenuItems.Add(correction);
             AddTopMenu(menu, "工具(&T)",
                 "备份沙盒用户", "backup_sandboxes", "还原沙盒用户", "restore_sandboxes");
 
             var about = new MenuItem("关于(&A)");
             AddActions(about, "检查更新", "check_update");
+            about.MenuItems.Add(new MenuItem("-"));
             var donate = new MenuItem("请作者吃辣条");
             AddActions(donate, "微信打赏", "show_wechat_qr", "支付宝打赏", "show_alipay_qr");
             about.MenuItems.Add(donate);
