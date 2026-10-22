@@ -1,0 +1,33 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter (True) [1 s]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: CollectionAssert.AreEqual 失败。The current checkbox value must reach the auto-run writer during this same save.(索引 0 处的元素不匹配。)
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(ICollection expected, ICollection actual, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/CollectionAssert.cs:行号 1163
+   在 ShaheLauncher.Tests.SettingsRuntimeContractTests.<>c__DisplayClass0_0.<SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SettingsRuntimeContractTests.cs:行号 78
+   在 ShaheLauncher.Tests.SettingsRuntimeContractTests.<>c__DisplayClass7_0.<RunInSta>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SettingsRuntimeContractTests.cs:行号 267
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SettingsRuntimeContractTests.RunInSta(Action action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SettingsRuntimeContractTests.cs:行号 275
+
+  失败 SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter (False) [73 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: CollectionAssert.AreEqual 失败。The current checkbox value must reach the auto-run writer during this same save.(索引 0 处的元素不匹配。)
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(ICollection expected, ICollection actual, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/CollectionAssert.cs:行号 1163
+   在 ShaheLauncher.Tests.SettingsRuntimeContractTests.<>c__DisplayClass0_0.<SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SettingsRuntimeContractTests.cs:行号 78
+   在 ShaheLauncher.Tests.SettingsRuntimeContractTests.<>c__DisplayClass7_0.<RunInSta>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SettingsRuntimeContractTests.cs:行号 267
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SettingsRuntimeContractTests.RunInSta(Action action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SettingsRuntimeContractTests.cs:行号 275
+
+结果文件: D:\mycodex\git\artifacts\runs\settings_effects_20261022\red.trx
+
+失败!  - 失败:     2，通过:     0，已跳过:     0，总计:     2，持续时间: 1 s - ShaheLauncher.Tests.dll (net48)

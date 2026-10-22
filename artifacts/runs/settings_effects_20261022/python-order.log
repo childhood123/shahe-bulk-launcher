@@ -1,0 +1,12 @@
+{
+  "passed": 1,
+  "failed": 0,
+  "skipped": 0,
+  "assignment_lines": [
+    287
+  ],
+  "apply_lines": [
+    349
+  ],
+  "behavior": "new auto_run is assigned before native auto-run application"
+}

@@ -5,9 +5,10 @@
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-09 已按用户“反正能记忆到999条记录就行之前是20”的明确要求更新为 C# `0–999`；除该用户指定差异外，后续功能继续保留 Python 原文案和行为，只用 C# 实现。
 - 当前模块：AUDIT-03 Sandboxie 剩余生命周期。真实 `batch-create`、`create-group`、`launch-group`、`schedule-launch` 和精确 cleanup 已通过；`schedule-close` 被当前运行的 `SbieCtrl.exe` 安全门禁阻断，真实 `delete-group`、`cancel-schedules`、`batch-rename`、`batch-delete` 尚未取得有效执行证据。因此 AUDIT-03 尚未完成，不能进入 AUDIT-04，整体迁移仍未完成。
 - 用户追加任务 DONATE-01：已按最新明确要求，将原始支付宝/微信图片放入根目录 `打赏/`，C# 菜单优先从该目录读取，构建/发布自动带上图片；复用原有“复制二维码”按钮复制原图位图。此追加任务已实现并验证，不改变 AUDIT-03 的未完成状态或其后审计顺序。
+- 用户追加设置/菜单核对：普通软件设置已追踪到 C# 实际执行链；SETTINGS-01 已修复保存时自启动写入旧值。菜单另发现三条分隔线和一个额外入口的结构差异，将按 Python 单独修正。读屏 API 下拉框在 Python 与 C# 均只保存/回显、未决定实际 Tolk 输出，这是原版遗留行为，已单列风险，不作为功能生效证据。
 - GitCode 发布状态：公开仓库 `https://gitcode.com/childhood123/shahe-bulk-launcher-releases` 的 `main` 已指向 `18caa88287fc5714a90528e88cd732d0204ec135`。默认清单 `https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json` 匿名生产式请求为 HTTP `200`；清单内 content-addressed ZIP 匿名请求为 HTTP `200`。
 - 发布包状态：版本 `4.0.46`，ZIP 大小 `2785203` 字节，SHA-256 `D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8`；匿名下载后的实际大小和哈希完全一致。最终证据为 `artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-final.json`。
-- 最新自动化门禁：用户追加 DONATE-01 打赏资源接入定向 4/4、受影响 68/68、C# 全量 364/364、Python 29/29，compileall、Release x64 构建和 App 发布复制返回码均为 0。原图在源目录/构建/发布目录的哈希逐张一致，真实二维码窗体按钮复制完整尺寸位图并保留原文案与焦点顺序。前序 AUDIT-03 最终干净索引快照及异常路径门禁已通过，但真实生命周期仍存在已记录阻断；以文末各任务的最新有日志结果为准。
+- 最新自动化门禁：SETTINGS-01 软件设置保存链有效 RED 为启用/关闭自启动两例；修复后设置相关定向 18/18、受影响 109/109、C# 全量 366/366、Python 29/29，原版顺序探针通过、compileall 与隔离 Release x64 返回码 0，构建 0 警告/0 错误。注册表边界使用记录回调，没有修改真实开机启动项；本轮无 UI 文案/排列改动。详细命令与计数见文末最新记录，菜单结构缺口和读屏原版遗留风险仍单列。
 - 版本触发边界：应用 `AppVersion` 与公开清单 `latest_version` 当前同为 `4.0.46`。本次发布建立了可用更新基线，但已运行同版本客户端不会收到“有新版本”提示；后续真实升级发布必须使用更高版本号并重新生成包、清单和校验值。
 - 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、AUDIT-02、UPDATE-01 及此前已确认范围。当前模块为未完成的 AUDIT-03；其后待迁移/审计模块为 AUDIT-04 至 AUDIT-08 和 RELEASE-01。整体迁移仍未完成。
 - 真实 updater 证据：GitCode 匿名 ZIP 在隔离生产 helper 布局下以 `restart=true` 完成下载、替换和进程重启；updater PID `11448` 返回 `0`，精确隔离路径主进程 PID `5364` 被观测并清理，安装文件哈希、用户配置和 `lib 7/7` 均通过。该场景主窗口句柄为 `0`，只证明进程重启，不替代后续发布目录 UI 启动审计。
@@ -2342,3 +2343,23 @@ csharp/
 - DONATE-01 原图完整性：源目录、构建目录、发布目录逐张对照用户上传原图 SHA-256，检查通过 2、失败 0、跳过 0；尺寸与结果见 artifacts/runs/donation_qr_20261022/image-copy-verification.json。图片没有重绘、转码或裁剪。
 
 - DONATE-01 本轮源码与文档差异检查返回码 0，命令和日志索引见 artifacts/runs/donation_qr_20261022/diff-result.json。
+
+- SETTINGS-01 red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\ --logger trx;LogFileName=red.trx --results-directory D:\mycodex\git\artifacts\runs\settings_effects_20261022 --filter FullyQualifiedName~SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter`；返回码 1，通过 0、失败 2、跳过 0。日志与命令索引：`artifacts/runs/settings_effects_20261022/red.log`、`red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- SETTINGS-01 green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\ --logger trx;LogFileName=green.trx --results-directory D:\mycodex\git\artifacts\runs\settings_effects_20261022 --filter FullyQualifiedName~SettingsRuntimeContractTests`；返回码 0，通过 18、失败 0、跳过 0。日志与命令索引：`artifacts/runs/settings_effects_20261022/green.log`、`green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- SETTINGS-01 affected：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\ --logger trx;LogFileName=affected.trx --results-directory D:\mycodex\git\artifacts\runs\settings_effects_20261022 --filter FullyQualifiedName~LauncherSettingsServiceContractTests|FullyQualifiedName~SettingsDialogsCSharpContractTests|FullyQualifiedName~SettingsRuntimeContractTests|FullyQualifiedName~MainFormLifecycleContractTests|FullyQualifiedName~MainFormApplicationContractTests|FullyQualifiedName~LaunchSchedulerContractTests|FullyQualifiedName~UiControlsCSharpContractTests|FullyQualifiedName~SpeechServiceContractTests`；返回码 0，通过 109、失败 0、跳过 0。日志与命令索引：`artifacts/runs/settings_effects_20261022/affected.log`、`affected-result.json`；如为 C# 测试，另有同名 TRX。
+
+- SETTINGS-01 full：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\ --logger trx;LogFileName=full.trx --results-directory D:\mycodex\git\artifacts\runs\settings_effects_20261022`；返回码 0，通过 366、失败 0、跳过 0。日志与命令索引：`artifacts/runs/settings_effects_20261022/full.log`、`full-result.json`；如为 C# 测试，另有同名 TRX。
+
+- SETTINGS-01 Python 原版顺序探针：返回码 0，确认 on_settings_saved 先赋值 auto_run 再执行 _apply_auto_run；实际位置与输出见 artifacts/runs/settings_effects_20261022/python-order.log、python-order-result.json。该探针只解析源码，不修改启动项。
+
+- SETTINGS-01 python：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 0，通过 29、失败 0、跳过 0。日志与命令索引：`artifacts/runs/settings_effects_20261022/python.log`、`python-result.json`；如为 C# 测试，另有同名 TRX。
+
+- SETTINGS-01 compile：命令 `python -m compileall -q shahe_bulk_launcher tests`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/settings_effects_20261022/compile.log`、`compile-result.json`；如为 C# 测试，另有同名 TRX。
+
+- SETTINGS-01 release：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/settings_effects_20261022/release.log`、`release-result.json`；如为 C# 测试，另有同名 TRX。
+
+- SETTINGS-01 结论：Python on_settings_saved 先写入新 auto_run 再应用自启动；C# 普通设置入口此前先调用旧 MainForm.AutoRun。将同步移动到共享 CreateSettingsCallbacks.ApplyAutoRun，普通保存与重置共用此逻辑，删除仅重置路径的重复补丁。两个方向的有效 RED 均已 GREEN；同一生产窗体保存链同时验证调度参数、跳过运行标志、音量记忆标志、范围勾选、左右导航门禁、日志开关及配置持久化。详表与读屏原版遗留问题见 artifacts/runs/settings_effects_20261022/settings-effect-audit.md。
+
+- SETTINGS-01 本轮源码/文档差异检查返回码 0，记录为 artifacts/runs/settings_effects_20261022/diff-result.json。用户原有 GAP-09 日志空白未改动。

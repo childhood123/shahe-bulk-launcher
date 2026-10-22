@@ -1,0 +1,5 @@
+{
+  "command": "python artifacts/runs/settings_effects_20261022/python-settings-order-probe.py",
+  "returnCode": 0,
+  "log": "artifacts/runs/settings_effects_20261022/python-order.log"
+}

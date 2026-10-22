@@ -1,0 +1,182 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="4e89e797-3e6a-4409-9a7d-9fd041232150" name="Administrator@CHILDHOOD 2026-10-22 15:38:11" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T15:38:11.2978895+08:00" queuing="2026-10-22T15:38:11.2978938+08:00" start="2026-10-22T15:38:05.4685301+08:00" finish="2026-10-22T15:38:12.9351494+08:00" />
+  <TestSettings name="default" id="521b2c4d-bdf8-40c7-90fa-626573ca0631">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_15_38_11" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="5cd0c020-95ad-45cd-9893-d2ca9864d377" testId="2c2fde88-f72d-55a6-cc04-dffe40f146ab" testName="SavingTypedHistoryKeepsPythonKeysAndSurvivesNextLoad" computerName="CHILDHOOD" duration="00:00:00.0647879" startTime="2026-10-22T15:38:11.3290496+08:00" endTime="2026-10-22T15:38:11.3998353+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5cd0c020-95ad-45cd-9893-d2ca9864d377" />
+    <UnitTestResult executionId="e1de46d3-427c-4d62-ad08-1c051deb5550" testId="9234197d-7632-2b33-2802-ea0512c47840" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;hotkeys&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.0157266" startTime="2026-10-22T15:38:11.1205832+08:00" endTime="2026-10-22T15:38:11.1365400+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e1de46d3-427c-4d62-ad08-1c051deb5550" />
+    <UnitTestResult executionId="85e968a1-fb87-4efb-bd71-f374408092a0" testId="7bfacf11-5773-4b7a-ac00-71673f7fa8b2" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;hotkeys&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0189415" startTime="2026-10-22T15:38:11.2711792+08:00" endTime="2026-10-22T15:38:11.2911268+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="85e968a1-fb87-4efb-bd71-f374408092a0" />
+    <UnitTestResult executionId="4bbd0d23-1b07-44fd-85ec-6a13b2e426be" testId="1cb91b49-7df0-e1d7-08ea-3b054f8784e8" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;volume&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.0115006" startTime="2026-10-22T15:38:11.1086147+08:00" endTime="2026-10-22T15:38:11.1205832+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4bbd0d23-1b07-44fd-85ec-6a13b2e426be" />
+    <UnitTestResult executionId="cc094cdf-9b7c-4f53-b530-7c5b407c5dda" testId="b46f1114-9d43-ed6e-9acb-7df28128a402" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;pinned&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0192595" startTime="2026-10-22T15:38:11.2911268+08:00" endTime="2026-10-22T15:38:11.3100764+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cc094cdf-9b7c-4f53-b530-7c5b407c5dda" />
+    <UnitTestResult executionId="3f78e5ba-6cc6-40b1-8538-9648a5bc4e49" testId="8ce1f4db-1c10-02f4-d58b-b7bf229430f9" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;speech&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0181486" startTime="2026-10-22T15:38:11.3100764+08:00" endTime="2026-10-22T15:38:11.3290496+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3f78e5ba-6cc6-40b1-8538-9648a5bc4e49" />
+    <UnitTestResult executionId="8875417b-b20d-4909-8a4c-403a0537dcc6" testId="3f738417-32ea-ef95-7e42-880741c226a4" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;history&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.5256452" startTime="2026-10-22T15:38:10.0831122+08:00" endTime="2026-10-22T15:38:11.0448172+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="8875417b-b20d-4909-8a4c-403a0537dcc6" />
+    <UnitTestResult executionId="52613cc3-2297-4432-b29c-2f874da783a4" testId="048275ef-060d-4793-b22c-7f03f9cfbf8e" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;speech&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.0110331" startTime="2026-10-22T15:38:11.1475470+08:00" endTime="2026-10-22T15:38:11.1594794+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="52613cc3-2297-4432-b29c-2f874da783a4" />
+    <UnitTestResult executionId="60a50ddb-f660-44f1-a410-e83bb7c5ebd7" testId="f8e7fde3-93ea-43b0-7988-0e7b724d95e9" testName="ResetSettingsSynchronizesGroupsBeforeRefreshingSandboxList" computerName="CHILDHOOD" duration="00:00:00.0281591" startTime="2026-10-22T15:38:12.7171493+08:00" endTime="2026-10-22T15:38:12.7480681+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="60a50ddb-f660-44f1-a410-e83bb7c5ebd7" />
+    <UnitTestResult executionId="51673e23-598e-4b76-9ebd-8fd187af9d16" testId="b3359c62-e1c9-80c1-0e6a-8853a17a4b52" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;groups&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.0469506" startTime="2026-10-22T15:38:11.0607837+08:00" endTime="2026-10-22T15:38:11.1076205+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="51673e23-598e-4b76-9ebd-8fd187af9d16" />
+    <UnitTestResult executionId="77f3e300-6bae-473a-bef3-040003c7192f" testId="1681be3a-cdea-c79e-3a57-2750fd7b9875" testName="SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter (False)" computerName="CHILDHOOD" duration="00:00:00.0718533" startTime="2026-10-22T15:38:12.0680522+08:00" endTime="2026-10-22T15:38:12.1403107+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="77f3e300-6bae-473a-bef3-040003c7192f" />
+    <UnitTestResult executionId="a07ef919-68f8-496a-b9d1-e9e1ec8dfbd2" testId="c5052007-6a11-17d4-6792-553e3b8602ed" testName="ResetSettingsRestoresSwitchesWithoutSynchronousProcessScan" computerName="CHILDHOOD" duration="00:00:00.5761580" startTime="2026-10-22T15:38:12.1403107+08:00" endTime="2026-10-22T15:38:12.7171493+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a07ef919-68f8-496a-b9d1-e9e1ec8dfbd2" />
+    <UnitTestResult executionId="3da28bcd-9340-45c4-9be0-390824031247" testId="fcdba323-df71-5819-fede-0aaf6c171293" testName="SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter (True)" computerName="CHILDHOOD" duration="00:00:00.6363712" startTime="2026-10-22T15:38:11.4317504+08:00" endTime="2026-10-22T15:38:12.0680522+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3da28bcd-9340-45c4-9be0-390824031247" />
+    <UnitTestResult executionId="940b8ff0-bf74-4139-a002-4a9dc678d8d2" testId="6581bfd1-c9b2-3a99-15ea-b7afb279074a" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;volume&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0169635" startTime="2026-10-22T15:38:11.2412600+08:00" endTime="2026-10-22T15:38:11.2582148+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="940b8ff0-bf74-4139-a002-4a9dc678d8d2" />
+    <UnitTestResult executionId="a12f3b19-5513-4654-8105-16aba86a78ac" testId="8bd9c144-70a5-9c1b-c3da-e637fc5614b8" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;history&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0636914" startTime="2026-10-22T15:38:11.1594794+08:00" endTime="2026-10-22T15:38:11.2233073+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a12f3b19-5513-4654-8105-16aba86a78ac" />
+    <UnitTestResult executionId="55186257-ae05-4a80-93dc-33158f7e5cd0" testId="495d8325-dbf2-caaa-f063-842fcbea65bd" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;pinned&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.0112159" startTime="2026-10-22T15:38:11.1365400+08:00" endTime="2026-10-22T15:38:11.1475470+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="55186257-ae05-4a80-93dc-33158f7e5cd0" />
+    <UnitTestResult executionId="ed5fd2ce-fd4f-4c14-a73c-143f78937dfd" testId="b132a21e-eac1-13dd-8894-84726424c59e" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;groups&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0172809" startTime="2026-10-22T15:38:11.2233073+08:00" endTime="2026-10-22T15:38:11.2412600+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ed5fd2ce-fd4f-4c14-a73c-143f78937dfd" />
+    <UnitTestResult executionId="0f44ccb8-1241-4be5-8610-ccce7f63c54c" testId="ff1e312b-84ca-bd99-596a-16a89a80e01b" testName="LoadingAndSavingAgainPreservesNestedSettingsAcrossInstances" computerName="CHILDHOOD" duration="00:00:00.0291651" startTime="2026-10-22T15:38:11.3998353+08:00" endTime="2026-10-22T15:38:11.4307526+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0f44ccb8-1241-4be5-8610-ccce7f63c54c" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter (True)" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="fcdba323-df71-5819-fede-0aaf6c171293">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="3da28bcd-9340-45c4-9be0-390824031247" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsRuntimeContractTests" name="SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter" />
+    </UnitTest>
+    <UnitTest name="SavingTypedHistoryKeepsPythonKeysAndSurvivesNextLoad" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="2c2fde88-f72d-55a6-cc04-dffe40f146ab">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="5cd0c020-95ad-45cd-9893-d2ca9864d377" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="SavingTypedHistoryKeepsPythonKeysAndSurvivesNextLoad" />
+    </UnitTest>
+    <UnitTest name="SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter (False)" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="1681be3a-cdea-c79e-3a57-2750fd7b9875">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="77f3e300-6bae-473a-bef3-040003c7192f" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsRuntimeContractTests" name="SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;history&quot;,True)" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="8bd9c144-70a5-9c1b-c3da-e637fc5614b8">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="a12f3b19-5513-4654-8105-16aba86a78ac" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ResetSettingsSynchronizesGroupsBeforeRefreshingSandboxList" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="f8e7fde3-93ea-43b0-7988-0e7b724d95e9">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="60a50ddb-f660-44f1-a410-e83bb7c5ebd7" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsRuntimeContractTests" name="ResetSettingsSynchronizesGroupsBeforeRefreshingSandboxList" />
+    </UnitTest>
+    <UnitTest name="LoadingAndSavingAgainPreservesNestedSettingsAcrossInstances" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="ff1e312b-84ca-bd99-596a-16a89a80e01b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="0f44ccb8-1241-4be5-8610-ccce7f63c54c" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="LoadingAndSavingAgainPreservesNestedSettingsAcrossInstances" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;hotkeys&quot;,False)" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="9234197d-7632-2b33-2802-ea0512c47840">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="e1de46d3-427c-4d62-ad08-1c051deb5550" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;volume&quot;,False)" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="1cb91b49-7df0-e1d7-08ea-3b054f8784e8">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="4bbd0d23-1b07-44fd-85ec-6a13b2e426be" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;pinned&quot;,True)" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="b46f1114-9d43-ed6e-9acb-7df28128a402">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="cc094cdf-9b7c-4f53-b530-7c5b407c5dda" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ResetSettingsRestoresSwitchesWithoutSynchronousProcessScan" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="c5052007-6a11-17d4-6792-553e3b8602ed">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="a07ef919-68f8-496a-b9d1-e9e1ec8dfbd2" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsRuntimeContractTests" name="ResetSettingsRestoresSwitchesWithoutSynchronousProcessScan" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;hotkeys&quot;,True)" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="7bfacf11-5773-4b7a-ac00-71673f7fa8b2">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="85e968a1-fb87-4efb-bd71-f374408092a0" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;pinned&quot;,False)" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="495d8325-dbf2-caaa-f063-842fcbea65bd">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="55186257-ae05-4a80-93dc-33158f7e5cd0" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;speech&quot;,False)" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="048275ef-060d-4793-b22c-7f03f9cfbf8e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="52613cc3-2297-4432-b29c-2f874da783a4" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;history&quot;,False)" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="3f738417-32ea-ef95-7e42-880741c226a4">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="8875417b-b20d-4909-8a4c-403a0537dcc6" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;groups&quot;,False)" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="b3359c62-e1c9-80c1-0e6a-8853a17a4b52">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="51673e23-598e-4b76-9ebd-8fd187af9d16" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;speech&quot;,True)" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="8ce1f4db-1c10-02f4-d58b-b7bf229430f9">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="3f78e5ba-6cc6-40b1-8538-9648a5bc4e49" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;volume&quot;,True)" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="6581bfd1-c9b2-3a99-15ea-b7afb279074a">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="940b8ff0-bf74-4139-a002-4a9dc678d8d2" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;groups&quot;,True)" storage="d:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="b132a21e-eac1-13dd-8894-84726424c59e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="ed5fd2ce-fd4f-4c14-a73c-143f78937dfd" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\settings_effects_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="2c2fde88-f72d-55a6-cc04-dffe40f146ab" executionId="5cd0c020-95ad-45cd-9893-d2ca9864d377" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9234197d-7632-2b33-2802-ea0512c47840" executionId="e1de46d3-427c-4d62-ad08-1c051deb5550" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7bfacf11-5773-4b7a-ac00-71673f7fa8b2" executionId="85e968a1-fb87-4efb-bd71-f374408092a0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1cb91b49-7df0-e1d7-08ea-3b054f8784e8" executionId="4bbd0d23-1b07-44fd-85ec-6a13b2e426be" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b46f1114-9d43-ed6e-9acb-7df28128a402" executionId="cc094cdf-9b7c-4f53-b530-7c5b407c5dda" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8ce1f4db-1c10-02f4-d58b-b7bf229430f9" executionId="3f78e5ba-6cc6-40b1-8538-9648a5bc4e49" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3f738417-32ea-ef95-7e42-880741c226a4" executionId="8875417b-b20d-4909-8a4c-403a0537dcc6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="048275ef-060d-4793-b22c-7f03f9cfbf8e" executionId="52613cc3-2297-4432-b29c-2f874da783a4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f8e7fde3-93ea-43b0-7988-0e7b724d95e9" executionId="60a50ddb-f660-44f1-a410-e83bb7c5ebd7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b3359c62-e1c9-80c1-0e6a-8853a17a4b52" executionId="51673e23-598e-4b76-9ebd-8fd187af9d16" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1681be3a-cdea-c79e-3a57-2750fd7b9875" executionId="77f3e300-6bae-473a-bef3-040003c7192f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c5052007-6a11-17d4-6792-553e3b8602ed" executionId="a07ef919-68f8-496a-b9d1-e9e1ec8dfbd2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fcdba323-df71-5819-fede-0aaf6c171293" executionId="3da28bcd-9340-45c4-9be0-390824031247" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6581bfd1-c9b2-3a99-15ea-b7afb279074a" executionId="940b8ff0-bf74-4139-a002-4a9dc678d8d2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8bd9c144-70a5-9c1b-c3da-e637fc5614b8" executionId="a12f3b19-5513-4654-8105-16aba86a78ac" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="495d8325-dbf2-caaa-f063-842fcbea65bd" executionId="55186257-ae05-4a80-93dc-33158f7e5cd0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b132a21e-eac1-13dd-8894-84726424c59e" executionId="ed5fd2ce-fd4f-4c14-a73c-143f78937dfd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ff1e312b-84ca-bd99-596a-16a89a80e01b" executionId="0f44ccb8-1241-4be5-8610-ccce7f63c54c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="18" executed="18" passed="18" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

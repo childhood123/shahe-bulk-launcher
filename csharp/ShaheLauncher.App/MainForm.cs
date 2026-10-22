@@ -1745,11 +1745,6 @@ namespace ShaheLauncher.App
                 _hotkeysEnabled = _settingsState.HotkeysEnabled;
                 ApplyHotkeys();
             };
-            callbacks.ApplyAutoRun = () =>
-            {
-                AutoRun = _settingsState.AutoRun;
-                ApplyAutoRun();
-            };
             SettingsService.ResetSettings(_settingsState, callbacks);
         }
 
@@ -3646,7 +3641,11 @@ namespace ShaheLauncher.App
                 UpdateAppPathList = UpdateAppPathList,
                 ApplyHotkeys = ApplyHotkeys,
                 CreateMenuBar = CreateMenuBar,
-                ApplyAutoRun = ApplyAutoRun,
+                ApplyAutoRun = () =>
+                {
+                    AutoRun = _settingsState.AutoRun;
+                    ApplyAutoRun();
+                },
                 ScheduleProcessMenuRefresh = delay => ScheduleProcessMenuLiveStateRefreshCallback?.Invoke(delay),
                 SetStatus = text => SafeSetStatusLabel(text)
             };
