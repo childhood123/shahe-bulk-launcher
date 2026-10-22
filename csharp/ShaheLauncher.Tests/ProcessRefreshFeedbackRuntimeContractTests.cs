@@ -41,5 +41,27 @@ namespace ShaheLauncher.Tests
                 Assert.AreEqual("没有可刷新的进程状态", form.StatusLabel.Text);
             });
         }
+
+        [TestMethod]
+        public void ManualRefreshCompletionDoesNotReplaceNewerStatus()
+        {
+            MigrationRuntimeTestHelpers.WithForm((root, form) =>
+            {
+                form.InitializeUi();
+                form.ProcessCallbacks.RefreshVisibleStates = () => true;
+
+                MigrationRuntimeTestHelpers.Invoke(form, "ExecuteApplicationAction", "refresh_process_state");
+                Assert.AreEqual("正在刷新进程状态", form.StatusLabel.Text);
+                form.StatusLabel.Text = "正在关闭进程...";
+
+                PropertyInfo completed = form.SandboxList.GetType().GetProperty(
+                    "RunningStatesRefreshCompletedCallback",
+                    BindingFlags.Instance | BindingFlags.Public);
+                ((System.Action)completed.GetValue(form.SandboxList))();
+                Assert.AreEqual("正在关闭进程...", form.StatusLabel.Text);
+                ((System.Action)completed.GetValue(form.SandboxList))();
+                Assert.AreEqual("正在关闭进程...", form.StatusLabel.Text);
+            });
+        }
     }
 }

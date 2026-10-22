@@ -1,0 +1,62 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="0d7da2c9-3b9d-4442-99e6-a33def360482" name="Administrator@CHILDHOOD 2026-10-22 08:28:49" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T08:28:49.8139942+08:00" queuing="2026-10-22T08:28:49.8139945+08:00" start="2026-10-22T08:28:45.3033123+08:00" finish="2026-10-22T08:28:49.8208900+08:00" />
+  <TestSettings name="default" id="df5e6dec-6d73-4fd3-97d4-c118ad1c602d">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_08_28_49" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="f4c2ea83-9478-4bc3-8498-4b663eef429e" testId="2a18b652-01bd-d129-8075-544e1c89e8d3" testName="ManualRefreshCompletionDoesNotReplaceNewerStatus" computerName="CHILDHOOD" duration="00:00:00.1332068" startTime="2026-10-22T08:28:49.4705153+08:00" endTime="2026-10-22T08:28:49.6081480+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f4c2ea83-9478-4bc3-8498-4b663eef429e">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: &lt;正在关闭进程...&gt;，实际为: &lt;已刷新进程状态&gt;。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201&#xD;
+   在 ShaheLauncher.Tests.ProcessRefreshFeedbackRuntimeContractTests.&lt;&gt;c.&lt;ManualRefreshCompletionDoesNotReplaceNewerStatus&gt;b__2_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ProcessRefreshFeedbackRuntimeContractTests.cs:行号 62&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="5fea0f08-b6d6-4ff5-ae90-843009adec3a" testId="57b5f30d-19c4-da9a-dc98-d8eb22577dae" testName="ManualRefreshReportsWhenNoVisibleStateCanBeRefreshed" computerName="CHILDHOOD" duration="00:00:00.0139928" startTime="2026-10-22T08:28:49.4555560+08:00" endTime="2026-10-22T08:28:49.4705153+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5fea0f08-b6d6-4ff5-ae90-843009adec3a" />
+    <UnitTestResult executionId="a0f5e208-c003-4581-ae3c-07c9eaf0c2a9" testId="cbad962c-ad83-558e-1750-52f1f8a9a4ee" testName="ManualRefreshUsesRunningStateFeedbackAndCompletionCallback" computerName="CHILDHOOD" duration="00:00:00.5886709" startTime="2026-10-22T08:28:48.5552922+08:00" endTime="2026-10-22T08:28:49.4446163+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a0f5e208-c003-4581-ae3c-07c9eaf0c2a9" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="ManualRefreshReportsWhenNoVisibleStateCanBeRefreshed" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review03-status\bin\x64\release\net48\shahelauncher.tests.dll" id="57b5f30d-19c4-da9a-dc98-d8eb22577dae">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="Processes" />
+      </TestCategory>
+      <Execution id="5fea0f08-b6d6-4ff5-ae90-843009adec3a" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review03-status\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessRefreshFeedbackRuntimeContractTests" name="ManualRefreshReportsWhenNoVisibleStateCanBeRefreshed" />
+    </UnitTest>
+    <UnitTest name="ManualRefreshUsesRunningStateFeedbackAndCompletionCallback" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review03-status\bin\x64\release\net48\shahelauncher.tests.dll" id="cbad962c-ad83-558e-1750-52f1f8a9a4ee">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="Processes" />
+      </TestCategory>
+      <Execution id="a0f5e208-c003-4581-ae3c-07c9eaf0c2a9" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review03-status\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessRefreshFeedbackRuntimeContractTests" name="ManualRefreshUsesRunningStateFeedbackAndCompletionCallback" />
+    </UnitTest>
+    <UnitTest name="ManualRefreshCompletionDoesNotReplaceNewerStatus" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review03-status\bin\x64\release\net48\shahelauncher.tests.dll" id="2a18b652-01bd-d129-8075-544e1c89e8d3">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="Processes" />
+      </TestCategory>
+      <Execution id="f4c2ea83-9478-4bc3-8498-4b663eef429e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review03-status\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ProcessRefreshFeedbackRuntimeContractTests" name="ManualRefreshCompletionDoesNotReplaceNewerStatus" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="2a18b652-01bd-d129-8075-544e1c89e8d3" executionId="f4c2ea83-9478-4bc3-8498-4b663eef429e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="57b5f30d-19c4-da9a-dc98-d8eb22577dae" executionId="5fea0f08-b6d6-4ff5-ae90-843009adec3a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cbad962c-ad83-558e-1750-52f1f8a9a4ee" executionId="a0f5e208-c003-4581-ae3c-07c9eaf0c2a9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="3" executed="3" passed="2" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

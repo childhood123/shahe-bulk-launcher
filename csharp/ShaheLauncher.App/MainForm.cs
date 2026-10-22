@@ -857,7 +857,10 @@ namespace ShaheLauncher.App
             }
 
             _manualProcessRefreshStatusPending = false;
-            SafeSetStatusLabel("已刷新进程状态");
+            if (string.Equals((StatusLabel?.Text ?? string.Empty).Trim(), "正在刷新进程状态", StringComparison.Ordinal))
+            {
+                SafeSetStatusLabel("已刷新进程状态");
+            }
         }
 
         private void ScheduleProcessMenuLiveStateRefresh(int delayMilliseconds)
