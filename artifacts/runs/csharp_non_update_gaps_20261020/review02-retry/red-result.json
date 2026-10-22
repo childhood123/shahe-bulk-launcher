@@ -1,0 +1,23 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\review02-retry\\bin\\",
+    "--logger",
+    "trx;LogFileName=red.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\review02-retry",
+    "--filter",
+    "FullyQualifiedName~SandboxieLaunchCallbackRuntimeContractTests|FullyQualifiedName~InvalidNameRetryContinuesWhenReloadThrows"
+  ],
+  "returnCode": 1,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\review02-retry\\red.log",
+  "passed": null,
+  "failed": null,
+  "skipped": null
+}

@@ -3389,7 +3389,14 @@ namespace ShaheLauncher.App
             }
             if (executable.Length != 0)
             {
-                RunProcessCommand(new List<string> { executable, "/reload" });
+                if (string.Equals(Path.GetFileName(executable), "Start.exe", StringComparison.OrdinalIgnoreCase))
+                {
+                    SandboxieClient.RunSandboxieStart(new[] { "/reload" }, 6, null, true, false);
+                }
+                else
+                {
+                    RunProcessCommand(new List<string> { executable, "/reload" });
+                }
             }
         }
 
@@ -4132,7 +4139,11 @@ namespace ShaheLauncher.App
         {
             return new SandboxieCallbacks
             {
-                ListOfficialSandboxNames = () => GetOfficialSandboxNames().ToList(),
+                ListOfficialSandboxNames = () =>
+                {
+                    RefreshSandboxDisplayMaps();
+                    return _officialSandboxNames.ToList();
+                },
                 ReloadConfiguration = () =>
                 {
                     if (ReloadSandboxieConfigCallback != null)
@@ -4152,13 +4163,17 @@ namespace ShaheLauncher.App
 
         private bool StartAppInSandbox(string sandboxName, string appPath, string appDirectory)
         {
+            SandboxieCallbacks callbacks = CreateSandboxieLaunchCallbacks();
+            IList<string> officialNames = callbacks.ListOfficialSandboxNames == null
+                ? GetOfficialSandboxNames().ToList()
+                : callbacks.ListOfficialSandboxNames();
             SandboxieLaunchResult result = SandboxieClient.StartAppInSandbox(
                 sandboxName,
                 appPath,
                 appDirectory,
                 GetSandboxDisplayMaps(),
-                GetOfficialSandboxNames(),
-                CreateSandboxieLaunchCallbacks());
+                officialNames,
+                callbacks);
             return result.Success;
         }
 

@@ -1,0 +1,49 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="076ae888-f355-45ff-85e7-f016e906caf0" name="Administrator@CHILDHOOD 2026-10-22 08:22:13" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T08:22:13.7470626+08:00" queuing="2026-10-22T08:22:13.7470629+08:00" start="2026-10-22T08:22:09.4168390+08:00" finish="2026-10-22T08:22:13.7528592+08:00" />
+  <TestSettings name="default" id="9be38b71-232f-4597-9fc5-7cc2e72b30c7">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_08_22_13" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="77268f4f-23cf-47f8-bc8a-92f5742bf8e6" testId="993a8807-4bb4-6db1-faf9-b087ccc02037" testName="MainFormLaunchCallbacksExposeReloadAndOfficialNameRefresh" computerName="CHILDHOOD" duration="00:00:00.4948349" startTime="2026-10-22T08:22:12.9957065+08:00" endTime="2026-10-22T08:22:13.4904316+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="77268f4f-23cf-47f8-bc8a-92f5742bf8e6" />
+    <UnitTestResult executionId="2ad183b4-0a82-4efc-b112-9aadf9a4d07f" testId="0e43b477-1adf-fd26-5453-4ad8c9437e3f" testName="OfficialNameRetryCallbackDiscardsInitializedCache" computerName="CHILDHOOD" duration="00:00:00.0524644" startTime="2026-10-22T08:22:13.4914282+08:00" endTime="2026-10-22T08:22:13.5458628+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2ad183b4-0a82-4efc-b112-9aadf9a4d07f" />
+    <UnitTestResult executionId="d9a0fd45-f26c-49c4-af24-c19a37088745" testId="d8c52811-d1c3-91c0-b6a8-8ef6bc364a5f" testName="InvalidNameRetryContinuesWhenReloadThrows" computerName="CHILDHOOD" duration="00:00:00.1364863" startTime="2026-10-22T08:22:12.5549237+08:00" endTime="2026-10-22T08:22:12.9837384+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d9a0fd45-f26c-49c4-af24-c19a37088745" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="OfficialNameRetryCallbackDiscardsInitializedCache" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review02-retry\bin\x64\release\net48\shahelauncher.tests.dll" id="0e43b477-1adf-fd26-5453-4ad8c9437e3f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="Sandboxie" />
+      </TestCategory>
+      <Execution id="2ad183b4-0a82-4efc-b112-9aadf9a4d07f" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review02-retry\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLaunchCallbackRuntimeContractTests" name="OfficialNameRetryCallbackDiscardsInitializedCache" />
+    </UnitTest>
+    <UnitTest name="MainFormLaunchCallbacksExposeReloadAndOfficialNameRefresh" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review02-retry\bin\x64\release\net48\shahelauncher.tests.dll" id="993a8807-4bb4-6db1-faf9-b087ccc02037">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="Sandboxie" />
+      </TestCategory>
+      <Execution id="77268f4f-23cf-47f8-bc8a-92f5742bf8e6" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review02-retry\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLaunchCallbackRuntimeContractTests" name="MainFormLaunchCallbacksExposeReloadAndOfficialNameRefresh" />
+    </UnitTest>
+    <UnitTest name="InvalidNameRetryContinuesWhenReloadThrows" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review02-retry\bin\x64\release\net48\shahelauncher.tests.dll" id="d8c52811-d1c3-91c0-b6a8-8ef6bc364a5f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Sandboxie" />
+      </TestCategory>
+      <Execution id="d9a0fd45-f26c-49c4-af24-c19a37088745" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review02-retry\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieClientContractTests" name="InvalidNameRetryContinuesWhenReloadThrows" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="993a8807-4bb4-6db1-faf9-b087ccc02037" executionId="77268f4f-23cf-47f8-bc8a-92f5742bf8e6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0e43b477-1adf-fd26-5453-4ad8c9437e3f" executionId="2ad183b4-0a82-4efc-b112-9aadf9a4d07f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d8c52811-d1c3-91c0-b6a8-8ef6bc364a5f" executionId="d9a0fd45-f26c-49c4-af24-c19a37088745" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="3" executed="3" passed="3" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

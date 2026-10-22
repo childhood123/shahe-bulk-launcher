@@ -403,6 +403,55 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
+        public void InvalidNameRetryContinuesWhenReloadThrows()
+        {
+            string root = CreateTemporaryDirectory();
+            try
+            {
+                string startExe = Path.Combine(root, "Start.exe");
+                string appDir = Path.Combine(root, "app");
+                string appExe = Path.Combine(appDir, "target.exe");
+                File.WriteAllText(startExe, string.Empty);
+                Directory.CreateDirectory(appDir);
+                File.WriteAllText(appExe, string.Empty);
+                Type clientType = RequireType(ClientTypeName);
+                Type callbacksType = RequireType(CallbacksTypeName);
+                object client = Activator.CreateInstance(clientType);
+                SetProperty(clientType, client, "SandboxiePath", root);
+                object maps = ReflectionTestHelpers.InvokeInstance(client, "BuildDisplayMaps", new[] { "BoxA" }, new Dictionary<string, string>());
+                object callbacks = Activator.CreateInstance(callbacksType);
+                int dispatchCount = 0;
+                SetProperty(callbacksType, callbacks, "DispatchStart", new Func<IList<string>, string, Tuple<bool, string>>((args, cwd) =>
+                {
+                    dispatchCount++;
+                    return dispatchCount == 1
+                        ? Tuple.Create(false, "无效的沙盒名参数: BoxA")
+                        : Tuple.Create(true, string.Empty);
+                }));
+                SetProperty(callbacksType, callbacks, "ReloadConfiguration", new Action(() =>
+                {
+                    throw new InvalidOperationException("reload failed");
+                }));
+
+                object launched = ReflectionTestHelpers.InvokeInstance(
+                    client,
+                    "StartAppInSandbox",
+                    "BoxA",
+                    appExe,
+                    appDir,
+                    maps,
+                    new[] { "boxa" },
+                    callbacks);
+                Assert.IsTrue(GetProperty<bool>(launched.GetType(), launched, "Success"));
+                Assert.AreEqual(2, dispatchCount);
+            }
+            finally
+            {
+                Directory.Delete(root, true);
+            }
+        }
+
+        [TestMethod]
         public void FindsInstallPathInRegistryStandardThenWildcardPriority()
         {
             string root = CreateTemporaryDirectory();

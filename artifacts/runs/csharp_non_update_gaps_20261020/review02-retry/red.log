@@ -1,0 +1,6 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review02-retry\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review02-retry\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review02-retry\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review02-retry\bin\x64\Release\net48\沙河批量打开器.exe
+D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLaunchCallbackRuntimeContractTests.cs(62,54): error CS0103: 当前上下文中不存在名称“Path” [D:\mycodex\git\csharp\ShaheLauncher.Tests\ShaheLauncher.Tests.csproj]
+D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLaunchCallbackRuntimeContractTests.cs(63,52): error CS0103: 当前上下文中不存在名称“Path” [D:\mycodex\git\csharp\ShaheLauncher.Tests\ShaheLauncher.Tests.csproj]

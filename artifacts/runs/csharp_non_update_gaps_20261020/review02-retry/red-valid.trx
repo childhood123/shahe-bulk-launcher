@@ -1,0 +1,77 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="267d7cdd-32a5-4ba3-9715-60d0d8befc9b" name="Administrator@CHILDHOOD 2026-10-22 08:18:49" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T08:18:49.9277973+08:00" queuing="2026-10-22T08:18:49.9277976+08:00" start="2026-10-22T08:18:45.2887499+08:00" finish="2026-10-22T08:18:49.9352004+08:00" />
+  <TestSettings name="default" id="f47966af-93e9-4af5-a602-218b6d201f14">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_08_18_49" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="018b786a-c144-4203-bdc1-850dbee2c194" testId="0e43b477-1adf-fd26-5453-4ad8c9437e3f" testName="OfficialNameRetryCallbackDiscardsInitializedCache" computerName="CHILDHOOD" duration="00:00:00.0411158" startTime="2026-10-22T08:18:49.6797752+08:00" endTime="2026-10-22T08:18:49.7232130+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="018b786a-c144-4203-bdc1-850dbee2c194">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: CollectionAssert.AreEqual 失败。(不同数量的元素。)&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.CollectionAssert.AreEqual(ICollection expected, ICollection actual, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/CollectionAssert.cs:行号 1163&#xD;
+   在 ShaheLauncher.Tests.SandboxieLaunchCallbackRuntimeContractTests.&lt;&gt;c.&lt;OfficialNameRetryCallbackDiscardsInitializedCache&gt;b__1_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLaunchCallbackRuntimeContractTests.cs:行号 75&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="11f790d2-f7a2-4f4f-a168-ec21dbf25398" testId="993a8807-4bb4-6db1-faf9-b087ccc02037" testName="MainFormLaunchCallbacksExposeReloadAndOfficialNameRefresh" computerName="CHILDHOOD" duration="00:00:00.4987583" startTime="2026-10-22T08:18:49.1805865+08:00" endTime="2026-10-22T08:18:49.6797752+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="11f790d2-f7a2-4f4f-a168-ec21dbf25398" />
+    <UnitTestResult executionId="3c6efa8c-f785-42a6-b563-4448df8a318a" testId="d8c52811-d1c3-91c0-b6a8-8ef6bc364a5f" testName="InvalidNameRetryContinuesWhenReloadThrows" computerName="CHILDHOOD" duration="00:00:00.2364232" startTime="2026-10-22T08:18:48.6168984+08:00" endTime="2026-10-22T08:18:49.1699556+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3c6efa8c-f785-42a6-b563-4448df8a318a">
+      <Output>
+        <ErrorInfo>
+          <Message>测试方法 ShaheLauncher.Tests.SandboxieClientContractTests.InvalidNameRetryContinuesWhenReloadThrows 引发了异常:&#xD;
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---&gt; System.InvalidOperationException: reload failed</Message>
+          <StackTrace>    在 ShaheLauncher.Tests.SandboxieClientContractTests.&lt;&gt;c.&lt;InvalidNameRetryContinuesWhenReloadThrows&gt;b__11_1() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieClientContractTests.cs:行号 433&#xD;
+   在 ShaheLauncher.Core.Sandboxie.SandboxieClient.StartAppInSandbox(String sandboxName, String appExecutable, String appDirectory, SandboxieDisplayMaps maps, IEnumerable`1 officialNames, SandboxieCallbacks callbacks) 位置 D:\mycodex\git\csharp\ShaheLauncher.Core\Sandboxie\SandboxieClient.cs:行号 1090&#xD;
+---内部异常堆栈跟踪结束---&#xD;
+    在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)&#xD;
+   在 System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)&#xD;
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+   在 ShaheLauncher.Tests.ReflectionTestHelpers.InvokeInstance(Object target, String methodName, Object[] args) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ReflectionTestHelpers.cs:行号 30&#xD;
+   在 ShaheLauncher.Tests.SandboxieClientContractTests.InvalidNameRetryContinuesWhenReloadThrows() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieClientContractTests.cs:行号 436&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="OfficialNameRetryCallbackDiscardsInitializedCache" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review02-retry\bin\x64\release\net48\shahelauncher.tests.dll" id="0e43b477-1adf-fd26-5453-4ad8c9437e3f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="Sandboxie" />
+      </TestCategory>
+      <Execution id="018b786a-c144-4203-bdc1-850dbee2c194" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review02-retry\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLaunchCallbackRuntimeContractTests" name="OfficialNameRetryCallbackDiscardsInitializedCache" />
+    </UnitTest>
+    <UnitTest name="MainFormLaunchCallbacksExposeReloadAndOfficialNameRefresh" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review02-retry\bin\x64\release\net48\shahelauncher.tests.dll" id="993a8807-4bb4-6db1-faf9-b087ccc02037">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="Sandboxie" />
+      </TestCategory>
+      <Execution id="11f790d2-f7a2-4f4f-a168-ec21dbf25398" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review02-retry\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLaunchCallbackRuntimeContractTests" name="MainFormLaunchCallbacksExposeReloadAndOfficialNameRefresh" />
+    </UnitTest>
+    <UnitTest name="InvalidNameRetryContinuesWhenReloadThrows" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review02-retry\bin\x64\release\net48\shahelauncher.tests.dll" id="d8c52811-d1c3-91c0-b6a8-8ef6bc364a5f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Sandboxie" />
+      </TestCategory>
+      <Execution id="3c6efa8c-f785-42a6-b563-4448df8a318a" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review02-retry\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieClientContractTests" name="InvalidNameRetryContinuesWhenReloadThrows" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="0e43b477-1adf-fd26-5453-4ad8c9437e3f" executionId="018b786a-c144-4203-bdc1-850dbee2c194" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="993a8807-4bb4-6db1-faf9-b087ccc02037" executionId="11f790d2-f7a2-4f4f-a168-ec21dbf25398" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d8c52811-d1c3-91c0-b6a8-8ef6bc364a5f" executionId="3c6efa8c-f785-42a6-b563-4448df8a318a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="3" executed="3" passed="1" failed="2" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>
