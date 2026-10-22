@@ -1,0 +1,9 @@
+{
+  "json": "artifacts/runs/csharp_non_update_gaps_20261020/voice02/binary-config-probe.json",
+  "log": "artifacts/runs/csharp_non_update_gaps_20261020/voice02/binary-config-probe.log",
+  "skipped": 0,
+  "returnCode": null,
+  "command": "artifacts/runs/csharp_non_update_gaps_20261020/voice02/binary-config-probe.ps1",
+  "failed": 1,
+  "passed": 0
+}

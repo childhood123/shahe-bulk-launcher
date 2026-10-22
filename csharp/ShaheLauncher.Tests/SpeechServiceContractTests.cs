@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ShaheLauncher.Core.Speech;
 
 namespace ShaheLauncher.Tests
 {
@@ -140,6 +141,75 @@ namespace ShaheLauncher.Tests
             }
             finally
             {
+                Directory.Delete(root, true);
+            }
+        }
+
+        [TestMethod]
+        public void ReadsPackagedReaderIniDefaultsFromLibDirectory()
+        {
+            Type serviceType = ReflectionTestHelpers.RequireType(ServiceTypeName);
+            Type callbacksType = ReflectionTestHelpers.RequireType(CallbacksTypeName);
+            string root = CreateTemporaryDirectory("shahe-speech-lib-ini-");
+            try
+            {
+                string lib = Path.Combine(root, "lib");
+                Directory.CreateDirectory(lib);
+                File.WriteAllText(Path.Combine(lib, "ZDSRAPI.ini"),
+                    "[settings]\r\ntype = 1\r\nchannelName = lib-channel\r\n");
+                object service = CreateService(serviceType, root, Path.Combine(root, "Configuration"),
+                    Activator.CreateInstance(callbacksType));
+
+                IDictionary<string, object> loaded = AsDictionary(
+                    ReflectionTestHelpers.InvokeInstance(service, "LoadReaderIniSettings"));
+                IDictionary<string, object> zdsr = AsDictionary(loaded["zdsr"]);
+                Assert.AreEqual("1", zdsr["type"]);
+                Assert.AreEqual("lib-channel", zdsr["channelName"]);
+            }
+            finally
+            {
+                Directory.Delete(root, true);
+            }
+        }
+
+        [TestMethod]
+        public void AddsLibDirectoryToPathBeforeLoadingAssistBackend()
+        {
+            Type callbacksType = ReflectionTestHelpers.RequireType(CallbacksTypeName);
+            string root = CreateTemporaryDirectory("shahe-speech-lib-path-");
+            string oldPath = Environment.GetEnvironmentVariable("PATH");
+            try
+            {
+                string lib = Path.Combine(root, "lib");
+                Directory.CreateDirectory(lib);
+                File.WriteAllText(Path.Combine(lib, "Tolk.dll"), "placeholder");
+                string observedPath = string.Empty;
+                var backend = new SpeechAssistBackend
+                {
+                    Load = () => { },
+                    IsLoaded = () => true,
+                    Unload = () => { }
+                };
+                object callbacks = Activator.CreateInstance(callbacksType);
+                SetProperty(callbacksType, callbacks, "LoadAssistBackend",
+                    new Func<string, SpeechAssistBackend>(path =>
+                    {
+                        observedPath = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
+                        return backend;
+                    }));
+                object service = Activator.CreateInstance(
+                    typeof(SpeechService),
+                    root,
+                    Path.Combine(root, "Configuration"),
+                    callbacks);
+
+                Assert.IsTrue((bool)ReflectionTestHelpers.InvokeInstance(service, "EnsureAssistSpeechRuntime"));
+                Assert.IsTrue(observedPath.StartsWith(lib + Path.PathSeparator, StringComparison.OrdinalIgnoreCase));
+                ((SpeechService)service).ShutdownAssistSpeechRuntime();
+            }
+            finally
+            {
+                Environment.SetEnvironmentVariable("PATH", oldPath);
                 Directory.Delete(root, true);
             }
         }

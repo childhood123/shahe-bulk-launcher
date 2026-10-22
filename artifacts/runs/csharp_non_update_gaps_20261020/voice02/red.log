@@ -1,0 +1,8 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\voice02\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\voice02\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\voice02\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\voice02\bin\x64\Release\net48\沙河批量打开器.exe
+D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechServiceContractTests.cs(186,35): error CS0246: 未能找到类型或命名空间名“SpeechAssistBackend”(是否缺少 using 指令或程序集引用?) [D:\mycodex\git\csharp\ShaheLauncher.Tests\ShaheLauncher.Tests.csproj]
+D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechServiceContractTests.cs(194,38): error CS0246: 未能找到类型或命名空间名“SpeechAssistBackend”(是否缺少 using 指令或程序集引用?) [D:\mycodex\git\csharp\ShaheLauncher.Tests\ShaheLauncher.Tests.csproj]
+D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechServiceContractTests.cs(200,28): error CS0246: 未能找到类型或命名空间名“SpeechService”(是否缺少 using 指令或程序集引用?) [D:\mycodex\git\csharp\ShaheLauncher.Tests\ShaheLauncher.Tests.csproj]
+D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechServiceContractTests.cs(207,19): error CS0246: 未能找到类型或命名空间名“SpeechService”(是否缺少 using 指令或程序集引用?) [D:\mycodex\git\csharp\ShaheLauncher.Tests\ShaheLauncher.Tests.csproj]

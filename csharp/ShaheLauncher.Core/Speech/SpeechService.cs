@@ -180,6 +180,7 @@ namespace ShaheLauncher.Core.Speech
             {
                 configPath,
                 Path.Combine(AppDirectory, "internal", name),
+                Path.Combine(AppDirectory, "lib", name),
                 Path.Combine(AppDirectory, name)
             });
             if (existing.Length != 0)
@@ -406,6 +407,21 @@ namespace ShaheLauncher.Core.Speech
 
         public string GetAssistSpeechEngineDirectory()
         {
+            string tolkPath = GetTolkDllPath();
+            if (tolkPath.Length != 0)
+            {
+                string directory = Path.GetDirectoryName(tolkPath);
+                if (!string.IsNullOrWhiteSpace(directory))
+                {
+                    return directory;
+                }
+            }
+
+            string libDirectory = Path.Combine(AppDirectory, "lib");
+            if (Directory.Exists(libDirectory))
+            {
+                return libDirectory;
+            }
             string internalDirectory = Path.Combine(AppDirectory, "internal");
             return Directory.Exists(internalDirectory) ? internalDirectory : AppDirectory;
         }
@@ -438,6 +454,8 @@ namespace ShaheLauncher.Core.Speech
                     AssistSpeechDisabled = true;
                     return false;
                 }
+
+                PrependSpeechEngineDirectoryToPath(GetAssistSpeechEngineDirectory());
 
                 SpeechAssistBackend backend = null;
                 try
@@ -1084,6 +1102,33 @@ namespace ShaheLauncher.Core.Speech
             catch
             {
                 return value;
+            }
+        }
+
+        private static void PrependSpeechEngineDirectoryToPath(string directory)
+        {
+            string value = Text(directory).Trim();
+            if (value.Length == 0 || !Directory.Exists(value))
+            {
+                return;
+            }
+
+            try
+            {
+                value = Path.GetFullPath(value);
+                string current = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
+                bool present = current
+                    .Split(new[] { Path.PathSeparator }, StringSplitOptions.RemoveEmptyEntries)
+                    .Any(item => string.Equals(
+                        GetFullPathSafely(item.Trim()), value,
+                        StringComparison.OrdinalIgnoreCase));
+                if (!present)
+                {
+                    Environment.SetEnvironmentVariable("PATH", value + Path.PathSeparator + current);
+                }
+            }
+            catch
+            {
             }
         }
 

@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="b51ad29b-9a3c-419d-bc0a-c769361fbbf0" name="Administrator@CHILDHOOD 2026-10-22 09:16:12" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T09:16:12.8032736+08:00" queuing="2026-10-22T09:16:12.8032738+08:00" start="2026-10-22T09:16:08.6850008+08:00" finish="2026-10-22T09:16:12.8105704+08:00" />
+  <TestSettings name="default" id="2050cbdb-4a00-4202-87c0-9d437d5283f7">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_09_16_12" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="1022500c-ec9e-418e-b8f2-56c1f23c5905" testId="b4c98c95-97f4-354f-b714-559c5349e956" testName="ReadsPackagedReaderIniDefaultsFromLibDirectory" computerName="CHILDHOOD" duration="00:00:00.2410302" startTime="2026-10-22T09:16:12.1044282+08:00" endTime="2026-10-22T09:16:12.6666766+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1022500c-ec9e-418e-b8f2-56c1f23c5905">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual 失败。应为: &lt;1&gt;，实际为: &lt;&gt;。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SpeechServiceContractTests.ReadsPackagedReaderIniDefaultsFromLibDirectory() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechServiceContractTests.cs:行号 167&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ccedd747-9f3e-4eba-a95b-7f2140eb2e83" testId="c96aace9-139e-8b81-c4db-dba090674ea6" testName="AddsLibDirectoryToPathBeforeLoadingAssistBackend" computerName="CHILDHOOD" duration="00:00:00.0108456" startTime="2026-10-22T09:16:12.6786210+08:00" endTime="2026-10-22T09:16:12.6936066+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ccedd747-9f3e-4eba-a95b-7f2140eb2e83">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.IsTrue 失败。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SpeechServiceContractTests.AddsLibDirectoryToPathBeforeLoadingAssistBackend() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechServiceContractTests.cs:行号 208&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="ReadsPackagedReaderIniDefaultsFromLibDirectory" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\voice02\bin\x64\release\net48\shahelauncher.tests.dll" id="b4c98c95-97f4-354f-b714-559c5349e956">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="1022500c-ec9e-418e-b8f2-56c1f23c5905" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\voice02\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechServiceContractTests" name="ReadsPackagedReaderIniDefaultsFromLibDirectory" />
+    </UnitTest>
+    <UnitTest name="AddsLibDirectoryToPathBeforeLoadingAssistBackend" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\voice02\bin\x64\release\net48\shahelauncher.tests.dll" id="c96aace9-139e-8b81-c4db-dba090674ea6">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="ccedd747-9f3e-4eba-a95b-7f2140eb2e83" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\voice02\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechServiceContractTests" name="AddsLibDirectoryToPathBeforeLoadingAssistBackend" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="b4c98c95-97f4-354f-b714-559c5349e956" executionId="1022500c-ec9e-418e-b8f2-56c1f23c5905" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c96aace9-139e-8b81-c4db-dba090674ea6" executionId="ccedd747-9f3e-4eba-a95b-7f2140eb2e83" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="2" executed="2" passed="0" failed="2" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

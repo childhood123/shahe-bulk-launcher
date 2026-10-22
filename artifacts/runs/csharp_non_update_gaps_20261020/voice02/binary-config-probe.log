@@ -1,0 +1,1 @@
+PASS: vendor binaries expose packaged ZDSRAPI.ini/byctrl.conf dependency hints; failed=0 skipped=0

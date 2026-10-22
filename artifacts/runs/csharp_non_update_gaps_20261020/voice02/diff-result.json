@@ -1,0 +1,8 @@
+{
+  "log": "artifacts/runs/csharp_non_update_gaps_20261020/voice02/diff.log",
+  "skipped": null,
+  "failed": null,
+  "passed": null,
+  "returnCode": 0,
+  "command": "git diff --check -- VOICE02 files"
+}

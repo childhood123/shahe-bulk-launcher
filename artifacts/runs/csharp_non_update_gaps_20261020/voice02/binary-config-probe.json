@@ -1,0 +1,17 @@
+{
+  "csharp/ShaheLauncher.App/lib/Tolk.dll": {
+    "zdsrIni": false,
+    "boyConfig": false,
+    "byctrlDll": true
+  },
+  "csharp/ShaheLauncher.App/lib/ZDSRAPI_x64.dll": {
+    "zdsrIni": true,
+    "boyConfig": false,
+    "byctrlDll": false
+  },
+  "csharp/ShaheLauncher.App/lib/byctrl-x64.dll": {
+    "zdsrIni": false,
+    "boyConfig": true,
+    "byctrlDll": true
+  }
+}
