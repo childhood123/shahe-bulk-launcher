@@ -1,0 +1,5 @@
+{
+  "command": "git diff --check -- PROJECT_STRUCTURE.md csharp",
+  "returnCode": 0,
+  "log": "artifacts/runs/donation_qr_20261022/diff.log"
+}

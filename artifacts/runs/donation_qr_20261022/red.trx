@@ -1,0 +1,100 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="d65ac43c-9997-4622-925e-1053787e73d1" name="Administrator@CHILDHOOD 2026-10-22 15:07:32" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T15:07:32.3303121+08:00" queuing="2026-10-22T15:07:32.3303123+08:00" start="2026-10-22T15:07:28.0325073+08:00" finish="2026-10-22T15:07:32.3376215+08:00" />
+  <TestSettings name="default" id="1227bcfd-2828-4640-a394-8e50cea84753">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_15_07_32" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="9dd28e99-3f5b-43ec-adf7-0fd776e962a5" testId="f61627d8-db32-9b10-bbe8-297c9cbcc6fe" testName="DonationDirectoryTakesPriorityOverLegacyCopies (&quot;支付宝赞赏码.jpg&quot;)" computerName="CHILDHOOD" duration="00:00:00.0077330" startTime="2026-10-22T15:07:32.1088103+08:00" endTime="2026-10-22T15:07:32.1167577+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9dd28e99-3f5b-43ec-adf7-0fd776e962a5">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual 失败。应为: &lt;C:\Users\Administrator\AppData\Local\Temp\ShaheDonationTests-391ed15e5047434c936c9c7c244a0450\打赏\支付宝赞赏码.jpg&gt;，实际为: &lt;C:\Users\Administrator\AppData\Local\Temp\ShaheDonationTests-391ed15e5047434c936c9c7c244a0450\支付宝赞赏码.jpg&gt;。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.DonationQrRuntimeContractTests.DonationDirectoryTakesPriorityOverLegacyCopies(String filename) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DonationQrRuntimeContractTests.cs:行号 30&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6f9c1b28-3275-4968-8dd9-380fd0410b73" testId="e6e0ddb9-26eb-909d-84a3-d0c7cb88dfcc" testName="DonationDirectoryTakesPriorityOverLegacyCopies (&quot;微信赞赏码.jpg&quot;)" computerName="CHILDHOOD" duration="00:00:00.3021486" startTime="2026-10-22T15:07:31.3752651+08:00" endTime="2026-10-22T15:07:32.0978068+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6f9c1b28-3275-4968-8dd9-380fd0410b73">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual 失败。应为: &lt;C:\Users\Administrator\AppData\Local\Temp\ShaheDonationTests-9a7c906e28974276a9bf42575596b807\打赏\微信赞赏码.jpg&gt;，实际为: &lt;C:\Users\Administrator\AppData\Local\Temp\ShaheDonationTests-9a7c906e28974276a9bf42575596b807\微信赞赏码.jpg&gt;。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.DonationQrRuntimeContractTests.DonationDirectoryTakesPriorityOverLegacyCopies(String filename) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DonationQrRuntimeContractTests.cs:行号 30&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="268717ec-9c21-494f-9b38-aad10224c7b2" testId="7bf140db-a9d3-916c-62ca-98554f24860a" testName="DonationButtonCopiesShippedOriginalImage (&quot;支付宝赞赏码.jpg&quot;,&quot;支付宝打赏&quot;)" computerName="CHILDHOOD" duration="00:00:00.0010970" startTime="2026-10-22T15:07:32.1287242+08:00" endTime="2026-10-22T15:07:32.1367027+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="268717ec-9c21-494f-9b38-aad10224c7b2">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Fail 失败。Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsTrue 失败。Build output must contain the original donation image: 支付宝赞赏码.jpg&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(Boolean condition, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsTrue.cs:行号 99&#xD;
+   在 ShaheLauncher.Tests.DonationQrRuntimeContractTests.&lt;&gt;c__DisplayClass1_0.&lt;DonationButtonCopiesShippedOriginalImage&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DonationQrRuntimeContractTests.cs:行号 45&#xD;
+   在 ShaheLauncher.Tests.DonationQrRuntimeContractTests.&lt;&gt;c__DisplayClass2_0.&lt;RunInSta&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DonationQrRuntimeContractTests.cs:行号 87</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.DonationQrRuntimeContractTests.RunInSta(Action action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DonationQrRuntimeContractTests.cs:行号 92&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c5e39bef-586a-4807-9197-6e359d26f89f" testId="d4ea69bc-87f4-2daa-8435-b708d531553f" testName="DonationButtonCopiesShippedOriginalImage (&quot;微信赞赏码.jpg&quot;,&quot;微信打赏&quot;)" computerName="CHILDHOOD" duration="00:00:00.0112982" startTime="2026-10-22T15:07:32.1177883+08:00" endTime="2026-10-22T15:07:32.1287242+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c5e39bef-586a-4807-9197-6e359d26f89f">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.Fail 失败。Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsTrue 失败。Build output must contain the original donation image: 微信赞赏码.jpg&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(Boolean condition, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsTrue.cs:行号 99&#xD;
+   在 ShaheLauncher.Tests.DonationQrRuntimeContractTests.&lt;&gt;c__DisplayClass1_0.&lt;DonationButtonCopiesShippedOriginalImage&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DonationQrRuntimeContractTests.cs:行号 45&#xD;
+   在 ShaheLauncher.Tests.DonationQrRuntimeContractTests.&lt;&gt;c__DisplayClass2_0.&lt;RunInSta&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DonationQrRuntimeContractTests.cs:行号 87</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.DonationQrRuntimeContractTests.RunInSta(Action action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DonationQrRuntimeContractTests.cs:行号 92&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="DonationDirectoryTakesPriorityOverLegacyCopies (&quot;支付宝赞赏码.jpg&quot;)" storage="d:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="f61627d8-db32-9b10-bbe8-297c9cbcc6fe">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Updates" />
+        <TestCategoryItem TestCategory="CommonDialogs" />
+      </TestCategory>
+      <Execution id="9dd28e99-3f5b-43ec-adf7-0fd776e962a5" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DonationQrRuntimeContractTests" name="DonationDirectoryTakesPriorityOverLegacyCopies" />
+    </UnitTest>
+    <UnitTest name="DonationButtonCopiesShippedOriginalImage (&quot;支付宝赞赏码.jpg&quot;,&quot;支付宝打赏&quot;)" storage="d:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="7bf140db-a9d3-916c-62ca-98554f24860a">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Updates" />
+        <TestCategoryItem TestCategory="CommonDialogs" />
+      </TestCategory>
+      <Execution id="268717ec-9c21-494f-9b38-aad10224c7b2" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DonationQrRuntimeContractTests" name="DonationButtonCopiesShippedOriginalImage" />
+    </UnitTest>
+    <UnitTest name="DonationDirectoryTakesPriorityOverLegacyCopies (&quot;微信赞赏码.jpg&quot;)" storage="d:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="e6e0ddb9-26eb-909d-84a3-d0c7cb88dfcc">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Updates" />
+        <TestCategoryItem TestCategory="CommonDialogs" />
+      </TestCategory>
+      <Execution id="6f9c1b28-3275-4968-8dd9-380fd0410b73" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DonationQrRuntimeContractTests" name="DonationDirectoryTakesPriorityOverLegacyCopies" />
+    </UnitTest>
+    <UnitTest name="DonationButtonCopiesShippedOriginalImage (&quot;微信赞赏码.jpg&quot;,&quot;微信打赏&quot;)" storage="d:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="d4ea69bc-87f4-2daa-8435-b708d531553f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Updates" />
+        <TestCategoryItem TestCategory="CommonDialogs" />
+      </TestCategory>
+      <Execution id="c5e39bef-586a-4807-9197-6e359d26f89f" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DonationQrRuntimeContractTests" name="DonationButtonCopiesShippedOriginalImage" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="f61627d8-db32-9b10-bbe8-297c9cbcc6fe" executionId="9dd28e99-3f5b-43ec-adf7-0fd776e962a5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e6e0ddb9-26eb-909d-84a3-d0c7cb88dfcc" executionId="6f9c1b28-3275-4968-8dd9-380fd0410b73" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7bf140db-a9d3-916c-62ca-98554f24860a" executionId="268717ec-9c21-494f-9b38-aad10224c7b2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d4ea69bc-87f4-2daa-8435-b708d531553f" executionId="c5e39bef-586a-4807-9197-6e359d26f89f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="4" executed="4" passed="0" failed="4" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

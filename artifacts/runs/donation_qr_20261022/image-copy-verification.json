@@ -1,0 +1,24 @@
+{
+  "passed": 2,
+  "failed": 0,
+  "skipped": 0,
+  "returnCode": 0,
+  "checks": [
+    {
+      "name": "支付宝赞赏码.jpg",
+      "width": 1279,
+      "height": 1919,
+      "sourceMatchesUpload": true,
+      "buildMatchesUpload": true,
+      "publishMatchesUpload": true
+    },
+    {
+      "name": "微信赞赏码.jpg",
+      "width": 1152,
+      "height": 1152,
+      "sourceMatchesUpload": true,
+      "buildMatchesUpload": true,
+      "publishMatchesUpload": true
+    }
+  ]
+}

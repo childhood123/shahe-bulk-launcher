@@ -488,6 +488,7 @@ namespace ShaheLauncher.Core.Updates
 
             foreach (string candidate in new[]
             {
+                Path.Combine(AppDirectory, "打赏", name),
                 Path.Combine(AppDirectory, name),
                 Path.Combine(AppDirectory, "internal", name)
             })

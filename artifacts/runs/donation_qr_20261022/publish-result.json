@@ -1,0 +1,16 @@
+{
+  "command": [
+    "dotnet",
+    "publish",
+    "csharp\\ShaheLauncher.App\\ShaheLauncher.App.csproj",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\donation_qr_20261022\\bin\\",
+    "--output",
+    "D:\\mycodex\\git\\artifacts\\runs\\donation_qr_20261022\\publish"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\donation_qr_20261022/publish.log"
+}

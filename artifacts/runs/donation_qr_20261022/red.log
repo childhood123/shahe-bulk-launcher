@@ -1,0 +1,45 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 DonationDirectoryTakesPriorityOverLegacyCopies ("微信赞赏码.jpg") [302 ms]
+  错误消息:
+   Assert.AreEqual 失败。应为: <C:\Users\Administrator\AppData\Local\Temp\ShaheDonationTests-9a7c906e28974276a9bf42575596b807\打赏\微信赞赏码.jpg>，实际为: <C:\Users\Administrator\AppData\Local\Temp\ShaheDonationTests-9a7c906e28974276a9bf42575596b807\微信赞赏码.jpg>。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.DonationQrRuntimeContractTests.DonationDirectoryTakesPriorityOverLegacyCopies(String filename) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DonationQrRuntimeContractTests.cs:行号 30
+
+  失败 DonationDirectoryTakesPriorityOverLegacyCopies ("支付宝赞赏码.jpg") [7 ms]
+  错误消息:
+   Assert.AreEqual 失败。应为: <C:\Users\Administrator\AppData\Local\Temp\ShaheDonationTests-391ed15e5047434c936c9c7c244a0450\打赏\支付宝赞赏码.jpg>，实际为: <C:\Users\Administrator\AppData\Local\Temp\ShaheDonationTests-391ed15e5047434c936c9c7c244a0450\支付宝赞赏码.jpg>。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.DonationQrRuntimeContractTests.DonationDirectoryTakesPriorityOverLegacyCopies(String filename) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DonationQrRuntimeContractTests.cs:行号 30
+
+  失败 DonationButtonCopiesShippedOriginalImage ("微信赞赏码.jpg","微信打赏") [11 ms]
+  错误消息:
+   Assert.Fail 失败。Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsTrue 失败。Build output must contain the original donation image: 微信赞赏码.jpg
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(Boolean condition, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsTrue.cs:行号 99
+   在 ShaheLauncher.Tests.DonationQrRuntimeContractTests.<>c__DisplayClass1_0.<DonationButtonCopiesShippedOriginalImage>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DonationQrRuntimeContractTests.cs:行号 45
+   在 ShaheLauncher.Tests.DonationQrRuntimeContractTests.<>c__DisplayClass2_0.<RunInSta>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DonationQrRuntimeContractTests.cs:行号 87
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.DonationQrRuntimeContractTests.RunInSta(Action action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DonationQrRuntimeContractTests.cs:行号 92
+
+  失败 DonationButtonCopiesShippedOriginalImage ("支付宝赞赏码.jpg","支付宝打赏") [1 ms]
+  错误消息:
+   Assert.Fail 失败。Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsTrue 失败。Build output must contain the original donation image: 支付宝赞赏码.jpg
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(Boolean condition, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsTrue.cs:行号 99
+   在 ShaheLauncher.Tests.DonationQrRuntimeContractTests.<>c__DisplayClass1_0.<DonationButtonCopiesShippedOriginalImage>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DonationQrRuntimeContractTests.cs:行号 45
+   在 ShaheLauncher.Tests.DonationQrRuntimeContractTests.<>c__DisplayClass2_0.<RunInSta>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DonationQrRuntimeContractTests.cs:行号 87
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.DonationQrRuntimeContractTests.RunInSta(Action action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DonationQrRuntimeContractTests.cs:行号 92
+
+结果文件: D:\mycodex\git\artifacts\runs\donation_qr_20261022\red.trx
+
+失败!  - 失败:     4，通过:     0，已跳过:     0，总计:     4，持续时间: 761 ms - ShaheLauncher.Tests.dll (net48)

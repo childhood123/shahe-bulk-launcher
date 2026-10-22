@@ -1,0 +1,24 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\donation_qr_20261022\\bin\\",
+    "--logger",
+    "trx;LogFileName=affected.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\donation_qr_20261022",
+    "--filter",
+    "TestCategory=CommonDialogs|TestCategory=Updates|FullyQualifiedName~MainFormApplicationContractTests"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\donation_qr_20261022\\affected.log",
+  "passed": 68,
+  "failed": 0,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\donation_qr_20261022\\affected.trx"
+}

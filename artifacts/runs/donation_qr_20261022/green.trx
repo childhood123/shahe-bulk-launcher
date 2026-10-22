@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="fe159995-7ddf-49d0-8115-9b2b09eb6d15" name="Administrator@CHILDHOOD 2026-10-22 15:09:01" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T15:09:01.2524923+08:00" queuing="2026-10-22T15:09:01.2524931+08:00" start="2026-10-22T15:08:56.2162863+08:00" finish="2026-10-22T15:09:01.5121525+08:00" />
+  <TestSettings name="default" id="e8236c3d-13d2-405f-a001-93fb6a53e162">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_15_09_01" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="9162a4bb-e572-4ec0-b24b-63fe351416ec" testId="7bf140db-a9d3-916c-62ca-98554f24860a" testName="DonationButtonCopiesShippedOriginalImage (&quot;支付宝赞赏码.jpg&quot;,&quot;支付宝打赏&quot;)" computerName="CHILDHOOD" duration="00:00:00.3058288" startTime="2026-10-22T15:09:01.0046346+08:00" endTime="2026-10-22T15:09:01.3158446+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9162a4bb-e572-4ec0-b24b-63fe351416ec" />
+    <UnitTestResult executionId="1d75d818-c045-4b9c-935c-a073d9f88b26" testId="f61627d8-db32-9b10-bbe8-297c9cbcc6fe" testName="DonationDirectoryTakesPriorityOverLegacyCopies (&quot;支付宝赞赏码.jpg&quot;)" computerName="CHILDHOOD" duration="00:00:00.0063484" startTime="2026-10-22T15:09:00.0646627+08:00" endTime="2026-10-22T15:09:00.0721551+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1d75d818-c045-4b9c-935c-a073d9f88b26" />
+    <UnitTestResult executionId="d9ce815a-87bd-44ee-9789-178ae0401333" testId="e6e0ddb9-26eb-909d-84a3-d0c7cb88dfcc" testName="DonationDirectoryTakesPriorityOverLegacyCopies (&quot;微信赞赏码.jpg&quot;)" computerName="CHILDHOOD" duration="00:00:00.0868827" startTime="2026-10-22T15:08:59.5404712+08:00" endTime="2026-10-22T15:09:00.0491993+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d9ce815a-87bd-44ee-9789-178ae0401333" />
+    <UnitTestResult executionId="3d5fda96-2b01-4faf-b508-198e0d2ebe08" testId="d4ea69bc-87f4-2daa-8435-b708d531553f" testName="DonationButtonCopiesShippedOriginalImage (&quot;微信赞赏码.jpg&quot;,&quot;微信打赏&quot;)" computerName="CHILDHOOD" duration="00:00:00.9321730" startTime="2026-10-22T15:09:00.0721551+08:00" endTime="2026-10-22T15:09:01.0046346+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3d5fda96-2b01-4faf-b508-198e0d2ebe08" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="DonationDirectoryTakesPriorityOverLegacyCopies (&quot;支付宝赞赏码.jpg&quot;)" storage="d:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="f61627d8-db32-9b10-bbe8-297c9cbcc6fe">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Updates" />
+        <TestCategoryItem TestCategory="CommonDialogs" />
+      </TestCategory>
+      <Execution id="1d75d818-c045-4b9c-935c-a073d9f88b26" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DonationQrRuntimeContractTests" name="DonationDirectoryTakesPriorityOverLegacyCopies" />
+    </UnitTest>
+    <UnitTest name="DonationButtonCopiesShippedOriginalImage (&quot;支付宝赞赏码.jpg&quot;,&quot;支付宝打赏&quot;)" storage="d:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="7bf140db-a9d3-916c-62ca-98554f24860a">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Updates" />
+        <TestCategoryItem TestCategory="CommonDialogs" />
+      </TestCategory>
+      <Execution id="9162a4bb-e572-4ec0-b24b-63fe351416ec" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DonationQrRuntimeContractTests" name="DonationButtonCopiesShippedOriginalImage" />
+    </UnitTest>
+    <UnitTest name="DonationDirectoryTakesPriorityOverLegacyCopies (&quot;微信赞赏码.jpg&quot;)" storage="d:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="e6e0ddb9-26eb-909d-84a3-d0c7cb88dfcc">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Updates" />
+        <TestCategoryItem TestCategory="CommonDialogs" />
+      </TestCategory>
+      <Execution id="d9ce815a-87bd-44ee-9789-178ae0401333" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DonationQrRuntimeContractTests" name="DonationDirectoryTakesPriorityOverLegacyCopies" />
+    </UnitTest>
+    <UnitTest name="DonationButtonCopiesShippedOriginalImage (&quot;微信赞赏码.jpg&quot;,&quot;微信打赏&quot;)" storage="d:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="d4ea69bc-87f4-2daa-8435-b708d531553f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Updates" />
+        <TestCategoryItem TestCategory="CommonDialogs" />
+      </TestCategory>
+      <Execution id="3d5fda96-2b01-4faf-b508-198e0d2ebe08" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DonationQrRuntimeContractTests" name="DonationButtonCopiesShippedOriginalImage" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="7bf140db-a9d3-916c-62ca-98554f24860a" executionId="9162a4bb-e572-4ec0-b24b-63fe351416ec" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f61627d8-db32-9b10-bbe8-297c9cbcc6fe" executionId="1d75d818-c045-4b9c-935c-a073d9f88b26" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e6e0ddb9-26eb-909d-84a3-d0c7cb88dfcc" executionId="d9ce815a-87bd-44ee-9789-178ae0401333" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d4ea69bc-87f4-2daa-8435-b708d531553f" executionId="3d5fda96-2b01-4faf-b508-198e0d2ebe08" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="4" executed="4" passed="4" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

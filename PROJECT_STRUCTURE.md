@@ -4,9 +4,10 @@
 
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-09 已按用户“反正能记忆到999条记录就行之前是20”的明确要求更新为 C# `0–999`；除该用户指定差异外，后续功能继续保留 Python 原文案和行为，只用 C# 实现。
 - 当前模块：AUDIT-03 Sandboxie 剩余生命周期。真实 `batch-create`、`create-group`、`launch-group`、`schedule-launch` 和精确 cleanup 已通过；`schedule-close` 被当前运行的 `SbieCtrl.exe` 安全门禁阻断，真实 `delete-group`、`cancel-schedules`、`batch-rename`、`batch-delete` 尚未取得有效执行证据。因此 AUDIT-03 尚未完成，不能进入 AUDIT-04，整体迁移仍未完成。
+- 用户追加任务 DONATE-01：已按最新明确要求，将原始支付宝/微信图片放入根目录 `打赏/`，C# 菜单优先从该目录读取，构建/发布自动带上图片；复用原有“复制二维码”按钮复制原图位图。此追加任务已实现并验证，不改变 AUDIT-03 的未完成状态或其后审计顺序。
 - GitCode 发布状态：公开仓库 `https://gitcode.com/childhood123/shahe-bulk-launcher-releases` 的 `main` 已指向 `18caa88287fc5714a90528e88cd732d0204ec135`。默认清单 `https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json` 匿名生产式请求为 HTTP `200`；清单内 content-addressed ZIP 匿名请求为 HTTP `200`。
 - 发布包状态：版本 `4.0.46`，ZIP 大小 `2785203` 字节，SHA-256 `D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8`；匿名下载后的实际大小和哈希完全一致。最终证据为 `artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-final.json`。
-- 最新自动化门禁：AUDIT-03 新增异常用例均取得有效 RED/GREEN；受影响 90/90，最终干净索引快照锁定还原成功、C# 全量 360/360、Python 29/29、compileall 返回码 0、Release x64 0 警告/0 错误。修正后的真实只读复查确认精确资源清零及三份哈希匹配；整体门禁仍因 SbieCtrl 运行返回 blocked。本轮源码/文档和暂存差异检查返回 0；全工作树原有 GAP-09 日志空白仍保留。实际命令、计数和证据见文末最新记录，先前 347/356 项结果不覆盖全部新增场景。
+- 最新自动化门禁：用户追加 DONATE-01 打赏资源接入定向 4/4、受影响 68/68、C# 全量 364/364、Python 29/29，compileall、Release x64 构建和 App 发布复制返回码均为 0。原图在源目录/构建/发布目录的哈希逐张一致，真实二维码窗体按钮复制完整尺寸位图并保留原文案与焦点顺序。前序 AUDIT-03 最终干净索引快照及异常路径门禁已通过，但真实生命周期仍存在已记录阻断；以文末各任务的最新有日志结果为准。
 - 版本触发边界：应用 `AppVersion` 与公开清单 `latest_version` 当前同为 `4.0.46`。本次发布建立了可用更新基线，但已运行同版本客户端不会收到“有新版本”提示；后续真实升级发布必须使用更高版本号并重新生成包、清单和校验值。
 - 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、AUDIT-02、UPDATE-01 及此前已确认范围。当前模块为未完成的 AUDIT-03；其后待迁移/审计模块为 AUDIT-04 至 AUDIT-08 和 RELEASE-01。整体迁移仍未完成。
 - 真实 updater 证据：GitCode 匿名 ZIP 在隔离生产 helper 布局下以 `restart=true` 完成下载、替换和进程重启；updater PID `11448` 返回 `0`，精确隔离路径主进程 PID `5364` 被观测并清理，安装文件哈希、用户配置和 `lib 7/7` 均通过。该场景主窗口句柄为 `0`，只证明进程重启，不替代后续发布目录 UI 启动审计。
@@ -2319,3 +2320,25 @@ csharp/
 - AUDIT-03 暂存检查补充：原始全工作树 diff 日志忠实包含用户旧日志的尾随空白，暂存它会触发差异检查错误；该原始日志仅保留本地，提交命令/返回码摘要，未改写原始证据。移出该日志后暂存检查再次验证。
 
 - AUDIT-03 最终暂存复查返回码 0，证据为 audit03/final-staged-recheck-result.json 与同名日志。
+
+- AUDIT-03 安全修复检查点已独立提交 4ccf15a，并推送 origin/fix/non-update-gaps-20261020，返回码 0；回退命令 git revert 4ccf15a。真实生命周期仍保留已记录阻断。随后按用户明确追加要求处理打赏资源与图片复制接入；该追加任务不把 AUDIT-03 标为完成，也不改变其后审计顺序。
+
+- DONATE-01 red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\ --logger trx;LogFileName=red.trx --results-directory D:\mycodex\git\artifacts\runs\donation_qr_20261022 --filter FullyQualifiedName~DonationQrRuntimeContractTests`；返回码 1，通过 0、失败 4、跳过 0。日志与命令索引：`artifacts/runs/donation_qr_20261022/red.log`、`red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- DONATE-01 green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\ --logger trx;LogFileName=green.trx --results-directory D:\mycodex\git\artifacts\runs\donation_qr_20261022 --filter FullyQualifiedName~DonationQrRuntimeContractTests`；返回码 0，通过 4、失败 0、跳过 0。日志与命令索引：`artifacts/runs/donation_qr_20261022/green.log`、`green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- DONATE-01 affected：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\ --logger trx;LogFileName=affected.trx --results-directory D:\mycodex\git\artifacts\runs\donation_qr_20261022 --filter TestCategory=CommonDialogs|TestCategory=Updates|FullyQualifiedName~MainFormApplicationContractTests`；返回码 0，通过 68、失败 0、跳过 0。日志与命令索引：`artifacts/runs/donation_qr_20261022/affected.log`、`affected-result.json`；如为 C# 测试，另有同名 TRX。
+
+- DONATE-01 full：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\ --logger trx;LogFileName=full.trx --results-directory D:\mycodex\git\artifacts\runs\donation_qr_20261022`；返回码 0，通过 364、失败 0、跳过 0。日志与命令索引：`artifacts/runs/donation_qr_20261022/full.log`、`full-result.json`；如为 C# 测试，另有同名 TRX。
+
+- DONATE-01 python：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 0，通过 29、失败 0、跳过 0。日志与命令索引：`artifacts/runs/donation_qr_20261022/python.log`、`python-result.json`；如为 C# 测试，另有同名 TRX。
+
+- DONATE-01 compile：命令 `python -m compileall -q shahe_bulk_launcher tests`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/donation_qr_20261022/compile.log`、`compile-result.json`；如为 C# 测试，另有同名 TRX。
+
+- DONATE-01 release：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\donation_qr_20261022\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/donation_qr_20261022/release.log`、`release-result.json`；如为 C# 测试，另有同名 TRX。
+
+- DONATE-01 发布资源复制：dotnet publish App Release x64 返回码 0；完整命令及输出见 artifacts/runs/donation_qr_20261022/publish-result.json、publish.log。该检查覆盖新增打赏资源，不替代待办 AUDIT-07 的整个发布包验收。
+
+- DONATE-01 原图完整性：源目录、构建目录、发布目录逐张对照用户上传原图 SHA-256，检查通过 2、失败 0、跳过 0；尺寸与结果见 artifacts/runs/donation_qr_20261022/image-copy-verification.json。图片没有重绘、转码或裁剪。
+
+- DONATE-01 本轮源码与文档差异检查返回码 0，命令和日志索引见 artifacts/runs/donation_qr_20261022/diff-result.json。

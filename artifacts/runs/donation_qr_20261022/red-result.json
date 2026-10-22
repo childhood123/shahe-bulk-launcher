@@ -1,0 +1,24 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\donation_qr_20261022\\bin\\",
+    "--logger",
+    "trx;LogFileName=red.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\donation_qr_20261022",
+    "--filter",
+    "FullyQualifiedName~DonationQrRuntimeContractTests"
+  ],
+  "returnCode": 1,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\donation_qr_20261022\\red.log",
+  "passed": 0,
+  "failed": 4,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\donation_qr_20261022\\red.trx"
+}
