@@ -1,0 +1,24 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\history_count_dialog_20261022\\bin\\",
+    "--logger",
+    "trx;LogFileName=affected.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\history_count_dialog_20261022",
+    "--filter",
+    "TestCategory=AppPaths|TestCategory=SettingsDialogs|FullyQualifiedName~PathMemoryRuntimeContractTests|FullyQualifiedName~MainFormApplicationContractTests|FullyQualifiedName~SettingsRuntimeContractTests"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\history_count_dialog_20261022\\affected.log",
+  "passed": 91,
+  "failed": 0,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\history_count_dialog_20261022\\affected.trx"
+}

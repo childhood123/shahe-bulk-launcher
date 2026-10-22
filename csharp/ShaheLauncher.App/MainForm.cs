@@ -4733,58 +4733,12 @@ namespace ShaheLauncher.App
 
         private int PromptAppPathHistoryCount(int currentValue)
         {
-            using (var dialog = new Form
+            var settings = new Dictionary<string, object> { { "max_history_items", currentValue } };
+            using (var dialog = new PathMemoryManagerDialog(this, null, settings, null))
             {
-                Text = AppPathHistoryService.HistoryCountDialogTitle,
-                Size = new Size(360, 140),
-                StartPosition = FormStartPosition.CenterParent,
-                FormBorderStyle = FormBorderStyle.FixedDialog,
-                MaximizeBox = false,
-                MinimizeBox = false,
-                ShowInTaskbar = false,
-                AutoScaleMode = AutoScaleMode.None
-            })
-            {
-                var input = new NumericUpDown
-                {
-                    Minimum = 0,
-                    Maximum = AppPathHistoryService.MaximumHistoryItems,
-                    Value = Math.Max(
-                        0,
-                        Math.Min(AppPathHistoryService.MaximumHistoryItems, currentValue)),
-                    AccessibleName = AppPathHistoryService.HistoryCountLabel,
-                    Location = new Point(12, 36),
-                    TabIndex = 0
-                };
-                var label = new Label
-                {
-                    Text = AppPathHistoryService.HistoryCountPrompt,
-                    AutoSize = true,
-                    Location = new Point(12, 12),
-                    TabStop = false
-                };
-                var ok = new Button
-                {
-                    Text = "确定",
-                    AccessibleName = "确定",
-                    DialogResult = DialogResult.OK,
-                    Location = new Point(174, 78),
-                    Size = new Size(80, 28),
-                    TabIndex = 1
-                };
-                var cancel = new Button
-                {
-                    Text = "取消",
-                    AccessibleName = "取消",
-                    DialogResult = DialogResult.Cancel,
-                    Location = new Point(264, 78),
-                    Size = new Size(80, 28),
-                    TabIndex = 2
-                };
-                dialog.Controls.AddRange(new Control[] { label, input, ok, cancel });
-                dialog.AcceptButton = ok;
-                dialog.CancelButton = cancel;
-                return dialog.ShowDialog(this) == DialogResult.OK ? (int)input.Value : -1;
+                dialog.Text = AppPathHistoryService.HistoryCountDialogTitle;
+                dialog.PromptLabel.Text = AppPathHistoryService.HistoryCountPrompt;
+                return dialog.ShowDialog(this) == DialogResult.OK ? (int)dialog.HistoryCountInput.Value : -1;
             }
         }
 

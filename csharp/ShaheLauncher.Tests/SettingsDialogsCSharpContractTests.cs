@@ -300,91 +300,76 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
-        public void PathMemoryDialogPreservesListClassicMenuAndEditing()
+        public void PathMemoryDialogOnlyShowsQuantityAndConfirmation()
         {
             RunInSta(() =>
             {
                 Type type = RequireType("PathMemoryManagerDialog");
                 var history = CreateHistory();
-                var settings = Map("max_history_items", "999", "hide_path", false);
+                var settings = Map("max_history_items", "999", "hide_path", true);
                 var callback = new Action<IList<IDictionary<string, object>>, IDictionary<string, object>>((items, values) => { });
-                var dialog = (Form)Activator.CreateInstance(type, null, history, settings, callback);
-                Assert.AreEqual("路径记忆管理", dialog.Text);
-                Assert.AreEqual(new Size(700, 500), dialog.Size);
-                var count = GetProperty<NumericUpDown>(type, dialog, "HistoryCountInput");
-                var hide = GetProperty<CheckBox>(type, dialog, "HidePathCheckBox");
-                var list = GetProperty<ListBox>(type, dialog, "HistoryList");
-                Assert.AreEqual("路径记忆数量", count.AccessibleName);
-                Assert.AreEqual(0m, count.Minimum);
-                Assert.AreEqual(999m, count.Maximum);
-                Assert.AreEqual(999m, count.Value);
-                Assert.AreEqual("隐藏路径", hide.Text);
-                Assert.AreEqual("已记忆的路径列表", list.AccessibleName);
-                CollectionAssert.AreEqual(
-                    new[] { "应用A - \"C:\\A.exe\"", "应用B - \"D:\\B.exe\"" },
-                    list.Items.Cast<string>().ToArray());
-                Assert.IsNotNull(list.ContextMenu);
-                CollectionAssert.AreEqual(
-                    new[] { "路径记忆备注", "删除当前记忆", "清空所有路径记忆" },
-                    list.ContextMenu.MenuItems.Cast<MenuItem>()
-                        .Where(item => item.Text != "-").Select(item => item.Text).ToArray());
-                AssertTabOrder(count, hide, list,
-                    GetProperty<Button>(type, dialog, "OkButton"),
-                    GetProperty<Button>(type, dialog, "CancelActionButton"));
-                list.SelectedIndex = 0;
-                Assert.AreEqual(true, ReflectionTestHelpers.InvokeInstance(dialog, "UpdateSelectedNote", "  新备注  "));
-                Assert.AreEqual("新备注", history[0]["note"]);
-                Assert.AreEqual("新备注 - \"C:\\A.exe\"", list.Items[0]);
-                Assert.AreEqual(false, ReflectionTestHelpers.InvokeInstance(dialog, "UpdateSelectedNote", "   "));
-                dialog.Dispose();
+                using (var dialog = (Form)Activator.CreateInstance(type, null, history, settings, callback))
+                {
+                    dialog.Show();
+                    Control[] controls = DescendantControls(dialog).ToArray();
+                    Assert.IsFalse(controls.Any(control => control is ListBox || control is ListView),
+                        "Quantity settings must not display remembered-path records.");
+                    Assert.IsFalse(controls.Any(control => control is CheckBox || control.Text.Contains("已记忆的路径列表") || control.Text == "隐藏路径"));
+                    Assert.AreEqual("路径记忆管理", dialog.Text);
+                    var count = GetProperty<NumericUpDown>(type, dialog, "HistoryCountInput");
+                    var ok = GetProperty<Button>(type, dialog, "OkButton");
+                    var cancel = GetProperty<Button>(type, dialog, "CancelActionButton");
+                    Assert.AreEqual("路径记忆数量", count.AccessibleName);
+                    Assert.AreEqual(0m, count.Minimum);
+                    Assert.AreEqual(999m, count.Maximum);
+                    Assert.AreEqual(999m, count.Value);
+                    Assert.AreEqual("确定", ok.Text);
+                    Assert.AreEqual("取消", cancel.Text);
+                    AssertTabOrder(count, ok, cancel);
+                    Assert.AreSame(ok, dialog.AcceptButton);
+                    Assert.AreSame(cancel, dialog.CancelButton);
+                    Assert.IsTrue(dialog.Height < 250, "Removed records must not leave a large empty panel.");
+                    Assert.AreEqual(2, history.Count);
+                    dialog.Close();
+                }
             });
         }
 
-        [TestMethod]
-        public void PathMemoryDialogUsesExactConfirmationsAndSavePayload()
+        [DataTestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
+        public void PathMemoryQuantitySaveAndCancelPreserveStoredPaths(bool save)
         {
             RunInSta(() =>
             {
-                Type messagesType = RequireCommonType("DialogMessageService");
                 Type type = RequireType("PathMemoryManagerDialog");
-                var prompts = new List<string>();
-                SetStaticProperty(messagesType, "ConfirmHandler",
-                    new Func<string, string, MessageBoxIcon, bool>((text, title, icon) =>
+                var history = CreateHistory();
+                var settings = Map("max_history_items", 10, "hide_path", true, "unrelated", "keep");
+                IList<IDictionary<string, object>> savedHistory = null;
+                IDictionary<string, object> savedSettings = null;
+                int saves = 0;
+                var callback = new Action<IList<IDictionary<string, object>>, IDictionary<string, object>>(
+                    (items, values) => { savedHistory = items; savedSettings = values; saves++; });
+                using (var dialog = (Form)Activator.CreateInstance(type, null, history, settings, callback))
+                {
+                    dialog.Show();
+                    GetProperty<NumericUpDown>(type, dialog, "HistoryCountInput").Value = 999;
+                    GetProperty<Button>(type, dialog, save ? "OkButton" : "CancelActionButton").PerformClick();
+                    Assert.AreEqual(save ? 1 : 0, saves);
+                    Assert.AreEqual(save ? 999 : 10, settings["max_history_items"]);
+                    Assert.AreEqual(true, settings["hide_path"], "Removing a control must not rewrite unrelated saved preferences.");
+                    Assert.AreEqual("keep", settings["unrelated"]);
+                    Assert.AreEqual(2, history.Count);
+                    Assert.AreEqual("C:\\A.exe", history[0]["path"]);
+                    Assert.AreEqual("应用A", history[0]["note"]);
+                    Assert.AreEqual("D:\\B.exe", history[1]["path"]);
+                    Assert.AreEqual("应用B", history[1]["note"]);
+                    if (save)
                     {
-                        prompts.Add(title + "|" + text + "|" + (int)icon);
-                        return true;
-                    }));
-                try
-                {
-                    var history = CreateHistory();
-                    var settings = Map("max_history_items", 10, "hide_path", false);
-                    IList<IDictionary<string, object>> savedHistory = null;
-                    IDictionary<string, object> savedSettings = null;
-                    var callback = new Action<IList<IDictionary<string, object>>, IDictionary<string, object>>(
-                        (items, values) => { savedHistory = items; savedSettings = values; });
-                    var dialog = (Form)Activator.CreateInstance(type, null, history, settings, callback);
-                    var list = GetProperty<ListBox>(type, dialog, "HistoryList");
-                    list.SelectedIndex = 0;
-                    Assert.AreEqual(true, ReflectionTestHelpers.InvokeInstance(dialog, "RemoveSelected"));
-                    Assert.AreEqual("确认删除|确定要删除当前路径记忆吗？|32", prompts.Last());
-                    Assert.AreEqual(1, history.Count);
-                    Assert.AreEqual(true, ReflectionTestHelpers.InvokeInstance(dialog, "ClearAll"));
-                    Assert.AreEqual("确认清空|确定要清空所有路径记忆吗？|32", prompts.Last());
-                    Assert.AreEqual(0, history.Count);
-
-                    GetProperty<NumericUpDown>(type, dialog, "HistoryCountInput").Value = 6;
-                    GetProperty<CheckBox>(type, dialog, "HidePathCheckBox").Checked = true;
-                    Assert.AreEqual(true, ReflectionTestHelpers.InvokeInstance(dialog, "SaveChanges"));
-                    Assert.AreSame(history, savedHistory);
-                    Assert.AreSame(settings, savedSettings);
-                    Assert.AreEqual(6, savedSettings["max_history_items"]);
-                    Assert.AreEqual(true, savedSettings["hide_path"]);
-                    Assert.AreEqual(DialogResult.OK, dialog.DialogResult);
-                    dialog.Dispose();
-                }
-                finally
-                {
-                    SetStaticProperty(messagesType, "ConfirmHandler", null);
+                        Assert.AreSame(history, savedHistory);
+                        Assert.AreSame(settings, savedSettings);
+                    }
+                    Assert.AreEqual(save ? DialogResult.OK : DialogResult.Cancel, dialog.DialogResult);
                 }
             });
         }
@@ -623,6 +608,15 @@ namespace ShaheLauncher.Tests
         private static void AssertControlText(Type type, object target, string propertyName, string expected)
         {
             Assert.AreEqual(expected, ((Control)GetProperty(type, target, propertyName)).Text);
+        }
+
+        private static IEnumerable<Control> DescendantControls(Control parent)
+        {
+            foreach (Control child in parent.Controls)
+            {
+                yield return child;
+                foreach (Control nested in DescendantControls(child)) yield return nested;
+            }
         }
 
         private static void AssertTabOrder(params Control[] controls)

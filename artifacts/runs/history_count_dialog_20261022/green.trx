@@ -1,0 +1,114 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="b853bd91-96ce-4b64-bedf-e923557a7b34" name="Administrator@CHILDHOOD 2026-10-22 16:32:41" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T16:32:41.7630692+08:00" queuing="2026-10-22T16:32:41.7630695+08:00" start="2026-10-22T16:32:36.6352895+08:00" finish="2026-10-22T16:32:42.3169976+08:00" />
+  <TestSettings name="default" id="3097f3ba-3a97-4fef-ab09-956a6f6a6bfe">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_16_32_41" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="d5aad6ee-078c-4760-bb18-2b701d2d9c40" testId="0e35004b-e2b9-8c0a-af36-abdc32237683" testName="SettingsServiceKeeps999WhenApplyingOtherSettings" computerName="CHILDHOOD" duration="00:00:00.0505582" startTime="2026-10-22T16:32:40.9386333+08:00" endTime="2026-10-22T16:32:40.9891953+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d5aad6ee-078c-4760-bb18-2b701d2d9c40" />
+    <UnitTestResult executionId="18446868-c2f9-4c22-98b8-b0de4596130f" testId="a8063c51-9bcd-dd62-b7e4-fc3f56d5a870" testName="MainFormRendersTenHistoryItemsWithoutNullListViewItem" computerName="CHILDHOOD" duration="00:00:00.4194688" startTime="2026-10-22T16:32:40.9891953+08:00" endTime="2026-10-22T16:32:41.4092681+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="18446868-c2f9-4c22-98b8-b0de4596130f" />
+    <UnitTestResult executionId="7fb5cb06-0394-42fc-ac85-b2c69d3f3602" testId="8a69fe4d-351c-f623-c96c-28a536d02690" testName="PathMemoryQuantitySaveAndCancelPreserveStoredPaths (False)" computerName="CHILDHOOD" duration="00:00:00.0369318" startTime="2026-10-22T16:32:42.1661675+08:00" endTime="2026-10-22T16:32:42.2060619+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7fb5cb06-0394-42fc-ac85-b2c69d3f3602" />
+    <UnitTestResult executionId="a2cf4824-01ab-4254-b046-791ad51d0266" testId="d2953ea4-57ee-d61d-1d51-64ee8fa24c02" testName="PathMemoryQuantitySaveAndCancelPreserveStoredPaths (True)" computerName="CHILDHOOD" duration="00:00:00.0540995" startTime="2026-10-22T16:32:42.0205574+08:00" endTime="2026-10-22T16:32:42.1661675+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a2cf4824-01ab-4254-b046-791ad51d0266" />
+    <UnitTestResult executionId="1ad0523d-d525-4996-bcae-d5b411a6aea3" testId="2479a255-a448-0719-8054-929ed8e0ff09" testName="MainFormInitializesTenPersistedHistoryItemsWithoutThreadException" computerName="CHILDHOOD" duration="00:00:00.1113508" startTime="2026-10-22T16:32:41.4092681+08:00" endTime="2026-10-22T16:32:41.5209680+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1ad0523d-d525-4996-bcae-d5b411a6aea3" />
+    <UnitTestResult executionId="f176364b-9bfc-488b-b4de-803a038e4e89" testId="f073f54f-090b-563d-8da7-1f04d7b61f4f" testName="MainFormKeeps999AcrossLoadCommitAndManagerSave" computerName="CHILDHOOD" duration="00:00:00.5746812" startTime="2026-10-22T16:32:40.3627947+08:00" endTime="2026-10-22T16:32:40.9376368+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f176364b-9bfc-488b-b4de-803a038e4e89" />
+    <UnitTestResult executionId="c8d0b254-412e-47d5-b349-8540b28ea6ec" testId="5780c807-24c7-602b-b3b7-2784393d723d" testName="HistoryServiceNormalizesZeroTo999AndRetains999Records" computerName="CHILDHOOD" duration="00:00:00.0238210" startTime="2026-10-22T16:32:40.0057483+08:00" endTime="2026-10-22T16:32:40.3508260+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c8d0b254-412e-47d5-b349-8540b28ea6ec" />
+    <UnitTestResult executionId="be495da8-d1c7-42a8-bbf0-7d564d84dfeb" testId="447b69eb-55c7-900a-5c78-1fcadb354988" testName="BothCountDialogsExpose999WithoutChangingAccessibility" computerName="CHILDHOOD" duration="00:00:00.4283304" startTime="2026-10-22T16:32:41.5209680+08:00" endTime="2026-10-22T16:32:41.9517401+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="be495da8-d1c7-42a8-bbf0-7d564d84dfeb" />
+    <UnitTestResult executionId="1d7ee800-c9ff-45c8-a735-e483ee0fc0d1" testId="8fe16498-5f6f-b5c5-3c32-139adc6115e0" testName="PathMemoryDialogOnlyShowsQuantityAndConfirmation" computerName="CHILDHOOD" duration="00:00:00.0687454" startTime="2026-10-22T16:32:41.9517401+08:00" endTime="2026-10-22T16:32:42.0205574+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1d7ee800-c9ff-45c8-a735-e483ee0fc0d1" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="MainFormInitializesTenPersistedHistoryItemsWithoutThreadException" storage="d:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="2479a255-a448-0719-8054-929ed8e0ff09">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="1ad0523d-d525-4996-bcae-d5b411a6aea3" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="MainFormInitializesTenPersistedHistoryItemsWithoutThreadException" />
+    </UnitTest>
+    <UnitTest name="PathMemoryQuantitySaveAndCancelPreserveStoredPaths (False)" storage="d:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="8a69fe4d-351c-f623-c96c-28a536d02690">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="7fb5cb06-0394-42fc-ac85-b2c69d3f3602" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="PathMemoryQuantitySaveAndCancelPreserveStoredPaths" />
+    </UnitTest>
+    <UnitTest name="BothCountDialogsExpose999WithoutChangingAccessibility" storage="d:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="447b69eb-55c7-900a-5c78-1fcadb354988">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="be495da8-d1c7-42a8-bbf0-7d564d84dfeb" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="BothCountDialogsExpose999WithoutChangingAccessibility" />
+    </UnitTest>
+    <UnitTest name="MainFormRendersTenHistoryItemsWithoutNullListViewItem" storage="d:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="a8063c51-9bcd-dd62-b7e4-fc3f56d5a870">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="18446868-c2f9-4c22-98b8-b0de4596130f" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="MainFormRendersTenHistoryItemsWithoutNullListViewItem" />
+    </UnitTest>
+    <UnitTest name="MainFormKeeps999AcrossLoadCommitAndManagerSave" storage="d:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="f073f54f-090b-563d-8da7-1f04d7b61f4f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="f176364b-9bfc-488b-b4de-803a038e4e89" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="MainFormKeeps999AcrossLoadCommitAndManagerSave" />
+    </UnitTest>
+    <UnitTest name="SettingsServiceKeeps999WhenApplyingOtherSettings" storage="d:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="0e35004b-e2b9-8c0a-af36-abdc32237683">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="SettingsService" />
+      </TestCategory>
+      <Execution id="d5aad6ee-078c-4760-bb18-2b701d2d9c40" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="SettingsServiceKeeps999WhenApplyingOtherSettings" />
+    </UnitTest>
+    <UnitTest name="PathMemoryDialogOnlyShowsQuantityAndConfirmation" storage="d:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="8fe16498-5f6f-b5c5-3c32-139adc6115e0">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="1d7ee800-c9ff-45c8-a735-e483ee0fc0d1" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="PathMemoryDialogOnlyShowsQuantityAndConfirmation" />
+    </UnitTest>
+    <UnitTest name="HistoryServiceNormalizesZeroTo999AndRetains999Records" storage="d:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="5780c807-24c7-602b-b3b7-2784393d723d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="Application" />
+        <TestCategoryItem TestCategory="AppPaths" />
+      </TestCategory>
+      <Execution id="c8d0b254-412e-47d5-b349-8540b28ea6ec" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="HistoryServiceNormalizesZeroTo999AndRetains999Records" />
+    </UnitTest>
+    <UnitTest name="PathMemoryQuantitySaveAndCancelPreserveStoredPaths (True)" storage="d:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="d2953ea4-57ee-d61d-1d51-64ee8fa24c02">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="a2cf4824-01ab-4254-b046-791ad51d0266" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\history_count_dialog_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="PathMemoryQuantitySaveAndCancelPreserveStoredPaths" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="0e35004b-e2b9-8c0a-af36-abdc32237683" executionId="d5aad6ee-078c-4760-bb18-2b701d2d9c40" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a8063c51-9bcd-dd62-b7e4-fc3f56d5a870" executionId="18446868-c2f9-4c22-98b8-b0de4596130f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8a69fe4d-351c-f623-c96c-28a536d02690" executionId="7fb5cb06-0394-42fc-ac85-b2c69d3f3602" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d2953ea4-57ee-d61d-1d51-64ee8fa24c02" executionId="a2cf4824-01ab-4254-b046-791ad51d0266" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2479a255-a448-0719-8054-929ed8e0ff09" executionId="1ad0523d-d525-4996-bcae-d5b411a6aea3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f073f54f-090b-563d-8da7-1f04d7b61f4f" executionId="f176364b-9bfc-488b-b4de-803a038e4e89" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5780c807-24c7-602b-b3b7-2784393d723d" executionId="c8d0b254-412e-47d5-b349-8540b28ea6ec" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="447b69eb-55c7-900a-5c78-1fcadb354988" executionId="be495da8-d1c7-42a8-bbf0-7d564d84dfeb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8fe16498-5f6f-b5c5-3c32-139adc6115e0" executionId="1d7ee800-c9ff-45c8-a735-e483ee0fc0d1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="9" executed="9" passed="9" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>
