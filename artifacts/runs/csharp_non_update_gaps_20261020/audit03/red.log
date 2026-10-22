@@ -1,0 +1,25 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 VerifyCleanProducesReadOnlyOwnershipReport [322 ms]
+  错误消息:
+   测试方法 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.VerifyCleanProducesReadOnlyOwnershipReport 引发了异常:
+System.InvalidOperationException: 序列不包含任何元素
+  堆栈跟踪:
+      在 System.Linq.Enumerable.Single[TSource](IEnumerable`1 source)
+   在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.VerifyCleanProducesReadOnlyOwnershipReport() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 69
+
+  标准输出消息:
+ C:\Users\Administrator\AppData\Local\Temp\ShaheAuditRunnerTests\b6f5eca586cf49d68ae0d45ff0d25fcc\auditrunner-unsupported-20261022_104547_971-result.json
+
+
+结果文件: D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\red.trx
+
+失败!  - 失败:     1，通过:     0，已跳过:     0，总计:     1，持续时间: 648 ms - ShaheLauncher.Tests.dll (net48)

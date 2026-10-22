@@ -1,0 +1,9 @@
+{
+  "worktreeCommand": "git diff --check",
+  "worktreeReturnCode": 2,
+  "sourceCommand": "git diff HEAD --check -- PROJECT_STRUCTURE.md csharp",
+  "sourceReturnCode": 0,
+  "stagedCommand": "git diff --cached --check",
+  "stagedReturnCode": 0,
+  "note": "Whole worktree retains pre-existing GAP-09 whitespace changes."
+}

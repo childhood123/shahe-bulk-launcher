@@ -1,0 +1,24 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\bin\\",
+    "--logger",
+    "trx;LogFileName=exact-clean-green.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03",
+    "--filter",
+    "FullyQualifiedName~VerifyCleanRejectsOrphanDirectory|FullyQualifiedName~VerifyCleanProducesReadOnlyOwnershipReport"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\exact-clean-green.log",
+  "passed": 2,
+  "failed": 0,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\exact-clean-green.trx"
+}

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="dd50f857-b92d-420d-948e-e2efa40ba277" name="Administrator@CHILDHOOD 2026-10-22 14:41:16" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T14:41:16.5495844+08:00" queuing="2026-10-22T14:41:16.5495846+08:00" start="2026-10-22T14:41:11.8228519+08:00" finish="2026-10-22T14:41:16.5554962+08:00" />
+  <TestSettings name="default" id="4b693d09-579d-42b3-bb0f-71e83492b02f">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_14_41_16" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="640ff9f3-bda5-4053-a675-cf7e56ba0160" testId="e1660ff6-032a-33e8-d1c9-2fdfe8d63efe" testName="VerifyCleanProducesReadOnlyOwnershipReport" computerName="CHILDHOOD" duration="00:00:00.6887980" startTime="2026-10-22T14:41:15.3465096+08:00" endTime="2026-10-22T14:41:16.3293497+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="640ff9f3-bda5-4053-a675-cf7e56ba0160">
+      <Output>
+        <StdOut>C:\Users\Administrator\AppData\Local\Temp\ShaheAuditRunnerTests\5294ab6c6a374ae987772b2fe16a647f\auditrunner-verify-clean-20261022_144116_212-result.json</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="79a3bc20-8157-4397-b9cd-564346cdfd5e" testId="cef24c23-b304-7c50-5913-b51b55c01a95" testName="VerifyCleanRejectsOrphanDirectoryOutsideAuditPrefix" computerName="CHILDHOOD" duration="00:00:00.0167393" startTime="2026-10-22T14:41:16.3402858+08:00" endTime="2026-10-22T14:41:16.3612299+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="79a3bc20-8157-4397-b9cd-564346cdfd5e" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="VerifyCleanProducesReadOnlyOwnershipReport" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="e1660ff6-032a-33e8-d1c9-2fdfe8d63efe">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="640ff9f3-bda5-4053-a675-cf7e56ba0160" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="VerifyCleanProducesReadOnlyOwnershipReport" />
+    </UnitTest>
+    <UnitTest name="VerifyCleanRejectsOrphanDirectoryOutsideAuditPrefix" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="cef24c23-b304-7c50-5913-b51b55c01a95">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="79a3bc20-8157-4397-b9cd-564346cdfd5e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="VerifyCleanRejectsOrphanDirectoryOutsideAuditPrefix" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="e1660ff6-032a-33e8-d1c9-2fdfe8d63efe" executionId="640ff9f3-bda5-4053-a675-cf7e56ba0160" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cef24c23-b304-7c50-5913-b51b55c01a95" executionId="79a3bc20-8157-4397-b9cd-564346cdfd5e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="2" executed="2" passed="2" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

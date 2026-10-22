@@ -1,0 +1,56 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 AliasRenameRestoresAttemptedWritesAfterCommandFailure (1) [232 ms]
+  错误消息:
+   Assert.AreEqual 失败。应为: <original-1>，实际为: <renamed-1>。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.AliasRenameRestoresAttemptedWritesAfterCommandFailure(Int32 failAt) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 144
+
+  失败 AliasRenameRestoresAttemptedWritesAfterCommandFailure (2) [2 ms]
+  错误消息:
+   Assert.AreEqual 失败。应为: <original-1>，实际为: <renamed-1>。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.AliasRenameRestoresAttemptedWritesAfterCommandFailure(Int32 failAt) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 144
+
+  失败 AliasRollbackContinuesAfterOneRestoreFails [3 ms]
+  错误消息:
+   StringAssert.Contains 失败。字符串“commit failed”不包含字符串“Box901”。。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.AliasRollbackContinuesAfterOneRestoreFails() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 180
+
+  失败 CleanupSelectionAllowsOnlyAbsentOwnedResourcesOnRetry [29 ms]
+  错误消息:
+   测试方法 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.CleanupSelectionAllowsOnlyAbsentOwnedResourcesOnRetry 引发了异常:
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---> System.InvalidOperationException: Ownership changed or is incomplete: Box901
+  堆栈跟踪:
+      在 ShaheLauncher.AuditRunner.AuditSafety.SelectOwnedResources(OwnershipSnapshot baseline, OwnershipSnapshot current, IEnumerable`1 claims) 位置 D:\mycodex\git\csharp\ShaheLauncher.AuditRunner\AuditSafety.cs:行号 98
+---内部异常堆栈跟踪结束---
+    在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)
+   在 System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)
+   在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.Invoke(Type type, String name, Object[] args) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 998
+   在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.CleanupSelectionAllowsOnlyAbsentOwnedResourcesOnRetry() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 198
+
+  失败 OwnedConfigurationCleanupCanBeRepeatedWithoutWritingAgain [32 ms]
+  错误消息:
+   Assert.AreEqual 失败。应为: <Passed>，实际为: <Inconclusive>。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.OwnedConfigurationCleanupCanBeRepeatedWithoutWritingAgain() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 217
+
+  失败 LifecycleStateWritePreservesPreviousFileWhenReplacementIsBlocked [83 ms]
+  错误消息:
+   CollectionAssert.AreEqual 失败。(索引 15 处的元素不匹配。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.LifecycleStateWritePreservesPreviousFileWhenReplacementIsBlocked() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 250
+
+结果文件: D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\safety-review-red.trx
+
+失败!  - 失败:     6，通过:     0，已跳过:     0，总计:     6，持续时间: 857 ms - ShaheLauncher.Tests.dll (net48)

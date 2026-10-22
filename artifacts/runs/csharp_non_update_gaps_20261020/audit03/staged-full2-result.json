@@ -1,0 +1,23 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\_staged_snapshot\\csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\staged-bin2\\",
+    "--logger",
+    "trx;LogFileName=staged-full2.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03"
+  ],
+  "returnCode": 1,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\staged-full2.log",
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\staged-full2.trx",
+  "passed": 346,
+  "failed": 1,
+  "skipped": 0,
+  "snapshot": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\_staged_snapshot"
+}

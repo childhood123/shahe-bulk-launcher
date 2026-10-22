@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="e0f5b174-4630-4653-bc92-65ea6ef30b58" name="Administrator@CHILDHOOD 2026-10-22 14:51:18" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T14:51:18.1125936+08:00" queuing="2026-10-22T14:51:18.1125939+08:00" start="2026-10-22T14:51:13.9376850+08:00" finish="2026-10-22T14:51:18.1198241+08:00" />
+  <TestSettings name="default" id="44ed6c27-e3f6-4f4a-8bc0-26638e51fdc1">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_14_51_18" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="af813348-f323-4c7e-9578-534b2b53efcd" testId="43a7b5c2-cb29-5bea-4845-c904c0986669" testName="TimerStopCannotAuthorizeCleanupWhileCallbackIsStillRunning" computerName="CHILDHOOD" duration="00:00:00.0775558" startTime="2026-10-22T14:51:17.6773175+08:00" endTime="2026-10-22T14:51:17.7547643+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="af813348-f323-4c7e-9578-534b2b53efcd" />
+    <UnitTestResult executionId="0e5c674c-b8be-4edd-bf3a-77e9978e8659" testId="6416e322-d9af-5e3e-8331-def8f3f43d7d" testName="CleanupRechecksOwnershipBeforeEveryMutation (False)" computerName="CHILDHOOD" duration="00:00:00.0579580" startTime="2026-10-22T14:51:17.7557631+08:00" endTime="2026-10-22T14:51:17.9000585+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0e5c674c-b8be-4edd-bf3a-77e9978e8659" />
+    <UnitTestResult executionId="6fc8c01a-930d-401a-b881-cf462a15f5b3" testId="ea0649f9-76ac-6d60-6f79-11c0e484de45" testName="ExistingSandboxProcessCannotEnableFailureCleanup" computerName="CHILDHOOD" duration="00:00:00.0195466" startTime="2026-10-22T14:51:17.3452081+08:00" endTime="2026-10-22T14:51:17.6663819+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6fc8c01a-930d-401a-b881-cf462a15f5b3" />
+    <UnitTestResult executionId="df52ec0a-3083-421c-b0af-68000e26e6cd" testId="54da2172-5996-ed1f-3183-551582499c2d" testName="CleanupRechecksOwnershipBeforeEveryMutation (True)" computerName="CHILDHOOD" duration="00:00:00.0005138" startTime="2026-10-22T14:51:17.9000585+08:00" endTime="2026-10-22T14:51:17.9060427+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="df52ec0a-3083-421c-b0af-68000e26e6cd" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="TimerStopCannotAuthorizeCleanupWhileCallbackIsStillRunning" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="43a7b5c2-cb29-5bea-4845-c904c0986669">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="af813348-f323-4c7e-9578-534b2b53efcd" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="TimerStopCannotAuthorizeCleanupWhileCallbackIsStillRunning" />
+    </UnitTest>
+    <UnitTest name="CleanupRechecksOwnershipBeforeEveryMutation (False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="6416e322-d9af-5e3e-8331-def8f3f43d7d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="0e5c674c-b8be-4edd-bf3a-77e9978e8659" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="CleanupRechecksOwnershipBeforeEveryMutation" />
+    </UnitTest>
+    <UnitTest name="CleanupRechecksOwnershipBeforeEveryMutation (True)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="54da2172-5996-ed1f-3183-551582499c2d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="df52ec0a-3083-421c-b0af-68000e26e6cd" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="CleanupRechecksOwnershipBeforeEveryMutation" />
+    </UnitTest>
+    <UnitTest name="ExistingSandboxProcessCannotEnableFailureCleanup" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="ea0649f9-76ac-6d60-6f79-11c0e484de45">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="6fc8c01a-930d-401a-b881-cf462a15f5b3" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="ExistingSandboxProcessCannotEnableFailureCleanup" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="43a7b5c2-cb29-5bea-4845-c904c0986669" executionId="af813348-f323-4c7e-9578-534b2b53efcd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6416e322-d9af-5e3e-8331-def8f3f43d7d" executionId="0e5c674c-b8be-4edd-bf3a-77e9978e8659" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ea0649f9-76ac-6d60-6f79-11c0e484de45" executionId="6fc8c01a-930d-401a-b881-cf462a15f5b3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="54da2172-5996-ed1f-3183-551582499c2d" executionId="df52ec0a-3083-421c-b0af-68000e26e6cd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="4" executed="4" passed="4" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

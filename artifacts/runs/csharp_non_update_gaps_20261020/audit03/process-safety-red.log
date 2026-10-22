@@ -1,0 +1,5 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\updater.exe
+D:\mycodex\git\csharp\ShaheLauncher.AuditRunner\SandboxieLifecycleAudit.cs(894,45): error CS7036: 未提供与“SandboxieLifecycleAudit.TerminateOwnedSandboxProcesses(PreflightReport, SandboxieClient, IEnumerable<OwnershipClaim>, out bool)”的所需参数“passed”对应的参数 [D:\mycodex\git\csharp\ShaheLauncher.AuditRunner\ShaheLauncher.AuditRunner.csproj]
+D:\mycodex\git\csharp\ShaheLauncher.AuditRunner\SandboxieLifecycleAudit.cs(1637,51): error CS7036: 未提供与“SandboxieLifecycleAudit.TerminateOwnedSandboxProcess(PreflightReport, SandboxieClient, OwnershipClaim, out bool)”的所需参数“passed”对应的参数 [D:\mycodex\git\csharp\ShaheLauncher.AuditRunner\ShaheLauncher.AuditRunner.csproj]
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\沙河批量打开器.exe

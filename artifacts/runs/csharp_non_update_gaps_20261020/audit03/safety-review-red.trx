@@ -1,0 +1,129 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="b7d615ff-efdf-4a02-bbdd-0f8a07fd8abb" name="Administrator@CHILDHOOD 2026-10-22 14:31:40" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T14:31:40.5710296+08:00" queuing="2026-10-22T14:31:40.5710299+08:00" start="2026-10-22T14:31:36.0821850+08:00" finish="2026-10-22T14:31:40.5792898+08:00" />
+  <TestSettings name="default" id="badffe83-3425-43d6-9397-7a0fc96dc6fb">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_14_31_40" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="ae36a4de-a4b9-4462-925c-b3de119cb832" testId="b453435f-2273-49d3-f390-12b395294725" testName="OwnedConfigurationCleanupCanBeRepeatedWithoutWritingAgain" computerName="CHILDHOOD" duration="00:00:00.0327424" startTime="2026-10-22T14:31:40.2528939+08:00" endTime="2026-10-22T14:31:40.2858071+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ae36a4de-a4b9-4462-925c-b3de119cb832">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual 失败。应为: &lt;Passed&gt;，实际为: &lt;Inconclusive&gt;。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.OwnedConfigurationCleanupCanBeRepeatedWithoutWritingAgain() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 217&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0c762b9c-24f7-4b80-9699-d36db46c2d68" testId="eacd213a-5309-9a92-825e-195140db5ae4" testName="AliasRollbackContinuesAfterOneRestoreFails" computerName="CHILDHOOD" duration="00:00:00.0037775" startTime="2026-10-22T14:31:40.2132040+08:00" endTime="2026-10-22T14:31:40.2231793+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0c762b9c-24f7-4b80-9699-d36db46c2d68">
+      <Output>
+        <ErrorInfo>
+          <Message>StringAssert.Contains 失败。字符串“commit failed”不包含字符串“Box901”。。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.AliasRollbackContinuesAfterOneRestoreFails() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 180&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c6b0c675-f621-4b24-863e-99d918927f54" testId="70fdaac9-8629-6def-313e-1d213828f33d" testName="AliasRenameRestoresAttemptedWritesAfterCommandFailure (2)" computerName="CHILDHOOD" duration="00:00:00.0023195" startTime="2026-10-22T14:31:40.2092146+08:00" endTime="2026-10-22T14:31:40.2132040+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6b0c675-f621-4b24-863e-99d918927f54">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual 失败。应为: &lt;original-1&gt;，实际为: &lt;renamed-1&gt;。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.AliasRenameRestoresAttemptedWritesAfterCommandFailure(Int32 failAt) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 144&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="260cdab2-8269-4e6d-94e4-f3776076d55b" testId="fb44f074-be30-8c00-6241-5ed1ad3b516b" testName="AliasRenameRestoresAttemptedWritesAfterCommandFailure (1)" computerName="CHILDHOOD" duration="00:00:00.2323370" startTime="2026-10-22T14:31:39.5187212+08:00" endTime="2026-10-22T14:31:40.1932572+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="260cdab2-8269-4e6d-94e4-f3776076d55b">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual 失败。应为: &lt;original-1&gt;，实际为: &lt;renamed-1&gt;。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.AliasRenameRestoresAttemptedWritesAfterCommandFailure(Int32 failAt) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 144&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="b5d0fe57-1356-40a8-b015-2f075bd01489" testId="9d5ab1cd-dc4d-21a0-b291-ef255d9851a8" testName="CleanupSelectionAllowsOnlyAbsentOwnedResourcesOnRetry" computerName="CHILDHOOD" duration="00:00:00.0298909" startTime="2026-10-22T14:31:40.2231793+08:00" endTime="2026-10-22T14:31:40.2528939+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b5d0fe57-1356-40a8-b015-2f075bd01489">
+      <Output>
+        <ErrorInfo>
+          <Message>测试方法 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.CleanupSelectionAllowsOnlyAbsentOwnedResourcesOnRetry 引发了异常:&#xD;
+System.Reflection.TargetInvocationException: 调用的目标发生了异常。 ---&gt; System.InvalidOperationException: Ownership changed or is incomplete: Box901</Message>
+          <StackTrace>    在 ShaheLauncher.AuditRunner.AuditSafety.SelectOwnedResources(OwnershipSnapshot baseline, OwnershipSnapshot current, IEnumerable`1 claims) 位置 D:\mycodex\git\csharp\ShaheLauncher.AuditRunner\AuditSafety.cs:行号 98&#xD;
+---内部异常堆栈跟踪结束---&#xD;
+    在 System.RuntimeMethodHandle.InvokeMethod(Object target, Object[] arguments, Signature sig, Boolean constructor)&#xD;
+   在 System.Reflection.RuntimeMethodInfo.UnsafeInvokeInternal(Object obj, Object[] parameters, Object[] arguments)&#xD;
+   在 System.Reflection.RuntimeMethodInfo.Invoke(Object obj, BindingFlags invokeAttr, Binder binder, Object[] parameters, CultureInfo culture)&#xD;
+   在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.Invoke(Type type, String name, Object[] args) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 998&#xD;
+   在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.CleanupSelectionAllowsOnlyAbsentOwnedResourcesOnRetry() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 198&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="679fc06e-6ae2-48b8-adb1-091f44224aa5" testId="845a92dd-3739-4cca-dd78-bc732956acdf" testName="LifecycleStateWritePreservesPreviousFileWhenReplacementIsBlocked" computerName="CHILDHOOD" duration="00:00:00.0831740" startTime="2026-10-22T14:31:40.2858071+08:00" endTime="2026-10-22T14:31:40.3765633+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="679fc06e-6ae2-48b8-adb1-091f44224aa5">
+      <Output>
+        <ErrorInfo>
+          <Message>CollectionAssert.AreEqual 失败。(索引 15 处的元素不匹配。)</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.LifecycleStateWritePreservesPreviousFileWhenReplacementIsBlocked() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 250&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="AliasRenameRestoresAttemptedWritesAfterCommandFailure (2)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="70fdaac9-8629-6def-313e-1d213828f33d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="c6b0c675-f621-4b24-863e-99d918927f54" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="AliasRenameRestoresAttemptedWritesAfterCommandFailure" />
+    </UnitTest>
+    <UnitTest name="AliasRenameRestoresAttemptedWritesAfterCommandFailure (1)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="fb44f074-be30-8c00-6241-5ed1ad3b516b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="260cdab2-8269-4e6d-94e4-f3776076d55b" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="AliasRenameRestoresAttemptedWritesAfterCommandFailure" />
+    </UnitTest>
+    <UnitTest name="OwnedConfigurationCleanupCanBeRepeatedWithoutWritingAgain" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="b453435f-2273-49d3-f390-12b395294725">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="ae36a4de-a4b9-4462-925c-b3de119cb832" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="OwnedConfigurationCleanupCanBeRepeatedWithoutWritingAgain" />
+    </UnitTest>
+    <UnitTest name="LifecycleStateWritePreservesPreviousFileWhenReplacementIsBlocked" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="845a92dd-3739-4cca-dd78-bc732956acdf">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="679fc06e-6ae2-48b8-adb1-091f44224aa5" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="LifecycleStateWritePreservesPreviousFileWhenReplacementIsBlocked" />
+    </UnitTest>
+    <UnitTest name="AliasRollbackContinuesAfterOneRestoreFails" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="eacd213a-5309-9a92-825e-195140db5ae4">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="0c762b9c-24f7-4b80-9699-d36db46c2d68" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="AliasRollbackContinuesAfterOneRestoreFails" />
+    </UnitTest>
+    <UnitTest name="CleanupSelectionAllowsOnlyAbsentOwnedResourcesOnRetry" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="9d5ab1cd-dc4d-21a0-b291-ef255d9851a8">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="b5d0fe57-1356-40a8-b015-2f075bd01489" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="CleanupSelectionAllowsOnlyAbsentOwnedResourcesOnRetry" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="b453435f-2273-49d3-f390-12b395294725" executionId="ae36a4de-a4b9-4462-925c-b3de119cb832" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="eacd213a-5309-9a92-825e-195140db5ae4" executionId="0c762b9c-24f7-4b80-9699-d36db46c2d68" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="70fdaac9-8629-6def-313e-1d213828f33d" executionId="c6b0c675-f621-4b24-863e-99d918927f54" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fb44f074-be30-8c00-6241-5ed1ad3b516b" executionId="260cdab2-8269-4e6d-94e4-f3776076d55b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9d5ab1cd-dc4d-21a0-b291-ef255d9851a8" executionId="b5d0fe57-1356-40a8-b015-2f075bd01489" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="845a92dd-3739-4cca-dd78-bc732956acdf" executionId="679fc06e-6ae2-48b8-adb1-091f44224aa5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="6" executed="6" passed="0" failed="6" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

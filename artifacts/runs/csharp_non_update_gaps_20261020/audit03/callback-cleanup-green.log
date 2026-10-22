@@ -1,0 +1,5 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\updater.exe
+D:\mycodex\git\csharp\ShaheLauncher.AuditRunner\SandboxieLifecycleAudit.cs(890,37): error CS0246: 未能找到类型或命名空间名“TaskCompletionSource<>”(是否缺少 using 指令或程序集引用?) [D:\mycodex\git\csharp\ShaheLauncher.AuditRunner\ShaheLauncher.AuditRunner.csproj]
+D:\mycodex\git\csharp\ShaheLauncher.AuditRunner\SandboxieLifecycleAudit.cs(1025,37): error CS0246: 未能找到类型或命名空间名“TaskCompletionSource<>”(是否缺少 using 指令或程序集引用?) [D:\mycodex\git\csharp\ShaheLauncher.AuditRunner\ShaheLauncher.AuditRunner.csproj]
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\沙河批量打开器.exe

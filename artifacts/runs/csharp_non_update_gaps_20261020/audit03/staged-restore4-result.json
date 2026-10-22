@@ -1,0 +1,6 @@
+{
+  "command": "dotnet restore staged snapshot --locked-mode",
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\staged-restore4.log",
+  "snapshot": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\_staged_snapshot"
+}

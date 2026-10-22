@@ -1,0 +1,51 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="68a6aac9-55e8-4bca-b0d4-6cb361dbecf5" name="Administrator@CHILDHOOD 2026-10-22 13:58:56" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T13:58:56.3268296+08:00" queuing="2026-10-22T13:58:56.3268300+08:00" start="2026-10-22T13:58:50.7225025+08:00" finish="2026-10-22T13:58:56.3341957+08:00" />
+  <TestSettings name="default" id="a14e2126-9dd1-49dc-ba91-e58b43aecb92">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_13_58_56" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="5b3d7640-8e54-4b65-bc46-7ad818e01628" testId="87fbf9b5-a444-b111-2957-461381b350a4" testName="LifecycleRenameAndDeleteStagesAreImplementedByCompiledRunner" computerName="CHILDHOOD" duration="00:00:00.0068189" startTime="2026-10-22T13:58:56.1236913+08:00" endTime="2026-10-22T13:58:56.1346333+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5b3d7640-8e54-4b65-bc46-7ad818e01628" />
+    <UnitTestResult executionId="5e3e780c-03a5-4964-b046-aa26651bbf5e" testId="e1660ff6-032a-33e8-d1c9-2fdfe8d63efe" testName="VerifyCleanProducesReadOnlyOwnershipReport" computerName="CHILDHOOD" duration="00:00:00.7084662" startTime="2026-10-22T13:58:55.1072470+08:00" endTime="2026-10-22T13:58:56.1067371+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5e3e780c-03a5-4964-b046-aa26651bbf5e">
+      <Output>
+        <StdOut>C:\Users\Administrator\AppData\Local\Temp\ShaheAuditRunnerTests\cf4c5ccdb1ba4ee5b320516b8fb6086c\auditrunner-verify-clean-20261022_135855_990-result.json</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0e957d4f-2c09-41cf-b2c2-39f7081a23de" testId="c78b46f0-ef06-4bde-83c8-edcf963f60b5" testName="ProcessSnapshotCanExcludeItsOwnLauncherChain" computerName="CHILDHOOD" duration="00:00:00.0055241" startTime="2026-10-22T13:58:56.1177101+08:00" endTime="2026-10-22T13:58:56.1236913+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0e957d4f-2c09-41cf-b2c2-39f7081a23de" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="VerifyCleanProducesReadOnlyOwnershipReport" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="e1660ff6-032a-33e8-d1c9-2fdfe8d63efe">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="5e3e780c-03a5-4964-b046-aa26651bbf5e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="VerifyCleanProducesReadOnlyOwnershipReport" />
+    </UnitTest>
+    <UnitTest name="ProcessSnapshotCanExcludeItsOwnLauncherChain" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="c78b46f0-ef06-4bde-83c8-edcf963f60b5">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="0e957d4f-2c09-41cf-b2c2-39f7081a23de" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="ProcessSnapshotCanExcludeItsOwnLauncherChain" />
+    </UnitTest>
+    <UnitTest name="LifecycleRenameAndDeleteStagesAreImplementedByCompiledRunner" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="87fbf9b5-a444-b111-2957-461381b350a4">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="5b3d7640-8e54-4b65-bc46-7ad818e01628" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="LifecycleRenameAndDeleteStagesAreImplementedByCompiledRunner" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="87fbf9b5-a444-b111-2957-461381b350a4" executionId="5b3d7640-8e54-4b65-bc46-7ad818e01628" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e1660ff6-032a-33e8-d1c9-2fdfe8d63efe" executionId="5e3e780c-03a5-4964-b046-aa26651bbf5e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c78b46f0-ef06-4bde-83c8-edcf963f60b5" executionId="0e957d4f-2c09-41cf-b2c2-39f7081a23de" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="3" executed="3" passed="3" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

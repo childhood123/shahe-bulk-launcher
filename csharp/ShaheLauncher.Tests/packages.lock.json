@@ -147,6 +147,12 @@
         "resolved": "5.0.0",
         "contentHash": "ZD9TMpsmYJLrxbbmdvhwt9YEgG5WntEnZ/d1eH8JBX9LBp+Ju8BSBhUGbZMNVHHomWo2KVImJhTDl2hIgw/6MA=="
       },
+      "shahelauncher.auditrunner": {
+        "type": "Project",
+        "dependencies": {
+          "ShaheLauncher.Core": "[1.0.0, )"
+        }
+      },
       "shahelauncher.core": {
         "type": "Project",
         "dependencies": {

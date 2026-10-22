@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="e9f6b8f9-b75e-4352-bc9e-edb51a09c8bb" name="Administrator@CHILDHOOD 2026-10-22 10:45:48" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T10:45:48.4536048+08:00" queuing="2026-10-22T10:45:48.4536050+08:00" start="2026-10-22T10:45:44.3388284+08:00" finish="2026-10-22T10:45:48.4600588+08:00" />
+  <TestSettings name="default" id="6a59cc62-fad0-4d00-9082-7bcce9252fc8">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_10_45_48" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="c95ea303-40da-4a38-8eb7-d3b048209fc6" testId="e1660ff6-032a-33e8-d1c9-2fdfe8d63efe" testName="VerifyCleanProducesReadOnlyOwnershipReport" computerName="CHILDHOOD" duration="00:00:00.3224187" startTime="2026-10-22T10:45:47.6079894+08:00" endTime="2026-10-22T10:45:48.2561866+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c95ea303-40da-4a38-8eb7-d3b048209fc6">
+      <Output>
+        <StdOut>C:\Users\Administrator\AppData\Local\Temp\ShaheAuditRunnerTests\b6f5eca586cf49d68ae0d45ff0d25fcc\auditrunner-unsupported-20261022_104547_971-result.json</StdOut>
+        <ErrorInfo>
+          <Message>测试方法 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.VerifyCleanProducesReadOnlyOwnershipReport 引发了异常:&#xD;
+System.InvalidOperationException: 序列不包含任何元素</Message>
+          <StackTrace>    在 System.Linq.Enumerable.Single[TSource](IEnumerable`1 source)&#xD;
+   在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.VerifyCleanProducesReadOnlyOwnershipReport() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 69&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="VerifyCleanProducesReadOnlyOwnershipReport" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="e1660ff6-032a-33e8-d1c9-2fdfe8d63efe">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="c95ea303-40da-4a38-8eb7-d3b048209fc6" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="VerifyCleanProducesReadOnlyOwnershipReport" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="e1660ff6-032a-33e8-d1c9-2fdfe8d63efe" executionId="c95ea303-40da-4a38-8eb7-d3b048209fc6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="1" executed="1" passed="0" failed="1" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

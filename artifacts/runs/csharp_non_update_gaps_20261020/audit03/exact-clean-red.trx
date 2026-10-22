@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="9cd7518d-0ace-47f5-9308-1dbea24f1452" name="Administrator@CHILDHOOD 2026-10-22 14:40:19" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T14:40:19.5120075+08:00" queuing="2026-10-22T14:40:19.5120078+08:00" start="2026-10-22T14:40:14.9937164+08:00" finish="2026-10-22T14:40:19.5192899+08:00" />
+  <TestSettings name="default" id="bfa9544d-159f-4cb9-beb7-db80ecbf5d59">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_14_40_19" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="3e2c30bf-6885-4be8-9238-527d62db5107" testId="cef24c23-b304-7c50-5913-b51b55c01a95" testName="VerifyCleanRejectsOrphanDirectoryOutsideAuditPrefix" computerName="CHILDHOOD" duration="00:00:00.0085018" startTime="2026-10-22T14:40:19.3119380+08:00" endTime="2026-10-22T14:40:19.3268655+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3e2c30bf-6885-4be8-9238-527d62db5107">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual 失败。应为: &lt;Inconclusive&gt;，实际为: &lt;Passed&gt;。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.VerifyCleanRejectsOrphanDirectoryOutsideAuditPrefix() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 145&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="cc6028b1-51f3-43e9-ba4f-09812c32327e" testId="e1660ff6-032a-33e8-d1c9-2fdfe8d63efe" testName="VerifyCleanProducesReadOnlyOwnershipReport" computerName="CHILDHOOD" duration="00:00:00.7407789" startTime="2026-10-22T14:40:18.2588232+08:00" endTime="2026-10-22T14:40:19.3009354+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cc6028b1-51f3-43e9-ba4f-09812c32327e">
+      <Output>
+        <StdOut>C:\Users\Administrator\AppData\Local\Temp\ShaheAuditRunnerTests\3d760fc85c40459f86a5f80c2e0e7fd5\auditrunner-verify-clean-20261022_144019_109-result.json</StdOut>
+        <ErrorInfo>
+          <Message>StringAssert.Contains 失败。字符串“{"Kind":"auditrunner-verify-clean","Timestamp":"2026-10-22T14:40:18.5979910+08:00","Status":"blocked","BaselineId":"","TargetPath":"C:\\Users\\Administrator\\AppData\\Local\\Temp\\ShaheAuditRunnerTests\\3d760fc85c40459f86a5f80c2e0e7fd5\\target.exe","TargetSha256":"34A04005BCAF206EEC990BD9637D9FDB6725E0A0C0D4AEBF003F17F4C956EB5C","ConfigPath":"C:\\Users\\Administrator\\AppData\\Local\\Temp\\ShaheAuditRunnerTests\\3d760fc85c40459f86a5f80c2e0e7fd5\\shahe_config.ini","ConfigSha256":"73FA83380875DFB75F2B18755FF0C94672B333A555D3EE3195FF3D2541264E8F","SandboxieIniPath":"C:\\Users\\Administrator\\AppData\\Local\\Temp\\ShaheAuditRunnerTests\\3d760fc85c40459f86a5f80c2e0e7fd5\\Sandboxie.ini","SandboxieIniSha256":"7572FADE6AC9FF2795ED9F443682B45E57574CC14C34BAA4903EB5F9BE509BCE","SandboxiePath":"C:\\Program Files\\Sandboxie","SandboxRoot":"C:\\Users\\Administrator\\AppData\\Local\\Temp\\ShaheAuditRunnerTests\\3d760fc85c40459f86a5f80c2e0e7fd5\\Sandbox","ServiceStatus":"Running","IniReadable":true,"EnabledBoxes":["4","5","6","7","8","9","BatchRenNew17812228190","BatchRenNew17812228191","Box1","Box10","Box11","Box12","Box13","Box14","Box15","Box16","Box17","Box18","Box19","Box2","Box20","Box21","Box22","Box23","Box24","Box25","Box26","Box27","Box28","Box29","Box3","Box30","Box31","Box32","Box33","Box34","Box35","Box36","Box37","Box39","Box4","Box40","Box41","Box42","Box44","Box45","Box46","Box47","Box5","Box6","Box7","Box8","Box9","CloseLaunchA_1781446031","CloseLaunchB_1781446031","CloseLaunchC_1781446031","CodexDup812280190","CodexRestore1781136545","CodexRestore1781136606","CodexRestore1781136700","CodexRestore1781136819","CodexRestore1781137129","CodexRestore1781574792","CodexRestore1781574828","CodexRestore1781574864","CodexSchedA_1781261024","CodexSchedA_1781262092","CodexSchedB_1781261024","CodexSchedB_1781262092","CodexSchedCloseOld_1781239340","CodexStressB","CodexStressLaunch1","CodexStressLaunch2","CodexStressLaunch3","CrashDiag_1781269396_2","DefaultBox","GroupPinNew17812253030","LocateCloseOnlyProbe_1781400264","LocateCloseOnly_1781408399","LocateDestroyOnlyProbe1","LocateMulti_1781446035","LocateNoCleanup_1781408227","LocateSingle_1781446035","q","Box38","Box43","Box48","Box49","Box50","Box51","Box52","Box53","AuditA_1012182459","AuditB_1012182459","AuditC_1012182459","AuditD_1012182459"],"IniSections":["GlobalSettings"],"AliasesBySection":{},"SandboxDirectories":[],"ShaheAuditSections":[],"ShaheAuditDirectories":[],"ProcessCounts":{"target":0,"Start.exe":0,"powershell.exe":0,"pwsh.exe":0,"AuditRunner.exe":0,"SbieCtrl.exe":1,"SandboxieOther":1},"RelevantProcesses":[{"ProcessId":2828,"Name":"SbieSvc","Path":"C:\\Program Files\\Sandboxie\\SbieSvc.exe"},{"ProcessId":6796,"Name":"SbieSvc","Path":"C:\\Program Files\\Sandboxie\\SbieSvc.exe"},{"ProcessId":15628,"Name":"SbieCtrl","Path":"C:\\Program Files\\Sandboxie\\SbieCtrl.exe"}],"Checks":{"targetHash":true,"configHash":true,"iniHash":true,"iniReadable":true,"sandboxiePath":true,"sandboxRoot":true,"serviceRunning":true,"target":true,"Start.exe":true,"powershell.exe":true,"pwsh.exe":true,"AuditRunner.exe":true,"SbieCtrl.exe":false,"SandboxieOther":false,"shaheAuditSections":true,"shaheAuditDirectories":true},"Errors":[]}”不包含字符串“"ownedResources":false”。。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests.VerifyCleanProducesReadOnlyOwnershipReport() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SandboxieLifecycleAuditRunnerTests.cs:行号 93&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="VerifyCleanProducesReadOnlyOwnershipReport" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="e1660ff6-032a-33e8-d1c9-2fdfe8d63efe">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="cc6028b1-51f3-43e9-ba4f-09812c32327e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="VerifyCleanProducesReadOnlyOwnershipReport" />
+    </UnitTest>
+    <UnitTest name="VerifyCleanRejectsOrphanDirectoryOutsideAuditPrefix" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="cef24c23-b304-7c50-5913-b51b55c01a95">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="3e2c30bf-6885-4be8-9238-527d62db5107" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="VerifyCleanRejectsOrphanDirectoryOutsideAuditPrefix" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="cef24c23-b304-7c50-5913-b51b55c01a95" executionId="3e2c30bf-6885-4be8-9238-527d62db5107" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e1660ff6-032a-33e8-d1c9-2fdfe8d63efe" executionId="cc6028b1-51f3-43e9-ba4f-09812c32327e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="2" executed="2" passed="0" failed="2" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

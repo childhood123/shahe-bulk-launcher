@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="bbcb6e9c-9a1d-410c-9274-95349108dce7" name="Administrator@CHILDHOOD 2026-10-22 14:39:26" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T14:39:26.1354470+08:00" queuing="2026-10-22T14:39:26.1354474+08:00" start="2026-10-22T14:39:22.2782617+08:00" finish="2026-10-22T14:39:26.1416526+08:00" />
+  <TestSettings name="default" id="c57d195d-4475-4788-a22e-e5e2a0a0201b">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_14_39_26" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="bd411637-8578-4249-824e-447901cb68a8" testId="91eb70ee-c559-718f-37d0-2b17d831d829" testName="ProcessQueryFailureCannotBeReportedAsZeroProcesses" computerName="CHILDHOOD" duration="00:00:00.0046907" startTime="2026-10-22T14:39:25.9349450+08:00" endTime="2026-10-22T14:39:25.9429239+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bd411637-8578-4249-824e-447901cb68a8" />
+    <UnitTestResult executionId="4cdf8fd6-38e8-4efd-99f8-9af550c424f1" testId="235b2358-e501-1995-7011-569a4d108408" testName="ProcessTerminationRejectsChangedOwnershipBeforeExecutingCommand" computerName="CHILDHOOD" duration="00:00:00.1611772" startTime="2026-10-22T14:39:25.4661743+08:00" endTime="2026-10-22T14:39:25.9239751+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4cdf8fd6-38e8-4efd-99f8-9af550c424f1" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="ProcessQueryFailureCannotBeReportedAsZeroProcesses" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="91eb70ee-c559-718f-37d0-2b17d831d829">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="bd411637-8578-4249-824e-447901cb68a8" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="ProcessQueryFailureCannotBeReportedAsZeroProcesses" />
+    </UnitTest>
+    <UnitTest name="ProcessTerminationRejectsChangedOwnershipBeforeExecutingCommand" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\release\net48\shahelauncher.tests.dll" id="235b2358-e501-1995-7011-569a4d108408">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AuditRunner" />
+      </TestCategory>
+      <Execution id="4cdf8fd6-38e8-4efd-99f8-9af550c424f1" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SandboxieLifecycleAuditRunnerTests" name="ProcessTerminationRejectsChangedOwnershipBeforeExecutingCommand" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="91eb70ee-c559-718f-37d0-2b17d831d829" executionId="bd411637-8578-4249-824e-447901cb68a8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="235b2358-e501-1995-7011-569a4d108408" executionId="4cdf8fd6-38e8-4efd-99f8-9af550c424f1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="2" executed="2" passed="2" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

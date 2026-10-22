@@ -17,7 +17,7 @@ namespace ShaheLauncher.Tests
     public sealed class SettingsRuntimeContractTests
     {
         [TestMethod]
-        public void ResetSettingsRestoresSwitchesWithOnePythonOrderedMenuRefresh()
+        public void ResetSettingsRestoresSwitchesWithoutSynchronousProcessScan()
         {
             RunInSta(() =>
             {
@@ -79,8 +79,8 @@ namespace ShaheLauncher.Tests
 
                     ExecuteAction(form, "reset_settings");
 
-                    Assert.AreEqual(1, menuProcessScans,
-                        "Python on_settings_saved applies hotkeys and rebuilds the menu once");
+                    Assert.AreEqual(0, menuProcessScans,
+                        "重置设置后的菜单重建不能在 UI 线程同步扫描全部沙盒 PID");
                     CollectionAssert.AreEqual(new[] { true, false }, autoRunWrites.ToArray());
                     Assert.IsFalse(form.AutoRun);
                     Assert.IsTrue(form.ShowTray);

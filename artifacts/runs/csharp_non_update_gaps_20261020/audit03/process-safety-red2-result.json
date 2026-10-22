@@ -1,0 +1,24 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\bin\\",
+    "--logger",
+    "trx;LogFileName=process-safety-red2.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03",
+    "--filter",
+    "FullyQualifiedName~ProcessTerminationRejectsChangedOwnership|FullyQualifiedName~ProcessQueryFailureCannotBeReported"
+  ],
+  "returnCode": 1,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\process-safety-red2.log",
+  "passed": 0,
+  "failed": 2,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\process-safety-red2.trx"
+}

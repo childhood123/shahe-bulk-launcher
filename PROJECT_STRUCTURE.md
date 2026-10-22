@@ -1,16 +1,17 @@
 # 沙河批量打开器项目结构
 
-## 当前执行摘要（2026-10-21 GAP-10 对照与剩余缺口复核）
+## 当前执行摘要（2026-10-22 AUDIT-03 真实 Sandboxie 生命周期审计）
 
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-09 已按用户“反正能记忆到999条记录就行之前是20”的明确要求更新为 C# `0–999`；除该用户指定差异外，后续功能继续保留 Python 原文案和行为，只用 C# 实现。
-- 当前模块：AUDIT-01 至 AUDIT-08 真实审计与发布门禁；REVIEW-01 至 REVIEW-06、VOICE-02 已完成代码和自动化验证并分别提交。整体迁移仍未完成。GAP-10 已独立提交，真实 EXE 交互仍因 Computer Use 无有效窗口证据而保留风险；C# 最大 999、Python 原上限 20 是用户明确要求的有意差异。
+- 当前模块：AUDIT-03 Sandboxie 剩余生命周期。真实 `batch-create`、`create-group`、`launch-group`、`schedule-launch` 和精确 cleanup 已通过；`schedule-close` 被当前运行的 `SbieCtrl.exe` 安全门禁阻断，真实 `delete-group`、`cancel-schedules`、`batch-rename`、`batch-delete` 尚未取得有效执行证据。因此 AUDIT-03 尚未完成，不能进入 AUDIT-04，整体迁移仍未完成。
 - GitCode 发布状态：公开仓库 `https://gitcode.com/childhood123/shahe-bulk-launcher-releases` 的 `main` 已指向 `18caa88287fc5714a90528e88cd732d0204ec135`。默认清单 `https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json` 匿名生产式请求为 HTTP `200`；清单内 content-addressed ZIP 匿名请求为 HTTP `200`。
 - 发布包状态：版本 `4.0.46`，ZIP 大小 `2785203` 字节，SHA-256 `D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8`；匿名下载后的实际大小和哈希完全一致。最终证据为 `artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-final.json`。
-- 最新自动化门禁：AUDIT-01 修复后 Application/Lifecycle/Tray 受影响 120/120、C# 全量 344/344、Python 29/29、compileall 0、Release x64 0 警告/0 错误；VOICE-02 定向 2/2、Speech/Application/Updates 受影响 167/167；REVIEW-01 至 REVIEW-06 及 Python 对照均通过。生产源码编译与 Release x64 隔离构建成功。实际计数、命令、返回码与日志路径只保留在本轮只追加验证记录。此前 AuditRunner 原生前台/索引失败均保留，最终全量为有效复跑。全工作树差异检查仍被 GAP-09 历史日志空白阻断，本模块范围检查通过。
+- 最新自动化门禁：AUDIT-03 新增异常用例均取得有效 RED/GREEN；受影响 90/90，最终干净索引快照锁定还原成功、C# 全量 360/360、Python 29/29、compileall 返回码 0、Release x64 0 警告/0 错误。修正后的真实只读复查确认精确资源清零及三份哈希匹配；整体门禁仍因 SbieCtrl 运行返回 blocked。本轮源码/文档和暂存差异检查返回 0；全工作树原有 GAP-09 日志空白仍保留。实际命令、计数和证据见文末最新记录，先前 347/356 项结果不覆盖全部新增场景。
 - 版本触发边界：应用 `AppVersion` 与公开清单 `latest_version` 当前同为 `4.0.46`。本次发布建立了可用更新基线，但已运行同版本客户端不会收到“有新版本”提示；后续真实升级发布必须使用更高版本号并重新生成包、清单和校验值。
-- 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、AUDIT-02、UPDATE-01 及此前已确认范围。当前待办为 AUDIT-03 至 AUDIT-08 和 RELEASE-01；整体迁移仍未完成。另有 AUDIT-01 至 AUDIT-08 和最终发布门禁。
+- 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、AUDIT-02、UPDATE-01 及此前已确认范围。当前模块为未完成的 AUDIT-03；其后待迁移/审计模块为 AUDIT-04 至 AUDIT-08 和 RELEASE-01。整体迁移仍未完成。
 - 真实 updater 证据：GitCode 匿名 ZIP 在隔离生产 helper 布局下以 `restart=true` 完成下载、替换和进程重启；updater PID `11448` 返回 `0`，精确隔离路径主进程 PID `5364` 被观测并清理，安装文件哈希、用户配置和 `lib 7/7` 均通过。该场景主窗口句柄为 `0`，只证明进程重启，不替代后续发布目录 UI 启动审计。
-- C# 当前可以启动并运行已验证功能；GAP-09 已完成代码、自动化验证、生产 UI 模态对话框隔离进程验证（`0/21/999` 保存与重启）和修复后二进制真实启动烟雾测试。整体 Python→C# 迁移仍未完成，完整运行和发布验收仍有待办；活动计划内残留的 GAP-09 未勾选提交项属于文档进度滞后，以本摘要和实际提交为准。
+- 真实 Sandboxie 清理状态：本轮隔离配置与真实 `Sandboxie.ini` 哈希均恢复基线，`ShaheAudit_*` section、目录、目标进程和 `Start.exe` 均为 0；只读 `verify-clean` 因当前运行的 `SbieCtrl.exe` PID `15628` 返回 blocked。该进程未被结束或修改。本轮真实证据目录为 `artifacts/runs/csharp_non_update_gaps_20261020/audit03/`。
+- C# 当前可以启动并运行已验证功能；路径记忆上限按用户要求为 999。整体 Python→C# 迁移仍未完成，AUDIT-03 剩余真实场景、AUDIT-04 至 AUDIT-08 和最终发布验收仍有待办；活动计划中的旧复选框存在进度滞后，以本摘要、独立提交和最新日志证据为准。
 
 ### 本轮验证记录（只追加）
 
@@ -2153,3 +2154,168 @@ csharp/
 - AUDIT-02 完成：现行 Release 隔离启动加载 999 条 JSON 路径历史，窗口/就绪/自然退出/无残留均通过；C# 备注、当前删除、全部清空、上下文菜单和数量限制契约 32/32，Python 29/29，compileall 0，隔离 Release 0 警告/0 错误。真实备注/删除/清空键盘输入未取得稳定焦点证据，仍列为 AUDIT-04/08 风险；不把历史 UI 日志替代本轮结论。证据目录 `artifacts/runs/csharp_non_update_gaps_20261020/audit02`。
 
 - AUDIT-02 差异检查：返回码 0，日志 `artifacts/runs/csharp_non_update_gaps_20261020/audit02/diff.log`，计数不适用。
+`n- AUDIT-03 RED：AuditRunner 命令行接受 verify-clean 但运行器返回 unsupported；新增隔离只读运行时契约，要求独立报告且三份输入字节不变。
+
+- AUDIT-03 red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=red.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~VerifyCleanProducesReadOnlyOwnershipReport`；返回码 1，通过 0、失败 1、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/red.log`、`red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=green.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~VerifyCleanProducesReadOnlyOwnershipReport`；返回码 1，通过 0、失败 1、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/green.log`、`green-result.json`；如为 C# 测试，另有同名 TRX。
+`n- AUDIT-03 首次 GREEN 中 verify-clean 已生成只读报告且输入未变，但测试按小写 JSON 属性断言失败；JavaScriptSerializer 输出模型属性为 `Kind`，修正测试断言后重跑，不改生产行为。
+
+- AUDIT-03 green2：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=green2.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~VerifyCleanProducesReadOnlyOwnershipReport`；返回码 0，通过 1、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/green2.log`、`green2-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 affected：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=affected.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter TestCategory=AuditRunner`；返回码 0，通过 23、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/affected.log`、`affected-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 python：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 0，通过 29、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/python.log`、`python-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 compile：命令 `python -m compileall -q shahe_bulk_launcher tests`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/compile.log`、`compile-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 release：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/release.log`、`release-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 full：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=full.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03`；返回码 0，通过 345、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/full.log`、`full-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 真实只读 verify-clean：返回码 3；目标、配置、Sandboxie.ini 使用精确 SHA-256，报告路径见 `artifacts/runs/csharp_non_update_gaps_20261020/audit03/verify-clean.log` 与生成的 `auditrunner-verify-clean-*.json`。返回 blocked 时只代表清洁门禁未满足，不执行清理。
+`n- AUDIT-03 后续 RED：batch-rename/batch-delete 命令已登记但运行器无对应方法；新增最终阶段运行时契约和重命名后所有权状态校验。
+
+- AUDIT-03 final-stages-red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=final-stages-red.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~LifecycleRenameAndDeleteStagesAreImplementedByCompiledRunner`；返回码 1，通过 0、失败 1、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/final-stages-red.log`、`final-stages-red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 final-stages-green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=final-stages-green.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~LifecycleRenameAndDeleteStagesAreImplementedByCompiledRunner`；返回码 0，通过 1、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/final-stages-green.log`、`final-stages-green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 ancestor-red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=ancestor-red.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~ProcessSnapshotCanExcludeItsOwnLauncherChain`；返回码 1，通过 0、失败 1、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/ancestor-red.log`、`ancestor-red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 ancestor-green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=ancestor-green.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~ProcessSnapshotCanExcludeItsOwnLauncherChain|FullyQualifiedName~LifecycleRenameAndDeleteStagesAreImplementedByCompiledRunner|FullyQualifiedName~VerifyCleanProducesReadOnlyOwnershipReport`；返回码 0，通过 3、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/ancestor-green.log`、`ancestor-green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 release-real：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/release-real.log`、`release-real-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 真实 Sandboxie preflight：返回码 0；目标/隔离配置/真实 Sandboxie.ini 精确哈希，报告 `D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\auditrunner-preflight-20261022_105908_372-result.json`，索引 `artifacts/runs/csharp_non_update_gaps_20261020/audit03/real-preflight-result.json`。仅返回码 0 才继续生命周期。
+
+- AUDIT-03 真实 batch-create：前缀 ShaheAudit_20261022_1059A，返回码 3；报告路径见 `artifacts/runs/csharp_non_update_gaps_20261020/audit03/real-batch-create.log`。仅创建精确所有权临时资源。
+
+- AUDIT-03 alias-green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=alias-green.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~BatchCreatePlanUsesOriginalShaheOfficialPath|FullyQualifiedName~CreateGroupPreservesExistingSettingsAndUsesExactOwnedMembers|FullyQualifiedName~LaunchGroupSelectsOnlyExactBoundGroupClaims`；返回码 1，通过 2、失败 1、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/alias-green.log`、`alias-green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 alias-green2：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=alias-green2.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~BatchCreatePlanUsesOriginalShaheOfficialPath|FullyQualifiedName~CreateGroupPreservesExistingSettingsAndUsesExactOwnedMembers|FullyQualifiedName~LaunchGroupSelectsOnlyExactBoundGroupClaims`；返回码 1，通过 2、失败 1、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/alias-green2.log`、`alias-green2-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 alias-green3：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=alias-green3.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~BatchCreatePlanUsesOriginalShaheOfficialPath|FullyQualifiedName~CreateGroupPreservesExistingSettingsAndUsesExactOwnedMembers|FullyQualifiedName~LaunchGroupSelectsOnlyExactBoundGroupClaims`；返回码 0，通过 3、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/alias-green3.log`、`alias-green3-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 release-real2：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/release-real2.log`、`release-real2-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 别名修复后真实 preflight：返回码 0，报告 `D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\auditrunner-preflight-20261022_110251_312-result.json`；仅返回码 0 才重启生命周期。
+
+- AUDIT-03 真实 batch-create 重跑：前缀 ShaheAudit_20261022_1103B，返回码 0，报告 `D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\auditrunner-lifecycle-batch-create-20261022_110309_881-result.json`。
+
+- AUDIT-03 真实 create-group：返回码 0，报告 `D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\auditrunner-lifecycle-create-group-20261022_110329_466-result.json`。
+
+- AUDIT-03 真实 launch-group：返回码 0，报告 `D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\auditrunner-lifecycle-launch-group-20261022_110348_301-result.json`；仅运行本轮两个所有权沙盒并由审计器清理其进程。
+
+- AUDIT-03 真实 schedule-launch：返回码 0，报告 `D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\auditrunner-lifecycle-schedule-launch-20261022_110408_086-result.json`。
+
+- AUDIT-03 真实 schedule-close：返回码 3，报告 `D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\auditrunner-lifecycle-schedule-close-20261022_110425_393-result.json`；若 SbieCtrl 出现，安全门禁应先阻断。
+
+- AUDIT-03 schedule-close 阻断后精确 cleanup：返回码 0，报告 `D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\auditrunner-lifecycle-cleanup-20261022_110447_414-result.json`；只恢复本轮隔离配置并删除 state 中精确所有权资源。
+
+- AUDIT-03 cleanup 后真实只读 verify-clean：返回码 3，报告 `D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\auditrunner-verify-clean-20261022_110508_269-result.json`；SbieCtrl 或哈希变化会保持 blocked，重点核对本轮 ShaheAudit section/directory/process 是否清零。
+
+- AUDIT-03 affected-final：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=affected-final.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter TestCategory=AuditRunner|TestCategory=SandboxAdmin|TestCategory=Scheduling`；返回码 0，通过 53、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/affected-final.log`、`affected-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 python-final：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 0，通过 29、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/python-final.log`、`python-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 compile-final：命令 `python -m compileall -q shahe_bulk_launcher tests`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/compile-final.log`、`compile-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 release-final：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/release-final.log`、`release-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 rollback-green-final：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=rollback-green-final.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~LifecycleRenameAndDeleteStagesAreImplementedByCompiledRunner|FullyQualifiedName~VerifyCleanProducesReadOnlyOwnershipReport|FullyQualifiedName~ProcessSnapshotCanExcludeItsOwnLauncherChain`；返回码 0，通过 3、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/rollback-green-final.log`、`rollback-green-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 full-final2：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=full-final2.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03`；返回码 1，通过 346、失败 1、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/full-final2.log`、`full-final2-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 confirmation-recheck：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=confirmation-recheck.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~BatchCreateConfirmationWaitsForTheButtonHandler`；返回码 0，通过 1、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/confirmation-recheck.log`、`confirmation-recheck-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 full-final3：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=full-final3.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03`；返回码 1，通过 346、失败 1、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/full-final3.log`、`full-final3-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 confirmation-green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=confirmation-green.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~BatchCreateConfirmationWaitsForTheButtonHandler`；返回码 1，通过 0、失败 1、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/confirmation-green.log`、`confirmation-green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 confirmation-green2：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=confirmation-green2.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~BatchCreateConfirmationWaitsForTheButtonHandler`；返回码 0，通过 1、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/confirmation-green2.log`、`confirmation-green2-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 full-final4：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=full-final4.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03`；返回码 0，通过 347、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/full-final4.log`、`full-final4-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 affected-final2：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=affected-final2.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter TestCategory=AuditRunner|TestCategory=SandboxAdmin|TestCategory=Scheduling`；返回码 0，通过 53、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/affected-final2.log`、`affected-final2-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 python-final2：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 0，通过 29、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/python-final2.log`、`python-final2-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 compile-final2：命令 `python -m compileall -q shahe_bulk_launcher tests`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/compile-final2.log`、`compile-final2-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 release-final2：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/release-final2.log`、`release-final2-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 当前结论：新增只读 `verify-clean`、真实审计进程祖先排除、强制 BoxAlias 的审计别名、`batch-rename`、`batch-delete` 及失败回滚快照；真实沙河中 `batch-create`、`create-group`、`launch-group`、`schedule-launch`、精确 cleanup 均通过。cleanup 后目标、隔离配置和真实 `Sandboxie.ini` 哈希均匹配基线，`ShaheAudit_*` section/目录、目标进程和 `Start.exe` 均为 0。用户现有 `SbieCtrl.exe` PID `15628` 使 `schedule-close` 和最终只读清洁门禁按设计返回 blocked；未结束用户进程，真实 `delete-group`、`cancel-schedules`、`batch-rename`、`batch-delete` 仍无有效执行证据。因此本轮代码和自动化门禁已通过，但 AUDIT-03 模块保持未完成，下一次继续工作仍从 AUDIT-03 的首个未完成真实场景开始。汇总报告：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/implementation-report.md`。
+
+- AUDIT-03 暂存快照首次锁定还原：`dotnet restore <staged-snapshot>\csharp\ShaheBulkLauncher.sln --locked-mode` 返回码 1，`ShaheLauncher.Tests/packages.lock.json` 缺少新增 AuditRunner 项目引用，报 `NU1004`；测试未执行，不计产品失败。日志与结果：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/staged-restore.log`、`staged-restore-result.json`。需更新锁文件后重新导出索引快照验证。
+
+- AUDIT-03 暂存快照第二次验证：更新测试项目锁文件后，`--locked-mode` 还原返回码 0；随后干净索引快照全量测试在编译阶段返回码 1、未产生 TRX，原因是已提交的 `MainForm.cs` 引用了仅存在于未暂存 `HotkeyController.cs` 的 `ListMayHideSandboxMembers` 与 `AllHasProcess`。这证明当前远端提交组合缺少调用端的配套类型定义；不计 AUDIT-03 产品测试失败，需先核对并补齐最小构建依赖。日志与结果：`staged-restore2.log`、`staged-restore2-result.json`、`staged-full.log`、`staged-full-result.json`。
+
+- AUDIT-03 暂存快照第三步：纳入 `HotkeyController.cs` 的既有配套类型定义后，锁定还原和编译成功，全量返回码 1、通过 346、失败 1、跳过 0；唯一失败是旧 `SettingsRuntimeContractTests` 仍期望重置设置在 UI 线程同步扫描全部沙盒 PID 一次，而已提交菜单刷新实现实际为 0 次并转入后台刷新。该工作树测试差异与现有实现一致，需作为先前遗漏的配套断言纳入后再复跑。日志与结果：`staged-restore3.log`、`staged-restore3-result.json`、`staged-full2.log`、`staged-full2-result.json`、`staged-full2.trx`。
+
+- AUDIT-03 干净暂存快照 GREEN：纳入测试项目锁文件、`HotkeyController.cs` 配套状态成员和设置重置异步扫描断言后，`dotnet restore <staged-snapshot>\csharp\ShaheBulkLauncher.sln --locked-mode` 返回码 0；同一索引快照 `dotnet test` Release x64 返回码 0，通过 347、失败 0、跳过 0。该结果不读取工作树未暂存代码。日志与结果：`staged-restore4.log`、`staged-restore4-result.json`、`staged-full3.log`、`staged-full3-result.json`、`staged-full3.trx`。
+
+- AUDIT-03 干净暂存快照 Python 对照：在同一索引快照运行 `python -m unittest discover -s tests -p "test_*.py" -v`，返回码 0，通过 29、失败 0、跳过 0。日志与结果：`staged-python.log`、`staged-python-result.json`。
+
+- AUDIT-03 干净暂存快照 Python 编译：在同一索引快照运行 `python -m compileall -q shahe_bulk_launcher tests`，返回码 0。日志与结果：`staged-compile.log`、`staged-compile-result.json`。
+
+- AUDIT-03 干净暂存快照 Release x64：在同一索引快照运行隔离 `dotnet build --configuration Release --no-restore --property:Platform=x64`，返回码 0，0 警告、0 错误。日志与结果：`staged-release.log`、`staged-release-result.json`。至此当前拟提交索引的 C# 全量、Python 全量、Python 编译和 Release 构建均取得有效 GREEN。
+
+- AUDIT-03 safety-review-red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=safety-review-red.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~AliasRenameRestoresAttemptedWrites|FullyQualifiedName~AliasRollbackContinues|FullyQualifiedName~CleanupSelectionAllowsOnlyAbsent|FullyQualifiedName~OwnedConfigurationCleanupCanBeRepeated|FullyQualifiedName~LifecycleStateWritePreserves`；返回码 1，通过 0、失败 6、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/safety-review-red.log`、`safety-review-red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 safety-review-green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=safety-review-green.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~AliasRenameRestoresAttemptedWrites|FullyQualifiedName~AliasRollbackContinues|FullyQualifiedName~CleanupSelectionAllowsOnlyAbsent|FullyQualifiedName~OwnedConfigurationCleanupCanBeRepeated|FullyQualifiedName~LifecycleStateWritePreserves`；返回码 0，通过 6、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/safety-review-green.log`、`safety-review-green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 process-safety-red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=process-safety-red.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~ProcessTerminationRejectsChangedOwnership|FullyQualifiedName~ProcessQueryFailureCannotBeReported`；返回码 1，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/process-safety-red.log`、`process-safety-red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 process-safety-red 首次因审计器参数接线未补全而编译失败，未运行测试，不计行为 RED；补齐调用参数后另跑有效 RED。
+
+- AUDIT-03 process-safety-red2：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=process-safety-red2.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~ProcessTerminationRejectsChangedOwnership|FullyQualifiedName~ProcessQueryFailureCannotBeReported`；返回码 1，通过 0、失败 2、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/process-safety-red2.log`、`process-safety-red2-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 process-safety-green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=process-safety-green.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~ProcessTerminationRejectsChangedOwnership|FullyQualifiedName~ProcessQueryFailureCannotBeReported`；返回码 0，通过 2、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/process-safety-green.log`、`process-safety-green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 exact-clean-red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=exact-clean-red.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~VerifyCleanRejectsOrphanDirectory|FullyQualifiedName~VerifyCleanProducesReadOnlyOwnershipReport`；返回码 1，通过 0、失败 2、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/exact-clean-red.log`、`exact-clean-red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 exact-clean-green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=exact-clean-green.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~VerifyCleanRejectsOrphanDirectory|FullyQualifiedName~VerifyCleanProducesReadOnlyOwnershipReport`；返回码 0，通过 2、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/exact-clean-green.log`、`exact-clean-green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 review-affected-final：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=review-affected-final.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter TestCategory=AuditRunner|TestCategory=SandboxAdmin|TestCategory=Scheduling|FullyQualifiedName~HotkeyControllerContractTests|FullyQualifiedName~SettingsRuntimeContractTests`；返回码 0，通过 86、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/review-affected-final.log`、`review-affected-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 review-full-final：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=review-full-final.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03`；返回码 0，通过 356、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/review-full-final.log`、`review-full-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 修正后真实只读复查：执行 audit03/verify-owned-clean.ps1，返回码 3，状态 blocked；精确所有权检查 ownedResources=True。完整参数和只含本轮资源的摘要见 artifacts/runs/csharp_non_update_gaps_20261020/audit03/review-real-verify-clean-result.json；含用户资源名称的原始报告只保留本地。
+
+- AUDIT-03 review-python-final：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 0，通过 29、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/review-python-final.log`、`review-python-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 review-compile-final：命令 `python -m compileall -q shahe_bulk_launcher tests`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/review-compile-final.log`、`review-compile-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 review-release-final：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/review-release-final.log`、`review-release-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 callback-cleanup-red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=callback-cleanup-red.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~ExistingSandboxProcessCannotEnable|FullyQualifiedName~TimerStopCannotAuthorize|FullyQualifiedName~CleanupRechecksOwnership`；返回码 1，通过 0、失败 4、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/callback-cleanup-red.log`、`callback-cleanup-red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 callback-cleanup-green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=callback-cleanup-green.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~ExistingSandboxProcessCannotEnable|FullyQualifiedName~TimerStopCannotAuthorize|FullyQualifiedName~CleanupRechecksOwnership`；返回码 1，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/callback-cleanup-green.log`、`callback-cleanup-green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 callback-cleanup-green 首次缺少标准库 System.Threading.Tasks 命名空间，编译未通过且未执行测试；补充 using 后重跑。
+
+- AUDIT-03 callback-cleanup-green2：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=callback-cleanup-green2.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter FullyQualifiedName~ExistingSandboxProcessCannotEnable|FullyQualifiedName~TimerStopCannotAuthorize|FullyQualifiedName~CleanupRechecksOwnership`；返回码 0，通过 4、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/callback-cleanup-green2.log`、`callback-cleanup-green2-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 safety-final-affected：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=safety-final-affected.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03 --filter TestCategory=AuditRunner|TestCategory=SandboxAdmin|TestCategory=Scheduling|FullyQualifiedName~HotkeyControllerContractTests|FullyQualifiedName~SettingsRuntimeContractTests`；返回码 0，通过 90、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/safety-final-affected.log`、`safety-final-affected-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 safety-final-full：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\bin\ --logger trx;LogFileName=safety-final-full.trx --results-directory D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03`；返回码 0，通过 360、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit03/safety-final-full.log`、`safety-final-full-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 安全复核：先前反射方法存在性与所有权选择测试未覆盖异常回滚。新增有效 RED/GREEN 覆盖部分写入/回滚失败、原子状态保存、部分删除重试、配置重复恢复、误终止防护、进程查询失败、非前缀目录残留、定时回调未结束时禁止清理、删除期间所有权变化。独立只读复核确认本轮关键问题已修复；仅作为审计器安全修复检查点，不把 AUDIT-03 标记完成。原始 SbieCtrl 在首轮 preflight 中为零、测试期间出现，启动归属未确认；此前“用户现有进程”措辞不构成归属证据，当前仅按门禁保留。
+
+- AUDIT-03 clean-final-restore（干净索引快照）：返回码 0，测试计数不适用。实际命令、日志路径与结果见 artifacts/runs/csharp_non_update_gaps_20261020/audit03/clean-final-restore-result.json 及同名日志；C# 测试另有 TRX。
+
+- AUDIT-03 clean-final-full（干净索引快照）：返回码 0，通过 360、失败 0、跳过 0。实际命令、日志路径与结果见 artifacts/runs/csharp_non_update_gaps_20261020/audit03/clean-final-full-result.json 及同名日志；C# 测试另有 TRX。
+
+- AUDIT-03 clean-final-python（干净索引快照）：返回码 0，通过 29、失败 0、跳过 0。实际命令、日志路径与结果见 artifacts/runs/csharp_non_update_gaps_20261020/audit03/clean-final-python-result.json 及同名日志；C# 测试另有 TRX。
+
+- AUDIT-03 clean-final-compile（干净索引快照）：返回码 0，测试计数不适用。实际命令、日志路径与结果见 artifacts/runs/csharp_non_update_gaps_20261020/audit03/clean-final-compile-result.json 及同名日志；C# 测试另有 TRX。
+
+- AUDIT-03 clean-final-release（干净索引快照）：返回码 0，测试计数不适用。实际命令、日志路径与结果见 artifacts/runs/csharp_non_update_gaps_20261020/audit03/clean-final-release-result.json 及同名日志；C# 测试另有 TRX。
+
+- AUDIT-03 最终真实只读复查：返回码 3，状态 blocked，精确 ownedResources=True；完整命令与本轮资源摘要见 artifacts/runs/csharp_non_update_gaps_20261020/audit03/final-real-verify-result.json。目标/配置/INI 哈希和审计资源清零检查均通过，SbieCtrl/SandboxieOther 进程门禁保持 blocked；未执行新的破坏性场景。
+
+- AUDIT-03 最终差异检查：全工作树返回码 2（仅保留原有 GAP-09 日志空白），本轮源码/文档范围返回码 0，暂存范围返回码 0。日志和命令索引见 audit03/final-diff-result.json 与 final-*-diff.log；不改写用户历史日志。
+
+- AUDIT-03 暂存检查补充：原始全工作树 diff 日志忠实包含用户旧日志的尾随空白，暂存它会触发差异检查错误；该原始日志仅保留本地，提交命令/返回码摘要，未改写原始证据。移出该日志后暂存检查再次验证。
+
+- AUDIT-03 最终暂存复查返回码 0，证据为 audit03/final-staged-recheck-result.json 与同名日志。

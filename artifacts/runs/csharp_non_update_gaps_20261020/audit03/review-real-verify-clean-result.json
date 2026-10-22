@@ -1,0 +1,72 @@
+{
+  "command": [
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\bin\\x64\\Release\\net48\\ShaheLauncher.AuditRunner.exe",
+    "verify-clean",
+    "--baseline",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\auditrunner-preflight-20261022_110251_312-result.json",
+    "--state",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\real-lifecycle-state2.json",
+    "--prefix",
+    "ShaheAudit_20261022_1103B",
+    "--target",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\bin\\x64\\Release\\net48\\沙河批量打开器.exe",
+    "--config",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\real-lifecycle-config.ini",
+    "--sandboxie-ini",
+    "C:\\Windows\\Sandboxie.ini",
+    "--expected-target-sha256",
+    "E52D0C106F84700F5EA57A305376B9139373801E55B684A6CAADE2C89A139237",
+    "--expected-config-sha256",
+    "11602EE15AA5F1AA54B74568A010E69CCB0719C1B5D2F248ADBD15840B6425A9",
+    "--expected-ini-sha256",
+    "2709ADB23A9D1080D91C0401DC86A9F954AF81DEAFB5FFD7DF03F5AA30E75A6D",
+    "--output",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03"
+  ],
+  "returnCode": 3,
+  "status": "blocked",
+  "report": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\auditrunner-verify-clean-20261022_144415_221-result.json",
+  "checks": {
+    "targetHash": true,
+    "configHash": true,
+    "iniHash": true,
+    "iniReadable": true,
+    "sandboxiePath": true,
+    "sandboxRoot": true,
+    "serviceRunning": true,
+    "target": true,
+    "Start.exe": true,
+    "powershell.exe": true,
+    "pwsh.exe": true,
+    "AuditRunner.exe": true,
+    "SbieCtrl.exe": false,
+    "SandboxieOther": false,
+    "shaheAuditSections": true,
+    "shaheAuditDirectories": true,
+    "ownedResources": true
+  },
+  "processCounts": {
+    "target": 0,
+    "Start.exe": 0,
+    "powershell.exe": 0,
+    "pwsh.exe": 0,
+    "AuditRunner.exe": 0,
+    "SbieCtrl.exe": 1,
+    "SandboxieOther": 1
+  },
+  "auditSectionCount": 0,
+  "auditDirectoryCount": 0,
+  "ownedClaims": [
+    {
+      "InternalName": "ShaheAudit_20261022_11031",
+      "Alias": "ShaheAudit_20261022_1103B_Alias-01",
+      "DirectoryName": "ShaheAudit_20261022_11031"
+    },
+    {
+      "InternalName": "ShaheAudit_20261022_11032",
+      "Alias": "ShaheAudit_20261022_1103B_Alias-02",
+      "DirectoryName": "ShaheAudit_20261022_11032"
+    }
+  ],
+  "errors": []
+}

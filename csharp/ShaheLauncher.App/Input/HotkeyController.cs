@@ -48,6 +48,7 @@ namespace ShaheLauncher.App.Input
         public string SelectedName { get; set; }
         public bool SelectedHasProcess { get; set; }
         public bool AllHasProcess { get; set; }
+        public bool ListMayHideSandboxMembers { get; set; }
         public bool SelectedHasWindow { get; set; }
         public bool AllHasWindow { get; set; }
     }
@@ -56,6 +57,7 @@ namespace ShaheLauncher.App.Input
     {
         public bool? SelectedMuteState { get; set; }
         public bool? AllMuteState { get; set; }
+        public bool? AllHasProcess { get; set; }
         public bool SelectedHasWindow { get; set; }
         public bool OutputDevicesAvailable { get; set; }
         public bool SelectedAudioSession { get; set; }
@@ -458,6 +460,7 @@ namespace ShaheLauncher.App.Input
                 SelectedName = selectedName,
                 SelectedHasProcess = selectedHasProcess,
                 AllHasProcess = allHasProcess,
+                ListMayHideSandboxMembers = listMayHideSandboxMembers,
                 SelectedHasWindow = false,
                 AllHasWindow = allHasProcess
             };
@@ -738,6 +741,7 @@ namespace ShaheLauncher.App.Input
             {
                 SelectedMuteState = null,
                 AllMuteState = null,
+                AllHasProcess = null,
                 SelectedHasWindow = false,
                 OutputDevicesAvailable = false,
                 SelectedAudioSession = false,
@@ -756,6 +760,7 @@ namespace ShaheLauncher.App.Input
             {
                 SelectedMuteState = state.SelectedMuteState,
                 AllMuteState = state.AllMuteState,
+                AllHasProcess = state.AllHasProcess,
                 SelectedHasWindow = state.SelectedHasWindow,
                 OutputDevicesAvailable = state.OutputDevicesAvailable,
                 SelectedAudioSession = state.SelectedAudioSession,

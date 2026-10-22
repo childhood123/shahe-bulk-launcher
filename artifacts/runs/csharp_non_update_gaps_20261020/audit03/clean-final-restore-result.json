@@ -1,0 +1,13 @@
+{
+  "command": [
+    "dotnet",
+    "restore",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\_final_index_snapshot\\csharp\\ShaheBulkLauncher.sln",
+    "--locked-mode"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\clean-final-restore.log",
+  "passed": null,
+  "failed": null,
+  "skipped": null
+}

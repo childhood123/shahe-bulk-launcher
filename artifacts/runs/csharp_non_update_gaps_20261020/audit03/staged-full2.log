@@ -1,0 +1,23 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\staged-bin2\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\staged-bin2\x64\Release\net48\updater.exe
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\staged-bin2\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\staged-bin2\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\staged-bin2\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\staged-bin2\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 ResetSettingsRestoresSwitchesWithOnePythonOrderedMenuRefresh [334 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: <1>，实际为: <0>。Python on_settings_saved applies hotkeys and rebuilds the menu once
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201
+   在 ShaheLauncher.Tests.SettingsRuntimeContractTests.<>c.<ResetSettingsRestoresSwitchesWithOnePythonOrderedMenuRefresh>b__0_0() 位置 D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\_staged_snapshot\csharp\ShaheLauncher.Tests\SettingsRuntimeContractTests.cs:行号 84
+   在 ShaheLauncher.Tests.SettingsRuntimeContractTests.<>c__DisplayClass6_0.<RunInSta>b__0() 位置 D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\_staged_snapshot\csharp\ShaheLauncher.Tests\SettingsRuntimeContractTests.cs:行号 197
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SettingsRuntimeContractTests.RunInSta(Action action) 位置 D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\_staged_snapshot\csharp\ShaheLauncher.Tests\SettingsRuntimeContractTests.cs:行号 205
+
+结果文件: D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit03\staged-full2.trx
+
+失败!  - 失败:     1，通过:   346，已跳过:     0，总计:   347，持续时间: 17 s - ShaheLauncher.Tests.dll (net48)

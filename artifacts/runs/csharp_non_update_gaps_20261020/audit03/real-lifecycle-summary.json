@@ -1,0 +1,79 @@
+{
+  "environment": "user Sandboxie installation",
+  "sandboxiePath": "C:\\Program Files\\Sandboxie",
+  "sandboxRoot": "C:\\Sandbox\\Administrator",
+  "prefix": "ShaheAudit_20261022_1103B",
+  "preflight": {
+    "status": "passed",
+    "returnCode": 0,
+    "report": "auditrunner-preflight-20261022_110251_312-result.json"
+  },
+  "stages": [
+    {
+      "name": "batch-create",
+      "status": "passed",
+      "returnCode": 0
+    },
+    {
+      "name": "create-group",
+      "status": "passed",
+      "returnCode": 0
+    },
+    {
+      "name": "launch-group",
+      "status": "passed",
+      "returnCode": 0,
+      "observedOwnedPids": [
+        13032,
+        4732
+      ]
+    },
+    {
+      "name": "schedule-launch",
+      "status": "passed",
+      "returnCode": 0,
+      "observedOwnedPids": [
+        18476,
+        14836,
+        15332,
+        6772,
+        17912,
+        12776
+      ]
+    },
+    {
+      "name": "schedule-close",
+      "status": "inconclusive",
+      "returnCode": 3,
+      "blocker": "SbieCtrl.exe"
+    },
+    {
+      "name": "cleanup",
+      "status": "passed",
+      "returnCode": 0
+    }
+  ],
+  "cleanupVerification": {
+    "status": "blocked",
+    "returnCode": 3,
+    "targetHashMatches": true,
+    "isolatedConfigHashMatches": true,
+    "sandboxieIniHashMatches": true,
+    "shaheAuditSectionCount": 0,
+    "shaheAuditDirectoryCount": 0,
+    "targetProcessCount": 0,
+    "startProcessCount": 0,
+    "auditRunnerProcessCount": 0,
+    "blocker": {
+      "name": "SbieCtrl.exe",
+      "pid": 15628,
+      "actionTaken": "none"
+    }
+  },
+  "unverifiedRealStages": [
+    "delete-group",
+    "cancel-schedules",
+    "batch-rename",
+    "batch-delete"
+  ]
+}
