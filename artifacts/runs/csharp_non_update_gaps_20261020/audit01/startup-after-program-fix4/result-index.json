@@ -1,0 +1,5 @@
+{
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit01\\startup-after-program-fix4/startup-window-smoke.json",
+  "command": "startup-window-smoke.ps1 after Program fix, readiness and close fallback",
+  "returnCode": 0
+}

@@ -1,0 +1,14 @@
+{
+  "started": "2026-10-22T10:21:56.6295920+08:00",
+  "pid": 15812,
+  "executable": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit01\\startup-after-program-fix4\\app\\沙河批量打开器.exe",
+  "mainWindowHandle": "0x2707A6",
+  "title": "沙河批量打开器",
+  "startupMs": 1775.5971,
+  "closeMethod": "Process.CloseMainWindow+WM_CLOSE",
+  "closeMainWindow": true,
+  "exited": true,
+  "exitCode": 0,
+  "status": "passed",
+  "error": ""
+}

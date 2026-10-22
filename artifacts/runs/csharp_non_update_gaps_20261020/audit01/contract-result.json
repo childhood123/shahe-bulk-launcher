@@ -1,0 +1,5 @@
+{
+  "command": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\voice02\\bin\\x64\\Release\\net48\\ShaheLauncher.AuditRunner.exe contract --output artifacts/runs/csharp_non_update_gaps_20261020/audit01",
+  "returnCode": 0,
+  "log": "artifacts/runs/csharp_non_update_gaps_20261020/audit01/contract.log"
+}

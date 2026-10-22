@@ -1,0 +1,1 @@
+{"kind":"auditrunner-contract","timestamp":"2026-10-22T09:34:25.4351632+08:00","status":"passed","checks":{"lifecycleGate":true,"defaultWriteRefusal":true,"dynamicMenuLookup":true,"uniqueOwnership":true,"deleteOrder":true,"failureClassification":true}}

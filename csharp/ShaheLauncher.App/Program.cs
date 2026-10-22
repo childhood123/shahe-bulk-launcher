@@ -29,7 +29,11 @@ namespace ShaheLauncher.App
                 Application.SetCompatibleTextRenderingDefault(false);
                 using (var form = new MainForm(runtime))
                 {
-                    form.InitializeApplication(true);
+                    form.InitializeApplication(false);
+                    if (form.ShowTray)
+                    {
+                        form.CreateTaskBarIcon();
+                    }
                     Application.Run(form);
                 }
             }

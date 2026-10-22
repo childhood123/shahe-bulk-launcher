@@ -490,6 +490,19 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
+        public void ProgramDefersFirstShowUntilApplicationRun()
+        {
+            string root = FindRepositoryRoot();
+            string programSource = File.ReadAllText(Path.Combine(root, "csharp", "ShaheLauncher.App", "Program.cs"));
+            int initialize = programSource.IndexOf("InitializeApplication(false)", StringComparison.Ordinal);
+            int tray = programSource.IndexOf("CreateTaskBarIcon", StringComparison.Ordinal);
+            int run = programSource.IndexOf("Application.Run", StringComparison.Ordinal);
+            Assert.IsTrue(initialize >= 0, "startup must initialize without showing before Application.Run");
+            Assert.IsTrue(tray >= 0 && tray < run, "tray setup must remain before the message loop");
+            Assert.IsTrue(initialize < run, "initialization must precede Application.Run");
+        }
+
+        [TestMethod]
         public void ReleaseBuildCopiesUpdaterBesideMainExecutable()
         {
             string root = FindRepositoryRoot();
