@@ -1,0 +1,8 @@
+{
+  "command": "git diff --check -- AUDIT02 docs",
+  "returnCode": 0,
+  "failed": null,
+  "passed": null,
+  "log": "artifacts/runs/csharp_non_update_gaps_20261020/audit02/diff.log",
+  "skipped": null
+}

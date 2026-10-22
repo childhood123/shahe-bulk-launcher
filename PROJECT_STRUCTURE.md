@@ -8,7 +8,7 @@
 - 发布包状态：版本 `4.0.46`，ZIP 大小 `2785203` 字节，SHA-256 `D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8`；匿名下载后的实际大小和哈希完全一致。最终证据为 `artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-final.json`。
 - 最新自动化门禁：AUDIT-01 修复后 Application/Lifecycle/Tray 受影响 120/120、C# 全量 344/344、Python 29/29、compileall 0、Release x64 0 警告/0 错误；VOICE-02 定向 2/2、Speech/Application/Updates 受影响 167/167；REVIEW-01 至 REVIEW-06 及 Python 对照均通过。生产源码编译与 Release x64 隔离构建成功。实际计数、命令、返回码与日志路径只保留在本轮只追加验证记录。此前 AuditRunner 原生前台/索引失败均保留，最终全量为有效复跑。全工作树差异检查仍被 GAP-09 历史日志空白阻断，本模块范围检查通过。
 - 版本触发边界：应用 `AppVersion` 与公开清单 `latest_version` 当前同为 `4.0.46`。本次发布建立了可用更新基线，但已运行同版本客户端不会收到“有新版本”提示；后续真实升级发布必须使用更高版本号并重新生成包、清单和校验值。
-- 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、UPDATE-01 及此前已确认范围。当前待办为 AUDIT-02 至 AUDIT-08 和 RELEASE-01；整体迁移仍未完成。另有 AUDIT-01 至 AUDIT-08 和最终发布门禁。
+- 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、AUDIT-02、UPDATE-01 及此前已确认范围。当前待办为 AUDIT-03 至 AUDIT-08 和 RELEASE-01；整体迁移仍未完成。另有 AUDIT-01 至 AUDIT-08 和最终发布门禁。
 - 真实 updater 证据：GitCode 匿名 ZIP 在隔离生产 helper 布局下以 `restart=true` 完成下载、替换和进程重启；updater PID `11448` 返回 `0`，精确隔离路径主进程 PID `5364` 被观测并清理，安装文件哈希、用户配置和 `lib 7/7` 均通过。该场景主窗口句柄为 `0`，只证明进程重启，不替代后续发布目录 UI 启动审计。
 - C# 当前可以启动并运行已验证功能；GAP-09 已完成代码、自动化验证、生产 UI 模态对话框隔离进程验证（`0/21/999` 保存与重启）和修复后二进制真实启动烟雾测试。整体 Python→C# 迁移仍未完成，完整运行和发布验收仍有待办；活动计划内残留的 GAP-09 未勾选提交项属于文档进度滞后，以本摘要和实际提交为准。
 
@@ -2133,3 +2133,23 @@ csharp/
 - AUDIT-01 差异检查：命令 `git diff --check -- AUDIT01 files`，返回码 0，计数不适用；日志 `artifacts/runs/csharp_non_update_gaps_20261020/audit01/diff.log`。
 
 - AUDIT-01 完成：隔离发布目录启动取得主窗口句柄/标题，等待就绪后正常退出返回码 0；首次关闭异常定位为 Program 在 Application.Run 前显示窗体的初始化竞态，已改为 InitializeApplication(false) 后创建托盘再进入消息循环，并用真实隔离烟雾复核。工具合约 6/6、Application/Lifecycle/Tray 受影响 120/120、C# 全量 344/344、Python 29/29、compileall 0、Release x64 0 警告/0 错误；证据目录 `artifacts/runs/csharp_non_update_gaps_20261020/audit01`。定位、多窗口和键盘/读屏仍未验证。
+`n- AUDIT-02 开始：建立路径记忆备注/删除/清空/上下文菜单证据目录，先运行受影响契约；真实 UI 输入仅在取得有效句柄和焦点证据后计入。
+
+- AUDIT-02 affected：命令 `dotnet vstest D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit02\bin\x64\Release\net48\ShaheLauncher.Tests.dll /Platform:x64 /Logger:trx;LogFileName=affected.trx /ResultsDirectory:D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit02 /TestCaseFilter:TestCategory=AppPaths|TestCategory=SettingsService|TestCategory=Application`；返回码 1，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit02/affected.log`、`affected-result.json`；如为 C# 测试，另有同名 TRX。
+`n- AUDIT-02 affected 初次未执行：隔离 audit02 输出目录尚未构建，vstest 找不到程序集；不计产品结果，先执行隔离 Release 构建。
+
+- AUDIT-02 release：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit02\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit02/release.log`、`release-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-02 affected2：命令 `dotnet vstest D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit02\bin\x64\Release\net48\ShaheLauncher.Tests.dll /Platform:x64 /Logger:trx;LogFileName=affected2.trx /ResultsDirectory:D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit02 /TestCaseFilter:TestCategory=AppPaths|TestCategory=SettingsService|TestCategory=Application`；返回码 0，通过 127、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit02/affected2.log`、`affected2-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-02 现行 Release 路径历史启动复核：命令 `real-exe-fixed-startup.ps1 -BuildDirectory voice02/bin -ResultPath audit02/real-path-history-current.json`，返回码 0；结果 `artifacts/runs/csharp_non_update_gaps_20261020/audit02/real-path-history-current.json`。覆盖隔离 999 条 JSON 历史加载和就绪/关闭，不覆盖备注/删除/清空键盘交互。
+
+- AUDIT-02 ui-contracts：命令 `dotnet vstest D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit02\bin\x64\Release\net48\ShaheLauncher.Tests.dll /Platform:x64 /Logger:trx;LogFileName=ui-contracts.trx /ResultsDirectory:D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\audit02 /TestCaseFilter:FullyQualifiedName~SettingsDialogsCSharpContractTests|FullyQualifiedName~UiControlsCSharpContractTests|FullyQualifiedName~PathHistoryLimitRuntimeContractTests`；返回码 0，通过 32、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit02/ui-contracts.log`、`ui-contracts-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-02 python：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 0，通过 29、失败 0、跳过 0。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit02/python.log`、`python-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-02 compile：命令 `python -m compileall -q shahe_bulk_launcher tests`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/csharp_non_update_gaps_20261020/audit02/compile.log`、`compile-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-02 完成：现行 Release 隔离启动加载 999 条 JSON 路径历史，窗口/就绪/自然退出/无残留均通过；C# 备注、当前删除、全部清空、上下文菜单和数量限制契约 32/32，Python 29/29，compileall 0，隔离 Release 0 警告/0 错误。真实备注/删除/清空键盘输入未取得稳定焦点证据，仍列为 AUDIT-04/08 风险；不把历史 UI 日志替代本轮结论。证据目录 `artifacts/runs/csharp_non_update_gaps_20261020/audit02`。
+
+- AUDIT-02 差异检查：返回码 0，日志 `artifacts/runs/csharp_non_update_gaps_20261020/audit02/diff.log`，计数不适用。
