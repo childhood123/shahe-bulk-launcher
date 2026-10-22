@@ -1,0 +1,32 @@
+{
+    "commandLine":  "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -STA -File artifacts\\runs\\audit03_delete_group_20261022\\delete-group-real-exe.ps1 -BuildDirectory artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48",
+    "status":  "inconclusive",
+    "returnCode":  3,
+    "sourceBuildDirectory":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48",
+    "actualBuildDirectory":  "D:\\mycodex\\git\\artifacts\\runs\\audit03_delete_group_20261022\\case-20261022_201243_932\\app",
+    "executable":  "D:\\mycodex\\git\\artifacts\\runs\\audit03_delete_group_20261022\\case-20261022_201243_932\\app\\沙河批量打开器.exe",
+    "executableSha256":  "0ECA8E3B868A8E7ADCD57392AFD9992AC823FC613E97AD564849BA6D09E6C360",
+    "configPath":  "D:\\mycodex\\git\\artifacts\\runs\\audit03_delete_group_20261022\\case-20261022_201243_932\\app\\Configuration\\shahe_config.ini",
+    "pid":  19144,
+    "restartPid":  null,
+    "menuCommandId":  287,
+    "selectedIndex":  null,
+    "selectedName":  "",
+    "foregroundConfirmed":  true,
+    "removed":  false,
+    "otherGroupPreserved":  false,
+    "otherSettingPreserved":  false,
+    "restartPersisted":  false,
+    "normalExit":  false,
+    "forcedCleanup":  true,
+    "userControlPreserved":  true,
+    "realIniUnchanged":  true,
+    "autoRunRestored":  true,
+    "keyLoss":  "not applicable: semantic selection and owned button command",
+    "timeout":  false,
+    "errors":  [
+                   "System.Management.Automation.RuntimeException: Target group name was missing or ambiguous."
+               ],
+    "mainWindowWasHidden":  true,
+    "mainWindowHandle":  9047540
+}

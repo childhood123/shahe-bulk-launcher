@@ -1,0 +1,63 @@
+﻿{
+    "commandLine":  "\"C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe\" -NoProfile -STA -File artifacts\\runs\\audit03_delete_group_20261022\\delete-group-real-exe.ps1 -BuildDirectory artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48",
+    "status":  "passed",
+    "returnCode":  0,
+    "sourceBuildDirectory":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48",
+    "actualBuildDirectory":  "D:\\mycodex\\git\\artifacts\\runs\\audit03_delete_group_20261022\\case-20261022_201945_355\\app",
+    "executable":  "D:\\mycodex\\git\\artifacts\\runs\\audit03_delete_group_20261022\\case-20261022_201945_355\\app\\沙河批量打开器.exe",
+    "executableSha256":  "0ECA8E3B868A8E7ADCD57392AFD9992AC823FC613E97AD564849BA6D09E6C360",
+    "configPath":  "D:\\mycodex\\git\\artifacts\\runs\\audit03_delete_group_20261022\\case-20261022_201945_355\\app\\Configuration\\shahe_config.ini",
+    "pid":  8408,
+    "restartPid":  3208,
+    "menuCommandId":  287,
+    "selectedIndex":  0,
+    "selectedName":  "ShaheAudit_DeleteGroup_A_Remove",
+    "foregroundConfirmed":  true,
+    "removed":  true,
+    "otherGroupPreserved":  true,
+    "otherSettingPreserved":  true,
+    "restartPersisted":  true,
+    "normalExit":  true,
+    "forcedCleanup":  false,
+    "userControlPreserved":  true,
+    "realIniUnchanged":  true,
+    "autoRunRestored":  true,
+    "keyLoss":  "not applicable: semantic selection and owned button command",
+    "timeout":  false,
+    "errors":  [
+
+               ],
+    "mainWindowWasHidden":  true,
+    "mainWindowHandle":  2885872,
+    "observedItems":  [
+                          "ShaheAudit_DeleteGroup_A_Remove",
+                          "ShaheAudit_DeleteGroup_Z_Keep"
+                      ],
+    "observedControls":  [
+                             {
+                                 "name":  "",
+                                 "type":  "ControlType.Pane"
+                             },
+                             {
+                                 "name":  "请选择要删除的分组",
+                                 "type":  "ControlType.Text"
+                             },
+                             {
+                                 "name":  "",
+                                 "type":  "ControlType.Pane"
+                             },
+                             {
+                                 "name":  "",
+                                 "type":  "ControlType.Pane"
+                             },
+                             {
+                                 "name":  "取消",
+                                 "type":  "ControlType.Pane"
+                             },
+                             {
+                                 "name":  "确定",
+                                 "type":  "ControlType.Pane"
+                             }
+                         ],
+    "selectionBackend":  "Native LISTBOX exact text and selected-index readback; UIA ListItem unavailable."
+}

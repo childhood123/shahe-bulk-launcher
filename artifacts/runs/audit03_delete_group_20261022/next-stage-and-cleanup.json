@@ -1,0 +1,20 @@
+{
+  "command": "Get-CimInstance Win32_Process -Filter Name='SbieCtrl.exe'; verify no processes with executable paths beneath the owned audit directory",
+  "nextStage": "schedule-close",
+  "status": "blocked",
+  "reason": "Existing lifecycle process gate requires SbieCtrl and other Sandboxie user processes to be absent.",
+  "userControlProcesses": [
+    {
+      "ProcessId": 15628,
+      "Name": "SbieCtrl.exe",
+      "ExecutablePath": "C:\\Program Files\\Sandboxie\\SbieCtrl.exe"
+    }
+  ],
+  "ownedTestProcessesRemaining": [],
+  "cleanupPassed": true,
+  "lifecycleExecuted": false,
+  "productionCodeModified": false,
+  "passed": null,
+  "failed": null,
+  "skipped": null
+}

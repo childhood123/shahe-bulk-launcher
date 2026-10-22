@@ -3,7 +3,7 @@
 ## 当前执行摘要（2026-10-22 VOICE-03 单读屏验收完成，恢复 AUDIT-03）
 
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-09 已按用户“反正能记忆到999条记录就行之前是20”的明确要求更新为 C# `0–999`；除该用户指定差异外，后续功能继续保留 Python 原文案和行为，只用 C# 实现。
-- 当前模块：AUDIT-03 Sandboxie 剩余生命周期；用户追加 VOICE-03 已按“一个真实读屏成功即可”的范围验收并独立推送。AUDIT-03 已有 batch-create、create-group、launch-group、schedule-launch 和 cleanup 证据，delete-group、schedule-close、cancel-schedules、batch-rename、batch-delete 仍待有效验证；本轮只读检查确认 SbieCtrl 仍阻断生命周期安全门禁，delete-group 未执行，不进入 AUDIT-04；整体迁移未完成。
+- 当前模块：AUDIT-03 Sandboxie 剩余生命周期；用户追加 VOICE-03 已按“一个真实读屏成功即可”的范围验收并独立推送。AUDIT-03 已有 batch-create、create-group、launch-group、schedule-launch 和 cleanup 证据，本轮补齐 delete-group 的生产 EXE 隔离配置验证；schedule-close、cancel-schedules、batch-rename、batch-delete 仍待有效验证。当前下一项 schedule-close 受用户 SbieCtrl 安全门禁阻断，不进入 AUDIT-04；整体迁移未完成。
 - 用户追加任务 DONATE-01：已按最新明确要求，将原始支付宝/微信图片放入根目录 `打赏/`，C# 菜单优先从该目录读取，构建/发布自动带上图片；复用原有“复制二维码”按钮复制原图位图。此追加任务已实现并验证，不改变 AUDIT-03 的未完成状态或其后审计顺序。
 - 用户追加设置/菜单核对：SETTINGS-01 已修复普通软件设置保存时自启动写入旧值；MENU-01 已按 Python 恢复三条分隔线，并将设置菜单恢复为“热键设置、朗读设置、软件设置”。路径列表原有操作和用户指定 999 上限保留。读屏 API 下拉框原先仅保存/回显的问题已独立修复，按用户单读屏要求完成 NVDA 实测及完整代码门禁；双读屏/真实启动恢复未验收和首次探针异常未定位仍保留，不据此声明所有读屏场景均通过。
 - 用户指定 HISTORY-UI-01：数量窗口已移除“已记忆的路径列表”和“隐藏路径”复选框，只保留数量及确定/取消；原“调整记忆数”入口复用同一窗口。既有历史数据不因移除控件被清空，范围仍为 0–999。主窗口原有路径上下文功能保留，重复入口核查记录见本轮报告。
@@ -2542,3 +2542,27 @@ csharp/
 - AUDIT-03 接续只读 verify-clean：返回码 3，状态 blocked，测试计数不适用，未通过项 SbieCtrl.exe, SandboxieOther。完整命令、目标 PID、实际构建目录、场景、无输入/超时及清理记录见 artifacts/runs/audit03_resume_20261022/verify-clean-command-result.json；原生报告路径由该记录索引。未执行 delete-group 或其他配置修改，未结束用户 SbieCtrl。
 
 - AUDIT-03 接续文档核对：本轮仅补充只读门禁证据和计划状态，未修改生产代码；git diff --check -- PROJECT_STRUCTURE.md docs/superpowers/plans/2026-10-20-remaining-migration-closure.md 返回 0，计数不适用。日志 artifacts/runs/audit03_resume_20261022/document-diff.log。真实生命周期仍被用户 SbieCtrl 阻断，不能标记 AUDIT-03 完成。
+
+- AUDIT-03 删除分组接续范围核对：生产 MainForm.DeleteGroup 已实现并接入菜单，只修改软件分组配置；AuditRunner lifecycle 尚无同名阶段。当前采取独立隔离 EXE 场景复用既有 Win32Automation，不修改真实 Sandboxie 配置，不将该证据扩大为真实 Sandboxie 删除成功。该场景代码/脚本及报告集中于 artifacts/runs/audit03_delete_group_20261022/。
+
+- AUDIT-03 删除分组探针准备：PowerShell Parser.ParseFile 语法检查返回 0、解析错误为 0，测试计数不适用；当前仅新增隔离审计脚本，未修改生产代码。下一步运行实际 EXE，未取得运行结果前不标记通过。
+
+- AUDIT-03 删除分组隔离真实 EXE：返回码 3，状态 inconclusive，测试计数不适用。完整命令、PID、构建目录、菜单/焦点/索引校准、删除与重启、配置保留及清理见 artifacts/runs/audit03_delete_group_20261022/case-20261022_200939_648/result.json；该场景不执行真实 Sandboxie 写操作。
+
+- AUDIT-03 删除分组隔离真实 EXE：返回码 3，状态 inconclusive，测试计数不适用。完整命令、PID、构建目录、菜单/焦点/索引校准、删除与重启、配置保留及清理见 artifacts/runs/audit03_delete_group_20261022/case-20261022_201150_365/result.json；该场景不执行真实 Sandboxie 写操作。
+
+- AUDIT-03 删除分组隔离真实 EXE：返回码 3，状态 inconclusive，测试计数不适用。完整命令、PID、构建目录、菜单/焦点/索引校准、删除与重启、配置保留及清理见 artifacts/runs/audit03_delete_group_20261022/case-20261022_201243_932/result.json；该场景不执行真实 Sandboxie 写操作。
+
+- AUDIT-03 删除分组隔离真实 EXE：返回码 3，状态 inconclusive，测试计数不适用。完整命令、PID、构建目录、菜单/焦点/索引校准、删除与重启、配置保留及清理见 artifacts/runs/audit03_delete_group_20261022/case-20261022_201343_424/result.json；该场景不执行真实 Sandboxie 写操作。
+
+- AUDIT-03 删除分组隔离真实 EXE：返回码 3，状态 inconclusive，测试计数不适用。完整命令、PID、构建目录、菜单/焦点/索引校准、删除与重启、配置保留及清理见 artifacts/runs/audit03_delete_group_20261022/case-20261022_201658_229/result.json；该场景不执行真实 Sandboxie 写操作。
+
+- AUDIT-03 删除分组隔离真实 EXE：返回码 3，状态 inconclusive，测试计数不适用。完整命令、PID、构建目录、菜单/焦点/索引校准、删除与重启、配置保留及清理见 artifacts/runs/audit03_delete_group_20261022/case-20261022_201821_877/result.json；该场景不执行真实 Sandboxie 写操作。
+
+- AUDIT-03 删除分组隔离真实 EXE：返回码 0，状态 passed，测试计数不适用。完整命令、PID、构建目录、菜单/焦点/索引校准、删除与重启、配置保留及清理见 artifacts/runs/audit03_delete_group_20261022/case-20261022_201945_355/result.json；该场景不执行真实 Sandboxie 写操作。
+
+- AUDIT-03 删除分组结果范围：已按 Python on_delete_group 与 C# MainForm.DeleteGroup 核对菜单、选择、删除、保存及返回流程；最终实际 EXE 场景通过，非目标分组和路径记忆数量保持，重启后仅保留目标之外的分组，两个测试进程均正常退出。此为软件分组配置验收，不代表真实 Sandboxie 删除已通过。界面 UIA 未暴露 ListItem 的现象记录为 AUDIT-04 待核对线索，未直接判为产品缺陷。
+
+- AUDIT-03 删除分组后清理与下一项：只读进程核对完成，自有 EXE 残留为 0，schedule-close 准备状态为 blocked，计数不适用；完整查询、实际用户控制进程及清理结果见 artifacts/runs/audit03_delete_group_20261022/next-stage-and-cleanup.json。未执行真实生命周期动作，未停止 SbieCtrl。
+
+- AUDIT-03 删除分组证据收口：最终探针语法解析返回 0，文档 git diff --check 返回 0；生产源码无修改，未重复无变化的全量构建和回归。检查结果见 artifacts/runs/audit03_delete_group_20261022/final-checks.json、document-diff.log；最终实际 EXE 报告为本轮最新 passed 记录。AUDIT-03 整体仍未完成。
