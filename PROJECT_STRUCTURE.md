@@ -1,22 +1,22 @@
 # 沙河批量打开器项目结构
 
-## 当前执行摘要（2026-10-22 VOICE-03 读屏固定选择与临时回退）
+## 当前执行摘要（2026-10-22 VOICE-03 单读屏验收完成，恢复 AUDIT-03）
 
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-09 已按用户“反正能记忆到999条记录就行之前是20”的明确要求更新为 C# `0–999`；除该用户指定差异外，后续功能继续保留 Python 原文案和行为，只用 C# 实现。
-- 当前追加修复：VOICE-03 读屏固定选择与临时回退；用户已确认活动计划补充及逐步记录。当前已按用户单读屏要求通过真实 NVDA 验收及完整代码门禁，正在独立提交；双读屏、真实启动恢复未验收及首次异常未定位作为风险保留。修复收口后恢复 AUDIT-03 Sandboxie 剩余生命周期。真实 `batch-create`、`create-group`、`launch-group`、`schedule-launch` 和精确 cleanup 已通过；`schedule-close` 被当前运行的 `SbieCtrl.exe` 安全门禁阻断，真实 `delete-group`、`cancel-schedules`、`batch-rename`、`batch-delete` 尚未取得有效执行证据。因此 AUDIT-03 尚未完成，不能进入 AUDIT-04，整体迁移仍未完成。
+- 当前模块：AUDIT-03 Sandboxie 剩余生命周期；用户追加 VOICE-03 已按“一个真实读屏成功即可”的范围验收并独立推送。AUDIT-03 已有 batch-create、create-group、launch-group、schedule-launch 和 cleanup 证据，delete-group、schedule-close、cancel-schedules、batch-rename、batch-delete 仍待有效验证；本轮只读检查确认 SbieCtrl 仍阻断生命周期安全门禁，delete-group 未执行，不进入 AUDIT-04；整体迁移未完成。
 - 用户追加任务 DONATE-01：已按最新明确要求，将原始支付宝/微信图片放入根目录 `打赏/`，C# 菜单优先从该目录读取，构建/发布自动带上图片；复用原有“复制二维码”按钮复制原图位图。此追加任务已实现并验证，不改变 AUDIT-03 的未完成状态或其后审计顺序。
-- 用户追加设置/菜单核对：SETTINGS-01 已修复普通软件设置保存时自启动写入旧值；MENU-01 已按 Python 恢复三条分隔线，并将设置菜单恢复为“热键设置、朗读设置、软件设置”。路径列表原有操作和用户指定 999 上限保留。读屏 API 下拉框原先仅保存/回显的问题正按用户追加要求独立修复；现有代码已有固定偏好、临时回退和重新连接，尚未完成最终真实验证及全量门禁，不据界面选择声明实际切换完成。
+- 用户追加设置/菜单核对：SETTINGS-01 已修复普通软件设置保存时自启动写入旧值；MENU-01 已按 Python 恢复三条分隔线，并将设置菜单恢复为“热键设置、朗读设置、软件设置”。路径列表原有操作和用户指定 999 上限保留。读屏 API 下拉框原先仅保存/回显的问题已独立修复，按用户单读屏要求完成 NVDA 实测及完整代码门禁；双读屏/真实启动恢复未验收和首次探针异常未定位仍保留，不据此声明所有读屏场景均通过。
 - 用户指定 HISTORY-UI-01：数量窗口已移除“已记忆的路径列表”和“隐藏路径”复选框，只保留数量及确定/取消；原“调整记忆数”入口复用同一窗口。既有历史数据不因移除控件被清空，范围仍为 0–999。主窗口原有路径上下文功能保留，重复入口核查记录见本轮报告。
 - GitCode 发布状态：公开仓库 `https://gitcode.com/childhood123/shahe-bulk-launcher-releases` 的 `main` 已指向 `18caa88287fc5714a90528e88cd732d0204ec135`。默认清单 `https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json` 匿名生产式请求为 HTTP `200`；清单内 content-addressed ZIP 匿名请求为 HTTP `200`。
 - 发布包状态：版本 `4.0.46`，ZIP 大小 `2785203` 字节，SHA-256 `D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8`；匿名下载后的实际大小和哈希完全一致。最终证据为 `artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-final.json`。
 - 前次 HISTORY-UI-01 自动化门禁（不代表当前 VOICE-03）：HISTORY-UI-01 有效 RED 通过 2/失败 1（列表仍存在），精简后定向 9/9、受影响 91/91、C# 全量 370/370、Python 29/29，compileall 与隔离 Release x64 返回码 0，构建 0 警告/0 错误。生产窗体保存/取消验证历史与其他偏好未被误改，数量入口真实模态验证保持上限 999。此为用户明确指定的界面差异；其他 Python 文案、菜单和业务执行仍继续对照，整体迁移未完成。
 - 版本触发边界：应用 `AppVersion` 与公开清单 `latest_version` 当前同为 `4.0.46`。本次发布建立了可用更新基线，但已运行同版本客户端不会收到“有新版本”提示；后续真实升级发布必须使用更高版本号并重新生成包、清单和校验值。
-- 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、AUDIT-02、UPDATE-01 及此前已确认范围。当前追加修复为 VOICE-03，后续恢复未完成的 AUDIT-03；其后待迁移/审计模块为 AUDIT-04 至 AUDIT-08 和 RELEASE-01。整体迁移仍未完成。
+- 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、AUDIT-02、UPDATE-01 及此前已确认范围。VOICE-03 已按用户单读屏范围完成，当前恢复未完成的 AUDIT-03；其后待迁移/审计模块为 AUDIT-04 至 AUDIT-08 和 RELEASE-01。整体迁移仍未完成。
 - 真实 updater 证据：GitCode 匿名 ZIP 在隔离生产 helper 布局下以 `restart=true` 完成下载、替换和进程重启；updater PID `11448` 返回 `0`，精确隔离路径主进程 PID `5364` 被观测并清理，安装文件哈希、用户配置和 `lib 7/7` 均通过。该场景主窗口句柄为 `0`，只证明进程重启，不替代后续发布目录 UI 启动审计。
-- 真实 Sandboxie 清理状态：本轮隔离配置与真实 `Sandboxie.ini` 哈希均恢复基线，`ShaheAudit_*` section、目录、目标进程和 `Start.exe` 均为 0；只读 `verify-clean` 因当前运行的 `SbieCtrl.exe` PID `15628` 返回 blocked。该进程未被结束或修改。本轮真实证据目录为 `artifacts/runs/csharp_non_update_gaps_20261020/audit03/`。
+- 真实 Sandboxie 清理状态：本轮接续只读核对确认目标/隔离配置/真实 Sandboxie.ini 哈希符合既有基线，审计 section、目录和精确归属资源均无残留；verify-clean 因用户 SbieCtrl 运行返回 blocked，详情和命令见最新 AUDIT-03 验证记录。用户进程与配置未被修改。
 - C# 当前可以启动并运行已验证功能；路径记忆上限按用户要求为 999。整体 Python→C# 迁移仍未完成，AUDIT-03 剩余真实场景、AUDIT-04 至 AUDIT-08 和最终发布验收仍有待办；活动计划中的旧复选框存在进度滞后，以本摘要、独立提交和最新日志证据为准。
 
-- VOICE-03 本轮进度：用户要求的单读屏真实验收已通过：NVDA 固定选择、原生输出、保存值保持与同值确认连接保持均成功。完整代码门禁沿用本轮已验证结果；正在进行选择性提交前审查。双读屏/真实启动恢复未验收及首次异常未定位继续保留，不声明整体完成。
+- VOICE-03 本轮进度：用户指定的单读屏验收、完整代码门禁和独立提交/推送均完成；修复分支与回退信息见最新验证记录。双读屏、真实启动恢复及保益自身发声未验收，首次原生异常未定位，均未宣称已解决。当前恢复 AUDIT-03，整体迁移未完成。
 
 ### 本轮验证记录（只追加）
 
@@ -2532,3 +2532,13 @@ csharp/
 - VOICE-03 差异原始日志归档：两份日志 gzip 压缩后解压逐字节一致，返回码 0，计数不适用；原始本地文件保留，仓库对应 .log.gz。SHA-256 与归档映射见 artifacts/runs/speech_selection_20261022/diff-log-archives.json；不修改已有日志证据文字。
 
 - VOICE-03 提交前门禁：选择性暂存清单逐项一致，git diff --cached --check 返回 0，计数不适用；日志 artifacts/runs/speech_selection_20261022/staging-final-check.log。单读屏用户验收通过，完整自动化结果见前述权威记录；AGENTS.md 与两份既有 GAP-09 日志未暂存。下一步独立提交并推送当前分支。
+
+- VOICE-03 首次推送返回 1：远端同名分支已有新提交，Git 以 non-fast-forward 拒绝。保留本地独立修复提交和用户未提交改动，不强推；下一步获取远端差异并安全整合。
+
+- VOICE-03 远端拓扑复核：fetch 成功；远端同名分支为仅含 csharp/ 的独立发布历史，与本地 HEAD 无共同祖先。为保留用户发布分支，不合并无关历史、不强推，改将本地已验证修复推送到 origin/voice03-fixed-reader-20261022。原有分支和用户未提交文件保持原状。
+
+- VOICE-03 提交与推送：独立修复提交 `a74677c` 已成功推送至 `origin/voice03-fixed-reader-20261022`，返回码 0；回退命令 `git revert a74677c`。原 `origin/沙河批量打开器` 为无共同祖先的 C# 发布历史，未覆盖、未强推。用户 AGENTS.md 与两份 GAP-09 日志改动保持未暂存。
+
+- AUDIT-03 接续只读 verify-clean：返回码 3，状态 blocked，测试计数不适用，未通过项 SbieCtrl.exe, SandboxieOther。完整命令、目标 PID、实际构建目录、场景、无输入/超时及清理记录见 artifacts/runs/audit03_resume_20261022/verify-clean-command-result.json；原生报告路径由该记录索引。未执行 delete-group 或其他配置修改，未结束用户 SbieCtrl。
+
+- AUDIT-03 接续文档核对：本轮仅补充只读门禁证据和计划状态，未修改生产代码；git diff --check -- PROJECT_STRUCTURE.md docs/superpowers/plans/2026-10-20-remaining-migration-closure.md 返回 0，计数不适用。日志 artifacts/runs/audit03_resume_20261022/document-diff.log。真实生命周期仍被用户 SbieCtrl 阻断，不能标记 AUDIT-03 完成。
