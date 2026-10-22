@@ -1,0 +1,22 @@
+{
+  "readOnlyReturnCode": 0,
+  "exitCommandReturnCode": 0,
+  "targetPid": 14796,
+  "exactPath": "C:\\Program Files\\Sandboxie\\SbieCtrl.exe",
+  "menu": "退出(&X)",
+  "afterSbieCtrl": [],
+  "servicesAfter": [
+    {
+      "Name": "SbieSvc",
+      "Status": 4
+    }
+  ],
+  "normalMenuCommandPosted": true,
+  "normalMenuExitObserved": true,
+  "forceTerminationUsed": false,
+  "returnCode": 0,
+  "status": "passed",
+  "passed": 1,
+  "failed": 0,
+  "skipped": 0
+}

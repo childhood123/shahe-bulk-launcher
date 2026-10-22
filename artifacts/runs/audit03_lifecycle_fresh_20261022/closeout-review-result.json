@@ -1,0 +1,45 @@
+{
+  "kind": "audit03-closeout-evidence-review",
+  "result": "passed",
+  "jsonFilesValid": true,
+  "credentialPatternsFound": [],
+  "productionSourceUnchanged": true,
+  "validationResults": [
+    "preflight-final-result.json",
+    "batch-create-final-result.json",
+    "create-group-final-result.json",
+    "launch-group-final-result.json",
+    "schedule-launch-retry-result.json",
+    "schedule-close-final-result.json",
+    "cancel-schedules-final-result.json",
+    "batch-rename-final-result.json",
+    "batch-delete-final-result.json",
+    "cleanup-final-result.json",
+    "verify-clean-final-result.json",
+    "closure-verify-clean-result.json",
+    "closure-affected-result.json",
+    "closure-full-result.json",
+    "closure-python-result.json",
+    "closure-compile-result.json",
+    "closure-release-result.json"
+  ],
+  "nativeReports": [
+    "auditrunner-preflight-20261022_211035_861-result.json",
+    "auditrunner-lifecycle-batch-create-20261022_211115_856-result.json",
+    "auditrunner-lifecycle-create-group-20261022_211224_035-result.json",
+    "auditrunner-lifecycle-launch-group-20261022_211330_318-result.json",
+    "auditrunner-lifecycle-schedule-launch-20261022_212155_058-result.json",
+    "auditrunner-lifecycle-schedule-close-20261022_212255_256-result.json",
+    "auditrunner-lifecycle-cancel-schedules-20261022_212453_718-result.json",
+    "auditrunner-lifecycle-batch-rename-20261022_212534_541-result.json",
+    "auditrunner-lifecycle-batch-delete-20261022_212706_864-result.json",
+    "auditrunner-lifecycle-cleanup-20261022_212837_020-result.json",
+    "auditrunner-verify-clean-20261022_212931_609-result.json",
+    "auditrunner-verify-clean-20261022_214104_336-result.json"
+  ],
+  "excluded": [
+    "compiled helper and bin/",
+    "unrelated working tree changes",
+    "screenshots and copied application directories"
+  ]
+}

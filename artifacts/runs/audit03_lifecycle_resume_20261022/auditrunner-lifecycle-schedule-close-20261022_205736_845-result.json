@@ -1,0 +1,1 @@
+{"kind":"auditrunner-lifecycle-schedule-close","timestamp":"2026-10-22T20:57:36.7796528+08:00","status":"inconclusive","prefix":"ShaheAudit_20261022_1103B","stage":"schedule-close","jobKey":"","setupLaunch":null,"observedPids":{},"processCleanup":[],"cleanup":[],"errors":["Owned configuration changed before lifecycle stage."]}

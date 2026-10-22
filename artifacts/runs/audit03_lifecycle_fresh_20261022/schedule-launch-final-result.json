@@ -1,0 +1,23 @@
+{
+  "command": [
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\bin\\x64\\Release\\net48\\ShaheLauncher.AuditRunner.exe",
+    "lifecycle",
+    "--execute",
+    "--baseline",
+    "D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_fresh_20261022\\auditrunner-preflight-20261022_211035_861-result.json",
+    "--prefix",
+    "ShaheAudit_20261022_2100B",
+    "--stage",
+    "schedule-launch",
+    "--state",
+    "D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_fresh_20261022\\fresh-lifecycle-state.json",
+    "--output",
+    "D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_fresh_20261022"
+  ],
+  "returnCode": 3,
+  "report": "D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_fresh_20261022\\auditrunner-lifecycle-schedule-launch-20261022_211436_001-result.json",
+  "status": "inconclusive",
+  "passed": 0,
+  "failed": 1,
+  "skipped": 0
+}

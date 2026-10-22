@@ -4,7 +4,7 @@
 
 **Goal:** 收口全部已确认的 Python→C# 行为差异、运行时接线、真实 EXE 审计和发布流程，最终满足 `AGENTS.md` 的整体迁移完成标准。
 
-**Architecture:** 保持现有 Core、App、Updater 和 AuditRunner 边界，不重设计 UI。VOICE-03 已按用户单读屏要求收口，当前恢复 AUDIT-03 及后续真实审计；已验证模块不重复迁移。
+**Architecture:** 保持现有 Core、App、Updater 和 AuditRunner 边界，不重设计 UI。VOICE-03 已按用户单读屏要求收口，AUDIT-03 当前仅完成证据审查和独立提交；提交推送后按用户要求暂停，后续审计不启动。
 
 **Tech Stack:** .NET Framework 4.8、WinForms、C# 7.3、Release x64、MSTest、Python unittest、Sandboxie、Tolk。
 
@@ -26,15 +26,15 @@
 | --- | --- |
 | 已完成，不重做 | Task 1–20 已确认范围、GAP-01 至 GAP-10、VOICE-01、VOICE-02、UPDATE-01、AUDIT-01、AUDIT-02；以项目结构最新有效证据为准 |
 | 已验收追加修复 | VOICE-03 读屏固定选择与临时回退，按用户单读屏范围完成 |
-| 当前模块 | AUDIT-03 剩余 Sandboxie 生命周期场景 |
-| 后续真实审计 | AUDIT-04 至 AUDIT-08 |
+| 当前模块 | AUDIT-03 验证已完成，独立提交/推送后暂停 |
+| 后续真实审计 | AUDIT-04 至 AUDIT-08；按用户要求暂停，尚未启动下一项 |
 | 最终收口 | RELEASE-01 |
 
 当前 C# 主程序能够启动、显示主窗口、执行已验证功能并正常退出；Updater 生产入口已接通并通过隔离真实进程验证。整体迁移尚未完成。
 
 ## 严格执行顺序
 
-VOICE-03 已按用户单读屏范围验收并推送独立修复分支。以下既定迁移顺序保持不变，已完成项跳过，当前恢复 AUDIT-03 的未完成场景。
+VOICE-03 已按用户单读屏范围验收并推送独立修复分支。以下既定迁移顺序保持不变，AUDIT-03 验证已补齐，完成独立提交/推送后暂停；只有用户明确恢复工作时才进入 AUDIT-04。
 
 1. GAP-09 路径记忆数量范围
 2. GAP-10 路径选择与剪贴板文案
@@ -296,10 +296,10 @@ VOICE-03 已按用户单读屏范围验收并推送独立修复分支。以下�
 ### AUDIT-03: Sandboxie 剩余生命周期
 
 - [x] `delete-group` 成功路径：生产 EXE 的隔离配置中，删除指定分组、保留其他分组与设置、重启恢复和正常退出均通过。
-- [ ] `schedule-close`；SbieCtrl 存在时保持阻断，不擅自关闭用户进程。
-- [ ] `cancel-schedules` 有真实任务场景。
-- [ ] `batch-rename` 和 `batch-delete`。
-- [ ] 实现只读 `verify-clean`，复核精确所有权、配置哈希、section、目录和进程清零。
+- [x] `schedule-close`：新基线下真实启动两个本轮沙盒成员，计时回调按精确内部名关闭并验证进程清零；SbieCtrl 仍按既定门禁检查，仅在用户明确授权后正常退出。
+- [x] `cancel-schedules`：生产调度器创建待执行启动/关闭任务后全部取消，任务集合清零且回调未执行。
+- [x] `batch-rename` 和 `batch-delete`：新前缀两个真实沙盒的别名/分组成员更新及精确归属删除均通过。
+- [x] 只读 `verify-clean` 已执行：三项哈希、精确所有权、section/目录及所有受控进程检查全部通过。
 
 - 接续记录：当前先核对 delete-group 的生命周期安全门禁；中断后未发现本轮残留探针，用户 SbieCtrl 仍运行。复用已有只读 verify-clean，记录当前阻断和资源状态，不启动任何删除/关闭操作。
 
@@ -322,6 +322,60 @@ VOICE-03 已按用户单读屏范围验收并推送独立修复分支。以下�
 - 最新执行结果：删除分组隔离真实 EXE 验证通过，前台/精确名称/选中索引已校准，保存后重启仍正确，正常退出且无强制清理；真实 Sandboxie.ini、自启动项和用户 SbieCtrl 均保持原状。此前各轮探针问题继续保留为 inconclusive。当前下一项为 schedule-close，仍遵守 SbieCtrl 安全门禁，不跳过顺序。
 
 - 收口记录：删除分组子场景的脚本、历次无效报告和最终通过报告集中保留；未修改生产源码，因此不重复无变化的全量构建/回归。本轮以真实 EXE 验证和脚本/差异检查收口，AUDIT-03 整体仍未完成，下一项 schedule-close 等待用户控制程序退出。
+
+- 提交记录：删除分组子场景已形成独立本地提交；首次推送遇到连接重置，再次推送收到空响应，正在以单次 HTTP/1.1 设置重试。收到成功结果前不声明远端已更新。下一项 schedule-close 仍等待用户关闭或明确授权退出 Sandboxie Control。
+
+- 最新阻断：HTTP/1.1 推送重试也因无法连接 GitHub 失败，证据仅确认在本地提交，远端未确认更新；网络恢复后重试既有提交，不重新实施或重复无变化测试。当前实际功能待办仍从 schedule-close 开始，SbieCtrl 未获退出授权前不执行。
+
+- 当前授权与步骤：用户针对“正常退出 Sandboxie Control 后继续”的明确询问回复“开始”，已授权正常退出控制界面；保留服务和非本轮进程。先恢复并观察控制窗口，通过正常退出菜单关闭，再重新建立生命周期基线。Computer Use 状态捕获失败，已切换到现有 Open Computer Use；未执行强制结束。
+
+- 控制界面操作恢复：两套可视化工具未可靠绑定目标；转为独立审计 CLI，复用既有 Win32Automation，严格匹配用户授权的 SbieCtrl.exe 路径、PID 和唯一“退出”菜单。先只读枚举，确认后仅发正常菜单命令，不调用 Kill/TerminateProcess。
+
+- 控制退出前确认：只读原生枚举已获得精确目标的唯一“退出(&X)”菜单。按用户已给授权执行该正常菜单动作，并核对控制进程退出、服务保持运行；不调用强制终止。
+
+- 控制退出结果：精确 PID、路径和唯一退出菜单均已核对；正常菜单命令返回 0，SbieCtrl 消失，SbieSvc 保持 Running，未使用强制终止。开始 schedule-close 真实生命周期阶段，复用既有通过基线和本轮所有权状态。
+
+- schedule-close 首次有效执行结果：审计器返回 3 / inconclusive，错误为“Owned configuration changed before lifecycle.”；未启动目标沙盒、未执行定时关闭、无清理动作。当前核对真实配置文件、基线哈希和状态文件，不绕过安全门禁。
+
+- 配置根因：旧 `real-lifecycle-state2.json` 的 ExpectedConfigurationSha256 为中间阶段值 中间阶段哈希，实际配置哈希已回到基线 原始应用配置基线哈希，因此 schedule-close 被安全门禁拒绝；真实 Sandboxie 当前无该旧前缀 section/目录/目标进程残留。保留旧状态不改，创建新唯一前缀和状态文件，从 batch-create 重新执行到 schedule-close。
+
+- fresh batch-create 首次门禁：返回 3 / inconclusive，错误为 baseline hashes changed before lifecycle；核对发现真实 Sandboxie.ini 哈希从旧基线 控制程序退出前的配置哈希 变为当前 当前环境配置哈希，目标与应用配置哈希未变。原因是正常退出控制程序后配置文件被规范化；旧基线不覆盖，先运行当前环境只读 preflight 生成新基线。
+
+- 当前 preflight 首次调用：返回 3 / blocked，报告已读取当前环境但 targetHash/configHash/iniHash 因未提供 expected 参数为 false；未修改文件。已确认 preflight 设计要求显式期望哈希，下一步用当前只读核对出的三个哈希生成正式新基线。
+
+- fresh preflight 与 batch-create：当前环境正式基线通过，batch-create 通过并建立新前缀所有权；继续 create-group。每个阶段完成后立即记录，不复用旧状态。
+
+- fresh create-group：新前缀分组及配置持久化通过；继续 launch-group。
+
+- fresh launch-group：两个本轮沙盒成员启动及清理通过；继续 schedule-launch，再进入 schedule-close。
+
+- fresh schedule-launch 首次运行被重新出现的 SbieCtrl 门禁阻断；此前 batch-create/create-group/launch-group 已通过且所有权状态仍有效。按已有用户授权再次精确正常退出控制程序，然后重试 schedule-launch，不改基线/状态、不重建资源。
+
+- fresh schedule-launch 重试通过：真实计时回调启动两个已确认归属的沙盒成员，原生进程已观测并按精确内部名清理。当前进入待补验收项 schedule-close，先复核控制程序是否再次出现。
+
+- fresh schedule-close 通过：实际成员 PID 已记录，定时关闭和逐成员进程清理均通过，没有用户进程混入。当前继续 cancel-schedules 的真实待执行任务场景。
+
+- fresh cancel-schedules 通过：生产调度器的两个待执行任务已取消，未执行启动/关闭回调。当前继续 batch-rename，仅操作新前缀所有权中的两个沙盒。
+
+- fresh batch-rename 通过：本轮两个沙盒的别名重命名、分组成员与配置更新均经审计核对。当前先核对精确内部名与绝对目录，再执行 batch-delete；不处理其他历史或用户沙盒。
+
+- fresh batch-delete 通过：先核对绝对目录及基线不存在性，再由既有审计安全逻辑删除两个精确归属资源。当前执行 cleanup 恢复应用配置，然后只读 verify-clean 核对哈希、section、目录和进程。
+
+- fresh cleanup 通过：应用配置恢复原始基线，两项本轮沙盒资源已不存在；进入最终只读 verify-clean，不将 cleanup 返回 0 直接替代全项清理核对。
+
+- fresh verify-clean 通过：目标/应用配置/Sandboxie.ini 哈希均匹配当前通过基线，本轮资源与进程清零。AUDIT-03 的真实场景验证已补齐；正在用独立输出目录完成当前源码的收口门禁及差异检查，独立提交/推送后再进入 AUDIT-04。
+
+- 收口门禁进度：当前源码的受影响回归通过，进入完整 C# 测试。前轮删除分组证据的网络推送已恢复成功；旧失败记录保留，当前不再将网络作为阻断。
+
+- 收口完整 C# 测试通过，当前进入 Python 对照、生产源码编译与独立 Release x64；实际计数及命令以项目结构追加记录为准。
+
+- Python 原版对照通过；继续 compileall，未改变 Python 原版需求或实现。
+
+- 生产 Python 源码及测试 compileall 通过；当前执行独立输出目录的 Release x64 构建，不覆盖真实审计所绑定的原二进制和基线。
+
+- 收口 Release x64 与全量后环境复核通过：独立目录构建无警告/错误，最终 verify-clean 再次全项通过。当前审查证据清单、差异和当前计划，随后独立提交 AUDIT-03；整体软件仍未完成。
+
+- 收口审查：已逐项核对本节验收项和原始报告；本轮未修改生产代码，既有完整门禁继续有效。当前只完成文档、证据及独立提交/推送；遵照用户停止边界，不启动 AUDIT-04。
 
 ### AUDIT-04: 键盘、托盘与无障碍
 
@@ -407,7 +461,7 @@ git diff --cached --check
 
 ## 新会话恢复规则
 
-- 用户说“继续工作”时，从当前 AUDIT-03 的第一个未完成场景继续；
+- 当前按用户要求在 AUDIT-03 交付后暂停；用户明确说“继续工作”时，先核对本项提交/推送记录，完成后从 AUDIT-04 继续；
   VOICE-03 已按用户单读屏范围完成，历史复选框滞后时以项目结构最新有效证据为准。
 - 如果模块已有 RED 没有 GREEN，从修复阶段继续。
 - 如果代码和验证完成但未提交，先做计划核对、暂存审计、提交和推送。

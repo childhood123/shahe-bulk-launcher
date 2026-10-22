@@ -1,0 +1,29 @@
+{
+  "command": [
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\bin\\x64\\Release\\net48\\ShaheLauncher.AuditRunner.exe",
+    "preflight",
+    "--target",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\bin\\x64\\Release\\net48\\沙河批量打开器.exe",
+    "--config",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\real-lifecycle-config.ini",
+    "--sandboxie-ini",
+    "C:\\Windows\\Sandboxie.ini",
+    "--expected-target-sha256",
+    "E52D0C106F84700F5EA57A305376B9139373801E55B684A6CAADE2C89A139237",
+    "--expected-config-sha256",
+    "11602EE15AA5F1AA54B74568A010E69CCB0719C1B5D2F248ADBD15840B6425A9",
+    "--expected-ini-sha256",
+    "39D051009854E85A0A34335D934C7128EB6E6E49B1BE6C8786CAE4662C0142C8",
+    "--output",
+    "D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_fresh_20261022"
+  ],
+  "returnCode": 0,
+  "report": "D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_fresh_20261022\\auditrunner-preflight-20261022_211035_861-result.json",
+  "targetHash": "E52D0C106F84700F5EA57A305376B9139373801E55B684A6CAADE2C89A139237",
+  "configHash": "11602EE15AA5F1AA54B74568A010E69CCB0719C1B5D2F248ADBD15840B6425A9",
+  "iniHash": "39D051009854E85A0A34335D934C7128EB6E6E49B1BE6C8786CAE4662C0142C8",
+  "status": "passed",
+  "passed": 1,
+  "failed": 0,
+  "skipped": 0
+}

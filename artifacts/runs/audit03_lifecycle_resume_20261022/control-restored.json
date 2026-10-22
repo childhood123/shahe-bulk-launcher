@@ -1,0 +1,9 @@
+{
+  "content": [
+    {
+      "type": "text",
+      "text": "appNotFound(\"SbieCtrl\") at at Resolve-App, C:\\Users\\Administrator\\AppData\\Local\\Temp\\open-computer-use-windows-3809622523\\runtime.ps1: line 329\r\nat Build-Snapshot, C:\\Users\\Administrator\\AppData\\Local\\Temp\\open-computer-use-windows-3809622523\\runtime.ps1: line 619\r\nat \u003cScriptBlock\u003e, C:\\Users\\Administrator\\AppData\\Local\\Temp\\open-computer-use-windows-3809622523\\runtime.ps1: line 905"
+    }
+  ],
+  "isError": true
+}

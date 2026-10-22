@@ -1,0 +1,14 @@
+{
+  "command": [
+    "ControlExitProbe.exe",
+    "ShaheLauncher.AuditRunner.exe",
+    "19224",
+    "--exit"
+  ],
+  "returnCode": 0,
+  "pid": 19224,
+  "remaining": [],
+  "service": "Running",
+  "forceTerminationUsed": false,
+  "status": "passed"
+}

@@ -1,0 +1,10 @@
+{
+  "command": [
+    "git",
+    "diff",
+    "--check"
+  ],
+  "returnCode": 2,
+  "stdout": "artifacts/runs/csharp_non_update_gaps_20261020/gap09/real-path-history.log:57: trailing whitespace.\n+ \nartifacts/runs/csharp_non_update_gaps_20261020/gap09/real-path-history.log:57: new blank line at EOF.\nartifacts/runs/csharp_non_update_gaps_20261020/gap09/red-20261021_155943_230.log:242: trailing whitespace.\n+         \n",
+  "stderr": "warning: in the working copy of 'docs/superpowers/plans/2026-10-20-remaining-migration-closure.md', LF will be replaced by CRLF the next time Git touches it\n"
+}

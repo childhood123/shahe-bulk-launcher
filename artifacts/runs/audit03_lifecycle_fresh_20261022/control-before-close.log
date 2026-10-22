@@ -1,0 +1,33 @@
+window=1773732 command=40004 title=终止所有程序(&A)
+window=1773732 command=40005 title=禁用强制运行程序(&F)
+window=1773732 command=40006 title=检查窗口是否在沙盒中运行(&W)
+window=1773732 command=40009 title=资源访问监控 (&M)
+window=1773732 command=40001 title=退出(&X)
+window=1773732 command=40012 title=置于顶层(&A)
+window=1773732 command=40021 title=程序(&P)
+window=1773732 command=40022 title=文件和文件夹(&F)
+window=1773732 command=40025 title=右键菜单(&C)	Shift+F10
+window=1773732 command=40026 title=恢复日志(&L)
+window=1773732 command=9999 title=创建新沙盒
+window=1773732 command=9998 title=设置保存文件夹
+window=1773732 command=9997 title=设置布局与群组
+window=1773732 command=40031 title=程序运行警告(&A)
+window=1773732 command=40032 title=系统设置(&I)
+window=1773732 command=40038 title=软件兼容性(&C)
+window=1773732 command=40033 title=取消消息隐藏(&M)
+window=1773732 command=40034 title=显示所有提示(&S)
+window=1773732 command=40035 title=隐藏所有提示(&H)
+window=1773732 command=40039 title=锁定配置(&K)
+window=1773732 command=40036 title=编辑配置文件(&E)
+window=1773732 command=40037 title=重新载入配置(&L)
+window=1773732 command=40040 title=支持 &Sandboxie
+window=1773732 command=40041 title=在线帮助主题(&H)
+window=1773732 command=40042 title=入门教程(&T)
+window=1773732 command=40047 title=Sandboxie-Plus 迁移导引
+window=1773732 command=40043 title=&Sandboxie 论坛(网页)
+window=1773732 command=40044 title=检查更新(&U)
+window=1773732 command=40046 title=升级到 Sandboxie-Plus
+window=1773732 command=40045 title=关于 Sandboxie (&A)
+window=1773732 command=40046 title=升级到 Sandboxie-Plus
+pid=13052 exactExitMatches=1
+normalMenuCommandPosted=true

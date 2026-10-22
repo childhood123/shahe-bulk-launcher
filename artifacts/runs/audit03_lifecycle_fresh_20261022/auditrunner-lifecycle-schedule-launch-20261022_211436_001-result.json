@@ -1,0 +1,1 @@
+{"kind":"auditrunner-lifecycle-schedule-launch","timestamp":"2026-10-22T21:14:35.9454793+08:00","status":"inconclusive","prefix":"ShaheAudit_20261022_2100B","stage":"schedule-launch","jobKey":"","launch":null,"observedPids":{},"processCleanup":[],"cleanup":[],"errors":["Lifecycle process gate is not clean: SbieCtrl.exe"]}

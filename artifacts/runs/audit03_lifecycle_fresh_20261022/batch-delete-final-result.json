@@ -1,0 +1,43 @@
+{
+  "command": [
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\bin\\x64\\Release\\net48\\ShaheLauncher.AuditRunner.exe",
+    "lifecycle",
+    "--execute",
+    "--baseline",
+    "D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_fresh_20261022\\auditrunner-preflight-20261022_211035_861-result.json",
+    "--prefix",
+    "ShaheAudit_20261022_2100B",
+    "--stage",
+    "batch-delete",
+    "--state",
+    "D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_fresh_20261022\\fresh-lifecycle-state.json",
+    "--output",
+    "D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_fresh_20261022"
+  ],
+  "returnCode": 0,
+  "status": "passed",
+  "report": "D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_fresh_20261022\\auditrunner-lifecycle-batch-delete-20261022_212706_864-result.json",
+  "actualBuildDirectory": "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\bin\\x64\\Release\\net48",
+  "passed": 1,
+  "failed": 0,
+  "skipped": 0,
+  "observedPids": null,
+  "targetProcessId": null,
+  "cleanup": [
+    {
+      "internalName": "ShaheAudit_20261022_21001",
+      "alias": "ShaheAudit_20261022_2100B_Renamed 01",
+      "status": "passed",
+      "detail": ""
+    },
+    {
+      "internalName": "ShaheAudit_20261022_21002",
+      "alias": "ShaheAudit_20261022_2100B_Renamed 02",
+      "status": "passed",
+      "detail": ""
+    }
+  ],
+  "processCleanup": null,
+  "errors": [],
+  "focusAndIndex": "not applicable for API stages; UI observations in native report when present"
+}

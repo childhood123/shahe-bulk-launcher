@@ -1,0 +1,21 @@
+{
+  "command": [
+    "D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_resume_20261022\\ControlExitProbe.exe",
+    "AuditRunner.exe",
+    "15628",
+    "--exit"
+  ],
+  "returnCode": -532462766,
+  "controlAfter": [],
+  "servicesAfter": [
+    {
+      "Name": "SbieSvc",
+      "Status": 4
+    }
+  ],
+  "normalMenuExit": false,
+  "forceTerminationUsed": false,
+  "passed": 0,
+  "failed": 1,
+  "skipped": 0
+}

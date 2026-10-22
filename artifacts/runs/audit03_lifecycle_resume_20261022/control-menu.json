@@ -1,0 +1,14 @@
+[
+  {
+    "result": {
+      "content": [
+        {
+          "type": "text",
+          "text": "No app state is available for SbieCtrl. Run get_app_state before action tools."
+        }
+      ],
+      "isError": true
+    },
+    "tool": "press_key"
+  }
+]

@@ -1,0 +1,20 @@
+{
+  "command": [
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\bin\\x64\\Release\\net48\\ShaheLauncher.AuditRunner.exe",
+    "preflight",
+    "--target",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\bin\\x64\\Release\\net48\\沙河批量打开器.exe",
+    "--config",
+    "D:\\mycodex\\git\\artifacts\\runs\\csharp_non_update_gaps_20261020\\audit03\\real-lifecycle-config.ini",
+    "--sandboxie-ini",
+    "C:\\Windows\\Sandboxie.ini",
+    "--output",
+    "D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_fresh_20261022"
+  ],
+  "returnCode": 3,
+  "report": "D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_fresh_20261022\\auditrunner-preflight-20261022_210655_537-result.json",
+  "status": "inconclusive",
+  "passed": 0,
+  "failed": 1,
+  "skipped": 0
+}

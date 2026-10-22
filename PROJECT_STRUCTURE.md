@@ -1,22 +1,22 @@
 # 沙河批量打开器项目结构
 
-## 当前执行摘要（2026-10-22 VOICE-03 单读屏验收完成，恢复 AUDIT-03）
+## 当前执行摘要（2026-10-22 AUDIT-03 验证完成，提交后暂停）
 
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-09 已按用户“反正能记忆到999条记录就行之前是20”的明确要求更新为 C# `0–999`；除该用户指定差异外，后续功能继续保留 Python 原文案和行为，只用 C# 实现。
-- 当前模块：AUDIT-03 Sandboxie 剩余生命周期；用户追加 VOICE-03 已按“一个真实读屏成功即可”的范围验收并独立推送。AUDIT-03 已有 batch-create、create-group、launch-group、schedule-launch 和 cleanup 证据，本轮补齐 delete-group 的生产 EXE 隔离配置验证；schedule-close、cancel-schedules、batch-rename、batch-delete 仍待有效验证。当前下一项 schedule-close 受用户 SbieCtrl 安全门禁阻断，不进入 AUDIT-04；整体迁移未完成。
-- 用户追加任务 DONATE-01：已按最新明确要求，将原始支付宝/微信图片放入根目录 `打赏/`，C# 菜单优先从该目录读取，构建/发布自动带上图片；复用原有“复制二维码”按钮复制原图位图。此追加任务已实现并验证，不改变 AUDIT-03 的未完成状态或其后审计顺序。
+- 当前模块：AUDIT-03 收口。删除分组真实 EXE、剩余 Sandboxie 生命周期、完整代码门禁和最终清理均已验证；当前只完成证据审查、独立提交和推送。按用户“下一步先完成之后然后先别推进了”的要求，本项交付后暂停，AUDIT-04 不启动。整体迁移未完成。
+- 用户追加任务 DONATE-01：已按最新明确要求，将原始支付宝/微信图片放入根目录 `打赏/`，C# 菜单优先从该目录读取，构建/发布自动带上图片；复用原有“复制二维码”按钮复制原图位图。此追加任务已实现并验证，后续审计仍遵守既定顺序。
 - 用户追加设置/菜单核对：SETTINGS-01 已修复普通软件设置保存时自启动写入旧值；MENU-01 已按 Python 恢复三条分隔线，并将设置菜单恢复为“热键设置、朗读设置、软件设置”。路径列表原有操作和用户指定 999 上限保留。读屏 API 下拉框原先仅保存/回显的问题已独立修复，按用户单读屏要求完成 NVDA 实测及完整代码门禁；双读屏/真实启动恢复未验收和首次探针异常未定位仍保留，不据此声明所有读屏场景均通过。
 - 用户指定 HISTORY-UI-01：数量窗口已移除“已记忆的路径列表”和“隐藏路径”复选框，只保留数量及确定/取消；原“调整记忆数”入口复用同一窗口。既有历史数据不因移除控件被清空，范围仍为 0–999。主窗口原有路径上下文功能保留，重复入口核查记录见本轮报告。
 - GitCode 发布状态：公开仓库 `https://gitcode.com/childhood123/shahe-bulk-launcher-releases` 的 `main` 已指向 `18caa88287fc5714a90528e88cd732d0204ec135`。默认清单 `https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json` 匿名生产式请求为 HTTP `200`；清单内 content-addressed ZIP 匿名请求为 HTTP `200`。
 - 发布包状态：版本 `4.0.46`，ZIP 大小 `2785203` 字节，SHA-256 `D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8`；匿名下载后的实际大小和哈希完全一致。最终证据为 `artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-final.json`。
 - 前次 HISTORY-UI-01 自动化门禁（不代表当前 VOICE-03）：HISTORY-UI-01 有效 RED 通过 2/失败 1（列表仍存在），精简后定向 9/9、受影响 91/91、C# 全量 370/370、Python 29/29，compileall 与隔离 Release x64 返回码 0，构建 0 警告/0 错误。生产窗体保存/取消验证历史与其他偏好未被误改，数量入口真实模态验证保持上限 999。此为用户明确指定的界面差异；其他 Python 文案、菜单和业务执行仍继续对照，整体迁移未完成。
 - 版本触发边界：应用 `AppVersion` 与公开清单 `latest_version` 当前同为 `4.0.46`。本次发布建立了可用更新基线，但已运行同版本客户端不会收到“有新版本”提示；后续真实升级发布必须使用更高版本号并重新生成包、清单和校验值。
-- 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、AUDIT-02、UPDATE-01 及此前已确认范围。VOICE-03 已按用户单读屏范围完成，当前恢复未完成的 AUDIT-03；其后待迁移/审计模块为 AUDIT-04 至 AUDIT-08 和 RELEASE-01。整体迁移仍未完成。
+- 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、AUDIT-02、UPDATE-01 及此前已确认范围。VOICE-03 已按用户单读屏范围完成，AUDIT-03 验证已完成并进入提交收口；待迁移/审计模块为 AUDIT-04 至 AUDIT-08 和 RELEASE-01，按用户要求暂不推进。整体迁移仍未完成。
 - 真实 updater 证据：GitCode 匿名 ZIP 在隔离生产 helper 布局下以 `restart=true` 完成下载、替换和进程重启；updater PID `11448` 返回 `0`，精确隔离路径主进程 PID `5364` 被观测并清理，安装文件哈希、用户配置和 `lib 7/7` 均通过。该场景主窗口句柄为 `0`，只证明进程重启，不替代后续发布目录 UI 启动审计。
-- 真实 Sandboxie 清理状态：本轮接续只读核对确认目标/隔离配置/真实 Sandboxie.ini 哈希符合既有基线，审计 section、目录和精确归属资源均无残留；verify-clean 因用户 SbieCtrl 运行返回 blocked，详情和命令见最新 AUDIT-03 验证记录。用户进程与配置未被修改。
-- C# 当前可以启动并运行已验证功能；路径记忆上限按用户要求为 999。整体 Python→C# 迁移仍未完成，AUDIT-03 剩余真实场景、AUDIT-04 至 AUDIT-08 和最终发布验收仍有待办；活动计划中的旧复选框存在进度滞后，以本摘要、独立提交和最新日志证据为准。
+- 真实 Sandboxie 清理状态：本轮新基线下最终 verify-clean 全部通过，目标/应用配置/真实 Sandboxie.ini 哈希匹配，本轮 section、目录和受控进程均无残留；最新命令、构建目录及资源细节见追加验证记录。用户已授权正常退出控制程序，服务保持 Running。
+- C# 当前可以启动并运行已验证功能；路径记忆上限按用户要求为 999。整体 Python→C# 迁移仍未完成，AUDIT-04 至 AUDIT-08 和最终发布验收仍有待办，尚不能认定全部功能均已完整验收；活动计划中 AUDIT-01/02 等历史复选框存在进度滞后，以本摘要、独立提交和最新日志证据为准。
 
-- VOICE-03 本轮进度：用户指定的单读屏验收、完整代码门禁和独立提交/推送均完成；修复分支与回退信息见最新验证记录。双读屏、真实启动恢复及保益自身发声未验收，首次原生异常未定位，均未宣称已解决。当前恢复 AUDIT-03，整体迁移未完成。
+- VOICE-03 本轮进度：用户指定的单读屏验收、完整代码门禁和独立提交/推送均完成；修复分支与回退信息见最新验证记录。双读屏、真实启动恢复及保益自身发声未验收，首次原生异常未定位，均未宣称已解决。AUDIT-03 当前仅做提交收口，完成后按用户要求暂停；整体迁移未完成。
 
 ### 本轮验证记录（只追加）
 
@@ -2566,3 +2566,98 @@ csharp/
 - AUDIT-03 删除分组后清理与下一项：只读进程核对完成，自有 EXE 残留为 0，schedule-close 准备状态为 blocked，计数不适用；完整查询、实际用户控制进程及清理结果见 artifacts/runs/audit03_delete_group_20261022/next-stage-and-cleanup.json。未执行真实生命周期动作，未停止 SbieCtrl。
 
 - AUDIT-03 删除分组证据收口：最终探针语法解析返回 0，文档 git diff --check 返回 0；生产源码无修改，未重复无变化的全量构建和回归。检查结果见 artifacts/runs/audit03_delete_group_20261022/final-checks.json、document-diff.log；最终实际 EXE 报告为本轮最新 passed 记录。AUDIT-03 整体仍未完成。
+
+- AUDIT-03 删除分组证据提交：本地提交 `24d6190`，回退命令 `git revert 24d6190`；目标远端分支为 `origin/voice03-fixed-reader-20261022`。两次推送分别因连接重置（返回 128）和空响应（返回 1）失败，尚未确认远端更新，正在单次 HTTP/1.1 重试；未强推。
+
+- AUDIT-03 推送最终状态：单次 `git -c http.version=HTTP/1.1 push origin HEAD:refs/heads/voice03-fixed-reader-20261022` 返回 1，无法连接 GitHub 443；此前本地证据提交保留，未宣称推送成功。网络恢复后重试该已有提交，实际功能验证不回退。
+
+- AUDIT-03 最新阻断文档检查：git diff --check -- PROJECT_STRUCTURE.md docs/superpowers/plans/2026-10-20-remaining-migration-closure.md 返回 0，计数不适用；日志 artifacts/runs/audit03_delete_group_20261022/final-status-diff.log。网络和 SbieCtrl 阻断已同步到活动计划。
+
+- AUDIT-03 控制界面退出准备：用户已授权正常退出 Sandboxie Control。Computer Use 在恢复目标窗口后出现 CUA_OBSERVATION_STALE、CUA_EXECUTION_FAILED，未发出退出输入，相关观察不作为退出成功证据；已使用现有 Open Computer Use 读取到控制窗口，准备执行正常菜单退出。
+
+- AUDIT-03 控制窗口观测：Open Computer Use 截图被其他窗口遮挡，不能确认实际目标菜单，已判为无效观察并移除非目标截图文件，未据此发出退出命令。接下来使用控制程序自身 /open 恢复现有窗口后重新观察。
+
+- AUDIT-03 精确控制菜单审计 CLI：使用现有 .NET Framework csc 编译 ControlExitProbe.cs，返回 0，计数不适用；日志 artifacts/runs/audit03_lifecycle_resume_20261022/control-exit-build.log。仅复用已有菜单枚举与 PostCommand，不含强制终止代码。
+
+- AUDIT-03 控制菜单只读枚举：ControlExitProbe.exe 在无 --exit 参数下核对精确 SbieCtrl 路径与菜单，返回 0，计数不适用；结果 artifacts/runs/audit03_lifecycle_resume_20261022/control-menu-native.log。未发送退出命令。
+
+- AUDIT-03 正常退出 Sandboxie Control 重试：恢复唯一 SbieCtrl PID 14796 后，精确枚举唯一退出(&X)菜单并发送正常菜单命令；只读返回 0，命令返回 0，控制进程残留 0，SbieSvc=Running，通过 1、失败 0、跳过 0。报告与原生日志见 artifacts/runs/audit03_lifecycle_resume_20261022/control-exit-final-result.json、control-menu-native-retry.log、control-exit-native-retry.log；未使用强制终止。
+
+- AUDIT-03 正常退出控制结果：复用 Win32Automation 的菜单枚举和 PostCommand，严格匹配 SbieCtrl.exe PID 14796、路径和唯一“退出(&X)”；命令返回 0，控制进程清零，SbieSvc 仍 Running，未使用强制终止。真实结果见 artifacts/runs/audit03_lifecycle_resume_20261022/control-exit-final-result.json。
+
+- AUDIT-03 schedule-close 直接重跑：命令返回 3，状态 inconclusive，通过 0、失败 1、跳过 0；完整命令、实际构建目录、报告路径和清理字段见 artifacts/runs/audit03_lifecycle_resume_20261022/schedule-close-direct-result.json，原始输出见 schedule-close-direct.log。
+
+- AUDIT-03 schedule-close：直接调用使用既有 baseline/state/prefix，返回码 3，状态 inconclusive，错误为 Owned configuration changed before lifecycle；未启动沙盒、未关闭进程、无清理动作。命令与报告见 artifacts/runs/audit03_lifecycle_resume_20261022/schedule-close-direct-result.json、auditrunner-lifecycle-schedule-close-20261022_205736_845-result.json。进入配置哈希根因核对，不绕过门禁。
+
+- AUDIT-03 schedule-close 根因核对：旧状态 ExpectedConfigurationSha256=`48F7...`，当前真实配置与 baseline 均为 `11602...`；旧状态已不再可安全续跑。检查确认真实 Sandboxie.ini 无旧审计前缀 section、SandboxRoot 无 ShaheAudit_* 目录、目标/审计进程为 0。旧状态不改，改用新前缀和新状态从 batch-create 重走。
+
+- AUDIT-03 fresh batch-create：返回码 3，状态 inconclusive，通过 0、失败 1、跳过 0；命令、日志和报告见 artifacts/runs/audit03_lifecycle_fresh_20261022/batch-create-result.json、batch-create.log。
+
+- AUDIT-03 fresh batch-create：返回码 3，状态 inconclusive，未创建资源；原因 baseline hashes changed before lifecycle。核对确认目标/应用配置哈希仍匹配，真实 Sandboxie.ini 因正常退出控制程序已从旧基线 `2709...` 变为 `39D0...`。保留旧基线，先生成当前环境 preflight。
+
+- AUDIT-03 当前环境 preflight：返回码 3，状态 inconclusive，通过 0、失败 1、跳过 0；命令、日志和基线报告见 artifacts/runs/audit03_lifecycle_fresh_20261022/preflight-current-result.json、preflight-current.log。
+
+- AUDIT-03 当前 preflight 首次调用：返回码 3 / blocked；报告读取目标、配置、Sandboxie 服务和资源状态均正常，只有三个 hash check 因未传 expected 参数为 false。未修改文件。按审计器接口补传当前核对的 target/config/ini 哈希生成正式基线。
+
+- AUDIT-03 当前环境正式 preflight：返回码 0，状态 passed，通过 1、失败 0、跳过 0；显式传入当前三项哈希，命令、哈希和基线报告见 artifacts/runs/audit03_lifecycle_fresh_20261022/preflight-final-result.json、preflight-final.log。
+
+- AUDIT-03 fresh batch-create 正式运行：返回码 0，状态 passed，通过 1、失败 0、跳过 0；命令、日志和报告见 artifacts/runs/audit03_lifecycle_fresh_20261022/batch-create-final-result.json、batch-create-final.log。
+
+- AUDIT-03 fresh preflight/batch-create：当前环境正式 preflight 返回 0、1/0/0；新前缀 `ShaheAudit_20261022_2100B` 的 batch-create 返回 0、1/0/0，所有权状态已写入 fresh-lifecycle-state.json。下一阶段 create-group。
+
+- AUDIT-03 fresh create-group：返回码 0，状态 passed，通过 1、失败 0、跳过 0；命令、日志和报告见 artifacts/runs/audit03_lifecycle_fresh_20261022/create-group-final-result.json、create-group-final.log。
+
+- AUDIT-03 fresh create-group：返回 0、1/0/0，分组创建及配置持久化通过；继续 launch-group。
+
+- AUDIT-03 fresh launch-group：返回码 0，状态 passed，通过 1、失败 0、跳过 0；命令、日志和报告见 artifacts/runs/audit03_lifecycle_fresh_20261022/launch-group-final-result.json、launch-group-final.log。
+
+- AUDIT-03 fresh launch-group：返回 0、1/0/0，两个本轮沙盒成员启动场景通过；继续 schedule-launch。
+
+- AUDIT-03 fresh schedule-launch：返回码 3，状态 inconclusive，通过 0、失败 1、跳过 0；命令、日志和报告见 artifacts/runs/audit03_lifecycle_fresh_20261022/schedule-launch-final-result.json、schedule-launch-final.log。
+
+- AUDIT-03 重现控制程序正常退出：按既有授权匹配精确 PID/路径/退出菜单，返回 0，状态 passed，服务 Running，无强制终止。目标 PID、完整观察与命令索引见 artifacts/runs/audit03_lifecycle_fresh_20261022/control-reappeared-exit-result.json、control-reappeared-exit.log；计数不适用。
+
+- AUDIT-03 fresh schedule-launch (schedule-launch-retry)：返回码 0，状态 passed，通过 1、失败 0、跳过 0；完整命令、构建目录、PID/清理及原生报告索引见 artifacts/runs/audit03_lifecycle_fresh_20261022/schedule-launch-retry-result.json，同名 .log 保留原始输出。
+
+- AUDIT-03 schedule-close 前环境恢复：按既有授权经精确退出菜单关闭重新出现的 SbieCtrl，命令返回 0，残留 0；日志 artifacts/runs/audit03_lifecycle_fresh_20261022/control-before-close.log，计数不适用。
+
+- AUDIT-03 fresh schedule-close (schedule-close-final)：返回码 0，状态 passed，通过 1、失败 0、跳过 0；完整命令、构建目录、PID/清理及原生报告索引见 artifacts/runs/audit03_lifecycle_fresh_20261022/schedule-close-final-result.json，同名 .log 保留原始输出。
+
+- AUDIT-03 cancel-schedules 前正常退出控制：返回 0，残留 0，日志 artifacts/runs/audit03_lifecycle_fresh_20261022/control-before-cancel.log；计数不适用。
+
+- AUDIT-03 fresh cancel-schedules (cancel-schedules-final)：返回码 0，状态 passed，通过 1、失败 0、跳过 0；完整命令、构建目录、PID/清理及原生报告索引见 artifacts/runs/audit03_lifecycle_fresh_20261022/cancel-schedules-final-result.json，同名 .log 保留原始输出。
+
+- AUDIT-03 fresh batch-rename (batch-rename-final)：返回码 0，状态 passed，通过 1、失败 0、跳过 0；完整命令、构建目录、PID/清理及原生报告索引见 artifacts/runs/audit03_lifecycle_fresh_20261022/batch-rename-final-result.json，同名 .log 保留原始输出。
+
+- AUDIT-03 batch-delete 边界核对：两个候选内部名/目录均来自本轮所有权状态，不在原始基线中；解析后的绝对路径均位于已明确指定的 SandboxRoot 内。核对返回 0，计数不适用；精确目标见 artifacts/runs/audit03_lifecycle_fresh_20261022/batch-delete-targets.json。未扩展删除范围。
+
+- AUDIT-03 fresh batch-delete (batch-delete-final)：返回码 0，状态 passed，通过 1、失败 0、跳过 0；完整命令、构建目录、PID/清理及原生报告索引见 artifacts/runs/audit03_lifecycle_fresh_20261022/batch-delete-final-result.json，同名 .log 保留原始输出。
+
+- AUDIT-03 fresh cleanup (cleanup-final)：返回码 0，状态 passed，通过 1、失败 0、跳过 0；完整命令、构建目录、PID/清理及原生报告索引见 artifacts/runs/audit03_lifecycle_fresh_20261022/cleanup-final-result.json，同名 .log 保留原始输出。
+
+- AUDIT-03 fresh verify-clean：返回码 0，状态 passed，通过 1、失败 0、跳过 0；三项哈希、精确资源归属、section/目录与进程计数的完整核对见 artifacts/runs/audit03_lifecycle_fresh_20261022/verify-clean-final-result.json，原生报告及命令由其索引。
+
+- AUDIT-03 closure-affected：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\audit03_lifecycle_fresh_20261022\bin\ --logger trx;LogFileName=closure-affected.trx --results-directory D:\mycodex\git\artifacts\runs\audit03_lifecycle_fresh_20261022 --filter FullyQualifiedName~SandboxieLifecycleAuditRunnerTests|FullyQualifiedName~LaunchSchedulerContractTests|FullyQualifiedName~SandboxAdminServiceContractTests|FullyQualifiedName~MainFormApplicationContractTests`；返回码 0，通过 86、失败 0、跳过 0。日志与命令索引：`artifacts/runs/audit03_lifecycle_fresh_20261022/closure-affected.log`、`closure-affected-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 前轮推送恢复：再次执行已授权分支推送返回 0，删除分组证据提交已到达 origin/voice03-fixed-reader-20261022；此前连接失败记录仍保留，不覆盖历史。当前继续完整源码收口门禁。
+
+- AUDIT-03 closure-full：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\audit03_lifecycle_fresh_20261022\bin\ --logger trx;LogFileName=closure-full.trx --results-directory D:\mycodex\git\artifacts\runs\audit03_lifecycle_fresh_20261022`；返回码 0，通过 389、失败 0、跳过 0。日志与命令索引：`artifacts/runs/audit03_lifecycle_fresh_20261022/closure-full.log`、`closure-full-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 closure-python：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 0，通过 29、失败 0、跳过 0。日志与命令索引：`artifacts/runs/audit03_lifecycle_fresh_20261022/closure-python.log`、`closure-python-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 closure-compile：命令 `python -m compileall -q shahe_bulk_launcher tests`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/audit03_lifecycle_fresh_20261022/closure-compile.log`、`closure-compile-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 closure-release：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\audit03_lifecycle_fresh_20261022\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/audit03_lifecycle_fresh_20261022/closure-release.log`、`closure-release-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-03 全量/构建后最终环境核对：verify-clean 返回 0，状态 passed，通过 1、失败 0、跳过 0；命令、失败检查列表与报告见 artifacts/runs/audit03_lifecycle_fresh_20261022/closure-verify-clean-result.json、closure-verify-clean.log。
+
+- AUDIT-03 closure-release 补充：独立输出目录的生产 Core/App/Updater/AuditRunner 均编译成功，构建 0 警告、0 错误；实际输出为 artifacts/runs/audit03_lifecycle_fresh_20261022/bin/x64/Release/net48，原始依据 closure-release.log。
+- AUDIT-03 探针无效证据补记：控制退出首轮 helper 在正常菜单发送后异常退出，返回 -532462766，控制进程随后已消失；control-exit-result.json 保留为 inconclusive，后续正常菜单重试单独取得有效通过。其间一次 helper 准备脚本使用只读 PowerShell PID 变量并产生 C# 字面转义编译错误，属于探针准备失败，不计产品 RED；编译日志后续被同名成功构建覆盖，原始错误仅在工具记录中，不扩展为产品结论。
+
+- AUDIT-03 收口证据审查：原始生命周期报告、TRX 汇总与命令结果一致，最终清理检查全部为真；生产 C#/Python 源码和测试无本轮未提交差异。历史 inconclusive 仍保留，未转为产品通过；仅整理控制退出 helper 的文件末尾空行。审查记录：`artifacts/runs/audit03_lifecycle_fresh_20261022/closeout-review-result.json`。用户要求在本项提交推送完成后暂停，下一项 AUDIT-04 不启动。
+
+- AUDIT-03 收口工作树差异检查：`git diff --check` 返回码 2，计数不适用；结果：`artifacts/runs/audit03_lifecycle_fresh_20261022/closeout-worktree-diff-result.json`。
+
+- AUDIT-03 差异范围复核：全工作树检查的返回码 2 仅来自用户已有 GAP-09 两份日志的行尾空白，保留原文件、不纳入暂存；本轮文档范围 `git diff --check -- PROJECT_STRUCTURE.md docs/superpowers/plans/2026-10-20-remaining-migration-closure.md` 返回码 0，计数不适用。结果：`artifacts/runs/audit03_lifecycle_fresh_20261022/closeout-scope-diff-result.json`；新增证据另由暂存差异检查覆盖。
+
+- AUDIT-03 暂存审查：暂存路径与事先展示的 `artifacts/runs/audit03_lifecycle_fresh_20261022/closeout-staging-files.txt` 完全一致，未包含用户已有改动或构建二进制；`git diff --cached --check` 返回码 0，计数不适用。结果：`artifacts/runs/audit03_lifecycle_fresh_20261022/closeout-staged-diff-result.json`。

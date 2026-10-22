@@ -1,0 +1,24 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_fresh_20261022\\bin\\",
+    "--logger",
+    "trx;LogFileName=closure-affected.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_fresh_20261022",
+    "--filter",
+    "FullyQualifiedName~SandboxieLifecycleAuditRunnerTests|FullyQualifiedName~LaunchSchedulerContractTests|FullyQualifiedName~SandboxAdminServiceContractTests|FullyQualifiedName~MainFormApplicationContractTests"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_fresh_20261022\\closure-affected.log",
+  "passed": 86,
+  "failed": 0,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\audit03_lifecycle_fresh_20261022\\closure-affected.trx"
+}
