@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="c2428904-9cce-45ee-9f9a-41a4654b8d18" name="Administrator@CHILDHOOD 2026-10-22 17:01:03" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T17:01:03.7185221+08:00" queuing="2026-10-22T17:01:03.7185225+08:00" start="2026-10-22T17:00:59.2845215+08:00" finish="2026-10-22T17:01:03.7273502+08:00" />
+  <TestSettings name="default" id="dc2842b3-7673-43ea-8a5e-40f452d8c418">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_17_01_03" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="348b5201-48f9-4306-843d-4419cf525f2e" testId="514e2677-ef31-a412-a554-2667fc1e781b" testName="QueuedSpeechRechecksEnabledSettingBeforeLoadingReader" computerName="CHILDHOOD" duration="00:00:00.0130111" startTime="2026-10-22T17:01:03.5820254+08:00" endTime="2026-10-22T17:01:03.5999778+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="348b5201-48f9-4306-843d-4419cf525f2e" />
+    <UnitTestResult executionId="2fbf1d3e-70c4-4d88-bbea-6db68b132dda" testId="376efe89-bbbe-eb67-42fb-ca1372f3a77a" testName="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;zdsr&quot;,&quot;ZDSRAPI_x64.dll&quot;)" computerName="CHILDHOOD" duration="00:00:00.0075210" startTime="2026-10-22T17:01:03.5051249+08:00" endTime="2026-10-22T17:01:03.5131593+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2fbf1d3e-70c4-4d88-bbea-6db68b132dda" />
+    <UnitTestResult executionId="9f403918-9546-4755-be83-9aa30dc89d29" testId="dfb85217-c6e3-19b4-1a51-47c7bb35d63f" testName="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;boy&quot;,&quot;byctrl-x64.dll&quot;)" computerName="CHILDHOOD" duration="00:00:00.0067941" startTime="2026-10-22T17:01:03.5131593+08:00" endTime="2026-10-22T17:01:03.5201913+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9f403918-9546-4755-be83-9aa30dc89d29" />
+    <UnitTestResult executionId="ba0a1cf1-0a34-4a84-969d-ffbd8ddddff4" testId="34e80563-1dd9-dabf-d813-4f41b2dea399" testName="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;nvda&quot;,&quot;nvdaControllerClient64.dll&quot;)" computerName="CHILDHOOD" duration="00:00:00.0072855" startTime="2026-10-22T17:01:03.4976366+08:00" endTime="2026-10-22T17:01:03.5051249+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ba0a1cf1-0a34-4a84-969d-ffbd8ddddff4" />
+    <UnitTestResult executionId="c10e6255-f034-4e47-936d-cd192f77e47b" testId="d500ee21-a4ec-394e-f793-6adf54fb0eed" testName="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;&quot;,&quot;Tolk.dll&quot;)" computerName="CHILDHOOD" duration="00:00:00.0558872" startTime="2026-10-22T17:01:02.9570929+08:00" endTime="2026-10-22T17:01:03.4851479+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c10e6255-f034-4e47-936d-cd192f77e47b" />
+    <UnitTestResult executionId="e84559ea-c5e2-4b19-9ead-d6dd3fe89a29" testId="53cc3da7-1a18-5386-20f1-fb517088402d" testName="ChangingSelectionReleasesOldBackendAndCanReturnToAutomaticMode" computerName="CHILDHOOD" duration="00:00:00.0459890" startTime="2026-10-22T17:01:03.5201913+08:00" endTime="2026-10-22T17:01:03.5720523+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e84559ea-c5e2-4b19-9ead-d6dd3fe89a29" />
+    <UnitTestResult executionId="e89ee18d-c07f-484d-9354-b47ef310675b" testId="0f798067-2ed1-2f0f-bd4a-507e099143e4" testName="MissingSelectedLibraryDoesNotUseAnotherReaderAndAutomaticCanRecover" computerName="CHILDHOOD" duration="00:00:00.0094800" startTime="2026-10-22T17:01:03.5720523+08:00" endTime="2026-10-22T17:01:03.5820254+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e89ee18d-c07f-484d-9354-b47ef310675b" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;zdsr&quot;,&quot;ZDSRAPI_x64.dll&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="376efe89-bbbe-eb67-42fb-ca1372f3a77a">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="2fbf1d3e-70c4-4d88-bbea-6db68b132dda" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="SelectedReaderDeterminesTheLibraryUsedForSpeech" />
+    </UnitTest>
+    <UnitTest name="MissingSelectedLibraryDoesNotUseAnotherReaderAndAutomaticCanRecover" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="0f798067-2ed1-2f0f-bd4a-507e099143e4">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="e89ee18d-c07f-484d-9354-b47ef310675b" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="MissingSelectedLibraryDoesNotUseAnotherReaderAndAutomaticCanRecover" />
+    </UnitTest>
+    <UnitTest name="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;nvda&quot;,&quot;nvdaControllerClient64.dll&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="34e80563-1dd9-dabf-d813-4f41b2dea399">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="ba0a1cf1-0a34-4a84-969d-ffbd8ddddff4" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="SelectedReaderDeterminesTheLibraryUsedForSpeech" />
+    </UnitTest>
+    <UnitTest name="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;&quot;,&quot;Tolk.dll&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="d500ee21-a4ec-394e-f793-6adf54fb0eed">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="c10e6255-f034-4e47-936d-cd192f77e47b" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="SelectedReaderDeterminesTheLibraryUsedForSpeech" />
+    </UnitTest>
+    <UnitTest name="QueuedSpeechRechecksEnabledSettingBeforeLoadingReader" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="514e2677-ef31-a412-a554-2667fc1e781b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="348b5201-48f9-4306-843d-4419cf525f2e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="QueuedSpeechRechecksEnabledSettingBeforeLoadingReader" />
+    </UnitTest>
+    <UnitTest name="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;boy&quot;,&quot;byctrl-x64.dll&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="dfb85217-c6e3-19b4-1a51-47c7bb35d63f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="9f403918-9546-4755-be83-9aa30dc89d29" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="SelectedReaderDeterminesTheLibraryUsedForSpeech" />
+    </UnitTest>
+    <UnitTest name="ChangingSelectionReleasesOldBackendAndCanReturnToAutomaticMode" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="53cc3da7-1a18-5386-20f1-fb517088402d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="e84559ea-c5e2-4b19-9ead-d6dd3fe89a29" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="ChangingSelectionReleasesOldBackendAndCanReturnToAutomaticMode" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="514e2677-ef31-a412-a554-2667fc1e781b" executionId="348b5201-48f9-4306-843d-4419cf525f2e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="376efe89-bbbe-eb67-42fb-ca1372f3a77a" executionId="2fbf1d3e-70c4-4d88-bbea-6db68b132dda" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dfb85217-c6e3-19b4-1a51-47c7bb35d63f" executionId="9f403918-9546-4755-be83-9aa30dc89d29" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="34e80563-1dd9-dabf-d813-4f41b2dea399" executionId="ba0a1cf1-0a34-4a84-969d-ffbd8ddddff4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d500ee21-a4ec-394e-f793-6adf54fb0eed" executionId="c10e6255-f034-4e47-936d-cd192f77e47b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="53cc3da7-1a18-5386-20f1-fb517088402d" executionId="e84559ea-c5e2-4b19-9ead-d6dd3fe89a29" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0f798067-2ed1-2f0f-bd4a-507e099143e4" executionId="e89ee18d-c07f-484d-9354-b47ef310675b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="7" executed="7" passed="7" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

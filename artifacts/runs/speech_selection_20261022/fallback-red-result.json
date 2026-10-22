@@ -1,0 +1,24 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\",
+    "--logger",
+    "trx;LogFileName=fallback-red.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022",
+    "--filter",
+    "FullyQualifiedName~NoReadersFallsBackToWindowsAndReturns"
+  ],
+  "returnCode": 1,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\fallback-red.log",
+  "passed": 0,
+  "failed": 3,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\fallback-red.trx"
+}

@@ -1,0 +1,48 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 MissingSelectedLibraryUsesAutomaticWithoutLosingChoice [269 ms]
+  错误消息:
+   Assert.IsTrue 失败。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.<>c.<MissingSelectedLibraryUsesAutomaticWithoutLosingChoice>b__2_0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 103
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 310
+
+  失败 UnavailableSelectionUsesAutomaticTemporarilyWithoutChangingSavedChoice ("nvda","nvdaControllerClient64.dll","zdsr") [19 ms]
+  错误消息:
+   CollectionAssert.AreEqual 失败。(索引 0 处的元素不匹配。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.<>c__DisplayClass5_0.<UnavailableSelectionUsesAutomaticTemporarilyWithoutChangingSavedChoice>b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 208
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 310
+
+  失败 UnavailableSelectionUsesAutomaticTemporarilyWithoutChangingSavedChoice ("zdsr","ZDSRAPI_x64.dll","nvda") [8 ms]
+  错误消息:
+   CollectionAssert.AreEqual 失败。(索引 0 处的元素不匹配。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.<>c__DisplayClass5_0.<UnavailableSelectionUsesAutomaticTemporarilyWithoutChangingSavedChoice>b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 208
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 310
+
+  失败 UnavailableSelectionUsesAutomaticTemporarilyWithoutChangingSavedChoice ("boy","byctrl-x64.dll","nvda") [7 ms]
+  错误消息:
+   CollectionAssert.AreEqual 失败。(索引 0 处的元素不匹配。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.<>c__DisplayClass5_0.<UnavailableSelectionUsesAutomaticTemporarilyWithoutChangingSavedChoice>b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 208
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 310
+
+  失败 ReaderApiBecomingUnavailableFallsBackEvenIfProcessNameStillExists [11 ms]
+  错误消息:
+   Assert.AreEqual 失败。应为: <Tolk.dll>，实际为: <nvdaControllerClient64.dll>。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.<>c.<ReaderApiBecomingUnavailableFallsBackEvenIfProcessNameStillExists>b__6_0(String root)
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 310
+
+结果文件: D:\mycodex\git\artifacts\runs\speech_selection_20261022\preference-red.trx
+
+失败!  - 失败:     5，通过:     0，已跳过:     0，总计:     5，持续时间: 827 ms - ShaheLauncher.Tests.dll (net48)

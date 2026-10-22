@@ -1,0 +1,16 @@
+﻿{
+    "scenario":  "zdsr",
+    "pid":  132,
+    "is64Bit":  true,
+    "outputDirectory":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48",
+    "selectedLibrary":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48\\lib\\ZDSRAPI_x64.dll",
+    "loaded":  true,
+    "detected":  "ZDSR",
+    "outputInvoked":  true,
+    "runtimeCleared":  true,
+    "status":  "passed",
+    "returnCode":  0,
+    "errors":  [
+
+               ]
+}

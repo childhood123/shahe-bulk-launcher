@@ -1,0 +1,29 @@
+{
+  "status": "started",
+  "command": [
+    "C:\\Program Files\\NVDA\\nvda.exe",
+    "--minimal",
+    "--disable-addons",
+    "--config-path",
+    "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\nvda-resume-profile",
+    "--log-file",
+    "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\nvda-resume.log"
+  ],
+  "configuration": "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\nvda-resume-profile",
+  "launcherPid": 19144,
+  "ownedPids": [
+    19144
+  ],
+  "processes": [
+    {
+      "ProcessId": 19144,
+      "ExecutablePath": "C:\\Program Files\\NVDA\\nvda.exe",
+      "CommandLine": "\"C:\\Program Files\\NVDA\\nvda.exe\" --minimal --disable-addons --config-path D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\nvda-resume-profile --log-file D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\nvda-resume.log"
+    }
+  ],
+  "zdsrPids": [
+    10068,
+    11052,
+    10428
+  ]
+}

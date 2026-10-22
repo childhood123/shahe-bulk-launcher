@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="2def4770-835b-41e4-a590-6f92c3426d67" name="Administrator@CHILDHOOD 2026-10-22 17:16:22" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T17:16:22.5791252+08:00" queuing="2026-10-22T17:16:22.5791255+08:00" start="2026-10-22T17:16:18.2267366+08:00" finish="2026-10-22T17:16:22.5874635+08:00" />
+  <TestSettings name="default" id="50115f4c-c7be-4616-9014-117b63d6e4f5">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_17_16_22" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="2f59b6bb-f6cf-4869-b636-264059419d21" testId="83dc1059-ad15-f3f1-f166-b7d480bb7f69" testName="NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts (&quot;zdsr&quot;,&quot;ZDSRAPI_x64.dll&quot;)" computerName="CHILDHOOD" duration="00:00:00.0104742" startTime="2026-10-22T17:16:22.4444827+08:00" endTime="2026-10-22T17:16:22.4554556+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2f59b6bb-f6cf-4869-b636-264059419d21">
+      <Output>
+        <ErrorInfo>
+          <Message>CollectionAssert.AreEqual 失败。(索引 0 处的元素不匹配。)</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.&lt;&gt;c__DisplayClass4_0.&lt;NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts&gt;b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 168&#xD;
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 243&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="82db8f31-f018-41f2-b342-e326c08d7c22" testId="078ac4e6-5b3a-396e-3b7f-3257abd9b302" testName="NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts (&quot;nvda&quot;,&quot;nvdaControllerClient64.dll&quot;)" computerName="CHILDHOOD" duration="00:00:00.2550009" startTime="2026-10-22T17:16:21.7340515+08:00" endTime="2026-10-22T17:16:22.4305173+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="82db8f31-f018-41f2-b342-e326c08d7c22">
+      <Output>
+        <ErrorInfo>
+          <Message>CollectionAssert.AreEqual 失败。(索引 0 处的元素不匹配。)</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.&lt;&gt;c__DisplayClass4_0.&lt;NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts&gt;b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 168&#xD;
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 243&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="c3d2904c-eafe-424f-9d6e-ce020f39d289" testId="a8204a00-e22b-efb2-17fd-a8f4373376f6" testName="NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts (&quot;boy&quot;,&quot;byctrl-x64.dll&quot;)" computerName="CHILDHOOD" duration="00:00:00.0091374" startTime="2026-10-22T17:16:22.4564519+08:00" endTime="2026-10-22T17:16:22.4694537+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c3d2904c-eafe-424f-9d6e-ce020f39d289">
+      <Output>
+        <ErrorInfo>
+          <Message>CollectionAssert.AreEqual 失败。(索引 0 处的元素不匹配。)</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.&lt;&gt;c__DisplayClass4_0.&lt;NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts&gt;b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 168&#xD;
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 243&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts (&quot;boy&quot;,&quot;byctrl-x64.dll&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="a8204a00-e22b-efb2-17fd-a8f4373376f6">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="c3d2904c-eafe-424f-9d6e-ce020f39d289" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts" />
+    </UnitTest>
+    <UnitTest name="NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts (&quot;nvda&quot;,&quot;nvdaControllerClient64.dll&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="078ac4e6-5b3a-396e-3b7f-3257abd9b302">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="82db8f31-f018-41f2-b342-e326c08d7c22" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts" />
+    </UnitTest>
+    <UnitTest name="NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts (&quot;zdsr&quot;,&quot;ZDSRAPI_x64.dll&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="83dc1059-ad15-f3f1-f166-b7d480bb7f69">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="2f59b6bb-f6cf-4869-b636-264059419d21" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="83dc1059-ad15-f3f1-f166-b7d480bb7f69" executionId="2f59b6bb-f6cf-4869-b636-264059419d21" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="078ac4e6-5b3a-396e-3b7f-3257abd9b302" executionId="82db8f31-f018-41f2-b342-e326c08d7c22" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a8204a00-e22b-efb2-17fd-a8f4373376f6" executionId="c3d2904c-eafe-424f-9d6e-ce020f39d289" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="3" executed="3" passed="0" failed="3" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

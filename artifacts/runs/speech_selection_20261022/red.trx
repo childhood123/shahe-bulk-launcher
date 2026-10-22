@@ -1,0 +1,137 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="414f5175-8707-4324-b8eb-22977e65a3f3" name="Administrator@CHILDHOOD 2026-10-22 16:58:12" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T16:58:12.3003615+08:00" queuing="2026-10-22T16:58:12.3003618+08:00" start="2026-10-22T16:58:07.5920062+08:00" finish="2026-10-22T16:58:12.3096703+08:00" />
+  <TestSettings name="default" id="b0be9359-1f06-4e1f-95c2-eb56153865e4">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_16_58_12" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="6c92d705-4e08-43cc-980e-16a8cfb03d64" testId="376efe89-bbbe-eb67-42fb-ca1372f3a77a" testName="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;zdsr&quot;,&quot;ZDSRAPI_x64.dll&quot;)" computerName="CHILDHOOD" duration="00:00:00.0103358" startTime="2026-10-22T16:58:12.0244454+08:00" endTime="2026-10-22T16:58:12.0344175+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6c92d705-4e08-43cc-980e-16a8cfb03d64">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual 失败。应为: &lt;C:\Users\Administrator\AppData\Local\Temp\ShaheSpeechSelection-d900dcaba8c7485baf22dddca118f601\lib\ZDSRAPI_x64.dll&gt;，实际为: &lt;C:\Users\Administrator\AppData\Local\Temp\ShaheSpeechSelection-d900dcaba8c7485baf22dddca118f601\lib\Tolk.dll&gt;。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.&lt;&gt;c__DisplayClass0_0.&lt;SelectedReaderDeterminesTheLibraryUsedForSpeech&gt;b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 43&#xD;
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 144&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="9f7af4eb-d8ba-4715-90c8-cbb10f9c09b9" testId="53cc3da7-1a18-5386-20f1-fb517088402d" testName="ChangingSelectionReleasesOldBackendAndCanReturnToAutomaticMode" computerName="CHILDHOOD" duration="00:00:00.0112382" startTime="2026-10-22T16:58:12.0423970+08:00" endTime="2026-10-22T16:58:12.0603471+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9f7af4eb-d8ba-4715-90c8-cbb10f9c09b9">
+      <Output>
+        <ErrorInfo>
+          <Message>CollectionAssert.AreEqual 失败。(不同数量的元素。)</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.&lt;&gt;c.&lt;ChangingSelectionReleasesOldBackendAndCanReturnToAutomaticMode&gt;b__1_0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 69&#xD;
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 144&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="92d6fdbd-3a93-4312-9428-02ec6df54dca" testId="0f798067-2ed1-2f0f-bd4a-507e099143e4" testName="MissingSelectedLibraryDoesNotUseAnotherReaderAndAutomaticCanRecover" computerName="CHILDHOOD" duration="00:00:00.0099950" startTime="2026-10-22T16:58:12.0603471+08:00" endTime="2026-10-22T16:58:12.0703217+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="92d6fdbd-3a93-4312-9428-02ec6df54dca">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.IsFalse 失败。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.&lt;&gt;c.&lt;MissingSelectedLibraryDoesNotUseAnotherReaderAndAutomaticCanRecover&gt;b__2_0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 98&#xD;
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 144&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d7988115-a66b-4550-b6b7-038d6ce62346" testId="514e2677-ef31-a412-a554-2667fc1e781b" testName="QueuedSpeechRechecksEnabledSettingBeforeLoadingReader" computerName="CHILDHOOD" duration="00:00:00.0156005" startTime="2026-10-22T16:58:12.0703217+08:00" endTime="2026-10-22T16:58:12.0912648+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d7988115-a66b-4550-b6b7-038d6ce62346">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual 失败。应为: &lt;0&gt;，实际为: &lt;1&gt;。Queued messages must not reopen/output after hints are disabled.</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.&lt;&gt;c.&lt;QueuedSpeechRechecksEnabledSettingBeforeLoadingReader&gt;b__3_0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 131&#xD;
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 144&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="10c3e97e-ce2e-4297-97c5-867f0e1b683a" testId="34e80563-1dd9-dabf-d813-4f41b2dea399" testName="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;nvda&quot;,&quot;nvdaControllerClient64.dll&quot;)" computerName="CHILDHOOD" duration="00:00:00.1979915" startTime="2026-10-22T16:58:11.8257581+08:00" endTime="2026-10-22T16:58:12.0244454+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="10c3e97e-ce2e-4297-97c5-867f0e1b683a">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual 失败。应为: &lt;C:\Users\Administrator\AppData\Local\Temp\ShaheSpeechSelection-2feb3e498a0d40bab742e8d8a30eb464\lib\nvdaControllerClient64.dll&gt;，实际为: &lt;C:\Users\Administrator\AppData\Local\Temp\ShaheSpeechSelection-2feb3e498a0d40bab742e8d8a30eb464\lib\Tolk.dll&gt;。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.&lt;&gt;c__DisplayClass0_0.&lt;SelectedReaderDeterminesTheLibraryUsedForSpeech&gt;b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 43&#xD;
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 144&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="d14e3139-ff33-4daa-b30e-e42ebacbdf08" testId="d500ee21-a4ec-394e-f793-6adf54fb0eed" testName="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;&quot;,&quot;Tolk.dll&quot;)" computerName="CHILDHOOD" duration="00:00:00.0548474" startTime="2026-10-22T16:58:11.2586241+08:00" endTime="2026-10-22T16:58:11.8112871+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d14e3139-ff33-4daa-b30e-e42ebacbdf08" />
+    <UnitTestResult executionId="da96bb87-8fc9-4b8f-a4d3-6718a193b57e" testId="dfb85217-c6e3-19b4-1a51-47c7bb35d63f" testName="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;boy&quot;,&quot;byctrl-x64.dll&quot;)" computerName="CHILDHOOD" duration="00:00:00.0070614" startTime="2026-10-22T16:58:12.0354398+08:00" endTime="2026-10-22T16:58:12.0423970+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="da96bb87-8fc9-4b8f-a4d3-6718a193b57e">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual 失败。应为: &lt;C:\Users\Administrator\AppData\Local\Temp\ShaheSpeechSelection-1e9c36066f6d4d9181b0d1c9a77d3bd0\lib\byctrl-x64.dll&gt;，实际为: &lt;C:\Users\Administrator\AppData\Local\Temp\ShaheSpeechSelection-1e9c36066f6d4d9181b0d1c9a77d3bd0\lib\Tolk.dll&gt;。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.&lt;&gt;c__DisplayClass0_0.&lt;SelectedReaderDeterminesTheLibraryUsedForSpeech&gt;b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 43&#xD;
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 144&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;zdsr&quot;,&quot;ZDSRAPI_x64.dll&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="376efe89-bbbe-eb67-42fb-ca1372f3a77a">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="6c92d705-4e08-43cc-980e-16a8cfb03d64" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="SelectedReaderDeterminesTheLibraryUsedForSpeech" />
+    </UnitTest>
+    <UnitTest name="MissingSelectedLibraryDoesNotUseAnotherReaderAndAutomaticCanRecover" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="0f798067-2ed1-2f0f-bd4a-507e099143e4">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="92d6fdbd-3a93-4312-9428-02ec6df54dca" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="MissingSelectedLibraryDoesNotUseAnotherReaderAndAutomaticCanRecover" />
+    </UnitTest>
+    <UnitTest name="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;nvda&quot;,&quot;nvdaControllerClient64.dll&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="34e80563-1dd9-dabf-d813-4f41b2dea399">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="10c3e97e-ce2e-4297-97c5-867f0e1b683a" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="SelectedReaderDeterminesTheLibraryUsedForSpeech" />
+    </UnitTest>
+    <UnitTest name="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;&quot;,&quot;Tolk.dll&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="d500ee21-a4ec-394e-f793-6adf54fb0eed">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="d14e3139-ff33-4daa-b30e-e42ebacbdf08" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="SelectedReaderDeterminesTheLibraryUsedForSpeech" />
+    </UnitTest>
+    <UnitTest name="QueuedSpeechRechecksEnabledSettingBeforeLoadingReader" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="514e2677-ef31-a412-a554-2667fc1e781b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="d7988115-a66b-4550-b6b7-038d6ce62346" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="QueuedSpeechRechecksEnabledSettingBeforeLoadingReader" />
+    </UnitTest>
+    <UnitTest name="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;boy&quot;,&quot;byctrl-x64.dll&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="dfb85217-c6e3-19b4-1a51-47c7bb35d63f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="da96bb87-8fc9-4b8f-a4d3-6718a193b57e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="SelectedReaderDeterminesTheLibraryUsedForSpeech" />
+    </UnitTest>
+    <UnitTest name="ChangingSelectionReleasesOldBackendAndCanReturnToAutomaticMode" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="53cc3da7-1a18-5386-20f1-fb517088402d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="9f7af4eb-d8ba-4715-90c8-cbb10f9c09b9" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="ChangingSelectionReleasesOldBackendAndCanReturnToAutomaticMode" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="376efe89-bbbe-eb67-42fb-ca1372f3a77a" executionId="6c92d705-4e08-43cc-980e-16a8cfb03d64" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="53cc3da7-1a18-5386-20f1-fb517088402d" executionId="9f7af4eb-d8ba-4715-90c8-cbb10f9c09b9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0f798067-2ed1-2f0f-bd4a-507e099143e4" executionId="92d6fdbd-3a93-4312-9428-02ec6df54dca" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="514e2677-ef31-a412-a554-2667fc1e781b" executionId="d7988115-a66b-4550-b6b7-038d6ce62346" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="34e80563-1dd9-dabf-d813-4f41b2dea399" executionId="10c3e97e-ce2e-4297-97c5-867f0e1b683a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d500ee21-a4ec-394e-f793-6adf54fb0eed" executionId="d14e3139-ff33-4daa-b30e-e42ebacbdf08" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dfb85217-c6e3-19b4-1a51-47c7bb35d63f" executionId="da96bb87-8fc9-4b8f-a4d3-6718a193b57e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="7" executed="7" passed="1" failed="6" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

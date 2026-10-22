@@ -1,0 +1,22 @@
+﻿{
+    "simulatedNoReaderProcesses":  false,
+    "simulatedUnavailableNvda":  true,
+    "appDirectory":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48",
+    "activeRoute":  "",
+    "savedSelection":  "nvda",
+    "requestedLibrary":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48\\lib\\nvdaControllerClient64.dll",
+    "scenario":  "nvda",
+    "pid":  12276,
+    "is64Bit":  true,
+    "outputDirectory":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48",
+    "selectedLibrary":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48\\lib\\Tolk.dll",
+    "loaded":  true,
+    "detected":  "ZDSR",
+    "outputInvoked":  false,
+    "runtimeCleared":  true,
+    "status":  "passed",
+    "returnCode":  0,
+    "errors":  [
+
+               ]
+}

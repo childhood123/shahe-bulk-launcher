@@ -1,0 +1,68 @@
+INFO - __main__ (17:10:08.275) - MainThread (11840):
+Starting NVDA version 2026.1.1 AMD64
+INFO - core.main (17:10:08.909) - MainThread (11840):
+Config dir: D:\mycodex\git\artifacts\runs\speech_selection_20261022\nvda-test-profile
+INFO - config.ConfigManager._loadConfig (17:10:08.915) - MainThread (11840):
+Loading config: D:\mycodex\git\artifacts\runs\speech_selection_20261022\nvda-test-profile\nvda.ini
+INFO - core.main (17:10:11.682) - MainThread (11840):
+Windows version: Windows 10 22H2 (10.0.19045.6466) workstation AMD64
+INFO - core.main (17:10:11.682) - MainThread (11840):
+Using Python version 3.13.12 (tags/v3.13.12:1cbe481, Feb  3 2026, 18:22:25) [MSC v.1944 64 bit (AMD64)]
+INFO - core.main (17:10:11.684) - MainThread (11840):
+Using comtypes version 1.4.13
+INFO - core.main (17:10:11.689) - MainThread (11840):
+Using configobj version 5.1.0 with validate version 1.0.1
+INFO - core.main (17:10:11.736) - MainThread (11840):
+Add-ons are disabled. Restart NVDA to enable them.
+INFO - NVDAHelperLocal (17:10:12.114) - MainThread (11840):
+Thread 11840, build\x86_64\localWin10\oneCoreSpeech.cpp, ocSpeech_initialize, 215:
+ocSpeech_initialize
+
+INFO - NVDAHelperLocal (17:10:12.114) - MainThread (11840):
+Thread 11840, build\x86_64\localWin10\oneCoreSpeech.cpp, OcSpeechState::activate, 89:
+Activating
+
+INFO - NVDAHelperLocal (17:10:12.254) - MainThread (11840):
+Thread 11840, build\x86_64\localWin10\oneCoreSpeech.cpp, preventEndUtteranceSilence_, 443:
+AppendedSilence supported
+
+INFO - speechDictHandler.dictFormatUpgrade._doSynthVoiceDictBackupAndMove (17:10:12.268) - MainThread (11840):
+Upgrading voice dictionaries for espeak
+INFO - speechDictHandler.dictFormatUpgrade._doSynthVoiceDictBackupAndMove (17:10:12.269) - MainThread (11840):
+Upgrading voice dictionaries for oneCore
+INFO - synthDriverHandler.setSynth (17:10:12.272) - MainThread (11840):
+Loaded synthDriver oneCore
+INFO - mathPres.MathCAT.MathCAT.MathCAT.__init__ (17:10:12.291) - MainThread (11840):
+MathCAT 0.7.2 installed. Using rules dir: C:\Program Files\NVDA\include\nvda-mathcat\assets\Rules
+INFO - core._setUpWxApp (17:10:12.326) - MainThread (11840):
+Using wx version 4.2.4 msw (phoenix) wxWidgets 3.2.8
+INFO - brailleInput.initialize (17:10:12.351) - MainThread (11840):
+Braille input initialized
+INFO - braille.initialize (17:10:12.351) - MainThread (11840):
+Using liblouis version 3.36.0
+INFO - braille.initialize (17:10:12.351) - MainThread (11840):
+Using pySerial version 3.5
+INFO - braille.BrailleHandler._setDisplay (17:10:12.356) - MainThread (11840):
+Loaded braille display driver 'noBraille', current display has 0 cells.
+INFO - core.main (17:10:12.608) - MainThread (11840):
+Java Access Bridge support initialized
+INFO - UIAHandler.UIAHandler.MTAThreadFunc (17:10:12.856) - UIAHandler.UIAHandler.MTAThread (20056):
+UIAutomation: IUIAutomation6
+INFO - core.main (17:10:13.110) - MainThread (11840):
+NVDA initialized
+INFO - updateCheck.AutoUpdateChecker._started (17:10:13.124) - MainThread (11840):
+Performing automatic update check
+INFO - core.main (17:13:46.872) - MainThread (11840):
+Exiting
+INFO - config.ConfigManager.save (17:13:46.876) - MainThread (11840):
+Base configuration saved
+INFO - NVDAHelperLocal (17:13:47.097) - MainThread (11840):
+Thread 11840, build\x86_64\localWin10\oneCoreSpeech.cpp, ocSpeech_terminate, 236:
+ocSpeech_terminate, token: 00000000067DE060
+
+INFO - NVDAHelperLocal (17:13:47.097) - MainThread (11840):
+Thread 11840, build\x86_64\localWin10\oneCoreSpeech.cpp, OcSpeechState::terminate, 106:
+Terminating
+
+INFO - __main__ (17:13:47.594) - MainThread (11840):
+NVDA exit

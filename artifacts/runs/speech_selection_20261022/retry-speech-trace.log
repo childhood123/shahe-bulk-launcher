@@ -1,0 +1,17 @@
+﻿2026-10-22T18:58:29.6191723+08:00 pid=6444 start
+2026-10-22T18:58:30.3276358+08:00 pid=6444 before ensure
+2026-10-22T18:58:30.3386039+08:00 pid=6444 after ensure: True
+2026-10-22T18:58:30.3575536+08:00 pid=6444 before detect
+2026-10-22T18:58:30.3645363+08:00 pid=6444 after detect: NVDA
+2026-10-22T18:58:30.3735106+08:00 pid=6444 before unavailable NVDA retry 0
+2026-10-22T18:58:30.3765018+08:00 pid=6444 after unavailable NVDA retry 0
+2026-10-22T18:58:30.3784967+08:00 pid=6444 before unavailable NVDA retry 1
+2026-10-22T18:58:30.3804928+08:00 pid=6444 after unavailable NVDA retry 1
+2026-10-22T18:58:30.3834830+08:00 pid=6444 before unavailable NVDA retry 2
+2026-10-22T18:58:30.3854782+08:00 pid=6444 after unavailable NVDA retry 2
+2026-10-22T18:58:30.3864755+08:00 pid=6444 before unavailable NVDA retry 3
+2026-10-22T18:58:30.3884705+08:00 pid=6444 after unavailable NVDA retry 3
+2026-10-22T18:58:30.3894680+08:00 pid=6444 before unavailable NVDA retry 4
+2026-10-22T18:58:30.3914624+08:00 pid=6444 after unavailable NVDA retry 4
+2026-10-22T18:58:30.3944541+08:00 pid=6444 before shutdown
+2026-10-22T18:58:30.3984436+08:00 pid=6444 after shutdown

@@ -1,0 +1,16 @@
+﻿{
+    "scenario":  "zdsr",
+    "pid":  16764,
+    "is64Bit":  true,
+    "outputDirectory":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48",
+    "selectedLibrary":  "",
+    "loaded":  false,
+    "detected":  "",
+    "outputInvoked":  false,
+    "runtimeCleared":  false,
+    "status":  "failed",
+    "returnCode":  1,
+    "errors":  [
+                   "System.Management.Automation.MethodInvocationException: Exception calling \"CreateInstance\" with \"2\" argument(s): \"Constructor on type \u0027ShaheLauncher.Core.Speech.SpeechService\u0027 not found.\" ---\u003e System.MissingMethodException: Constructor on type \u0027ShaheLauncher.Core.Speech.SpeechService\u0027 not found.\r\n   at System.RuntimeType.CreateInstanceImpl(BindingFlags bindingAttr, Binder binder, Object[] args, CultureInfo culture, Object[] activationAttributes, StackCrawlMark\u0026 stackMark)\r\n   at System.Activator.CreateInstance(Type type, BindingFlags bindingAttr, Binder binder, Object[] args, CultureInfo culture, Object[] activationAttributes)\r\n   at System.Activator.CreateInstance(Type type, Object[] args)\r\n   at CallSite.Target(Closure , CallSite , Type , Object , Object[] )\r\n   --- End of inner exception stack trace ---\r\n   at System.Management.Automation.ExceptionHandlingOps.CheckActionPreference(FunctionContext funcContext, Exception exception)\r\n   at System.Management.Automation.Interpreter.ActionCallInstruction`2.Run(InterpretedFrame frame)\r\n   at System.Management.Automation.Interpreter.EnterTryCatchFinallyInstruction.Run(InterpretedFrame frame)\r\n   at System.Management.Automation.Interpreter.EnterTryCatchFinallyInstruction.Run(InterpretedFrame frame)"
+               ]
+}

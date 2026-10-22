@@ -1,0 +1,16 @@
+﻿{
+    "scenario":  "automatic",
+    "pid":  13984,
+    "is64Bit":  true,
+    "outputDirectory":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48",
+    "selectedLibrary":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48\\lib\\Tolk.dll",
+    "loaded":  true,
+    "detected":  "NVDA",
+    "outputInvoked":  true,
+    "runtimeCleared":  true,
+    "status":  "passed",
+    "returnCode":  0,
+    "errors":  [
+
+               ]
+}

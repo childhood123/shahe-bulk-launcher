@@ -1,0 +1,17 @@
+﻿2026-10-22T18:57:58.6251587+08:00 pid=12276 start
+2026-10-22T18:57:59.2884003+08:00 pid=12276 before ensure
+2026-10-22T18:57:59.3851790+08:00 pid=12276 after ensure: True
+2026-10-22T18:57:59.3951149+08:00 pid=12276 before detect
+2026-10-22T18:57:59.4998386+08:00 pid=12276 after detect: ZDSR
+2026-10-22T18:57:59.5068184+08:00 pid=12276 before unavailable NVDA retry 0
+2026-10-22T18:57:59.5566866+08:00 pid=12276 after unavailable NVDA retry 0
+2026-10-22T18:57:59.5606774+08:00 pid=12276 before unavailable NVDA retry 1
+2026-10-22T18:57:59.6035614+08:00 pid=12276 after unavailable NVDA retry 1
+2026-10-22T18:57:59.6065545+08:00 pid=12276 before unavailable NVDA retry 2
+2026-10-22T18:57:59.6454849+08:00 pid=12276 after unavailable NVDA retry 2
+2026-10-22T18:57:59.6474463+08:00 pid=12276 before unavailable NVDA retry 3
+2026-10-22T18:57:59.6883362+08:00 pid=12276 after unavailable NVDA retry 3
+2026-10-22T18:57:59.6893345+08:00 pid=12276 before unavailable NVDA retry 4
+2026-10-22T18:57:59.7392025+08:00 pid=12276 after unavailable NVDA retry 4
+2026-10-22T18:57:59.7422260+08:00 pid=12276 before shutdown
+2026-10-22T18:57:59.7491756+08:00 pid=12276 after shutdown

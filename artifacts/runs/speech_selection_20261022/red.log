@@ -1,0 +1,55 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 SelectedReaderDeterminesTheLibraryUsedForSpeech ("nvda","nvdaControllerClient64.dll") [197 ms]
+  错误消息:
+   Assert.AreEqual 失败。应为: <C:\Users\Administrator\AppData\Local\Temp\ShaheSpeechSelection-2feb3e498a0d40bab742e8d8a30eb464\lib\nvdaControllerClient64.dll>，实际为: <C:\Users\Administrator\AppData\Local\Temp\ShaheSpeechSelection-2feb3e498a0d40bab742e8d8a30eb464\lib\Tolk.dll>。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.<>c__DisplayClass0_0.<SelectedReaderDeterminesTheLibraryUsedForSpeech>b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 43
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 144
+
+  失败 SelectedReaderDeterminesTheLibraryUsedForSpeech ("zdsr","ZDSRAPI_x64.dll") [10 ms]
+  错误消息:
+   Assert.AreEqual 失败。应为: <C:\Users\Administrator\AppData\Local\Temp\ShaheSpeechSelection-d900dcaba8c7485baf22dddca118f601\lib\ZDSRAPI_x64.dll>，实际为: <C:\Users\Administrator\AppData\Local\Temp\ShaheSpeechSelection-d900dcaba8c7485baf22dddca118f601\lib\Tolk.dll>。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.<>c__DisplayClass0_0.<SelectedReaderDeterminesTheLibraryUsedForSpeech>b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 43
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 144
+
+  失败 SelectedReaderDeterminesTheLibraryUsedForSpeech ("boy","byctrl-x64.dll") [7 ms]
+  错误消息:
+   Assert.AreEqual 失败。应为: <C:\Users\Administrator\AppData\Local\Temp\ShaheSpeechSelection-1e9c36066f6d4d9181b0d1c9a77d3bd0\lib\byctrl-x64.dll>，实际为: <C:\Users\Administrator\AppData\Local\Temp\ShaheSpeechSelection-1e9c36066f6d4d9181b0d1c9a77d3bd0\lib\Tolk.dll>。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.<>c__DisplayClass0_0.<SelectedReaderDeterminesTheLibraryUsedForSpeech>b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 43
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 144
+
+  失败 ChangingSelectionReleasesOldBackendAndCanReturnToAutomaticMode [11 ms]
+  错误消息:
+   CollectionAssert.AreEqual 失败。(不同数量的元素。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.<>c.<ChangingSelectionReleasesOldBackendAndCanReturnToAutomaticMode>b__1_0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 69
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 144
+
+  失败 MissingSelectedLibraryDoesNotUseAnotherReaderAndAutomaticCanRecover [9 ms]
+  错误消息:
+   Assert.IsFalse 失败。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.<>c.<MissingSelectedLibraryDoesNotUseAnotherReaderAndAutomaticCanRecover>b__2_0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 98
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 144
+
+  失败 QueuedSpeechRechecksEnabledSettingBeforeLoadingReader [15 ms]
+  错误消息:
+   Assert.AreEqual 失败。应为: <0>，实际为: <1>。Queued messages must not reopen/output after hints are disabled.
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.<>c.<QueuedSpeechRechecksEnabledSettingBeforeLoadingReader>b__3_0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 131
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 144
+
+结果文件: D:\mycodex\git\artifacts\runs\speech_selection_20261022\red.trx
+
+失败!  - 失败:     6，通过:     1，已跳过:     0，总计:     7，持续时间: 832 ms - ShaheLauncher.Tests.dll (net48)

@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "ownedNvdaRemaining": [],
+  "ownedProbeRemaining": [],
+  "userReadersPreserved": [
+    {
+      "ProcessId": 2292,
+      "Name": "ZDSRService.exe",
+      "ExecutablePath": "C:\\Program Files (x86)\\zdsr\\zdsr\\ZDSRService.exe"
+    },
+    {
+      "ProcessId": 11052,
+      "Name": "ZDSRMainService.exe",
+      "ExecutablePath": "C:\\Program Files (x86)\\zdsr\\zdsr\\ZDSRMainService.exe"
+    },
+    {
+      "ProcessId": 18936,
+      "Name": "nvda.exe",
+      "ExecutablePath": "C:\\Program Files\\NVDA\\nvda.exe"
+    },
+    {
+      "ProcessId": 11972,
+      "Name": "nvdaHelperRemoteLoader.exe",
+      "ExecutablePath": "C:\\Program Files\\NVDA\\lib\\2026.1.1\\x86\\nvdaHelperRemoteLoader.exe"
+    }
+  ],
+  "stoppedProcesses": [],
+  "method": "Read-only ownership verification; no user process terminated."
+}

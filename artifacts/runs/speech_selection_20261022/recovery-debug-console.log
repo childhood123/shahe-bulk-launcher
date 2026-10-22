@@ -1,0 +1,1 @@
+{"command": ["C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe", "-NoProfile", "-File", "artifacts/runs/speech_selection_20261022/native-selection-probe.ps1", "-Selection", "nvda", "-Name", "recovery-debug", "-WaitForNvda", "-Speak"], "pid": 18544, "fatalExceptions": [], "accessViolations": [], "status": "failed", "exitCode": 1}

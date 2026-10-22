@@ -1,0 +1,23 @@
+{
+  "command": [
+    "powershell.exe",
+    "-NoProfile",
+    "-File",
+    "native-selection-probe.ps1",
+    "-Selection",
+    "nvda",
+    "-Speak",
+    "-Name",
+    "resume-nvda-recovery",
+    "-WaitForNvda"
+  ],
+  "returnCode": -1073741819,
+  "status": "inconclusive",
+  "reason": "Native probe terminated while awaiting NVDA recovery; no structured probe result or matching Application event was available.",
+  "pid": 9660,
+  "appDirectory": "D:/mycodex/git/artifacts/runs/speech_selection_20261022/bin/x64/Release/net48",
+  "trace": "resume-nvda-recovery-trace.log",
+  "console": "resume-nvda-recovery-console.log",
+  "lastStage": "waiting for NVDA recovery",
+  "cleanup": "probe exited; owned test NVDA retained for diagnosis; user ZDSR unchanged"
+}

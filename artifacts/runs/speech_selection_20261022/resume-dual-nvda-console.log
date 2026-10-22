@@ -1,0 +1,22 @@
+--------------InitTTS rt = 0
+{
+    "simulatedNoReaderProcesses":  false,
+    "appDirectory":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48",
+    "activeRoute":  "",
+    "savedSelection":  "nvda",
+    "requestedLibrary":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48\\lib\\Tolk.dll",
+    "scenario":  "nvda",
+    "pid":  18816,
+    "is64Bit":  true,
+    "outputDirectory":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48",
+    "selectedLibrary":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48\\lib\\Tolk.dll",
+    "loaded":  true,
+    "detected":  "ZDSR",
+    "outputInvoked":  true,
+    "runtimeCleared":  true,
+    "status":  "passed",
+    "returnCode":  0,
+    "errors":  [
+
+               ]
+}

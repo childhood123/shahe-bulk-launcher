@@ -1,0 +1,25 @@
+{
+  "scenario": "Single installed NVDA; fixed selection, native output and same-choice confirmation",
+  "nativeReturnCode": 0,
+  "returnCode": 0,
+  "status": "passed",
+  "readerProcessesBefore": [
+    {
+      "ProcessId": 18936,
+      "Name": "nvda.exe",
+      "ExecutablePath": "C:\\Program Files\\NVDA\\nvda.exe"
+    }
+  ],
+  "readerProcessesAfter": [
+    {
+      "ProcessId": 18936,
+      "Name": "nvda.exe",
+      "ExecutablePath": "C:\\Program Files\\NVDA\\nvda.exe"
+    }
+  ],
+  "nativeResult": "single-nvda-final-result.json",
+  "focusCalibration": "not applicable: direct production SpeechService API, no synthesized UI input",
+  "keyLossOrTimeout": "none",
+  "ownedProbeExited": true,
+  "userReaderPreserved": true
+}

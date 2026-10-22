@@ -1,0 +1,17 @@
+{
+  "returnCode": 0,
+  "files": [
+    {
+      "original": "resume-diff-check.log",
+      "archive": "resume-diff-check.log.gz",
+      "sha256": "cf8285286ba94531ed24f10990bc20a0bd11921f9566713054bdda067e03532c",
+      "roundTripIdentical": true
+    },
+    {
+      "original": "resume-final-worktree-diff.log",
+      "archive": "resume-final-worktree-diff.log.gz",
+      "sha256": "463da5befc29405a8719d320782fa278f504ff73e5ff82ae7adfb035684eb64e",
+      "roundTripIdentical": true
+    }
+  ]
+}

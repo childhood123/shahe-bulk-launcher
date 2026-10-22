@@ -1,0 +1,30 @@
+﻿{
+    "simulatedNoReaderProcesses":  true,
+    "simulatedUnavailableNvda":  false,
+    "appDirectory":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48",
+    "activeRoute":  "nvda",
+    "savedSelection":  "nvda",
+    "requestedLibrary":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48\\lib\\Tolk.dll",
+    "scenario":  "nvda",
+    "pid":  11884,
+    "is64Bit":  true,
+    "outputDirectory":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48",
+    "selectedLibrary":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48\\lib\\nvdaControllerClient64.dll",
+    "loaded":  true,
+    "detected":  "NVDA",
+    "outputInvoked":  true,
+    "runtimeCleared":  true,
+    "status":  "passed",
+    "returnCode":  0,
+    "errors":  [
+
+               ],
+    "initial":  {
+                    "route":  "windows",
+                    "detected":  "OneCore",
+                    "savedSelection":  "nvda",
+                    "outputInvoked":  true
+                },
+    "processEnumerationRestored":  true,
+    "recoveredWithoutChangingSelection":  true
+}

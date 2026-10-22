@@ -1,0 +1,987 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="8daa88bc-1941-44ac-989f-05a6e21334cf" name="Administrator@CHILDHOOD 2026-10-22 17:02:12" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T17:02:12.3041190+08:00" queuing="2026-10-22T17:02:12.3041194+08:00" start="2026-10-22T17:02:07.4414684+08:00" finish="2026-10-22T17:02:17.3622086+08:00" />
+  <TestSettings name="default" id="5ccb1833-5b01-43c9-9ae2-cb4775124df4">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_17_02_12" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="73b3bab0-3c11-4088-bf0a-2fb5ea4d7f95" testId="11c8ca57-ba29-4380-1039-577fb30c8ea6" testName="ReleaseBuildCopiesUpdaterBesideMainExecutable" computerName="CHILDHOOD" duration="00:00:00.0008306" startTime="2026-10-22T17:02:13.9621358+08:00" endTime="2026-10-22T17:02:13.9631350+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="73b3bab0-3c11-4088-bf0a-2fb5ea4d7f95" />
+    <UnitTestResult executionId="5295094e-62ec-4570-944a-e5a7cbfcb4fb" testId="c96aace9-139e-8b81-c4db-dba090674ea6" testName="AddsLibDirectoryToPathBeforeLoadingAssistBackend" computerName="CHILDHOOD" duration="00:00:00.0052389" startTime="2026-10-22T17:02:16.8042808+08:00" endTime="2026-10-22T17:02:16.8092691+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5295094e-62ec-4570-944a-e5a7cbfcb4fb" />
+    <UnitTestResult executionId="c6a81cbc-d721-497d-aa6e-c84af719783d" testId="62af5068-525c-59fc-d99c-53d86870890b" testName="BuildsExactClassicMenusWithoutChangingAccessibilityOrder (&quot;关于(&amp;A)&quot;,&quot;检查更新|-|请作者吃辣条&quot;)" computerName="CHILDHOOD" duration="00:00:00.0582886" startTime="2026-10-22T17:02:13.1871602+08:00" endTime="2026-10-22T17:02:13.2460116+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6a81cbc-d721-497d-aa6e-c84af719783d" />
+    <UnitTestResult executionId="2f5ca97e-4f74-4a0c-9427-8c9d972a72d6" testId="71dde45c-9603-2052-7e8e-57b8e0086f03" testName="SpeechDialogPreservesVisibleUiChoiceMappingAndSaveShortCircuitOrder" computerName="CHILDHOOD" duration="00:00:00.0167145" startTime="2026-10-22T17:02:16.2041191+08:00" endTime="2026-10-22T17:02:16.2210741+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2f5ca97e-4f74-4a0c-9427-8c9d972a72d6" />
+    <UnitTestResult executionId="87745999-1153-427b-b85b-0c05d7cd38c2" testId="8ce1f4db-1c10-02f4-d58b-b7bf229430f9" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;speech&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0158165" startTime="2026-10-22T17:02:12.3272861+08:00" endTime="2026-10-22T17:02:12.3442441+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="87745999-1153-427b-b85b-0c05d7cd38c2" />
+    <UnitTestResult executionId="32e452f1-2b08-46ff-9fa4-8dc479f361ab" testId="fcdba323-df71-5819-fede-0aaf6c171293" testName="SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter (True)" computerName="CHILDHOOD" duration="00:00:00.0790906" startTime="2026-10-22T17:02:16.2210741+08:00" endTime="2026-10-22T17:02:16.3008725+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="32e452f1-2b08-46ff-9fa4-8dc479f361ab" />
+    <UnitTestResult executionId="db450704-3b69-4997-a785-dd7734f930c6" testId="82b5e5bb-b280-f780-df38-467690ada3b1" testName="InitializationEnablesFallbackAfterReaders" computerName="CHILDHOOD" duration="00:00:00.0057465" startTime="2026-10-22T17:02:17.2144160+08:00" endTime="2026-10-22T17:02:17.2204075+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="db450704-3b69-4997-a785-dd7734f930c6" />
+    <UnitTestResult executionId="40510214-a5b7-4076-803d-3a07484b8e5b" testId="2955900c-deda-c741-de13-42e1c6c5cff1" testName="DetectsReadersMatchesEnginesAndKeepsInterfaceChoices" computerName="CHILDHOOD" duration="00:00:00.0094515" startTime="2026-10-22T17:02:16.8092691+08:00" endTime="2026-10-22T17:02:16.8192485+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="40510214-a5b7-4076-803d-3a07484b8e5b" />
+    <UnitTestResult executionId="dcaf4ce7-ccbb-4597-9078-7ac28922e3ed" testId="8bd9c144-70a5-9c1b-c3da-e637fc5614b8" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;history&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0658996" startTime="2026-10-22T17:02:12.1552790+08:00" endTime="2026-10-22T17:02:12.2220617+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dcaf4ce7-ccbb-4597-9078-7ac28922e3ed" />
+    <UnitTestResult executionId="23257812-fbd1-4eae-82f6-3205f27628af" testId="2f312f75-7ee2-06cb-2a06-0bf41e5de625" testName="HotkeyDialogUsesExactValidationMessagesAndNormalizedResults" computerName="CHILDHOOD" duration="00:00:00.0245093" startTime="2026-10-22T17:02:15.8400374+08:00" endTime="2026-10-22T17:02:15.8649740+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="23257812-fbd1-4eae-82f6-3205f27628af" />
+    <UnitTestResult executionId="19c0eb04-0859-44ee-bb40-818448cc9ebb" testId="0d5db958-5d30-d322-d229-5ce29fd23ad6" testName="TolkBoolDelegatesUseI1 (&quot;TolkSilenceDelegate&quot;,True,-1)" computerName="CHILDHOOD" duration="00:00:00.0000580" startTime="2026-10-22T17:02:17.2283796+08:00" endTime="2026-10-22T17:02:17.2293805+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="19c0eb04-0859-44ee-bb40-818448cc9ebb" />
+    <UnitTestResult executionId="3bd1dd5d-3174-4f24-8c81-bb439ba0e865" testId="1e2e96cc-4d49-dd97-935a-ffd5f96ec0e4" testName="WiresNonDestructiveMenuActionsWithoutDefaultStatusFallback" computerName="CHILDHOOD" duration="00:00:00.1470007" startTime="2026-10-22T17:02:13.9751019+08:00" endTime="2026-10-22T17:02:14.1225565+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3bd1dd5d-3174-4f24-8c81-bb439ba0e865" />
+    <UnitTestResult executionId="cd418ab8-00c3-4bc3-968f-5f4be36407a6" testId="76d61324-2402-764a-8f21-34e9f4ebc925" testName="HotkeyDialogResetsDefaultsAndDisablesHotkeysWithExactPrompt" computerName="CHILDHOOD" duration="00:00:00.0172964" startTime="2026-10-22T17:02:15.8230804+08:00" endTime="2026-10-22T17:02:15.8400374+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cd418ab8-00c3-4bc3-968f-5f4be36407a6" />
+    <UnitTestResult executionId="bfcdf9e3-a2ba-4a12-b723-83ffe92c5b01" testId="b46f1114-9d43-ed6e-9acb-7df28128a402" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;pinned&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0213956" startTime="2026-10-22T17:02:12.3053411+08:00" endTime="2026-10-22T17:02:12.3272861+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bfcdf9e3-a2ba-4a12-b723-83ffe92c5b01" />
+    <UnitTestResult executionId="e70e9452-aae4-4baf-90d7-c6daea306fec" testId="41933bd6-6afb-9e73-20c8-1b8e139f0260" testName="TolkBoolDelegatesUseI1 (&quot;TolkOutputDelegate&quot;,False,1)" computerName="CHILDHOOD" duration="00:00:00.0000222" startTime="2026-10-22T17:02:17.2293805+08:00" endTime="2026-10-22T17:02:17.2293805+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e70e9452-aae4-4baf-90d7-c6daea306fec" />
+    <UnitTestResult executionId="6c87daae-6d66-4afb-930a-684b7ec49bd8" testId="f4d2db73-ac01-8c05-37d6-77148e553b14" testName="SpeechDialogSanitizesConfigExactlyLikePython" computerName="CHILDHOOD" duration="00:00:00.0060230" startTime="2026-10-22T17:02:16.1921477+08:00" endTime="2026-10-22T17:02:16.1981320+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6c87daae-6d66-4afb-930a-684b7ec49bd8" />
+    <UnitTestResult executionId="4bdfa7fe-806c-42af-9d53-5b4b35404aa4" testId="46ecab02-53d1-5499-109a-306f8c7cdcde" testName="WiresRepairSandboxieControlSettingsMenuActionToSandboxAdminService" computerName="CHILDHOOD" duration="00:00:00.0515360" startTime="2026-10-22T17:02:15.1298215+08:00" endTime="2026-10-22T17:02:15.1806938+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4bdfa7fe-806c-42af-9d53-5b4b35404aa4" />
+    <UnitTestResult executionId="972395cc-9846-4a36-87a0-ed8d84e30826" testId="6581bfd1-c9b2-3a99-15ea-b7afb279074a" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;volume&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0161318" startTime="2026-10-22T17:02:12.2395137+08:00" endTime="2026-10-22T17:02:12.2564733+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="972395cc-9846-4a36-87a0-ed8d84e30826" />
+    <UnitTestResult executionId="242fecd6-a4f4-4424-b9e4-6318e6615cfa" testId="d2953ea4-57ee-d61d-1d51-64ee8fa24c02" testName="PathMemoryQuantitySaveAndCancelPreserveStoredPaths (True)" computerName="CHILDHOOD" duration="00:00:00.0576426" startTime="2026-10-22T17:02:16.0884115+08:00" endTime="2026-10-22T17:02:16.1462646+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="242fecd6-a4f4-4424-b9e4-6318e6615cfa" />
+    <UnitTestResult executionId="4e6f0632-953d-44e6-a97d-8fd03e5cc4df" testId="ceb0da76-aa8a-6358-0fe1-a60991a4d20c" testName="WiresBatchCreateSandboxesMenuActionToSandboxieClient" computerName="CHILDHOOD" duration="00:00:00.0520969" startTime="2026-10-22T17:02:14.7977435+08:00" endTime="2026-10-22T17:02:14.8506470+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4e6f0632-953d-44e6-a97d-8fd03e5cc4df" />
+    <UnitTestResult executionId="3202302b-1962-42dc-89d2-bdd2827161f0" testId="0e35004b-e2b9-8c0a-af36-abdc32237683" testName="SettingsServiceKeeps999WhenApplyingOtherSettings" computerName="CHILDHOOD" duration="00:00:00.0264854" startTime="2026-10-22T17:02:15.3356456+08:00" endTime="2026-10-22T17:02:15.3622768+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3202302b-1962-42dc-89d2-bdd2827161f0" />
+    <UnitTestResult executionId="949f51af-5aa7-4020-998f-5af5efb67b38" testId="2c625c59-fd85-ef59-9be4-22e69697ddcd" testName="ExecutesSettingToggleActionsAndUpdatesRuntimeState" computerName="CHILDHOOD" duration="00:00:00.4798752" startTime="2026-10-22T17:02:13.3166234+08:00" endTime="2026-10-22T17:02:13.7965534+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="949f51af-5aa7-4020-998f-5af5efb67b38" />
+    <UnitTestResult executionId="b5ed1570-a0ff-499f-99cf-9f45b94ec887" testId="376efe89-bbbe-eb67-42fb-ca1372f3a77a" testName="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;zdsr&quot;,&quot;ZDSRAPI_x64.dll&quot;)" computerName="CHILDHOOD" duration="00:00:00.0054766" startTime="2026-10-22T17:02:16.7218093+08:00" endTime="2026-10-22T17:02:16.7277935+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="b5ed1570-a0ff-499f-99cf-9f45b94ec887" />
+    <UnitTestResult executionId="44b0d96d-8c9a-4a23-95d1-d2d3446457d2" testId="34e80563-1dd9-dabf-d813-4f41b2dea399" testName="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;nvda&quot;,&quot;nvdaControllerClient64.dll&quot;)" computerName="CHILDHOOD" duration="00:00:00.0065400" startTime="2026-10-22T17:02:16.7118338+08:00" endTime="2026-10-22T17:02:16.7218093+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="44b0d96d-8c9a-4a23-95d1-d2d3446457d2" />
+    <UnitTestResult executionId="69d55cbc-d74e-4a91-89ea-15e69821de23" testId="15267194-8447-90c8-680e-ca6abb3728dd" testName="SpeechDialogNormalizesReaderIniValuesExactlyLikePython" computerName="CHILDHOOD" duration="00:00:00.0023023" startTime="2026-10-22T17:02:16.1981320+08:00" endTime="2026-10-22T17:02:16.2011264+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="69d55cbc-d74e-4a91-89ea-15e69821de23" />
+    <UnitTestResult executionId="07641ba1-2d1e-45dd-b93b-8cf7ed0a68da" testId="b15a1075-2d16-9b00-592d-e7d05e4784bd" testName="ExposesRestoreProgressDialogWithAccessibleStageControls" computerName="CHILDHOOD" duration="00:00:00.0238108" startTime="2026-10-22T17:02:15.2618323+08:00" endTime="2026-10-22T17:02:15.2867711+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="07641ba1-2d1e-45dd-b93b-8cf7ed0a68da" />
+    <UnitTestResult executionId="25243811-29c3-41f7-8113-5be5c25ea837" testId="ad7ed38b-c7fb-959c-38e5-808391ee073c" testName="ReaderSettingsConfirmationPreservesSpeechConfig (False,True)" computerName="CHILDHOOD" duration="00:00:00.0145030" startTime="2026-10-22T17:02:17.1256879+08:00" endTime="2026-10-22T17:02:17.1406017+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="25243811-29c3-41f7-8113-5be5c25ea837" />
+    <UnitTestResult executionId="00ef730c-42a8-4efe-b800-663069a20c48" testId="aefcb51b-a42c-405f-fff8-e412d66a46f0" testName="BuildsExactClassicMenusWithoutChangingAccessibilityOrder (&quot;用户管理&quot;,&quot;置顶/取消置顶当前用户|-|批量创建沙盒用户|批量重命名沙盒用户|批量删除沙盒用户&quot;)" computerName="CHILDHOOD" duration="00:00:00.0543187" startTime="2026-10-22T17:02:13.0510943+08:00" endTime="2026-10-22T17:02:13.1095711+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="00ef730c-42a8-4efe-b800-663069a20c48" />
+    <UnitTestResult executionId="3cd395ec-9e1a-4f23-b94f-5da2e5e14c18" testId="a843aa91-1dba-88cb-818f-28d7a7379572" testName="WiresBatchRenameSandboxesMenuActionToSandboxAdminService" computerName="CHILDHOOD" duration="00:00:00.2782233" startTime="2026-10-22T17:02:14.8506470+08:00" endTime="2026-10-22T17:02:15.1288244+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3cd395ec-9e1a-4f23-b94f-5da2e5e14c18" />
+    <UnitTestResult executionId="d676f85c-9701-4f07-a3ac-8352b0c15367" testId="8f3a139e-c36d-cb51-ed11-8457d8f42423" testName="ProcessCmdKeyDispatchesEnabledCustomActionsThroughRuntimePath" computerName="CHILDHOOD" duration="00:00:00.0132434" startTime="2026-10-22T17:02:13.2500027+08:00" endTime="2026-10-22T17:02:13.2639666+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d676f85c-9701-4f07-a3ac-8352b0c15367" />
+    <UnitTestResult executionId="55204dfc-68d5-4a4e-8383-7b47a46485bf" testId="74674236-b4b8-b305-53ce-8e7271318252" testName="ReadsAndWritesReaderIniSettingsUnderConfigurationDirectory" computerName="CHILDHOOD" duration="00:00:00.0124824" startTime="2026-10-22T17:02:16.7853291+08:00" endTime="2026-10-22T17:02:16.7982961+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="55204dfc-68d5-4a4e-8383-7b47a46485bf" />
+    <UnitTestResult executionId="1cf4c47f-80ed-441e-b756-27acc36ca2d2" testId="f073f54f-090b-563d-8da7-1f04d7b61f4f" testName="MainFormKeeps999AcrossLoadCommitAndManagerSave" computerName="CHILDHOOD" duration="00:00:00.0424821" startTime="2026-10-22T17:02:15.2927530+08:00" endTime="2026-10-22T17:02:15.3356456+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1cf4c47f-80ed-441e-b756-27acc36ca2d2" />
+    <UnitTestResult executionId="bc3421e7-0338-4eb4-a39c-2f168505b1c3" testId="4f3756f5-6b94-faf1-7025-605cba73fc63" testName="LoadsAndSavesSpeechConfigInConfigurationDirectoryWithOriginalStatusText" computerName="CHILDHOOD" duration="00:00:00.0210637" startTime="2026-10-22T17:02:16.8232333+08:00" endTime="2026-10-22T17:02:16.8451822+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="bc3421e7-0338-4eb4-a39c-2f168505b1c3" />
+    <UnitTestResult executionId="377c8c71-b910-4282-88ff-82e759cfe2d1" testId="ea02dc25-9688-2ce5-784a-b8cc8d2e1238" testName="DestroyDisposesComposedApplicationServices" computerName="CHILDHOOD" duration="00:00:00.0055328" startTime="2026-10-22T17:02:13.9631350+08:00" endTime="2026-10-22T17:02:13.9691182+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="377c8c71-b910-4282-88ff-82e759cfe2d1" />
+    <UnitTestResult executionId="058f1b0b-3be8-4629-85b9-bd09b0f91bb8" testId="65886f82-559e-80d4-4273-18d854d9eadb" testName="WiresLaunchGroupMenuActionToLaunchScheduler" computerName="CHILDHOOD" duration="00:00:00.1479695" startTime="2026-10-22T17:02:14.4821096+08:00" endTime="2026-10-22T17:02:14.6297357+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="058f1b0b-3be8-4629-85b9-bd09b0f91bb8" />
+    <UnitTestResult executionId="eb0a3845-3a62-4861-83ab-a102b80c6f56" testId="bb959113-afa0-0fab-0c93-1fd13e1d724e" testName="ProgramPreservesCleanupSingleInstanceRunAndReleaseOrder" computerName="CHILDHOOD" duration="00:00:00.0048899" startTime="2026-10-22T17:02:13.9551543+08:00" endTime="2026-10-22T17:02:13.9611481+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eb0a3845-3a62-4861-83ab-a102b80c6f56" />
+    <UnitTestResult executionId="0223ae04-8412-4399-82ea-1acae87f8cfd" testId="49cff076-52ed-f736-13f7-da566b8d6a3c" testName="ResolvesConfigurationAndTolkResourcesWithConfigurationWriteBoundary" computerName="CHILDHOOD" duration="00:00:00.0092190" startTime="2026-10-22T17:02:16.7763866+08:00" endTime="2026-10-22T17:02:16.7853291+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0223ae04-8412-4399-82ea-1acae87f8cfd" />
+    <UnitTestResult executionId="59510232-64a6-461d-878a-48c42b748418" testId="3f738417-32ea-ef95-7e42-880741c226a4" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;history&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.5828480" startTime="2026-10-22T17:02:11.0300632+08:00" endTime="2026-10-22T17:02:12.0455564+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="59510232-64a6-461d-878a-48c42b748418" />
+    <UnitTestResult executionId="e58d9d89-ffd2-45d4-a369-9b1b23fad5a2" testId="9234197d-7632-2b33-2802-ea0512c47840" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;hotkeys&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.0109406" startTime="2026-10-22T17:02:12.1233608+08:00" endTime="2026-10-22T17:02:12.1343325+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e58d9d89-ffd2-45d4-a369-9b1b23fad5a2" />
+    <UnitTestResult executionId="e2b7fd79-21a1-40f5-8d9e-61fcf2248aea" testId="8a69fe4d-351c-f623-c96c-28a536d02690" testName="PathMemoryQuantitySaveAndCancelPreserveStoredPaths (False)" computerName="CHILDHOOD" duration="00:00:00.0448571" startTime="2026-10-22T17:02:16.1462646+08:00" endTime="2026-10-22T17:02:16.1921477+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e2b7fd79-21a1-40f5-8d9e-61fcf2248aea" />
+    <UnitTestResult executionId="0a841381-57b3-439b-acc7-218160d53017" testId="f8ba1c4b-3618-3a2f-ac2b-085fe7cf1494" testName="WiresRestoreMenuActionToBackupRestoreService" computerName="CHILDHOOD" duration="00:00:00.1537449" startTime="2026-10-22T17:02:14.2492348+08:00" endTime="2026-10-22T17:02:14.4033078+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0a841381-57b3-439b-acc7-218160d53017" />
+    <UnitTestResult executionId="7aa59926-c21d-43de-aab3-b9bd017271f0" testId="b6804cd3-5f54-0f4e-8ec2-78b9bd81d362" testName="WiresBatchDeleteSandboxesMenuActionToSandboxieClient" computerName="CHILDHOOD" duration="00:00:00.0804638" startTime="2026-10-22T17:02:15.1806938+08:00" endTime="2026-10-22T17:02:15.2618323+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7aa59926-c21d-43de-aab3-b9bd017271f0" />
+    <UnitTestResult executionId="1148e324-4978-43a8-ad3f-c3714cfa28c2" testId="ff76b6ae-2ce3-d31b-c70a-0b5be30ecd1b" testName="InitializesPythonPathsStateAndStartupOrder" computerName="CHILDHOOD" duration="00:00:00.4946430" startTime="2026-10-22T17:02:12.5554219+08:00" endTime="2026-10-22T17:02:13.0510943+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1148e324-4978-43a8-ad3f-c3714cfa28c2" />
+    <UnitTestResult executionId="7084a813-5401-4993-a7f3-87f14e1c1f89" testId="dd11da1a-ecfd-8065-8436-733a15291f8e" testName="TolkBoolDelegatesUseI1 (&quot;TolkIsLoadedDelegate&quot;,True,-1)" computerName="CHILDHOOD" duration="00:00:00.0003725" startTime="2026-10-22T17:02:17.2283796+08:00" endTime="2026-10-22T17:02:17.2283796+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7084a813-5401-4993-a7f3-87f14e1c1f89" />
+    <UnitTestResult executionId="fb7c0d55-8029-41f0-8595-39163df00a59" testId="b5d6db6d-d351-6c51-d09f-93fcdd4ee998" testName="TolkBoolDelegatesUseI1 (&quot;TolkTrySapiDelegate&quot;,False,0)" computerName="CHILDHOOD" duration="00:00:00.0040847" startTime="2026-10-22T17:02:17.2204075+08:00" endTime="2026-10-22T17:02:17.2263857+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fb7c0d55-8029-41f0-8595-39163df00a59" />
+    <UnitTestResult executionId="35e71cc6-a9e7-4b4b-8b4d-977e1e376272" testId="60f30418-30c5-6c3b-91dd-e709ba6ce6a5" testName="WiresBackupMenuActionToBackupRestoreService" computerName="CHILDHOOD" duration="00:00:00.1264894" startTime="2026-10-22T17:02:14.1225565+08:00" endTime="2026-10-22T17:02:14.2492348+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="35e71cc6-a9e7-4b4b-8b4d-977e1e376272" />
+    <UnitTestResult executionId="4bc92055-d577-4be4-b6a9-e2b740e07888" testId="4ceb25e7-99b4-a604-3421-4908648f59c9" testName="ShutdownUnloadsBackendOnce" computerName="CHILDHOOD" duration="00:00:00.0023848" startTime="2026-10-22T17:02:17.2293805+08:00" endTime="2026-10-22T17:02:17.2323717+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4bc92055-d577-4be4-b6a9-e2b740e07888" />
+    <UnitTestResult executionId="dddaf52d-2c71-436b-9b7d-809bdd5a92e0" testId="ecf02a38-7bc9-df33-85e1-bb45900e7608" testName="ProcessCmdKeyRunsCustomActionThroughMainFormDispatcher" computerName="CHILDHOOD" duration="00:00:00.0409884" startTime="2026-10-22T17:02:13.2669581+08:00" endTime="2026-10-22T17:02:13.3086432+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="dddaf52d-2c71-436b-9b7d-809bdd5a92e0" />
+    <UnitTestResult executionId="83001774-560e-40d4-9104-e5cbf7d2b7b5" testId="ceeff5d8-22d6-fa07-078b-c8c47078114d" testName="BuildOutputContainsExactRuntimeFilesWithoutTextFiles" computerName="CHILDHOOD" duration="00:00:00.0012278" startTime="2026-10-22T17:02:17.2054501+08:00" endTime="2026-10-22T17:02:17.2064371+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="83001774-560e-40d4-9104-e5cbf7d2b7b5" />
+    <UnitTestResult executionId="cb15cee2-4a1c-4907-806f-a412975e23d7" testId="dfb85217-c6e3-19b4-1a51-47c7bb35d63f" testName="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;boy&quot;,&quot;byctrl-x64.dll&quot;)" computerName="CHILDHOOD" duration="00:00:00.0063406" startTime="2026-10-22T17:02:16.7277935+08:00" endTime="2026-10-22T17:02:16.7347770+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="cb15cee2-4a1c-4907-806f-a412975e23d7" />
+    <UnitTestResult executionId="41213dda-c4ea-4f98-8b00-9ecdf9f629bb" testId="beb3e7bd-d392-dd7a-0cb3-ce98a96ad931" testName="BackendExposesPreferenceAndDetection (&quot;DetectScreenReader&quot;)" computerName="CHILDHOOD" duration="00:00:00.0000237" startTime="2026-10-22T17:02:17.2144160+08:00" endTime="2026-10-22T17:02:17.2144160+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="41213dda-c4ea-4f98-8b00-9ecdf9f629bb" />
+    <UnitTestResult executionId="c1a75e23-953b-4b0b-9f19-a94cd7624c75" testId="b132a21e-eac1-13dd-8894-84726424c59e" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;groups&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0174355" startTime="2026-10-22T17:02:12.2220617+08:00" endTime="2026-10-22T17:02:12.2395137+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c1a75e23-953b-4b0b-9f19-a94cd7624c75" />
+    <UnitTestResult executionId="9cb268ee-6347-4511-acbe-ad4fc2562031" testId="cc644c40-1ed1-faf8-7e16-501a2c044c01" testName="BuildsExactClassicMenusWithoutChangingAccessibilityOrder (&quot;设置(&amp;S)&quot;,&quot;热键设置|朗读设置|软件设置&quot;)" computerName="CHILDHOOD" duration="00:00:00.0360514" startTime="2026-10-22T17:02:13.1095711+08:00" endTime="2026-10-22T17:02:13.1462634+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9cb268ee-6347-4511-acbe-ad4fc2562031" />
+    <UnitTestResult executionId="43bffcc0-8a9d-4035-9c7f-148e93b45cd6" testId="23f27939-3876-ab07-cc63-6dfba4aa538d" testName="ApplicationProjectCopiesLibDirectoryToBuildAndPublishOutput" computerName="CHILDHOOD" duration="00:00:00.0006091" startTime="2026-10-22T17:02:17.2044421+08:00" endTime="2026-10-22T17:02:17.2054501+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="43bffcc0-8a9d-4035-9c7f-148e93b45cd6" />
+    <UnitTestResult executionId="6a5e1f28-ba42-428c-b02a-0e7b7aad026e" testId="12ecde84-43f5-d209-03fb-012b1883e51d" testName="SpeaksAssistTextOnWorkerThreadAndShutdownDisablesRuntime" computerName="CHILDHOOD" duration="00:00:00.0948058" startTime="2026-10-22T17:02:16.8521601+08:00" endTime="2026-10-22T17:02:16.9465455+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6a5e1f28-ba42-428c-b02a-0e7b7aad026e" />
+    <UnitTestResult executionId="7fa92663-e539-4e5e-99d9-43aa3a4605cb" testId="2c2fde88-f72d-55a6-cc04-dffe40f146ab" testName="SavingTypedHistoryKeepsPythonKeysAndSurvivesNextLoad" computerName="CHILDHOOD" duration="00:00:00.0619924" startTime="2026-10-22T17:02:12.3442441+08:00" endTime="2026-10-22T17:02:12.4120703+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7fa92663-e539-4e5e-99d9-43aa3a4605cb" />
+    <UnitTestResult executionId="648a8238-98b3-41c2-b1ba-d6f8d6067cb8" testId="7a8a9e93-2035-f057-23bc-c54bb85b1955" testName="NormalizesOnlyAllowedSpeechInterfaceValues" computerName="CHILDHOOD" duration="00:00:00.0032522" startTime="2026-10-22T17:02:16.8202400+08:00" endTime="2026-10-22T17:02:16.8232333+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="648a8238-98b3-41c2-b1ba-d6f8d6067cb8" />
+    <UnitTestResult executionId="93392298-981f-463a-a182-b578179b85ae" testId="a8063c51-9bcd-dd62-b7e4-fc3f56d5a870" testName="MainFormRendersTenHistoryItemsWithoutNullListViewItem" computerName="CHILDHOOD" duration="00:00:00.0204224" startTime="2026-10-22T17:02:15.3632739+08:00" endTime="2026-10-22T17:02:15.3832225+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="93392298-981f-463a-a182-b578179b85ae" />
+    <UnitTestResult executionId="f9f3cf7e-1744-4264-91d9-6784fab53ab9" testId="96b2a265-7c5f-0572-e32c-8f9ea070175e" testName="ProcessCmdKeyKeepsFixedHotkeysAheadOfCustomBindings" computerName="CHILDHOOD" duration="00:00:00.0028805" startTime="2026-10-22T17:02:13.2639666+08:00" endTime="2026-10-22T17:02:13.2669581+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f9f3cf7e-1744-4264-91d9-6784fab53ab9" />
+    <UnitTestResult executionId="25f43d35-bde0-4831-854c-035981768590" testId="476f1634-272c-5699-bf60-f40f41b7ca1c" testName="SanitizesSpeechConfigAndReaderIniDefaultsLikePython" computerName="CHILDHOOD" duration="00:00:00.0082992" startTime="2026-10-22T17:02:16.7663806+08:00" endTime="2026-10-22T17:02:16.7763866+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="25f43d35-bde0-4831-854c-035981768590" />
+    <UnitTestResult executionId="c565b245-19f1-4c88-9794-99c3c7adcba8" testId="5260c7c2-dd81-693e-1c3a-7d73a14c94f2" testName="WiresMigratedFeatureServicesIntoInteractiveApplicationCallbacks" computerName="CHILDHOOD" duration="00:00:00.0055420" startTime="2026-10-22T17:02:13.9691182+08:00" endTime="2026-10-22T17:02:13.9751019+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c565b245-19f1-4c88-9794-99c3c7adcba8" />
+    <UnitTestResult executionId="889b5215-90bc-4aab-897c-e52decbd33d6" testId="61580538-f71a-01a2-36c8-ecccfb17e81c" testName="BackendExposesPreferenceAndDetection (&quot;PreferSapi&quot;)" computerName="CHILDHOOD" duration="00:00:00.0001426" startTime="2026-10-22T17:02:17.2144160+08:00" endTime="2026-10-22T17:02:17.2144160+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="889b5215-90bc-4aab-897c-e52decbd33d6" />
+    <UnitTestResult executionId="66e326ad-4331-4da2-86a7-22e83e8c8058" testId="4d135081-995f-47ea-335e-459e6368203e" testName="OpensSpeechSettingsWithOriginalStatusWarningAndCallbackPayload" computerName="CHILDHOOD" duration="00:00:00.0292368" startTime="2026-10-22T17:02:17.0478882+08:00" endTime="2026-10-22T17:02:17.0778341+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="66e326ad-4331-4da2-86a7-22e83e8c8058" />
+    <UnitTestResult executionId="61817167-601b-4236-90b0-5df372d14ec6" testId="8fe16498-5f6f-b5c5-3c32-139adc6115e0" testName="PathMemoryDialogOnlyShowsQuantityAndConfirmation" computerName="CHILDHOOD" duration="00:00:00.0476749" startTime="2026-10-22T17:02:16.0405307+08:00" endTime="2026-10-22T17:02:16.0884115+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="61817167-601b-4236-90b0-5df372d14ec6" />
+    <UnitTestResult executionId="f6763989-5ea2-4ad5-8f6a-49a6f0ca612f" testId="514e2677-ef31-a412-a554-2667fc1e781b" testName="QueuedSpeechRechecksEnabledSettingBeforeLoadingReader" computerName="CHILDHOOD" duration="00:00:00.0128711" startTime="2026-10-22T17:02:16.7534095+08:00" endTime="2026-10-22T17:02:16.7663806+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f6763989-5ea2-4ad5-8f6a-49a6f0ca612f" />
+    <UnitTestResult executionId="981389ed-d558-49f9-bed9-e19f1237959e" testId="e1f0751e-75c0-f3a5-a9d6-25e5e5d5ca8f" testName="TolkBoolDelegatesUseI1 (&quot;TolkOutputDelegate&quot;,True,-1)" computerName="CHILDHOOD" duration="00:00:00.0000445" startTime="2026-10-22T17:02:17.2293805+08:00" endTime="2026-10-22T17:02:17.2293805+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="981389ed-d558-49f9-bed9-e19f1237959e" />
+    <UnitTestResult executionId="38b4b2ed-d8cd-4f5f-908a-62e0a89093da" testId="f116790d-5638-b374-cded-f9ff7574f76b" testName="WiresDeleteGroupMenuActionToSandboxAdminState" computerName="CHILDHOOD" duration="00:00:00.0572445" startTime="2026-10-22T17:02:14.7408872+08:00" endTime="2026-10-22T17:02:14.7977435+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="38b4b2ed-d8cd-4f5f-908a-62e0a89093da" />
+    <UnitTestResult executionId="73b335ba-040b-478e-a29a-867092658db7" testId="8bc06b36-42c8-9a45-84a3-ca6db1110e82" testName="ReaderSettingsConfirmationPreservesSpeechConfig (True,True)" computerName="CHILDHOOD" duration="00:00:00.0474382" startTime="2026-10-22T17:02:17.0778341+08:00" endTime="2026-10-22T17:02:17.1256879+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="73b335ba-040b-478e-a29a-867092658db7" />
+    <UnitTestResult executionId="c22089bd-824e-4950-847d-042f225bd237" testId="83f8dadf-8a9e-4963-28bb-d5bc9cba0a02" testName="ReaderSettingsConfirmationPreservesSpeechConfig (True,False)" computerName="CHILDHOOD" duration="00:00:00.0352960" startTime="2026-10-22T17:02:17.1406017+08:00" endTime="2026-10-22T17:02:17.1755133+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c22089bd-824e-4950-847d-042f225bd237" />
+    <UnitTestResult executionId="21c79c1e-6e62-4bbc-8276-8b5cf9732bf5" testId="bef24808-c3e1-7b92-2aac-088f7f0f139e" testName="RemovesAutomaticLoadAdjustmentFromSettings" computerName="CHILDHOOD" duration="00:00:00.0006173" startTime="2026-10-22T17:02:15.8659720+08:00" endTime="2026-10-22T17:02:15.8669793+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="21c79c1e-6e62-4bbc-8276-8b5cf9732bf5" />
+    <UnitTestResult executionId="ad936f34-bd36-444c-b0b4-57612254100e" testId="ff1e312b-84ca-bd99-596a-16a89a80e01b" testName="LoadingAndSavingAgainPreservesNestedSettingsAcrossInstances" computerName="CHILDHOOD" duration="00:00:00.0251308" startTime="2026-10-22T17:02:12.4120703+08:00" endTime="2026-10-22T17:02:12.4390028+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ad936f34-bd36-444c-b0b4-57612254100e" />
+    <UnitTestResult executionId="7c796329-83a5-49d4-979d-279e7aa6a0a7" testId="5fb07382-e5fe-8fc1-85ab-f039f19de239" testName="PrefersRootLibTolkPath" computerName="CHILDHOOD" duration="00:00:00.0067050" startTime="2026-10-22T17:02:17.2074353+08:00" endTime="2026-10-22T17:02:17.2144160+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7c796329-83a5-49d4-979d-279e7aa6a0a7" />
+    <UnitTestResult executionId="265c7008-071e-4e7f-8b95-1cb2b6f2c229" testId="907d8787-9bdf-9876-b4ec-931e7623d9c3" testName="TolkBoolDelegatesUseI1 (&quot;TolkPreferSapiDelegate&quot;,False,0)" computerName="CHILDHOOD" duration="00:00:00.0004025" startTime="2026-10-22T17:02:17.2273823+08:00" endTime="2026-10-22T17:02:17.2283796+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="265c7008-071e-4e7f-8b95-1cb2b6f2c229" />
+    <UnitTestResult executionId="d89e615b-f22a-4199-a2a4-8fdb10634e93" testId="95730473-8f71-3f72-acba-f9435b83a7a8" testName="SourceRuntimeDirectoryContainsExactX64FilesWithoutTextFiles" computerName="CHILDHOOD" duration="00:00:00.0118691" startTime="2026-10-22T17:02:17.1924718+08:00" endTime="2026-10-22T17:02:17.2044421+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d89e615b-f22a-4199-a2a4-8fdb10634e93" />
+    <UnitTestResult executionId="e4a089a2-048b-446a-ae58-deaa83d66279" testId="d500ee21-a4ec-394e-f793-6adf54fb0eed" testName="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;&quot;,&quot;Tolk.dll&quot;)" computerName="CHILDHOOD" duration="00:00:00.0124299" startTime="2026-10-22T17:02:16.6988662+08:00" endTime="2026-10-22T17:02:16.7118338+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e4a089a2-048b-446a-ae58-deaa83d66279" />
+    <UnitTestResult executionId="7a04ca1e-6fb0-44a4-b6cf-53bfe2dd89cc" testId="1681be3a-cdea-c79e-3a57-2750fd7b9875" testName="SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter (False)" computerName="CHILDHOOD" duration="00:00:00.0684696" startTime="2026-10-22T17:02:16.3008725+08:00" endTime="2026-10-22T17:02:16.3696994+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7a04ca1e-6fb0-44a4-b6cf-53bfe2dd89cc" />
+    <UnitTestResult executionId="022cfd23-43db-43a4-8c75-2236e96e9425" testId="2782277f-70fa-7005-f912-c0afa38c164f" testName="ExecutesWindowToggleAndHonorsResetCancellation" computerName="CHILDHOOD" duration="00:00:00.1574331" startTime="2026-10-22T17:02:13.7965534+08:00" endTime="2026-10-22T17:02:13.9551543+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="022cfd23-43db-43a4-8c75-2236e96e9425" />
+    <UnitTestResult executionId="46e44667-580a-4dd4-9f83-9951686e2f2e" testId="008837c5-677a-211e-af13-d5541628b41d" testName="BuildsExactClassicMenusWithoutChangingAccessibilityOrder (&quot;校正(&amp;J)&quot;,&quot;手动校正 Sandboxie 安装路径|选择沙盒用户数据目录|-|修复 Sandboxie Control 用户设置&quot;)" computerName="CHILDHOOD" duration="00:00:00.0387229" startTime="2026-10-22T17:02:13.1482595+08:00" endTime="2026-10-22T17:02:13.1871602+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="46e44667-580a-4dd4-9f83-9951686e2f2e" />
+    <UnitTestResult executionId="0a9042ef-5e6b-47f4-a436-7d0c43f595d7" testId="2479a255-a448-0719-8054-929ed8e0ff09" testName="MainFormInitializesTenPersistedHistoryItemsWithoutThreadException" computerName="CHILDHOOD" duration="00:00:00.0321972" startTime="2026-10-22T17:02:15.3842203+08:00" endTime="2026-10-22T17:02:15.4161416+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0a9042ef-5e6b-47f4-a436-7d0c43f595d7" />
+    <UnitTestResult executionId="ee5883d4-6caf-4fc3-83fd-50ce9ee065ca" testId="5780c807-24c7-602b-b3b7-2784393d723d" testName="HistoryServiceNormalizesZeroTo999AndRetains999Records" computerName="CHILDHOOD" duration="00:00:00.0050689" startTime="2026-10-22T17:02:15.2867711+08:00" endTime="2026-10-22T17:02:15.2927530+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ee5883d4-6caf-4fc3-83fd-50ce9ee065ca" />
+    <UnitTestResult executionId="ae256bdd-492d-42ce-935d-d54e9b97eecf" testId="c5052007-6a11-17d4-6792-553e3b8602ed" testName="ResetSettingsRestoresSwitchesWithoutSynchronousProcessScan" computerName="CHILDHOOD" duration="00:00:00.2955008" startTime="2026-10-22T17:02:16.3696994+08:00" endTime="2026-10-22T17:02:16.6649524+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ae256bdd-492d-42ce-935d-d54e9b97eecf" />
+    <UnitTestResult executionId="74c6c2aa-afc5-4bf0-9987-58670528e317" testId="f8e7fde3-93ea-43b0-7988-0e7b724d95e9" testName="ResetSettingsSynchronizesGroupsBeforeRefreshingSandboxList" computerName="CHILDHOOD" duration="00:00:00.0334206" startTime="2026-10-22T17:02:16.6649524+08:00" endTime="2026-10-22T17:02:16.6988662+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="74c6c2aa-afc5-4bf0-9987-58670528e317" />
+    <UnitTestResult executionId="a908b0fd-7dd6-4c54-9fb7-fa49e34d1e86" testId="048275ef-060d-4793-b22c-7f03f9cfbf8e" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;speech&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.0104988" startTime="2026-10-22T17:02:12.1443099+08:00" endTime="2026-10-22T17:02:12.1552790+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a908b0fd-7dd6-4c54-9fb7-fa49e34d1e86" />
+    <UnitTestResult executionId="397f95d1-09c6-4ae2-ab84-9c4395d85e4f" testId="16c316e5-0fa9-9f87-33f7-5afb1c4f1c73" testName="ProgramDefersFirstShowUntilApplicationRun" computerName="CHILDHOOD" duration="00:00:00.0007782" startTime="2026-10-22T17:02:13.9611481+08:00" endTime="2026-10-22T17:02:13.9621358+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="397f95d1-09c6-4ae2-ab84-9c4395d85e4f" />
+    <UnitTestResult executionId="fa7faf01-f85f-4302-ab4e-7f2402e5be34" testId="495d8325-dbf2-caaa-f063-842fcbea65bd" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;pinned&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.0099853" startTime="2026-10-22T17:02:12.1343325+08:00" endTime="2026-10-22T17:02:12.1443099+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fa7faf01-f85f-4302-ab4e-7f2402e5be34" />
+    <UnitTestResult executionId="6020e371-5691-4b18-a921-3132b3a5e58c" testId="1cb91b49-7df0-e1d7-08ea-3b054f8784e8" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;volume&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.0108547" startTime="2026-10-22T17:02:12.1113902+08:00" endTime="2026-10-22T17:02:12.1233608+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6020e371-5691-4b18-a921-3132b3a5e58c" />
+    <UnitTestResult executionId="6c1b91c2-7f03-4de1-8ee6-34ff063e8207" testId="20692c15-9840-a3dd-03b3-fefeed645367" testName="ProcessCmdKeyLeavesDisabledInvalidAndUnknownHotkeysToWinForms" computerName="CHILDHOOD" duration="00:00:00.0082443" startTime="2026-10-22T17:02:13.3086432+08:00" endTime="2026-10-22T17:02:13.3166234+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6c1b91c2-7f03-4de1-8ee6-34ff063e8207" />
+    <UnitTestResult executionId="efeb514c-b351-40db-bd92-3a89e2d8a0a1" testId="36a26bdc-e19a-139c-167d-d4867d5285c7" testName="BuildsConcurrencyDropdownFromLogicalProcessorCount" computerName="CHILDHOOD" duration="00:00:00.0856280" startTime="2026-10-22T17:02:15.8669793+08:00" endTime="2026-10-22T17:02:15.9527529+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="efeb514c-b351-40db-bd92-3a89e2d8a0a1" />
+    <UnitTestResult executionId="0d423692-8ce0-486b-95c1-fe84d0760773" testId="a32ac3f7-f710-c01a-b324-ebcf2d980003" testName="WiresScheduleLaunchMenuActionToLaunchScheduler" computerName="CHILDHOOD" duration="00:00:00.0623455" startTime="2026-10-22T17:02:14.6307334+08:00" endTime="2026-10-22T17:02:14.6925776+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0d423692-8ce0-486b-95c1-fe84d0760773" />
+    <UnitTestResult executionId="6f2a9945-ea60-4c8d-a91f-475c50895483" testId="0f798067-2ed1-2f0f-bd4a-507e099143e4" testName="MissingSelectedLibraryDoesNotUseAnotherReaderAndAutomaticCanRecover" computerName="CHILDHOOD" duration="00:00:00.0086474" startTime="2026-10-22T17:02:16.7444326+08:00" endTime="2026-10-22T17:02:16.7534095+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6f2a9945-ea60-4c8d-a91f-475c50895483" />
+    <UnitTestResult executionId="0d1eb575-2655-4c4e-b8e7-3d278fde2170" testId="6e2eece4-051a-90ce-9d4f-31953c011b91" testName="FailedInitializationUnloadsBackend" computerName="CHILDHOOD" duration="00:00:00.0045260" startTime="2026-10-22T17:02:17.2323717+08:00" endTime="2026-10-22T17:02:17.2396881+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0d1eb575-2655-4c4e-b8e7-3d278fde2170" />
+    <UnitTestResult executionId="3de89793-10a9-4b30-b5d4-5f1f68ba85c9" testId="f7a3d43c-ff10-9a0a-6b7f-ae60a5c65736" testName="WiresCreateGroupMenuActionToSandboxAdminState" computerName="CHILDHOOD" duration="00:00:00.0774728" startTime="2026-10-22T17:02:14.4033078+08:00" endTime="2026-10-22T17:02:14.4811120+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="3de89793-10a9-4b30-b5d4-5f1f68ba85c9" />
+    <UnitTestResult executionId="1b42eb93-de65-4380-8f9e-2ebeca2f610e" testId="a7edcb2a-ccdb-4dcc-d2e4-2c542e2c6c3f" testName="WiresScheduleCloseMenuActionToLaunchScheduler" computerName="CHILDHOOD" duration="00:00:00.0474577" startTime="2026-10-22T17:02:14.6925776+08:00" endTime="2026-10-22T17:02:14.7408872+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1b42eb93-de65-4380-8f9e-2ebeca2f610e" />
+    <UnitTestResult executionId="eebc31c2-9fe4-4d51-b6fb-2a019b2334fd" testId="53cc3da7-1a18-5386-20f1-fb517088402d" testName="ChangingSelectionReleasesOldBackendAndCanReturnToAutomaticMode" computerName="CHILDHOOD" duration="00:00:00.0082442" startTime="2026-10-22T17:02:16.7357750+08:00" endTime="2026-10-22T17:02:16.7444326+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="eebc31c2-9fe4-4d51-b6fb-2a019b2334fd" />
+    <UnitTestResult executionId="c067ded4-d5a3-4991-a71a-0a861d4fb3eb" testId="b7689701-8bff-aeb1-fe9c-8f5070051d0a" testName="ReaderSettingsConfirmationPreservesSpeechConfig (False,False)" computerName="CHILDHOOD" duration="00:00:00.0150142" startTime="2026-10-22T17:02:17.1765121+08:00" endTime="2026-10-22T17:02:17.1924718+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c067ded4-d5a3-4991-a71a-0a861d4fb3eb" />
+    <UnitTestResult executionId="69d68683-5784-441e-b2c2-c1846e771830" testId="4cbffe59-e3d7-b758-da76-8b11a0684b4d" testName="HotkeyDialogPreservesLayoutFocusOrderAndEditorBehavior" computerName="CHILDHOOD" duration="00:00:00.0806780" startTime="2026-10-22T17:02:15.7412883+08:00" endTime="2026-10-22T17:02:15.8230804+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="69d68683-5784-441e-b2c2-c1846e771830" />
+    <UnitTestResult executionId="d148a6b8-95c3-46ed-a23a-88e285f9b4d2" testId="7bfacf11-5773-4b7a-ac00-71673f7fa8b2" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;hotkeys&quot;,True)" computerName="CHILDHOOD" duration="00:00:00.0342320" startTime="2026-10-22T17:02:12.2704349+08:00" endTime="2026-10-22T17:02:12.3053411+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="d148a6b8-95c3-46ed-a23a-88e285f9b4d2" />
+    <UnitTestResult executionId="c46d657b-ad56-4cd4-b537-84db5c1a968c" testId="bce6a397-5805-e944-5c01-7622d2e1b40f" testName="SettingsDialogPreservesControlsRangesTextAndSaveKeys" computerName="CHILDHOOD" duration="00:00:00.0452193" startTime="2026-10-22T17:02:15.9527529+08:00" endTime="2026-10-22T17:02:15.9986373+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c46d657b-ad56-4cd4-b537-84db5c1a968c" />
+    <UnitTestResult executionId="95902d24-334b-498b-a128-50e54896c42f" testId="aed0f9ea-b0be-7e20-828a-c01552f6bebb" testName="ComposesEveryMigratedServiceAndRealProcessBoundary" computerName="CHILDHOOD" duration="00:00:00.1163459" startTime="2026-10-22T17:02:12.4390028+08:00" endTime="2026-10-22T17:02:12.5554219+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="95902d24-334b-498b-a128-50e54896c42f" />
+    <UnitTestResult executionId="1b65086f-a671-4be8-8230-4247639f3eda" testId="447b69eb-55c7-900a-5c78-1fcadb354988" testName="BothCountDialogsExpose999WithoutChangingAccessibility" computerName="CHILDHOOD" duration="00:00:00.3242862" startTime="2026-10-22T17:02:15.4161416+08:00" endTime="2026-10-22T17:02:15.7412883+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1b65086f-a671-4be8-8230-4247639f3eda" />
+    <UnitTestResult executionId="9d1318e9-f987-47c9-bc0d-c5f2d0cbbab7" testId="2496e41f-72fb-9849-ef1f-4b6e2e950374" testName="FiltersUnknownAssistEventsAndSuppressesDuplicateSpeechBriefly" computerName="CHILDHOOD" duration="00:00:00.1006482" startTime="2026-10-22T17:02:16.9475425+08:00" endTime="2026-10-22T17:02:17.0478882+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9d1318e9-f987-47c9-bc0d-c5f2d0cbbab7" />
+    <UnitTestResult executionId="28c4ebea-c260-4c65-bdbc-a4f4ae7af5f3" testId="d3870398-48c1-21d1-ec7d-21f689c38d1e" testName="SavesInterfaceAndAssistHintsAndPrefixesEnabledStatusText" computerName="CHILDHOOD" duration="00:00:00.0066149" startTime="2026-10-22T17:02:16.8451822+08:00" endTime="2026-10-22T17:02:16.8521601+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="28c4ebea-c260-4c65-bdbc-a4f4ae7af5f3" />
+    <UnitTestResult executionId="a3b4645d-63a0-4945-ab10-9f0491131dc4" testId="5c09a045-aa2b-ecea-41fe-e79809a29260" testName="SettingsDialogResetUsesExactPromptAndPythonDefaults" computerName="CHILDHOOD" duration="00:00:00.0406260" startTime="2026-10-22T17:02:15.9986373+08:00" endTime="2026-10-22T17:02:16.0405307+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a3b4645d-63a0-4945-ab10-9f0491131dc4" />
+    <UnitTestResult executionId="4382d0c7-5d1d-4af7-a396-bf2045a585d4" testId="b4c98c95-97f4-354f-b714-559c5349e956" testName="ReadsPackagedReaderIniDefaultsFromLibDirectory" computerName="CHILDHOOD" duration="00:00:00.0053354" startTime="2026-10-22T17:02:16.7982961+08:00" endTime="2026-10-22T17:02:16.8042808+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4382d0c7-5d1d-4af7-a396-bf2045a585d4" />
+    <UnitTestResult executionId="df5fba0b-fa27-43d3-9d58-f3a2cf77a26a" testId="631aad6b-4ff1-b86d-469a-0256f47741db" testName="MapsExtendedEnterToPythonNumPadEnterAndKeepsFixedKeys" computerName="CHILDHOOD" duration="00:00:00.0038145" startTime="2026-10-22T17:02:13.2460116+08:00" endTime="2026-10-22T17:02:13.2500027+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="df5fba0b-fa27-43d3-9d58-f3a2cf77a26a" />
+    <UnitTestResult executionId="1875b05b-1fc5-4254-87ce-054ac89e9303" testId="b3359c62-e1c9-80c1-0e6a-8853a17a4b52" testName="ReloadsPythonJsonFieldsIntoRuntime (&quot;groups&quot;,False)" computerName="CHILDHOOD" duration="00:00:00.0526815" startTime="2026-10-22T17:02:12.0585280+08:00" endTime="2026-10-22T17:02:12.1113902+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1875b05b-1fc5-4254-87ce-054ac89e9303" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="ApplicationProjectCopiesLibDirectoryToBuildAndPublishOutput" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="23f27939-3876-ab07-cc63-6dfba4aa538d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="43bffcc0-8a9d-4035-9c7f-148e93b45cd6" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.TolkRuntimeIntegrationContractTests" name="ApplicationProjectCopiesLibDirectoryToBuildAndPublishOutput" />
+    </UnitTest>
+    <UnitTest name="TolkBoolDelegatesUseI1 (&quot;TolkOutputDelegate&quot;,False,1)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="41933bd6-6afb-9e73-20c8-1b8e139f0260">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="e70e9452-aae4-4baf-90d7-c6daea306fec" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.TolkRuntimeIntegrationContractTests" name="TolkBoolDelegatesUseI1" />
+    </UnitTest>
+    <UnitTest name="BackendExposesPreferenceAndDetection (&quot;DetectScreenReader&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="beb3e7bd-d392-dd7a-0cb3-ce98a96ad931">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="41213dda-c4ea-4f98-8b00-9ecdf9f629bb" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.TolkRuntimeIntegrationContractTests" name="BackendExposesPreferenceAndDetection" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;groups&quot;,True)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="b132a21e-eac1-13dd-8894-84726424c59e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="c1a75e23-953b-4b0b-9f19-a94cd7624c75" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;speech&quot;,True)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="8ce1f4db-1c10-02f4-d58b-b7bf229430f9">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="87745999-1153-427b-b85b-0c05d7cd38c2" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ReleaseBuildCopiesUpdaterBesideMainExecutable" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="11c8ca57-ba29-4380-1039-577fb30c8ea6">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="73b3bab0-3c11-4088-bf0a-2fb5ea4d7f95" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ReleaseBuildCopiesUpdaterBesideMainExecutable" />
+    </UnitTest>
+    <UnitTest name="PathMemoryDialogOnlyShowsQuantityAndConfirmation" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="8fe16498-5f6f-b5c5-3c32-139adc6115e0">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="61817167-601b-4236-90b0-5df372d14ec6" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="PathMemoryDialogOnlyShowsQuantityAndConfirmation" />
+    </UnitTest>
+    <UnitTest name="WiresDeleteGroupMenuActionToSandboxAdminState" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="f116790d-5638-b374-cded-f9ff7574f76b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="38b4b2ed-d8cd-4f5f-908a-62e0a89093da" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresDeleteGroupMenuActionToSandboxAdminState" />
+    </UnitTest>
+    <UnitTest name="ReaderSettingsConfirmationPreservesSpeechConfig (True,False)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="83f8dadf-8a9e-4963-28bb-d5bc9cba0a02">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="c22089bd-824e-4950-847d-042f225bd237" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSettingsPreservationContractTests" name="ReaderSettingsConfirmationPreservesSpeechConfig" />
+    </UnitTest>
+    <UnitTest name="SettingsDialogPreservesControlsRangesTextAndSaveKeys" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="bce6a397-5805-e944-5c01-7622d2e1b40f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="c46d657b-ad56-4cd4-b537-84db5c1a968c" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="SettingsDialogPreservesControlsRangesTextAndSaveKeys" />
+    </UnitTest>
+    <UnitTest name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder (&quot;设置(&amp;S)&quot;,&quot;热键设置|朗读设置|软件设置&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="cc644c40-1ed1-faf8-7e16-501a2c044c01">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="9cb268ee-6347-4511-acbe-ad4fc2562031" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder" />
+    </UnitTest>
+    <UnitTest name="PathMemoryQuantitySaveAndCancelPreserveStoredPaths (True)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="d2953ea4-57ee-d61d-1d51-64ee8fa24c02">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="242fecd6-a4f4-4424-b9e4-6318e6615cfa" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="PathMemoryQuantitySaveAndCancelPreserveStoredPaths" />
+    </UnitTest>
+    <UnitTest name="SpeaksAssistTextOnWorkerThreadAndShutdownDisablesRuntime" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="12ecde84-43f5-d209-03fb-012b1883e51d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="6a5e1f28-ba42-428c-b02a-0e7b7aad026e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechServiceContractTests" name="SpeaksAssistTextOnWorkerThreadAndShutdownDisablesRuntime" />
+    </UnitTest>
+    <UnitTest name="TolkBoolDelegatesUseI1 (&quot;TolkOutputDelegate&quot;,True,-1)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="e1f0751e-75c0-f3a5-a9d6-25e5e5d5ca8f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="981389ed-d558-49f9-bed9-e19f1237959e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.TolkRuntimeIntegrationContractTests" name="TolkBoolDelegatesUseI1" />
+    </UnitTest>
+    <UnitTest name="DetectsReadersMatchesEnginesAndKeepsInterfaceChoices" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="2955900c-deda-c741-de13-42e1c6c5cff1">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="40510214-a5b7-4076-803d-3a07484b8e5b" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechServiceContractTests" name="DetectsReadersMatchesEnginesAndKeepsInterfaceChoices" />
+    </UnitTest>
+    <UnitTest name="ExecutesWindowToggleAndHonorsResetCancellation" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="2782277f-70fa-7005-f912-c0afa38c164f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="022cfd23-43db-43a4-8c75-2236e96e9425" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ExecutesWindowToggleAndHonorsResetCancellation" />
+    </UnitTest>
+    <UnitTest name="WiresRepairSandboxieControlSettingsMenuActionToSandboxAdminService" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="46ecab02-53d1-5499-109a-306f8c7cdcde">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="4bdfa7fe-806c-42af-9d53-5b4b35404aa4" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresRepairSandboxieControlSettingsMenuActionToSandboxAdminService" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;speech&quot;,False)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="048275ef-060d-4793-b22c-7f03f9cfbf8e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="a908b0fd-7dd6-4c54-9fb7-fa49e34d1e86" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="HistoryServiceNormalizesZeroTo999AndRetains999Records" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="5780c807-24c7-602b-b3b7-2784393d723d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="ee5883d4-6caf-4fc3-83fd-50ce9ee065ca" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="HistoryServiceNormalizesZeroTo999AndRetains999Records" />
+    </UnitTest>
+    <UnitTest name="HotkeyDialogPreservesLayoutFocusOrderAndEditorBehavior" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="4cbffe59-e3d7-b758-da76-8b11a0684b4d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="69d68683-5784-441e-b2c2-c1846e771830" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="HotkeyDialogPreservesLayoutFocusOrderAndEditorBehavior" />
+    </UnitTest>
+    <UnitTest name="RemovesAutomaticLoadAdjustmentFromSettings" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="bef24808-c3e1-7b92-2aac-088f7f0f139e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="21c79c1e-6e62-4bbc-8276-8b5cf9732bf5" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="RemovesAutomaticLoadAdjustmentFromSettings" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;hotkeys&quot;,True)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="7bfacf11-5773-4b7a-ac00-71673f7fa8b2">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="d148a6b8-95c3-46ed-a23a-88e285f9b4d2" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="SourceRuntimeDirectoryContainsExactX64FilesWithoutTextFiles" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="95730473-8f71-3f72-acba-f9435b83a7a8">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="d89e615b-f22a-4199-a2a4-8fdb10634e93" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.TolkRuntimeIntegrationContractTests" name="SourceRuntimeDirectoryContainsExactX64FilesWithoutTextFiles" />
+    </UnitTest>
+    <UnitTest name="InitializesPythonPathsStateAndStartupOrder" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="ff76b6ae-2ce3-d31b-c70a-0b5be30ecd1b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="1148e324-4978-43a8-ad3f-c3714cfa28c2" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="InitializesPythonPathsStateAndStartupOrder" />
+    </UnitTest>
+    <UnitTest name="LoadsAndSavesSpeechConfigInConfigurationDirectoryWithOriginalStatusText" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="4f3756f5-6b94-faf1-7025-605cba73fc63">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="bc3421e7-0338-4eb4-a39c-2f168505b1c3" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechServiceContractTests" name="LoadsAndSavesSpeechConfigInConfigurationDirectoryWithOriginalStatusText" />
+    </UnitTest>
+    <UnitTest name="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;nvda&quot;,&quot;nvdaControllerClient64.dll&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="34e80563-1dd9-dabf-d813-4f41b2dea399">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="44b0d96d-8c9a-4a23-95d1-d2d3446457d2" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="SelectedReaderDeterminesTheLibraryUsedForSpeech" />
+    </UnitTest>
+    <UnitTest name="ExposesRestoreProgressDialogWithAccessibleStageControls" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="b15a1075-2d16-9b00-592d-e7d05e4784bd">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="07641ba1-2d1e-45dd-b93b-8cf7ed0a68da" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ExposesRestoreProgressDialogWithAccessibleStageControls" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;history&quot;,True)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="8bd9c144-70a5-9c1b-c3da-e637fc5614b8">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="dcaf4ce7-ccbb-4597-9078-7ac28922e3ed" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="SavesInterfaceAndAssistHintsAndPrefixesEnabledStatusText" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="d3870398-48c1-21d1-ec7d-21f689c38d1e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="28c4ebea-c260-4c65-bdbc-a4f4ae7af5f3" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechServiceContractTests" name="SavesInterfaceAndAssistHintsAndPrefixesEnabledStatusText" />
+    </UnitTest>
+    <UnitTest name="ProgramDefersFirstShowUntilApplicationRun" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="16c316e5-0fa9-9f87-33f7-5afb1c4f1c73">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="397f95d1-09c6-4ae2-ab84-9c4395d85e4f" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ProgramDefersFirstShowUntilApplicationRun" />
+    </UnitTest>
+    <UnitTest name="AddsLibDirectoryToPathBeforeLoadingAssistBackend" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="c96aace9-139e-8b81-c4db-dba090674ea6">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="5295094e-62ec-4570-944a-e5a7cbfcb4fb" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechServiceContractTests" name="AddsLibDirectoryToPathBeforeLoadingAssistBackend" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;pinned&quot;,False)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="495d8325-dbf2-caaa-f063-842fcbea65bd">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="fa7faf01-f85f-4302-ab4e-7f2402e5be34" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ReadsPackagedReaderIniDefaultsFromLibDirectory" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="b4c98c95-97f4-354f-b714-559c5349e956">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="4382d0c7-5d1d-4af7-a396-bf2045a585d4" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechServiceContractTests" name="ReadsPackagedReaderIniDefaultsFromLibDirectory" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;hotkeys&quot;,False)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="9234197d-7632-2b33-2802-ea0512c47840">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="e58d9d89-ffd2-45d4-a369-9b1b23fad5a2" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ProcessCmdKeyLeavesDisabledInvalidAndUnknownHotkeysToWinForms" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="20692c15-9840-a3dd-03b3-fefeed645367">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="6c1b91c2-7f03-4de1-8ee6-34ff063e8207" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ProcessCmdKeyLeavesDisabledInvalidAndUnknownHotkeysToWinForms" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;pinned&quot;,True)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="b46f1114-9d43-ed6e-9acb-7df28128a402">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="bfcdf9e3-a2ba-4a12-b723-83ffe92c5b01" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="WiresBatchCreateSandboxesMenuActionToSandboxieClient" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="ceb0da76-aa8a-6358-0fe1-a60991a4d20c">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="4e6f0632-953d-44e6-a97d-8fd03e5cc4df" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresBatchCreateSandboxesMenuActionToSandboxieClient" />
+    </UnitTest>
+    <UnitTest name="SpeechDialogPreservesVisibleUiChoiceMappingAndSaveShortCircuitOrder" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="71dde45c-9603-2052-7e8e-57b8e0086f03">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="2f5ca97e-4f74-4a0c-9427-8c9d972a72d6" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="SpeechDialogPreservesVisibleUiChoiceMappingAndSaveShortCircuitOrder" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;volume&quot;,True)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="6581bfd1-c9b2-3a99-15ea-b7afb279074a">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="972395cc-9846-4a36-87a0-ed8d84e30826" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="WiresScheduleCloseMenuActionToLaunchScheduler" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="a7edcb2a-ccdb-4dcc-d2e4-2c542e2c6c3f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="1b42eb93-de65-4380-8f9e-2ebeca2f610e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresScheduleCloseMenuActionToLaunchScheduler" />
+    </UnitTest>
+    <UnitTest name="LoadingAndSavingAgainPreservesNestedSettingsAcrossInstances" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="ff1e312b-84ca-bd99-596a-16a89a80e01b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="ad936f34-bd36-444c-b0b4-57612254100e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="LoadingAndSavingAgainPreservesNestedSettingsAcrossInstances" />
+    </UnitTest>
+    <UnitTest name="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;boy&quot;,&quot;byctrl-x64.dll&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="dfb85217-c6e3-19b4-1a51-47c7bb35d63f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="cb15cee2-4a1c-4907-806f-a412975e23d7" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="SelectedReaderDeterminesTheLibraryUsedForSpeech" />
+    </UnitTest>
+    <UnitTest name="ProcessCmdKeyRunsCustomActionThroughMainFormDispatcher" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="ecf02a38-7bc9-df33-85e1-bb45900e7608">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="dddaf52d-2c71-436b-9b7d-809bdd5a92e0" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ProcessCmdKeyRunsCustomActionThroughMainFormDispatcher" />
+    </UnitTest>
+    <UnitTest name="TolkBoolDelegatesUseI1 (&quot;TolkTrySapiDelegate&quot;,False,0)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="b5d6db6d-d351-6c51-d09f-93fcdd4ee998">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="fb7c0d55-8029-41f0-8595-39163df00a59" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.TolkRuntimeIntegrationContractTests" name="TolkBoolDelegatesUseI1" />
+    </UnitTest>
+    <UnitTest name="WiresRestoreMenuActionToBackupRestoreService" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="f8ba1c4b-3618-3a2f-ac2b-085fe7cf1494">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="0a841381-57b3-439b-acc7-218160d53017" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresRestoreMenuActionToBackupRestoreService" />
+    </UnitTest>
+    <UnitTest name="ExecutesSettingToggleActionsAndUpdatesRuntimeState" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="2c625c59-fd85-ef59-9be4-22e69697ddcd">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="949f51af-5aa7-4020-998f-5af5efb67b38" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ExecutesSettingToggleActionsAndUpdatesRuntimeState" />
+    </UnitTest>
+    <UnitTest name="BackendExposesPreferenceAndDetection (&quot;PreferSapi&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="61580538-f71a-01a2-36c8-ecccfb17e81c">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="889b5215-90bc-4aab-897c-e52decbd33d6" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.TolkRuntimeIntegrationContractTests" name="BackendExposesPreferenceAndDetection" />
+    </UnitTest>
+    <UnitTest name="ResetSettingsSynchronizesGroupsBeforeRefreshingSandboxList" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="f8e7fde3-93ea-43b0-7988-0e7b724d95e9">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="74c6c2aa-afc5-4bf0-9987-58670528e317" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsRuntimeContractTests" name="ResetSettingsSynchronizesGroupsBeforeRefreshingSandboxList" />
+    </UnitTest>
+    <UnitTest name="WiresMigratedFeatureServicesIntoInteractiveApplicationCallbacks" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="5260c7c2-dd81-693e-1c3a-7d73a14c94f2">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="c565b245-19f1-4c88-9794-99c3c7adcba8" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresMigratedFeatureServicesIntoInteractiveApplicationCallbacks" />
+    </UnitTest>
+    <UnitTest name="TolkBoolDelegatesUseI1 (&quot;TolkIsLoadedDelegate&quot;,True,-1)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="dd11da1a-ecfd-8065-8436-733a15291f8e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="7084a813-5401-4993-a7f3-87f14e1c1f89" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.TolkRuntimeIntegrationContractTests" name="TolkBoolDelegatesUseI1" />
+    </UnitTest>
+    <UnitTest name="ProgramPreservesCleanupSingleInstanceRunAndReleaseOrder" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="bb959113-afa0-0fab-0c93-1fd13e1d724e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="eb0a3845-3a62-4861-83ab-a102b80c6f56" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ProgramPreservesCleanupSingleInstanceRunAndReleaseOrder" />
+    </UnitTest>
+    <UnitTest name="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;&quot;,&quot;Tolk.dll&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="d500ee21-a4ec-394e-f793-6adf54fb0eed">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="e4a089a2-048b-446a-ae58-deaa83d66279" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="SelectedReaderDeterminesTheLibraryUsedForSpeech" />
+    </UnitTest>
+    <UnitTest name="ChangingSelectionReleasesOldBackendAndCanReturnToAutomaticMode" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="53cc3da7-1a18-5386-20f1-fb517088402d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="eebc31c2-9fe4-4d51-b6fb-2a019b2334fd" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="ChangingSelectionReleasesOldBackendAndCanReturnToAutomaticMode" />
+    </UnitTest>
+    <UnitTest name="FailedInitializationUnloadsBackend" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="6e2eece4-051a-90ce-9d4f-31953c011b91">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="0d1eb575-2655-4c4e-b8e7-3d278fde2170" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.TolkRuntimeIntegrationContractTests" name="FailedInitializationUnloadsBackend" />
+    </UnitTest>
+    <UnitTest name="FiltersUnknownAssistEventsAndSuppressesDuplicateSpeechBriefly" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="2496e41f-72fb-9849-ef1f-4b6e2e950374">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="9d1318e9-f987-47c9-bc0d-c5f2d0cbbab7" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechServiceContractTests" name="FiltersUnknownAssistEventsAndSuppressesDuplicateSpeechBriefly" />
+    </UnitTest>
+    <UnitTest name="ProcessCmdKeyDispatchesEnabledCustomActionsThroughRuntimePath" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="8f3a139e-c36d-cb51-ed11-8457d8f42423">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="d676f85c-9701-4f07-a3ac-8352b0c15367" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ProcessCmdKeyDispatchesEnabledCustomActionsThroughRuntimePath" />
+    </UnitTest>
+    <UnitTest name="PathMemoryQuantitySaveAndCancelPreserveStoredPaths (False)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="8a69fe4d-351c-f623-c96c-28a536d02690">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="e2b7fd79-21a1-40f5-8d9e-61fcf2248aea" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="PathMemoryQuantitySaveAndCancelPreserveStoredPaths" />
+    </UnitTest>
+    <UnitTest name="InitializationEnablesFallbackAfterReaders" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="82b5e5bb-b280-f780-df38-467690ada3b1">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="db450704-3b69-4997-a785-dd7734f930c6" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.TolkRuntimeIntegrationContractTests" name="InitializationEnablesFallbackAfterReaders" />
+    </UnitTest>
+    <UnitTest name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder (&quot;关于(&amp;A)&quot;,&quot;检查更新|-|请作者吃辣条&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="62af5068-525c-59fc-d99c-53d86870890b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="c6a81cbc-d721-497d-aa6e-c84af719783d" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder" />
+    </UnitTest>
+    <UnitTest name="SelectedReaderDeterminesTheLibraryUsedForSpeech (&quot;zdsr&quot;,&quot;ZDSRAPI_x64.dll&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="376efe89-bbbe-eb67-42fb-ca1372f3a77a">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="b5ed1570-a0ff-499f-99cf-9f45b94ec887" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="SelectedReaderDeterminesTheLibraryUsedForSpeech" />
+    </UnitTest>
+    <UnitTest name="ReaderSettingsConfirmationPreservesSpeechConfig (False,False)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="b7689701-8bff-aeb1-fe9c-8f5070051d0a">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="c067ded4-d5a3-4991-a71a-0a861d4fb3eb" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSettingsPreservationContractTests" name="ReaderSettingsConfirmationPreservesSpeechConfig" />
+    </UnitTest>
+    <UnitTest name="MainFormInitializesTenPersistedHistoryItemsWithoutThreadException" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="2479a255-a448-0719-8054-929ed8e0ff09">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="0a9042ef-5e6b-47f4-a436-7d0c43f595d7" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="MainFormInitializesTenPersistedHistoryItemsWithoutThreadException" />
+    </UnitTest>
+    <UnitTest name="WiresBatchDeleteSandboxesMenuActionToSandboxieClient" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="b6804cd3-5f54-0f4e-8ec2-78b9bd81d362">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="7aa59926-c21d-43de-aab3-b9bd017271f0" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresBatchDeleteSandboxesMenuActionToSandboxieClient" />
+    </UnitTest>
+    <UnitTest name="DestroyDisposesComposedApplicationServices" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="ea02dc25-9688-2ce5-784a-b8cc8d2e1238">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="377c8c71-b910-4282-88ff-82e759cfe2d1" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="DestroyDisposesComposedApplicationServices" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;groups&quot;,False)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="b3359c62-e1c9-80c1-0e6a-8853a17a4b52">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="1875b05b-1fc5-4254-87ce-054ac89e9303" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="ProcessCmdKeyKeepsFixedHotkeysAheadOfCustomBindings" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="96b2a265-7c5f-0572-e32c-8f9ea070175e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="f9f3cf7e-1744-4264-91d9-6784fab53ab9" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ProcessCmdKeyKeepsFixedHotkeysAheadOfCustomBindings" />
+    </UnitTest>
+    <UnitTest name="MissingSelectedLibraryDoesNotUseAnotherReaderAndAutomaticCanRecover" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="0f798067-2ed1-2f0f-bd4a-507e099143e4">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="6f2a9945-ea60-4c8d-a91f-475c50895483" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="MissingSelectedLibraryDoesNotUseAnotherReaderAndAutomaticCanRecover" />
+    </UnitTest>
+    <UnitTest name="WiresBackupMenuActionToBackupRestoreService" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="60f30418-30c5-6c3b-91dd-e709ba6ce6a5">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="35e71cc6-a9e7-4b4b-8b4d-977e1e376272" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresBackupMenuActionToBackupRestoreService" />
+    </UnitTest>
+    <UnitTest name="SpeechDialogNormalizesReaderIniValuesExactlyLikePython" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="15267194-8447-90c8-680e-ca6abb3728dd">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="69d55cbc-d74e-4a91-89ea-15e69821de23" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="SpeechDialogNormalizesReaderIniValuesExactlyLikePython" />
+    </UnitTest>
+    <UnitTest name="TolkBoolDelegatesUseI1 (&quot;TolkSilenceDelegate&quot;,True,-1)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="0d5db958-5d30-d322-d229-5ce29fd23ad6">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="19c0eb04-0859-44ee-bb40-818448cc9ebb" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.TolkRuntimeIntegrationContractTests" name="TolkBoolDelegatesUseI1" />
+    </UnitTest>
+    <UnitTest name="BuildOutputContainsExactRuntimeFilesWithoutTextFiles" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="ceeff5d8-22d6-fa07-078b-c8c47078114d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="83001774-560e-40d4-9104-e5cbf7d2b7b5" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.TolkRuntimeIntegrationContractTests" name="BuildOutputContainsExactRuntimeFilesWithoutTextFiles" />
+    </UnitTest>
+    <UnitTest name="PrefersRootLibTolkPath" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="5fb07382-e5fe-8fc1-85ab-f039f19de239">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="7c796329-83a5-49d4-979d-279e7aa6a0a7" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.TolkRuntimeIntegrationContractTests" name="PrefersRootLibTolkPath" />
+    </UnitTest>
+    <UnitTest name="SpeechDialogSanitizesConfigExactlyLikePython" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="f4d2db73-ac01-8c05-37d6-77148e553b14">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="6c87daae-6d66-4afb-930a-684b7ec49bd8" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="SpeechDialogSanitizesConfigExactlyLikePython" />
+    </UnitTest>
+    <UnitTest name="SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter (False)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="1681be3a-cdea-c79e-3a57-2750fd7b9875">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="7a04ca1e-6fb0-44a4-b6cf-53bfe2dd89cc" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsRuntimeContractTests" name="SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter" />
+    </UnitTest>
+    <UnitTest name="TolkBoolDelegatesUseI1 (&quot;TolkPreferSapiDelegate&quot;,False,0)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="907d8787-9bdf-9876-b4ec-931e7623d9c3">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="265c7008-071e-4e7f-8b95-1cb2b6f2c229" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.TolkRuntimeIntegrationContractTests" name="TolkBoolDelegatesUseI1" />
+    </UnitTest>
+    <UnitTest name="MainFormKeeps999AcrossLoadCommitAndManagerSave" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="f073f54f-090b-563d-8da7-1f04d7b61f4f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="1cf4c47f-80ed-441e-b756-27acc36ca2d2" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="MainFormKeeps999AcrossLoadCommitAndManagerSave" />
+    </UnitTest>
+    <UnitTest name="ResetSettingsRestoresSwitchesWithoutSynchronousProcessScan" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="c5052007-6a11-17d4-6792-553e3b8602ed">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="ae256bdd-492d-42ce-935d-d54e9b97eecf" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsRuntimeContractTests" name="ResetSettingsRestoresSwitchesWithoutSynchronousProcessScan" />
+    </UnitTest>
+    <UnitTest name="WiresNonDestructiveMenuActionsWithoutDefaultStatusFallback" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="1e2e96cc-4d49-dd97-935a-ffd5f96ec0e4">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="3bd1dd5d-3174-4f24-8c81-bb439ba0e865" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresNonDestructiveMenuActionsWithoutDefaultStatusFallback" />
+    </UnitTest>
+    <UnitTest name="WiresCreateGroupMenuActionToSandboxAdminState" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="f7a3d43c-ff10-9a0a-6b7f-ae60a5c65736">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="3de89793-10a9-4b30-b5d4-5f1f68ba85c9" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresCreateGroupMenuActionToSandboxAdminState" />
+    </UnitTest>
+    <UnitTest name="SanitizesSpeechConfigAndReaderIniDefaultsLikePython" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="476f1634-272c-5699-bf60-f40f41b7ca1c">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="25f43d35-bde0-4831-854c-035981768590" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechServiceContractTests" name="SanitizesSpeechConfigAndReaderIniDefaultsLikePython" />
+    </UnitTest>
+    <UnitTest name="BuildsConcurrencyDropdownFromLogicalProcessorCount" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="36a26bdc-e19a-139c-167d-d4867d5285c7">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="efeb514c-b351-40db-bd92-3a89e2d8a0a1" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="BuildsConcurrencyDropdownFromLogicalProcessorCount" />
+    </UnitTest>
+    <UnitTest name="ReadsAndWritesReaderIniSettingsUnderConfigurationDirectory" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="74674236-b4b8-b305-53ce-8e7271318252">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="55204dfc-68d5-4a4e-8383-7b47a46485bf" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechServiceContractTests" name="ReadsAndWritesReaderIniSettingsUnderConfigurationDirectory" />
+    </UnitTest>
+    <UnitTest name="NormalizesOnlyAllowedSpeechInterfaceValues" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="7a8a9e93-2035-f057-23bc-c54bb85b1955">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="648a8238-98b3-41c2-b1ba-d6f8d6067cb8" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechServiceContractTests" name="NormalizesOnlyAllowedSpeechInterfaceValues" />
+    </UnitTest>
+    <UnitTest name="WiresBatchRenameSandboxesMenuActionToSandboxAdminService" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="a843aa91-1dba-88cb-818f-28d7a7379572">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="3cd395ec-9e1a-4f23-b94f-5da2e5e14c18" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresBatchRenameSandboxesMenuActionToSandboxAdminService" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;volume&quot;,False)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="1cb91b49-7df0-e1d7-08ea-3b054f8784e8">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="6020e371-5691-4b18-a921-3132b3a5e58c" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="MapsExtendedEnterToPythonNumPadEnterAndKeepsFixedKeys" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="631aad6b-4ff1-b86d-469a-0256f47741db">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="df5fba0b-fa27-43d3-9d58-f3a2cf77a26a" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="MapsExtendedEnterToPythonNumPadEnterAndKeepsFixedKeys" />
+    </UnitTest>
+    <UnitTest name="ComposesEveryMigratedServiceAndRealProcessBoundary" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="aed0f9ea-b0be-7e20-828a-c01552f6bebb">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="95902d24-334b-498b-a128-50e54896c42f" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="ComposesEveryMigratedServiceAndRealProcessBoundary" />
+    </UnitTest>
+    <UnitTest name="MainFormRendersTenHistoryItemsWithoutNullListViewItem" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="a8063c51-9bcd-dd62-b7e4-fc3f56d5a870">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="93392298-981f-463a-a182-b578179b85ae" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="MainFormRendersTenHistoryItemsWithoutNullListViewItem" />
+    </UnitTest>
+    <UnitTest name="OpensSpeechSettingsWithOriginalStatusWarningAndCallbackPayload" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="4d135081-995f-47ea-335e-459e6368203e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="66e326ad-4331-4da2-86a7-22e83e8c8058" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechServiceContractTests" name="OpensSpeechSettingsWithOriginalStatusWarningAndCallbackPayload" />
+    </UnitTest>
+    <UnitTest name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder (&quot;校正(&amp;J)&quot;,&quot;手动校正 Sandboxie 安装路径|选择沙盒用户数据目录|-|修复 Sandboxie Control 用户设置&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="008837c5-677a-211e-af13-d5541628b41d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="46e44667-580a-4dd4-9f83-9951686e2f2e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder" />
+    </UnitTest>
+    <UnitTest name="ShutdownUnloadsBackendOnce" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="4ceb25e7-99b4-a604-3421-4908648f59c9">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="4bc92055-d577-4be4-b6a9-e2b740e07888" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.TolkRuntimeIntegrationContractTests" name="ShutdownUnloadsBackendOnce" />
+    </UnitTest>
+    <UnitTest name="ReloadsPythonJsonFieldsIntoRuntime (&quot;history&quot;,False)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="3f738417-32ea-ef95-7e42-880741c226a4">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="59510232-64a6-461d-878a-48c42b748418" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="ReloadsPythonJsonFieldsIntoRuntime" />
+    </UnitTest>
+    <UnitTest name="SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter (True)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="fcdba323-df71-5819-fede-0aaf6c171293">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="32e452f1-2b08-46ff-9fa4-8dc479f361ab" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsRuntimeContractTests" name="SoftwareSettingsApplyNewValuesToRuntimeAndAutoRunWriter" />
+    </UnitTest>
+    <UnitTest name="SavingTypedHistoryKeepsPythonKeysAndSurvivesNextLoad" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="2c2fde88-f72d-55a6-cc04-dffe40f146ab">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="7fa92663-e539-4e5e-99d9-43aa3a4605cb" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.JsonSettingsRuntimeContractTests" name="SavingTypedHistoryKeepsPythonKeysAndSurvivesNextLoad" />
+    </UnitTest>
+    <UnitTest name="HotkeyDialogUsesExactValidationMessagesAndNormalizedResults" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="2f312f75-7ee2-06cb-2a06-0bf41e5de625">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="23257812-fbd1-4eae-82f6-3205f27628af" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="HotkeyDialogUsesExactValidationMessagesAndNormalizedResults" />
+    </UnitTest>
+    <UnitTest name="SettingsDialogResetUsesExactPromptAndPythonDefaults" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="5c09a045-aa2b-ecea-41fe-e79809a29260">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="a3b4645d-63a0-4945-ab10-9f0491131dc4" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="SettingsDialogResetUsesExactPromptAndPythonDefaults" />
+    </UnitTest>
+    <UnitTest name="WiresScheduleLaunchMenuActionToLaunchScheduler" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="a32ac3f7-f710-c01a-b324-ebcf2d980003">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="0d423692-8ce0-486b-95c1-fe84d0760773" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresScheduleLaunchMenuActionToLaunchScheduler" />
+    </UnitTest>
+    <UnitTest name="WiresLaunchGroupMenuActionToLaunchScheduler" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="65886f82-559e-80d4-4273-18d854d9eadb">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="058f1b0b-3be8-4629-85b9-bd09b0f91bb8" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="WiresLaunchGroupMenuActionToLaunchScheduler" />
+    </UnitTest>
+    <UnitTest name="HotkeyDialogResetsDefaultsAndDisablesHotkeysWithExactPrompt" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="76d61324-2402-764a-8f21-34e9f4ebc925">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="cd418ab8-00c3-4bc3-968f-5f4be36407a6" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SettingsDialogsCSharpContractTests" name="HotkeyDialogResetsDefaultsAndDisablesHotkeysWithExactPrompt" />
+    </UnitTest>
+    <UnitTest name="SettingsServiceKeeps999WhenApplyingOtherSettings" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="0e35004b-e2b9-8c0a-af36-abdc32237683">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="SettingsService" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="3202302b-1962-42dc-89d2-bdd2827161f0" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="SettingsServiceKeeps999WhenApplyingOtherSettings" />
+    </UnitTest>
+    <UnitTest name="QueuedSpeechRechecksEnabledSettingBeforeLoadingReader" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="514e2677-ef31-a412-a554-2667fc1e781b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="f6763989-5ea2-4ad5-8f6a-49a6f0ca612f" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests" name="QueuedSpeechRechecksEnabledSettingBeforeLoadingReader" />
+    </UnitTest>
+    <UnitTest name="BothCountDialogsExpose999WithoutChangingAccessibility" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="447b69eb-55c7-900a-5c78-1fcadb354988">
+      <TestCategory>
+        <TestCategoryItem TestCategory="AppPaths" />
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="1b65086f-a671-4be8-8230-4247639f3eda" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.PathHistoryLimitRuntimeContractTests" name="BothCountDialogsExpose999WithoutChangingAccessibility" />
+    </UnitTest>
+    <UnitTest name="ReaderSettingsConfirmationPreservesSpeechConfig (True,True)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="8bc06b36-42c8-9a45-84a3-ca6db1110e82">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="73b335ba-040b-478e-a29a-867092658db7" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSettingsPreservationContractTests" name="ReaderSettingsConfirmationPreservesSpeechConfig" />
+    </UnitTest>
+    <UnitTest name="ResolvesConfigurationAndTolkResourcesWithConfigurationWriteBoundary" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="49cff076-52ed-f736-13f7-da566b8d6a3c">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="0223ae04-8412-4399-82ea-1acae87f8cfd" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechServiceContractTests" name="ResolvesConfigurationAndTolkResourcesWithConfigurationWriteBoundary" />
+    </UnitTest>
+    <UnitTest name="ReaderSettingsConfirmationPreservesSpeechConfig (False,True)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="ad7ed38b-c7fb-959c-38e5-808391ee073c">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Speech" />
+      </TestCategory>
+      <Execution id="25243811-29c3-41f7-8113-5be5c25ea837" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.SpeechSettingsPreservationContractTests" name="ReaderSettingsConfirmationPreservesSpeechConfig" />
+    </UnitTest>
+    <UnitTest name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder (&quot;用户管理&quot;,&quot;置顶/取消置顶当前用户|-|批量创建沙盒用户|批量重命名沙盒用户|批量删除沙盒用户&quot;)" storage="d:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\release\net48\shahelauncher.tests.dll" id="aefcb51b-a42c-405f-fff8-e412d66a46f0">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="00ef730c-42a8-4efe-b800-663069a20c48" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.MainFormApplicationContractTests" name="BuildsExactClassicMenusWithoutChangingAccessibilityOrder" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="11c8ca57-ba29-4380-1039-577fb30c8ea6" executionId="73b3bab0-3c11-4088-bf0a-2fb5ea4d7f95" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c96aace9-139e-8b81-c4db-dba090674ea6" executionId="5295094e-62ec-4570-944a-e5a7cbfcb4fb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="62af5068-525c-59fc-d99c-53d86870890b" executionId="c6a81cbc-d721-497d-aa6e-c84af719783d" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="71dde45c-9603-2052-7e8e-57b8e0086f03" executionId="2f5ca97e-4f74-4a0c-9427-8c9d972a72d6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8ce1f4db-1c10-02f4-d58b-b7bf229430f9" executionId="87745999-1153-427b-b85b-0c05d7cd38c2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fcdba323-df71-5819-fede-0aaf6c171293" executionId="32e452f1-2b08-46ff-9fa4-8dc479f361ab" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="82b5e5bb-b280-f780-df38-467690ada3b1" executionId="db450704-3b69-4997-a785-dd7734f930c6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2955900c-deda-c741-de13-42e1c6c5cff1" executionId="40510214-a5b7-4076-803d-3a07484b8e5b" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8bd9c144-70a5-9c1b-c3da-e637fc5614b8" executionId="dcaf4ce7-ccbb-4597-9078-7ac28922e3ed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2f312f75-7ee2-06cb-2a06-0bf41e5de625" executionId="23257812-fbd1-4eae-82f6-3205f27628af" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0d5db958-5d30-d322-d229-5ce29fd23ad6" executionId="19c0eb04-0859-44ee-bb40-818448cc9ebb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1e2e96cc-4d49-dd97-935a-ffd5f96ec0e4" executionId="3bd1dd5d-3174-4f24-8c81-bb439ba0e865" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="76d61324-2402-764a-8f21-34e9f4ebc925" executionId="cd418ab8-00c3-4bc3-968f-5f4be36407a6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b46f1114-9d43-ed6e-9acb-7df28128a402" executionId="bfcdf9e3-a2ba-4a12-b723-83ffe92c5b01" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="41933bd6-6afb-9e73-20c8-1b8e139f0260" executionId="e70e9452-aae4-4baf-90d7-c6daea306fec" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f4d2db73-ac01-8c05-37d6-77148e553b14" executionId="6c87daae-6d66-4afb-930a-684b7ec49bd8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="46ecab02-53d1-5499-109a-306f8c7cdcde" executionId="4bdfa7fe-806c-42af-9d53-5b4b35404aa4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6581bfd1-c9b2-3a99-15ea-b7afb279074a" executionId="972395cc-9846-4a36-87a0-ed8d84e30826" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d2953ea4-57ee-d61d-1d51-64ee8fa24c02" executionId="242fecd6-a4f4-4424-b9e4-6318e6615cfa" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ceb0da76-aa8a-6358-0fe1-a60991a4d20c" executionId="4e6f0632-953d-44e6-a97d-8fd03e5cc4df" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0e35004b-e2b9-8c0a-af36-abdc32237683" executionId="3202302b-1962-42dc-89d2-bdd2827161f0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2c625c59-fd85-ef59-9be4-22e69697ddcd" executionId="949f51af-5aa7-4020-998f-5af5efb67b38" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="376efe89-bbbe-eb67-42fb-ca1372f3a77a" executionId="b5ed1570-a0ff-499f-99cf-9f45b94ec887" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="34e80563-1dd9-dabf-d813-4f41b2dea399" executionId="44b0d96d-8c9a-4a23-95d1-d2d3446457d2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="15267194-8447-90c8-680e-ca6abb3728dd" executionId="69d55cbc-d74e-4a91-89ea-15e69821de23" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b15a1075-2d16-9b00-592d-e7d05e4784bd" executionId="07641ba1-2d1e-45dd-b93b-8cf7ed0a68da" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ad7ed38b-c7fb-959c-38e5-808391ee073c" executionId="25243811-29c3-41f7-8113-5be5c25ea837" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="aefcb51b-a42c-405f-fff8-e412d66a46f0" executionId="00ef730c-42a8-4efe-b800-663069a20c48" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a843aa91-1dba-88cb-818f-28d7a7379572" executionId="3cd395ec-9e1a-4f23-b94f-5da2e5e14c18" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8f3a139e-c36d-cb51-ed11-8457d8f42423" executionId="d676f85c-9701-4f07-a3ac-8352b0c15367" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="74674236-b4b8-b305-53ce-8e7271318252" executionId="55204dfc-68d5-4a4e-8383-7b47a46485bf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f073f54f-090b-563d-8da7-1f04d7b61f4f" executionId="1cf4c47f-80ed-441e-b756-27acc36ca2d2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4f3756f5-6b94-faf1-7025-605cba73fc63" executionId="bc3421e7-0338-4eb4-a39c-2f168505b1c3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ea02dc25-9688-2ce5-784a-b8cc8d2e1238" executionId="377c8c71-b910-4282-88ff-82e759cfe2d1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="65886f82-559e-80d4-4273-18d854d9eadb" executionId="058f1b0b-3be8-4629-85b9-bd09b0f91bb8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bb959113-afa0-0fab-0c93-1fd13e1d724e" executionId="eb0a3845-3a62-4861-83ab-a102b80c6f56" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="49cff076-52ed-f736-13f7-da566b8d6a3c" executionId="0223ae04-8412-4399-82ea-1acae87f8cfd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3f738417-32ea-ef95-7e42-880741c226a4" executionId="59510232-64a6-461d-878a-48c42b748418" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9234197d-7632-2b33-2802-ea0512c47840" executionId="e58d9d89-ffd2-45d4-a369-9b1b23fad5a2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8a69fe4d-351c-f623-c96c-28a536d02690" executionId="e2b7fd79-21a1-40f5-8d9e-61fcf2248aea" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f8ba1c4b-3618-3a2f-ac2b-085fe7cf1494" executionId="0a841381-57b3-439b-acc7-218160d53017" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b6804cd3-5f54-0f4e-8ec2-78b9bd81d362" executionId="7aa59926-c21d-43de-aab3-b9bd017271f0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ff76b6ae-2ce3-d31b-c70a-0b5be30ecd1b" executionId="1148e324-4978-43a8-ad3f-c3714cfa28c2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dd11da1a-ecfd-8065-8436-733a15291f8e" executionId="7084a813-5401-4993-a7f3-87f14e1c1f89" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b5d6db6d-d351-6c51-d09f-93fcdd4ee998" executionId="fb7c0d55-8029-41f0-8595-39163df00a59" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="60f30418-30c5-6c3b-91dd-e709ba6ce6a5" executionId="35e71cc6-a9e7-4b4b-8b4d-977e1e376272" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4ceb25e7-99b4-a604-3421-4908648f59c9" executionId="4bc92055-d577-4be4-b6a9-e2b740e07888" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ecf02a38-7bc9-df33-85e1-bb45900e7608" executionId="dddaf52d-2c71-436b-9b7d-809bdd5a92e0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ceeff5d8-22d6-fa07-078b-c8c47078114d" executionId="83001774-560e-40d4-9104-e5cbf7d2b7b5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dfb85217-c6e3-19b4-1a51-47c7bb35d63f" executionId="cb15cee2-4a1c-4907-806f-a412975e23d7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="beb3e7bd-d392-dd7a-0cb3-ce98a96ad931" executionId="41213dda-c4ea-4f98-8b00-9ecdf9f629bb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b132a21e-eac1-13dd-8894-84726424c59e" executionId="c1a75e23-953b-4b0b-9f19-a94cd7624c75" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cc644c40-1ed1-faf8-7e16-501a2c044c01" executionId="9cb268ee-6347-4511-acbe-ad4fc2562031" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="23f27939-3876-ab07-cc63-6dfba4aa538d" executionId="43bffcc0-8a9d-4035-9c7f-148e93b45cd6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="12ecde84-43f5-d209-03fb-012b1883e51d" executionId="6a5e1f28-ba42-428c-b02a-0e7b7aad026e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2c2fde88-f72d-55a6-cc04-dffe40f146ab" executionId="7fa92663-e539-4e5e-99d9-43aa3a4605cb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7a8a9e93-2035-f057-23bc-c54bb85b1955" executionId="648a8238-98b3-41c2-b1ba-d6f8d6067cb8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a8063c51-9bcd-dd62-b7e4-fc3f56d5a870" executionId="93392298-981f-463a-a182-b578179b85ae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="96b2a265-7c5f-0572-e32c-8f9ea070175e" executionId="f9f3cf7e-1744-4264-91d9-6784fab53ab9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="476f1634-272c-5699-bf60-f40f41b7ca1c" executionId="25f43d35-bde0-4831-854c-035981768590" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5260c7c2-dd81-693e-1c3a-7d73a14c94f2" executionId="c565b245-19f1-4c88-9794-99c3c7adcba8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="61580538-f71a-01a2-36c8-ecccfb17e81c" executionId="889b5215-90bc-4aab-897c-e52decbd33d6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4d135081-995f-47ea-335e-459e6368203e" executionId="66e326ad-4331-4da2-86a7-22e83e8c8058" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8fe16498-5f6f-b5c5-3c32-139adc6115e0" executionId="61817167-601b-4236-90b0-5df372d14ec6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="514e2677-ef31-a412-a554-2667fc1e781b" executionId="f6763989-5ea2-4ad5-8f6a-49a6f0ca612f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="e1f0751e-75c0-f3a5-a9d6-25e5e5d5ca8f" executionId="981389ed-d558-49f9-bed9-e19f1237959e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f116790d-5638-b374-cded-f9ff7574f76b" executionId="38b4b2ed-d8cd-4f5f-908a-62e0a89093da" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8bc06b36-42c8-9a45-84a3-ca6db1110e82" executionId="73b335ba-040b-478e-a29a-867092658db7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="83f8dadf-8a9e-4963-28bb-d5bc9cba0a02" executionId="c22089bd-824e-4950-847d-042f225bd237" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bef24808-c3e1-7b92-2aac-088f7f0f139e" executionId="21c79c1e-6e62-4bbc-8276-8b5cf9732bf5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ff1e312b-84ca-bd99-596a-16a89a80e01b" executionId="ad936f34-bd36-444c-b0b4-57612254100e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5fb07382-e5fe-8fc1-85ab-f039f19de239" executionId="7c796329-83a5-49d4-979d-279e7aa6a0a7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="907d8787-9bdf-9876-b4ec-931e7623d9c3" executionId="265c7008-071e-4e7f-8b95-1cb2b6f2c229" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="95730473-8f71-3f72-acba-f9435b83a7a8" executionId="d89e615b-f22a-4199-a2a4-8fdb10634e93" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d500ee21-a4ec-394e-f793-6adf54fb0eed" executionId="e4a089a2-048b-446a-ae58-deaa83d66279" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1681be3a-cdea-c79e-3a57-2750fd7b9875" executionId="7a04ca1e-6fb0-44a4-b6cf-53bfe2dd89cc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2782277f-70fa-7005-f912-c0afa38c164f" executionId="022cfd23-43db-43a4-8c75-2236e96e9425" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="008837c5-677a-211e-af13-d5541628b41d" executionId="46e44667-580a-4dd4-9f83-9951686e2f2e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2479a255-a448-0719-8054-929ed8e0ff09" executionId="0a9042ef-5e6b-47f4-a436-7d0c43f595d7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5780c807-24c7-602b-b3b7-2784393d723d" executionId="ee5883d4-6caf-4fc3-83fd-50ce9ee065ca" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c5052007-6a11-17d4-6792-553e3b8602ed" executionId="ae256bdd-492d-42ce-935d-d54e9b97eecf" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f8e7fde3-93ea-43b0-7988-0e7b724d95e9" executionId="74c6c2aa-afc5-4bf0-9987-58670528e317" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="048275ef-060d-4793-b22c-7f03f9cfbf8e" executionId="a908b0fd-7dd6-4c54-9fb7-fa49e34d1e86" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="16c316e5-0fa9-9f87-33f7-5afb1c4f1c73" executionId="397f95d1-09c6-4ae2-ab84-9c4395d85e4f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="495d8325-dbf2-caaa-f063-842fcbea65bd" executionId="fa7faf01-f85f-4302-ab4e-7f2402e5be34" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1cb91b49-7df0-e1d7-08ea-3b054f8784e8" executionId="6020e371-5691-4b18-a921-3132b3a5e58c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="20692c15-9840-a3dd-03b3-fefeed645367" executionId="6c1b91c2-7f03-4de1-8ee6-34ff063e8207" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="36a26bdc-e19a-139c-167d-d4867d5285c7" executionId="efeb514c-b351-40db-bd92-3a89e2d8a0a1" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a32ac3f7-f710-c01a-b324-ebcf2d980003" executionId="0d423692-8ce0-486b-95c1-fe84d0760773" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0f798067-2ed1-2f0f-bd4a-507e099143e4" executionId="6f2a9945-ea60-4c8d-a91f-475c50895483" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6e2eece4-051a-90ce-9d4f-31953c011b91" executionId="0d1eb575-2655-4c4e-b8e7-3d278fde2170" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f7a3d43c-ff10-9a0a-6b7f-ae60a5c65736" executionId="3de89793-10a9-4b30-b5d4-5f1f68ba85c9" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a7edcb2a-ccdb-4dcc-d2e4-2c542e2c6c3f" executionId="1b42eb93-de65-4380-8f9e-2ebeca2f610e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="53cc3da7-1a18-5386-20f1-fb517088402d" executionId="eebc31c2-9fe4-4d51-b6fb-2a019b2334fd" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b7689701-8bff-aeb1-fe9c-8f5070051d0a" executionId="c067ded4-d5a3-4991-a71a-0a861d4fb3eb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4cbffe59-e3d7-b758-da76-8b11a0684b4d" executionId="69d68683-5784-441e-b2c2-c1846e771830" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7bfacf11-5773-4b7a-ac00-71673f7fa8b2" executionId="d148a6b8-95c3-46ed-a23a-88e285f9b4d2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="bce6a397-5805-e944-5c01-7622d2e1b40f" executionId="c46d657b-ad56-4cd4-b537-84db5c1a968c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="aed0f9ea-b0be-7e20-828a-c01552f6bebb" executionId="95902d24-334b-498b-a128-50e54896c42f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="447b69eb-55c7-900a-5c78-1fcadb354988" executionId="1b65086f-a671-4be8-8230-4247639f3eda" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2496e41f-72fb-9849-ef1f-4b6e2e950374" executionId="9d1318e9-f987-47c9-bc0d-c5f2d0cbbab7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d3870398-48c1-21d1-ec7d-21f689c38d1e" executionId="28c4ebea-c260-4c65-bdbc-a4f4ae7af5f3" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5c09a045-aa2b-ecea-41fe-e79809a29260" executionId="a3b4645d-63a0-4945-ab10-9f0491131dc4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b4c98c95-97f4-354f-b714-559c5349e956" executionId="4382d0c7-5d1d-4af7-a396-bf2045a585d4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="631aad6b-4ff1-b86d-469a-0256f47741db" executionId="df5fba0b-fa27-43d3-9d58-f3a2cf77a26a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b3359c62-e1c9-80c1-0e6a-8853a17a4b52" executionId="1875b05b-1fc5-4254-87ce-054ac89e9303" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="106" executed="106" passed="106" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

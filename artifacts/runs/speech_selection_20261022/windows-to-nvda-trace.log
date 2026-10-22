@@ -1,0 +1,11 @@
+﻿2026-10-22T19:03:02.0536692+08:00 pid=11884 start
+2026-10-22T19:03:02.4852881+08:00 pid=11884 before ensure
+2026-10-22T19:03:02.5396851+08:00 pid=11884 after ensure: True
+2026-10-22T19:03:02.5486491+08:00 pid=11884 before detect
+2026-10-22T19:03:02.9612885+08:00 pid=11884 after detect: OneCore
+2026-10-22T19:03:02.9832319+08:00 pid=11884 waiting for NVDA recovery
+2026-10-22T19:03:03.2711905+08:00 pid=11884 before recovery ensure
+2026-10-22T19:03:03.3123571+08:00 pid=11884 after recovery ensure: True
+2026-10-22T19:03:03.3173770+08:00 pid=11884 NVDA recovered and same selection kept its backend
+2026-10-22T19:03:03.3233256+08:00 pid=11884 before shutdown
+2026-10-22T19:03:03.3263175+08:00 pid=11884 after shutdown

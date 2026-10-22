@@ -1,0 +1,13 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+结果文件: D:\mycodex\git\artifacts\runs\speech_selection_20261022\resume-full.trx
+
+已通过! - 失败:     0，通过:   389，已跳过:     0，总计:   389，持续时间: 22 s - ShaheLauncher.Tests.dll (net48)

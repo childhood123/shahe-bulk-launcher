@@ -1,0 +1,34 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts ("nvda","nvdaControllerClient64.dll") [255 ms]
+  错误消息:
+   CollectionAssert.AreEqual 失败。(索引 0 处的元素不匹配。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.<>c__DisplayClass4_0.<NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts>b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 168
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 243
+
+  失败 NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts ("zdsr","ZDSRAPI_x64.dll") [10 ms]
+  错误消息:
+   CollectionAssert.AreEqual 失败。(索引 0 处的元素不匹配。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.<>c__DisplayClass4_0.<NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts>b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 168
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 243
+
+  失败 NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts ("boy","byctrl-x64.dll") [9 ms]
+  错误消息:
+   CollectionAssert.AreEqual 失败。(索引 0 处的元素不匹配。)
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.<>c__DisplayClass4_0.<NoReadersFallsBackToWindowsAndReturnsWhenSelectedReaderStarts>b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 168
+   在 ShaheLauncher.Tests.SpeechSelectionRuntimeContractTests.WithLibraries(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\SpeechSelectionRuntimeContractTests.cs:行号 243
+
+结果文件: D:\mycodex\git\artifacts\runs\speech_selection_20261022\fallback-red.trx
+
+失败!  - 失败:     3，通过:     0，已跳过:     0，总计:     3，持续时间: 735 ms - ShaheLauncher.Tests.dll (net48)

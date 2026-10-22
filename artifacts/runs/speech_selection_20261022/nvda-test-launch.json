@@ -1,0 +1,26 @@
+{
+  "existingPids": [
+    null
+  ],
+  "ownedPids": [
+    16664
+  ],
+  "configuration": "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\nvda-test-profile",
+  "command": [
+    "C:\\Program Files\\NVDA\\nvda.exe",
+    "--minimal",
+    "--disable-addons",
+    "--config-path",
+    "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\nvda-test-profile",
+    "--log-file",
+    "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\nvda-test.log"
+  ],
+  "status": "started",
+  "processes": [
+    {
+      "ProcessId": 16664,
+      "ExecutablePath": "C:\\Program Files\\NVDA\\nvda.exe",
+      "CommandLine": "\"C:\\Program Files\\NVDA\\nvda.exe\" --minimal --disable-addons --config-path D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\nvda-test-profile --log-file D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\nvda-test.log"
+    }
+  ]
+}

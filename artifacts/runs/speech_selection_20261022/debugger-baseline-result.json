@@ -1,0 +1,13 @@
+{
+  "command": [
+    "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+    "-NoProfile",
+    "-Command",
+    "exit 0"
+  ],
+  "pid": 1464,
+  "fatalExceptions": [],
+  "accessViolations": [],
+  "status": "passed",
+  "exitCode": 0
+}

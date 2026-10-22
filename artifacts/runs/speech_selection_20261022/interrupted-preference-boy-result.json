@@ -1,0 +1,10 @@
+{
+  "scenario": "preference-native-boy-fallback",
+  "toolReturnCode": 1,
+  "status": "inconclusive",
+  "pid": null,
+  "resultFileCreated": false,
+  "lastObservedOutput": "InitTTS rt = 0",
+  "applicationCrashEventFound": false,
+  "note": "Command ended without a structured report around the interrupted turn; no completed native result. Do not classify as product failure or success."
+}

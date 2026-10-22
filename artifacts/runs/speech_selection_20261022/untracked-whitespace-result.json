@@ -1,0 +1,22 @@
+{
+  "command": "Read each listed file and check line endings for trailing spaces/tabs",
+  "returnCode": 0,
+  "files": [
+    {
+      "path": "csharp/ShaheLauncher.Tests/SpeechSelectionRuntimeContractTests.cs",
+      "trailingWhitespace": []
+    },
+    {
+      "path": "artifacts/runs/speech_selection_20261022/native-selection-probe.ps1",
+      "trailingWhitespace": []
+    },
+    {
+      "path": "artifacts/runs/speech_selection_20261022/run-verification.ps1",
+      "trailingWhitespace": []
+    },
+    {
+      "path": "artifacts/runs/speech_selection_20261022/debug-native-child.py",
+      "trailingWhitespace": []
+    }
+  ]
+}

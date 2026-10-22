@@ -1,0 +1,16 @@
+﻿{
+    "scenario":  "boy",
+    "pid":  10652,
+    "is64Bit":  true,
+    "outputDirectory":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48",
+    "selectedLibrary":  "D:\\mycodex\\git\\artifacts\\runs\\speech_selection_20261022\\bin\\x64\\Release\\net48\\lib\\byctrl-x64.dll",
+    "loaded":  false,
+    "detected":  "",
+    "outputInvoked":  false,
+    "runtimeCleared":  true,
+    "status":  "unavailable",
+    "returnCode":  3,
+    "errors":  [
+
+               ]
+}

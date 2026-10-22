@@ -1,0 +1,10 @@
+{
+  "workingCommand": "git diff --check",
+  "workingReturnCode": 2,
+  "stagedCommand": "git diff --cached --check",
+  "stagedReturnCode": 0,
+  "passed": null,
+  "failed": null,
+  "skipped": null,
+  "stagedFiles": []
+}

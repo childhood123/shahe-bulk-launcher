@@ -1,0 +1,19 @@
+{
+  "moduleCommand": "git diff --check -- PROJECT_STRUCTURE.md docs/superpowers/plans/2026-10-20-remaining-migration-closure.md csharp/ShaheLauncher.Core/Speech/SpeechService.cs",
+  "moduleReturnCode": 0,
+  "wholeCommand": "git diff --check",
+  "wholeReturnCode": 2,
+  "scriptParse": [
+    {
+      "script": "native-selection-probe.ps1",
+      "errors": [],
+      "passed": true
+    },
+    {
+      "script": "run-verification.ps1",
+      "errors": [],
+      "passed": true
+    }
+  ],
+  "stagedFiles": []
+}
