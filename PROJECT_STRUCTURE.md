@@ -1,9 +1,9 @@
 # 沙河批量打开器项目结构
 
-## 当前执行摘要（2026-10-22 AUDIT-03 验证完成，提交后暂停）
+## 当前执行摘要（2026-10-22 AUDIT-03 已完成并推送，后续暂停）
 
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-09 已按用户“反正能记忆到999条记录就行之前是20”的明确要求更新为 C# `0–999`；除该用户指定差异外，后续功能继续保留 Python 原文案和行为，只用 C# 实现。
-- 当前模块：AUDIT-03 收口。删除分组真实 EXE、剩余 Sandboxie 生命周期、完整代码门禁和最终清理均已验证；当前只完成证据审查、独立提交和推送。按用户“下一步先完成之后然后先别推进了”的要求，本项交付后暂停，AUDIT-04 不启动。整体迁移未完成。
+- 当前状态：AUDIT-03 已完成验收、证据审查、独立提交和远端推送，交付记录见本文件末尾。按用户“下一步先完成之后然后先别推进了”的要求，后续工作已暂停；下一项为 AUDIT-04，尚未启动。整体迁移未完成。
 - 用户追加任务 DONATE-01：已按最新明确要求，将原始支付宝/微信图片放入根目录 `打赏/`，C# 菜单优先从该目录读取，构建/发布自动带上图片；复用原有“复制二维码”按钮复制原图位图。此追加任务已实现并验证，后续审计仍遵守既定顺序。
 - 用户追加设置/菜单核对：SETTINGS-01 已修复普通软件设置保存时自启动写入旧值；MENU-01 已按 Python 恢复三条分隔线，并将设置菜单恢复为“热键设置、朗读设置、软件设置”。路径列表原有操作和用户指定 999 上限保留。读屏 API 下拉框原先仅保存/回显的问题已独立修复，按用户单读屏要求完成 NVDA 实测及完整代码门禁；双读屏/真实启动恢复未验收和首次探针异常未定位仍保留，不据此声明所有读屏场景均通过。
 - 用户指定 HISTORY-UI-01：数量窗口已移除“已记忆的路径列表”和“隐藏路径”复选框，只保留数量及确定/取消；原“调整记忆数”入口复用同一窗口。既有历史数据不因移除控件被清空，范围仍为 0–999。主窗口原有路径上下文功能保留，重复入口核查记录见本轮报告。
@@ -11,12 +11,12 @@
 - 发布包状态：版本 `4.0.46`，ZIP 大小 `2785203` 字节，SHA-256 `D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8`；匿名下载后的实际大小和哈希完全一致。最终证据为 `artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-final.json`。
 - 前次 HISTORY-UI-01 自动化门禁（不代表当前 VOICE-03）：HISTORY-UI-01 有效 RED 通过 2/失败 1（列表仍存在），精简后定向 9/9、受影响 91/91、C# 全量 370/370、Python 29/29，compileall 与隔离 Release x64 返回码 0，构建 0 警告/0 错误。生产窗体保存/取消验证历史与其他偏好未被误改，数量入口真实模态验证保持上限 999。此为用户明确指定的界面差异；其他 Python 文案、菜单和业务执行仍继续对照，整体迁移未完成。
 - 版本触发边界：应用 `AppVersion` 与公开清单 `latest_version` 当前同为 `4.0.46`。本次发布建立了可用更新基线，但已运行同版本客户端不会收到“有新版本”提示；后续真实升级发布必须使用更高版本号并重新生成包、清单和校验值。
-- 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、AUDIT-02、UPDATE-01 及此前已确认范围。VOICE-03 已按用户单读屏范围完成，AUDIT-03 验证已完成并进入提交收口；待迁移/审计模块为 AUDIT-04 至 AUDIT-08 和 RELEASE-01，按用户要求暂不推进。整体迁移仍未完成。
+- 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、AUDIT-02、UPDATE-01 及此前已确认范围。VOICE-03 已按用户单读屏范围完成，AUDIT-03 已完成并推送；待迁移/审计模块为 AUDIT-04 至 AUDIT-08 和 RELEASE-01，按用户要求暂不推进。整体迁移仍未完成。
 - 真实 updater 证据：GitCode 匿名 ZIP 在隔离生产 helper 布局下以 `restart=true` 完成下载、替换和进程重启；updater PID `11448` 返回 `0`，精确隔离路径主进程 PID `5364` 被观测并清理，安装文件哈希、用户配置和 `lib 7/7` 均通过。该场景主窗口句柄为 `0`，只证明进程重启，不替代后续发布目录 UI 启动审计。
 - 真实 Sandboxie 清理状态：本轮新基线下最终 verify-clean 全部通过，目标/应用配置/真实 Sandboxie.ini 哈希匹配，本轮 section、目录和受控进程均无残留；最新命令、构建目录及资源细节见追加验证记录。用户已授权正常退出控制程序，服务保持 Running。
 - C# 当前可以启动并运行已验证功能；路径记忆上限按用户要求为 999。整体 Python→C# 迁移仍未完成，AUDIT-04 至 AUDIT-08 和最终发布验收仍有待办，尚不能认定全部功能均已完整验收；活动计划中 AUDIT-01/02 等历史复选框存在进度滞后，以本摘要、独立提交和最新日志证据为准。
 
-- VOICE-03 本轮进度：用户指定的单读屏验收、完整代码门禁和独立提交/推送均完成；修复分支与回退信息见最新验证记录。双读屏、真实启动恢复及保益自身发声未验收，首次原生异常未定位，均未宣称已解决。AUDIT-03 当前仅做提交收口，完成后按用户要求暂停；整体迁移未完成。
+- VOICE-03 本轮进度：用户指定的单读屏验收、完整代码门禁和独立提交/推送均完成；修复分支与回退信息见最新验证记录。双读屏、真实启动恢复及保益自身发声未验收，首次原生异常未定位，均未宣称已解决。AUDIT-03 已完成并推送，后续按用户要求暂停；整体迁移未完成。
 
 ### 本轮验证记录（只追加）
 
@@ -2661,3 +2661,7 @@ csharp/
 - AUDIT-03 差异范围复核：全工作树检查的返回码 2 仅来自用户已有 GAP-09 两份日志的行尾空白，保留原文件、不纳入暂存；本轮文档范围 `git diff --check -- PROJECT_STRUCTURE.md docs/superpowers/plans/2026-10-20-remaining-migration-closure.md` 返回码 0，计数不适用。结果：`artifacts/runs/audit03_lifecycle_fresh_20261022/closeout-scope-diff-result.json`；新增证据另由暂存差异检查覆盖。
 
 - AUDIT-03 暂存审查：暂存路径与事先展示的 `artifacts/runs/audit03_lifecycle_fresh_20261022/closeout-staging-files.txt` 完全一致，未包含用户已有改动或构建二进制；`git diff --cached --check` 返回码 0，计数不适用。结果：`artifacts/runs/audit03_lifecycle_fresh_20261022/closeout-staged-diff-result.json`。
+
+- AUDIT-03 独立交付：收口提交 `37e7147`（完整 SHA：`37e71474695a17ee83814b91cc2c43859d9f95c4`）已通过 `git push origin HEAD:refs/heads/voice03-fixed-reader-20261022` 推送到 `origin/voice03-fixed-reader-20261022`，提交和推送返回码均为 0。回退命令：`git revert 37e7147`。实际输出：`artifacts/runs/audit03_lifecycle_fresh_20261022/closeout-commit.log`、`closeout-push-result.json`。仅本模块完成，软件整体迁移未完成；按用户要求暂停在 AUDIT-04 之前。
+
+- AUDIT-03 交付状态文档检查：仅同步已成功提交/推送事实及用户暂停边界，未修改生产源码；`git diff --cached --check` 返回码 0，计数不适用，检查输出保存在 `artifacts/runs/audit03_lifecycle_fresh_20261022/closeout-push-result.json` 的 deliveryDocumentationCheck 中。
