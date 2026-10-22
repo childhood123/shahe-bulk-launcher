@@ -1,0 +1,9 @@
+{
+  "command": "dotnet test ... --no-parallel",
+  "returnCode": 1,
+  "passed": 0,
+  "failed": 0,
+  "skipped": 0,
+  "log": "artifacts\\runs\\csharp_non_update_gaps_20261020\\review01-boundaries\\full-no-parallel.log",
+  "trx": "artifacts\\runs\\csharp_non_update_gaps_20261020\\review01-boundaries\\full-no-parallel.trx"
+}

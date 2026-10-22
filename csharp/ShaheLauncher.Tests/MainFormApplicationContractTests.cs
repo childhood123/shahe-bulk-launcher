@@ -941,6 +941,10 @@ namespace ShaheLauncher.Tests
                     new Action<string, string, bool>((key, path, enabled) => { }));
                 ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
 
+                object sandboxList = GetProperty<object>(formType, form, "SandboxList");
+                SetProperty(sandboxList.GetType(), sandboxList, "SandboxDisplayNameScanner",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box2" }));
+
                 object adminCallbacks = GetProperty<object>(formType, form, "SandboxAdminCallbacks");
                 SetProperty(
                     adminCallbacks.GetType(),

@@ -1,0 +1,172 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="32920c3d-c075-4538-b633-82aecced27d7" name="Administrator@CHILDHOOD 2026-10-22 07:52:34" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-22T07:52:34.8905366+08:00" queuing="2026-10-22T07:52:34.8905369+08:00" start="2026-10-22T07:52:30.3446355+08:00" finish="2026-10-22T07:52:34.9014864+08:00" />
+  <TestSettings name="default" id="1555ccf1-79f7-417f-9d58-dad46fbb3fe7">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-22_07_52_34" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="80158376-09b0-4773-9351-1cb6940cb802" testId="0373b90f-c15c-b530-a648-53224080c8dd" testName="OrdinaryLaunchResolvesFreshNamesOnBackground (False)" computerName="CHILDHOOD" duration="00:00:00.0223399" startTime="2026-10-22T07:52:34.6375574+08:00" endTime="2026-10-22T07:52:34.6604969+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="80158376-09b0-4773-9351-1cb6940cb802">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。Normal launch must queue its name scan&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123&#xD;
+   在 ShaheLauncher.Tests.LaunchEntryPreflightRuntimeContractTests.&lt;&gt;c__DisplayClass4_0.&lt;OrdinaryLaunchResolvesFreshNamesOnBackground&gt;b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\LaunchEntryPreflightRuntimeContractTests.cs:行号 158&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="21a529b9-790e-49f5-a767-ab1624bfb043" testId="caa48d17-7ebc-785e-616d-6fd9739829c9" testName="BusyLaunchDoesNotChangeActiveState (True)" computerName="CHILDHOOD" duration="00:00:00.1543952" startTime="2026-10-22T07:52:34.3729595+08:00" endTime="2026-10-22T07:52:34.6051332+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="21a529b9-790e-49f5-a767-ab1624bfb043">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreSame 失败。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreSame[T](T expected, T actual, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreSame.cs:行号 107&#xD;
+   在 ShaheLauncher.Tests.LaunchEntryPreflightRuntimeContractTests.&lt;&gt;c__DisplayClass2_0.&lt;BusyLaunchDoesNotChangeActiveState&gt;b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\LaunchEntryPreflightRuntimeContractTests.cs:行号 111&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="23c1ee33-4642-4585-b523-8ca76991c0ab" testId="29c431f8-79d8-42e0-cd06-2ecdcca23e83" testName="MainLaunchRejectsMissingApplicationBeforeStartingSession" computerName="CHILDHOOD" duration="00:00:00.5775692" startTime="2026-10-22T07:52:33.4554047+08:00" endTime="2026-10-22T07:52:34.3161453+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="23c1ee33-4642-4585-b523-8ca76991c0ab" />
+    <UnitTestResult executionId="9c361224-33cf-45f7-9344-b88bd7899ea0" testId="37c55db3-bade-e8a5-2786-425d834abb56" testName="OrdinaryLaunchResolvesFreshNamesOnBackground (True)" computerName="CHILDHOOD" duration="00:00:00.0146503" startTime="2026-10-22T07:52:34.6604969+08:00" endTime="2026-10-22T07:52:34.6754555+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9c361224-33cf-45f7-9344-b88bd7899ea0">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。Normal launch must queue its name scan&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123&#xD;
+   在 ShaheLauncher.Tests.LaunchEntryPreflightRuntimeContractTests.&lt;&gt;c__DisplayClass4_0.&lt;OrdinaryLaunchResolvesFreshNamesOnBackground&gt;b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\LaunchEntryPreflightRuntimeContractTests.cs:行号 158&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="ec3590f4-f9c4-4ac3-b843-55650cfda4b7" testId="8516cb11-c02d-873b-93a2-b2bdf0bec3c1" testName="EmptyTargetsAreRejectedBeforeInvalidApplication" computerName="CHILDHOOD" duration="00:00:00.0155093" startTime="2026-10-22T07:52:34.6216005+08:00" endTime="2026-10-22T07:52:34.6375574+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ec3590f4-f9c4-4ac3-b843-55650cfda4b7">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: &lt;请先在沙盒用户列表中按空格选中要启动的沙盒&gt;，实际为: &lt;应用路径无效，请重新选择&gt;。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201&#xD;
+   在 ShaheLauncher.Tests.LaunchEntryPreflightRuntimeContractTests.&lt;&gt;c.&lt;EmptyTargetsAreRejectedBeforeInvalidApplication&gt;b__3_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\LaunchEntryPreflightRuntimeContractTests.cs:行号 126&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="87df8dad-2cf9-44aa-ae70-eff5c9c17c3a" testId="acc03a3d-d282-3808-c779-7ac933328990" testName="BusyLaunchDoesNotChangeActiveState (False)" computerName="CHILDHOOD" duration="00:00:00.0162716" startTime="2026-10-22T07:52:34.6051332+08:00" endTime="2026-10-22T07:52:34.6216005+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="87df8dad-2cf9-44aa-ae70-eff5c9c17c3a">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: &lt;当前正在启动中，请稍候&gt;，实际为: &lt;应用路径无效，请重新选择&gt;。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201&#xD;
+   在 ShaheLauncher.Tests.LaunchEntryPreflightRuntimeContractTests.&lt;&gt;c__DisplayClass2_0.&lt;BusyLaunchDoesNotChangeActiveState&gt;b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\LaunchEntryPreflightRuntimeContractTests.cs:行号 114&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="02b8c21e-deb8-49d1-9432-22e53f70c2be" testId="9e9874d6-af4c-2887-eb57-542d7a8af2dc" testName="MainLaunchRejectsSandboxOutsideCurrentDisplayMap" computerName="CHILDHOOD" duration="00:00:00.0454513" startTime="2026-10-22T07:52:34.3270826+08:00" endTime="2026-10-22T07:52:34.3729595+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="02b8c21e-deb8-49d1-9432-22e53f70c2be" />
+    <UnitTestResult executionId="c6d98677-963e-48c0-8dd1-6e42eef49521" testId="41973790-ab5f-963a-8a9c-6ae0d6eeb427" testName="ScheduledLaunchKeepsCapturedTargetsWithoutAvailabilityFiltering" computerName="CHILDHOOD" duration="00:00:00.0159883" startTime="2026-10-22T07:52:34.6754555+08:00" endTime="2026-10-22T07:52:34.6954345+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c6d98677-963e-48c0-8dd1-6e42eef49521">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsTrue 失败。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(Boolean condition, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsTrue.cs:行号 99&#xD;
+   在 ShaheLauncher.Tests.LaunchEntryPreflightRuntimeContractTests.&lt;&gt;c.&lt;ScheduledLaunchKeepsCapturedTargetsWithoutAvailabilityFiltering&gt;b__5_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\LaunchEntryPreflightRuntimeContractTests.cs:行号 195&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="MainLaunchRejectsSandboxOutsideCurrentDisplayMap" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries\bin\x64\release\net48\shahelauncher.tests.dll" id="9e9874d6-af4c-2887-eb57-542d7a8af2dc">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Scheduling" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="02b8c21e-deb8-49d1-9432-22e53f70c2be" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LaunchEntryPreflightRuntimeContractTests" name="MainLaunchRejectsSandboxOutsideCurrentDisplayMap" />
+    </UnitTest>
+    <UnitTest name="BusyLaunchDoesNotChangeActiveState (True)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries\bin\x64\release\net48\shahelauncher.tests.dll" id="caa48d17-7ebc-785e-616d-6fd9739829c9">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Scheduling" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="21a529b9-790e-49f5-a767-ab1624bfb043" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LaunchEntryPreflightRuntimeContractTests" name="BusyLaunchDoesNotChangeActiveState" />
+    </UnitTest>
+    <UnitTest name="EmptyTargetsAreRejectedBeforeInvalidApplication" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries\bin\x64\release\net48\shahelauncher.tests.dll" id="8516cb11-c02d-873b-93a2-b2bdf0bec3c1">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Scheduling" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="ec3590f4-f9c4-4ac3-b843-55650cfda4b7" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LaunchEntryPreflightRuntimeContractTests" name="EmptyTargetsAreRejectedBeforeInvalidApplication" />
+    </UnitTest>
+    <UnitTest name="MainLaunchRejectsMissingApplicationBeforeStartingSession" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries\bin\x64\release\net48\shahelauncher.tests.dll" id="29c431f8-79d8-42e0-cd06-2ecdcca23e83">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Scheduling" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="23c1ee33-4642-4585-b523-8ca76991c0ab" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LaunchEntryPreflightRuntimeContractTests" name="MainLaunchRejectsMissingApplicationBeforeStartingSession" />
+    </UnitTest>
+    <UnitTest name="OrdinaryLaunchResolvesFreshNamesOnBackground (True)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries\bin\x64\release\net48\shahelauncher.tests.dll" id="37c55db3-bade-e8a5-2786-425d834abb56">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Scheduling" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="9c361224-33cf-45f7-9344-b88bd7899ea0" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LaunchEntryPreflightRuntimeContractTests" name="OrdinaryLaunchResolvesFreshNamesOnBackground" />
+    </UnitTest>
+    <UnitTest name="BusyLaunchDoesNotChangeActiveState (False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries\bin\x64\release\net48\shahelauncher.tests.dll" id="acc03a3d-d282-3808-c779-7ac933328990">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Scheduling" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="87df8dad-2cf9-44aa-ae70-eff5c9c17c3a" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LaunchEntryPreflightRuntimeContractTests" name="BusyLaunchDoesNotChangeActiveState" />
+    </UnitTest>
+    <UnitTest name="OrdinaryLaunchResolvesFreshNamesOnBackground (False)" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries\bin\x64\release\net48\shahelauncher.tests.dll" id="0373b90f-c15c-b530-a648-53224080c8dd">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Scheduling" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="80158376-09b0-4773-9351-1cb6940cb802" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LaunchEntryPreflightRuntimeContractTests" name="OrdinaryLaunchResolvesFreshNamesOnBackground" />
+    </UnitTest>
+    <UnitTest name="ScheduledLaunchKeepsCapturedTargetsWithoutAvailabilityFiltering" storage="d:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries\bin\x64\release\net48\shahelauncher.tests.dll" id="41973790-ab5f-963a-8a9c-6ae0d6eeb427">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Scheduling" />
+        <TestCategoryItem TestCategory="Application" />
+      </TestCategory>
+      <Execution id="c6d98677-963e-48c0-8dd1-6e42eef49521" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.LaunchEntryPreflightRuntimeContractTests" name="ScheduledLaunchKeepsCapturedTargetsWithoutAvailabilityFiltering" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="0373b90f-c15c-b530-a648-53224080c8dd" executionId="80158376-09b0-4773-9351-1cb6940cb802" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="caa48d17-7ebc-785e-616d-6fd9739829c9" executionId="21a529b9-790e-49f5-a767-ab1624bfb043" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="29c431f8-79d8-42e0-cd06-2ecdcca23e83" executionId="23c1ee33-4642-4585-b523-8ca76991c0ab" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="37c55db3-bade-e8a5-2786-425d834abb56" executionId="9c361224-33cf-45f7-9344-b88bd7899ea0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8516cb11-c02d-873b-93a2-b2bdf0bec3c1" executionId="ec3590f4-f9c4-4ac3-b843-55650cfda4b7" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="acc03a3d-d282-3808-c779-7ac933328990" executionId="87df8dad-2cf9-44aa-ae70-eff5c9c17c3a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="9e9874d6-af4c-2887-eb57-542d7a8af2dc" executionId="02b8c21e-deb8-49d1-9432-22e53f70c2be" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="41973790-ab5f-963a-8a9c-6ae0d6eeb427" executionId="c6d98677-963e-48c0-8dd1-6e42eef49521" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="8" executed="8" passed="2" failed="6" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

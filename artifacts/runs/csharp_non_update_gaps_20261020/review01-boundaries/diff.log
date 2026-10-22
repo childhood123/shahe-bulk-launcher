@@ -1,0 +1,4 @@
+warning: in the working copy of 'PROJECT_STRUCTURE.md', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.App/MainForm.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.Tests/LaunchEntryPreflightRuntimeContractTests.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.Tests/MainFormApplicationContractTests.cs', LF will be replaced by CRLF the next time Git touches it

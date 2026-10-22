@@ -2534,12 +2534,7 @@ namespace ShaheLauncher.App
                 return;
             }
 
-            IList<string> validSandboxes = LaunchScheduler.ResolveLaunchEntries(
-                sandboxes,
-                SandboxAdminCallbacks?.GetExistingSandboxDisplayNames?.Invoke(),
-                SandboxAdminCallbacks?.GetExistingSandboxNames?.Invoke(),
-                SandboxAdminCallbacks?.NormalizeSandboxName,
-                SandboxAdminCallbacks?.GetSandboxDisplayName);
+            IList<string> validSandboxes = ResolveLaunchEntries(sandboxes);
             if (validSandboxes.Count == 0)
             {
                 SafeSetStatusLabel("分组内没有可用沙盒: " + groupName);
@@ -3901,10 +3896,46 @@ namespace ShaheLauncher.App
 
         private void LaunchSelectedSandboxes()
         {
+            if (LaunchState.IsLaunching)
+            {
+                SafeSetStatusLabel("当前正在启动中，请稍候");
+                return;
+            }
             SuppressListRefreshStatus(2.0);
             SuppressSelectionStatus(2.0);
             string[] sandboxes = SandboxList?.GetCheckedEntryTexts() ?? new string[0];
-            StartLaunch(sandboxes, GetCheckedAppTargets());
+            IList<LaunchAppTarget> apps = GetCheckedAppTargets().ToList();
+            if (apps.Count == 0)
+            {
+                SafeSetStatusLabel("请先在应用列表中按空格选中要打开的应用");
+                return;
+            }
+            SafeSetStatusLabel("正在准备启动沙盒...");
+            LaunchCallbacks.Log?.Invoke("启动按钮触发: 勾选沙盒=" + sandboxes.Length + ", 勾选应用=" + apps.Count);
+            LaunchCallbacks.RunBackground(() =>
+            {
+                IList<string> selected = ResolveLaunchEntries(sandboxes);
+                LaunchCallbacks.Log?.Invoke("启动目标解析完成: 可启动沙盒=" + selected.Count);
+                LaunchCallbacks.PostToUi(() =>
+                {
+                    if (IsWindowClosing()) return;
+                    bool wasLaunching = LaunchState.IsLaunching;
+                    StartLaunch(selected, apps);
+                    if (!wasLaunching && LaunchState.IsLaunching && apps.Count == 1)
+                    {
+                        SafeSetStatusLabel("准备启动 " + selected.Count + " 个沙盒");
+                    }
+                });
+            });
+        }
+
+        private IList<string> ResolveLaunchEntries(IEnumerable<string> entries)
+        {
+            IEnumerable<string> displays = SandboxList != null
+                ? SandboxList.ScanSandboxes() : RefreshSandboxDisplayMaps();
+            SandboxieDisplayMaps maps = GetSandboxDisplayMaps();
+            return LaunchScheduler.ResolveLaunchEntries(entries, displays, maps.NameToDisplay.Keys,
+                SandboxAdminCallbacks.NormalizeSandboxName, SandboxAdminCallbacks.GetSandboxDisplayName);
         }
 
         public void ShowUpdateNotice(UpdateDisplayResult result)
@@ -4061,7 +4092,18 @@ namespace ShaheLauncher.App
             IEnumerable<string> sandboxes,
             IEnumerable<LaunchAppTarget> applications)
         {
-            IList<string> targets = (sandboxes ?? Enumerable.Empty<string>()).ToList();
+            if (LaunchState.IsLaunching)
+            {
+                SafeSetStatusLabel("当前正在启动中，请稍候");
+                return;
+            }
+            IList<string> targets = (sandboxes ?? Enumerable.Empty<string>())
+                .Select(name => (name ?? string.Empty).Trim()).Where(name => name.Length != 0).ToList();
+            if (targets.Count == 0)
+            {
+                SafeSetStatusLabel("请先在沙盒用户列表中按空格选中要启动的沙盒");
+                return;
+            }
             IList<LaunchAppTarget> apps = (applications ?? Enumerable.Empty<LaunchAppTarget>()).ToList();
             if (!LaunchScheduler.PrepareLaunchTargetFromAppTargets(
                 LaunchState,
@@ -4071,23 +4113,6 @@ namespace ShaheLauncher.App
                 LaunchCallbacks))
             {
                 return;
-            }
-            IList<string> knownSandboxNames = GetKnownSandboxNames().ToList();
-            IList<string> officialSandboxNames = GetOfficialSandboxNames().ToList();
-            if (knownSandboxNames.Count != 0 || officialSandboxNames.Count != 0)
-            {
-                IList<string> resolvedTargets = LaunchScheduler.ResolveLaunchEntries(
-                    targets,
-                    knownSandboxNames,
-                    officialSandboxNames,
-                    name => SandboxieClient.NormalizeSandboxName(name, GetSandboxDisplayMaps()),
-                    name => SandboxieClient.GetDisplayName(name, GetSandboxDisplayMaps()));
-                if (resolvedTargets.Count == 0)
-                {
-                    SafeSetStatusLabel("请先在沙盒用户列表中按空格选中要启动的沙盒");
-                    return;
-                }
-                targets = resolvedTargets;
             }
             if (!LaunchScheduler.BeginLaunch(LaunchState, targets, apps, LaunchCallbacks))
             {

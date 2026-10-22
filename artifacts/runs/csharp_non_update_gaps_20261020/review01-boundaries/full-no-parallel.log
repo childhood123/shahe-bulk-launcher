@@ -1,0 +1,6 @@
+MSBUILD : error MSB1001: 未知开关。
+    完整命令行:“C:\Program Files\dotnet\sdk\8.0.408\MSBuild.dll -maxcpucount -verbosity:m -nologo -target:VSTest -nodereuse:false -nologo -property:VSTestLogger="trx%3bLogFileName=full-no-parallel.trx" -property:VSTestResultsDirectory="D:\mycodex\git\artifacts\runs\csharp_non_update_gaps_20261020\review01-boundaries" -property:Configuration=Release csharp\ShaheBulkLauncher.sln --property:Platform=x64 --property:BaseOutputPath=artifacts/runs/csharp_non_update_gaps_20261020/review01-boundaries\bin\ --no-parallel -property:VSTestArtifactsProcessingMode=collect -property:VSTestSessionCorrelationId=15764_7ff3ae85-6ed9-4c2c-a784-22ec8de7ee06 -distributedlogger:Microsoft.DotNet.Tools.MSBuild.MSBuildLogger,C:\Program Files\dotnet\sdk\8.0.408\dotnet.dll*Microsoft.DotNet.Tools.MSBuild.MSBuildForwardingLogger,C:\Program Files\dotnet\sdk\8.0.408\dotnet.dll”
+  响应文件追加的开关:
+开关:--no-parallel
+
+若要显示开关的语法，请键入“MSBuild -help”
