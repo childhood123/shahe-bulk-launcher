@@ -1,8 +1,8 @@
 # 沙河批量打开器项目结构
 
-## 当前执行摘要（2026-10-23 4.0.47 发布与配置追加任务完成，AUDIT-04 待续）
+## 当前执行摘要（2026-10-23 FIX-CONFIG-01 完成，AUDIT-04 待续）
 
-- 用户最新范围与 FIX-CONFIG-01：后续不修改 Python。本轮“配置读取失败时保护原文件”已完成最小修复及门禁，正在选择性独立交付；损坏或暂时无法读取的配置不再被空文档覆盖，公共读取默认值与写入失败返回保持。保存失败误报成功、还原数据回退/服务恢复及发布入口仍待后续修复，边界见 `artifacts/runs/configuration_failure_safety_20261023/source-review.md`。唯一活动计划和 AUDIT-04 未完成状态不变，已通过的无关桌面项目不重跑。
+- 用户最新范围与 FIX-CONFIG-01：后续不修改 Python。本轮“配置读取失败时保护原文件”已完成最小修复、全部门禁、独立提交与推送；损坏或暂时无法读取的配置不再被空文档覆盖，公共读取默认值与写入失败返回保持。保存失败误报成功、还原数据回退/服务恢复及发布入口仍待后续修复，边界见 `artifacts/runs/configuration_failure_safety_20261023/source-review.md`。用户要求先完成本项，现停止推进；唯一活动计划和 AUDIT-04 未完成状态不变，公开包未更新。
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-09 已按用户“反正能记忆到999条记录就行之前是20”的明确要求更新为 C# `0–999`；除该用户指定差异外，后续功能继续保留 Python 原文案和行为，只用 C# 实现。
 - 当前状态：AUDIT-03 已完成并推送，用户已恢复 AUDIT-04。追加功能 HOTKEY-ENTER-01 已完成验证、独立提交并推送：快捷键功能列表全部行可通过 Enter 执行，交付记录见本文件末尾。AUDIT-04 其他真实键盘、菜单、托盘及单读屏待办保留，既有未提交审计记录留在工作树；本提交不将它们勾选为完成，不进入 AUDIT-05，整体迁移未完成。
 - 当前追加任务 UPDATE-DLL-01 / CONFIG-LOC-01：4.0.47 已公开发布并通过真实旧版升级验证；Configurations 为唯一用户配置目录，公开包只带空目录，旧配置完整迁入，新增 DLL 与打赏图片落盘和窗口读取通过。源码已独立提交并推送；AUDIT-04 原待办保留，不进入后续模块。
@@ -2931,3 +2931,5 @@ csharp/
 - FIX-CONFIG-01 直接审查与限定差异检查：返回码 0，新增文本无空白/编码错误，Python 源码无修改；结果 artifacts/runs/configuration_failure_safety_20261023/diff-result.json、diff.log，审查 source-review.md。仅剩选择性提交、推送与交付回填，不重复既有通过验证。
 
 - FIX-CONFIG-01 暂存检查：git diff --cached --check 返回码 0，实际清单与 staging-files.txt 一致；共享文档使用基于 HEAD 的仅本模块索引版本，既有 AUDIT-04/REVIEW-07 历史与用户其他改动保留在工作树，不纳入提交。结果已补入本轮 diff-result.json。
+
+- FIX-CONFIG-01 源码提交/推送：独立提交 `9fa28f2b23dc89ed379279fbefa4cc14fa8d2f1c`，推送目标 `origin/voice03-fixed-reader-20261022`，返回码 0；回退 `git revert 9fa28f2b23dc89ed379279fbefa4cc14fa8d2f1c`。结果 artifacts/runs/configuration_failure_safety_20261023/delivery-result.json，原始输出 source-push.log。公开版本/包未更新，其他缺陷和整体审计待办保留。

@@ -1,0 +1,16 @@
+{
+  "sourceCommit": "9fa28f2b23dc89ed379279fbefa4cc14fa8d2f1c",
+  "sourceRemoteBranch": "origin/voice03-fixed-reader-20261022",
+  "pushCommand": [
+    "git",
+    "-c",
+    "http.proxy=socks5h://127.0.0.1:10808",
+    "push",
+    "origin",
+    "HEAD:voice03-fixed-reader-20261022"
+  ],
+  "pushReturnCode": 0,
+  "revert": "git revert 9fa28f2b23dc89ed379279fbefa4cc14fa8d2f1c",
+  "publicPackageUpdated": false,
+  "scope": "FIX-CONFIG-01 only; preserve unreadable existing configurations; other REVIEW-07 findings remain open"
+}
