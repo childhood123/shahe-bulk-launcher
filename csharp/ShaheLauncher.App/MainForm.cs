@@ -3562,6 +3562,7 @@ namespace ShaheLauncher.App
 
         private bool ShowHotkeySettingsDialog()
         {
+            string requestedAction;
             using (var dialog = new HotkeySettingsDialog(
                 this,
                 HotkeyController.ActionSpecs.Select(ToDictionary),
@@ -3572,23 +3573,29 @@ namespace ShaheLauncher.App
                 _hotkeysEnabled,
                 HotkeyController.GetReservedHotkeySpecs().Select(ToDictionary)))
             {
-                if (dialog.ShowDialog(this) != DialogResult.OK)
+                if (dialog.ShowDialog(this) == DialogResult.OK)
                 {
-                    return false;
+                    _hotkeys = HotkeyController.NormalizeHotkeyMap(dialog.ResultHotkeys);
+                    _hotkeysEnabled = dialog.ResultHotkeysEnabled;
+                    _settingsState.Hotkeys = _hotkeys;
+                    _settingsState.HotkeysEnabled = _hotkeysEnabled;
+                    Settings["hotkeys"] = new Dictionary<string, string>(_hotkeys);
+                    Settings["hotkeys_enabled"] = _hotkeysEnabled;
+                    ApplyHotkeys();
+                    CreateMenuBar();
+                    SaveSettings();
+                    SafeSetStatusLabel("快捷键设置已保存");
+                    return true;
                 }
-
-                _hotkeys = HotkeyController.NormalizeHotkeyMap(dialog.ResultHotkeys);
-                _hotkeysEnabled = dialog.ResultHotkeysEnabled;
-                _settingsState.Hotkeys = _hotkeys;
-                _settingsState.HotkeysEnabled = _hotkeysEnabled;
-                Settings["hotkeys"] = new Dictionary<string, string>(_hotkeys);
-                Settings["hotkeys_enabled"] = _hotkeysEnabled;
-                ApplyHotkeys();
-                CreateMenuBar();
-                SaveSettings();
-                SafeSetStatusLabel("快捷键设置已保存");
-                return true;
+                requestedAction = dialog.RequestedAction;
             }
+
+            if (requestedAction.Length == 0)
+            {
+                return false;
+            }
+            SafeCallAfter(() => DispatchApplicationAction(requestedAction));
+            return true;
         }
 
         private bool ShowSettingsDialog()

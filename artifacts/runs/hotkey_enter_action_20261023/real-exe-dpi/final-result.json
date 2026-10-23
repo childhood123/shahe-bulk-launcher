@@ -1,0 +1,1 @@
+{"error":"System.InvalidOperationException: Action list occluded\r\n   在 HotkeyEnterRealProbe.Main(String[] args)","passed":0,"exited":true,"exitCode":0,"forcedCleanup":false,"pid":5384,"executable":"D:\\mycodex\\git\\artifacts\\runs\\hotkey_enter_action_20261023\\app\\沙河批量打开器.exe","returnCode":3,"failed":0,"inconclusive":1}

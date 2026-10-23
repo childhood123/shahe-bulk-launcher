@@ -75,6 +75,7 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
         public IDictionary<string, string> ResultHotkeys { get; private set; }
         public bool ResultHotkeysEnabled { get; private set; }
         public string CurrentAction { get; private set; }
+        public string RequestedAction { get; private set; } = string.Empty;
 
         public void SelectAction(int index)
         {
@@ -262,6 +263,23 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             Keys keyCode = keyData & Keys.KeyCode;
+            if (keyCode == Keys.Enter && ActiveControl == HotkeyTextBox)
+            {
+                CaptureHotkey(keyCode, keyData & Keys.Modifiers);
+                return true;
+            }
+
+            if (keyData == Keys.Enter && ActiveControl == ActionList)
+            {
+                if (!string.IsNullOrEmpty(CurrentAction) && RequestedAction.Length == 0)
+                {
+                    RequestedAction = CurrentAction;
+                    DialogResult = DialogResult.Cancel;
+                    Close();
+                }
+                return true;
+            }
+
             if (keyCode == Keys.Escape)
             {
                 if (ActiveControl == HotkeyTextBox)

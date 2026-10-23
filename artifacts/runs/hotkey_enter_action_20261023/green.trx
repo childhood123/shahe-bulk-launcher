@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="e3753eb0-a1bb-4ed4-8814-642048d689f5" name="Administrator@CHILDHOOD 2026-10-23 11:49:59" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-23T11:49:59.0855186+08:00" queuing="2026-10-23T11:49:59.0855190+08:00" start="2026-10-23T11:49:51.1286533+08:00" finish="2026-10-23T11:49:59.4556078+08:00" />
+  <TestSettings name="default" id="f9fcb814-0022-47d0-a36d-d10eb9fcf610">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-23_11_49_59" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="2bb6689c-6716-438b-8dd5-becb8e0fb415" testId="1557edc0-b6ba-e468-b826-2ab8d2584473" testName="SelectionModifiedEnterAndCancelDoNotRequestExecution" computerName="CHILDHOOD" duration="00:00:00.0648474" startTime="2026-10-23T11:49:59.1583880+08:00" endTime="2026-10-23T11:49:59.2232155+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2bb6689c-6716-438b-8dd5-becb8e0fb415" />
+    <UnitTestResult executionId="9645f698-a66b-49eb-a7bd-b65cadcd4109" testId="5aa28022-1534-374f-13f5-326e7c75756c" testName="EveryActionRowDispatchesOnceAfterDialogDisposalWithoutSavingEdits" computerName="CHILDHOOD" duration="00:00:04.2154548" startTime="2026-10-23T11:49:54.5043948+08:00" endTime="2026-10-23T11:49:59.0381965+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9645f698-a66b-49eb-a7bd-b65cadcd4109">
+      <Output>
+        <StdOut>All production action rows covered: 47</StdOut>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0bd2f103-29ec-49ef-95de-221506329447" testId="da55e641-93f4-09a8-bd38-4ef3f5a845aa" testName="EnterInHotkeyEditorCapturesBindingWithoutExecutingOrConfirming" computerName="CHILDHOOD" duration="00:00:00.0944184" startTime="2026-10-23T11:49:59.0630974+08:00" endTime="2026-10-23T11:49:59.1573942+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0bd2f103-29ec-49ef-95de-221506329447" />
+    <UnitTestResult executionId="fbda6cb4-724f-4b57-afe2-4e4e1d25ed9e" testId="7651b4d0-b902-60c0-fda2-c3a91f7eb012" testName="EmptyActionSelectionDoesNotConfirmOrExecute" computerName="CHILDHOOD" duration="00:00:00.0494926" startTime="2026-10-23T11:49:59.2232155+08:00" endTime="2026-10-23T11:49:59.2792253+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="fbda6cb4-724f-4b57-afe2-4e4e1d25ed9e" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="EmptyActionSelectionDoesNotConfirmOrExecute" storage="d:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="7651b4d0-b902-60c0-fda2-c3a91f7eb012">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="fbda6cb4-724f-4b57-afe2-4e4e1d25ed9e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.HotkeyActionExecutionContractTests" name="EmptyActionSelectionDoesNotConfirmOrExecute" />
+    </UnitTest>
+    <UnitTest name="EnterInHotkeyEditorCapturesBindingWithoutExecutingOrConfirming" storage="d:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="da55e641-93f4-09a8-bd38-4ef3f5a845aa">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="0bd2f103-29ec-49ef-95de-221506329447" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.HotkeyActionExecutionContractTests" name="EnterInHotkeyEditorCapturesBindingWithoutExecutingOrConfirming" />
+    </UnitTest>
+    <UnitTest name="SelectionModifiedEnterAndCancelDoNotRequestExecution" storage="d:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="1557edc0-b6ba-e468-b826-2ab8d2584473">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="2bb6689c-6716-438b-8dd5-becb8e0fb415" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.HotkeyActionExecutionContractTests" name="SelectionModifiedEnterAndCancelDoNotRequestExecution" />
+    </UnitTest>
+    <UnitTest name="EveryActionRowDispatchesOnceAfterDialogDisposalWithoutSavingEdits" storage="d:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="5aa28022-1534-374f-13f5-326e7c75756c">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="9645f698-a66b-49eb-a7bd-b65cadcd4109" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.HotkeyActionExecutionContractTests" name="EveryActionRowDispatchesOnceAfterDialogDisposalWithoutSavingEdits" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="1557edc0-b6ba-e468-b826-2ab8d2584473" executionId="2bb6689c-6716-438b-8dd5-becb8e0fb415" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5aa28022-1534-374f-13f5-326e7c75756c" executionId="9645f698-a66b-49eb-a7bd-b65cadcd4109" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="da55e641-93f4-09a8-bd38-4ef3f5a845aa" executionId="0bd2f103-29ec-49ef-95de-221506329447" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="7651b4d0-b902-60c0-fda2-c3a91f7eb012" executionId="fbda6cb4-724f-4b57-afe2-4e4e1d25ed9e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="4" executed="4" passed="4" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

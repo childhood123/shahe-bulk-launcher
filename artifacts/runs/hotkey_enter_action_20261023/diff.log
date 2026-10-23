@@ -1,0 +1,6 @@
+warning: in the working copy of 'csharp/ShaheLauncher.App/MainForm.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'csharp/ShaheLauncher.App/UI/Dialogs/Settings/HotkeySettingsDialog.cs', LF will be replaced by CRLF the next time Git touches it
+warning: in the working copy of 'docs/superpowers/plans/2026-10-20-remaining-migration-closure.md', LF will be replaced by CRLF the next time Git touches it
+
+Staged check: git diff --cached --check
+returnCode=0

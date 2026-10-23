@@ -1,0 +1,7 @@
++ #### HOTKEY-ENTER-01：功能列表回车执行（用户追加）
++ 目标：在快捷键设置的功能列表选中动作后按 Enter，关闭该窗口并执行所选动作，例如打开软件设置。
++ 边界：仅功能列表焦点下的无修饰 Enter 触发；快捷键录入框继续录入；不自动保存尚未确认的快捷键修改；复用动作原有确认提示，不新增搜索框或调整布局。
++ 文件：csharp/ShaheLauncher.App/UI/Dialogs/Settings/HotkeySettingsDialog.cs、csharp/ShaheLauncher.App/MainForm.cs、对应 HotkeyActionExecution 契约测试。
++ 步骤与验证：新增有效 RED → 最小接线 → 定向 GREEN、当前计划规定的受影响/全量门禁 → 真实 EXE 选中“软件设置”后回车打开并取消 → 更新记录、独立提交。
++ 完成标准：选择/移动焦点不执行动作；列表回车执行一次；录入框回车不执行动作；未确认配置保持；取消动作对话框后返回主界面。
++ 风险：这是用户指定的 Python 行为差异；当前 AUDIT-04 其他未验收项保持原状态，不声明整体迁移完成。

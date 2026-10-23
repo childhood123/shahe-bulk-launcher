@@ -1,0 +1,22 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\hotkey_enter_action_20261023\\bin\\",
+    "--logger",
+    "trx;LogFileName=full.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\hotkey_enter_action_20261023"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\hotkey_enter_action_20261023\\full.log",
+  "passed": 395,
+  "failed": 0,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\hotkey_enter_action_20261023\\full.trx"
+}

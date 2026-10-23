@@ -1,0 +1,5 @@
+{
+  "returnCode": 0,
+  "command": "csc /platform:x64 HotkeyEnterRealProbe.cs (WinForms/MSAA references)",
+  "log": "real-probe-build.log"
+}

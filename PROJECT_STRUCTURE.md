@@ -1,9 +1,9 @@
 # 沙河批量打开器项目结构
 
-## 当前执行摘要（2026-10-22 AUDIT-03 已完成并推送，后续暂停）
+## 当前执行摘要（2026-10-23 HOTKEY-ENTER-01 已验证，AUDIT-04 继续）
 
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-09 已按用户“反正能记忆到999条记录就行之前是20”的明确要求更新为 C# `0–999`；除该用户指定差异外，后续功能继续保留 Python 原文案和行为，只用 C# 实现。
-- 当前状态：AUDIT-03 已完成验收、证据审查、独立提交和远端推送，交付记录见本文件末尾。按用户“下一步先完成之后然后先别推进了”的要求，后续工作已暂停；下一项为 AUDIT-04，尚未启动。整体迁移未完成。
+- 当前状态：AUDIT-03 已完成并推送，用户已恢复 AUDIT-04。追加功能 HOTKEY-ENTER-01 已实现并验证：快捷键功能列表全部行可通过 Enter 执行；当前整理独立提交。AUDIT-04 其他真实键盘、菜单、托盘及单读屏待办保留，既有未提交审计记录留在工作树；本提交不将它们勾选为完成，不进入 AUDIT-05，整体迁移未完成。
 - 用户追加任务 DONATE-01：已按最新明确要求，将原始支付宝/微信图片放入根目录 `打赏/`，C# 菜单优先从该目录读取，构建/发布自动带上图片；复用原有“复制二维码”按钮复制原图位图。此追加任务已实现并验证，后续审计仍遵守既定顺序。
 - 用户追加设置/菜单核对：SETTINGS-01 已修复普通软件设置保存时自启动写入旧值；MENU-01 已按 Python 恢复三条分隔线，并将设置菜单恢复为“热键设置、朗读设置、软件设置”。路径列表原有操作和用户指定 999 上限保留。读屏 API 下拉框原先仅保存/回显的问题已独立修复，按用户单读屏要求完成 NVDA 实测及完整代码门禁；双读屏/真实启动恢复未验收和首次探针异常未定位仍保留，不据此声明所有读屏场景均通过。
 - 用户指定 HISTORY-UI-01：数量窗口已移除“已记忆的路径列表”和“隐藏路径”复选框，只保留数量及确定/取消；原“调整记忆数”入口复用同一窗口。既有历史数据不因移除控件被清空，范围仍为 0–999。主窗口原有路径上下文功能保留，重复入口核查记录见本轮报告。
@@ -11,12 +11,12 @@
 - 发布包状态：版本 `4.0.46`，ZIP 大小 `2785203` 字节，SHA-256 `D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8`；匿名下载后的实际大小和哈希完全一致。最终证据为 `artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-final.json`。
 - 前次 HISTORY-UI-01 自动化门禁（不代表当前 VOICE-03）：HISTORY-UI-01 有效 RED 通过 2/失败 1（列表仍存在），精简后定向 9/9、受影响 91/91、C# 全量 370/370、Python 29/29，compileall 与隔离 Release x64 返回码 0，构建 0 警告/0 错误。生产窗体保存/取消验证历史与其他偏好未被误改，数量入口真实模态验证保持上限 999。此为用户明确指定的界面差异；其他 Python 文案、菜单和业务执行仍继续对照，整体迁移未完成。
 - 版本触发边界：应用 `AppVersion` 与公开清单 `latest_version` 当前同为 `4.0.46`。本次发布建立了可用更新基线，但已运行同版本客户端不会收到“有新版本”提示；后续真实升级发布必须使用更高版本号并重新生成包、清单和校验值。
-- 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、AUDIT-02、UPDATE-01 及此前已确认范围。VOICE-03 已按用户单读屏范围完成，AUDIT-03 已完成并推送；待迁移/审计模块为 AUDIT-04 至 AUDIT-08 和 RELEASE-01，按用户要求暂不推进。整体迁移仍未完成。
+- 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、AUDIT-02、UPDATE-01 及此前已确认范围。VOICE-03 已按用户单读屏范围完成，AUDIT-03 已完成并推送；当前执行 AUDIT-04；其后为 AUDIT-05 至 AUDIT-08 和 RELEASE-01，本轮不推进后续模块。整体迁移仍未完成。
 - 真实 updater 证据：GitCode 匿名 ZIP 在隔离生产 helper 布局下以 `restart=true` 完成下载、替换和进程重启；updater PID `11448` 返回 `0`，精确隔离路径主进程 PID `5364` 被观测并清理，安装文件哈希、用户配置和 `lib 7/7` 均通过。该场景主窗口句柄为 `0`，只证明进程重启，不替代后续发布目录 UI 启动审计。
 - 真实 Sandboxie 清理状态：本轮新基线下最终 verify-clean 全部通过，目标/应用配置/真实 Sandboxie.ini 哈希匹配，本轮 section、目录和受控进程均无残留；最新命令、构建目录及资源细节见追加验证记录。用户已授权正常退出控制程序，服务保持 Running。
 - C# 当前可以启动并运行已验证功能；路径记忆上限按用户要求为 999。整体 Python→C# 迁移仍未完成，AUDIT-04 至 AUDIT-08 和最终发布验收仍有待办，尚不能认定全部功能均已完整验收；活动计划中 AUDIT-01/02 等历史复选框存在进度滞后，以本摘要、独立提交和最新日志证据为准。
 
-- VOICE-03 本轮进度：用户指定的单读屏验收、完整代码门禁和独立提交/推送均完成；修复分支与回退信息见最新验证记录。双读屏、真实启动恢复及保益自身发声未验收，首次原生异常未定位，均未宣称已解决。AUDIT-03 已完成并推送，后续按用户要求暂停；整体迁移未完成。
+- VOICE-03 本轮进度：用户指定的单读屏验收、完整代码门禁和独立提交/推送均完成；修复分支与回退信息见最新验证记录。双读屏、真实启动恢复及保益自身发声未验收，首次原生异常未定位，均未宣称已解决。AUDIT-03 已完成并推送，用户已恢复 AUDIT-04；整体迁移未完成。
 
 ### 本轮验证记录（只追加）
 
@@ -2665,3 +2665,127 @@ csharp/
 - AUDIT-03 独立交付：收口提交 `37e7147`（完整 SHA：`37e71474695a17ee83814b91cc2c43859d9f95c4`）已通过 `git push origin HEAD:refs/heads/voice03-fixed-reader-20261022` 推送到 `origin/voice03-fixed-reader-20261022`，提交和推送返回码均为 0。回退命令：`git revert 37e7147`。实际输出：`artifacts/runs/audit03_lifecycle_fresh_20261022/closeout-commit.log`、`closeout-push-result.json`。仅本模块完成，软件整体迁移未完成；按用户要求暂停在 AUDIT-04 之前。
 
 - AUDIT-03 交付状态文档检查：仅同步已成功提交/推送事实及用户暂停边界，未修改生产源码；`git diff --cached --check` 返回码 0，计数不适用，检查输出保存在 `artifacts/runs/audit03_lifecycle_fresh_20261022/closeout-push-result.json` 的 deliveryDocumentationCheck 中。
+
+### HOTKEY-ENTER-01：用户指定的全部功能行回车执行
+
+- HOTKEY-ENTER-01 red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023\bin\ --logger trx;LogFileName=red.trx --results-directory D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023 --filter FullyQualifiedName~HotkeyActionExecutionContractTests`；返回码 1，通过 0、失败 4、跳过 0。日志与命令索引：`artifacts/runs/hotkey_enter_action_20261023/red.log`、`red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- HOTKEY-ENTER-01 RED 原因核对：生产源码编译成功，新增契约失败来自列表/编辑框 Enter 未被请求执行流程接管，以及缺少传递选中动作的结果；不是测试工具或编译失败。全部功能行将复用既有 DispatchApplicationAction；未修改 Python 原版。
+
+- HOTKEY-ENTER-01 green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023\bin\ --logger trx;LogFileName=green.trx --results-directory D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023 --filter FullyQualifiedName~HotkeyActionExecutionContractTests`；返回码 0，通过 4、失败 0、跳过 0。日志与命令索引：`artifacts/runs/hotkey_enter_action_20261023/green.log`、`green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- HOTKEY-ENTER-01 全功能入口核对：生产 ActionSpecs 的所有功能行均已映射到现有执行分派，缺失项为空；明细 artifacts/runs/hotkey_enter_action_20261023/all-action-mapping.json。定向 GREEN 实际通过后，进入本次改动的回归与真实 EXE 验证；不重复此前已通过的独立桌面审计。
+
+- HOTKEY-ENTER-01 affected：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023\bin\ --logger trx;LogFileName=affected.trx --results-directory D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023 --filter FullyQualifiedName~HotkeyActionExecutionContractTests|FullyQualifiedName~SettingsDialogsCSharpContractTests|FullyQualifiedName~MainFormApplicationContractTests|FullyQualifiedName~MainFormLifecycleContractTests|FullyQualifiedName~KeyboardAuditRuntimeContractTests|FullyQualifiedName~HotkeyControllerContractTests`；返回码 0，通过 65、失败 0、跳过 0。日志与命令索引：`artifacts/runs/hotkey_enter_action_20261023/affected.log`、`affected-result.json`；如为 C# 测试，另有同名 TRX。
+
+- HOTKEY-ENTER-01 full：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023\bin\ --logger trx;LogFileName=full.trx --results-directory D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023`；返回码 0，通过 395、失败 0、跳过 0。日志与命令索引：`artifacts/runs/hotkey_enter_action_20261023/full.log`、`full-result.json`；如为 C# 测试，另有同名 TRX。
+
+- HOTKEY-ENTER-01 python：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 0，通过 29、失败 0、跳过 0。日志与命令索引：`artifacts/runs/hotkey_enter_action_20261023/python.log`、`python-result.json`；如为 C# 测试，另有同名 TRX。
+
+- HOTKEY-ENTER-01 compile：命令 `python -m compileall -q shahe_bulk_launcher tests`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/hotkey_enter_action_20261023/compile.log`、`compile-result.json`；如为 C# 测试，另有同名 TRX。
+
+- HOTKEY-ENTER-01 release：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/hotkey_enter_action_20261023/release.log`、`release-result.json`；如为 C# 测试，另有同名 TRX。
+
+- HOTKEY-ENTER-01 原生真实入口辅助程序构建返回码 0，日志 artifacts/runs/hotkey_enter_action_20261023/real-probe-build.log；仅辅助程序，生产代码没有进一步改动。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 startup 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe/startup.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 open-hotkeys 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe/open-hotkeys.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 最终返回码 3；完整命令、键事件、窗口/索引和清理见 artifacts/runs/hotkey_enter_action_20261023/real-exe/final-result.json。
+
+- HOTKEY-ENTER-01 真实入口环境收尾：探针实际返回码 3；目标残留、真实 ini 和原读屏进程结果见 artifacts/runs/hotkey_enter_action_20261023/real-environment-after.json。
+
+- HOTKEY-ENTER-01 首次真实探针未形成产品结论：打开热键窗口的准备快捷键全部命中目标，但捕获额外键事件，辅助程序按门禁返回 3。目标正常退出，真实 ini/原读屏检查通过。改为复用“热键设置”原生菜单命令作为准备，只验证新增列表 Enter，不重复已通过代码门禁；原证据保留。
+
+- HOTKEY-ENTER-01 原生菜单准备版辅助程序构建返回码 0；日志 artifacts/runs/hotkey_enter_action_20261023/real-menu-probe-build.log。生产代码未改，不重复产品测试。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 startup 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-menu/startup.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 open-hotkeys 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-menu/open-hotkeys.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 最终返回码 3；完整命令、键事件、窗口/索引和清理见 artifacts/runs/hotkey_enter_action_20261023/real-exe-menu/final-result.json。
+
+- HOTKEY-ENTER-01 菜单准备真实入口收尾：实际返回码 3，清理核对 artifacts/runs/hotkey_enter_action_20261023/real-menu-environment-after.json。
+
+- HOTKEY-ENTER-01 菜单准备版真实探针：已打开快捷键窗口，但列表位置命中检查未通过，未发送新增 Enter，返回码 3；该次为坐标准备无效，非产品失败。原始证据 real-exe-menu 保留。辅助程序按 MSAA 物理坐标要求启用 DPI 感知并记录命中点，只修改测试工具，生产代码不变。
+
+- HOTKEY-ENTER-01 DPI 校准辅助程序构建返回码 0；日志 artifacts/runs/hotkey_enter_action_20261023/real-dpi-probe-build.log。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 startup 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-dpi/startup.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 open-hotkeys 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-dpi/open-hotkeys.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 action-location 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-dpi/action-location.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 最终返回码 3；完整命令、键事件、窗口/索引和清理见 artifacts/runs/hotkey_enter_action_20261023/real-exe-dpi/final-result.json。
+
+- HOTKEY-ENTER-01 DPI 校准真实入口收尾：实际返回码 3，清理核对 artifacts/runs/hotkey_enter_action_20261023/real-dpi-environment-after.json。
+
+- HOTKEY-ENTER-01 坐标诊断更正：DPI 校准后的命中日志明确显示坐标上方属于其他应用窗口，仍为遮挡，并非已确认的 DPI 根因；新增 Enter 尚未发送。保持用户其他窗口不变，改用热键窗口已聚焦的功能列表键盘导航选择“设置”，避免坐标依赖。
+
+- HOTKEY-ENTER-01 键盘选择版辅助程序构建返回码 0；日志 artifacts/runs/hotkey_enter_action_20261023/real-keyboard-probe-build.log。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 startup 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-keyboard/startup.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 open-hotkeys 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-keyboard/open-hotkeys.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 select-first 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-keyboard/select-first.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 select-next-1 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-keyboard/select-next-1.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 select-next-2 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-keyboard/select-next-2.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 select-next-3 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-keyboard/select-next-3.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 select-next-4 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-keyboard/select-next-4.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 selected-action 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-keyboard/selected-action.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 execute-enter 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-keyboard/execute-enter.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 最终返回码 3；完整命令、键事件、窗口/索引和清理见 artifacts/runs/hotkey_enter_action_20261023/real-exe-keyboard/final-result.json。
+
+- HOTKEY-ENTER-01 键盘选择真实入口收尾：实际返回码 3，清理核对 artifacts/runs/hotkey_enter_action_20261023/real-keyboard-environment-after.json。
+
+- HOTKEY-ENTER-01 键盘场景诊断：已精确选中“设置”行且新增 Enter 的两条事件均命中目标、无额外输入；探针等待的标题误写成“软件设置”，源码实际标题是“设置”，因此超时不能归为产品失败。仅修正探针标题，保留既有中文文案和生产实现，不重跑代码门禁。
+
+- HOTKEY-ENTER-01 标题校准辅助程序构建返回码 0；日志 artifacts/runs/hotkey_enter_action_20261023/real-final-probe-build.log。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 startup 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-final/startup.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 open-hotkeys 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-final/open-hotkeys.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 select-first 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-final/select-first.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 select-next-1 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-final/select-next-1.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 select-next-2 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-final/select-next-2.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 select-next-3 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-final/select-next-3.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 select-next-4 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-final/select-next-4.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 selected-action 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-final/selected-action.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 execute-enter 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-final/execute-enter.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 settings-opened 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-final/settings-opened.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 cancel-settings 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-final/cancel-settings.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 步骤 returned-main 已记录；目标路径/PID/原始事件见 artifacts/runs/hotkey_enter_action_20261023/real-exe-final/returned-main.json；完整结论以 final-result.json 为准。
+
+- HOTKEY-ENTER-01 真实 EXE 最终返回码 0；完整命令、键事件、窗口/索引和清理见 artifacts/runs/hotkey_enter_action_20261023/real-exe-final/final-result.json。
+
+- HOTKEY-ENTER-01 最终真实入口收尾：实际返回码 0，清理核对 artifacts/runs/hotkey_enter_action_20261023/real-final-environment-after.json。
+
+- HOTKEY-ENTER-01 验证范围说明：本轮受影响与全量结果来自当前工作树，包含先前 AUDIT-04 尚未提交的 `KeyboardAuditRuntimeContractTests` 两项测试；本功能提交排除该历史测试文件，不能把本轮通过数宣称为干净提交的测试总数。生产改动仅限快捷键对话框和主窗体接线，测试/构建通过后未再修改。
+
+- HOTKEY-ENTER-01 真实场景结论：最终记录证明“设置”行索引与焦点一致，选择本身不执行，Enter 的键事件命中目标并关闭快捷键窗口、打开设置窗口，Escape 返回主窗体；配置哈希不变，正常退出且无需强制清理，正式 Sandboxie.ini 与原读屏进程保持不变。此前四次准备/探针失败仍为无效证据，不改写为产品失败或通过。`real-exe-final/final-result.json` 只保存结论；实际辅助程序调用为 `HotkeyEnterRealProbe.exe D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023\app\沙河批量打开器.exe D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023\real-exe-final D:\mycodex\git\PROJECT_STRUCTURE.md`，每步原始键事件与窗口证据在同目录步骤 JSON，构建命令见本轮 `real-final-probe-build-result.json`。
+
+- HOTKEY-ENTER-01 文本与差异检查：所涉文件 UTF-8 解码正常；控制字符扫描在 PROJECT_STRUCTURE.md 发现异常，待定位，不计为通过；范围限定的 `git diff --check` 返回码 `0`，测试计数不适用。命令和输出：`artifacts/runs/hotkey_enter_action_20261023/diff-result.json`、`diff.log`。本轮仅核对文档和已有结果，未重复已通过测试。
+
+- HOTKEY-ENTER-01 文本检查定位：异常均为 HEAD 已有历史记录中的 U+FFFD 替换字符，本功能未新增；历史原文按只追加约束保留。所涉文件 UTF-8 解码及本次新增/修改文本检查返回码 0，新异常字符 0；核对结果 `artifacts/runs/hotkey_enter_action_20261023/text-check-result.json`。
+
+- HOTKEY-ENTER-01 提交前检查：`git diff --cached --check` 返回码 0，暂存清单与批准范围一致；共享文档仅包含本功能和恢复当前模块状态所需片段，既有 AUDIT-04 审计、AGENTS.md 和 GAP-09 历史日志未纳入。原始输出追加于本轮 diff.log；测试计数不适用。远端只读预检因 GitHub 443 连接超时返回 128，尚未推送，先完成本地独立提交。

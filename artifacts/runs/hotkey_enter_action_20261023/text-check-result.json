@@ -1,0 +1,15 @@
+{
+  "returnCode": 0,
+  "scope": "UTF-8 decoding of all changed files and new/changed text only",
+  "existingReplacementCharacters": 520,
+  "allExistingInHead": true,
+  "newInvalidCharacters": 0,
+  "files": [
+    "csharp/ShaheLauncher.App/MainForm.cs",
+    "csharp/ShaheLauncher.App/UI/Dialogs/Settings/HotkeySettingsDialog.cs",
+    "csharp/ShaheLauncher.Tests/HotkeyActionExecutionContractTests.cs",
+    "docs/superpowers/specs/2026-10-23-hotkey-enter-action-design.md",
+    "docs/superpowers/plans/2026-10-20-remaining-migration-closure.md",
+    "PROJECT_STRUCTURE.md"
+  ]
+}
