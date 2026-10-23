@@ -1,0 +1,30 @@
+{
+  "featureCommit": "f9883c27e301278ab89c686bb7a4ef802cba3795",
+  "remoteBranch": "origin/voice03-fixed-reader-20261022",
+  "attempts": [
+    {
+      "command": [
+        "git",
+        "push",
+        "origin",
+        "HEAD:voice03-fixed-reader-20261022"
+      ],
+      "returnCode": 1,
+      "output": "fatal: unable to access 'https://github.com/childhood123/shahe-bulk-launcher.git/': Failed to connect to github.com:443 after 21114 ms: Could not connect to server"
+    },
+    {
+      "command": [
+        "git",
+        "-c",
+        "http.proxy=socks5h://127.0.0.1:10808",
+        "push",
+        "origin",
+        "HEAD:voice03-fixed-reader-20261022"
+      ],
+      "returnCode": 0,
+      "output": "To https://github.com/childhood123/shahe-bulk-launcher.git\n   e13dbb1..f9883c2  HEAD -> voice03-fixed-reader-20261022"
+    }
+  ],
+  "proxyScope": "Existing local proxy, command-only; no Git global configuration changes",
+  "revert": "git revert f9883c27e301278ab89c686bb7a4ef802cba3795"
+}
