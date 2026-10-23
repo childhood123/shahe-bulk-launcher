@@ -14,29 +14,6 @@ from ..ui.settings_dialogs import SpeechSettingsDialog
 
 
 class SpeechMixin:
-    def _get_speech_source_config_path(self):
-        candidates = [
-            os.path.join(getattr(self, "CONFIG_DIR", get_configuration_dir(get_app_dir())), "SpeechConfig.json"),
-            os.path.join(get_app_dir(), "SpeechConfig.json"),
-            get_resource_path("SpeechConfig.json"),
-            os.path.join(get_app_dir(), "internal", "SpeechConfig.json"),
-            os.path.join(get_resource_path("internal"), "SpeechConfig.json"),
-            os.path.join(get_resource_path("Speech"), "SpeechConfig.json"),
-            os.path.join(get_app_dir(), "Speech", "SpeechConfig.json"),
-            os.path.join(get_app_dir(), "Speech", "SpeechConfig.json"),
-            os.path.join(
-                get_app_dir(),
-                "py_work", "游戏", "哲隐语音组件", "Speech", "SpeechConfig.json"
-            )
-        ]
-        for path in candidates:
-            try:
-                if os.path.isfile(path):
-                    return path
-            except Exception:
-                continue
-        return ""
-
     def _ensure_writable_dir(self, folder_path):
         try:
             os.makedirs(folder_path, exist_ok=True)
@@ -49,7 +26,7 @@ class SpeechMixin:
             return False
 
     def _get_speech_runtime_dir(self):
-        # 用户可写配置统一放到 Configuration，旧目录仅作为读取兼容。
+        # 用户配置只从 Configurations 目录读写。
         folder_path = getattr(self, "CONFIG_DIR", get_configuration_dir(get_app_dir()))
         if self._ensure_writable_dir(folder_path):
             return folder_path
@@ -75,26 +52,8 @@ class SpeechMixin:
         if not name:
             return ""
         config_dir = getattr(self, "CONFIG_DIR", get_configuration_dir(get_app_dir()))
-        config_path = os.path.join(config_dir, name)
-        if for_write:
-            self._ensure_writable_dir(config_dir)
-            return config_path
-        candidates = [
-            config_path,
-            os.path.join(get_app_dir(), "internal", name),
-            os.path.join(get_resource_path("internal"), name),
-            os.path.join(get_app_dir(), name),
-            get_resource_path(name),
-        ]
-        for path in candidates:
-            try:
-                if os.path.isfile(path):
-                    return path
-            except Exception:
-                continue
-        if self._ensure_writable_dir(config_dir):
-            return config_path
-        return config_path
+        self._ensure_writable_dir(config_dir)
+        return os.path.join(config_dir, name)
 
     def _load_reader_ini_settings(self):
         result = {
@@ -477,18 +436,6 @@ class SpeechMixin:
         config_path = os.path.join(runtime_dir, "SpeechConfig.json")
         if os.path.isfile(config_path):
             return config_path
-
-        source_path = self._get_speech_source_config_path()
-        if source_path:
-            try:
-                with open(source_path, "r", encoding="utf-8") as f:
-                    source_raw = json.load(f)
-                source_data = SpeechSettingsDialog.sanitize_config(source_raw)
-                with open(config_path, "w", encoding="utf-8") as f:
-                    json.dump(source_data, f, ensure_ascii=False, indent=2)
-                return config_path
-            except Exception:
-                pass
 
         default_config = {"DefaultEngine": "", "TTSInfos": {}}
         try:

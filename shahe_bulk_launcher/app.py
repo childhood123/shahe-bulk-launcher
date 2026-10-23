@@ -7,7 +7,7 @@ from .bootstrap import cleanup_legacy_release_artifacts, get_app_dir
 from .common import (
     ConfigStore,
     get_configuration_db_path,
-    get_configuration_dir,
+    prepare_configuration_dir,
     parse_bool_setting,
     parse_int_setting,
 )
@@ -51,9 +51,9 @@ class SandboxLauncher(
         self.SANDBOX_ROOT = default_sandbox_root
         self.APP_PATH = ""
         self.APP_DIR = ""
-        self.CONFIG_DIR = get_configuration_dir(get_app_dir())
+        self.CONFIG_DIR = prepare_configuration_dir(get_app_dir())
         self.CONFIG_DB_FILE = get_configuration_db_path(get_app_dir())
-        self.CONFIG_FILE = os.path.join(get_app_dir(), "app_config.dat")
+        self.CONFIG_FILE = os.path.join(self.CONFIG_DIR, "app_config.dat")
         self.config_store = ConfigStore(self.CONFIG_DB_FILE)
         self.settings = self.load_settings()
         self.log_output_mode = normalize_log_output_mode(self.settings.get("log_output_mode", LOG_OUTPUT_DETAILED))

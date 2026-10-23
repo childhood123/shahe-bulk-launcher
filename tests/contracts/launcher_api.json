@@ -489,7 +489,6 @@
       "on_settings",
       "on_reset_settings",
       "on_hotkey_settings",
-      "_get_speech_source_config_path",
       "_ensure_writable_dir",
       "_get_speech_runtime_dir",
       "_get_tolk_dll_path",

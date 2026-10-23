@@ -1,0 +1,24 @@
+{
+  "returnCode": 0,
+  "passed": true,
+  "priorVersion": "4.0.46",
+  "currentVersion": "4.0.47",
+  "oldMainExitedNormally": true,
+  "updaterExitCode": 0,
+  "restartedMainObserved": 2152,
+  "configurationMigratedUnchanged": true,
+  "payloadFileCount": 16,
+  "newOptionalDllInstalled": true,
+  "donationImagesLoaded": true,
+  "finalMainExitCode": 0,
+  "residualProcesses": [],
+  "readerPidsPreserved": true,
+  "realSandboxieIniUnchanged": true,
+  "evidence": [
+    "real-upgrade-complete/handoff.json",
+    "real-upgrade-complete/installed.json",
+    "real-upgrade-complete/latest-version.json",
+    "post-update-resources/final-result.json"
+  ],
+  "limitation": "Upgrade verifier required forced cleanup after failing to identify the custom confirmation close button; installed binaries were then separately verified and exited normally without repeating installation."
+}

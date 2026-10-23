@@ -322,7 +322,6 @@
     "on_show_alipay"
   ],
   "speech": [
-    "_get_speech_source_config_path",
     "_ensure_writable_dir",
     "_get_speech_runtime_dir",
     "_get_tolk_dll_path",

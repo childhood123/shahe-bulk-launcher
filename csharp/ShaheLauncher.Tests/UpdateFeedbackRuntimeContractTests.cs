@@ -91,7 +91,7 @@ namespace ShaheLauncher.Tests
                 GetProcessId = () => 1
             };
             return new UpdateService(app, false, Path.Combine(app, "main.exe"),
-                new StubHandler(HttpStatusCode.OK, "{\"latest_version\":\"4.0.46\",\"packages\":[]}"), callbacks);
+                new StubHandler(HttpStatusCode.OK, "{\"latest_version\":\"4.0.47\",\"packages\":[]}"), callbacks);
         }
 
         private static void SetUpdateService(MainForm form, UpdateService service)

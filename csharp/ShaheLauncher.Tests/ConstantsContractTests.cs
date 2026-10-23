@@ -21,7 +21,7 @@ namespace ShaheLauncher.Tests
             Type type = RequireConstantsType();
 
             Assert.AreEqual(@"C:\Sandbox\Administrator", GetField(type, "OldDefaultSandboxRoot"));
-            Assert.AreEqual("4.0.46", GetField(type, "AppVersion"));
+            Assert.AreEqual("4.0.47", GetField(type, "AppVersion"));
             Assert.AreEqual("https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json", GetField(type, "UpdateManifestUrl"));
             Assert.AreEqual("off", GetField(type, "LogOutputOff"));
             Assert.AreEqual("detailed", GetField(type, "LogOutputDetailed"));

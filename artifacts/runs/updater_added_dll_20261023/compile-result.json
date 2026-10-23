@@ -1,0 +1,15 @@
+{
+  "command": [
+    "python",
+    "-m",
+    "compileall",
+    "-q",
+    "shahe_bulk_launcher",
+    "tests"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\updater_added_dll_20261023\\compile.log",
+  "passed": null,
+  "failed": null,
+  "skipped": null
+}

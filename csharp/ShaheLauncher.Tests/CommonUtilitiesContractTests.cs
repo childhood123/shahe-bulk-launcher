@@ -72,10 +72,10 @@ namespace ShaheLauncher.Tests
             Type type = ReflectionTestHelpers.RequireType(TypeName);
             string root = Path.Combine(Path.GetTempPath(), "shahe-common-paths");
             Assert.AreEqual(
-                Path.Combine(root, "Configuration"),
+                Path.Combine(root, "Configurations"),
                 ReflectionTestHelpers.InvokeStatic(type, "GetConfigurationDirectory", root));
             Assert.AreEqual(
-                Path.Combine(root, "Configuration", "shahe_config.ini"),
+                Path.Combine(root, "Configurations", "shahe_config.ini"),
                 ReflectionTestHelpers.InvokeStatic(type, "GetConfigurationStorePath", root));
             Assert.AreEqual(
                 Path.Combine(root, "tenp"),

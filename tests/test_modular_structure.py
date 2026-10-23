@@ -37,8 +37,8 @@ class ModularStructureTests(unittest.TestCase):
         missing = [path for path in EXPECTED_MODULES if not (ROOT / path).is_file()]
         self.assertEqual([], missing)
 
-    def test_contract_keeps_original_launcher_methods(self):
-        self.assertEqual(398, len(CONTRACT["classes"]["SandboxLauncher"]))
+    def test_contract_keeps_launcher_methods_after_configuration_consolidation(self):
+        self.assertEqual(397, len(CONTRACT["classes"]["SandboxLauncher"]))
 
     def test_feature_modules_do_not_import_app(self):
         feature_dir = ROOT / "shahe_bulk_launcher" / "features"

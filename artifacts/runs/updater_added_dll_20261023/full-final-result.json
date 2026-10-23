@@ -1,0 +1,22 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\updater_added_dll_20261023\\bin\\",
+    "--logger",
+    "trx;LogFileName=full-final.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\updater_added_dll_20261023"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\updater_added_dll_20261023\\full-final.log",
+  "passed": 398,
+  "failed": 0,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\updater_added_dll_20261023\\full-final.trx"
+}

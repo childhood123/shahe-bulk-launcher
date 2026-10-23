@@ -5,7 +5,7 @@ from pathlib import Path
 
 SANDBOX_INTERNAL_NAME_PATTERN = re.compile(r"^[A-Za-z0-9_]{1,32}$")
 OLD_DEFAULT_SANDBOX_ROOT = r"C:\Sandbox\Administrator"
-APP_VERSION = "4.0.46"
+APP_VERSION = "4.0.47"
 UPDATE_MANIFEST_URL = "https://lqh.viyf.net/shahe-bulk-launcher/update.json"
 LOG_OUTPUT_OFF = "off"
 LOG_OUTPUT_DETAILED = "detailed"

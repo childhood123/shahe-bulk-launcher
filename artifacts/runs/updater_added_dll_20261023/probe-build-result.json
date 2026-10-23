@@ -1,0 +1,5 @@
+{
+  "returnCode": 0,
+  "command": "Framework64 csc /target:exe /platform:x64 /r:System.Core.dll /r:System.Web.Extensions.dll GitCodeUpgradeProbe.cs",
+  "log": "artifacts/runs/updater_added_dll_20261023/probe-build.log"
+}

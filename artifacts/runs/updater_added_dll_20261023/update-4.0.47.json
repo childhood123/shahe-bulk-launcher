@@ -1,0 +1,18 @@
+{
+  "latest_version": "4.0.47",
+  "force_update": false,
+  "release_notes": [
+    "快捷键功能列表支持回车执行全部动作",
+    "新增打赏图片目录",
+    "用户配置统一保存在 Configurations，首次运行创建"
+  ],
+  "packages": [
+    {
+      "kind": "full",
+      "to": "4.0.47",
+      "url": "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/blobs/6a787852b7843a9d69d39c79a9891e5e78a45ea9/shahe-bulk-launcher-4.0.47-win-x64.zip",
+      "size": 3010671,
+      "sha256": "F8BEA7B4D03C06A93E281D459724FE3310D33883CBF83EB2E92E7BE32F739D8D"
+    }
+  ]
+}

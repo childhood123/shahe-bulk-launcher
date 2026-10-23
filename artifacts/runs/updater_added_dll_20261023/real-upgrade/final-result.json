@@ -1,0 +1,1 @@
+{"error":"System.InvalidOperationException: Window missing: 提示\r\n   在 GitCodeUpgradeProbe.WaitWindow(String title, Int32 milliseconds)\r\n   在 GitCodeUpgradeProbe.Main(String[] args)","returnCode":3,"passed":0,"failed":0,"inconclusive":1,"forcedCleanup":false}

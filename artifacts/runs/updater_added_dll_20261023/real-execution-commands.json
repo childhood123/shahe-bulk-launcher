@@ -1,0 +1,34 @@
+{
+  "scope": "Isolated real GitCode 4.0.46 to 4.0.47 upgrade; no production configuration changes",
+  "upgrade": {
+    "command": [
+      "GitCodeUpgradeProbe.exe",
+      "D:\\mycodex\\git\\artifacts\\runs\\updater_added_dll_20261023\\old-app\\沙河批量打开器.exe",
+      "D:\\mycodex\\git\\artifacts\\runs\\updater_added_dll_20261023\\real-upgrade-complete",
+      "D:\\mycodex\\git\\PROJECT_STRUCTURE.md",
+      "D:\\mycodex\\git\\artifacts\\runs\\updater_added_dll_20261023\\expected-inventory.json"
+    ],
+    "returnCode": 3,
+    "meaning": "Upgrade, restart, migration and latest-version check passed; probe could not close the custom acknowledgement button and forced fixture cleanup"
+  },
+  "resources": {
+    "command": [
+      "PostUpdateResourceProbe.exe",
+      "D:\\mycodex\\git\\artifacts\\runs\\updater_added_dll_20261023\\old-app\\沙河批量打开器.exe",
+      "D:\\mycodex\\git\\artifacts\\runs\\updater_added_dll_20261023\\post-update-resources",
+      "D:\\mycodex\\git\\PROJECT_STRUCTURE.md"
+    ],
+    "returnCode": 0,
+    "meaning": "Both installed donation images loaded; configuration unchanged; normal exit; no repeated installation"
+  },
+  "aggregate": {
+    "result": "upgrade-verification-result.json",
+    "returnCode": 0
+  },
+  "publish": {
+    "gitAttempt": "Git push waited on missing GitCode credential; canceled owned helper processes",
+    "successfulMethod": "Existing logged-in Chrome session, native file chooser, GitCode file upload followed by manifest edit",
+    "remoteBranch": "main",
+    "remoteHead": "e40ea608381e37ba3843b149b1fc764b93ab5e5c"
+  }
+}

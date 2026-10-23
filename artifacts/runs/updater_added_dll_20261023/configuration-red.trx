@@ -1,0 +1,83 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="34226545-d81c-4d55-be4d-f63e1483b4bb" name="Administrator@CHILDHOOD 2026-10-23 12:44:08" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-23T12:44:08.7359399+08:00" queuing="2026-10-23T12:44:08.7359402+08:00" start="2026-10-23T12:44:04.6401197+08:00" finish="2026-10-23T12:44:08.7423688+08:00" />
+  <TestSettings name="default" id="f03e203a-a532-481c-9742-3e04a1b69a1e">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-23_12_44_08" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="7a7bb4eb-b3c1-4c02-ba86-2633cda289f5" testId="ce686293-2eed-d884-a44e-5e79b02b4878" testName="FreshStartupCreatesConfigurationAndIgnoresScatteredRootSettings" computerName="CHILDHOOD" duration="00:00:00.0084410" startTime="2026-10-23T12:44:08.3992976+08:00" endTime="2026-10-23T12:44:08.4078331+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7a7bb4eb-b3c1-4c02-ba86-2633cda289f5">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: &lt;C:\Users\Administrator\AppData\Local\Temp\shahe_migration_11beddf185df49a694b501ce17958fc3\fresh\Configurations&gt;，实际为: &lt;C:\Users\Administrator\AppData\Local\Temp\shahe_migration_11beddf185df49a694b501ce17958fc3\fresh\Configuration&gt;。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201&#xD;
+   在 ShaheLauncher.Tests.ConfigurationDirectoryContractTests.&lt;&gt;c.&lt;FreshStartupCreatesConfigurationAndIgnoresScatteredRootSettings&gt;b__1_0(String root, MainForm unused) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ConfigurationDirectoryContractTests.cs:行号 50&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7f75616c-4584-40cb-9097-b6ba66296a18" testId="35cd8e1e-9d3e-6c2e-a9b6-5a7a09362839" testName="EmptyPackagedDirectoryReceivesPreviousConfigurationWithoutChangingBytes" computerName="CHILDHOOD" duration="00:00:00.3612146" startTime="2026-10-23T12:44:07.7394653+08:00" endTime="2026-10-23T12:44:08.3863691+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7f75616c-4584-40cb-9097-b6ba66296a18">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: &lt;C:\Users\Administrator\AppData\Local\Temp\shahe_migration_8d9536752d8649f7bf2110179946be8f\upgrade\Configurations&gt;，实际为: &lt;C:\Users\Administrator\AppData\Local\Temp\shahe_migration_8d9536752d8649f7bf2110179946be8f\upgrade\Configuration&gt;。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201&#xD;
+   在 ShaheLauncher.Tests.ConfigurationDirectoryContractTests.&lt;&gt;c.&lt;EmptyPackagedDirectoryReceivesPreviousConfigurationWithoutChangingBytes&gt;b__0_0(String root, MainForm unused) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ConfigurationDirectoryContractTests.cs:行号 28&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="e46576ba-10da-4482-9e35-f3198ebe3158" testId="f0f30e0b-6e0d-0776-d0ec-3e08a086c517" testName="ExistingNewConfigurationTakesPriorityOverPreviousDirectory" computerName="CHILDHOOD" duration="00:00:00.1334526" startTime="2026-10-23T12:44:08.4078331+08:00" endTime="2026-10-23T12:44:08.5454648+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e46576ba-10da-4482-9e35-f3198ebe3158">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: &lt;39&gt;，实际为: &lt;20&gt;。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201&#xD;
+   在 ShaheLauncher.Tests.ConfigurationDirectoryContractTests.&lt;&gt;c.&lt;ExistingNewConfigurationTakesPriorityOverPreviousDirectory&gt;b__2_0(String root, MainForm unused) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ConfigurationDirectoryContractTests.cs:行号 67&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="FreshStartupCreatesConfigurationAndIgnoresScatteredRootSettings" storage="d:\mycodex\git\artifacts\runs\updater_added_dll_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="ce686293-2eed-d884-a44e-5e79b02b4878">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="7a7bb4eb-b3c1-4c02-ba86-2633cda289f5" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\updater_added_dll_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ConfigurationDirectoryContractTests" name="FreshStartupCreatesConfigurationAndIgnoresScatteredRootSettings" />
+    </UnitTest>
+    <UnitTest name="ExistingNewConfigurationTakesPriorityOverPreviousDirectory" storage="d:\mycodex\git\artifacts\runs\updater_added_dll_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="f0f30e0b-6e0d-0776-d0ec-3e08a086c517">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="e46576ba-10da-4482-9e35-f3198ebe3158" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\updater_added_dll_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ConfigurationDirectoryContractTests" name="ExistingNewConfigurationTakesPriorityOverPreviousDirectory" />
+    </UnitTest>
+    <UnitTest name="EmptyPackagedDirectoryReceivesPreviousConfigurationWithoutChangingBytes" storage="d:\mycodex\git\artifacts\runs\updater_added_dll_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="35cd8e1e-9d3e-6c2e-a9b6-5a7a09362839">
+      <TestCategory>
+        <TestCategoryItem TestCategory="SettingsDialogs" />
+      </TestCategory>
+      <Execution id="7f75616c-4584-40cb-9097-b6ba66296a18" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\updater_added_dll_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ConfigurationDirectoryContractTests" name="EmptyPackagedDirectoryReceivesPreviousConfigurationWithoutChangingBytes" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="ce686293-2eed-d884-a44e-5e79b02b4878" executionId="7a7bb4eb-b3c1-4c02-ba86-2633cda289f5" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="35cd8e1e-9d3e-6c2e-a9b6-5a7a09362839" executionId="7f75616c-4584-40cb-9097-b6ba66296a18" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f0f30e0b-6e0d-0776-d0ec-3e08a086c517" executionId="e46576ba-10da-4482-9e35-f3198ebe3158" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="3" executed="3" passed="0" failed="3" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

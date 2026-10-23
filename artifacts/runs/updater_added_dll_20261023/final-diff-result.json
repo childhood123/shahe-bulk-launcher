@@ -1,0 +1,16 @@
+{
+  "command": [
+    "git",
+    "diff",
+    "--check",
+    "--",
+    ".gitignore",
+    "csharp",
+    "shahe_bulk_launcher",
+    "tests",
+    "PROJECT_STRUCTURE.md",
+    "docs/superpowers/plans/2026-10-20-remaining-migration-closure.md"
+  ],
+  "returnCode": 2,
+  "log": "final-diff.log"
+}

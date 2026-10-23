@@ -112,19 +112,6 @@ namespace ShaheLauncher.Core.Speech
         public bool DestroyStarted { get; set; }
         public bool AssistSpeechDisabled { get; private set; }
 
-        public string GetSpeechSourceConfigPath()
-        {
-            string[] candidates =
-            {
-                Path.Combine(ConfigurationDirectory, "SpeechConfig.json"),
-                Path.Combine(AppDirectory, "SpeechConfig.json"),
-                Path.Combine(AppDirectory, "internal", "SpeechConfig.json"),
-                Path.Combine(AppDirectory, "Speech", "SpeechConfig.json"),
-                Path.Combine(AppDirectory, "py_work", "游戏", "哲隐语音组件", "Speech", "SpeechConfig.json")
-            };
-            return FirstExistingFile(candidates);
-        }
-
         public bool EnsureWritableDirectory(string folderPath)
         {
             try
@@ -171,27 +158,8 @@ namespace ShaheLauncher.Core.Speech
                 return string.Empty;
             }
 
-            string configPath = Path.Combine(ConfigurationDirectory, name);
-            if (forWrite)
-            {
-                EnsureWritableDirectory(ConfigurationDirectory);
-                return configPath;
-            }
-
-            string existing = FirstExistingFile(new[]
-            {
-                configPath,
-                Path.Combine(AppDirectory, "internal", name),
-                Path.Combine(AppDirectory, "lib", name),
-                Path.Combine(AppDirectory, name)
-            });
-            if (existing.Length != 0)
-            {
-                return existing;
-            }
-
             EnsureWritableDirectory(ConfigurationDirectory);
-            return configPath;
+            return Path.Combine(ConfigurationDirectory, name);
         }
 
         public IDictionary<string, object> LoadReaderIniSettings()
@@ -723,20 +691,6 @@ namespace ShaheLauncher.Core.Speech
             if (File.Exists(configPath))
             {
                 return configPath;
-            }
-
-            string sourcePath = GetSpeechSourceConfigPath();
-            if (sourcePath.Length != 0)
-            {
-                try
-                {
-                    IDictionary<string, object> source = ReadJsonDictionary(sourcePath);
-                    WriteJson(configPath, SanitizeSpeechConfig(source));
-                    return configPath;
-                }
-                catch
-                {
-                }
             }
 
             try

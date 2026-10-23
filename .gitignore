@@ -9,3 +9,4 @@ tenp/
 csharp/.vs/
 csharp/**/bin/
 csharp/**/obj/
+/Configurations/

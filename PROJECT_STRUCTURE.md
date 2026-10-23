@@ -4,13 +4,14 @@
 
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-09 已按用户“反正能记忆到999条记录就行之前是20”的明确要求更新为 C# `0–999`；除该用户指定差异外，后续功能继续保留 Python 原文案和行为，只用 C# 实现。
 - 当前状态：AUDIT-03 已完成并推送，用户已恢复 AUDIT-04。追加功能 HOTKEY-ENTER-01 已完成验证、独立提交并推送：快捷键功能列表全部行可通过 Enter 执行，交付记录见本文件末尾。AUDIT-04 其他真实键盘、菜单、托盘及单读屏待办保留，既有未提交审计记录留在工作树；本提交不将它们勾选为完成，不进入 AUDIT-05，整体迁移未完成。
+- 当前追加任务 UPDATE-DLL-01 / CONFIG-LOC-01：4.0.47 已公开发布并通过真实旧版升级验证；Configurations 为唯一用户配置目录，公开包只带空目录，旧配置完整迁入，新增 DLL 与打赏图片落盘和窗口读取通过。当前整理源码独立提交；AUDIT-04 原待办保留，不进入后续模块。
 - 用户追加任务 DONATE-01：已按最新明确要求，将原始支付宝/微信图片放入根目录 `打赏/`，C# 菜单优先从该目录读取，构建/发布自动带上图片；复用原有“复制二维码”按钮复制原图位图。此追加任务已实现并验证，后续审计仍遵守既定顺序。
 - 用户追加设置/菜单核对：SETTINGS-01 已修复普通软件设置保存时自启动写入旧值；MENU-01 已按 Python 恢复三条分隔线，并将设置菜单恢复为“热键设置、朗读设置、软件设置”。路径列表原有操作和用户指定 999 上限保留。读屏 API 下拉框原先仅保存/回显的问题已独立修复，按用户单读屏要求完成 NVDA 实测及完整代码门禁；双读屏/真实启动恢复未验收和首次探针异常未定位仍保留，不据此声明所有读屏场景均通过。
 - 用户指定 HISTORY-UI-01：数量窗口已移除“已记忆的路径列表”和“隐藏路径”复选框，只保留数量及确定/取消；原“调整记忆数”入口复用同一窗口。既有历史数据不因移除控件被清空，范围仍为 0–999。主窗口原有路径上下文功能保留，重复入口核查记录见本轮报告。
-- GitCode 发布状态：公开仓库 `https://gitcode.com/childhood123/shahe-bulk-launcher-releases` 的 `main` 已指向 `18caa88287fc5714a90528e88cd732d0204ec135`。默认清单 `https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json` 匿名生产式请求为 HTTP `200`；清单内 content-addressed ZIP 匿名请求为 HTTP `200`。
-- 发布包状态：版本 `4.0.46`，ZIP 大小 `2785203` 字节，SHA-256 `D6F248D7F8602C2235B5FB5318E592AA5F14E213069A095396D470E7DCC266F8`；匿名下载后的实际大小和哈希完全一致。最终证据为 `artifacts/runs/csharp_gitcode_release_20261020/gitcode-anonymous-verification-final.json`。
+- GitCode 发布状态：公开仓库 main 已发布 4.0.47；本轮正式清单与包的匿名下载均已校验，真实旧版升级与安装后资源验收已通过。最新发布提交、清单及包校验信息以本轮追加记录为准，旧版本记录保留。
+- 发布包状态：4.0.47 包含空 Configurations 文件夹、打赏原图和 lib 运行文件；没有用户个人配置。包清单、大小与哈希见本轮发布验证记录。
 - 前次 HISTORY-UI-01 自动化门禁（不代表当前 VOICE-03）：HISTORY-UI-01 有效 RED 通过 2/失败 1（列表仍存在），精简后定向 9/9、受影响 91/91、C# 全量 370/370、Python 29/29，compileall 与隔离 Release x64 返回码 0，构建 0 警告/0 错误。生产窗体保存/取消验证历史与其他偏好未被误改，数量入口真实模态验证保持上限 999。此为用户明确指定的界面差异；其他 Python 文案、菜单和业务执行仍继续对照，整体迁移未完成。
-- 版本触发边界：应用 `AppVersion` 与公开清单 `latest_version` 当前同为 `4.0.46`。本次发布建立了可用更新基线，但已运行同版本客户端不会收到“有新版本”提示；后续真实升级发布必须使用更高版本号并重新生成包、清单和校验值。
+- 版本触发边界：当前源码与正式清单均为 4.0.47；本轮以 4.0.46 旧版副本验证真实更新提示、退出、安装及重启，不再使用同版本无更新结论。
 - 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、AUDIT-02、UPDATE-01 及此前已确认范围。VOICE-03 已按用户单读屏范围完成，AUDIT-03 已完成并推送；当前执行 AUDIT-04；其后为 AUDIT-05 至 AUDIT-08 和 RELEASE-01，本轮不推进后续模块。整体迁移仍未完成。
 - 真实 updater 证据：GitCode 匿名 ZIP 在隔离生产 helper 布局下以 `restart=true` 完成下载、替换和进程重启；updater PID `11448` 返回 `0`，精确隔离路径主进程 PID `5364` 被观测并清理，安装文件哈希、用户配置和 `lib 7/7` 均通过。该场景主窗口句柄为 `0`，只证明进程重启，不替代后续发布目录 UI 启动审计。
 - 真实 Sandboxie 清理状态：本轮新基线下最终 verify-clean 全部通过，目标/应用配置/真实 Sandboxie.ini 哈希匹配，本轮 section、目录和受控进程均无残留；最新命令、构建目录及资源细节见追加验证记录。用户已授权正常退出控制程序，服务保持 Running。
@@ -2791,3 +2792,119 @@ csharp/
 - HOTKEY-ENTER-01 提交前检查：`git diff --cached --check` 返回码 0，暂存清单与批准范围一致；共享文档仅包含本功能和恢复当前模块状态所需片段，既有 AUDIT-04 审计、AGENTS.md 和 GAP-09 历史日志未纳入。原始输出追加于本轮 diff.log；测试计数不适用。远端只读预检因 GitHub 443 连接超时返回 128，尚未推送，先完成本地独立提交。
 
 - HOTKEY-ENTER-01 交付完成：独立功能提交 `f9883c27e301278ab89c686bb7a4ef802cba3795` 已推送 `origin/voice03-fixed-reader-20261022`，成功推送返回码 0；直连失败后复用本机现有 SOCKS 代理，未更改全局配置。命令/两次结果见 `artifacts/runs/hotkey_enter_action_20261023/delivery-result.json`，回退命令 `git revert f9883c27e301278ab89c686bb7a4ef802cba3795`。全部动作入口、回归、构建及真实设置场景已验收；AUDIT-04 其他待办与 AUDIT-05 至 AUDIT-08、RELEASE-01 仍保留，C# 可启动运行已验证功能，整体迁移未完成。
+
+### UPDATE-DLL-01 / CONFIG-LOC-01：4.0.47 发布与配置目录
+
+- UPDATE-DLL-01 源码核对：MainForm.LaunchUpdate 先启动独立 helper 并关闭主程序；UpdateRunner 先等待传入 PID 退出，再下载、校验、解包、备份并递归覆盖文件，restart=true 时重新启动。CopyTree 复制包内全部文件及子目录，新增 DLL 不依赖固定名单；包中没有的旧文件不会主动删除，配置是否保留取决于包内是否包含同路径配置。当前正式完整包不携带用户配置，本轮将验证其保留。验证目标与命令详见本轮脚本；仅针对隔离目录，不修改正式配置。
+
+- UPDATE-DLL-01 远端基线：匿名禁缓存请求正式 update.json 返回码 0，当前版本 `4.0.46`；原始清单 `artifacts/runs/updater_added_dll_20261023/manifest-before.json`。GitCode origin/main 已 fetch，内容与公开清单一致；按用户最新明确要求，新版本递增到 4.0.47 并进行真实公开更新链路验证。
+
+- UPDATE-DLL-01 version-red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\updater_added_dll_20261023\bin\ --logger trx;LogFileName=version-red.trx --results-directory D:\mycodex\git\artifacts\runs\updater_added_dll_20261023 --filter FullyQualifiedName~ConstantsContractTests`；返回码 1，通过 8、失败 1、跳过 0。日志与命令索引：`artifacts/runs/updater_added_dll_20261023/version-red.log`、`version-red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-DLL-01 update-green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\updater_added_dll_20261023\bin\ --logger trx;LogFileName=update-green.trx --results-directory D:\mycodex\git\artifacts\runs\updater_added_dll_20261023 --filter FullyQualifiedName~ConstantsContractTests|FullyQualifiedName~Update`；返回码 0，通过 48、失败 0、跳过 0。日志与命令索引：`artifacts/runs/updater_added_dll_20261023/update-green.log`、`update-green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-DLL-01 full：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\updater_added_dll_20261023\bin\ --logger trx;LogFileName=full.trx --results-directory D:\mycodex\git\artifacts\runs\updater_added_dll_20261023`；返回码 1，通过 394、失败 1、跳过 0。日志与命令索引：`artifacts/runs/updater_added_dll_20261023/full.log`、`full-result.json`；如为 C# 测试，另有同名 TRX。
+
+- CONFIG-LOC-01 范围确认：用户明确要求本软件用户配置统一在 Configurations，移除根目录分散读写，公开更新包只有空目录。当前新增迁移/首启/已有配置优先的契约；该用户指定差异将随 4.0.47 发布，旧版自动升级验收包含目录迁移及打赏资源。
+
+- UPDATE-DLL-01 configuration-red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\updater_added_dll_20261023\bin\ --logger trx;LogFileName=configuration-red.trx --results-directory D:\mycodex\git\artifacts\runs\updater_added_dll_20261023 --filter FullyQualifiedName~ConfigurationDirectoryContractTests`；返回码 1，通过 0、失败 3、跳过 0。日志与命令索引：`artifacts/runs/updater_added_dll_20261023/configuration-red.log`、`configuration-red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-DLL-01 configuration-green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\updater_added_dll_20261023\bin\ --logger trx;LogFileName=configuration-green.trx --results-directory D:\mycodex\git\artifacts\runs\updater_added_dll_20261023 --filter FullyQualifiedName~ConfigurationDirectoryContractTests|FullyQualifiedName~CommonUtilitiesContractTests|FullyQualifiedName~MainFormApplicationContractTests|FullyQualifiedName~SpeechServiceContractTests|FullyQualifiedName~Settings|FullyQualifiedName~Update`；返回码 0，通过 135、失败 0、跳过 0。日志与命令索引：`artifacts/runs/updater_added_dll_20261023/configuration-green.log`、`configuration-green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-DLL-01 full-final：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\updater_added_dll_20261023\bin\ --logger trx;LogFileName=full-final.trx --results-directory D:\mycodex\git\artifacts\runs\updater_added_dll_20261023`；返回码 0，通过 398、失败 0、跳过 0。日志与命令索引：`artifacts/runs/updater_added_dll_20261023/full-final.log`、`full-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-DLL-01 真实 GitCode 升级辅助程序构建返回码 0；命令及输出见 artifacts/runs/updater_added_dll_20261023/probe-build-result.json、probe-build.log。
+
+- UPDATE-DLL-01 python-final：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 1，计数不适用。日志与命令索引：`artifacts/runs/updater_added_dll_20261023/python-final.log`、`python-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- CONFIG-LOC-01 Python 首轮计数补充：实际通过 28、失败 3、跳过 0，返回码 1；三项均因既有方法清单仍要求已按用户要求删除的根目录语音配置搜索方法。现同步 tests/contracts/method_modules.json 删除这一条，不恢复旧回退代码；原失败日志保留，同名 result.json 补齐实际计数。
+
+- UPDATE-DLL-01 python-final2：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 1，计数不适用。日志与命令索引：`artifacts/runs/updater_added_dll_20261023/python-final2.log`、`python-final2-result.json`；如为 C# 测试，另有同名 TRX。
+
+- CONFIG-LOC-01 Python 第二轮计数补充：通过 30、失败 1、跳过 0，返回码 1；剩余失败来自另一份原始 API 清单 launcher_api.json 对同一已删除方法的要求，已同步删除唯一对应条目。原始失败日志保留，生产实现未恢复旧目录回退。
+
+- UPDATE-DLL-01 python-green：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 1，计数不适用。日志与命令索引：`artifacts/runs/updater_added_dll_20261023/python-green.log`、`python-green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- CONFIG-LOC-01 Python 映射收尾：清单同步后通过 30、失败 1、跳过 0，返回码 1；剩余为旧方法总数硬编码断言。按用户明确删除一个旧目录入口同步该总数，并保留功能路径和迁移测试；本轮未增加生产修复。失败证据为 python-green.log 与补齐计数的同名 result.json。
+
+- UPDATE-DLL-01 python-complete：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 0，通过 31、失败 0、跳过 0。日志与命令索引：`artifacts/runs/updater_added_dll_20261023/python-complete.log`、`python-complete-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-DLL-01 compile：命令 `python -m compileall -q shahe_bulk_launcher tests`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/updater_added_dll_20261023/compile.log`、`compile-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-DLL-01 release：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\updater_added_dll_20261023\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/updater_added_dll_20261023/release.log`、`release-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-DLL-01 发布输出生成返回码 0；复用已通过 Release 构建，不重复编译。命令与输出见 artifacts/runs/updater_added_dll_20261023/publish-result.json、publish.log。
+
+- UPDATE-DLL-01 完整发布包组装/校验返回码 0；Configurations 目录存在且为空，打赏原图及 lib 运行文件齐全，无个人配置、测试或探针。文件清单/大小/SHA-256 见 artifacts/runs/updater_added_dll_20261023/package-result.json，脚本 package-release.py。
+
+- UPDATE-DLL-01 发布前源码差异检查：git diff --check 限定本次源码/测试/忽略规则范围，返回码 0；输出 artifacts/runs/updater_added_dll_20261023/source-diff.log。版本与配置修改已完成所需代码门禁，发布包经过空配置目录和资源白名单核对。
+
+- UPDATE-DLL-01 旧版隔离夹具准备返回码 0；来源为既有已校验正式包，旧配置位于 Configuration，未带打赏图片并模拟缺少一个可选 DLL。初始哈希、路径、读屏进程及正式 Sandboxie.ini 基线见 artifacts/runs/updater_added_dll_20261023/old-app-baseline.json。
+
+- UPDATE-DLL-01 GitCode 新包匿名下载通过：curl --fail 返回码 0，公开 content-addressed URL 下载大小与 SHA-256 和本地包一致；结果 artifacts/runs/updater_added_dll_20261023/package-download-result.json。Git 推送缺少凭据时改用已有登录网页上传，清单尚未切换。
+
+- UPDATE-DLL-01 GitCode 发布验证：正式 update.json 已指向 4.0.47，匿名读取返回码 0，与本地验证清单完全一致；远端 main 为 `e40ea608381e37ba3843b149b1fc764b93ab5e5c`。包下载哈希已通过，最新证据 `artifacts/runs/updater_added_dll_20261023/gitcode-release-result.json`、manifest-after.json 与 package-download-result.json。公开包中的 Configurations 目录为空，用户设置不随包分发。
+
+- UPDATE-DLL-01 GitCode 真实升级步骤 old-startup 已记录；目标 PID/路径及观测见 artifacts/runs/updater_added_dll_20261023/real-upgrade/old-startup.json，完整结论以 final-result.json 为准。
+
+- UPDATE-DLL-01 GitCode 真实升级完整场景返回码 3；结果 artifacts/runs/updater_added_dll_20261023/real-upgrade/final-result.json。
+
+- UPDATE-DLL-01 首次真实升级定位：旧版运行日志证明已成功检测 4.0.47 并显示内联“下载更新”，探针却等待“提示”弹窗，因此返回码 3 为场景准备无效，不是更新功能失败。旧主程序正常清理，尚未执行安装；保留 real-upgrade/final-result.json 与 first-real-attempt-app.log，辅助程序改为点击原生“下载更新”按钮，生产代码和发布包均不变。
+
+- UPDATE-DLL-01 入口校准辅助程序构建返回码 0，结果 artifacts/runs/updater_added_dll_20261023/probe-final-build-result.json；未改生产源码或发布包。
+
+- UPDATE-DLL-01 GitCode 真实升级步骤 old-startup 已记录；目标 PID/路径及观测见 artifacts/runs/updater_added_dll_20261023/real-upgrade-final/old-startup.json，完整结论以 final-result.json 为准。
+
+- UPDATE-DLL-01 GitCode 真实升级步骤 update-detected 已记录；目标 PID/路径及观测见 artifacts/runs/updater_added_dll_20261023/real-upgrade-final/update-detected.json，完整结论以 final-result.json 为准。
+
+- UPDATE-DLL-01 GitCode 真实升级完整场景返回码 3；结果 artifacts/runs/updater_added_dll_20261023/real-upgrade-final/final-result.json。
+
+- UPDATE-DLL-01 下载入口输入诊断：第二次已看到 4.0.47 下载按钮，BM_CLICK 消息未产生应用启动 updater 日志，故等待主进程退出超时，最后仅清理本轮隔离进程。real-upgrade-final/final-result.json 保留为无效输入证据，不认定产品失败；改为该原生按钮的 MSAA 默认动作并补充失败窗口观测，生产发布包不变。
+
+- UPDATE-DLL-01 无障碍按钮调用辅助程序构建返回码 0；日志 artifacts/runs/updater_added_dll_20261023/probe-accessible-build.log。
+
+- UPDATE-DLL-01 GitCode 真实升级步骤 old-startup 已记录；目标 PID/路径及观测见 artifacts/runs/updater_added_dll_20261023/real-upgrade-accessible/old-startup.json，完整结论以 final-result.json 为准。
+
+- UPDATE-DLL-01 GitCode 真实升级步骤 update-detected 已记录；目标 PID/路径及观测见 artifacts/runs/updater_added_dll_20261023/real-upgrade-accessible/update-detected.json，完整结论以 final-result.json 为准。
+
+- UPDATE-DLL-01 GitCode 真实升级完整场景返回码 3；结果 artifacts/runs/updater_added_dll_20261023/real-upgrade-accessible/final-result.json。
+
+- UPDATE-DLL-01 输入诊断更正：新增窗口快照证明旧版真实发布包在“下载更新”按钮之后还有标题“下载更新”的 Yes/No 确认；此前无启动 updater 日志是停在该确认，不是按钮消息未送达。前两条输入推断由本条观测修正，旧失败记录保留。补齐该既有确认后继续，不改生产代码或公开包；证据 real-upgrade-accessible/final-result.json。
+
+- UPDATE-DLL-01 旧版安装确认校准辅助程序构建返回码 0；日志 artifacts/runs/updater_added_dll_20261023/probe-confirmation-build.log。
+
+- UPDATE-DLL-01 GitCode 真实升级步骤 old-startup 已记录；目标 PID/路径及观测见 artifacts/runs/updater_added_dll_20261023/real-upgrade-complete/old-startup.json，完整结论以 final-result.json 为准。
+
+- UPDATE-DLL-01 GitCode 真实升级步骤 update-detected 已记录；目标 PID/路径及观测见 artifacts/runs/updater_added_dll_20261023/real-upgrade-complete/update-detected.json，完整结论以 final-result.json 为准。
+
+- UPDATE-DLL-01 GitCode 真实升级步骤 install-confirmation 已记录；目标 PID/路径及观测见 artifacts/runs/updater_added_dll_20261023/real-upgrade-complete/install-confirmation.json，完整结论以 final-result.json 为准。
+
+- UPDATE-DLL-01 GitCode 真实升级步骤 handoff 已记录；目标 PID/路径及观测见 artifacts/runs/updater_added_dll_20261023/real-upgrade-complete/handoff.json，完整结论以 final-result.json 为准。
+
+- UPDATE-DLL-01 GitCode 真实升级步骤 installed 已记录；目标 PID/路径及观测见 artifacts/runs/updater_added_dll_20261023/real-upgrade-complete/installed.json，完整结论以 final-result.json 为准。
+
+- UPDATE-DLL-01 GitCode 真实升级步骤 latest-version 已记录；目标 PID/路径及观测见 artifacts/runs/updater_added_dll_20261023/real-upgrade-complete/latest-version.json，完整结论以 final-result.json 为准。
+
+- UPDATE-DLL-01 GitCode 真实升级完整场景返回码 3；结果 artifacts/runs/updater_added_dll_20261023/real-upgrade-complete/final-result.json。
+
+- UPDATE-DLL-01 真实升级核心步骤通过：旧进程正常退出，生产 updater 返回 0，新主窗口已观察到；新配置目录迁移后原文件哈希一致，新旧 Core 哈希不同且包内全部文件哈希匹配，缺失可选 DLL 已补齐。最新版检查窗口明确显示 4.0.47。探针使用固定按钮 ID 关闭新版自定义“确定”控件失败，整体返回 3 并强制清理隔离主进程；此工具收尾失败保留，安装/检测/迁移证据见 real-upgrade-complete/installed.json、latest-version.json、handoff.json。接着仅验证已升级副本打赏窗口和正常退出，不重跑下载替换。
+
+- UPDATE-DLL-01 安装后资源检查辅助程序构建返回码 0；日志 artifacts/runs/updater_added_dll_20261023/post-update-build.log。
+
+- UPDATE-DLL-01 GitCode 真实升级步骤 installed-startup 已记录；目标 PID/路径及观测见 artifacts/runs/updater_added_dll_20261023/post-update-resources/installed-startup.json，完整结论以 final-result.json 为准。
+
+- UPDATE-DLL-01 GitCode 真实升级步骤 alipay-image 已记录；目标 PID/路径及观测见 artifacts/runs/updater_added_dll_20261023/post-update-resources/alipay-image.json，完整结论以 final-result.json 为准。
+
+- UPDATE-DLL-01 GitCode 真实升级步骤 wechat-image 已记录；目标 PID/路径及观测见 artifacts/runs/updater_added_dll_20261023/post-update-resources/wechat-image.json，完整结论以 final-result.json 为准。
+
+- UPDATE-DLL-01 已升级副本打赏/正常退出验证返回码 0；结果 artifacts/runs/updater_added_dll_20261023/post-update-resources/final-result.json。未重复安装更新。
+
+- UPDATE-DLL-01 真实升级分段证据汇总与环境清理：核对返回码 0。旧版退出、updater 成功、重启新版/最新版本确认、全部包文件哈希、新增 DLL、配置目录迁入及后续打赏窗口/正常退出均有证据；前次工具收尾失败如实保留，没有重装已成功更新。正式 Sandboxie.ini 和读屏进程不变，无隔离进程残留。权威汇总 artifacts/runs/updater_added_dll_20261023/upgrade-verification-result.json，应用日志 upgrade-application-complete.log。
+
+- UPDATE-DLL-01 / CONFIG-LOC-01 证据范围与审查：最终全量是在当前工作树执行，包含既有尚未提交的 KeyboardAuditRuntimeContractTests，本轮不提交该 AUDIT-04 文件。先前批量创建输入失败和 Python 旧 API 清单失败均有后续通过结果，历史不覆盖；生产源码通过最终门禁后未再变化。确认公开包不含个人配置、Configurations 只有目录条目，两张原始打赏图片和可选 DLL 在真实升级后均有哈希/窗口证据。实际真实程序命令与工具收尾局限见 `artifacts/runs/updater_added_dll_20261023/real-execution-commands.json`。
+
+- UPDATE-DLL-01 / CONFIG-LOC-01 最终差异检查：限定源码、测试、计划与结构文档的 git diff --check 返回码 2，计数不适用；结果 artifacts/runs/updater_added_dll_20261023/final-diff-result.json 与 final-diff.log。当前只整理提交，既有门禁未重复运行。
+
+- UPDATE-DLL-01 / CONFIG-LOC-01 差异检查修正：首轮仅本次追加文档两行混入 CRLF 被判空白错误，现统一为文档既有 LF，历史内容未修改。再次差异检查返回码 0，结果 final-diff-green-result.json / final-diff-green.log；首轮原始日志无损归档 final-diff.log.gz。
+
+- UPDATE-DLL-01 / CONFIG-LOC-01 提交前暂存检查：git diff --cached --check 返回码 0；实际暂存清单与 staging-files.txt 一致，生产变更、测试和证据均仅属本次追加任务，既有 AUDIT-04 未提交测试/审计及用户其他修改保持未暂存。命令结果追加在 final-diff-green-result.json。

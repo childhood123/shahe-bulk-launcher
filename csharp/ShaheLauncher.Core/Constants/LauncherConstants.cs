@@ -9,7 +9,7 @@ namespace ShaheLauncher.Core.Constants
     public static class LauncherConstants
     {
         public const string OldDefaultSandboxRoot = @"C:\Sandbox\Administrator";
-        public const string AppVersion = "4.0.46";
+        public const string AppVersion = "4.0.47";
         public const string UpdateManifestUrl = "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json";
         public const string LogOutputOff = "off";
         public const string LogOutputDetailed = "detailed";

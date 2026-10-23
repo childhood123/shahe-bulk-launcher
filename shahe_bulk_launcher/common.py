@@ -177,7 +177,18 @@ def get_configuration_dir(base_dir=None):
     root = str(base_dir or get_app_dir() or "").strip()
     if not root:
         root = get_app_dir()
-    return os.path.join(root, "Configuration")
+    return os.path.join(root, "Configurations")
+
+
+def prepare_configuration_dir(base_dir=None):
+    directory = get_configuration_dir(base_dir)
+    previous = os.path.join(os.path.dirname(directory), "Configuration")
+    if os.path.isdir(previous) and (not os.path.exists(directory) or not os.listdir(directory)):
+        if os.path.isdir(directory):
+            os.rmdir(directory)
+        os.rename(previous, directory)
+    os.makedirs(directory, exist_ok=True)
+    return directory
 
 
 def get_configuration_db_path(base_dir=None):

@@ -117,13 +117,13 @@ namespace ShaheLauncher.Tests
 
                 Assert.AreEqual(root, GetProperty<string>(formType, form, "AppDirectory"));
                 Assert.AreEqual(
-                    Path.Combine(root, "Configuration"),
+                    Path.Combine(root, "Configurations"),
                     GetProperty<string>(formType, form, "ConfigurationDirectory"));
                 Assert.AreEqual(
-                    Path.Combine(root, "Configuration", "shahe_config.ini"),
+                    Path.Combine(root, "Configurations", "shahe_config.ini"),
                     GetProperty<string>(formType, form, "ConfigurationStorePath"));
                 Assert.AreEqual(
-                    Path.Combine(root, "app_config.dat"),
+                    Path.Combine(root, "Configurations", "app_config.dat"),
                     GetProperty<string>(formType, form, "LegacyConfigPath"));
                 Assert.IsTrue(GetProperty<bool>(formType, form, "ApplicationInitialized"));
                 CollectionAssert.AreEqual(

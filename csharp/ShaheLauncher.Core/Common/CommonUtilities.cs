@@ -197,7 +197,21 @@ namespace ShaheLauncher.Core.Common
 
         public static string GetConfigurationDirectory(string baseDirectory)
         {
-            return Path.Combine(GetBaseDirectory(baseDirectory), "Configuration");
+            return Path.Combine(GetBaseDirectory(baseDirectory), "Configurations");
+        }
+
+        public static string PrepareConfigurationDirectory(string baseDirectory)
+        {
+            string directory = GetConfigurationDirectory(baseDirectory);
+            string previous = Path.Combine(GetBaseDirectory(baseDirectory), "Configuration");
+            if (Directory.Exists(previous)
+                && (!Directory.Exists(directory) || Directory.GetFileSystemEntries(directory).Length == 0))
+            {
+                if (Directory.Exists(directory)) Directory.Delete(directory);
+                Directory.Move(previous, directory);
+            }
+            Directory.CreateDirectory(directory);
+            return directory;
         }
 
         public static string GetConfigurationStorePath(string baseDirectory)

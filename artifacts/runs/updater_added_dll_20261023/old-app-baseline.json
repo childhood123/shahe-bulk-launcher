@@ -1,0 +1,18 @@
+{
+  "returnCode": 0,
+  "app": "D:\\mycodex\\git\\artifacts\\runs\\updater_added_dll_20261023\\old-app\\沙河批量打开器.exe",
+  "sourcePackage": "D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020\\gitcode-anonymous-package-final.zip",
+  "oldConfigurationHash": "EEF61D0C85A6DF5092789ACD8CC4DAD9791E2A39A45DB5360E348EF0C559E8C7",
+  "missingDonation": true,
+  "missingOptionalDll": true,
+  "readerPids": [
+    8760,
+    9060,
+    10880,
+    6760,
+    336,
+    4004
+  ],
+  "realSandboxieIniPath": "C:\\Windows\\Sandboxie.ini",
+  "realSandboxieIniHash": "39D051009854E85A0A34335D934C7128EB6E6E49B1BE6C8786CAE4662C0142C8"
+}

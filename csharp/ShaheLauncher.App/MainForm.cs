@@ -57,9 +57,9 @@ namespace ShaheLauncher.App
         {
             Runtime = runtime ?? throw new ArgumentNullException(nameof(runtime));
             AppDirectory = Runtime.GetAppDirectory();
-            ConfigurationDirectory = Path.Combine(AppDirectory, "Configuration");
+            ConfigurationDirectory = CommonUtilities.PrepareConfigurationDirectory(AppDirectory);
             ConfigurationStorePath = Path.Combine(ConfigurationDirectory, "shahe_config.ini");
-            LegacyConfigPath = Path.Combine(AppDirectory, "app_config.dat");
+            LegacyConfigPath = Path.Combine(ConfigurationDirectory, "app_config.dat");
 
             ConfigStore = new ConfigStore(
                 ConfigurationStorePath,
