@@ -1,0 +1,24 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\configuration_failure_safety_20261023\\bin\\",
+    "--logger",
+    "trx;LogFileName=green.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\configuration_failure_safety_20261023",
+    "--filter",
+    "FullyQualifiedName~ConfigurationFailureSafetyContractTests"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\configuration_failure_safety_20261023\\green.log",
+  "passed": 6,
+  "failed": 0,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\configuration_failure_safety_20261023\\green.trx"
+}

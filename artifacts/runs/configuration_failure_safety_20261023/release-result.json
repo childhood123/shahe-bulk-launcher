@@ -1,0 +1,19 @@
+{
+  "command": [
+    "dotnet",
+    "build",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\configuration_failure_safety_20261023\\bin\\"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\configuration_failure_safety_20261023\\release.log",
+  "passed": null,
+  "failed": null,
+  "skipped": null,
+  "warnings": 0,
+  "errors": 0
+}

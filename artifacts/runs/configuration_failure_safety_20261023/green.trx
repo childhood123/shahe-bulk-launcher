@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="6de8f402-62dd-464c-a7da-1544ac027d8b" name="Administrator@CHILDHOOD 2026-10-23 14:17:57" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-23T14:17:57.6668928+08:00" queuing="2026-10-23T14:17:57.6668931+08:00" start="2026-10-23T14:17:53.1013249+08:00" finish="2026-10-23T14:17:57.6760335+08:00" />
+  <TestSettings name="default" id="b2395324-7553-48cc-8ee6-19def332f5bc">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-23_14_17_57" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="5be37cef-8138-4712-a07d-93b978dbed1e" testId="0b919374-e0e3-2f36-af67-f2f0cb74e84c" testName="EveryWriteRejectsMalformedConfigurationWithoutChangingBytes (&quot;plain&quot;)" computerName="CHILDHOOD" duration="00:00:00.0042651" startTime="2026-10-23T14:17:57.2298008+08:00" endTime="2026-10-23T14:17:57.3285690+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5be37cef-8138-4712-a07d-93b978dbed1e" />
+    <UnitTestResult executionId="ae2fe598-8484-4e16-a0f0-0bc9661dece2" testId="cdbd8fb0-fb23-f105-f3c7-cb76d9518788" testName="TemporarilyUnreadableConfigurationIsNotReplacedAndRecoversAfterUnlock" computerName="CHILDHOOD" duration="00:00:00.0243295" startTime="2026-10-23T14:17:57.3405047+08:00" endTime="2026-10-23T14:17:57.3654378+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ae2fe598-8484-4e16-a0f0-0bc9661dece2" />
+    <UnitTestResult executionId="ff0af82a-38d5-460b-ad0b-51d8891263ff" testId="3913e06b-35f5-54ac-ffed-86c9d4e54d0b" testName="EveryWriteRejectsMalformedConfigurationWithoutChangingBytes (&quot;secret&quot;)" computerName="CHILDHOOD" duration="00:00:00.0036143" startTime="2026-10-23T14:17:57.3295344+08:00" endTime="2026-10-23T14:17:57.3335247+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ff0af82a-38d5-460b-ad0b-51d8891263ff" />
+    <UnitTestResult executionId="373b65ec-bfac-4b41-8f6c-2af40a13a8ae" testId="b2d8b7cd-be50-4a3d-5b51-cea2dd92a1bd" testName="EveryWriteRejectsMalformedConfigurationWithoutChangingBytes (&quot;settings&quot;)" computerName="CHILDHOOD" duration="00:00:00.0064836" startTime="2026-10-23T14:17:57.3335247+08:00" endTime="2026-10-23T14:17:57.3405047+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="373b65ec-bfac-4b41-8f6c-2af40a13a8ae" />
+    <UnitTestResult executionId="a81d443e-737f-4b4b-9127-73c6f91d5d8a" testId="5bbf2620-fb06-d2a4-46e1-56bb18b61d76" testName="StartupSettingsLoadPreservesMalformedConfigurationBytes" computerName="CHILDHOOD" duration="00:00:00.1527925" startTime="2026-10-23T14:17:56.7179647+08:00" endTime="2026-10-23T14:17:57.2158388+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a81d443e-737f-4b4b-9127-73c6f91d5d8a" />
+    <UnitTestResult executionId="2dd4abab-984d-41c6-af2c-cc31539f8705" testId="a4aa19e8-a2c2-6d59-1a0d-d1351b3f713e" testName="RepairedConfigurationCanBeSavedByTheSameStoreInstance" computerName="CHILDHOOD" duration="00:00:00.1888217" startTime="2026-10-23T14:17:57.3654378+08:00" endTime="2026-10-23T14:17:57.5587469+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2dd4abab-984d-41c6-af2c-cc31539f8705" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="EveryWriteRejectsMalformedConfigurationWithoutChangingBytes (&quot;settings&quot;)" storage="d:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="b2d8b7cd-be50-4a3d-5b51-cea2dd92a1bd">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Common" />
+      </TestCategory>
+      <Execution id="373b65ec-bfac-4b41-8f6c-2af40a13a8ae" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ConfigurationFailureSafetyContractTests" name="EveryWriteRejectsMalformedConfigurationWithoutChangingBytes" />
+    </UnitTest>
+    <UnitTest name="TemporarilyUnreadableConfigurationIsNotReplacedAndRecoversAfterUnlock" storage="d:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="cdbd8fb0-fb23-f105-f3c7-cb76d9518788">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Common" />
+      </TestCategory>
+      <Execution id="ae2fe598-8484-4e16-a0f0-0bc9661dece2" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ConfigurationFailureSafetyContractTests" name="TemporarilyUnreadableConfigurationIsNotReplacedAndRecoversAfterUnlock" />
+    </UnitTest>
+    <UnitTest name="EveryWriteRejectsMalformedConfigurationWithoutChangingBytes (&quot;secret&quot;)" storage="d:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="3913e06b-35f5-54ac-ffed-86c9d4e54d0b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Common" />
+      </TestCategory>
+      <Execution id="ff0af82a-38d5-460b-ad0b-51d8891263ff" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ConfigurationFailureSafetyContractTests" name="EveryWriteRejectsMalformedConfigurationWithoutChangingBytes" />
+    </UnitTest>
+    <UnitTest name="RepairedConfigurationCanBeSavedByTheSameStoreInstance" storage="d:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="a4aa19e8-a2c2-6d59-1a0d-d1351b3f713e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Common" />
+      </TestCategory>
+      <Execution id="2dd4abab-984d-41c6-af2c-cc31539f8705" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ConfigurationFailureSafetyContractTests" name="RepairedConfigurationCanBeSavedByTheSameStoreInstance" />
+    </UnitTest>
+    <UnitTest name="EveryWriteRejectsMalformedConfigurationWithoutChangingBytes (&quot;plain&quot;)" storage="d:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="0b919374-e0e3-2f36-af67-f2f0cb74e84c">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Common" />
+      </TestCategory>
+      <Execution id="5be37cef-8138-4712-a07d-93b978dbed1e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ConfigurationFailureSafetyContractTests" name="EveryWriteRejectsMalformedConfigurationWithoutChangingBytes" />
+    </UnitTest>
+    <UnitTest name="StartupSettingsLoadPreservesMalformedConfigurationBytes" storage="d:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="5bbf2620-fb06-d2a4-46e1-56bb18b61d76">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Common" />
+      </TestCategory>
+      <Execution id="a81d443e-737f-4b4b-9127-73c6f91d5d8a" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ConfigurationFailureSafetyContractTests" name="StartupSettingsLoadPreservesMalformedConfigurationBytes" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="0b919374-e0e3-2f36-af67-f2f0cb74e84c" executionId="5be37cef-8138-4712-a07d-93b978dbed1e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="cdbd8fb0-fb23-f105-f3c7-cb76d9518788" executionId="ae2fe598-8484-4e16-a0f0-0bc9661dece2" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3913e06b-35f5-54ac-ffed-86c9d4e54d0b" executionId="ff0af82a-38d5-460b-ad0b-51d8891263ff" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="b2d8b7cd-be50-4a3d-5b51-cea2dd92a1bd" executionId="373b65ec-bfac-4b41-8f6c-2af40a13a8ae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="5bbf2620-fb06-d2a4-46e1-56bb18b61d76" executionId="a81d443e-737f-4b4b-9127-73c6f91d5d8a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a4aa19e8-a2c2-6d59-1a0d-d1351b3f713e" executionId="2dd4abab-984d-41c6-af2c-cc31539f8705" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="6" executed="6" passed="6" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

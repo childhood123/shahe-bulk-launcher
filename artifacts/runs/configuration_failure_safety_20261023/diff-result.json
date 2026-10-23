@@ -1,0 +1,8 @@
+{
+  "trackedPythonChanges": [],
+  "returnCode": 0,
+  "command": "git diff --check -- scoped production/documents; inspect new source/design/script text",
+  "newTextErrors": [],
+  "stagedCheckReturnCode": 0,
+  "manifestMatches": true
+}

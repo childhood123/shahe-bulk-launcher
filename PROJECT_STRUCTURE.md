@@ -2,6 +2,7 @@
 
 ## 当前执行摘要（2026-10-23 4.0.47 发布与配置追加任务完成，AUDIT-04 待续）
 
+- 用户最新范围与 FIX-CONFIG-01：后续不修改 Python。本轮“配置读取失败时保护原文件”已完成最小修复及门禁，正在选择性独立交付；损坏或暂时无法读取的配置不再被空文档覆盖，公共读取默认值与写入失败返回保持。保存失败误报成功、还原数据回退/服务恢复及发布入口仍待后续修复，边界见 `artifacts/runs/configuration_failure_safety_20261023/source-review.md`。唯一活动计划和 AUDIT-04 未完成状态不变，已通过的无关桌面项目不重跑。
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-09 已按用户“反正能记忆到999条记录就行之前是20”的明确要求更新为 C# `0–999`；除该用户指定差异外，后续功能继续保留 Python 原文案和行为，只用 C# 实现。
 - 当前状态：AUDIT-03 已完成并推送，用户已恢复 AUDIT-04。追加功能 HOTKEY-ENTER-01 已完成验证、独立提交并推送：快捷键功能列表全部行可通过 Enter 执行，交付记录见本文件末尾。AUDIT-04 其他真实键盘、菜单、托盘及单读屏待办保留，既有未提交审计记录留在工作树；本提交不将它们勾选为完成，不进入 AUDIT-05，整体迁移未完成。
 - 当前追加任务 UPDATE-DLL-01 / CONFIG-LOC-01：4.0.47 已公开发布并通过真实旧版升级验证；Configurations 为唯一用户配置目录，公开包只带空目录，旧配置完整迁入，新增 DLL 与打赏图片落盘和窗口读取通过。源码已独立提交并推送；AUDIT-04 原待办保留，不进入后续模块。
@@ -2910,3 +2911,23 @@ csharp/
 - UPDATE-DLL-01 / CONFIG-LOC-01 提交前暂存检查：git diff --cached --check 返回码 0；实际暂存清单与 staging-files.txt 一致，生产变更、测试和证据均仅属本次追加任务，既有 AUDIT-04 未提交测试/审计及用户其他修改保持未暂存。命令结果追加在 final-diff-green-result.json。
 
 - UPDATE-DLL-01 / CONFIG-LOC-01 源码交付完成：独立提交 `a5b4a18610f17fec1464eff2c267ab2037332c41` 已推送 `origin/voice03-fixed-reader-20261022`，推送返回码 0；回退命令 `git revert a5b4a18610f17fec1464eff2c267ab2037332c41`。GitCode 4.0.47 公开包和正式清单已生效，真实旧版更新、新增 DLL、打赏资源与 Configurations 迁入通过。交付记录 `artifacts/runs/updater_added_dll_20261023/delivery-result.json`；本轮停止在追加任务完成处，AUDIT-04 未验收项及后续模块继续保留，不宣称整体迁移完成。
+
+- FIX-CONFIG-01 red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\ --logger trx;LogFileName=red.trx --results-directory D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023 --filter FullyQualifiedName~ConfigurationFailureSafetyContractTests`；返回码 1，通过 0、失败 6、跳过 0。日志与命令索引：`artifacts/runs/configuration_failure_safety_20261023/red.log`、`red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- FIX-CONFIG-01 green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\ --logger trx;LogFileName=green.trx --results-directory D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023 --filter FullyQualifiedName~ConfigurationFailureSafetyContractTests`；返回码 0，通过 6、失败 0、跳过 0。日志与命令索引：`artifacts/runs/configuration_failure_safety_20261023/green.log`、`green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- FIX-CONFIG-01 affected：命令 `dotnet vstest D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll /Platform:x64 /Logger:trx;LogFileName=affected.trx /ResultsDirectory:D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023 /TestCaseFilter:FullyQualifiedName~ConfigStoreContractTests|FullyQualifiedName~ConfigurationFailureSafetyContractTests|FullyQualifiedName~LauncherSettingsServiceContractTests|FullyQualifiedName~JsonSettingsRuntimeContractTests|FullyQualifiedName~ConfigurationDirectoryContractTests|FullyQualifiedName~MainFormApplicationContractTests|FullyQualifiedName~SpeechServiceContractTests|FullyQualifiedName~UpdateServiceContractTests`；返回码 0，通过 87、失败 0、跳过 0。日志与命令索引：`artifacts/runs/configuration_failure_safety_20261023/affected.log`、`affected-result.json`；如为 C# 测试，另有同名 TRX。
+
+- FIX-CONFIG-01 full：命令 `dotnet vstest D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll /Platform:x64 /Logger:trx;LogFileName=full.trx /ResultsDirectory:D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023`；返回码 0，通过 404、失败 0、跳过 0。日志与命令索引：`artifacts/runs/configuration_failure_safety_20261023/full.log`、`full-result.json`；如为 C# 测试，另有同名 TRX。
+
+- FIX-CONFIG-01 python：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 0，通过 31、失败 0、跳过 0。日志与命令索引：`artifacts/runs/configuration_failure_safety_20261023/python.log`、`python-result.json`；如为 C# 测试，另有同名 TRX。
+
+- FIX-CONFIG-01 compile：命令 `python -m compileall -q shahe_bulk_launcher tests`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/configuration_failure_safety_20261023/compile.log`、`compile-result.json`；如为 C# 测试，另有同名 TRX。
+
+- FIX-CONFIG-01 release：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/configuration_failure_safety_20261023/release.log`、`release-result.json`；如为 C# 测试，另有同名 TRX。
+
+- FIX-CONFIG-01 Release 明细与证据边界：本轮隔离 Release 为 0 警告、0 错误；生产源码只有 ConfigStore 底层读取保护差异，公开包未改变。全量数量属于当前工作树，含原有未提交的 KeyboardAuditRuntimeContractTests，该文件不纳入本轮；其他缺陷和未完成真实审计保留，详见本轮 source-review.md。
+
+- FIX-CONFIG-01 直接审查与限定差异检查：返回码 0，新增文本无空白/编码错误，Python 源码无修改；结果 artifacts/runs/configuration_failure_safety_20261023/diff-result.json、diff.log，审查 source-review.md。仅剩选择性提交、推送与交付回填，不重复既有通过验证。
+
+- FIX-CONFIG-01 暂存检查：git diff --cached --check 返回码 0，实际清单与 staging-files.txt 一致；共享文档使用基于 HEAD 的仅本模块索引版本，既有 AUDIT-04/REVIEW-07 历史与用户其他改动保留在工作树，不纳入提交。结果已补入本轮 diff-result.json。
