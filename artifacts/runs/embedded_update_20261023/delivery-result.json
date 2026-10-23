@@ -1,0 +1,19 @@
+{
+  "sourceCommit": "c074aeb4b8afd22e1f35a86d1a3dc368394bc0fe",
+  "remoteBranch": "origin/voice03-fixed-reader-20261022",
+  "pushReturnCode": 0,
+  "pushCommand": [
+    "git",
+    "-c",
+    "http.proxy=socks5h://127.0.0.1:10808",
+    "push",
+    "origin",
+    "HEAD:voice03-fixed-reader-20261022"
+  ],
+  "revert": "git revert c074aeb4b8afd22e1f35a86d1a3dc368394bc0fe",
+  "scope": "UPDATE-EMBED-01 only; uncommitted FIX-CONFIG-02 withdrawn by user",
+  "publishedPackageUpdated": false,
+  "user46DirectoryChanged": false,
+  "defaultPublish": "artifacts/runs/embedded_update_20261023/publish-default-final",
+  "legacyCompatibilityPublish": "artifacts/runs/embedded_update_20261023/publish-legacy-final"
+}
