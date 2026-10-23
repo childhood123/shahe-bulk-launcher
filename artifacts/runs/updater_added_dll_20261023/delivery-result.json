@@ -1,0 +1,18 @@
+{
+  "sourceCommit": "a5b4a18610f17fec1464eff2c267ab2037332c41",
+  "sourceRemoteBranch": "origin/voice03-fixed-reader-20261022",
+  "pushCommand": [
+    "git",
+    "-c",
+    "http.proxy=socks5h://127.0.0.1:10808",
+    "push",
+    "origin",
+    "HEAD:voice03-fixed-reader-20261022"
+  ],
+  "pushReturnCode": 0,
+  "gitcodeCommit": "e40ea608381e37ba3843b149b1fc764b93ab5e5c",
+  "gitcodeBranch": "main",
+  "releasedVersion": "4.0.47",
+  "revert": "git revert a5b4a18610f17fec1464eff2c267ab2037332c41",
+  "scope": "Version update, Configurations-only user settings, empty folder in public package and verified real GitCode upgrade; overall migration remains incomplete"
+}
