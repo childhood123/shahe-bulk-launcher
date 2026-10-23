@@ -1,0 +1,15 @@
+{
+  "returnCode": 0,
+  "passed": 3,
+  "failed": 0,
+  "skipped": 0,
+  "scope": "Real embedded main update mode, compatibility alias protocol, actual published 4.0.46 updater installing compatibility payload",
+  "evidence": [
+    "embedded-self.json",
+    "installed-startup-exit-visible.json",
+    "legacy-protocol-alias.json",
+    "published46-to-embedded.json",
+    "install-environment-after.json"
+  ],
+  "limitation": "Initial successful installation restart observer returned a null exit code; its visible main was observed. A separate already-installed main startup/normal exit passed without repeating installation. Earlier hidden-window launch was invalid and preserved."
+}

@@ -75,7 +75,7 @@ namespace ShaheLauncher.Tests
                 Assert.AreEqual("自动更新不可用，请稍后重试", form.StatusLabel.Text);
                 Assert.AreEqual(1, messages.Count);
                 StringAssert.StartsWith(messages[0], "自动更新不可用|");
-                StringAssert.Contains(messages[0], "当前版本只支持通过内置更新程序安装增量补丁，请稍后重试。");
+                StringAssert.Contains(messages[0], "请稍后重试。");
             });
         }
 

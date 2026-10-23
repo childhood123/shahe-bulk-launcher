@@ -799,8 +799,8 @@ namespace ShaheLauncher.App
             };
             DownloadUpdateButton = new Button
             {
-                Text = "下载更新",
-                AccessibleName = "下载更新",
+                Text = "立即更新",
+                AccessibleName = "立即更新",
                 AutoSize = true,
                 TabIndex = 0
             };

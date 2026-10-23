@@ -1,0 +1,15 @@
+{
+  "returnCode": 0,
+  "passed": 2,
+  "failed": 0,
+  "skipped": 0,
+  "oldDirectoryUntouched": true,
+  "downloadRequests": [
+    "/legacy.zip",
+    "/legacy.zip"
+  ],
+  "scenarios": [
+    "legacy-protocol-alias",
+    "published46-to-embedded"
+  ]
+}

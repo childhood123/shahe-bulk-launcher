@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaheLauncher.Core", "Shahe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaheLauncher.App", "ShaheLauncher.App\ShaheLauncher.App.csproj", "{398A8570-D73C-46BA-A640-6A3A3E4A265D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaheLauncher.Updater", "ShaheLauncher.Updater\ShaheLauncher.Updater.csproj", "{7367B330-3B68-4C10-A5CC-5467956FEBC7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaheLauncher.Tests", "ShaheLauncher.Tests\ShaheLauncher.Tests.csproj", "{0FC90BD2-E620-4809-81B9-FA9725D172CE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShaheLauncher.AuditRunner", "ShaheLauncher.AuditRunner\ShaheLauncher.AuditRunner.csproj", "{A77F6DA5-7A5E-42D7-9FE7-A901BCD00348}"
@@ -30,10 +28,6 @@ Global
 		{398A8570-D73C-46BA-A640-6A3A3E4A265D}.Debug|x64.Build.0 = Debug|x64
 		{398A8570-D73C-46BA-A640-6A3A3E4A265D}.Release|x64.ActiveCfg = Release|x64
 		{398A8570-D73C-46BA-A640-6A3A3E4A265D}.Release|x64.Build.0 = Release|x64
-		{7367B330-3B68-4C10-A5CC-5467956FEBC7}.Debug|x64.ActiveCfg = Debug|x64
-		{7367B330-3B68-4C10-A5CC-5467956FEBC7}.Debug|x64.Build.0 = Debug|x64
-		{7367B330-3B68-4C10-A5CC-5467956FEBC7}.Release|x64.ActiveCfg = Release|x64
-		{7367B330-3B68-4C10-A5CC-5467956FEBC7}.Release|x64.Build.0 = Release|x64
 		{0FC90BD2-E620-4809-81B9-FA9725D172CE}.Debug|x64.ActiveCfg = Debug|x64
 		{0FC90BD2-E620-4809-81B9-FA9725D172CE}.Debug|x64.Build.0 = Debug|x64
 		{0FC90BD2-E620-4809-81B9-FA9725D172CE}.Release|x64.ActiveCfg = Release|x64

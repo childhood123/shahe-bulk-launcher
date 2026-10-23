@@ -70,8 +70,11 @@ namespace ShaheLauncher.Core.Updates
             MessageText = string.Empty;
             PromptText = string.Empty;
             ErrorText = string.Empty;
+            ReleaseNotes = string.Empty;
         }
 
+        public string ReleaseNotes { get; set; }
+        public bool IsManualCheck { get; set; }
         public string LatestVersion { get; set; }
         public bool HasUpdate { get; set; }
         public bool ForceUpdate { get; set; }
@@ -314,7 +317,7 @@ namespace ShaheLauncher.Core.Updates
             string updaterPath = ResolveUpdaterExecutable();
             if (updaterPath.Length == 0)
             {
-                return Failure("未找到更新程序，自动更新无法继续。");
+                return Failure("未找到主程序，自动更新无法继续。");
             }
 
             int processId = _callbacks.GetProcessId == null
@@ -331,8 +334,12 @@ namespace ShaheLauncher.Core.Updates
             try
             {
                 Directory.CreateDirectory(helperDirectory);
-                string temporaryUpdater = Path.Combine(helperDirectory, "updater.exe");
+                string temporaryUpdater = Path.Combine(helperDirectory, Path.GetFileName(updaterPath));
                 File.Copy(updaterPath, temporaryUpdater, true);
+                if (File.Exists(updaterPath + ".config"))
+                {
+                    File.Copy(updaterPath + ".config", temporaryUpdater + ".config", true);
+                }
                 foreach (string library in Directory.GetFiles(AppDirectory, "*.dll"))
                 {
                     File.Copy(library, Path.Combine(helperDirectory, Path.GetFileName(library)), true);
@@ -371,6 +378,7 @@ namespace ShaheLauncher.Core.Updates
                     Command = new List<string>
                     {
                         temporaryUpdater,
+                        "--install-update",
                         "--app-dir", AppDirectory,
                         "--exe", _currentExecutablePath,
                         "--pid", processId.ToString(CultureInfo.InvariantCulture),
@@ -387,7 +395,7 @@ namespace ShaheLauncher.Core.Updates
 
         public string ResolveUpdaterExecutable()
         {
-            string candidate = Path.Combine(AppDirectory, "updater.exe");
+            string candidate = _currentExecutablePath;
             return File.Exists(candidate) ? Path.GetFullPath(candidate) : string.Empty;
         }
 
@@ -400,6 +408,8 @@ namespace ShaheLauncher.Core.Updates
             var result = new UpdateDisplayResult
             {
                 LatestVersion = latestVersion,
+                ReleaseNotes = FormatUpdateNotes(GetValue(manifest, "release_notes", string.Empty)),
+                IsManualCheck = !silentWhenLatest,
                 MessageTitle = "检查更新"
             };
             if (latestVersion.Length == 0)
@@ -434,7 +444,7 @@ namespace ShaheLauncher.Core.Updates
 
             result.ShouldPrompt = true;
             result.PromptText = "发现新版本" + latestVersion;
-            result.StatusText = "发现新版本 " + latestVersion + "，可稍后点击“下载更新”";
+            result.StatusText = "发现新版本 " + latestVersion + "，可点击“立即更新”";
             result.ShouldShowNotice = true;
             return result;
         }
@@ -453,8 +463,8 @@ namespace ShaheLauncher.Core.Updates
                     UpdateDisplayResult display = BuildUpdateDisplayResult(manifest, silentWhenLatest, inlineWhenUpdate);
                     PostToUi(delegate
                     {
-                        _callbacks.SetStatus?.Invoke(display.StatusText);
-                        _callbacks.ShowUpdateResult?.Invoke(display);
+                        if (_callbacks.ShowUpdateResult != null) _callbacks.ShowUpdateResult(display);
+                        else _callbacks.SetStatus?.Invoke(display.StatusText);
                     });
                 }
                 catch (Exception error)

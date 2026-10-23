@@ -1,0 +1,25 @@
+const fs=require('node:fs/promises');
+const path=require('node:path');
+const {execFileSync}=require('node:child_process');
+const run=__dirname,repo=path.resolve(run,'../../..');
+const git=(args)=>execFileSync('git',args,{cwd:repo,encoding:'utf8',windowsHide:true,maxBuffer:8000000});
+(async()=>{
+ const stage=path.join(run,'staging');await fs.mkdir(stage,{recursive:true});
+ const planPath='docs/superpowers/plans/2026-10-20-remaining-migration-closure.md';
+ const plan=await fs.readFile(path.join(repo,planPath),'utf8');const marker='### UPDATE-EMBED-01：内置更新与更新内容选择窗口';
+ const index=plan.indexOf(marker);if(index<0)throw new Error('Approved plan section missing');
+ const priorPlan=git(['show','HEAD:'+planPath]);if(priorPlan.includes(marker))throw new Error('Use delivery staging after initial feature commit');
+ await fs.writeFile(path.join(stage,'plan.md'),priorPlan.trimEnd()+'\n\n'+plan.slice(index).replace(/\r\n/g,'\n'));
+ const structure=(await fs.readFile(path.join(repo,'PROJECT_STRUCTURE.md'),'utf8')).replace(/\r\n/g,'\n');
+ const lines=structure.split('\n');const title=lines.find(l=>l.startsWith('## 当前执行摘要'));const summary=lines.find(l=>l.startsWith('- 用户最新范围：'));
+ const records=lines.filter(l=>l.startsWith('- UPDATE-EMBED-01'));
+ let priorStructure=git(['show','HEAD:PROJECT_STRUCTURE.md']);
+ priorStructure=priorStructure.replace(/## 当前执行摘要[^\n]+/,title).replace(/- 用户最新范围与 FIX-CONFIG-01：[^\n]+/,summary);
+ await fs.writeFile(path.join(stage,'PROJECT_STRUCTURE.md'),priorStructure.trimEnd()+'\n\n'+records.join('\n\n')+'\n');
+ let files=git(['diff','HEAD','--name-only','--','csharp']).trim().split(/\r?\n/).filter(Boolean);
+ files.push('csharp/ShaheLauncher.App/UI/Dialogs/Common/UpdateAvailableDialog.cs','csharp/ShaheLauncher.Tests/EmbeddedUpdateContractTests.cs','docs/superpowers/specs/2026-10-23-embedded-update-design.md',planPath,'PROJECT_STRUCTURE.md');
+ const prefix='artifacts/runs/embedded_update_20261023/';
+ for(const e of await fs.readdir(run,{withFileTypes:true}))if(e.isFile()&&/\.(json|log|trx|ps1|cjs|md|txt|diff)$/.test(e.name))files.push(prefix+e.name);
+ files.push(prefix+'scope-update-only/withdrawal-result.json',prefix+'staging-files.txt');
+ files=[...new Set(files)].sort();await fs.writeFile(path.join(run,'staging-files.txt'),files.join('\n')+'\n');console.log(files.join('\n'));
+})().catch(error=>{console.error(error);process.exitCode=1;});

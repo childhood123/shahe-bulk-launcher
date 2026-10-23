@@ -158,14 +158,13 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
-        public void PreparesPackagedUpdaterHelperAndRequestFileLikePython()
+        public void PreparesPackagedMainHelperAndRequestFile()
         {
             Type serviceType = ReflectionTestHelpers.RequireType(ServiceTypeName);
             Type callbacksType = ReflectionTestHelpers.RequireType(CallbacksTypeName);
             string root = CreateTemporaryDirectory("shahe-update-helper-");
             try
             {
-                File.WriteAllText(Path.Combine(root, "updater.exe"), "fake updater");
                 Directory.CreateDirectory(Path.Combine(root, "internal"));
                 File.WriteAllText(Path.Combine(root, "internal", "runtime.dat"), "runtime");
                 string mainExe = Path.Combine(root, "沙河批量打开器.exe");
@@ -196,8 +195,9 @@ namespace ShaheLauncher.Tests
                 Assert.AreEqual("", GetProperty<string>(preparationType, preparation, "Error"));
                 IList<string> command = ToStringList(GetProperty<object>(preparationType, preparation, "Command"));
                 string helperDir = Path.Combine(root, "tenp", "updater_helper_12345_1000");
-                Assert.AreEqual(Path.Combine(helperDir, "updater.exe"), command[0]);
-                Assert.AreEqual("fake updater", File.ReadAllText(command[0]));
+                Assert.AreEqual(Path.Combine(helperDir, "沙河批量打开器.exe"), command[0]);
+                Assert.AreEqual("fake main", File.ReadAllText(command[0]));
+                Assert.AreEqual("--install-update", command[1]);
                 Assert.AreEqual("runtime", File.ReadAllText(Path.Combine(helperDir, "internal", "runtime.dat")));
                 Assert.AreEqual(mainExe, command[command.IndexOf("--exe") + 1]);
                 string requestPath = command[command.IndexOf("--request-file") + 1];

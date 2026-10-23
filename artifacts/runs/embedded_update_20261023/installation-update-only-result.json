@@ -1,0 +1,13 @@
+{
+  "returnCode": 0,
+  "passed": 1,
+  "failed": 0,
+  "skipped": 0,
+  "oldDirectoryUntouched": true,
+  "downloadRequests": [
+    "/default.zip"
+  ],
+  "scenarios": [
+    "embedded-self"
+  ]
+}

@@ -1,0 +1,24 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\embedded_update_20261023\\bin\\",
+    "--logger",
+    "trx;LogFileName=affected-green.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\embedded_update_20261023",
+    "--filter",
+    "FullyQualifiedName~Update|FullyQualifiedName~EmbeddedUpdateContractTests|FullyQualifiedName~MainFormApplicationContractTests"
+  ],
+  "returnCode": 0,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\embedded_update_20261023\\affected-green.log",
+  "passed": 77,
+  "failed": 0,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\embedded_update_20261023\\affected-green.trx"
+}

@@ -1,0 +1,22 @@
+HTTP/1.1 200 OK
+Date: Fri, 23 Oct 2026 07:23:03 GMT
+Content-Type: text/plain;charset=UTF-8
+Content-Length: 507
+Connection: keep-alive
+Set-Cookie: HWWAFSESTIME=1792740181681; path=/
+Set-Cookie: HWWAFSESID=45d0397ab91a8341ca; path=/
+X-Content-Type-Options: nosniff
+lubanops-nenv-id: 435977
+X-Download-Options: noopen
+ETag: "b:d64e334574a5ba68023b1e1f8a7a09cbedd841c0"
+Vary: Accept-Encoding
+Last-Modified: 2026-10-23T05:25:20.000Z
+Content-Disposition: inline; filename=update.json
+X-XSS-Protection: 1; mode=block
+lubanops-gtrace-id: v-7797987-1792740183764-7521771
+Strict-Transport-Security: max-age=31536000; includeSubdomains;
+Strict-Transport-Security: max-age=31536000
+Cache-Control: public, max-age=300, must-revalidate
+Trace-Id: 66498fc0c4c4be3470615d0ee5d36072
+Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+Server: elb

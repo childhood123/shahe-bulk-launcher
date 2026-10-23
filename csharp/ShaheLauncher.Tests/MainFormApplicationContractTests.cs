@@ -513,11 +513,12 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
-        public void ReleaseBuildCopiesUpdaterBesideMainExecutable()
+        public void ReleaseBuildUsesEmbeddedUpdaterAndOptionalLegacyCompatibility()
         {
             string root = FindRepositoryRoot();
             string projectSource = File.ReadAllText(Path.Combine(root, "csharp", "ShaheLauncher.App", "ShaheLauncher.App.csproj"));
-            StringAssert.Contains(projectSource, "ShaheLauncher.Updater.csproj");
+            Assert.IsFalse(projectSource.Contains("ShaheLauncher.Updater.csproj"));
+            StringAssert.Contains(projectSource, "IncludeLegacyUpdateCompatibility");
             StringAssert.Contains(projectSource, "updater.exe");
             StringAssert.Contains(projectSource, "Copy");
         }

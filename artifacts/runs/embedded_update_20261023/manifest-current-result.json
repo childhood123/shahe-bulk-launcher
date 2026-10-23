@@ -1,0 +1,6 @@
+{
+  "command": "curl.exe --location --fail --max-time 20; public update.json with no-cache and timestamp",
+  "returnCode": 0,
+  "stdout": "",
+  "stderr": ""
+}

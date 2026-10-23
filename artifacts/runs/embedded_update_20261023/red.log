@@ -1,0 +1,85 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.Updater -> D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\updater.exe
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 PreparesMainExecutableCopyWithoutStandaloneUpdater [463 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: <>，实际为: <未找到更新程序，自动更新无法继续。>。
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.<>c.<PreparesMainExecutableCopyWithoutStandaloneUpdater>b__0_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 29
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 InstallsPackageWithoutUpdaterAndKeepsConfigurations [17 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsTrue 失败。更新包缺少主程序或 updater.exe
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(Boolean condition, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsTrue.cs:行号 99
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.<>c.<InstallsPackageWithoutUpdaterAndKeepsConfigurations>b__1_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 44
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions ("立即更新",Yes) [11 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。The accessible update-choice dialog must exist.
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.<>c__DisplayClass2_0.<UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 66
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions ("稍后更新",No) [4 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。The accessible update-choice dialog must exist.
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.<>c__DisplayClass2_0.<UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 66
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions ("忽略此版本",Ignore) [8 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。The accessible update-choice dialog must exist.
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.<>c__DisplayClass2_0.<UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions>b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 66
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 IgnorePersistsAndSkipsOnlyAutomaticChecksForThatVersion [749 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。Missing update behavior: ShowUpdateDialogCallback
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.Set(Object obj, String name, Object value) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 145
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.<>c.<IgnorePersistsAndSkipsOnlyAutomaticChecksForThatVersion>b__3_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 98
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+  失败 IgnoreSaveFailureIsReportedAndDoesNotHideAvailableUpdate [119 ms]
+  错误消息:
+   STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。Missing update behavior: ShowUpdateDialogCallback
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.Set(Object obj, String name, Object value) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 145
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.<>c.<IgnoreSaveFailureIsReportedAndDoesNotHideAvailableUpdate>b__4_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 123
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.<>c__DisplayClass1_0.<WithForm>b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45
+
+结果文件: D:\mycodex\git\artifacts\runs\embedded_update_20261023\red.trx
+
+失败!  - 失败:     7，通过:     0，已跳过:     0，总计:     7，持续时间: 1 s - ShaheLauncher.Tests.dll (net48)

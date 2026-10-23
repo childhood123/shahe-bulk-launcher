@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json.Linq;
 using ShaheLauncher.App.Input;
 using ShaheLauncher.App.UI.Controls;
 using ShaheLauncher.App.UI.Dialogs.Common;
@@ -34,6 +35,7 @@ namespace ShaheLauncher.App
         private readonly LauncherSettingsState _settingsState = new LauncherSettingsState();
         private IDictionary<string, string> _hotkeys = new Dictionary<string, string>();
         private bool _hotkeysEnabled;
+        private bool _updateChoiceMadeThisSession;
         private bool _applicationServicesDisposeStarted;
         private bool _loadingApplicationSettings;
         private bool _sandboxDisplayMapsInitialized;
@@ -122,6 +124,7 @@ namespace ShaheLauncher.App
             SandboxToggledCallback = OnSandboxToggled;
             LaunchSelectedCallback = LaunchSelectedSandboxes;
             DownloadUpdateCallback = DownloadUpdate;
+            ShowUpdateDialogCallback = ShowUpdateDialog;
             MuteCurrentCallback = name => ProcessActionService.OnMuteCurrentSandbox(name, ProcessState, ProcessCallbacks);
             MuteAllCallback = () => ProcessActionService.OnMuteAllSandboxes(ProcessState, ProcessCallbacks);
             VolumeCurrentCallback = (name, step) => ProcessActionService.OnAdjustVolumeCurrentSandbox(
@@ -173,6 +176,7 @@ namespace ShaheLauncher.App
         public BackupRestoreService BackupRestoreService { get; private set; }
         public SpeechService SpeechService { get; private set; }
         public UpdateService UpdateService { get; private set; }
+        public Func<UpdateDisplayResult, DialogResult> ShowUpdateDialogCallback { get; set; }
         public ProcessActionState ProcessState { get; private set; }
         public LaunchSchedulerState LaunchState { get; private set; }
         public SandboxAdminState SandboxAdminState { get; private set; }
@@ -4006,25 +4010,49 @@ namespace ShaheLauncher.App
                 return;
             }
 
+            var preference = ConfigStore.GetJson("update_preference", null) as JObject;
+            bool sameVersion = string.Equals((string)preference?["version"], result.LatestVersion, StringComparison.Ordinal);
+            string previousChoice = sameVersion ? (string)preference?["action"] : string.Empty;
+            if (!result.IsManualCheck && previousChoice == "ignore") return;
+            if (!result.IsManualCheck && previousChoice == "later" && !_updateChoiceMadeThisSession)
+            {
+                _updateChoiceMadeThisSession = true;
+                Runtime.AppendDailyLog("按上次选择在启动时更新: " + result.LatestVersion);
+                LaunchUpdate(result);
+                return;
+            }
+
+            bool preferenceSaveFailed = false;
+            string choiceStatus = string.Empty;
             if (result.ShouldPrompt)
             {
-                DialogResult answer = ConfirmMessage(
-                    result.PromptText,
-                    "提示",
-                    MessageBoxButtons.YesNo,
-                    result.ForceUpdate ? MessageBoxIcon.Warning : MessageBoxIcon.Information);
+                DialogResult answer = ShowUpdateDialogCallback == null
+                    ? ShowUpdateDialog(result) : ShowUpdateDialogCallback(result);
+                _updateChoiceMadeThisSession = true;
                 if (answer == DialogResult.Yes)
                 {
                     LaunchUpdate(result);
                     return;
                 }
-
-                if (result.ForceUpdate)
+                if (answer == DialogResult.Ignore || answer == DialogResult.No)
                 {
-                    SafeSetStatusLabel("发现新版本 " + result.LatestVersion + "，已退出更新");
-                    ForceExitRequested = true;
-                    Close();
-                    return;
+                    string choice = answer == DialogResult.Ignore ? "ignore" : "later";
+                    if (!ConfigStore.SetJson("update_preference", new Dictionary<string, string>
+                    {
+                        { "version", result.LatestVersion }, { "action", choice }
+                    }))
+                    {
+                        const string message = "更新选择保存失败，请检查配置文件权限或占用后重试。";
+                        SafeSetStatusLabel(message);
+                        ShowMessageCallback?.Invoke(message, "保存失败", MessageBoxIcon.Warning);
+                        preferenceSaveFailed = true;
+                    }
+                    else if (choice == "ignore")
+                    {
+                        SafeSetStatusLabel("已忽略版本 " + result.LatestVersion);
+                        return;
+                    }
+                    else choiceStatus = "已安排下次启动时更新到 " + result.LatestVersion;
                 }
             }
 
@@ -4037,10 +4065,14 @@ namespace ShaheLauncher.App
             UpdateNoticeLabel.Text = "检测到新版本：" + result.LatestVersion;
             DownloadUpdateButton.Enabled = true;
             UpdateNoticePanel.Show();
-            if (result.StatusText.Length != 0)
-            {
-                SafeSetStatusLabel(result.StatusText);
-            }
+            if (!preferenceSaveFailed)
+                SafeSetStatusLabel(choiceStatus.Length != 0 ? choiceStatus : result.StatusText);
+        }
+
+        private DialogResult ShowUpdateDialog(UpdateDisplayResult result)
+        {
+            using (var dialog = new UpdateAvailableDialog(result))
+                return dialog.ShowDialog(this);
         }
 
         private void DownloadUpdate()
@@ -4069,7 +4101,7 @@ namespace ShaheLauncher.App
                 Runtime.AppendDailyLog("自动更新不可用: " + preparation.Error);
                 SafeSetStatusLabel("自动更新不可用，请稍后重试");
                 ShowMessageCallback?.Invoke(
-                    preparation.Error + "\n\n当前版本只支持通过内置更新程序安装增量补丁，请稍后重试。",
+                    preparation.Error + "\n\n请稍后重试。",
                     "自动更新不可用",
                     MessageBoxIcon.Information);
                 return;
@@ -4095,7 +4127,7 @@ namespace ShaheLauncher.App
                 Runtime.AppendDailyLog("自动更新启动失败: " + error.Message);
                 SafeSetStatusLabel("自动更新启动失败，请稍后重试");
                 ShowMessageCallback?.Invoke(
-                    "启动更新程序失败：\n" + error.Message + "\n\n当前版本只支持通过内置更新程序安装增量补丁，请稍后重试。",
+                    "启动更新程序失败：\n" + error.Message + "\n\n请稍后重试。",
                     "自动更新失败",
                     MessageBoxIcon.Warning);
             }

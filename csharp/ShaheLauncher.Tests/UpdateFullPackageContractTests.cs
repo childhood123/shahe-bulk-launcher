@@ -10,6 +10,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ShaheLauncher.Core.Updates;
 
 namespace ShaheLauncher.Tests
 {
@@ -81,7 +82,7 @@ namespace ShaheLauncher.Tests
             Type resultType = ReflectionTestHelpers.RequireType(ResultTypeName);
             Assert.AreEqual(true, GetProperty<bool>(result, "HasUpdate"));
             Assert.AreEqual(true, GetProperty<bool>(result, "ShouldShowNotice"));
-            Assert.AreEqual("发现新版本 9999.0.0，可稍后点击“下载更新”", GetProperty<string>(result, "StatusText"));
+            Assert.AreEqual("发现新版本 9999.0.0，可点击“立即更新”", GetProperty<string>(result, "StatusText"));
             object package = GetProperty<object>(result, "Package");
             Assert.IsNotNull(package);
             Assert.AreEqual("full", GetProperty<string>(package, "Kind"));
@@ -102,9 +103,9 @@ namespace ShaheLauncher.Tests
                 Assert.IsNotNull(formType.GetProperty("UpdateNoticePanel", BindingFlags.Public | BindingFlags.Instance));
                 Assert.IsNotNull(formType.GetProperty("UpdateNoticeLabel", BindingFlags.Public | BindingFlags.Instance));
                 Button button = (Button)formType.GetProperty("DownloadUpdateButton", BindingFlags.Public | BindingFlags.Instance).GetValue(form, null);
-                Assert.AreEqual("下载更新", button.AccessibleName);
+                Assert.AreEqual("立即更新", button.AccessibleName);
                 Assert.IsTrue(button.TabStop);
-                Assert.AreEqual("下载更新", button.Text);
+                Assert.AreEqual("立即更新", button.Text);
             }
         }
 
@@ -117,10 +118,9 @@ namespace ShaheLauncher.Tests
             using (Form form = (Form)Activator.CreateInstance(formType))
             {
                 ReflectionTestHelpers.InvokeInstance(form, "InitializeUi");
-                formType.GetProperty("ConfirmMessageCallback").SetValue(
+                formType.GetProperty("ShowUpdateDialogCallback").SetValue(
                     form,
-                    new Func<string, string, MessageBoxButtons, MessageBoxIcon, DialogResult>(
-                        (text, title, buttons, icon) => DialogResult.No),
+                    new Func<UpdateDisplayResult, DialogResult>(update => DialogResult.Cancel),
                     null);
                 form.Show();
                 object service = CreateService(serviceType, new StubHandler(HttpStatusCode.OK, "{}"));
@@ -213,15 +213,12 @@ namespace ShaheLauncher.Tests
                 using (Form form = CreateForm(formType, root))
                 {
                     ReflectionTestHelpers.InvokeInstance(form, "InitializeUi");
-                    formType.GetProperty("ConfirmMessageCallback").SetValue(
+                    formType.GetProperty("ShowUpdateDialogCallback").SetValue(
                         form,
-                        new Func<string, string, MessageBoxButtons, MessageBoxIcon, DialogResult>((text, title, buttons, icon) =>
+                        new Func<UpdateDisplayResult, DialogResult>(update =>
                         {
                             promptCount++;
-                            Assert.AreEqual("发现新版本9999.0.0", text);
-                            Assert.AreEqual("提示", title);
-                            Assert.AreEqual(MessageBoxButtons.YesNo, buttons);
-                            Assert.AreEqual(MessageBoxIcon.Information, icon);
+                            Assert.AreEqual("9999.0.0", update.LatestVersion);
                             return DialogResult.No;
                         }),
                         null);
@@ -245,7 +242,7 @@ namespace ShaheLauncher.Tests
                     Assert.AreEqual(1, promptCount);
                     Assert.IsTrue(((Control)formType.GetProperty("UpdateNoticePanel").GetValue(form, null)).Visible);
                     Assert.AreEqual(
-                        "发现新版本 9999.0.0，可稍后点击“下载更新”",
+                        "已安排下次启动时更新到 9999.0.0",
                         ((Label)formType.GetProperty("StatusLabel").GetValue(form, null)).Text);
 
                     ((Action)formType.GetProperty("DownloadUpdateCallback").GetValue(form, null))();
@@ -261,7 +258,7 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
-        public void MainFormExitsWhenForcedUpdateIsDeclined()
+        public void MainFormKeepsRunningWhenUserDefersAnUpdate()
         {
             Type formType = Assembly.Load("沙河批量打开器").GetType(MainFormTypeName, false);
             Assert.IsNotNull(formType, MainFormTypeName + " must exist");
@@ -273,12 +270,12 @@ namespace ShaheLauncher.Tests
                 using (Form form = CreateForm(formType, root))
                 {
                     ReflectionTestHelpers.InvokeInstance(form, "InitializeUi");
-                    formType.GetProperty("ConfirmMessageCallback").SetValue(
+                    formType.GetProperty("ShowUpdateDialogCallback").SetValue(
                         form,
-                        new Func<string, string, MessageBoxButtons, MessageBoxIcon, DialogResult>((text, title, buttons, icon) =>
+                        new Func<UpdateDisplayResult, DialogResult>(update =>
                         {
                             promptCount++;
-                            Assert.AreEqual(MessageBoxIcon.Warning, icon);
+                            Assert.IsTrue(update.ForceUpdate);
                             return DialogResult.No;
                         }),
                         null);
@@ -297,9 +294,9 @@ namespace ShaheLauncher.Tests
                     ReflectionTestHelpers.InvokeInstance(form, "ShowUpdateNotice", result);
 
                     Assert.AreEqual(1, promptCount);
-                    Assert.IsTrue(GetProperty<bool>(form, "ForceExitRequested"));
+                    Assert.IsFalse(GetProperty<bool>(form, "ForceExitRequested"));
                     Assert.AreEqual(
-                        "发现新版本 9999.0.0，已退出更新",
+                        "已安排下次启动时更新到 9999.0.0",
                         ((Label)formType.GetProperty("StatusLabel").GetValue(form, null)).Text);
                 }
             }

@@ -1,0 +1,12 @@
+{
+  "returnCode": 0,
+  "sourceLog": "D:\\mycodex\\git\\artifacts\\runs\\csharp_gitcode_release_20261020\\public-package-4.0.46-gitcode-final\\log\\2026-10-23.log",
+  "sourceSha256": "1009BB4C81291C346A194D21E36FDB59A27B539188B297B04BCCD89C3AE6F239",
+  "observedCurrentVersion": "4.0.46",
+  "detectedVersion": "4.0.47",
+  "checkedAt": "2026-10-23 14:59:53 +08:00",
+  "noticeAt": "2026-10-23 14:59:54 +08:00",
+  "conclusion": "The exact user-reported build successfully detected the update; its inline notice was not apparent to the user.",
+  "userFilesChanged": false,
+  "legacyProbeNotRun": "Existing exact-client log provides the answer; no redundant detection test."
+}

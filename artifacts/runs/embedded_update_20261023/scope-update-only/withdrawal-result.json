@@ -1,0 +1,80 @@
+{
+  "returnCode": 0,
+  "scope": "User kept UPDATE-EMBED-01 and withdrew only uncommitted FIX-CONFIG-02; committed FIX-CONFIG-01 preserved",
+  "files": [
+    {
+      "path": "csharp/ShaheLauncher.App/MainForm.cs",
+      "result": "retained-later-update-changes"
+    },
+    {
+      "path": "csharp/ShaheLauncher.App/UI/Dialogs/Settings/PathMemoryManagerDialog.cs",
+      "result": "restored-to-HEAD"
+    },
+    {
+      "path": "csharp/ShaheLauncher.App/UI/Dialogs/Settings/SettingsDialog.cs",
+      "result": "restored-to-HEAD"
+    },
+    {
+      "path": "csharp/ShaheLauncher.Core/AppPaths/AppPathHistoryService.cs",
+      "result": "restored-to-HEAD"
+    },
+    {
+      "path": "csharp/ShaheLauncher.Core/Processes/ProcessActionService.cs",
+      "result": "restored-to-HEAD"
+    },
+    {
+      "path": "csharp/ShaheLauncher.Core/SandboxAdmin/SandboxAdminService.cs",
+      "result": "restored-to-HEAD"
+    },
+    {
+      "path": "csharp/ShaheLauncher.Core/Settings/LauncherSettingsService.cs",
+      "result": "restored-to-HEAD"
+    },
+    {
+      "path": "csharp/ShaheLauncher.Core/Speech/SpeechService.cs",
+      "result": "restored-to-HEAD"
+    },
+    {
+      "path": "csharp/ShaheLauncher.Tests/AppPathHistoryServiceContractTests.cs",
+      "result": "restored-to-HEAD"
+    },
+    {
+      "path": "csharp/ShaheLauncher.Tests/MainFormApplicationContractTests.cs",
+      "result": "retained-later-update-changes"
+    },
+    {
+      "path": "csharp/ShaheLauncher.Tests/PathHistoryLimitRuntimeContractTests.cs",
+      "result": "restored-to-HEAD"
+    },
+    {
+      "path": "csharp/ShaheLauncher.Tests/SandboxAdminServiceContractTests.cs",
+      "result": "restored-to-HEAD"
+    },
+    {
+      "path": "csharp/ShaheLauncher.Tests/SettingsDialogsCSharpContractTests.cs",
+      "result": "restored-to-HEAD"
+    },
+    {
+      "path": "csharp/ShaheLauncher.Tests/SettingsRuntimeContractTests.cs",
+      "result": "restored-to-HEAD"
+    },
+    {
+      "path": "csharp/ShaheLauncher.Tests/SpeechSelectionRuntimeContractTests.cs",
+      "result": "restored-to-HEAD"
+    },
+    {
+      "path": "csharp/ShaheLauncher.Tests/SpeechServiceContractTests.cs",
+      "result": "restored-to-HEAD"
+    },
+    {
+      "path": "csharp/ShaheLauncher.Tests/ConfigurationSaveFeedbackContractTests.cs",
+      "result": "withdrawn-uncommitted-file",
+      "copy": "source-snapshot"
+    },
+    {
+      "path": "docs/superpowers/specs/2026-10-23-configuration-save-feedback-design.md",
+      "result": "withdrawn-uncommitted-file",
+      "copy": "source-snapshot"
+    }
+  ]
+}

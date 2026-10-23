@@ -1,0 +1,19 @@
+{
+  "returnCode": 0,
+  "command": [
+    "D:\\mycodex\\git\\artifacts\\runs\\embedded_update_20261023\\real-install\\embedded-self\\app\\沙河批量打开器.exe"
+  ],
+  "windowsHide": false,
+  "pid": 9016,
+  "exit": {
+    "code": 0,
+    "signal": null
+  },
+  "observation": {
+    "pid": 9016,
+    "window": 19336118,
+    "exitCode": 0,
+    "forcedCleanup": false,
+    "path": "D:\\mycodex\\git\\artifacts\\runs\\embedded_update_20261023\\real-install\\embedded-self\\app\\沙河批量打开器.exe"
+  }
+}

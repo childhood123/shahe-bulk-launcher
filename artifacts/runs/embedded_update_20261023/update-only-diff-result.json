@@ -1,0 +1,11 @@
+{
+  "returnCode": 0,
+  "command": "git diff --check -- csharp PROJECT_STRUCTURE.md docs/superpowers/plans/2026-10-20-remaining-migration-closure.md",
+  "staged": [],
+  "pythonChanges": [],
+  "manifestMatches": true,
+  "firstStagedReturnCode": 2,
+  "note": "First staging check only found an extra blank line at EOF in HTTP headers; original response retained locally, staged text normalized without changing header values.",
+  "stagedReturnCode": 0,
+  "intermediateManifestMismatchCorrected": true
+}

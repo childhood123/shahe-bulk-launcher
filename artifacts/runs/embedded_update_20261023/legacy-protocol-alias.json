@@ -1,0 +1,21 @@
+{
+  "scenario": "legacy-protocol-alias",
+  "command": [
+    "D:\\mycodex\\git\\artifacts\\runs\\embedded_update_20261023\\real-install\\legacy-protocol-alias\\helper\\updater.exe",
+    "--app-dir",
+    "D:\\mycodex\\git\\artifacts\\runs\\embedded_update_20261023\\real-install\\legacy-protocol-alias\\app",
+    "--exe",
+    "D:\\mycodex\\git\\artifacts\\runs\\embedded_update_20261023\\real-install\\legacy-protocol-alias\\app\\沙河批量打开器.exe",
+    "--pid",
+    "0",
+    "--request-file",
+    "D:\\mycodex\\git\\artifacts\\runs\\embedded_update_20261023\\real-install\\legacy-protocol-alias\\request.json"
+  ],
+  "returnCode": 0,
+  "helperPid": 8828,
+  "signal": null,
+  "helperExitCode": 0,
+  "mainHashMatches": true,
+  "newDllHashMatches": true,
+  "configUnchanged": true
+}

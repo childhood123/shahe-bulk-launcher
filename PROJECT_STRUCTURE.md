@@ -1,8 +1,8 @@
 # 沙河批量打开器项目结构
 
-## 当前执行摘要（2026-10-23 FIX-CONFIG-01 完成，AUDIT-04 待续）
+## 当前执行摘要（2026-10-23 仅保留内置更新，验证完成待提交）
 
-- 用户最新范围与 FIX-CONFIG-01：后续不修改 Python。本轮“配置读取失败时保护原文件”已完成最小修复、全部门禁、独立提交与推送；损坏或暂时无法读取的配置不再被空文档覆盖，公共读取默认值与写入失败返回保持。保存失败误报成功、还原数据回退/服务恢复及发布入口仍待后续修复，边界见 `artifacts/runs/configuration_failure_safety_20261023/source-review.md`。用户要求先完成本项，现停止推进；唯一活动计划和 AUDIT-04 未完成状态不变，公开包未更新。
+- 用户最新范围：只保留后提出的 UPDATE-EMBED-01 内置更新与三个选项；FIX-CONFIG-02 未提交的保存失败反馈修复已按独立快照撤回，不纳入交付，已提交的 FIX-CONFIG-01 保持。用户已选择保留所展示的后一计划，现已追加到当前唯一活动计划。内置更新与“稍后＝下次启动更新所选版本”保留，最终单项范围已验证，正在选择性提交；Python、公开包和用户旧版目录不改，整体 AUDIT 待办保持。
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-09 已按用户“反正能记忆到999条记录就行之前是20”的明确要求更新为 C# `0–999`；除该用户指定差异外，后续功能继续保留 Python 原文案和行为，只用 C# 实现。
 - 当前状态：AUDIT-03 已完成并推送，用户已恢复 AUDIT-04。追加功能 HOTKEY-ENTER-01 已完成验证、独立提交并推送：快捷键功能列表全部行可通过 Enter 执行，交付记录见本文件末尾。AUDIT-04 其他真实键盘、菜单、托盘及单读屏待办保留，既有未提交审计记录留在工作树；本提交不将它们勾选为完成，不进入 AUDIT-05，整体迁移未完成。
 - 当前追加任务 UPDATE-DLL-01 / CONFIG-LOC-01：4.0.47 已公开发布并通过真实旧版升级验证；Configurations 为唯一用户配置目录，公开包只带空目录，旧配置完整迁入，新增 DLL 与打赏图片落盘和窗口读取通过。源码已独立提交并推送；AUDIT-04 原待办保留，不进入后续模块。
@@ -2933,3 +2933,97 @@ csharp/
 - FIX-CONFIG-01 暂存检查：git diff --cached --check 返回码 0，实际清单与 staging-files.txt 一致；共享文档使用基于 HEAD 的仅本模块索引版本，既有 AUDIT-04/REVIEW-07 历史与用户其他改动保留在工作树，不纳入提交。结果已补入本轮 diff-result.json。
 
 - FIX-CONFIG-01 源码提交/推送：独立提交 `9fa28f2b23dc89ed379279fbefa4cc14fa8d2f1c`，推送目标 `origin/voice03-fixed-reader-20261022`，返回码 0；回退 `git revert 9fa28f2b23dc89ed379279fbefa4cc14fa8d2f1c`。结果 artifacts/runs/configuration_failure_safety_20261023/delivery-result.json，原始输出 source-push.log。公开版本/包未更新，其他缺陷和整体审计待办保留。
+
+- UPDATE-EMBED-01 / 用户 4.0.46 检测问题：本轮匿名获取公开更新清单返回码 0；命令/响应见 artifacts/runs/embedded_update_20261023/manifest-current-result.json、manifest-current.json、manifest-current-headers.txt。正在核对实际客户端日志，不将无提示直接等同请求失败；公开清单未改写。
+
+- UPDATE-EMBED-01 用户指定 4.0.46 目录只读核对：日志已证明检查更新成功并发现 4.0.47，属于旧提示方式未被察觉，不能写成更新源不可用。原日志副本与定位见 artifacts/runs/embedded_update_20261023/user46-update.log、user46-diagnosis.json；未修改该目录、未运行已准备的旧版重复探针，继续按用户要求实现更新内容及三按钮窗口。
+
+- UPDATE-EMBED-01 red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\ --logger trx;LogFileName=red.trx --results-directory D:\mycodex\git\artifacts\runs\embedded_update_20261023 --filter FullyQualifiedName~EmbeddedUpdateContractTests`；返回码 1，通过 0、失败 7、跳过 0。日志与命令索引：`artifacts/runs/embedded_update_20261023/red.log`、`red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-EMBED-01 用户追加语义：稍后更新必须在下次启动执行，已将待确认差异更新为持久化目标版本/动作，当前会话不安装，下一启动只自动安装已同意的同一目标；忽略会替换该安排。Esc/关闭仅关闭窗口，不擅自安排安装。新增契约将独立覆盖此语义，之前的 RED 保留。
+
+- UPDATE-EMBED-01 defer-red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\ --logger trx;LogFileName=defer-red.trx --results-directory D:\mycodex\git\artifacts\runs\embedded_update_20261023 --filter FullyQualifiedName~LaterPersistsForNextStartup|FullyQualifiedName~NextStartupRunsDeferredExactVersion`；返回码 1，通过 0、失败 2、跳过 0。日志与命令索引：`artifacts/runs/embedded_update_20261023/defer-red.log`、`defer-red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-EMBED-01 green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\ --logger trx;LogFileName=green.trx --results-directory D:\mycodex\git\artifacts\runs\embedded_update_20261023 --filter FullyQualifiedName~EmbeddedUpdateContractTests`；返回码 0，通过 9、失败 0、跳过 0。日志与命令索引：`artifacts/runs/embedded_update_20261023/green.log`、`green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-EMBED-01 affected：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\ --logger trx;LogFileName=affected.trx --results-directory D:\mycodex\git\artifacts\runs\embedded_update_20261023 --filter FullyQualifiedName~Update|FullyQualifiedName~EmbeddedUpdateContractTests|FullyQualifiedName~MainFormApplicationContractTests`；返回码 1，计数不适用。日志与命令索引：`artifacts/runs/embedded_update_20261023/affected.log`、`affected-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-EMBED-01 受影响首轮未执行测试：同步旧测试时 lambda 参数与外层 result 同名引发编译错误，已仅改参数名；原日志保留，不计为产品 RED。生产实现不变，继续受影响门禁。
+
+- UPDATE-EMBED-01 affected-final：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\ --logger trx;LogFileName=affected-final.trx --results-directory D:\mycodex\git\artifacts\runs\embedded_update_20261023 --filter FullyQualifiedName~Update|FullyQualifiedName~EmbeddedUpdateContractTests|FullyQualifiedName~MainFormApplicationContractTests`；返回码 1，通过 76、失败 1、跳过 0。日志与命令索引：`artifacts/runs/embedded_update_20261023/affected-final.log`、`affected-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-EMBED-01 受影响回归定位：既有 Program 启动顺序检查发现安装分支新增的 EnableVisualStyles 提前；该分支不显示主 UI，已去除不必要调用，保留普通启动先检查单实例再初始化 WinForms 的既有顺序。对应失败保留，下一次回归核对。
+
+- UPDATE-EMBED-01 affected-green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\ --logger trx;LogFileName=affected-green.trx --results-directory D:\mycodex\git\artifacts\runs\embedded_update_20261023 --filter FullyQualifiedName~Update|FullyQualifiedName~EmbeddedUpdateContractTests|FullyQualifiedName~MainFormApplicationContractTests`；返回码 0，通过 77、失败 0、跳过 0。日志与命令索引：`artifacts/runs/embedded_update_20261023/affected-green.log`、`affected-green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-EMBED-01 full：命令 `dotnet vstest D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll /Platform:x64 /Logger:trx;LogFileName=full.trx /ResultsDirectory:D:\mycodex\git\artifacts\runs\embedded_update_20261023`；返回码 0，通过 430、失败 0、跳过 0。日志与命令索引：`artifacts/runs/embedded_update_20261023/full.log`、`full-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-EMBED-01 release：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/embedded_update_20261023/release.log`、`release-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-EMBED-01 publish-default：发布与目录核对返回码 0，Configurations 为空=True，updater 存在=False，兼容副本与主 EXE 相同=；命令、清单及日志见 artifacts/runs/embedded_update_20261023/publish-default-result.json、publish-default.log。没有重新运行通过的测试或修改公开包。
+
+- UPDATE-EMBED-01 publish-legacy：发布与目录核对返回码 0，Configurations 为空=True，updater 存在=True，兼容副本与主 EXE 相同=True；命令、清单及日志见 artifacts/runs/embedded_update_20261023/publish-legacy-result.json、publish-legacy.log。没有重新运行通过的测试或修改公开包。
+
+- UPDATE-EMBED-01 隔离安装测试包组装返回码 0；两个包来自已通过的默认/兼容发布目录，空 Configurations，附一个实际 DLL 文件证明新增落盘，未上传公网。大小/哈希见 artifacts/runs/embedded_update_20261023/install-payloads.json，命令 prepare-install-packages.ps1。
+
+- UPDATE-EMBED-01 embedded-self：返回码 1；真实 helper/安装结果见 artifacts/runs/embedded_update_20261023/embedded-self.json。只操作本轮 real-install 目录，未改用户旧版目录或公开源。
+
+- UPDATE-EMBED-01 installation-proof-result：返回码 1；真实 helper/安装结果见 artifacts/runs/embedded_update_20261023/installation-proof-result.json。只操作本轮 real-install 目录，未改用户旧版目录或公开源。
+
+- UPDATE-EMBED-01 首次真实安装定位：主 EXE 更新模式已下载并安装成功，helper 退出码 0、新主程序/新增 DLL 哈希和配置保留通过，重启窗口也已观测。观察脚本未提前持有进程句柄，退出码返回 null，导致验证器误作失败；没有产品安装失败证据。保留原结果，不重复安装，接着单独启动已安装副本核对正常退出，并补两个尚未运行的兼容场景。
+
+- UPDATE-EMBED-01 已安装副本启动/正常退出核对返回码 1；真实子进程退出码 4294967295，窗口与清理记录见 artifacts/runs/embedded_update_20261023/installed-startup-exit.json。未重复下载或安装。
+
+- UPDATE-EMBED-01 单独启动观测首次无效：辅助 Node 启动使用 windowsHide=true，应用日志证明已启动/检查更新，但观察器未取得可见主窗口；最终仅清理该自有进程，返回码为强制退出，不能当作程序退出故障。调整为有意验证交互窗口的可见启动，不重装。
+
+- UPDATE-EMBED-01 可见启动/正常退出补充返回码 0，实际退出码 0；证据 artifacts/runs/embedded_update_20261023/installed-startup-exit-visible.json。只启动已安装副本验证窗口和退出，没有重复安装。
+
+- UPDATE-EMBED-01 legacy-protocol-alias：返回码 0；真实 helper/安装结果见 artifacts/runs/embedded_update_20261023/legacy-protocol-alias.json。只操作本轮 real-install 目录，未改用户旧版目录或公开源。
+
+- UPDATE-EMBED-01 published46-to-embedded：返回码 0；真实 helper/安装结果见 artifacts/runs/embedded_update_20261023/published46-to-embedded.json。只操作本轮 real-install 目录，未改用户旧版目录或公开源。
+
+- UPDATE-EMBED-01 installation-remaining-result：返回码 0；真实 helper/安装结果见 artifacts/runs/embedded_update_20261023/installation-remaining-result.json。只操作本轮 real-install 目录，未改用户旧版目录或公开源。
+
+- UPDATE-EMBED-01 真实安装环境收尾返回码 0；正式 Sandboxie.ini/自启动项不变、原读屏进程保留、无本轮残留，结果 artifacts/runs/embedded_update_20261023/install-environment-after.json。
+
+- UPDATE-EMBED-01 python：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 0，通过 31、失败 0、跳过 0。日志与命令索引：`artifacts/runs/embedded_update_20261023/python.log`、`python-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-EMBED-01 compile：命令 `python -m compileall -q shahe_bulk_launcher tests`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/embedded_update_20261023/compile.log`、`compile-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-EMBED-01 真实安装分段汇总返回码 0，通过 3、失败 0、跳过 0；主 EXE 更新模式、同程序旧协议别名和用户所指 4.0.46 安装器安装新兼容包均有真实下载/校验/替换证据，新 DLL 与配置保持，主窗口正常退出单独通过。权威汇总 artifacts/runs/embedded_update_20261023/installation-final-result.json，早期观测工具失败保留，不重复成功安装。
+
+- UPDATE-EMBED-01 直接审查：当前生产实现与用户更新交互/下次启动要求对应，默认与兼容目录及真实安装证据已核对，详见 artifacts/runs/embedded_update_20261023/source-review.md。上一个 FIX-CONFIG-02 的快照保留用于独立提交，用户其他改动不混入；下一步仅收尾差异检查并取得计划写入确认，不重跑通过场景。
+
+- UPDATE-EMBED-01 最终限定差异/脚本语法/新增文本核对返回码 0；结果 artifacts/runs/embedded_update_20261023/diff-result.json、diff.log。Python 无改动、索引为空。两个模块的待确认计划差异已完整保存，计划确认后按独立快照/增量提交，不重跑已通过测试。
+
+- UPDATE-EMBED-01 范围调整记录：用户只保留后一项，已用当前源码/前项快照/HEAD 三方核对撤回未提交 FIX-CONFIG-02；MainForm 和共享测试保留更新差异，无关用户改动未触碰。撤回清单 artifacts/runs/embedded_update_20261023/scope-update-only/withdrawal-result.json。历史测试记录保持原样，接着只对范围变化后的最终源码复核。
+
+- UPDATE-EMBED-01 update-only-affected：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\ --logger trx;LogFileName=update-only-affected.trx --results-directory D:\mycodex\git\artifacts\runs\embedded_update_20261023 --filter FullyQualifiedName~Update|FullyQualifiedName~EmbeddedUpdateContractTests|FullyQualifiedName~MainFormApplicationContractTests`；返回码 0，通过 77、失败 0、跳过 0。日志与命令索引：`artifacts/runs/embedded_update_20261023/update-only-affected.log`、`update-only-affected-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-EMBED-01 update-only-full：命令 `dotnet vstest D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll /Platform:x64 /Logger:trx;LogFileName=update-only-full.trx /ResultsDirectory:D:\mycodex\git\artifacts\runs\embedded_update_20261023`；返回码 0，通过 413、失败 0、跳过 0。日志与命令索引：`artifacts/runs/embedded_update_20261023/update-only-full.log`、`update-only-full-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-EMBED-01 update-only-release：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/embedded_update_20261023/update-only-release.log`、`update-only-release-result.json`；如为 C# 测试，另有同名 TRX。
+
+- UPDATE-EMBED-01 publish-default-final：发布与目录核对返回码 0，Configurations 为空=True，updater 存在=False，兼容副本与主 EXE 相同=；命令、清单及日志见 artifacts/runs/embedded_update_20261023/publish-default-final-result.json、publish-default-final.log。没有重新运行通过的测试或修改公开包。
+
+- UPDATE-EMBED-01 publish-legacy-final：发布与目录核对返回码 0，Configurations 为空=True，updater 存在=True，兼容副本与主 EXE 相同=True；命令、清单及日志见 artifacts/runs/embedded_update_20261023/publish-legacy-final-result.json、publish-legacy-final.log。没有重新运行通过的测试或修改公开包。
+
+- UPDATE-EMBED-01 隔离安装测试包组装返回码 0；两个包来自已通过的默认/兼容发布目录，空 Configurations，附一个实际 DLL 文件证明新增落盘，未上传公网。大小/哈希见 artifacts/runs/embedded_update_20261023/install-payloads-final.json，命令 prepare-install-packages.ps1。
+
+- UPDATE-EMBED-01 embedded-self-final：返回码 0；真实 helper/安装结果见 artifacts/runs/embedded_update_20261023/embedded-self-final.json。只操作本轮 real-install 目录，未改用户旧版目录或公开源。
+
+- UPDATE-EMBED-01 installation-update-only-result：返回码 0；真实 helper/安装结果见 artifacts/runs/embedded_update_20261023/installation-update-only-result.json。只操作本轮 real-install 目录，未改用户旧版目录或公开源。
+
+- UPDATE-EMBED-01 最终范围收尾：用户要求撤回的 FIX-CONFIG-02 已恢复为 HEAD 行为，新增测试/设计撤出活动目录，未影响已提交 FIX-CONFIG-01。最终 Release 0 警告/0 错误；最新构建输出以 update-only-release 与 publish-default-final 为准，主 EXE 安装/重启/退出以 embedded-self-final.json 为准。先前含取消任务的构建与测试仅作历史证据，不作为最终交付目录；Python 源码没有变化，本模块之前的 Python/compile 通过结果继续有效。
+
+- UPDATE-EMBED-01 最终单项安装环境核对返回码 0；正式配置/自启动项和原读屏 PID 保持，无自有进程残留；见 artifacts/runs/embedded_update_20261023/update-only-environment-after.json。
+
+- UPDATE-EMBED-01 最终单项限定差异检查返回码 0，Python 无修改，索引尚为空；结果 artifacts/runs/embedded_update_20261023/update-only-diff-result.json、update-only-diff.log。下一步仅选择性独立提交。
+
+- UPDATE-EMBED-01 最终暂存核对返回码 2；实际清单与 staging-files.txt 完全一致，共享文档仅含本模块增量，不包含取消的 FIX-CONFIG-02 源码/测试或用户既有改动。结果已补入 update-only-diff-result.json。
+
+- UPDATE-EMBED-01 暂存差异首轮返回码 2，具体空白错误记录于 artifacts/runs/embedded_update_20261023/staged-check-first.log；不改变已通过的源码验证结论，仅整理文本证据后再提交。
+
+- UPDATE-EMBED-01 暂存清单生成器校正：在已暂存后重新生成时原命令只读取未暂存差异，导致清单比对失败而未提交；现以 git diff HEAD 汇总本模块全部差异，保留选择性范围，生产代码与测试结果没有变化。
+
+- UPDATE-EMBED-01 最终暂存检查返回码 0，实际清单与 staging-files.txt 完全一致；HTTP 头末尾空行和清单生成工具问题均已更正，源码与验证结果未变，现独立提交。

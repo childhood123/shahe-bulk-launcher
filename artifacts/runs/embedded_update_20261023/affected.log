@@ -1,0 +1,4 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\沙河批量打开器.exe
+D:\mycodex\git\csharp\ShaheLauncher.Tests\UpdateFullPackageContractTests.cs(123,65): error CS0136: 无法在此范围中声明名为“result”的局部变量或参数，因为该名称在封闭局部范围中用于定义局部变量或参数 [D:\mycodex\git\csharp\ShaheLauncher.Tests\ShaheLauncher.Tests.csproj]

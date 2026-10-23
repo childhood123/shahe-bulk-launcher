@@ -1,0 +1,30 @@
+{
+  "scenario": "embedded-self",
+  "command": [
+    "D:\\mycodex\\git\\artifacts\\runs\\embedded_update_20261023\\real-install\\embedded-self-final\\helper\\沙河批量打开器.exe",
+    "--install-update",
+    "--app-dir",
+    "D:\\mycodex\\git\\artifacts\\runs\\embedded_update_20261023\\real-install\\embedded-self-final\\app",
+    "--exe",
+    "D:\\mycodex\\git\\artifacts\\runs\\embedded_update_20261023\\real-install\\embedded-self-final\\app\\沙河批量打开器.exe",
+    "--pid",
+    "0",
+    "--request-file",
+    "D:\\mycodex\\git\\artifacts\\runs\\embedded_update_20261023\\real-install\\embedded-self-final\\request.json"
+  ],
+  "returnCode": 0,
+  "helperPid": 2500,
+  "signal": null,
+  "helperExitCode": 0,
+  "mainHashMatches": true,
+  "newDllHashMatches": true,
+  "configUnchanged": true,
+  "restart": {
+    "pid": 7684,
+    "window": 2756598,
+    "exitCode": 0,
+    "forcedCleanup": false,
+    "path": "D:\\mycodex\\git\\artifacts\\runs\\embedded_update_20261023\\real-install\\embedded-self-final\\app\\沙河批量打开器.exe"
+  },
+  "configUnchangedAfterRestart": true
+}

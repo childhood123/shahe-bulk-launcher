@@ -1,0 +1,169 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="1d2365d5-48de-4c65-8a56-45354878e5f7" name="Administrator@CHILDHOOD 2026-10-23 15:35:41" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-23T15:35:41.9845574+08:00" queuing="2026-10-23T15:35:41.9845577+08:00" start="2026-10-23T15:35:36.7437877+08:00" finish="2026-10-23T15:35:42.4878368+08:00" />
+  <TestSettings name="default" id="c4ee91ff-1050-4046-b71f-4fde1202e1aa">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-23_15_35_41" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="7a8df879-493a-4d77-8a77-50f8fc5ee8a8" testId="2f827cac-349d-338e-f6d1-c38f69e203fc" testName="UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions (&quot;立即更新&quot;,Yes)" computerName="CHILDHOOD" duration="00:00:00.0117026" startTime="2026-10-23T15:35:41.2927001+08:00" endTime="2026-10-23T15:35:41.4737263+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7a8df879-493a-4d77-8a77-50f8fc5ee8a8">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。The accessible update-choice dialog must exist.&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123&#xD;
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.&lt;&gt;c__DisplayClass2_0.&lt;UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions&gt;b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 66&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="7eb81a04-b3a6-4ff6-9d23-921d82ac6ebc" testId="a8024760-55eb-1ba2-0b4d-16aa752efb1b" testName="UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions (&quot;忽略此版本&quot;,Ignore)" computerName="CHILDHOOD" duration="00:00:00.0080019" startTime="2026-10-23T15:35:41.4797107+08:00" endTime="2026-10-23T15:35:41.4876910+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7eb81a04-b3a6-4ff6-9d23-921d82ac6ebc">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。The accessible update-choice dialog must exist.&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123&#xD;
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.&lt;&gt;c__DisplayClass2_0.&lt;UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions&gt;b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 66&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="6d756798-59fd-4ad6-87fe-149f0afa263f" testId="8c3e72d6-2ff7-5cfb-1fc8-2be5d58518da" testName="UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions (&quot;稍后更新&quot;,No)" computerName="CHILDHOOD" duration="00:00:00.0048518" startTime="2026-10-23T15:35:41.4737263+08:00" endTime="2026-10-23T15:35:41.4797107+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6d756798-59fd-4ad6-87fe-149f0afa263f">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。The accessible update-choice dialog must exist.&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123&#xD;
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.&lt;&gt;c__DisplayClass2_0.&lt;UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions&gt;b__0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 66&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="583f307f-b918-4261-be6e-4076022ce25f" testId="3e7b06a5-9ff8-cb2b-cb2b-5b15ab3256c5" testName="IgnorePersistsAndSkipsOnlyAutomaticChecksForThatVersion" computerName="CHILDHOOD" duration="00:00:00.7494888" startTime="2026-10-23T15:35:41.4876910+08:00" endTime="2026-10-23T15:35:42.2378326+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="583f307f-b918-4261-be6e-4076022ce25f">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。Missing update behavior: ShowUpdateDialogCallback&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123&#xD;
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.Set(Object obj, String name, Object value) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 145&#xD;
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.&lt;&gt;c.&lt;IgnorePersistsAndSkipsOnlyAutomaticChecksForThatVersion&gt;b__3_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 98&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="775729ea-6083-462e-8062-544d6c2700e4" testId="d01529fc-31f1-b223-412a-193e1ca763cc" testName="InstallsPackageWithoutUpdaterAndKeepsConfigurations" computerName="CHILDHOOD" duration="00:00:00.0176823" startTime="2026-10-23T15:35:41.2747498+08:00" endTime="2026-10-23T15:35:41.2927001+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="775729ea-6083-462e-8062-544d6c2700e4">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsTrue 失败。更新包缺少主程序或 updater.exe&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsTrue(Boolean condition, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsTrue.cs:行号 99&#xD;
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.&lt;&gt;c.&lt;InstallsPackageWithoutUpdaterAndKeepsConfigurations&gt;b__1_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 44&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="abbe4d01-933e-4003-9d28-632bc5b37e24" testId="2808c347-7e00-5ad0-de74-233ae9e1e01c" testName="IgnoreSaveFailureIsReportedAndDoesNotHideAvailableUpdate" computerName="CHILDHOOD" duration="00:00:00.1197000" startTime="2026-10-23T15:35:42.2378326+08:00" endTime="2026-10-23T15:35:42.3636257+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="abbe4d01-933e-4003-9d28-632bc5b37e24">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.IsNotNull 失败。Missing update behavior: ShowUpdateDialogCallback&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.IsNotNull(Object value, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.IsNull.cs:行号 123&#xD;
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.Set(Object obj, String name, Object value) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 145&#xD;
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.&lt;&gt;c.&lt;IgnoreSaveFailureIsReportedAndDoesNotHideAvailableUpdate&gt;b__4_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 123&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0614ff51-39f4-4585-babb-5242c05cfdb6" testId="07f6fdd5-f4d7-3abe-69e6-0839bfcbde1c" testName="PreparesMainExecutableCopyWithoutStandaloneUpdater" computerName="CHILDHOOD" duration="00:00:00.4637509" startTime="2026-10-23T15:35:40.4422909+08:00" endTime="2026-10-23T15:35:41.2627833+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0614ff51-39f4-4585-babb-5242c05cfdb6">
+      <Output>
+        <ErrorInfo>
+          <Message>STA action failed: Microsoft.VisualStudio.TestTools.UnitTesting.AssertFailedException: Assert.AreEqual 失败。应为: &lt;&gt;，实际为: &lt;未找到更新程序，自动更新无法继续。&gt;。&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.ThrowAssertFailed(String assertionName, String message) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.cs:行号 60&#xD;
+   在 Microsoft.VisualStudio.TestTools.UnitTesting.Assert.AreEqual[T](T expected, T actual, IEqualityComparer`1 comparer, String message, Object[] parameters) 位置 /_/src/TestFramework/TestFramework/Assertions/Assert.AreEqual.cs:行号 201&#xD;
+   在 ShaheLauncher.Tests.EmbeddedUpdateContractTests.&lt;&gt;c.&lt;PreparesMainExecutableCopyWithoutStandaloneUpdater&gt;b__0_0(String root, MainForm form) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\EmbeddedUpdateContractTests.cs:行号 29&#xD;
+   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.&lt;&gt;c__DisplayClass1_0.&lt;WithForm&gt;b__0() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 36</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.MigrationRuntimeTestHelpers.WithForm(Action`2 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\MigrationRuntimeTestHelpers.cs:行号 45&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="IgnoreSaveFailureIsReportedAndDoesNotHideAvailableUpdate" storage="d:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="2808c347-7e00-5ad0-de74-233ae9e1e01c">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Updates" />
+      </TestCategory>
+      <Execution id="abbe4d01-933e-4003-9d28-632bc5b37e24" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.EmbeddedUpdateContractTests" name="IgnoreSaveFailureIsReportedAndDoesNotHideAvailableUpdate" />
+    </UnitTest>
+    <UnitTest name="UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions (&quot;立即更新&quot;,Yes)" storage="d:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="2f827cac-349d-338e-f6d1-c38f69e203fc">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Updates" />
+      </TestCategory>
+      <Execution id="7a8df879-493a-4d77-8a77-50f8fc5ee8a8" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.EmbeddedUpdateContractTests" name="UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions" />
+    </UnitTest>
+    <UnitTest name="UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions (&quot;稍后更新&quot;,No)" storage="d:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="8c3e72d6-2ff7-5cfb-1fc8-2be5d58518da">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Updates" />
+      </TestCategory>
+      <Execution id="6d756798-59fd-4ad6-87fe-149f0afa263f" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.EmbeddedUpdateContractTests" name="UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions" />
+    </UnitTest>
+    <UnitTest name="InstallsPackageWithoutUpdaterAndKeepsConfigurations" storage="d:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="d01529fc-31f1-b223-412a-193e1ca763cc">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Updates" />
+      </TestCategory>
+      <Execution id="775729ea-6083-462e-8062-544d6c2700e4" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.EmbeddedUpdateContractTests" name="InstallsPackageWithoutUpdaterAndKeepsConfigurations" />
+    </UnitTest>
+    <UnitTest name="UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions (&quot;忽略此版本&quot;,Ignore)" storage="d:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="a8024760-55eb-1ba2-0b4d-16aa752efb1b">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Updates" />
+      </TestCategory>
+      <Execution id="7eb81a04-b3a6-4ff6-9d23-921d82ac6ebc" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.EmbeddedUpdateContractTests" name="UpdateDialogStartsOnReadableNotesAndOffersThreeExplicitActions" />
+    </UnitTest>
+    <UnitTest name="PreparesMainExecutableCopyWithoutStandaloneUpdater" storage="d:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="07f6fdd5-f4d7-3abe-69e6-0839bfcbde1c">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Updates" />
+      </TestCategory>
+      <Execution id="0614ff51-39f4-4585-babb-5242c05cfdb6" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.EmbeddedUpdateContractTests" name="PreparesMainExecutableCopyWithoutStandaloneUpdater" />
+    </UnitTest>
+    <UnitTest name="IgnorePersistsAndSkipsOnlyAutomaticChecksForThatVersion" storage="d:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="3e7b06a5-9ff8-cb2b-cb2b-5b15ab3256c5">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Updates" />
+      </TestCategory>
+      <Execution id="583f307f-b918-4261-be6e-4076022ce25f" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\embedded_update_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.EmbeddedUpdateContractTests" name="IgnorePersistsAndSkipsOnlyAutomaticChecksForThatVersion" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="2f827cac-349d-338e-f6d1-c38f69e203fc" executionId="7a8df879-493a-4d77-8a77-50f8fc5ee8a8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a8024760-55eb-1ba2-0b4d-16aa752efb1b" executionId="7eb81a04-b3a6-4ff6-9d23-921d82ac6ebc" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8c3e72d6-2ff7-5cfb-1fc8-2be5d58518da" executionId="6d756798-59fd-4ad6-87fe-149f0afa263f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="3e7b06a5-9ff8-cb2b-cb2b-5b15ab3256c5" executionId="583f307f-b918-4261-be6e-4076022ce25f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d01529fc-31f1-b223-412a-193e1ca763cc" executionId="775729ea-6083-462e-8062-544d6c2700e4" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="2808c347-7e00-5ad0-de74-233ae9e1e01c" executionId="abbe4d01-933e-4003-9d28-632bc5b37e24" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="07f6fdd5-f4d7-3abe-69e6-0839bfcbde1c" executionId="0614ff51-39f4-4585-babb-5242c05cfdb6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="7" executed="7" passed="0" failed="7" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

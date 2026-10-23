@@ -168,10 +168,9 @@ namespace ShaheLauncher.Core.Updates
             LastError = string.Empty;
             if (!Directory.Exists(sourceDirectory)
                 || string.IsNullOrEmpty(mainExecutableName)
-                || !File.Exists(Path.Combine(sourceDirectory, mainExecutableName))
-                || !File.Exists(Path.Combine(sourceDirectory, "updater.exe")))
+                || !File.Exists(Path.Combine(sourceDirectory, mainExecutableName)))
             {
-                LastError = "更新包缺少主程序或 updater.exe";
+                LastError = "更新包缺少主程序";
                 return false;
             }
 

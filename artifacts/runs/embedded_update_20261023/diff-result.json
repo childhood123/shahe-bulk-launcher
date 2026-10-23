@@ -1,0 +1,11 @@
+{
+  "returnCode": 0,
+  "command": "git diff --check -- csharp PROJECT_STRUCTURE.md; parse verification scripts; node --check verify-installation.cjs; inspect new text",
+  "diffReturnCode": 0,
+  "nodeSyntaxReturnCode": 0,
+  "scriptErrors": [],
+  "textErrors": [],
+  "pythonChanges": [],
+  "stagedFiles": [],
+  "pendingPlanApproval": true
+}

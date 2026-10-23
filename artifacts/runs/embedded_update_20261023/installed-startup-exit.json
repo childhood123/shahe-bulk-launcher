@@ -1,0 +1,22 @@
+{
+  "returnCode": 1,
+  "command": [
+    "D:/mycodex/git/artifacts/runs/embedded_update_20261023/real-install/embedded-self/app/沙河批量打开器.exe"
+  ],
+  "observerCommand": [
+    "powershell.exe",
+    "-NoProfile",
+    "-File",
+    "D:/mycodex/git/artifacts/runs/embedded_update_20261023/observe-restart.ps1",
+    "-Executable",
+    "D:/mycodex/git/artifacts/runs/embedded_update_20261023/real-install/embedded-self/app/沙河批量打开器.exe"
+  ],
+  "pid": 15960,
+  "exit": {
+    "code": 4294967295,
+    "signal": null
+  },
+  "observation": {
+    "error": "Error: Command failed: powershell.exe -NoProfile -File D:/mycodex/git/artifacts/runs/embedded_update_20261023/observe-restart.ps1 -Executable D:/mycodex/git/artifacts/runs/embedded_update_20261023/real-install/embedded-self/app/沙河批量打开器.exe\nRestarted main window not observed\r\n所在位置 D:\\mycodex\\git\\artifacts\\runs\\embedded_update_20261023\\observe-restart.ps1:15 字符: 58\r\n+ ... t.MainWindowHandle -eq 0){throw 'Restarted main window not observed'}\r\n+                               ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\r\n    + CategoryInfo          : OperationStopped: (Restarted main window not observed:String) [], RuntimeException\r\n    + FullyQualifiedErrorId : Restarted main window not observed\r\n \r\n"
+  }
+}
