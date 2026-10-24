@@ -173,6 +173,7 @@ namespace ShaheLauncher.Core.Processes
     {
         public Func<string, IEnumerable<int>> GetSandboxPids { get; set; }
         public Func<IEnumerable<int>> GetAllSandboxPids { get; set; }
+        public Func<IDictionary<string, IList<int>>> GetSandboxProcessMap { get; set; }
         public Func<IEnumerable<string>> ScanSandboxNames { get; set; }
         public Func<IEnumerable<ProcessAudioSession>> GetAudioSessions { get; set; }
         public Func<IEnumerable<ProcessAudioDevice>> ListOutputDevices { get; set; }
@@ -182,7 +183,7 @@ namespace ShaheLauncher.Core.Processes
         public Func<IEnumerable<string>, Tuple<int, string>> RunSandboxieStart { get; set; }
         public Func<int, bool> PidExists { get; set; }
         public Action<IList<string>> RunProcessCommand { get; set; }
-        public Func<IEnumerable<ProcessWindowCandidate>> EnumerateWindows { get; set; }
+        public Func<IEnumerable<int>, IEnumerable<ProcessWindowCandidate>> EnumerateWindows { get; set; }
         public Func<long, bool> ActivateWindow { get; set; }
         public Func<string, IList<ProcessWindowCandidate>, long> ChooseWindow { get; set; }
         public Func<string, IList<ProcessAudioDevice>, ProcessAudioDevice> ChooseOutputDevice { get; set; }
@@ -260,17 +261,69 @@ namespace ShaheLauncher.Core.Processes
                 : null;
         }
 
+        private ProcessAudioDevice PromptOutputDeviceChoiceFromWorker(
+            string title,
+            ProcessActionCallbacks callbacks)
+        {
+            IList<ProcessAudioDevice> devices = ListOutputAudioDevicesFromCallbacks(callbacks);
+            if (devices.Count == 0)
+            {
+                Post(callbacks, delegate
+                {
+                    callbacks?.SetStatus?.Invoke(NoOutputDevicesStatus);
+                });
+                return null;
+            }
+            if (callbacks?.ChooseOutputDevice == null)
+            {
+                return null;
+            }
+            if (callbacks.PostToUi == null)
+            {
+                return callbacks.ChooseOutputDevice(Text(title).Trim(), devices);
+            }
+
+            ProcessAudioDevice selected = null;
+            var choiceCompleted = new ManualResetEventSlim(false);
+            try
+            {
+                callbacks.PostToUi(delegate
+                {
+                    try
+                    {
+                        selected = callbacks.ChooseOutputDevice(Text(title).Trim(), devices);
+                    }
+                    catch
+                    {
+                    }
+                    finally
+                    {
+                        choiceCompleted.Set();
+                    }
+                });
+            }
+            catch
+            {
+                return null;
+            }
+
+            while (!choiceCompleted.Wait(100))
+            {
+                if (IsClosing(callbacks))
+                {
+                    return null;
+                }
+            }
+            return selected;
+        }
+
         public long PromptWindowChoice(
             string sandboxName,
             IEnumerable<ProcessWindowCandidate> windows,
             ProcessActionCallbacks callbacks)
         {
             IList<ProcessWindowCandidate> options = windows?.ToList() ?? new List<ProcessWindowCandidate>();
-            if (options.Count == 0 || callbacks?.ChooseWindow == null)
-            {
-                return 0;
-            }
-            return callbacks.ChooseWindow(Text(sandboxName).Trim(), options);
+            return options.Count == 0 ? 0 : options[0]?.Hwnd ?? 0;
         }
 
         public static string FormatOutputDeviceLabel(string name, string deviceId, bool isDefault)
@@ -1508,15 +1561,17 @@ namespace ShaheLauncher.Core.Processes
                 callbacks?.SetStatus?.Invoke("当前用户 " + names.Item2 + " 没有可切换设备的已开进程");
                 return false;
             }
-            ProcessAudioDevice device = PromptOutputDeviceChoice(SwitchCurrentOutputTitle, callbacks);
-            if (device == null)
-            {
-                return false;
-            }
             return RunVolumeTaskAsync(
                 "正在切换当前打开进程播放设备: " + names.Item2,
                 delegate
                 {
+                    ProcessAudioDevice device = PromptOutputDeviceChoiceFromWorker(
+                        SwitchCurrentOutputTitle,
+                        callbacks);
+                    if (device == null)
+                    {
+                        return string.Empty;
+                    }
                     ProcessDeviceChangeResult result;
                     bool exceptionFailed = false;
                     try
@@ -1555,15 +1610,17 @@ namespace ShaheLauncher.Core.Processes
                 callbacks?.SetStatus?.Invoke("当前没有可切换设备的全部打开进程");
                 return false;
             }
-            ProcessAudioDevice device = PromptOutputDeviceChoice(SwitchAllOutputTitle, callbacks);
-            if (device == null)
-            {
-                return false;
-            }
             return RunVolumeTaskAsync(
                 "正在切换全部打开进程播放设备...",
                 delegate
                 {
+                    ProcessAudioDevice device = PromptOutputDeviceChoiceFromWorker(
+                        SwitchAllOutputTitle,
+                        callbacks);
+                    if (device == null)
+                    {
+                        return string.Empty;
+                    }
                     ProcessDeviceChangeResult result;
                     bool exceptionFailed = false;
                     try
@@ -1918,7 +1975,12 @@ namespace ShaheLauncher.Core.Processes
                     Post(callbacks, delegate
                     {
                         callbacks?.SetStatus?.Invoke(FinishCloseCurrentSandbox(names.Item2, result));
-                        RefreshProcessUiAfterAction(true, callbacks);
+                        if (result.Status == "all_closed"
+                            || (result.Status != "no_target" && result.Status != "partially_closed" && result.Closed > 0))
+                        {
+                            callbacks?.Speak?.Invoke("已关闭" + names.Item2 + "进程", "close_current");
+                        }
+                        RefreshProcessUiAfterAction(result.Status != "no_target", callbacks);
                     });
                 },
                 callbacks?.SetStatus);
@@ -2061,8 +2123,11 @@ namespace ShaheLauncher.Core.Processes
             IList<ProcessWindowCandidate> windows;
             try
             {
+                ISet<int> targetPids = new HashSet<int>(pids);
                 windows = callbacks?.EnumerateWindows != null
-                    ? callbacks.EnumerateWindows()?.ToList() ?? new List<ProcessWindowCandidate>()
+                    ? callbacks.EnumerateWindows(pids)
+                        ?.Where(item => item != null && targetPids.Contains(item.Pid))
+                        .ToList() ?? new List<ProcessWindowCandidate>()
                     : FindWindowsForPids(pids);
             }
             catch
@@ -2332,7 +2397,11 @@ namespace ShaheLauncher.Core.Processes
             Post(callbacks, delegate
             {
                 callbacks?.SetStatus?.Invoke(FinishCloseAllSandboxes(status, closed, anyTerminated));
-                RefreshProcessUiAfterAction(true, callbacks);
+                if (status == "all_closed" || status == "closed_some")
+                {
+                    callbacks?.Speak?.Invoke("已关闭全部进程", "close_all");
+                }
+                RefreshProcessUiAfterAction(status != "no_target", callbacks);
             });
         }
 

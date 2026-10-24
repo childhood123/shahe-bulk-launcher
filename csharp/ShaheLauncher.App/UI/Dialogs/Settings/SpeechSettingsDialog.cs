@@ -1,4 +1,5 @@
 using System;
+using ShaheLauncher.App.Infrastructure;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -197,11 +198,11 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
             InterfaceChoice = new ComboBox
             {
                 DropDownStyle = ComboBoxStyle.DropDownList,
-                AccessibleName = "读屏 API 接口",
+                AccessibleName = "朗读接口",
                 Dock = DockStyle.Fill,
                 TabIndex = 0
             };
-            AddInterfaceChoice("自动（默认）", string.Empty);
+            AddInterfaceChoice("自动", string.Empty);
             foreach (object item in interfaceDllChoices ?? Enumerable.Empty<object>())
             {
                 var values = item as IDictionary<string, object>;
@@ -241,8 +242,8 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
             Controls.Add(layout);
             AcceptButton = OkButton;
             CancelButton = CancelActionButton;
-            OkButton.Click += (sender, eventArgs) => ConfirmSettings();
-            CancelActionButton.Click += (sender, eventArgs) => Close();
+            OkButton.Click += (sender, eventArgs) => OperationLog.Run(this, Text + " / " + OkButton.Text, () => ConfirmSettings());
+            CancelActionButton.Click += (sender, eventArgs) => OperationLog.Run(this, Text + " / " + CancelActionButton.Text, () => Close());
             Shown += (sender, eventArgs) => InterfaceChoice.Focus();
         }
 
@@ -261,7 +262,7 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
             row.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             row.Controls.Add(new Label
             {
-                Text = "读屏 API 接口:",
+                Text = "朗读接口:",
                 AutoSize = true,
                 Anchor = AnchorStyles.Left,
                 TabStop = false,

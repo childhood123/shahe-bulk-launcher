@@ -1,0 +1,12 @@
+PROJECT_STRUCTURE.md:3522: trailing whitespace.
++
+PROJECT_STRUCTURE.md:3523: trailing whitespace.
++- LOG-01 环境只读基线：返回码 0；主程序占用、读屏进程、正式 Sandboxie 配置及自启动值见 artifacts/runs/diagnostic_logging_release_20261023/environment-before.json；未停止或改动任何用户进程。
+PROJECT_STRUCTURE.md:3538: trailing whitespace.
++
+PROJECT_STRUCTURE.md:3539: trailing whitespace.
++- LOG-01 发布包封装：package-release.ps1 返回码 0；版本、完整清单、大小及 SHA-256 以 artifacts/runs/diagnostic_logging_release_20261023/package-result.json 为准。空 Configurations，不带用户日志；旧版兼容入口复用主 EXE。
+PROJECT_STRUCTURE.md:3546: trailing whitespace.
++
+PROJECT_STRUCTURE.md:3547: trailing whitespace.
++- LOG-01 实测后环境核对：返回码 0；正式配置、自启动、读屏及隔离进程清理证据见 artifacts/runs/diagnostic_logging_release_20261023/environment-after.json。

@@ -1,0 +1,14 @@
+{
+  "returnCode": 0,
+  "passed": 2,
+  "failed": 0,
+  "skipped": 0,
+  "downloadRequests": [
+    "/package.zip",
+    "/package.zip"
+  ],
+  "scenarios": [
+    "release-install-logging-on",
+    "release-install-logging-off"
+  ]
+}

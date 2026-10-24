@@ -18,7 +18,7 @@ namespace ShaheLauncher.Tests
         private const string StateTypeName = "ShaheLauncher.Core.Settings.LauncherSettingsState";
         private const string CallbacksTypeName = "ShaheLauncher.Core.Settings.LauncherSettingsCallbacks";
         private const string StoreTypeName = "ShaheLauncher.Core.Configuration.ConfigStore";
-        private const string DefaultUpdateUrl = "https://lqh.viyf.net/shahe-bulk-launcher/update.json";
+        private const string DefaultUpdateUrl = "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json";
 
         [TestMethod]
         public void CreatesExactDefaultsAndIndependentNestedCollections()
@@ -31,16 +31,20 @@ namespace ShaheLauncher.Tests
                 object service = CreateService(type, root, out store);
                 var defaults = (IDictionary<string, object>)ReflectionTestHelpers.InvokeInstance(
                     service, "CreateDefaultSettings");
-                Assert.AreEqual(23, defaults.Count);
+                Assert.AreEqual(22, defaults.Count);
                 Assert.AreEqual(10, defaults["max_history_items"]);
                 Assert.AreEqual(false, defaults["hide_path"]);
                 Assert.AreEqual(5, defaults["launch_interval"]);
-                Assert.AreEqual(1, defaults["launch_concurrency_limit"]);
+                Assert.AreEqual(
+                    Math.Min(
+                        Math.Max(1, Math.Min(32, Environment.ProcessorCount)),
+                        Environment.ProcessorCount < 4 ? 2 : 4),
+                    defaults["launch_concurrency_limit"]);
                 Assert.AreEqual(true, defaults["show_tray"]);
                 Assert.AreEqual(true, defaults["list_use_left_right_nav"]);
                 Assert.AreEqual(false, defaults["auto_minimize_to_tray_after_launch"]);
                 Assert.AreEqual(true, defaults["remember_volume"]);
-                Assert.AreEqual("detailed", defaults["log_output_mode"]);
+                Assert.AreEqual("off", defaults["log_output_mode"]);
                 Assert.AreEqual(false, defaults["hotkeys_enabled"]);
                 Assert.AreEqual(string.Empty, defaults["speech_interface_dll"]);
                 Assert.IsInstanceOfType(defaults["app_history"], typeof(IList));
@@ -96,6 +100,34 @@ namespace ShaheLauncher.Tests
                 Assert.AreEqual(
                     custom,
                     ReflectionTestHelpers.InvokeInstance(store, "GetSecretText", "update_manifest_url", "fallback"));
+            }
+            finally
+            {
+                Directory.Delete(root, true);
+            }
+        }
+
+        [TestMethod]
+        public void MigratesPreviousOfficialUpdateSourceAndPreservesCustomSource()
+        {
+            string root = CreateTemporaryDirectory();
+            try
+            {
+                Type type = RequireType(ServiceTypeName);
+                object store;
+                object service = CreateService(type, root, out store);
+                const string previous = "https://lqh.viyf.net/shahe-bulk-launcher/update.json";
+                ReflectionTestHelpers.InvokeInstance(store, "SetJson", "settings_json", new Dictionary<string, object>());
+                ReflectionTestHelpers.InvokeInstance(store, "SetSecretText", "update_manifest_url", previous);
+                ReflectionTestHelpers.InvokeInstance(service, "LoadSettings");
+                Assert.AreEqual(DefaultUpdateUrl, ReflectionTestHelpers.InvokeInstance(service, "GetUpdateManifestUrl"));
+                Assert.AreEqual(DefaultUpdateUrl, ReflectionTestHelpers.InvokeInstance(service, "SetUpdateManifestUrl", previous));
+                Assert.AreEqual(DefaultUpdateUrl, ReflectionTestHelpers.InvokeInstance(store, "GetSecretText", "update_manifest_url", ""));
+
+                const string custom = "https://example.test/custom-update.json";
+                ReflectionTestHelpers.InvokeInstance(service, "SetUpdateManifestUrl", custom);
+                ReflectionTestHelpers.InvokeInstance(service, "LoadSettings");
+                Assert.AreEqual(custom, ReflectionTestHelpers.InvokeInstance(service, "GetUpdateManifestUrl"));
             }
             finally
             {
@@ -182,7 +214,7 @@ namespace ShaheLauncher.Tests
                 IDictionary<string, object> fallback = AsDictionary(
                     ReflectionTestHelpers.InvokeInstance(malformedService, "LoadSettings"));
                 Assert.AreEqual(false, fallback["hide_path"]);
-                Assert.AreEqual("detailed", fallback["log_output_mode"]);
+                Assert.AreEqual("off", fallback["log_output_mode"]);
                 Assert.AreEqual(DefaultUpdateUrl, GetProperty<string>(type, malformedService, "UpdateManifestUrl"));
                 Assert.AreEqual(
                     DefaultUpdateUrl,
@@ -219,7 +251,6 @@ namespace ShaheLauncher.Tests
                 SetProperty(stateType, state, "SandboxRoot", "D:\\SandboxRoot");
                 SetProperty(stateType, state, "LaunchInterval", 7);
                 SetProperty(stateType, state, "LaunchConcurrencyLimit", 3);
-                SetProperty(stateType, state, "DynamicLaunchDelayByLoad", true);
                 SetProperty(stateType, state, "ShowTray", false);
                 SetProperty(stateType, state, "AutoRun", true);
                 SetProperty(stateType, state, "AutoSelectRangeOnCheck", true);
@@ -248,6 +279,7 @@ namespace ShaheLauncher.Tests
                 Assert.IsFalse(runtimeSettings.ContainsKey("auto_update_on_startup"));
                 Assert.IsFalse(runtimeSettings.ContainsKey("auto_check_update_on_startup"));
                 Assert.IsFalse(runtimeSettings.ContainsKey("update_manifest_url"));
+                Assert.IsFalse(runtimeSettings.ContainsKey("dynamic_launch_delay_by_load"));
                 Assert.AreEqual(false, runtimeSettings["auto_minimize_to_tray_after_launch"]);
                 Assert.AreEqual("off", runtimeSettings["log_output_mode"]);
                 Assert.AreEqual("normalized", AsDictionary(((IList<object>)runtimeSettings["app_history"])[0])["path"]);
@@ -324,7 +356,6 @@ namespace ShaheLauncher.Tests
                     "app_history", new List<object> { Map("path", "A.exe") },
                     "launch_interval", -4,
                     "launch_concurrency_limit", 99,
-                    "dynamic_launch_delay_by_load", "yes",
                     "auto_run", "1",
                     "auto_select_range_on_check", "on",
                     "list_use_left_right_nav", "关闭",
@@ -350,12 +381,13 @@ namespace ShaheLauncher.Tests
                         "apps:update", "hotkeys", "menu", "auto-run", "schedule:1", "status:设置已保存"
                     },
                     calls.ToArray());
-                Assert.AreEqual(20, GetProperty<int>(stateType, state, "MaxHistoryItems"));
+                Assert.AreEqual(99, GetProperty<int>(stateType, state, "MaxHistoryItems"));
                 Assert.AreEqual(true, GetProperty<bool>(stateType, state, "HidePath"));
                 Assert.AreEqual("off", GetProperty<string>(stateType, state, "LogOutputMode"));
                 Assert.AreEqual(0, GetProperty<int>(stateType, state, "LaunchInterval"));
-                Assert.AreEqual(32, GetProperty<int>(stateType, state, "LaunchConcurrencyLimit"));
-                Assert.AreEqual(true, GetProperty<bool>(stateType, state, "DynamicLaunchDelayByLoad"));
+                Assert.AreEqual(
+                    Math.Max(1, Math.Min(32, Environment.ProcessorCount)),
+                    GetProperty<int>(stateType, state, "LaunchConcurrencyLimit"));
                 Assert.AreEqual(true, GetProperty<bool>(stateType, state, "AutoRun"));
                 Assert.AreEqual(true, GetProperty<bool>(stateType, state, "AutoSelectRangeOnCheck"));
                 Assert.AreEqual(false, GetProperty<bool>(stateType, state, "ListUseLeftRightNavigation"));

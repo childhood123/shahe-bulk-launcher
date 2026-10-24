@@ -1,0 +1,17 @@
+{
+  "returnCode": 0,
+  "package": "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\delivery-final\\shahe-bulk-launcher-4.0.48-win-x64.zip",
+  "size": 3014517,
+  "sha256": "D7BC80EF0218482B00B872458588768EA2B6F4570D904254E570EBED3A521A74",
+  "sha256Matches": true,
+  "configurationsEmpty": true,
+  "logsEmpty": true,
+  "forbiddenEntries": [],
+  "portableSmokeReturnCode": 0,
+  "mainWindowObserved": true,
+  "normalExit": true,
+  "forcedCleanup": false,
+  "residualProcessCount": 0,
+  "mainExeMatchesTestedUpdateBuild": true,
+  "coreDllMatchesTestedUpdateBuild": true
+}

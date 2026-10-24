@@ -18,6 +18,8 @@ namespace ShaheLauncher.Core.Speech
     public sealed class SpeechAssistBackend
     {
         public Action<bool> TrySapi { get; set; }
+        public Action<bool> PreferSapi { get; set; }
+        public Func<string> DetectScreenReader { get; set; }
         public Action Load { get; set; }
         public Func<bool> IsLoaded { get; set; }
         public Action Silence { get; set; }
@@ -85,6 +87,8 @@ namespace ShaheLauncher.Core.Speech
         private readonly object _assistSpeechCallLock = new object();
         private readonly object _assistDedupLock = new object();
         private SpeechAssistBackend _assistSpeechRuntime;
+        private bool _assistSpeechShutdown;
+        private string _assistSpeechRoute = string.Empty;
         private string _assistLastText = string.Empty;
         private DateTime _assistLastTimeUtc = DateTime.MinValue;
 
@@ -107,19 +111,6 @@ namespace ShaheLauncher.Core.Speech
         public IDictionary<string, object> SpeechAssistHints { get; private set; }
         public bool DestroyStarted { get; set; }
         public bool AssistSpeechDisabled { get; private set; }
-
-        public string GetSpeechSourceConfigPath()
-        {
-            string[] candidates =
-            {
-                Path.Combine(ConfigurationDirectory, "SpeechConfig.json"),
-                Path.Combine(AppDirectory, "SpeechConfig.json"),
-                Path.Combine(AppDirectory, "internal", "SpeechConfig.json"),
-                Path.Combine(AppDirectory, "Speech", "SpeechConfig.json"),
-                Path.Combine(AppDirectory, "py_work", "游戏", "哲隐语音组件", "Speech", "SpeechConfig.json")
-            };
-            return FirstExistingFile(candidates);
-        }
 
         public bool EnsureWritableDirectory(string folderPath)
         {
@@ -153,6 +144,7 @@ namespace ShaheLauncher.Core.Speech
         {
             return FirstExistingFile(new[]
             {
+                Path.Combine(AppDirectory, "lib", "Tolk.dll"),
                 Path.Combine(AppDirectory, "internal", "Tolk.dll"),
                 Path.Combine(AppDirectory, "Tolk.dll")
             });
@@ -166,26 +158,8 @@ namespace ShaheLauncher.Core.Speech
                 return string.Empty;
             }
 
-            string configPath = Path.Combine(ConfigurationDirectory, name);
-            if (forWrite)
-            {
-                EnsureWritableDirectory(ConfigurationDirectory);
-                return configPath;
-            }
-
-            string existing = FirstExistingFile(new[]
-            {
-                configPath,
-                Path.Combine(AppDirectory, "internal", name),
-                Path.Combine(AppDirectory, name)
-            });
-            if (existing.Length != 0)
-            {
-                return existing;
-            }
-
             EnsureWritableDirectory(ConfigurationDirectory);
-            return configPath;
+            return Path.Combine(ConfigurationDirectory, name);
         }
 
         public IDictionary<string, object> LoadReaderIniSettings()
@@ -251,7 +225,7 @@ namespace ShaheLauncher.Core.Speech
             }
         }
 
-        public IDictionary<string, object> DetectScreenReaderAndMatchEngine(IEnumerable<string> engineNames)
+        private IList<string> ReadScreenReaderProcessNames()
         {
             var names = new List<string>();
             try
@@ -290,6 +264,12 @@ namespace ShaheLauncher.Core.Speech
                 names.Clear();
             }
 
+            return names;
+        }
+
+        public IDictionary<string, object> DetectScreenReaderAndMatchEngine(IEnumerable<string> engineNames)
+        {
+            IList<string> names = ReadScreenReaderProcessNames();
             string readerKey = string.Empty;
             string readerName = string.Empty;
             string processName = string.Empty;
@@ -379,6 +359,8 @@ namespace ShaheLauncher.Core.Speech
                 { "boy", "boy" },
                 { "boyctrl.dll", "boy" },
                 { "boyctrl-x64.dll", "boy" },
+                { "byctrl.dll", "boy" },
+                { "byctrl-x64.dll", "boy" },
                 { "保益", "boy" }
             };
             string normalized;
@@ -403,66 +385,129 @@ namespace ShaheLauncher.Core.Speech
 
         public string GetAssistSpeechEngineDirectory()
         {
+            string tolkPath = GetTolkDllPath();
+            if (tolkPath.Length != 0)
+            {
+                string directory = Path.GetDirectoryName(tolkPath);
+                if (!string.IsNullOrWhiteSpace(directory))
+                {
+                    return directory;
+                }
+            }
+
+            string libDirectory = Path.Combine(AppDirectory, "lib");
+            if (Directory.Exists(libDirectory))
+            {
+                return libDirectory;
+            }
             string internalDirectory = Path.Combine(AppDirectory, "internal");
             return Directory.Exists(internalDirectory) ? internalDirectory : AppDirectory;
         }
 
+        private string GetAssistSpeechRoute()
+        {
+            if (SpeechInterfaceDll.Length == 0) return string.Empty;
+            IList<string> names = ReadScreenReaderProcessNames();
+            if (names.Any(name => MatchesReaderProcess(name, SpeechInterfaceDll))) return SpeechInterfaceDll;
+            return names.Any(name => MatchesReaderProcess(name, "nvda")
+                || MatchesReaderProcess(name, "zdsr") || MatchesReaderProcess(name, "boy"))
+                ? string.Empty : "windows";
+        }
+
+        private static bool MatchesReaderProcess(string name, string reader)
+        {
+            switch (reader)
+            {
+                case "nvda": return name.Contains("nvda");
+                case "zdsr": return name.Contains("zdsr") || name.Contains("zdsrapi") || name.Contains("saapi");
+                case "boy": return name.Contains("boyctrl") || name.Contains("boy");
+                default: return false;
+            }
+        }
+
+        private string GetAssistSpeechLibraryPath()
+        {
+            return GetAssistSpeechLibraryPathForRoute(GetAssistSpeechRoute());
+        }
+
+        private string GetAssistSpeechLibraryPathForRoute(string route)
+        {
+            string filename;
+            switch (route)
+            {
+                case "nvda": filename = "nvdaControllerClient64.dll"; break;
+                case "zdsr": filename = "ZDSRAPI_x64.dll"; break;
+                case "boy": filename = "byctrl-x64.dll"; break;
+                default: return GetTolkDllPath();
+            }
+            return new[]
+            {
+                Path.Combine(AppDirectory, "lib", filename),
+                Path.Combine(AppDirectory, "internal", filename),
+                Path.Combine(AppDirectory, filename)
+            }.FirstOrDefault(File.Exists) ?? string.Empty;
+        }
+
         public bool EnsureAssistSpeechRuntime()
         {
-            if (_assistSpeechRuntime != null)
+            lock (_assistSpeechCallLock)
             {
+                if (_assistSpeechShutdown) return false;
+                string route = GetAssistSpeechRoute();
+                lock (_assistSpeechInitLock)
+                {
+                    if (_assistSpeechRuntime != null && route == _assistSpeechRoute)
+                    {
+                        if (route.Length == 0 || route == "windows") return true;
+                        try { if (_assistSpeechRuntime.IsLoaded()) return true; }
+                        catch { }
+                    }
+                    if (AssistSpeechDisabled && route == _assistSpeechRoute) return false;
+                    SpeechAssistBackend previous = _assistSpeechRuntime;
+                    _assistSpeechRuntime = null;
+                    AssistSpeechDisabled = false;
+                    try { previous?.Unload?.Invoke(); }
+                    catch { }
+                    if (TryLoadAssistSpeechRuntime(route)) return true;
+                    if (route == "nvda" || route == "zdsr" || route == "boy")
+                    {
+                        // Keep the saved reader; this fallback affects only the current runtime.
+                        if (TryLoadAssistSpeechRuntime(string.Empty)) return true;
+                    }
+                    AssistSpeechDisabled = SpeechInterfaceDll.Length == 0;
+                    return false;
+                }
+            }
+        }
+
+        private bool TryLoadAssistSpeechRuntime(string route)
+        {
+            _assistSpeechRoute = route;
+            string libraryPath = GetAssistSpeechLibraryPathForRoute(route);
+            if (libraryPath.Length == 0) return false;
+            PrependSpeechEngineDirectoryToPath(Path.GetDirectoryName(libraryPath));
+            SpeechAssistBackend backend = null;
+            try
+            {
+                backend = Callbacks.LoadAssistBackend != null
+                    ? Callbacks.LoadAssistBackend(libraryPath)
+                    : route.Length == 0 || route == "windows"
+                        ? CreateNativeBackend(libraryPath)
+                        : CreateReaderBackend(libraryPath, route);
+                if (backend == null || backend.Load == null || backend.IsLoaded == null)
+                    throw new InvalidOperationException("Tolk 运行时接口不完整");
+                backend.TrySapi?.Invoke(true);
+                backend.PreferSapi?.Invoke(route == "windows");
+                backend.Load();
+                if (!backend.IsLoaded()) throw new InvalidOperationException("Tolk 初始化失败");
+                _assistSpeechRuntime = backend;
                 return true;
             }
-            if (AssistSpeechDisabled)
+            catch
             {
+                try { backend?.Unload?.Invoke(); }
+                catch { }
                 return false;
-            }
-
-            lock (_assistSpeechInitLock)
-            {
-                if (_assistSpeechRuntime != null)
-                {
-                    return true;
-                }
-                if (AssistSpeechDisabled)
-                {
-                    return false;
-                }
-
-                string tolkPath = GetTolkDllPath();
-                if (tolkPath.Length == 0)
-                {
-                    AssistSpeechDisabled = true;
-                    return false;
-                }
-
-                try
-                {
-                    SpeechAssistBackend backend = Callbacks.LoadAssistBackend != null
-                        ? Callbacks.LoadAssistBackend(tolkPath)
-                        : CreateNativeBackend(tolkPath);
-                    if (backend == null || backend.Load == null || backend.IsLoaded == null)
-                    {
-                        throw new InvalidOperationException("Tolk 运行时接口不完整");
-                    }
-
-                    backend.TrySapi?.Invoke(false);
-                    backend.Load();
-                    if (!backend.IsLoaded())
-                    {
-                        AssistSpeechDisabled = true;
-                        return false;
-                    }
-
-                    _assistSpeechRuntime = backend;
-                    return true;
-                }
-                catch
-                {
-                    AssistSpeechDisabled = true;
-                    _assistSpeechRuntime = null;
-                    return false;
-                }
             }
         }
 
@@ -482,7 +527,9 @@ namespace ShaheLauncher.Core.Speech
             {
                 lock (_assistSpeechCallLock)
                 {
-                    if (IsWindowClosing() || !EnsureAssistSpeechRuntime())
+                    if (IsWindowClosing()
+                        || !CommonUtilities.ParseBoolSetting(GetValue(SpeechAssistHints, "enabled", false), false)
+                        || !EnsureAssistSpeechRuntime())
                     {
                         return;
                     }
@@ -517,17 +564,44 @@ namespace ShaheLauncher.Core.Speech
         {
             lock (_assistSpeechCallLock)
             {
+                SpeechAssistBackend backend;
                 lock (_assistSpeechInitLock)
                 {
+                    backend = _assistSpeechRuntime;
                     _assistSpeechRuntime = null;
                     AssistSpeechDisabled = true;
+                    _assistSpeechShutdown = true;
+                }
+
+                try
+                {
+                    backend?.Unload?.Invoke();
+                }
+                catch
+                {
                 }
             }
         }
 
         public bool SaveSpeechInterfaceDll(string dllPath)
         {
-            SpeechInterfaceDll = NormalizeSpeechInterfaceValue(dllPath);
+            string selected = NormalizeSpeechInterfaceValue(dllPath);
+            lock (_assistSpeechCallLock)
+            {
+                SpeechAssistBackend previous = null;
+                lock (_assistSpeechInitLock)
+                {
+                    if (selected != SpeechInterfaceDll || (AssistSpeechDisabled && !_assistSpeechShutdown))
+                    {
+                        previous = _assistSpeechRuntime;
+                        _assistSpeechRuntime = null;
+                        AssistSpeechDisabled = _assistSpeechShutdown;
+                    }
+                    SpeechInterfaceDll = selected;
+                }
+                try { previous?.Unload?.Invoke(); }
+                catch { }
+            }
             Callbacks.SaveSettings?.Invoke();
             return true;
         }
@@ -619,20 +693,6 @@ namespace ShaheLauncher.Core.Speech
                 return configPath;
             }
 
-            string sourcePath = GetSpeechSourceConfigPath();
-            if (sourcePath.Length != 0)
-            {
-                try
-                {
-                    IDictionary<string, object> source = ReadJsonDictionary(sourcePath);
-                    WriteJson(configPath, SanitizeSpeechConfig(source));
-                    return configPath;
-                }
-                catch
-                {
-                }
-            }
-
             try
             {
                 WriteJson(configPath, new Dictionary<string, object>
@@ -707,8 +767,8 @@ namespace ShaheLauncher.Core.Speech
 
         public bool OnSpeechSettings()
         {
-            string tolkPath = GetTolkDllPath();
-            if (tolkPath.Length != 0)
+            string libraryPath = GetAssistSpeechLibraryPath();
+            if (libraryPath.Length != 0)
             {
                 Callbacks.SetStatus?.Invoke("已检测到读屏辅助接口");
             }
@@ -730,7 +790,7 @@ namespace ShaheLauncher.Core.Speech
                 SaveReaderIniSettings = SaveReaderIniSettings,
                 SaveInterfaceDll = SaveSpeechInterfaceDll,
                 SaveAssistHints = SaveSpeechAssistHints,
-                SaveSpeechConfig = SaveSpeechConfig
+                SaveSpeechConfig = config => true
             };
             bool accepted = Callbacks.ShowSettings != null && Callbacks.ShowSettings(request);
             if (accepted)
@@ -1066,6 +1126,132 @@ namespace ShaheLauncher.Core.Speech
             }
         }
 
+        private static void PrependSpeechEngineDirectoryToPath(string directory)
+        {
+            string value = Text(directory).Trim();
+            if (value.Length == 0 || !Directory.Exists(value))
+            {
+                return;
+            }
+
+            try
+            {
+                value = Path.GetFullPath(value);
+                string current = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
+                bool present = current
+                    .Split(new[] { Path.PathSeparator }, StringSplitOptions.RemoveEmptyEntries)
+                    .Any(item => string.Equals(
+                        GetFullPathSafely(item.Trim()), value,
+                        StringComparison.OrdinalIgnoreCase));
+                if (!present)
+                {
+                    Environment.SetEnvironmentVariable("PATH", value + Path.PathSeparator + current);
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        private static SpeechAssistBackend CreateReaderBackend(string dllPath, string reader)
+        {
+            IntPtr module = NativeMethods.LoadLibrary(dllPath);
+            if (module == IntPtr.Zero) throw new InvalidOperationException("无法加载读屏辅助接口");
+            try
+            {
+                var backend = new SpeechAssistBackend();
+                Action uninitialize = null;
+                bool initialized = false;
+                switch (reader)
+                {
+                    case "nvda":
+                        ReaderStatusDelegate running = LoadDelegate<ReaderStatusDelegate>(module, "nvdaController_testIfRunning");
+                        ReaderTextDelegate speakNvda = LoadDelegate<ReaderTextDelegate>(module, "nvdaController_speakText");
+                        ReaderStatusDelegate stopNvda = LoadDelegate<ReaderStatusDelegate>(module, "nvdaController_cancelSpeech");
+                        backend.Load = () => { };
+                        backend.IsLoaded = () => running() == 0;
+                        backend.DetectScreenReader = () => running() == 0 ? "NVDA" : string.Empty;
+                        backend.Silence = () => CheckReaderResult(stopNvda(), "nvdaController_cancelSpeech");
+                        backend.Output = (text, interrupt) => CheckReaderResult(speakNvda(text), "nvdaController_speakText");
+                        break;
+                    case "zdsr":
+                        ZdsrInitializeDelegate initializeZdsr = LoadDelegate<ZdsrInitializeDelegate>(module, "InitTTS");
+                        ReaderStatusDelegate stateZdsr = LoadDelegate<ReaderStatusDelegate>(module, "GetSpeakState");
+                        ZdsrSpeakDelegate speakZdsr = LoadDelegate<ZdsrSpeakDelegate>(module, "Speak");
+                        ReaderVoidDelegate stopZdsr = LoadDelegate<ReaderVoidDelegate>(module, "StopSpeak");
+                        backend.Load = () => CheckReaderResult(initializeZdsr(0, null, true), "InitTTS");
+                        backend.IsLoaded = () => { int state = stateZdsr(); return state == 3 || state == 4; };
+                        backend.DetectScreenReader = () => backend.IsLoaded() ? "ZDSR" : string.Empty;
+                        backend.Silence = () => stopZdsr();
+                        backend.Output = (text, interrupt) => CheckReaderResult(speakZdsr(text, interrupt), "Speak");
+                        break;
+                    case "boy":
+                        ReaderTextDelegate initializeBoy = LoadDelegate<ReaderTextDelegate>(module, "BoyCtrlInitialize");
+                        ReaderVoidDelegate uninitializeBoy = LoadDelegate<ReaderVoidDelegate>(module, "BoyCtrlUninitialize");
+                        ReaderBoolDelegate runningBoy = LoadDelegate<ReaderBoolDelegate>(module, "BoyCtrlIsReaderRunning");
+                        BoySpeakDelegate speakBoy = LoadDelegate<BoySpeakDelegate>(module, "BoyCtrlSpeak");
+                        ReaderStatusDelegate stopBoy = LoadDelegate<ReaderStatusDelegate>(module, "BoyCtrlStopSpeaking");
+                        backend.Load = () => { CheckReaderResult(initializeBoy(null), "BoyCtrlInitialize"); initialized = true; };
+                        backend.IsLoaded = () => runningBoy();
+                        backend.DetectScreenReader = () => runningBoy() ? "BoyPCReader" : string.Empty;
+                        backend.Silence = () => CheckReaderResult(stopBoy(), "BoyCtrlStopSpeaking");
+                        backend.Output = (text, interrupt) => CheckReaderResult(speakBoy(text, !interrupt, BoySpeechCompleted), "BoyCtrlSpeak");
+                        uninitialize = () => { if (initialized) uninitializeBoy(); };
+                        break;
+                    default:
+                        throw new InvalidOperationException("Unknown screen reader: " + reader);
+                }
+                int released = 0;
+                backend.Unload = () =>
+                {
+                    if (Interlocked.Exchange(ref released, 1) != 0) return;
+                    try { uninitialize?.Invoke(); }
+                    finally { NativeMethods.FreeLibrary(module); }
+                };
+                return backend;
+            }
+            catch
+            {
+                NativeMethods.FreeLibrary(module);
+                throw;
+            }
+        }
+
+        private static void CheckReaderResult(int result, string operation)
+        {
+            if (result != 0) throw new InvalidOperationException(operation + " returned " + result);
+        }
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        private delegate int ReaderStatusDelegate();
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        private delegate void ReaderVoidDelegate();
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        private delegate int ReaderTextDelegate([MarshalAs(UnmanagedType.LPWStr)] string text);
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        [return: MarshalAs(UnmanagedType.I1)]
+        private delegate bool ReaderBoolDelegate();
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        private delegate int ZdsrInitializeDelegate(int type, [MarshalAs(UnmanagedType.LPWStr)] string channel,
+            [MarshalAs(UnmanagedType.Bool)] bool keyDownInterrupt);
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        private delegate int ZdsrSpeakDelegate([MarshalAs(UnmanagedType.LPWStr)] string text,
+            [MarshalAs(UnmanagedType.Bool)] bool interrupt);
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall)]
+        private delegate void BoySpeakCompletedDelegate(int reason);
+
+        private static readonly BoySpeakCompletedDelegate BoySpeechCompleted = reason => { };
+
+        [UnmanagedFunctionPointer(CallingConvention.StdCall, CharSet = CharSet.Unicode)]
+        private delegate int BoySpeakDelegate([MarshalAs(UnmanagedType.LPWStr)] string text,
+            [MarshalAs(UnmanagedType.I1)] bool append, BoySpeakCompletedDelegate completion);
+
         private static SpeechAssistBackend CreateNativeBackend(string dllPath)
         {
             IntPtr module = NativeMethods.LoadLibrary(dllPath);
@@ -1077,19 +1263,44 @@ namespace ShaheLauncher.Core.Speech
             try
             {
                 TolkTrySapiDelegate trySapi = LoadDelegate<TolkTrySapiDelegate>(module, "Tolk_TrySAPI");
+                TolkPreferSapiDelegate preferSapi = LoadDelegate<TolkPreferSapiDelegate>(module, "Tolk_PreferSAPI");
+                TolkDetectScreenReaderDelegate detectScreenReader = LoadDelegate<TolkDetectScreenReaderDelegate>(module, "Tolk_DetectScreenReader");
                 TolkLoadDelegate load = LoadDelegate<TolkLoadDelegate>(module, "Tolk_Load");
                 TolkIsLoadedDelegate isLoaded = LoadDelegate<TolkIsLoadedDelegate>(module, "Tolk_IsLoaded");
                 TolkSilenceDelegate silence = LoadDelegate<TolkSilenceDelegate>(module, "Tolk_Silence");
                 TolkOutputDelegate output = LoadDelegate<TolkOutputDelegate>(module, "Tolk_Output");
                 TolkUnloadDelegate unload = LoadDelegate<TolkUnloadDelegate>(module, "Tolk_Unload");
+                int released = 0;
                 return new SpeechAssistBackend
                 {
                     TrySapi = value => trySapi(value),
+                    PreferSapi = value => preferSapi(value),
+                    DetectScreenReader = () =>
+                    {
+                        IntPtr value = detectScreenReader();
+                        return value == IntPtr.Zero
+                            ? string.Empty
+                            : Marshal.PtrToStringUni(value) ?? string.Empty;
+                    },
                     Load = () => load(),
                     IsLoaded = () => isLoaded(),
                     Silence = () => silence(),
                     Output = (text, interrupt) => output(text, interrupt),
-                    Unload = () => unload()
+                    Unload = () =>
+                    {
+                        if (Interlocked.Exchange(ref released, 1) != 0)
+                        {
+                            return;
+                        }
+                        try
+                        {
+                            unload();
+                        }
+                        finally
+                        {
+                            NativeMethods.FreeLibrary(module);
+                        }
+                    }
                 };
             }
             catch
@@ -1110,22 +1321,28 @@ namespace ShaheLauncher.Core.Speech
         }
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        private delegate void TolkTrySapiDelegate([MarshalAs(UnmanagedType.Bool)] bool useSapi);
+        private delegate void TolkTrySapiDelegate([MarshalAs(UnmanagedType.I1)] bool useSapi);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
+        private delegate void TolkPreferSapiDelegate([MarshalAs(UnmanagedType.I1)] bool preferSapi);
+
+        [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
+        private delegate IntPtr TolkDetectScreenReaderDelegate();
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void TolkLoadDelegate();
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.Bool)]
+        [return: MarshalAs(UnmanagedType.I1)]
         private delegate bool TolkIsLoadedDelegate();
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
-        [return: MarshalAs(UnmanagedType.Bool)]
+        [return: MarshalAs(UnmanagedType.I1)]
         private delegate bool TolkSilenceDelegate();
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl, CharSet = CharSet.Unicode)]
-        [return: MarshalAs(UnmanagedType.Bool)]
-        private delegate bool TolkOutputDelegate([MarshalAs(UnmanagedType.LPWStr)] string text, [MarshalAs(UnmanagedType.Bool)] bool interrupt);
+        [return: MarshalAs(UnmanagedType.I1)]
+        private delegate bool TolkOutputDelegate([MarshalAs(UnmanagedType.LPWStr)] string text, [MarshalAs(UnmanagedType.I1)] bool interrupt);
 
         [UnmanagedFunctionPointer(CallingConvention.Cdecl)]
         private delegate void TolkUnloadDelegate();

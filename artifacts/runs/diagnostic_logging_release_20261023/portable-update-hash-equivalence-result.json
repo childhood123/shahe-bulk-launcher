@@ -1,0 +1,13 @@
+{
+  "returnCode": 0,
+  "testedPublish": "publish-default-delivery",
+  "finalPublish": "publish-default-final-nolegacy",
+  "mainExeSha256": "9B73FC4F074A83A664AB3EDE2A52448023C1B5468ECD62777751D7FC38779C24",
+  "coreDllSha256": "16ABDC2226EA8AB0EBD194B6722712F84E39D18CD3DB6C802D324169C93D51E5",
+  "mainExeMatchesTested": true,
+  "coreDllMatchesTested": true,
+  "reusedEvidence": [
+    "release-install-logging-on-delivery.json",
+    "release-install-delivery-result.json"
+  ]
+}

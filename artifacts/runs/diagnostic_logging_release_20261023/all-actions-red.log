@@ -1,0 +1,25 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 EveryAltMenuLeafAndFixedHotkeyRecordsItsAction [618 ms]
+  错误消息:
+   StringAssert.Contains 失败。字符串“操作开始: open_app
+操作分派完成: open_app”不包含字符串“菜单执行: 选择应用”。。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.OnSta(Action action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 240
+
+  失败 DialogButtonActionsAreLoggedWithoutLoggingFocusChanges [124 ms]
+  错误消息:
+   StringAssert.Contains 失败。字符串“”不包含字符串“操作开始: 设置 / 重置所有设置”。。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.OnSta(Action action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 240
+
+结果文件: D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\all-actions-red.trx
+
+失败!  - 失败:     2，通过:     0，已跳过:     0，总计:     2，持续时间: 1 s - ShaheLauncher.Tests.dll (net48)

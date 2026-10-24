@@ -23,7 +23,7 @@ namespace ShaheLauncher.Tests
         private const string CallbacksTypeName = "ShaheLauncher.Core.Updates.UpdateServiceCallbacks";
         private const string PackageTypeName = "ShaheLauncher.Core.Updates.UpdatePackageInfo";
         private const string ResultTypeName = "ShaheLauncher.Core.Updates.UpdateDisplayResult";
-        private static readonly string DefaultUpdateUrl = "https://lqh.viyf.net/shahe-bulk-launcher/update.json";
+        private static readonly string DefaultUpdateUrl = "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json";
 
         [TestMethod]
         public void NormalizesPatchPackageAndRejectsLegacyDownloadUrlLikePython()
@@ -38,7 +38,7 @@ namespace ShaheLauncher.Tests
                 new StubHandler(HttpStatusCode.OK, "{}"),
                 Activator.CreateInstance(callbacksType));
             IDictionary<string, object> package = Map(
-                "from", "4.0.46",
+                "from", "4.0.49",
                 "to_version", "9999.0.0",
                 "url", "https://example.invalid/update.zip",
                 "size", "bad",
@@ -65,7 +65,7 @@ namespace ShaheLauncher.Tests
                     "patches", new List<object>
                     {
                         Map(
-                            "from", "4.0.46",
+                            "from", "4.0.49",
                             "to_version", "9999.0.0",
                             "download_url", "https://example.invalid/legacy.zip")
                     }),
@@ -93,8 +93,8 @@ namespace ShaheLauncher.Tests
                     "patches", new List<object>
                     {
                         Map("from", "4.0.45", "to", "9.0.0", "url", "https://example.invalid/wrong.zip"),
-                        Map("from", "4.0.46", "to", "4.0.40", "url", "https://example.invalid/old.zip"),
-                        Map("from", "4.0.46", "to", "9.0.0", "url", "https://example.invalid/right.zip")
+                        Map("from", "4.0.49", "to", "4.0.40", "url", "https://example.invalid/old.zip"),
+                        Map("from", "4.0.49", "to", "9.0.0", "url", "https://example.invalid/right.zip")
                     }),
                 "9.0.0");
             Assert.IsNotNull(selected);
@@ -153,19 +153,18 @@ namespace ShaheLauncher.Tests
             StringAssert.Contains(cacheControl, "no-cache");
             StringAssert.Contains(cacheControl, "no-store");
             StringAssert.Contains(cacheControl, "max-age=0");
-            Assert.AreEqual("SandboxBatchLauncher/4.0.46", handler.Request.Headers.UserAgent.ToString());
+            Assert.AreEqual("SandboxBatchLauncher/4.0.49", handler.Request.Headers.UserAgent.ToString());
             Assert.AreEqual("application/json", handler.Request.Headers.GetValues("Accept").Single());
         }
 
         [TestMethod]
-        public void PreparesPackagedUpdaterHelperAndRequestFileLikePython()
+        public void PreparesPackagedMainHelperAndRequestFile()
         {
             Type serviceType = ReflectionTestHelpers.RequireType(ServiceTypeName);
             Type callbacksType = ReflectionTestHelpers.RequireType(CallbacksTypeName);
             string root = CreateTemporaryDirectory("shahe-update-helper-");
             try
             {
-                File.WriteAllText(Path.Combine(root, "updater.exe"), "fake updater");
                 Directory.CreateDirectory(Path.Combine(root, "internal"));
                 File.WriteAllText(Path.Combine(root, "internal", "runtime.dat"), "runtime");
                 string mainExe = Path.Combine(root, "沙河批量打开器.exe");
@@ -196,14 +195,15 @@ namespace ShaheLauncher.Tests
                 Assert.AreEqual("", GetProperty<string>(preparationType, preparation, "Error"));
                 IList<string> command = ToStringList(GetProperty<object>(preparationType, preparation, "Command"));
                 string helperDir = Path.Combine(root, "tenp", "updater_helper_12345_1000");
-                Assert.AreEqual(Path.Combine(helperDir, "updater.exe"), command[0]);
-                Assert.AreEqual("fake updater", File.ReadAllText(command[0]));
+                Assert.AreEqual(Path.Combine(helperDir, "沙河批量打开器.exe"), command[0]);
+                Assert.AreEqual("fake main", File.ReadAllText(command[0]));
+                Assert.AreEqual("--install-update", command[1]);
                 Assert.AreEqual("runtime", File.ReadAllText(Path.Combine(helperDir, "internal", "runtime.dat")));
                 Assert.AreEqual(mainExe, command[command.IndexOf("--exe") + 1]);
                 string requestPath = command[command.IndexOf("--request-file") + 1];
                 Assert.AreEqual(Path.Combine(root, "tenp"), Path.GetDirectoryName(requestPath));
                 JObject request = JObject.Parse(File.ReadAllText(requestPath, Encoding.UTF8));
-                Assert.AreEqual("4.0.46", (string)request["current_version"]);
+                Assert.AreEqual("4.0.49", (string)request["current_version"]);
                 Assert.AreEqual("9999.0.0", (string)request["target_version"]);
                 Assert.AreEqual("4", (string)request["download_workers"]);
                 Assert.AreEqual(true, (bool)request["restart"]);
@@ -264,12 +264,12 @@ namespace ShaheLauncher.Tests
             object latest = ReflectionTestHelpers.InvokeInstance(
                 service,
                 "BuildUpdateDisplayResult",
-                Map("latest_version", "4.0.46"),
+                Map("latest_version", "4.0.49"),
                 false,
                 false);
-            Assert.AreEqual("沙河批量打开器 已是最新版本: 4.0.46", GetProperty<string>(resultType, latest, "StatusText"));
+            Assert.AreEqual("沙河批量打开器 已是最新版本: 4.0.49", GetProperty<string>(resultType, latest, "StatusText"));
             Assert.AreEqual("检查更新", GetProperty<string>(resultType, latest, "MessageTitle"));
-            Assert.AreEqual("沙河批量打开器 已是最新版本。\n\n当前版本：4.0.46", GetProperty<string>(resultType, latest, "MessageText"));
+            Assert.AreEqual("沙河批量打开器 已是最新版本。\n\n当前版本：4.0.49", GetProperty<string>(resultType, latest, "MessageText"));
 
             object available = ReflectionTestHelpers.InvokeInstance(
                 service,
@@ -279,7 +279,7 @@ namespace ShaheLauncher.Tests
                     "force_update", true,
                     "patches", new List<object>
                     {
-                        Map("from", "4.0.46", "to", "9.0.0", "url", "https://example.invalid/update.zip")
+                        Map("from", "4.0.49", "to", "9.0.0", "url", "https://example.invalid/update.zip")
                     }),
                 false,
                 false);
@@ -297,10 +297,12 @@ namespace ShaheLauncher.Tests
             object callbacks = Activator.CreateInstance(callbacksType);
             var posted = new ManualResetEventSlim(false);
             var statuses = new List<string>();
+            object displayResult = null;
             int callerThread = Thread.CurrentThread.ManagedThreadId;
             int workerThread = 0;
             SetProperty(callbacksType, callbacks, "GetManifestUrl", new Func<string>(() => "https://example.invalid/update.json"));
             SetProperty(callbacksType, callbacks, "SetStatus", new Action<string>(statuses.Add));
+            SetProperty(callbacksType, callbacks, "ShowUpdateResult", new Action<object>(result => displayResult = result));
             SetProperty(callbacksType, callbacks, "PostToUi", new Action<Action>(action =>
             {
                 workerThread = Thread.CurrentThread.ManagedThreadId;
@@ -318,6 +320,8 @@ namespace ShaheLauncher.Tests
             Assert.IsTrue(posted.Wait(3000));
             Assert.AreNotEqual(callerThread, workerThread);
             CollectionAssert.Contains(statuses, "检查更新失败: network down");
+            Assert.IsNotNull(displayResult);
+            Assert.AreEqual("network down", GetProperty<string>(displayResult.GetType(), displayResult, "ErrorText"));
         }
 
         [TestMethod]

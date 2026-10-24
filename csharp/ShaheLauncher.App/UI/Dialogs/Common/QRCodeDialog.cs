@@ -1,4 +1,5 @@
 using System;
+using ShaheLauncher.App.Infrastructure;
 using System.Drawing;
 using System.IO;
 using System.Windows.Forms;
@@ -121,9 +122,9 @@ namespace ShaheLauncher.App.UI.Dialogs.Common
                 Margin = new Padding(0, 0, 0, 5)
             };
             CopyButton = new Button { Text = "复制二维码", Size = new Size(120, 35), TabIndex = 0 };
-            CopyButton.Click += (sender, eventArgs) => CopyQrCode();
+            CopyButton.Click += (sender, eventArgs) => OperationLog.Run(this, Text + " / " + CopyButton.Text, () => CopyQrCode());
             CloseButton = new Button { Text = "关闭", Size = new Size(80, 35), TabIndex = 1, DialogResult = DialogResult.Cancel };
-            CloseButton.Click += (sender, eventArgs) => Close();
+            CloseButton.Click += (sender, eventArgs) => OperationLog.Run(this, Text + " / " + CloseButton.Text, () => Close());
 
             var buttons = new FlowLayoutPanel
             {

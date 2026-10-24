@@ -1,0 +1,37 @@
+{
+  "command": [
+    "dotnet",
+    "publish",
+    "csharp\\ShaheLauncher.App\\ShaheLauncher.App.csproj",
+    "--configuration",
+    "Release",
+    "--no-build",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\bin\\",
+    "--output",
+    "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\publish-default-final-nolegacy"
+  ],
+  "returnCode": 0,
+  "configurationsEmpty": true,
+  "hasUpdater": false,
+  "legacyCopyMatchesMain": null,
+  "files": [
+    "沙河批量打开器.exe",
+    "沙河批量打开器.exe.config",
+    "沙河批量打开器.pdb",
+    "BouncyCastle.Crypto.dll",
+    "Newtonsoft.Json.dll",
+    "ShaheLauncher.Core.dll",
+    "ShaheLauncher.Core.pdb",
+    "lib\\byctrl-x64.dll",
+    "lib\\byctrl.conf",
+    "lib\\nvdaControllerClient64.dll",
+    "lib\\SAAPI64.dll",
+    "lib\\Tolk.dll",
+    "lib\\ZDSRAPI_x64.dll",
+    "lib\\ZDSRAPI.ini",
+    "打赏\\微信赞赏码.jpg",
+    "打赏\\支付宝赞赏码.jpg"
+  ]
+}

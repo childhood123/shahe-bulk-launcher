@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="fdfa61cf-3470-4945-b534-e1d177b1e2be" name="Administrator@CHILDHOOD 2026-10-23 17:05:57" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-23T17:05:57.9745236+08:00" queuing="2026-10-23T17:05:57.9745239+08:00" start="2026-10-23T17:05:53.5933110+08:00" finish="2026-10-23T17:05:57.9813562+08:00" />
+  <TestSettings name="default" id="e06f8f87-9097-4e95-b8e8-53e2bae8aef2">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-23_17_05_57" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="7c2cba9a-4087-4144-91d6-75999c75209e" testId="458b97d7-ecdf-4f56-627d-0332303e3d40" testName="DialogButtonActionsAreLoggedWithoutLoggingFocusChanges" computerName="CHILDHOOD" duration="00:00:00.1247696" startTime="2026-10-23T17:05:57.7272710+08:00" endTime="2026-10-23T17:05:57.8568782+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="7c2cba9a-4087-4144-91d6-75999c75209e">
+      <Output>
+        <ErrorInfo>
+          <Message>StringAssert.Contains 失败。字符串“”不包含字符串“操作开始: 设置 / 重置所有设置”。。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.OnSta(Action action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 240&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="9e01427f-927f-49ab-9295-deadc0183594" testId="688511ce-db5a-378d-c7dc-276d31f3c670" testName="EveryAltMenuLeafAndFixedHotkeyRecordsItsAction" computerName="CHILDHOOD" duration="00:00:00.6188634" startTime="2026-10-23T17:05:56.7935933+08:00" endTime="2026-10-23T17:05:57.7162998+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="9e01427f-927f-49ab-9295-deadc0183594">
+      <Output>
+        <ErrorInfo>
+          <Message>StringAssert.Contains 失败。字符串“操作开始: open_app
+操作分派完成: open_app”不包含字符串“菜单执行: 选择应用”。。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.OnSta(Action action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 240&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="DialogButtonActionsAreLoggedWithoutLoggingFocusChanges" storage="d:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="458b97d7-ecdf-4f56-627d-0332303e3d40">
+      <TestCategory>
+        <TestCategoryItem TestCategory="DiagnosticLogging" />
+      </TestCategory>
+      <Execution id="7c2cba9a-4087-4144-91d6-75999c75209e" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DiagnosticLoggingContractTests" name="DialogButtonActionsAreLoggedWithoutLoggingFocusChanges" />
+    </UnitTest>
+    <UnitTest name="EveryAltMenuLeafAndFixedHotkeyRecordsItsAction" storage="d:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="688511ce-db5a-378d-c7dc-276d31f3c670">
+      <TestCategory>
+        <TestCategoryItem TestCategory="DiagnosticLogging" />
+      </TestCategory>
+      <Execution id="9e01427f-927f-49ab-9295-deadc0183594" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DiagnosticLoggingContractTests" name="EveryAltMenuLeafAndFixedHotkeyRecordsItsAction" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="458b97d7-ecdf-4f56-627d-0332303e3d40" executionId="7c2cba9a-4087-4144-91d6-75999c75209e" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="688511ce-db5a-378d-c7dc-276d31f3c670" executionId="9e01427f-927f-49ab-9295-deadc0183594" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="2" executed="2" passed="0" failed="2" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

@@ -1,0 +1,20 @@
+{
+  "returnCode": 0,
+  "stagedFileCount": 126,
+  "sourceAndTestFiles": 29,
+  "stagingListMatches": true,
+  "cachedDiffCheckReturnCode": 0,
+  "forbiddenFiles": [],
+  "unstagedSourceDifferences": [],
+  "excluded": [
+    "*.zip",
+    "*.pdb",
+    "diagnostic_logging_release_20261023/bin/",
+    "diagnostic_logging_release_20261023/publish-*/",
+    "diagnostic_logging_release_20261023/real-install/",
+    "csharp/ShaheLauncher.Tests/KeyboardAuditRuntimeContractTests.cs",
+    "artifacts/runs/csharp_non_update_gaps_20261020/gap09/*.log",
+    "artifacts/runs/diagnostic_logging_release_20261023/source-review.diff",
+    "artifacts/runs/diagnostic_logging_release_20261023/staged-check.log"
+  ]
+}

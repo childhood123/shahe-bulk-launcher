@@ -1,0 +1,11 @@
+{
+  "returnCode": 0,
+  "baseCommit": "fe43076397a519dfc220b7a0841aae7807dd69ee",
+  "checked": 29,
+  "mismatches": [],
+  "reusedVerification": [
+    "delivery-full-result.json",
+    "delivery-release-result.json",
+    "portable-final-verification-result.json"
+  ]
+}

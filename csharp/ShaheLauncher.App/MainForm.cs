@@ -1,4 +1,5 @@
 using System;
+using ShaheLauncher.App.Infrastructure;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -9,7 +10,9 @@ using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Newtonsoft.Json.Linq;
 using ShaheLauncher.App.Input;
+using ShaheLauncher.App.UI.Controls;
 using ShaheLauncher.App.UI.Dialogs.Common;
 using ShaheLauncher.App.UI.Dialogs.Settings;
 using ShaheLauncher.Core.AppPaths;
@@ -33,12 +36,20 @@ namespace ShaheLauncher.App
         private readonly LauncherSettingsState _settingsState = new LauncherSettingsState();
         private IDictionary<string, string> _hotkeys = new Dictionary<string, string>();
         private bool _hotkeysEnabled;
+        private bool _updateChoiceMadeThisSession;
         private bool _applicationServicesDisposeStarted;
         private bool _loadingApplicationSettings;
         private bool _sandboxDisplayMapsInitialized;
+        private int _appItemCheckedIndex = -1;
         private SandboxieDisplayMaps _sandboxDisplayMaps = new SandboxieDisplayMaps();
         private IList<string> _officialSandboxNames = new List<string>();
         private BackupRestoreProgressDialog _backupRestoreProgressDialog;
+        private readonly object _processMenuLiveStateRefreshSync = new object();
+        private IDisposable _processMenuLiveStateRefreshTimer;
+        private bool _processMenuLiveStateRefreshInProgress;
+        private bool _processMenuLiveStateRefreshPending;
+        private int _processMenuLiveStateRefreshToken;
+        private bool _manualProcessRefreshStatusPending;
 
         public MainForm()
             : this(CreateDefaultRuntime())
@@ -49,9 +60,9 @@ namespace ShaheLauncher.App
         {
             Runtime = runtime ?? throw new ArgumentNullException(nameof(runtime));
             AppDirectory = Runtime.GetAppDirectory();
-            ConfigurationDirectory = Path.Combine(AppDirectory, "Configuration");
+            ConfigurationDirectory = CommonUtilities.PrepareConfigurationDirectory(AppDirectory);
             ConfigurationStorePath = Path.Combine(ConfigurationDirectory, "shahe_config.ini");
-            LegacyConfigPath = Path.Combine(AppDirectory, "app_config.dat");
+            LegacyConfigPath = Path.Combine(ConfigurationDirectory, "app_config.dat");
 
             ConfigStore = new ConfigStore(
                 ConfigurationStorePath,
@@ -61,6 +72,7 @@ namespace ShaheLauncher.App
             AppPathHistoryService = new AppPathHistoryService();
             SandboxieClient = new SandboxieClient();
             ProcessActionService = new ProcessActionService();
+            ProcessAudioBackend = new WindowsProcessAudioBackend();
             SandboxAdminService = new SandboxAdminService();
             LaunchScheduler = new LaunchScheduler();
             BackupRestoreService = new BackupRestoreService();
@@ -93,19 +105,27 @@ namespace ShaheLauncher.App
                     SetStatus = text => SafeSetStatusLabel(text),
                     PostToUi = SafeCallAfter,
                     GetProcessId = () => Process.GetCurrentProcess().Id,
-                    GetUnixTimeSeconds = () => DateTimeOffset.UtcNow.ToUnixTimeSeconds()
+                    GetUnixTimeSeconds = () => DateTimeOffset.UtcNow.ToUnixTimeSeconds(),
+                    ShowUpdateResult = ShowUpdateNotice
                 });
             ProcessCallbacks = CreateProcessCallbacks();
             LaunchCallbacks = CreateLaunchSchedulerCallbacks();
             SandboxAdminCallbacks = CreateSandboxAdminCallbacks();
 
             FindSandboxiePathCallback = SandboxieClient.FindSandboxiePath;
+            ReloadSandboxieConfigCallback = ReloadSandboxieConfig;
             ShowMessageCallback = ShowMessage;
             StartupDelayCallback = (delay, callback) => SafeCallLater(delay, callback);
             UpdateComboBoxCallback = UpdateAppPathList;
             ApplyHotkeysCallback = ApplyHotkeys;
             CreateMenuBarCallback = CreateMenuBar;
+            AppPathSelectionChangedCallback = OnAppPathSelectionChanged;
+            AppItemCheckedCallback = OnAppItemChecked;
+            AppContextMenuCallback = ShowAppPathContextMenu;
+            SandboxToggledCallback = OnSandboxToggled;
             LaunchSelectedCallback = LaunchSelectedSandboxes;
+            DownloadUpdateCallback = DownloadUpdate;
+            ShowUpdateDialogCallback = ShowUpdateDialog;
             MuteCurrentCallback = name => ProcessActionService.OnMuteCurrentSandbox(name, ProcessState, ProcessCallbacks);
             MuteAllCallback = () => ProcessActionService.OnMuteAllSandboxes(ProcessState, ProcessCallbacks);
             VolumeCurrentCallback = (name, step) => ProcessActionService.OnAdjustVolumeCurrentSandbox(
@@ -124,16 +144,10 @@ namespace ShaheLauncher.App
             CancelAllSchedulesCallback = updateStatus => LaunchScheduler.CancelAllSchedules(
                 LaunchState, updateStatus, LaunchCallbacks);
             HasScheduleJobsProvider = () => LaunchState.Jobs.Count != 0;
-            ScheduleProcessMenuLiveStateRefreshCallback = delay => StartupDelayCallback?.Invoke(
-                delay,
-                () =>
-                {
-                    ProcessCallbacks.RefreshVisibleStates?.Invoke();
-                    ScheduleMenuBarRebuild();
-                });
+            ScheduleProcessMenuLiveStateRefreshCallback = ScheduleProcessMenuLiveStateRefresh;
             SaveSettingsCallback = SaveSettings;
             LogOperationCallback = Runtime.AppendDailyLog;
-            FixedHotkeyActionCallback = ExecuteApplicationAction;
+            FixedHotkeyActionCallback = action => OperationLog.Run(this, action, () => ExecuteApplicationAction(action));
             SelectPreviousSandboxCallback = () => SelectAdjacentSandbox(-1);
             SelectNextSandboxCallback = () => SelectAdjacentSandbox(1);
             ShowHotkeySettingsCallback = ShowHotkeySettingsDialog;
@@ -145,6 +159,8 @@ namespace ShaheLauncher.App
             ShowBatchCreateRuleCallback = ShowBatchCreateRuleDialog;
             SelectDirectoryCallback = SelectDirectory;
             ShowQrCodeCallback = ShowQrCodeDialog;
+            ClipboardTextWriter = text => Clipboard.SetText(text);
+            ClipboardDataReader = Clipboard.GetDataObject;
             ShutdownAssistSpeechRuntimeCallback = SpeechService.ShutdownAssistSpeechRuntime;
             SpeechCallback = (text, eventName) => SpeechService.SpeakProcessAssist(text, true, eventName);
         }
@@ -155,11 +171,13 @@ namespace ShaheLauncher.App
         public AppPathHistoryService AppPathHistoryService { get; private set; }
         public SandboxieClient SandboxieClient { get; private set; }
         public ProcessActionService ProcessActionService { get; private set; }
+        public WindowsProcessAudioBackend ProcessAudioBackend { get; private set; }
         public SandboxAdminService SandboxAdminService { get; private set; }
         public LaunchScheduler LaunchScheduler { get; private set; }
         public BackupRestoreService BackupRestoreService { get; private set; }
         public SpeechService SpeechService { get; private set; }
         public UpdateService UpdateService { get; private set; }
+        public Func<UpdateDisplayResult, DialogResult> ShowUpdateDialogCallback { get; set; }
         public ProcessActionState ProcessState { get; private set; }
         public LaunchSchedulerState LaunchState { get; private set; }
         public SandboxAdminState SandboxAdminState { get; private set; }
@@ -195,6 +213,8 @@ namespace ShaheLauncher.App
         public Action ReloadSandboxieConfigCallback { get; set; }
         public Action RestartSandboxieServicesCallback { get; set; }
         public Action<string> ShowQrCodeCallback { get; set; }
+        public Action<string> ClipboardTextWriter { get; set; }
+        public Func<IDataObject> ClipboardDataReader { get; set; }
         public Func<string> FindSandboxiePathCallback { get; set; }
         public Action<string, string, MessageBoxIcon> ShowMessageCallback { get; set; }
         public Func<int, Action, IDisposable> StartupDelayCallback { get; set; }
@@ -208,6 +228,7 @@ namespace ShaheLauncher.App
             }
 
             LoadApplicationSettings();
+            LogOperationSafe("启动步骤: 配置加载完成，初始化主窗口");
             InitializeUi();
             WireComposedFeatureProvidersToUi();
             SandboxList.SetSandboxRoot(_settingsState.SandboxRoot);
@@ -224,11 +245,13 @@ namespace ShaheLauncher.App
                 }
             }
 
+            LogOperationSafe("启动步骤: 检测 Sandboxie 安装路径");
             InitializeSandboxiePath();
             StartupDelayCallback?.Invoke(900, RefreshSandboxListOnStartup);
             ApplyAutoRun();
             StartupDelayCallback?.Invoke(1500, AutoCheckUpdateAfterStartup);
             ApplicationInitialized = true;
+            LogOperationSafe("启动步骤: 主窗口初始化完成，已安排列表刷新和更新检查");
         }
 
         public int NormalizeHotkeyKeyCode(Keys keyCode, bool extendedKey)
@@ -266,28 +289,14 @@ namespace ShaheLauncher.App
             AddActions(file, "退出软件", "exit_app");
             menu.MenuItems.Add(file);
 
-            var process = new MenuItem("进程(&P)");
-            AddActions(process,
-                "静音当前打开的进程", "mute_current", "静音全部打开的进程", "mute_all",
-                "提高当前打开的进程音量（+5%）", "volume_current_up",
-                "降低当前打开的进程音量（-5%）", "volume_current_down",
-                "提高全部打开的进程音量（+5%）", "volume_all_up",
-                "降低全部打开的进程音量（-5%）", "volume_all_down",
-                "切换当前打开的进程播放设备", "switch_output_current",
-                "切换全部打开的进程播放设备", "switch_output_all",
-                "关闭当前打开的进程", "close_current_process",
-                "关闭全部打开的进程", "close_all_processes",
-                "定位当前打开的进程", "locate_current_process",
-                "刷新进程状态", "refresh_process_state");
-            menu.MenuItems.Add(process);
-
             var sandbox = new MenuItem("沙盒管理(&G)");
             var groups = new MenuItem("分组管理");
             AddActions(groups, "新建分组", "create_group", "启动分组", "launch_group", "删除分组", "delete_group");
             sandbox.MenuItems.Add(groups);
             var users = new MenuItem("用户管理");
+            AddActions(users, "置顶/取消置顶当前用户", "pin_current_user");
+            users.MenuItems.Add(new MenuItem("-"));
             AddActions(users,
-                "置顶/取消置顶当前用户", "pin_current_user",
                 "批量创建沙盒用户", "batch_create_sandboxes",
                 "批量重命名沙盒用户", "batch_rename_sandboxes",
                 "批量删除沙盒用户", "batch_delete_sandboxes");
@@ -299,15 +308,19 @@ namespace ShaheLauncher.App
                 "取消全部定时任务", "cancel_scheduled_tasks");
             AddTopMenu(menu, "设置(&S)",
                 "热键设置", "hotkey_settings", "朗读设置", "speech_settings", "软件设置", "settings");
-            AddTopMenu(menu, "校正(&J)",
+            var correction = new MenuItem("校正(&J)");
+            AddActions(correction,
                 "手动校正 Sandboxie 安装路径", "manual_correct_sandboxie_path",
-                "选择沙盒用户数据目录", "select_sandbox_root",
-                "修复 Sandboxie Control 用户设置", "repair_sandboxie_control_settings");
+                "选择沙盒用户数据目录", "select_sandbox_root");
+            correction.MenuItems.Add(new MenuItem("-"));
+            AddActions(correction, "修复 Sandboxie Control 用户设置", "repair_sandboxie_control_settings");
+            menu.MenuItems.Add(correction);
             AddTopMenu(menu, "工具(&T)",
                 "备份沙盒用户", "backup_sandboxes", "还原沙盒用户", "restore_sandboxes");
 
             var about = new MenuItem("关于(&A)");
             AddActions(about, "检查更新", "check_update");
+            about.MenuItems.Add(new MenuItem("-"));
             var donate = new MenuItem("请作者吃辣条");
             AddActions(donate, "微信打赏", "show_wechat_qr", "支付宝打赏", "show_alipay_qr");
             about.MenuItems.Add(donate);
@@ -330,7 +343,7 @@ namespace ShaheLauncher.App
             Settings = SettingsService.LoadSettings() ?? new Dictionary<string, object>();
             _settingsState.Settings = Settings;
             _settingsState.MaxHistoryItems = CommonUtilities.ParseIntSetting(
-                GetSetting("max_history_items"), 10, 0, 20);
+                GetSetting("max_history_items"), 10, 0, AppPathHistoryService.MaximumHistoryItems);
             _settingsState.HidePath = CommonUtilities.ParseBoolSetting(GetSetting("hide_path"), false);
             _settingsState.AppHistory = SandboxAdminService.NormalizeAppHistory(
                     GetSetting("app_history"),
@@ -347,9 +360,10 @@ namespace ShaheLauncher.App
             _settingsState.LaunchInterval = CommonUtilities.ParseIntSetting(
                 GetSetting("launch_interval"), 5, 0, 15);
             _settingsState.LaunchConcurrencyLimit = CommonUtilities.ParseIntSetting(
-                GetSetting("launch_concurrency_limit"), 1, 1, 32);
-            _settingsState.DynamicLaunchDelayByLoad = CommonUtilities.ParseBoolSetting(
-                GetSetting("dynamic_launch_delay_by_load"), false);
+                GetSetting("launch_concurrency_limit"),
+                LauncherConstants.GetDefaultLaunchConcurrencyLimit(),
+                1,
+                LauncherConstants.GetLaunchConcurrencyMaximum());
             _settingsState.ShowTray = CommonUtilities.ParseBoolSetting(GetSetting("show_tray"), true);
             _settingsState.AutoRun = CommonUtilities.ParseBoolSetting(GetSetting("auto_run"), false);
             _settingsState.AutoSelectRangeOnCheck = CommonUtilities.ParseBoolSetting(GetSetting("auto_select_range_on_check"), false);
@@ -444,10 +458,11 @@ namespace ShaheLauncher.App
             {
                 GetSandboxPids = GetSandboxPids,
                 GetAllSandboxPids = GetAllSandboxPids,
+                GetSandboxProcessMap = SandboxieClient.GetSandboxProcessMapViaApi,
                 ScanSandboxNames = GetKnownSandboxNames,
-                GetAudioSessions = () => Enumerable.Empty<ProcessAudioSession>(),
-                ListOutputDevices = () => Enumerable.Empty<ProcessAudioDevice>(),
-                SetOutputDevice = (processId, deviceId) => false,
+                GetAudioSessions = ProcessAudioBackend.GetAudioSessions,
+                ListOutputDevices = ProcessAudioBackend.ListOutputDevices,
+                SetOutputDevice = ProcessAudioBackend.SetOutputDevice,
                 GetSandboxieStartExecutable = () => SandboxieClient.GetStartExecutable(
                     SandboxieClient.SandboxiePath),
                 GetOfficialSandboxNames = GetOfficialSandboxNames,
@@ -455,7 +470,6 @@ namespace ShaheLauncher.App
                     arguments, 8, null, true, false),
                 EnumerateWindows = EnumerateProcessWindows,
                 ActivateWindow = ProcessActionService.ActivateWindow,
-                ChooseWindow = ChooseProcessWindow,
                 ChooseOutputDevice = ChooseOutputDevice,
                 ResolveSandboxNames = name => SandboxieClient.GetInternalAndDisplayName(
                     name, GetSandboxDisplayMaps()),
@@ -491,7 +505,6 @@ namespace ShaheLauncher.App
                     names, (apps ?? Enumerable.Empty<object>()).OfType<LaunchAppTarget>()),
                 StartAppInSandbox = StartAppInSandbox,
                 GetSandboxPids = GetSandboxPids,
-                GetCpuPercent = () => 0.0,
                 GetVolumeMemoryKey = name => SandboxieClient.GetVolumeMemoryKey(
                     name, GetSandboxDisplayMaps()),
                 RestoreSavedVolume = name => ProcessActionService.RestoreSavedVolumeForSandbox(
@@ -560,7 +573,6 @@ namespace ShaheLauncher.App
             LaunchState.AppDirectory = _settingsState.AppDirectory;
             LaunchState.LaunchInterval = _settingsState.LaunchInterval;
             LaunchState.LaunchConcurrencyLimit = _settingsState.LaunchConcurrencyLimit;
-            LaunchState.DynamicLaunchDelayByLoad = _settingsState.DynamicLaunchDelayByLoad;
             LaunchState.SkipRunningSandboxOnLaunch = _settingsState.SkipRunningSandboxOnLaunch;
             LaunchState.RememberVolume = _settingsState.RememberVolume;
             LaunchState.SandboxVolumeMemory = sharedVolumeMemory;
@@ -604,10 +616,6 @@ namespace ShaheLauncher.App
             SandboxList.RunningStatesProvider = GetRunningSandboxStates;
             SandboxList.PinStateProvider = name => SandboxAdminService.IsSandboxPinned(
                 SandboxAdminState, name);
-            SandboxList.AllHasProcessResolver = current => current || GetAllSandboxPids().Any();
-            SandboxList.SelectedMuteStateProvider = () => ProcessActionService.GetMenuCachedMuteStateForSandbox(
-                ProcessState, GetSelectedSandboxName());
-            SandboxList.AllMuteStateProvider = () => ProcessActionService.GetCachedMuteStateForAll(ProcessState);
         }
 
         private void RefreshSandboxListFromRuntime()
@@ -769,32 +777,370 @@ namespace ShaheLauncher.App
         private void RefreshProcessUi(bool refreshList)
         {
             HotkeyController.InvalidateProcessMenuStateCache();
-            HotkeyController.InvalidateProcessMenuLiveStateCache(true);
+            HotkeyController.InvalidateProcessMenuLiveStateCache(false);
             if (refreshList)
             {
+                string currentStatus = StatusLabel == null
+                    ? string.Empty
+                    : (StatusLabel.Text ?? string.Empty);
+                SuppressSelectionStatus(8.0);
                 SandboxList?.FastRefreshSandboxList();
+                if (currentStatus.Length != 0)
+                {
+                    SafeSetStatusLabel(currentStatus);
+                }
             }
-            ScheduleMenuBarRebuild();
+            ScheduleProcessMenuLiveStateRefreshCallback?.Invoke(1);
+            ScheduleMenuBarRebuild(24);
         }
 
-        private long ChooseProcessWindow(string sandboxName, IList<ProcessWindowCandidate> windows)
+        private void RefreshProcessStateOnly()
         {
-            IList<ProcessWindowCandidate> options = windows ?? new List<ProcessWindowCandidate>();
-            if (options.Count == 1)
+            RefreshProcessUi(false);
+            bool refreshed = false;
+            try
             {
-                return options[0]?.Hwnd ?? 0;
+                refreshed = ProcessCallbacks?.RefreshVisibleStates?.Invoke() == true;
+            }
+            catch
+            {
+                refreshed = false;
             }
 
-            string[] labels = options.Select((item, index) =>
-                (index + 1) + ". PID " + (item?.Pid ?? 0) + " - "
-                + ((item?.Title ?? string.Empty).Trim().Length == 0 ? "<无标题窗口>" : item.Title.Trim()))
-                .ToArray();
-            int selected = ShowSingleChoiceDialog(
-                "定位当前打开的进程",
-                "当前用户 " + (sandboxName ?? string.Empty) + " 检测到多个打开进程，请选择要定位的进程",
-                labels,
-                "可定位进程");
-            return selected >= 0 && selected < options.Count ? options[selected].Hwnd : 0;
+            _manualProcessRefreshStatusPending = refreshed;
+            SafeSetStatusLabel(refreshed ? "正在刷新进程状态" : "没有可刷新的进程状态");
+        }
+
+        private void OnRunningStatesRefreshCompleted()
+        {
+            if (!_manualProcessRefreshStatusPending)
+            {
+                return;
+            }
+
+            _manualProcessRefreshStatusPending = false;
+            if (string.Equals((StatusLabel?.Text ?? string.Empty).Trim(), "正在刷新进程状态", StringComparison.Ordinal))
+            {
+                SafeSetStatusLabel("已刷新进程状态");
+            }
+        }
+
+        private void ScheduleProcessMenuLiveStateRefresh(int delayMilliseconds)
+        {
+            if (IsWindowClosing())
+            {
+                return;
+            }
+
+            IDisposable previousTimer = null;
+            int token;
+            lock (_processMenuLiveStateRefreshSync)
+            {
+                if (_processMenuLiveStateRefreshInProgress)
+                {
+                    _processMenuLiveStateRefreshPending = true;
+                    return;
+                }
+
+                previousTimer = _processMenuLiveStateRefreshTimer;
+                _processMenuLiveStateRefreshTimer = null;
+                token = ++_processMenuLiveStateRefreshToken;
+            }
+
+            try
+            {
+                previousTimer?.Dispose();
+            }
+            catch
+            {
+            }
+
+            IDisposable timer = null;
+            try
+            {
+                timer = StartupDelayCallback?.Invoke(
+                    Math.Max(1, delayMilliseconds),
+                    () => StartProcessMenuLiveStateRefresh(token));
+            }
+            catch
+            {
+            }
+
+            bool disposeTimer = false;
+            lock (_processMenuLiveStateRefreshSync)
+            {
+                if (token == _processMenuLiveStateRefreshToken
+                    && !_processMenuLiveStateRefreshInProgress)
+                {
+                    _processMenuLiveStateRefreshTimer = timer;
+                }
+                else
+                {
+                    disposeTimer = timer != null;
+                }
+            }
+
+            if (disposeTimer)
+            {
+                try
+                {
+                    timer.Dispose();
+                }
+                catch
+                {
+                }
+            }
+        }
+
+        private void StartProcessMenuLiveStateRefresh(int refreshToken)
+        {
+            lock (_processMenuLiveStateRefreshSync)
+            {
+                _processMenuLiveStateRefreshTimer = null;
+                if (IsWindowClosing() || refreshToken != _processMenuLiveStateRefreshToken)
+                {
+                    return;
+                }
+                if (_processMenuLiveStateRefreshInProgress)
+                {
+                    _processMenuLiveStateRefreshPending = true;
+                    return;
+                }
+                _processMenuLiveStateRefreshInProgress = true;
+            }
+
+            HotkeyProcessMenuState menuState = GetProcessMenuStates(false);
+            string selectedName = (menuState.SelectedName ?? string.Empty).Trim();
+            int liveStateToken = HotkeyController.InvalidateProcessMenuLiveStateCache(false);
+            Task.Run(() => ReadProcessMenuLiveState(menuState, selectedName))
+                .ContinueWith(completed =>
+                {
+                    HotkeyProcessLiveState liveState = completed.Status == TaskStatus.RanToCompletion
+                        ? completed.Result
+                        : new HotkeyProcessLiveState();
+                    SafeCallAfter(() => FinishProcessMenuLiveStateRefresh(
+                        liveStateToken,
+                        selectedName,
+                        liveState));
+                }, TaskScheduler.Default);
+        }
+
+        private HotkeyProcessLiveState ReadProcessMenuLiveState(
+            HotkeyProcessMenuState menuState,
+            string selectedName)
+        {
+            var result = new HotkeyProcessLiveState();
+            try
+            {
+                bool shouldReadAllPids = menuState.ListMayHideSandboxMembers
+                    || menuState.AllHasProcess;
+                bool shouldReadSelectedPids = menuState.SelectedHasProcess
+                    && selectedName.Length != 0;
+                bool hasProcessMapProvider = ProcessCallbacks?.GetSandboxProcessMap != null;
+                IDictionary<string, IList<int>> processMap = hasProcessMapProvider
+                    && (shouldReadAllPids || shouldReadSelectedPids)
+                    ? ReadProcessMenuProcessMap(() => ProcessCallbacks?.GetSandboxProcessMap?.Invoke())
+                    : null;
+
+                IList<int> allPids;
+                if (!shouldReadAllPids)
+                {
+                    allPids = new List<int>();
+                }
+                else if (hasProcessMapProvider && processMap != null)
+                {
+                    allPids = ReadProcessMenuSnapshotPids(processMap, string.Empty);
+                    if (allPids.Count == 0 && processMap.Count == 0)
+                    {
+                        allPids = ReadProcessMenuPids(
+                            () => ProcessCallbacks?.GetAllSandboxPids?.Invoke());
+                    }
+                }
+                else
+                {
+                    allPids = ReadProcessMenuPids(
+                        () => ProcessCallbacks?.GetAllSandboxPids?.Invoke());
+                }
+                if (shouldReadAllPids)
+                {
+                    result.AllHasProcess = allPids.Count != 0;
+                }
+
+                IList<int> selectedPids = shouldReadSelectedPids && processMap != null
+                    ? ReadProcessMenuSnapshotPids(processMap, selectedName)
+                    : shouldReadSelectedPids
+                        ? ReadProcessMenuPids(
+                            () => ProcessCallbacks?.GetSandboxPids?.Invoke(selectedName))
+                        : new List<int>();
+                if (shouldReadSelectedPids && selectedPids.Count == 0)
+                {
+                    selectedPids = ReadProcessMenuPids(
+                        () => ProcessCallbacks?.GetSandboxPids?.Invoke(selectedName));
+                }
+                IList<ProcessAudioSession> sessions = selectedPids.Count != 0 || allPids.Count != 0
+                    ? ReadProcessAudioSessions()
+                    : new List<ProcessAudioSession>();
+
+                if (selectedPids.Count != 0)
+                {
+                    result.SelectedMuteState = ProcessActionService.GetMuteStateForPids(
+                        selectedPids,
+                        sessions);
+                    result.SelectedAudioSession = result.SelectedMuteState.HasValue;
+                    result.SelectedHasWindow = true;
+                }
+                if (allPids.Count != 0)
+                {
+                    result.AllMuteState = ProcessActionService.GetMuteStateForPids(allPids, sessions);
+                    result.AllAudioSession = result.AllMuteState.HasValue;
+                }
+                if (selectedPids.Count != 0 || allPids.Count != 0)
+                {
+                    result.OutputDevicesAvailable = true;
+                }
+            }
+            catch
+            {
+                return new HotkeyProcessLiveState();
+            }
+            return result;
+        }
+
+        private IDictionary<string, IList<int>> ReadProcessMenuProcessMap(
+            Func<IDictionary<string, IList<int>>> provider)
+        {
+            try
+            {
+                return provider?.Invoke();
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        private IList<int> ReadProcessMenuSnapshotPids(
+            IDictionary<string, IList<int>> processMap,
+            string sandboxName)
+        {
+            var pids = new List<int>();
+            if (processMap == null)
+            {
+                return pids;
+            }
+
+            string targetName = (sandboxName ?? string.Empty).Trim();
+            if (targetName.Length == 0)
+            {
+                foreach (IList<int> values in processMap.Values)
+                {
+                    if (values != null)
+                    {
+                        pids.AddRange(values);
+                    }
+                }
+                return ProcessActionService.NormalizePidSet(pids);
+            }
+
+            string internalName = targetName;
+            try
+            {
+                internalName = ProcessCallbacks?.ResolveSandboxNames?.Invoke(targetName)?.Item1
+                    ?? targetName;
+            }
+            catch
+            {
+            }
+
+            foreach (KeyValuePair<string, IList<int>> entry in processMap)
+            {
+                if (string.Equals(entry.Key, internalName, StringComparison.OrdinalIgnoreCase)
+                    && entry.Value != null)
+                {
+                    pids.AddRange(entry.Value);
+                    break;
+                }
+            }
+
+            return ProcessActionService.NormalizePidSet(pids);
+        }
+
+        private IList<int> ReadProcessMenuPids(Func<IEnumerable<int>> provider)
+        {
+            try
+            {
+                return ProcessActionService.NormalizePidSet(provider?.Invoke());
+            }
+            catch
+            {
+                return new List<int>();
+            }
+        }
+
+        private IList<ProcessAudioSession> ReadProcessAudioSessions()
+        {
+            try
+            {
+                return (ProcessCallbacks?.GetAudioSessions?.Invoke()
+                    ?? Enumerable.Empty<ProcessAudioSession>()).ToList();
+            }
+            catch
+            {
+                return new List<ProcessAudioSession>();
+            }
+        }
+
+        private void FinishProcessMenuLiveStateRefresh(
+            int token,
+            string selectedName,
+            HotkeyProcessLiveState liveState)
+        {
+            bool pending;
+            try
+            {
+                if (HotkeyController.AcceptProcessMenuLiveState(token, liveState, null))
+                {
+                    string cacheName = selectedName;
+                    try
+                    {
+                        cacheName = ProcessCallbacks?.ResolveSandboxNames?.Invoke(selectedName)?.Item1
+                            ?? selectedName;
+                    }
+                    catch
+                    {
+                    }
+                    cacheName = (cacheName ?? string.Empty).Trim();
+                    if (cacheName.Length != 0)
+                    {
+                        if (liveState.SelectedMuteState.HasValue)
+                        {
+                            ProcessState.CachedMuteStateBySandbox[cacheName] =
+                                liveState.SelectedMuteState.Value;
+                        }
+                        else
+                        {
+                            ProcessState.CachedMuteStateBySandbox.Remove(cacheName);
+                        }
+                    }
+                    ProcessState.CachedMuteStateAll = liveState.AllMuteState;
+                    SandboxAdminState.CachedMuteStateAll = liveState.AllMuteState;
+                    ScheduleMenuBarRebuild(1);
+                }
+            }
+            finally
+            {
+                lock (_processMenuLiveStateRefreshSync)
+                {
+                    _processMenuLiveStateRefreshInProgress = false;
+                    pending = _processMenuLiveStateRefreshPending;
+                    _processMenuLiveStateRefreshPending = false;
+                }
+            }
+
+            if (pending)
+            {
+                ScheduleProcessMenuLiveStateRefresh(24);
+            }
         }
 
         private ProcessAudioDevice ChooseOutputDevice(
@@ -891,7 +1237,7 @@ namespace ShaheLauncher.App
                 okButton.Click += (sender, eventArgs) => dialog.DialogResult = DialogResult.OK;
                 choiceList.DoubleClick += (sender, eventArgs) => dialog.DialogResult = DialogResult.OK;
                 dialog.Shown += (sender, eventArgs) => choiceList.Focus();
-                return dialog.ShowDialog(this) == DialogResult.OK ? choiceList.SelectedIndex : -1;
+                return OperationLog.ShowDialog(dialog, this) == DialogResult.OK ? choiceList.SelectedIndex : -1;
             }
         }
 
@@ -938,20 +1284,12 @@ namespace ShaheLauncher.App
                 request.AssistHints,
                 request.SaveAssistHints))
             {
-                return dialog.ShowDialog(this) == DialogResult.OK;
+                return OperationLog.ShowDialog(dialog, this) == DialogResult.OK;
             }
         }
 
-        private IEnumerable<ProcessWindowCandidate> EnumerateProcessWindows()
+        private IEnumerable<ProcessWindowCandidate> EnumerateProcessWindows(IEnumerable<int> processIds)
         {
-            var processIds = new List<int>();
-            foreach (Process process in Process.GetProcesses())
-            {
-                using (process)
-                {
-                    try { processIds.Add(process.Id); } catch { }
-                }
-            }
             return ProcessActionService.FindWindowsForPids(processIds);
         }
 
@@ -1008,26 +1346,98 @@ namespace ShaheLauncher.App
         {
             for (int index = 0; index + 1 < actions.Length; index += 2)
             {
-                string action = actions[index + 1];
-                string text = HotkeyController.BuildMenuLabel(actions[index], action, _hotkeys, _hotkeysEnabled);
-                parent.MenuItems.Add(new MenuItem(text, (sender, eventArgs) => DispatchApplicationAction(action)));
+                AddAction(parent, actions[index], actions[index + 1], true);
             }
+        }
+
+        private void AddAction(MenuItem parent, string label, string action, bool enabled)
+        {
+            string text = HotkeyController.BuildMenuLabel(label, action, _hotkeys, _hotkeysEnabled);
+            var item = new MenuItem(text, (sender, eventArgs) => { LogOperationSafe("菜单执行: " + label); DispatchApplicationAction(action); })
+            {
+                Enabled = enabled
+            };
+            parent.MenuItems.Add(item);
+        }
+
+        private HotkeyProcessMenuState GetProcessMenuStates()
+        {
+            return GetProcessMenuStates(false);
+        }
+
+        private HotkeyProcessMenuState GetProcessMenuStates(bool allowGlobalProcessScan)
+        {
+            if (SandboxList == null)
+            {
+                return HotkeyController.GetProcessMenuStates(
+                    Enumerable.Empty<HotkeySandboxItem>(),
+                    -1,
+                    false,
+                    null);
+            }
+
+            List<HotkeySandboxItem> items = SandboxList.Items.Cast<ListViewItem>()
+                .Select((item, index) => new HotkeySandboxItem
+                {
+                    Identity = SandboxList.GetItemIdentityText(index),
+                    IsSpecial = SandboxList.IsSpecialIndex(index),
+                    IsGroup = SandboxList.IsGroupIndex(index),
+                    IsRunning = (item.Text ?? string.Empty).Trim().EndsWith(
+                        CheckableListCtrl.RunningSuffix,
+                        StringComparison.Ordinal)
+                })
+                .ToList();
+            bool listMayHideSandboxMembers = (SandboxList.CurrentGroupView ?? string.Empty).Trim().Length != 0
+                || Enumerable.Range(0, SandboxList.Items.Count).Any(SandboxList.IsGroupIndex);
+            Func<bool> globalProcessScan = null;
+            if (allowGlobalProcessScan)
+            {
+                globalProcessScan = () =>
+                {
+                    try
+                    {
+                        return ProcessCallbacks?.GetAllSandboxPids?.Invoke()?.Any() == true;
+                    }
+                    catch
+                    {
+                        return false;
+                    }
+                };
+            }
+            return HotkeyController.GetProcessMenuStates(
+                items,
+                SandboxList.GetSelectedIndex(),
+                listMayHideSandboxMembers,
+                globalProcessScan);
         }
 
         private void DispatchApplicationAction(string action)
         {
-            if (ApplicationActionCallback != null)
+            string label = HotkeyController.ActionSpecs.FirstOrDefault(item => item.Action == action)?.Label;
+            LogOperationSafe("操作开始: " + action + (string.IsNullOrEmpty(label) ? string.Empty : "，" + label));
+            try
             {
-                ApplicationActionCallback(action);
-                return;
+                if (ApplicationActionCallback != null) ApplicationActionCallback(action);
+                else ExecuteApplicationAction(action);
+                LogOperationSafe("操作分派完成: " + action);
             }
-            ExecuteApplicationAction(action);
+            catch (Exception error)
+            {
+                LogOperationSafe("操作异常: " + action + Environment.NewLine + error);
+                throw;
+            }
         }
 
         private void ExecuteApplicationAction(string action)
         {
             switch (action)
             {
+                case "toggle_window":
+                    ToggleWindow();
+                    break;
+                case "reset_settings":
+                    ResetApplicationSettings();
+                    break;
                 case "open_app":
                     SelectApplicationPath();
                     break;
@@ -1077,11 +1487,10 @@ namespace ShaheLauncher.App
                     CloseAllCallback?.Invoke();
                     break;
                 case "locate_current_process":
-                    ExecuteCurrentSandboxAction(LocateCurrentCallback);
+                    ExecuteCurrentSandboxAction(LocateCurrentCallback, true);
                     break;
                 case "refresh_process_state":
-                    RefreshProcessUi(true);
-                    ProcessCallbacks.RefreshVisibleStates?.Invoke();
+                    RefreshProcessStateOnly();
                     break;
                 case "pin_current_user":
                     ExecuteCurrentSandboxAction(PinToggleCallback);
@@ -1116,11 +1525,38 @@ namespace ShaheLauncher.App
                 case "settings":
                     ShowSettingsDialogCallback?.Invoke();
                     break;
+                case "memory_manager":
+                    OpenAppPathContextMenu();
+                    break;
+                case "memory_manager_dialog":
+                    ShowPathMemoryManagerDialog();
+                    break;
+                case "memory_edit_note":
+                    EditCurrentAppPathNote();
+                    break;
+                case "memory_adjust_count":
+                    AdjustAppPathHistoryCount();
+                    break;
+                case "memory_toggle_path_display":
+                    ToggleAppPathDisplay();
+                    break;
+                case "memory_delete_current":
+                    DeleteCurrentAppPathMemory();
+                    break;
+                case "memory_clear_all":
+                    ClearAppPathMemory();
+                    break;
+                case "memory_copy_path":
+                    CopyCurrentAppPath();
+                    break;
                 case "manual_correct_sandboxie_path":
                     ManualCorrectSandboxiePath();
                     break;
                 case "select_sandbox_root":
                     SelectSandboxRoot();
+                    break;
+                case "repair_sandboxie_control_settings":
+                    RepairSandboxieControlSettings();
                     break;
                 case "cancel_scheduled_tasks":
                     CancelAllSchedulesCallback?.Invoke(true);
@@ -1132,17 +1568,37 @@ namespace ShaheLauncher.App
                     RestoreSandboxes();
                     break;
                 case "select_all":
-                    SandboxList?.CheckAll();
+                    SandboxList?.ToggleSelectAll();
+                    break;
+                case "toggle_auto_run":
+                    ToggleAutoRun();
+                    break;
+                case "toggle_show_tray":
+                    ToggleShowTray();
+                    break;
+                case "toggle_auto_select_range":
+                    ToggleAutoSelectRange();
+                    break;
+                case "toggle_skip_running_sandbox_on_launch":
+                    ToggleSkipRunningSandboxOnLaunch();
+                    break;
+                case "toggle_remember_volume":
+                    ToggleRememberVolume();
+                    break;
+                case "toggle_list_left_right_nav":
+                    ToggleListLeftRightNavigation();
                     break;
                 case "minimize_to_tray":
                     MinimizeToTray();
                     break;
                 case "exit_app":
                     ForceExitRequested = true;
+                    SafeSetStatusLabel("正在退出软件");
+                    SpeechCallback?.Invoke("正在退出软件", "launch_done");
                     Close();
                     break;
                 case "check_update":
-                    UpdateService.CheckUpdateWorker(false, true);
+                    CheckForUpdatesManually();
                     break;
                 case "speech_settings":
                     SpeechService.OnSpeechSettings();
@@ -1157,6 +1613,205 @@ namespace ShaheLauncher.App
                     SafeSetStatusLabel("已触发操作: " + action);
                     break;
             }
+        }
+
+        private void ToggleWindow()
+        {
+            if (WindowState == FormWindowState.Minimized)
+            {
+                WindowState = FormWindowState.Normal;
+                Show();
+                Activate();
+                SafeSetStatusLabel("已显示主窗口");
+                SpeechCallback?.Invoke("已显示主窗口", "launch_done");
+                return;
+            }
+
+            if (Visible)
+            {
+                if (ShowTray)
+                {
+                    CreateTaskBarIcon();
+                }
+
+                if (TaskBarIcon != null && TaskBarIcon.TrayIcon != null)
+                {
+                    Hide();
+                    SafeSetStatusLabel("已隐藏到托盘");
+                    SpeechCallback?.Invoke("已隐藏窗口", "launch_done");
+                    return;
+                }
+
+                WindowState = FormWindowState.Minimized;
+                SafeSetStatusLabel("当前托盘不可用，已最小化窗口");
+                SpeechCallback?.Invoke("当前托盘不可用，已最小化窗口", "launch_done");
+                return;
+            }
+
+            Show();
+            Activate();
+            SafeSetStatusLabel("已显示主窗口");
+            SpeechCallback?.Invoke("已显示主窗口", "launch_done");
+        }
+
+        private void ResetApplicationSettings()
+        {
+            if (ConfirmMessage(
+                    LauncherSettingsService.ResetConfirmationText,
+                    LauncherSettingsService.ResetConfirmationTitle,
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Warning) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            LauncherSettingsCallbacks callbacks = CreateSettingsCallbacks();
+            Action<string> setSandboxRoot = callbacks.SetSandboxRoot;
+            callbacks.SetSandboxRoot = value =>
+            {
+                setSandboxRoot?.Invoke(value);
+                Settings = _settingsState.Settings ?? new Dictionary<string, object>();
+                ShowTray = _settingsState.ShowTray;
+                AutoRun = _settingsState.AutoRun;
+                LogOutputMode = _settingsState.LogOutputMode;
+                SandboxieClient.SandboxiePath = _settingsState.SandboxiePath ?? string.Empty;
+                SandboxieClient.SandboxRoot = _settingsState.SandboxRoot ?? string.Empty;
+                SyncFeatureStatesFromSettings(SandboxAdminService.NormalizeVolumeMemory(
+                    _settingsState.SandboxVolumeMemory,
+                    SandboxAdminCallbacks));
+            };
+            callbacks.ApplyHotkeys = () =>
+            {
+                _hotkeys = HotkeyController.NormalizeHotkeyMap(_settingsState.Hotkeys);
+                _hotkeysEnabled = _settingsState.HotkeysEnabled;
+                ApplyHotkeys();
+            };
+            SettingsService.ResetSettings(_settingsState, callbacks);
+        }
+
+        private bool ToggleBooleanSetting(
+            string settingKey,
+            Func<bool> getValue,
+            Action<bool> setValue,
+            string enabledText,
+            string disabledText,
+            Action<bool> afterApply)
+        {
+            bool newValue = !getValue();
+            setValue(newValue);
+            if (Settings == null)
+            {
+                Settings = new Dictionary<string, object>();
+            }
+            Settings[settingKey] = newValue;
+            try
+            {
+                afterApply?.Invoke(newValue);
+            }
+            catch
+            {
+            }
+
+            bool finalValue = getValue();
+            setValue(finalValue);
+            Settings[settingKey] = finalValue;
+            SaveSettings();
+            CreateMenuBar();
+            SafeSetStatusLabel(finalValue ? enabledText : disabledText);
+            return finalValue;
+        }
+
+        private void ToggleAutoRun()
+        {
+            ToggleBooleanSetting(
+                "auto_run",
+                () => AutoRun,
+                value =>
+                {
+                    AutoRun = value;
+                    _settingsState.AutoRun = value;
+                },
+                "已开启：开机自动启动本程序",
+                "已关闭：开机自动启动本程序",
+                value => ApplyAutoRun());
+        }
+
+        private void ToggleShowTray()
+        {
+            ToggleBooleanSetting(
+                "show_tray",
+                () => ShowTray,
+                value =>
+                {
+                    ShowTray = value;
+                    _settingsState.ShowTray = value;
+                },
+                "已开启：在托盘上显示",
+                "已关闭：在托盘上显示",
+                value =>
+                {
+                    if (value)
+                    {
+                        CreateTaskBarIcon();
+                    }
+                    else
+                    {
+                        DisableTrayDisplay();
+                    }
+                });
+        }
+
+        private void ToggleAutoSelectRange()
+        {
+            ToggleBooleanSetting(
+                "auto_select_range_on_check",
+                () => _settingsState.AutoSelectRangeOnCheck,
+                value => _settingsState.AutoSelectRangeOnCheck = value,
+                "已开启：首尾两点自动勾选中间用户",
+                "已关闭：首尾两点自动勾选中间用户",
+                value => SandboxList?.SetRangeAutoCheckEnabled(value));
+        }
+
+        private void ToggleSkipRunningSandboxOnLaunch()
+        {
+            ToggleBooleanSetting(
+                "skip_running_sandbox_on_launch",
+                () => _settingsState.SkipRunningSandboxOnLaunch,
+                value =>
+                {
+                    _settingsState.SkipRunningSandboxOnLaunch = value;
+                    LaunchState.SkipRunningSandboxOnLaunch = value;
+                },
+                "已开启：启动跳过已运行的沙盒",
+                "已关闭：启动跳过已运行的沙盒",
+                null);
+        }
+
+        private void ToggleRememberVolume()
+        {
+            ToggleBooleanSetting(
+                "remember_volume",
+                () => _settingsState.RememberVolume,
+                value =>
+                {
+                    _settingsState.RememberVolume = value;
+                    ProcessState.RememberVolume = value;
+                    LaunchState.RememberVolume = value;
+                },
+                "已开启：记忆进程音量",
+                "已关闭：记忆进程音量",
+                null);
+        }
+
+        private void ToggleListLeftRightNavigation()
+        {
+            ToggleBooleanSetting(
+                "list_use_left_right_nav",
+                () => _settingsState.ListUseLeftRightNavigation,
+                value => _settingsState.ListUseLeftRightNavigation = value,
+                "已开启：用户列表左右光标选择",
+                "已关闭：用户列表左右光标选择",
+                value => SandboxList?.SetLeftRightNavigationEnabled(value));
         }
 
         private void CreateGroup()
@@ -1225,6 +1880,7 @@ namespace ShaheLauncher.App
             }
             catch (Exception error)
             {
+                LogOperationSafe("操作异常: " + error);
                 ShowMessageCallback?.Invoke(
                     "创建沙盒根目录失败: " + error.Message,
                     "创建失败",
@@ -1270,6 +1926,7 @@ namespace ShaheLauncher.App
                 }
                 catch (Exception error)
                 {
+                    LogOperationSafe("操作异常: " + error);
                     result = new SandboxieOperationResult { Detail = error.Message };
                 }
 
@@ -1524,6 +2181,7 @@ namespace ShaheLauncher.App
             }
             catch (Exception error)
             {
+                LogOperationSafe("操作异常: " + error);
                 iniError = error.Message;
             }
 
@@ -1563,6 +2221,7 @@ namespace ShaheLauncher.App
             {
             }
             SuppressListRefreshStatus(2.0);
+            SuppressSelectionStatus(2.0);
             RefreshSandboxListCallback?.Invoke();
 
             if (iniError.Length != 0)
@@ -1652,6 +2311,7 @@ namespace ShaheLauncher.App
                 }
                 catch (Exception error)
                 {
+                    LogOperationSafe("操作异常: " + error);
                     result = new SandboxieOperationResult { Detail = error.Message };
                 }
 
@@ -1719,6 +2379,7 @@ namespace ShaheLauncher.App
                 }
             }
 
+            SuppressSelectionStatus(2.0);
             RefreshSandboxListCallback?.Invoke();
             if (failed.Count != 0)
             {
@@ -1806,6 +2467,7 @@ namespace ShaheLauncher.App
             }
 
             SuppressListRefreshStatus(2.0);
+            SuppressSelectionStatus(2.0);
             IList<string> sandboxes = SandboxAdminService.GetGroupMembers(
                 SandboxAdminState,
                 groupName);
@@ -1815,12 +2477,7 @@ namespace ShaheLauncher.App
                 return;
             }
 
-            IList<string> validSandboxes = LaunchScheduler.ResolveLaunchEntries(
-                sandboxes,
-                SandboxAdminCallbacks?.GetExistingSandboxDisplayNames?.Invoke(),
-                SandboxAdminCallbacks?.GetExistingSandboxNames?.Invoke(),
-                SandboxAdminCallbacks?.NormalizeSandboxName,
-                SandboxAdminCallbacks?.GetSandboxDisplayName);
+            IList<string> validSandboxes = ResolveLaunchEntries(sandboxes);
             if (validSandboxes.Count == 0)
             {
                 SafeSetStatusLabel("分组内没有可用沙盒: " + groupName);
@@ -1939,6 +2596,7 @@ namespace ShaheLauncher.App
             }
             catch (Exception error)
             {
+                LogOperationSafe("操作异常: " + error);
                 SafeSetStatusLabel(BackupRestoreService.BackupFailedStatus);
                 ShowMessageCallback?.Invoke("备份失败：" + error.Message, "错误", MessageBoxIcon.Error);
                 return;
@@ -1991,6 +2649,7 @@ namespace ShaheLauncher.App
             }
             catch (Exception error)
             {
+                LogOperationSafe("操作异常: " + error);
                 ShowMessageCallback?.Invoke("无法读取备份文件：" + error.Message, "错误", MessageBoxIcon.Error);
                 TryDeleteDirectory(tempDirectory);
                 return;
@@ -2030,6 +2689,7 @@ namespace ShaheLauncher.App
             }
             catch (Exception error)
             {
+                LogOperationSafe("操作异常: " + error);
                 ShowMessageCallback?.Invoke("无法准备备份用户数据：" + error.Message, "错误", MessageBoxIcon.Error);
                 TryDeleteDirectory(tempDirectory);
                 return;
@@ -2050,6 +2710,7 @@ namespace ShaheLauncher.App
             }
             catch (Exception error)
             {
+                LogOperationSafe("操作异常: " + error);
                 CloseRestoreProgressDialog(progress);
                 ShowMessageCallback?.Invoke("还原失败：" + error.Message, "错误", MessageBoxIcon.Error);
                 TryDeleteDirectory(tempDirectory);
@@ -2166,7 +2827,7 @@ namespace ShaheLauncher.App
 
             using (var dialog = new SelectUsersDialog(this, title, users))
             {
-                return dialog.ShowDialog(this) == DialogResult.OK
+                return OperationLog.ShowDialog(dialog, this) == DialogResult.OK
                     ? dialog.GetSelectedUsers()
                     : new string[0];
             }
@@ -2189,7 +2850,7 @@ namespace ShaheLauncher.App
                     new KeyValuePair<int, string>(2, "前面加0（01）")
                 }))
             {
-                return dialog.ShowDialog(this) == DialogResult.OK ? dialog.Result : null;
+                return OperationLog.ShowDialog(dialog, this) == DialogResult.OK ? dialog.Result : null;
             }
         }
 
@@ -2210,7 +2871,7 @@ namespace ShaheLauncher.App
                 targetCount,
                 null))
             {
-                return dialog.ShowDialog(this) == DialogResult.OK ? dialog.Result : null;
+                return OperationLog.ShowDialog(dialog, this) == DialogResult.OK ? dialog.Result : null;
             }
         }
 
@@ -2458,7 +3119,7 @@ namespace ShaheLauncher.App
         {
             using (var dialog = new GroupNameDialog(this, title, defaultValue))
             {
-                return dialog.ShowDialog(this) == DialogResult.OK
+                return OperationLog.ShowDialog(dialog, this) == DialogResult.OK
                     ? (dialog.Value ?? string.Empty).Trim()
                     : string.Empty;
             }
@@ -2514,7 +3175,7 @@ namespace ShaheLauncher.App
                 dialog.Controls.AddRange(new Control[] { message, value, okButton, cancelButton });
                 dialog.AcceptButton = okButton;
                 dialog.CancelButton = cancelButton;
-                return dialog.ShowDialog(this) == DialogResult.OK ? (int)value.Value : 0;
+                return OperationLog.ShowDialog(dialog, this) == DialogResult.OK ? (int)value.Value : 0;
             }
         }
 
@@ -2527,7 +3188,7 @@ namespace ShaheLauncher.App
                 Multiselect = false
             })
             {
-                return dialog.ShowDialog(this) == DialogResult.OK ? dialog.FileName : string.Empty;
+                return OperationLog.ShowDialog(dialog, this) == DialogResult.OK ? dialog.FileName : string.Empty;
             }
         }
 
@@ -2537,9 +3198,12 @@ namespace ShaheLauncher.App
             MessageBoxButtons buttons,
             MessageBoxIcon icon)
         {
-            return ConfirmMessageCallback != null
+            LogOperationSafe("确认提示: " + title + "，" + text);
+            DialogResult result = ConfirmMessageCallback != null
                 ? ConfirmMessageCallback(text, title, buttons, icon)
                 : MessageBox.Show(this, text, title, buttons, icon);
+            LogOperationSafe("确认结果: " + title + "=" + result);
+            return result;
         }
 
         private string GetSandboxUsersRoot()
@@ -2675,7 +3339,14 @@ namespace ShaheLauncher.App
             }
             if (executable.Length != 0)
             {
-                RunProcessCommand(new List<string> { executable, "/reload" });
+                if (string.Equals(Path.GetFileName(executable), "Start.exe", StringComparison.OrdinalIgnoreCase))
+                {
+                    SandboxieClient.RunSandboxieStart(new[] { "/reload" }, 6, null, true, false);
+                }
+                else
+                {
+                    RunProcessCommand(new List<string> { executable, "/reload" });
+                }
             }
         }
 
@@ -2703,6 +3374,7 @@ namespace ShaheLauncher.App
             }
             catch (Exception error)
             {
+                LogOperationSafe("操作异常: " + error);
                 ShowMessageCallback?.Invoke("启动失败：" + error.Message, "提示", MessageBoxIcon.Information);
             }
         }
@@ -2839,6 +3511,7 @@ namespace ShaheLauncher.App
 
         private bool ShowHotkeySettingsDialog()
         {
+            string requestedAction;
             using (var dialog = new HotkeySettingsDialog(
                 this,
                 HotkeyController.ActionSpecs.Select(ToDictionary),
@@ -2849,23 +3522,29 @@ namespace ShaheLauncher.App
                 _hotkeysEnabled,
                 HotkeyController.GetReservedHotkeySpecs().Select(ToDictionary)))
             {
-                if (dialog.ShowDialog(this) != DialogResult.OK)
+                if (OperationLog.ShowDialog(dialog, this) == DialogResult.OK)
                 {
-                    return false;
+                    _hotkeys = HotkeyController.NormalizeHotkeyMap(dialog.ResultHotkeys);
+                    _hotkeysEnabled = dialog.ResultHotkeysEnabled;
+                    _settingsState.Hotkeys = _hotkeys;
+                    _settingsState.HotkeysEnabled = _hotkeysEnabled;
+                    Settings["hotkeys"] = new Dictionary<string, string>(_hotkeys);
+                    Settings["hotkeys_enabled"] = _hotkeysEnabled;
+                    ApplyHotkeys();
+                    CreateMenuBar();
+                    SaveSettings();
+                    SafeSetStatusLabel("快捷键设置已保存");
+                    return true;
                 }
-
-                _hotkeys = HotkeyController.NormalizeHotkeyMap(dialog.ResultHotkeys);
-                _hotkeysEnabled = dialog.ResultHotkeysEnabled;
-                _settingsState.Hotkeys = _hotkeys;
-                _settingsState.HotkeysEnabled = _hotkeysEnabled;
-                Settings["hotkeys"] = new Dictionary<string, string>(_hotkeys);
-                Settings["hotkeys_enabled"] = _hotkeysEnabled;
-                ApplyHotkeys();
-                CreateMenuBar();
-                SaveSettings();
-                SafeSetStatusLabel("快捷键设置已保存");
-                return true;
+                requestedAction = dialog.RequestedAction;
             }
+
+            if (requestedAction.Length == 0)
+            {
+                return false;
+            }
+            SafeCallAfter(() => DispatchApplicationAction(requestedAction));
+            return true;
         }
 
         private bool ShowSettingsDialog()
@@ -2876,7 +3555,7 @@ namespace ShaheLauncher.App
                 ApplySettingsFromDialog,
                 SettingsService.CreateDefaultSettings()))
             {
-                return dialog.ShowDialog(this) == DialogResult.OK;
+                return OperationLog.ShowDialog(dialog, this) == DialogResult.OK;
             }
         }
 
@@ -2922,7 +3601,11 @@ namespace ShaheLauncher.App
                 UpdateAppPathList = UpdateAppPathList,
                 ApplyHotkeys = ApplyHotkeys,
                 CreateMenuBar = CreateMenuBar,
-                ApplyAutoRun = ApplyAutoRun,
+                ApplyAutoRun = () =>
+                {
+                    AutoRun = _settingsState.AutoRun;
+                    ApplyAutoRun();
+                },
                 ScheduleProcessMenuRefresh = delay => ScheduleProcessMenuLiveStateRefreshCallback?.Invoke(delay),
                 SetStatus = text => SafeSetStatusLabel(text)
             };
@@ -2989,6 +3672,51 @@ namespace ShaheLauncher.App
             SafeSetStatusLabel(LauncherSettingsService.SandboxRootInvalidStatus);
         }
 
+        private void RepairSandboxieControlSettings()
+        {
+            string message =
+                "该操作会备份 Sandboxie.ini，然后清理 UserSettings 段中的 "
+                + "SbieCtrl_WindowCoords 窗口坐标记录。\n\n"
+                + "建议先关闭 Sandboxie Control 再执行。\n\n"
+                + "不会删除沙盒用户，也不会修改 GlobalSettings 或沙盒配置。是否继续？";
+            if (ConfirmMessage(
+                    message,
+                    "修复 Sandboxie Control 用户设置",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            try
+            {
+                Tuple<bool, string> result = SandboxAdminService.RepairSandboxieControlUserSettings(
+                    GetSandboxieIniPath(),
+                    () =>
+                    {
+                        ReloadSandboxieConfigCallback?.Invoke();
+                        return true;
+                    });
+                if (result.Item1)
+                {
+                    SafeSetStatusLabel("已修复 Sandboxie Control 用户设置");
+                    ShowMessageCallback?.Invoke(result.Item2, "修复完成", MessageBoxIcon.Information);
+                }
+                else
+                {
+                    SafeSetStatusLabel("未发现需要修复的 Sandboxie Control 用户设置");
+                    ShowMessageCallback?.Invoke(result.Item2, "无需修复", MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception error)
+            {
+                LogOperationSafe("操作异常: " + error);
+                string detail = string.IsNullOrEmpty(error.Message) ? "修复失败" : error.Message;
+                SafeSetStatusLabel("修复 Sandboxie Control 用户设置失败");
+                ShowMessageCallback?.Invoke("修复失败：\n" + detail, "修复失败", MessageBoxIcon.Error);
+            }
+        }
+
         private string SelectDirectory(string title, string defaultPath)
         {
             using (var dialog = new FolderBrowserDialog
@@ -2998,7 +3726,7 @@ namespace ShaheLauncher.App
                 ShowNewFolderButton = false
             })
             {
-                return dialog.ShowDialog(this) == DialogResult.OK ? dialog.SelectedPath : string.Empty;
+                return OperationLog.ShowDialog(dialog, this) == DialogResult.OK ? dialog.SelectedPath : string.Empty;
             }
         }
 
@@ -3027,7 +3755,7 @@ namespace ShaheLauncher.App
                 embedded,
                 imagePath))
             {
-                dialog.ShowDialog(this);
+                OperationLog.ShowDialog(dialog, this);
             }
         }
 
@@ -3053,16 +3781,23 @@ namespace ShaheLauncher.App
             };
         }
 
-        private void SelectApplicationPath()
+        private static OpenFileDialog CreateApplicationPathDialog()
         {
-            using (var dialog = new OpenFileDialog
+            return new OpenFileDialog
             {
-                Filter = "应用程序 (*.exe)|*.exe|所有文件 (*.*)|*.*",
+                Title = "选择要在沙盒中打开的应用",
+                InitialDirectory = Environment.CurrentDirectory,
+                Filter = "可执行文件 (*.exe)|*.exe",
                 CheckFileExists = true,
                 Multiselect = false
-            })
+            };
+        }
+
+        private void SelectApplicationPath()
+        {
+            using (var dialog = CreateApplicationPathDialog())
             {
-                if (dialog.ShowDialog(this) == DialogResult.OK)
+                if (OperationLog.ShowDialog(dialog, this) == DialogResult.OK)
                 {
                     AddApplicationPath(dialog.FileName);
                 }
@@ -3073,35 +3808,291 @@ namespace ShaheLauncher.App
         {
             try
             {
-                AddApplicationPath(AppPathHistoryService.ExtractExePathFromText(Clipboard.GetText()));
+                IDataObject data = ClipboardDataReader?.Invoke();
+                string path = AppPathHistoryService.ResolvePastedAppPath(
+                    data?.GetData(DataFormats.FileDrop) as string[], string.Empty);
+                if (path.Length == 0)
+                {
+                    path = AppPathHistoryService.ResolvePastedAppPath(
+                        null, data?.GetData(DataFormats.UnicodeText) as string);
+                }
+                SetApplicationPath(path, AppPathHistoryService.PastedAppStatusPrefix);
             }
-            catch
+            catch (System.Runtime.InteropServices.ExternalException)
             {
                 SafeSetStatusLabel(AppPathHistoryService.CannotAccessClipboardStatus);
+            }
+            catch (Exception error)
+            {
+                LogOperationSafe("操作异常: " + error);
+                SafeSetStatusLabel("粘贴文件时出错: " + error.Message);
             }
         }
 
         private void AddApplicationPath(string path)
         {
-            string value = (path ?? string.Empty).Trim();
-            if (value.Length == 0 || !File.Exists(value))
+            SetApplicationPath(path, "已选择");
+        }
+
+        private void SetApplicationPath(string path, string statusPrefix)
+        {
+            string value = AppPathHistoryService.ExtractExePathFromText(path);
+            if (value.Length == 0)
             {
                 SafeSetStatusLabel(AppPathHistoryService.InvalidClipboardStatus);
                 return;
             }
-            if (!AppPathList.Items.Cast<ListViewItem>().Any(item => item.Text == value))
+
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            if (!AppPathHistoryService.SetCurrentAppPath(
+                state,
+                value,
+                statusPrefix,
+                CreateAppPathHistoryCallbacks(state)))
             {
-                AppPathList.Items.Add(new ListViewItem(value) { Checked = true });
+                SafeSetStatusLabel(AppPathHistoryService.InvalidClipboardStatus);
+                return;
             }
-            AppPathList.SetValue(value);
-            AddApplicationPathToHistory(value);
-            SafeSetStatusLabel("已选择应用: " + value);
+
+            CommitAppPathHistoryState(state);
+            if (AppPathList != null && AppPathList.Items.Count > 0)
+            {
+                int index = AppPathList.GetSelectedIndex();
+                if (index >= 0)
+                {
+                    AppPathList.Items[index].Checked = true;
+                }
+            }
         }
 
         private void LaunchSelectedSandboxes()
         {
+            LogOperationSafe("操作开始: launch_selected");
+            if (LaunchState.IsLaunching)
+            {
+                SafeSetStatusLabel("当前正在启动中，请稍候");
+                return;
+            }
+            SuppressListRefreshStatus(2.0);
+            SuppressSelectionStatus(2.0);
             string[] sandboxes = SandboxList?.GetCheckedEntryTexts() ?? new string[0];
-            StartLaunch(sandboxes, GetCheckedAppTargets());
+            IList<LaunchAppTarget> apps = GetCheckedAppTargets().ToList();
+            if (apps.Count == 0)
+            {
+                SafeSetStatusLabel("请先在应用列表中按空格选中要打开的应用");
+                return;
+            }
+            SafeSetStatusLabel("正在准备启动沙盒...");
+            LaunchCallbacks.Log?.Invoke("启动按钮触发: 勾选沙盒=" + sandboxes.Length + ", 勾选应用=" + apps.Count);
+            LaunchCallbacks.RunBackground(() =>
+            {
+                IList<string> selected = ResolveLaunchEntries(sandboxes);
+                LaunchCallbacks.Log?.Invoke("启动目标解析完成: 可启动沙盒=" + selected.Count);
+                LaunchCallbacks.PostToUi(() =>
+                {
+                    if (IsWindowClosing()) return;
+                    bool wasLaunching = LaunchState.IsLaunching;
+                    StartLaunch(selected, apps);
+                    if (!wasLaunching && LaunchState.IsLaunching && apps.Count == 1)
+                    {
+                        SafeSetStatusLabel("准备启动 " + selected.Count + " 个沙盒");
+                    }
+                });
+            });
+        }
+
+        private IList<string> ResolveLaunchEntries(IEnumerable<string> entries)
+        {
+            IEnumerable<string> displays = SandboxList != null
+                ? SandboxList.ScanSandboxes() : RefreshSandboxDisplayMaps();
+            SandboxieDisplayMaps maps = GetSandboxDisplayMaps();
+            return LaunchScheduler.ResolveLaunchEntries(entries, displays, maps.NameToDisplay.Keys,
+                SandboxAdminCallbacks.NormalizeSandboxName, SandboxAdminCallbacks.GetSandboxDisplayName);
+        }
+
+        public void ShowUpdateNotice(UpdateDisplayResult result)
+        {
+            _pendingUpdateResult = null;
+            if (UpdateNoticeLabel != null)
+            {
+                UpdateNoticeLabel.Text = string.Empty;
+            }
+
+            if (DownloadUpdateButton != null)
+            {
+                DownloadUpdateButton.Enabled = false;
+            }
+
+            UpdateNoticePanel?.Hide();
+            if (result == null)
+            {
+                return;
+            }
+
+            if (result.ErrorText.Length != 0)
+            {
+                SafeSetStatusLabel("检查更新失败: " + result.ErrorText);
+                ShowMessageCallback?.Invoke(
+                    "检查更新失败：\n" + result.ErrorText,
+                    result.MessageTitle.Length == 0 ? "检查更新" : result.MessageTitle,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (result.ShouldShowMessage)
+            {
+                if (result.StatusText.Length != 0)
+                {
+                    SafeSetStatusLabel(result.StatusText);
+                }
+
+                ShowMessageCallback?.Invoke(
+                    result.MessageText,
+                    result.MessageTitle.Length == 0 ? "检查更新" : result.MessageTitle,
+                    result.HasUpdate ? MessageBoxIcon.Warning : MessageBoxIcon.Information);
+                return;
+            }
+
+            if (result.Package == null || result.LatestVersion.Length == 0)
+            {
+                return;
+            }
+
+            var preference = ConfigStore.GetJson("update_preference", null) as JObject;
+            bool sameVersion = string.Equals((string)preference?["version"], result.LatestVersion, StringComparison.Ordinal);
+            string previousChoice = sameVersion ? (string)preference?["action"] : string.Empty;
+            if (!result.IsManualCheck && previousChoice == "ignore")
+            {
+                LogOperationSafe("自动检查跳过已忽略版本: " + result.LatestVersion);
+                return;
+            }
+            if (!result.IsManualCheck && previousChoice == "later" && !_updateChoiceMadeThisSession)
+            {
+                _updateChoiceMadeThisSession = true;
+                Runtime.AppendDailyLog("按上次选择在启动时更新: " + result.LatestVersion);
+                LaunchUpdate(result);
+                return;
+            }
+
+            bool preferenceSaveFailed = false;
+            string choiceStatus = string.Empty;
+            if (result.ShouldPrompt)
+            {
+                DialogResult answer = ShowUpdateDialogCallback == null
+                    ? ShowUpdateDialog(result) : ShowUpdateDialogCallback(result);
+                LogOperationSafe("更新选择: 版本=" + result.LatestVersion + "，操作=" + answer);
+                _updateChoiceMadeThisSession = true;
+                if (answer == DialogResult.Yes)
+                {
+                    LaunchUpdate(result);
+                    return;
+                }
+                if (answer == DialogResult.Ignore || answer == DialogResult.No)
+                {
+                    string choice = answer == DialogResult.Ignore ? "ignore" : "later";
+                    if (!ConfigStore.SetJson("update_preference", new Dictionary<string, string>
+                    {
+                        { "version", result.LatestVersion }, { "action", choice }
+                    }))
+                    {
+                        const string message = "更新选择保存失败，请检查配置文件权限或占用后重试。";
+                        SafeSetStatusLabel(message);
+                        ShowMessageCallback?.Invoke(message, "保存失败", MessageBoxIcon.Warning);
+                        preferenceSaveFailed = true;
+                    }
+                    else if (choice == "ignore")
+                    {
+                        SafeSetStatusLabel("已忽略版本 " + result.LatestVersion);
+                        return;
+                    }
+                    else choiceStatus = "已安排下次启动时更新到 " + result.LatestVersion;
+                }
+            }
+
+            if (!result.ShouldShowNotice)
+            {
+                return;
+            }
+
+            _pendingUpdateResult = result;
+            UpdateNoticeLabel.Text = "检测到新版本：" + result.LatestVersion;
+            DownloadUpdateButton.Enabled = true;
+            UpdateNoticePanel.Show();
+            if (!preferenceSaveFailed)
+                SafeSetStatusLabel(choiceStatus.Length != 0 ? choiceStatus : result.StatusText);
+        }
+
+        private DialogResult ShowUpdateDialog(UpdateDisplayResult result)
+        {
+            using (var dialog = new UpdateAvailableDialog(result))
+                return OperationLog.ShowDialog(dialog, this);
+        }
+
+        private void DownloadUpdate()
+        {
+            UpdateDisplayResult result = _pendingUpdateResult;
+            if (result == null || result.Package == null)
+            {
+                SafeSetStatusLabel("当前没有可下载的新版本");
+                ShowUpdateNotice(null);
+                return;
+            }
+
+            LaunchUpdate(result);
+        }
+
+        private void LaunchUpdate(UpdateDisplayResult result)
+        {
+            string latestVersion = result == null ? string.Empty : result.LatestVersion;
+            Runtime.AppendDailyLog("准备启动更新程序: " + latestVersion);
+            SafeSetStatusLabel("正在准备更新程序...");
+            UpdateCommandPreparation preparation = UpdateService.PrepareUpdaterCommand(
+                result.Package,
+                result.LatestVersion);
+            if (preparation.Error.Length != 0 || preparation.Command == null)
+            {
+                Runtime.AppendDailyLog("自动更新不可用: " + preparation.Error);
+                SafeSetStatusLabel("自动更新不可用，请稍后重试");
+                ShowMessageCallback?.Invoke(
+                    preparation.Error + "\n\n请稍后重试。",
+                    "自动更新不可用",
+                    MessageBoxIcon.Information);
+                return;
+            }
+
+            try
+            {
+                var startInfo = new ProcessStartInfo
+                {
+                    FileName = preparation.Command[0],
+                    Arguments = string.Join(" ", preparation.Command.Skip(1).Select(QuoteArgument)),
+                    UseShellExecute = true,
+                    WorkingDirectory = Path.GetDirectoryName(preparation.Command[0]) ?? string.Empty
+                };
+                Process.Start(startInfo);
+                Runtime.AppendDailyLog("更新程序已启动: " + latestVersion);
+                SafeSetStatusLabel("更新程序已启动，正在关闭主程序...");
+                ForceExitRequested = true;
+                Close();
+            }
+            catch (Exception error)
+            {
+                LogOperationSafe("操作异常: " + error);
+                Runtime.AppendDailyLog("自动更新启动失败: " + error);
+                SafeSetStatusLabel("自动更新启动失败，请稍后重试");
+                ShowMessageCallback?.Invoke(
+                    "启动更新程序失败：\n" + error.Message + "\n\n请稍后重试。",
+                    "自动更新失败",
+                    MessageBoxIcon.Warning);
+            }
+        }
+
+        private void CheckForUpdatesManually()
+        {
+            Runtime.AppendDailyLog("手动检查更新");
+            ShowUpdateNotice(null);
+            SafeSetStatusLabel("正在检查更新...");
+            UpdateService.CheckUpdateWorker(false, false);
         }
 
         private IEnumerable<LaunchAppTarget> GetCheckedAppTargets()
@@ -3123,8 +4114,28 @@ namespace ShaheLauncher.App
             IEnumerable<string> sandboxes,
             IEnumerable<LaunchAppTarget> applications)
         {
-            IList<string> targets = (sandboxes ?? Enumerable.Empty<string>()).ToList();
+            if (LaunchState.IsLaunching)
+            {
+                SafeSetStatusLabel("当前正在启动中，请稍候");
+                return;
+            }
+            IList<string> targets = (sandboxes ?? Enumerable.Empty<string>())
+                .Select(name => (name ?? string.Empty).Trim()).Where(name => name.Length != 0).ToList();
+            if (targets.Count == 0)
+            {
+                SafeSetStatusLabel("请先在沙盒用户列表中按空格选中要启动的沙盒");
+                return;
+            }
             IList<LaunchAppTarget> apps = (applications ?? Enumerable.Empty<LaunchAppTarget>()).ToList();
+            if (!LaunchScheduler.PrepareLaunchTargetFromAppTargets(
+                LaunchState,
+                apps,
+                SandboxieClient.SandboxiePath,
+                SandboxieClient.GetStartExecutable(SandboxieClient.SandboxiePath),
+                LaunchCallbacks))
+            {
+                return;
+            }
             if (!LaunchScheduler.BeginLaunch(LaunchState, targets, apps, LaunchCallbacks))
             {
                 return;
@@ -3139,20 +4150,45 @@ namespace ShaheLauncher.App
                 LaunchCallbacks);
         }
 
+        private SandboxieCallbacks CreateSandboxieLaunchCallbacks()
+        {
+            return new SandboxieCallbacks
+            {
+                ListOfficialSandboxNames = () =>
+                {
+                    RefreshSandboxDisplayMaps();
+                    return _officialSandboxNames.ToList();
+                },
+                ReloadConfiguration = () =>
+                {
+                    if (ReloadSandboxieConfigCallback != null)
+                    {
+                        ReloadSandboxieConfigCallback();
+                    }
+                    else
+                    {
+                        ReloadSandboxieConfig();
+                    }
+                },
+                RefreshDisplayMaps = () => RefreshSandboxDisplayMaps(),
+                RefreshSandboxList = RefreshSandboxListFromRuntime,
+                SetStatus = text => SafeSetStatusLabel(text)
+            };
+        }
+
         private bool StartAppInSandbox(string sandboxName, string appPath, string appDirectory)
         {
+            SandboxieCallbacks callbacks = CreateSandboxieLaunchCallbacks();
+            IList<string> officialNames = callbacks.ListOfficialSandboxNames == null
+                ? GetOfficialSandboxNames().ToList()
+                : callbacks.ListOfficialSandboxNames();
             SandboxieLaunchResult result = SandboxieClient.StartAppInSandbox(
                 sandboxName,
                 appPath,
                 appDirectory,
                 GetSandboxDisplayMaps(),
-                GetOfficialSandboxNames(),
-                new SandboxieCallbacks
-                {
-                    RefreshDisplayMaps = () => RefreshSandboxDisplayMaps(),
-                    RefreshSandboxList = RefreshSandboxListFromRuntime,
-                    SetStatus = text => SafeSetStatusLabel(text)
-                });
+                officialNames,
+                callbacks);
             return result.Success;
         }
 
@@ -3172,59 +4208,188 @@ namespace ShaheLauncher.App
 
         private void AddApplicationPathToHistory(string path)
         {
-            string value = (path ?? string.Empty).Trim();
-            if (value.Length == 0 || !File.Exists(value) || _settingsState.MaxHistoryItems == 0)
+            string value = AppPathHistoryService.ExtractExePathFromText(path);
+            if (value.Length == 0)
             {
                 return;
             }
 
-            IList<AppHistoryItem> history = (_settingsState.AppHistory ?? new List<object>())
-                .OfType<AppHistoryItem>()
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            if (AppPathHistoryService.AddToHistory(state, value, false, null))
+            {
+                CommitAppPathHistoryState(state);
+                SaveSettings();
+            }
+        }
+
+        private AppPathHistoryState CreateAppPathHistoryState()
+        {
+            var state = new AppPathHistoryState
+            {
+                MaxHistoryItems = _settingsState.MaxHistoryItems,
+                HidePath = _settingsState.HidePath,
+                AppPath = _settingsState.AppPath ?? string.Empty,
+                AppDirectory = _settingsState.AppDirectory ?? string.Empty
+            };
+            var rawHistory = new List<object>();
+            foreach (object value in _settingsState.AppHistory ?? new List<object>())
+            {
+                AppHistoryItem item = value as AppHistoryItem;
+                rawHistory.Add(item == null
+                    ? value
+                    : (object)new Dictionary<string, object>
+                    {
+                        { "path", item.Path ?? string.Empty },
+                        { "note", item.Note ?? string.Empty }
+                    });
+            }
+            state.AppHistory = SandboxAdminService.NormalizeAppHistory(rawHistory, null)
+                .Select(item => new AppHistoryItem { Path = item.Path, Note = item.Note })
+                .ToList();
+            return state;
+        }
+
+        private void CommitAppPathHistoryState(AppPathHistoryState state)
+        {
+            if (state == null)
+            {
+                return;
+            }
+
+            _settingsState.MaxHistoryItems = Math.Max(
+                0,
+                Math.Min(AppPathHistoryService.MaximumHistoryItems, state.MaxHistoryItems));
+            _settingsState.HidePath = state.HidePath;
+            _settingsState.AppPath = state.AppPath ?? string.Empty;
+            _settingsState.AppDirectory = state.AppDirectory ?? string.Empty;
+            _settingsState.AppHistory = (state.AppHistory ?? new List<AppHistoryItem>())
                 .Where(item => item != null)
-                .ToList();
-            AppHistoryItem existing = history.FirstOrDefault(item =>
-                string.Equals(item.Path, value, StringComparison.Ordinal));
-            if (existing != null)
-            {
-                history.Remove(existing);
-            }
-            else
-            {
-                existing = new AppHistoryItem
+                .Select(item => (object)new AppHistoryItem
                 {
-                    Path = value,
-                    Note = Path.GetFileName(value)
-                };
-            }
-            history.Insert(0, existing);
-            _settingsState.AppHistory = history
-                .Take(Math.Max(0, _settingsState.MaxHistoryItems))
-                .Cast<object>()
+                    Path = item.Path ?? string.Empty,
+                    Note = item.Note ?? string.Empty
+                })
                 .ToList();
+            if (Settings == null)
+            {
+                Settings = new Dictionary<string, object>();
+            }
+            Settings["max_history_items"] = _settingsState.MaxHistoryItems;
+            Settings["hide_path"] = _settingsState.HidePath;
+            LaunchState.AppPath = _settingsState.AppPath;
+            LaunchState.AppDirectory = _settingsState.AppDirectory;
+        }
+
+        private void SaveAppPathHistoryState(AppPathHistoryState state)
+        {
+            CommitAppPathHistoryState(state);
             SaveSettings();
         }
 
-        private void ExecuteCurrentSandboxAction(Action<string> callback)
+        private AppPathHistoryCallbacks CreateAppPathHistoryCallbacks(AppPathHistoryState state)
         {
-            string name = GetSelectedSandboxName();
+            return new AppPathHistoryCallbacks
+            {
+                SaveSettings = () => SaveAppPathHistoryState(state),
+                RefreshComboBox = UpdateAppPathList,
+                SetCurrentValue = value => AppPathList?.SetValue(value),
+                FocusAppPathList = () => AppPathList?.Focus(),
+                SetStatus = text => SafeSetStatusLabel(text)
+            };
+        }
+
+        private AppPathHistoryResolution ResolveCurrentAppPath()
+        {
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            int index = AppPathList?.GetSelectedIndex() ?? -1;
+            string text = AppPathList?.GetValue() ?? string.Empty;
+            return AppPathHistoryService.ExtractPathAndNote(state, text, index);
+        }
+
+        private void OnAppPathSelectionChanged()
+        {
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            int index = AppPathList?.GetSelectedIndex() ?? -1;
+            AppPathHistoryResolution resolution = AppPathHistoryService.ExtractPathAndNote(
+                state,
+                AppPathList?.GetValue() ?? string.Empty,
+                index);
+            if (resolution == null || resolution.Path.Length == 0)
+            {
+                return;
+            }
+            if (!File.Exists(resolution.Path))
+            {
+                return;
+            }
+
+            state.AppPath = resolution.Path;
+            state.AppDirectory = Path.GetDirectoryName(resolution.Path) ?? string.Empty;
+            CommitAppPathHistoryState(state);
+        }
+
+        private void OnAppItemChecked()
+        {
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            int index = _appItemCheckedIndex >= 0
+                ? _appItemCheckedIndex
+                : (AppPathList?.GetSelectedIndex() ?? -1);
+            string text = index >= 0 && AppPathList != null
+                ? AppPathList.GetItemPath(index)
+                : (AppPathList?.GetValue() ?? string.Empty);
+            state.ComboItemPaths = AppPathList == null
+                ? new List<string>()
+                : Enumerable.Range(0, AppPathList.Items.Count)
+                    .Select(AppPathList.GetItemPath)
+                    .ToList();
+            AppPathHistoryResolution resolution = AppPathHistoryService.ExtractPathAndNote(
+                state,
+                text,
+                index);
+            if (resolution == null || resolution.Path.Length == 0)
+            {
+                return;
+            }
+            if (!File.Exists(resolution.Path))
+            {
+                return;
+            }
+
+            state.AppPath = resolution.Path;
+            state.AppDirectory = Path.GetDirectoryName(resolution.Path) ?? string.Empty;
+            bool changed = AppPathHistoryService.AddToHistory(state, resolution.Path, false, null);
+            CommitAppPathHistoryState(state);
+            if (changed)
+            {
+                SaveSettings();
+            }
+        }
+
+        private void ExecuteCurrentSandboxAction(Action<string> callback, bool preferFocusedItem = false)
+        {
+            string name = GetSelectedSandboxName(preferFocusedItem);
             if (name.Length == 0)
             {
-                SafeSetStatusLabel("请先选择沙盒用户");
+                SafeSetStatusLabel("请先在用户列表中选中一个用户");
                 return;
             }
             callback?.Invoke(name);
         }
 
-        private string GetSelectedSandboxName()
+        private string GetSelectedSandboxName(bool preferFocusedItem = false)
         {
             if (SandboxList == null || SandboxList.Items.Count == 0)
             {
                 return string.Empty;
             }
 
-            int index = SandboxList.SelectedIndices.Count != 0
+            int selectedIndex = SandboxList.SelectedIndices.Count != 0
                 ? SandboxList.SelectedIndices[0]
-                : SandboxList.FocusedItem?.Index ?? -1;
+                : -1;
+            int focusedIndex = SandboxList.FocusedItem?.Index ?? -1;
+            int index = preferFocusedItem && focusedIndex >= 0
+                ? focusedIndex
+                : (selectedIndex >= 0 ? selectedIndex : focusedIndex);
             if (index < 0 || index >= SandboxList.Items.Count || SandboxList.IsGroupItemText(
                 SandboxList.Items[index].Text))
             {
@@ -3235,6 +4400,7 @@ namespace ShaheLauncher.App
 
         private void MinimizeToTray()
         {
+            string feedback;
             if (ShowTray)
             {
                 CreateTaskBarIcon();
@@ -3242,11 +4408,16 @@ namespace ShaheLauncher.App
             if (TaskBarIcon != null && TaskBarIcon.TrayIcon != null)
             {
                 Hide();
-                SafeSetStatusLabel("已最小化到托盘");
-                return;
+                feedback = "已最小化到托盘";
             }
-            WindowState = FormWindowState.Minimized;
-            SafeSetStatusLabel("当前托盘不可用，已最小化窗口");
+            else
+            {
+                WindowState = FormWindowState.Minimized;
+                feedback = "当前托盘不可用，已最小化窗口";
+            }
+
+            SafeSetStatusLabel(feedback);
+            SpeechCallback?.Invoke(feedback, "launch_done");
         }
 
         private void AutoCheckUpdateAfterStartup()
@@ -3265,11 +4436,399 @@ namespace ShaheLauncher.App
             {
                 return;
             }
-            IEnumerable<string> paths = _settingsState.AppHistory
-                .OfType<AppHistoryItem>()
-                .Select(item => item.Path)
-                .Where(path => !string.IsNullOrWhiteSpace(path));
-            AppPathList.ReplaceItems(paths);
+
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            AppPathList.BeginProgrammaticUpdate();
+            try
+            {
+                string currentText = (_settingsState.AppPath ?? string.Empty).Trim();
+                if (currentText.Length == 0)
+                {
+                    currentText = AppPathList.GetValue();
+                }
+                int currentIndex = currentText.Length == 0 ? AppPathList.GetSelectedIndex() : -1;
+                string[] checkedPaths = AppPathList.GetCheckedValues();
+                AppPathHistoryView view = AppPathHistoryService.UpdateComboBox(
+                    state,
+                    currentText,
+                    currentIndex,
+                    checkedPaths);
+                CommitAppPathHistoryState(state);
+                AppPathList.ReplaceItems(
+                    view.ItemTexts,
+                    view.ItemPaths,
+                    view.CheckedIndices,
+                    view.SelectedIndex);
+            }
+            finally
+            {
+                AppPathList.EndProgrammaticUpdate();
+            }
+            ShowAppPathContextMenu();
+        }
+
+        private void ShowAppPathContextMenu()
+        {
+            if (AppPathList == null)
+            {
+                return;
+            }
+
+            ContextMenu oldMenu = AppPathList.ContextMenu;
+            ContextMenu menu = BuildAppPathContextMenu();
+            AppPathList.ContextMenu = menu;
+            if (oldMenu != null && oldMenu != menu)
+            {
+                oldMenu.Dispose();
+            }
+        }
+
+        private ContextMenu BuildAppPathContextMenu()
+        {
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            bool hasHistory = state.AppHistory != null && state.AppHistory.Count != 0;
+            bool hasCurrent = ResolveCurrentAppPath().Path.Length != 0;
+            var menu = new ContextMenu();
+            AddAppPathContextItem(menu, "选择应用", "open_app", true);
+            AddAppPathContextItem(menu, "粘贴 .exe 或文件路径", "paste_app", true);
+            menu.MenuItems.Add("-");
+            AddAppPathContextItem(menu, AppPathHistoryService.EditNoteMenuText,
+                "memory_edit_note", hasCurrent);
+            AddAppPathContextItem(menu, AppPathHistoryService.AdjustCountMenuText,
+                "memory_adjust_count", true);
+            AddAppPathContextItem(
+                menu,
+                state.HidePath
+                    ? AppPathHistoryService.ShowPathMenuText
+                    : AppPathHistoryService.HidePathMenuText,
+                "memory_toggle_path_display",
+                true);
+            menu.MenuItems.Add("-");
+            AddAppPathContextItem(menu, AppPathHistoryService.DeleteCurrentMenuText,
+                "memory_delete_current", hasCurrent);
+            AddAppPathContextItem(menu, AppPathHistoryService.ClearMemoryMenuText,
+                "memory_clear_all", hasHistory);
+            menu.MenuItems.Add("-");
+            AddAppPathContextItem(menu, AppPathHistoryService.CopyPathMenuText,
+                "memory_copy_path", hasCurrent);
+            return menu;
+        }
+
+        private void AddAppPathContextItem(
+            ContextMenu menu,
+            string text,
+            string action,
+            bool enabled)
+        {
+            string label = HotkeyController.BuildMenuLabel(text, action, _hotkeys, _hotkeysEnabled);
+            menu.MenuItems.Add(new MenuItem(label, (sender, eventArgs) => { LogOperationSafe("菜单执行: " + label); DispatchApplicationAction(action); })
+            {
+                Enabled = enabled
+            });
+        }
+
+        private void OpenAppPathContextMenu()
+        {
+            AppContextMenuCallback?.Invoke();
+            if (AppPathList == null || AppPathList.ContextMenu == null)
+            {
+                return;
+            }
+
+            try
+            {
+                AppPathList.ContextMenu.Show(
+                    AppPathList,
+                    new Point(Math.Max(0, AppPathList.Width / 2), Math.Max(0, AppPathList.Height / 2)));
+            }
+            catch
+            {
+            }
+        }
+
+        private void ShowPathMemoryManagerDialog()
+        {
+            var history = CreateAppPathHistoryState().AppHistory
+                .Select(item => (IDictionary<string, object>)new Dictionary<string, object>
+                {
+                    { "path", item.Path ?? string.Empty },
+                    { "note", item.Note ?? string.Empty }
+                })
+                .ToList();
+            var settings = new Dictionary<string, object>(Settings ?? new Dictionary<string, object>());
+            settings["max_history_items"] = _settingsState.MaxHistoryItems;
+            settings["hide_path"] = _settingsState.HidePath;
+            using (var dialog = new PathMemoryManagerDialog(
+                this,
+                history,
+                settings,
+                OnPathMemorySaved))
+            {
+                OperationLog.ShowDialog(dialog, this);
+            }
+        }
+
+        private void OnPathMemorySaved(
+            IList<IDictionary<string, object>> appHistory,
+            IDictionary<string, object> settings)
+        {
+            IDictionary<string, object> incoming = settings
+                ?? new Dictionary<string, object>();
+            int maxHistoryItems = CommonUtilities.ParseIntSetting(
+                incoming.ContainsKey("max_history_items") ? incoming["max_history_items"] : null,
+                _settingsState.MaxHistoryItems,
+                0,
+                AppPathHistoryService.MaximumHistoryItems);
+            bool hidePath = CommonUtilities.ParseBoolSetting(
+                incoming.ContainsKey("hide_path") ? incoming["hide_path"] : null,
+                _settingsState.HidePath);
+            IList<SandboxAdminHistoryEntry> normalized = SandboxAdminService.NormalizeAppHistory(
+                appHistory,
+                maxHistoryItems);
+            var state = CreateAppPathHistoryState();
+            state.MaxHistoryItems = maxHistoryItems;
+            state.HidePath = hidePath;
+            state.AppHistory = normalized
+                .Select(item => new AppHistoryItem { Path = item.Path, Note = item.Note })
+                .ToList();
+            CommitAppPathHistoryState(state);
+            if (Settings == null)
+            {
+                Settings = new Dictionary<string, object>();
+            }
+            foreach (KeyValuePair<string, object> item in incoming)
+            {
+                Settings[item.Key] = item.Value;
+            }
+            SaveSettings();
+            UpdateAppPathList();
+            SafeSetStatusLabel(AppPathHistoryService.MemorySavedStatus);
+        }
+
+        private void EditCurrentAppPathNote()
+        {
+            AppPathHistoryResolution current = ResolveCurrentAppPath();
+            if (current == null || current.Path.Length == 0)
+            {
+                return;
+            }
+
+            string note = PromptAppPathNote(current.Note);
+            if (note == null || note.Length == 0)
+            {
+                return;
+            }
+
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            int index = AppPathHistoryService.FindAppHistoryIndexByPath(state, current.Path);
+            if (index < 0)
+            {
+                if (!AppPathHistoryService.AddToHistory(state, current.Path, false, null))
+                {
+                    SafeSetStatusLabel("路径记忆已关闭，备注未保存");
+                    return;
+                }
+                index = AppPathHistoryService.FindAppHistoryIndexByPath(state, current.Path);
+            }
+            if (index < 0)
+            {
+                SafeSetStatusLabel("备注保存失败");
+                return;
+            }
+
+            state.AppHistory[index].Note = note;
+            CommitAppPathHistoryState(state);
+            SaveSettings();
+            UpdateAppPathList();
+            AppPathList?.SetValue(current.Path);
+            SafeSetStatusLabel(AppPathHistoryService.NoteUpdatedStatus);
+        }
+
+        private string PromptAppPathNote(string currentNote)
+        {
+            using (var dialog = new Form
+            {
+                Text = "路径记忆备注",
+                Size = new Size(400, 150),
+                StartPosition = FormStartPosition.CenterParent,
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                MaximizeBox = false,
+                MinimizeBox = false,
+                ShowInTaskbar = false,
+                AutoScaleMode = AutoScaleMode.None
+            })
+            {
+                var layout = new TableLayoutPanel
+                {
+                    Dock = DockStyle.Fill,
+                    ColumnCount = 1,
+                    RowCount = 3,
+                    Padding = new Padding(10),
+                    TabStop = false
+                };
+                var input = new TextBox
+                {
+                    Text = currentNote ?? string.Empty,
+                    AccessibleName = "路径备注",
+                    TabIndex = 0,
+                    Dock = DockStyle.Fill
+                };
+                var ok = new Button
+                {
+                    Text = "确定",
+                    AccessibleName = "确定",
+                    AutoSize = true,
+                    TabIndex = 1
+                };
+                var cancel = new Button
+                {
+                    Text = "取消",
+                    AccessibleName = "取消",
+                    AutoSize = true,
+                    TabIndex = 2,
+                    DialogResult = DialogResult.Cancel
+                };
+                var buttons = new FlowLayoutPanel
+                {
+                    AutoSize = true,
+                    Dock = DockStyle.Fill,
+                    FlowDirection = FlowDirection.RightToLeft,
+                    WrapContents = false,
+                    TabStop = false
+                };
+                buttons.Controls.Add(cancel);
+                buttons.Controls.Add(ok);
+                layout.Controls.Add(new Label
+                {
+                    Text = AppPathHistoryService.EditNotePrompt,
+                    AutoSize = true,
+                    TabStop = false
+                }, 0, 0);
+                layout.Controls.Add(input, 0, 1);
+                layout.Controls.Add(buttons, 0, 2);
+                dialog.Controls.Add(layout);
+                dialog.AcceptButton = ok;
+                dialog.CancelButton = cancel;
+                ok.Click += (sender, eventArgs) => dialog.DialogResult = DialogResult.OK;
+                return OperationLog.ShowDialog(dialog, this) == DialogResult.OK
+                    ? (input.Text ?? string.Empty).Trim()
+                    : null;
+            }
+        }
+
+        private void AdjustAppPathHistoryCount()
+        {
+            int value = PromptAppPathHistoryCount(_settingsState.MaxHistoryItems);
+            if (value < 0)
+            {
+                return;
+            }
+
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            AppPathHistoryService.ApplyHistoryCount(state, value, CreateAppPathHistoryCallbacks(state));
+        }
+
+        private int PromptAppPathHistoryCount(int currentValue)
+        {
+            var settings = new Dictionary<string, object> { { "max_history_items", currentValue } };
+            using (var dialog = new PathMemoryManagerDialog(this, null, settings, null))
+            {
+                dialog.Text = AppPathHistoryService.HistoryCountDialogTitle;
+                dialog.PromptLabel.Text = AppPathHistoryService.HistoryCountPrompt;
+                return OperationLog.ShowDialog(dialog, this) == DialogResult.OK ? (int)dialog.HistoryCountInput.Value : -1;
+            }
+        }
+
+        private void ToggleAppPathDisplay()
+        {
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            AppPathHistoryService.TogglePathDisplay(state, CreateAppPathHistoryCallbacks(state));
+        }
+
+        private void DeleteCurrentAppPathMemory()
+        {
+            AppPathHistoryResolution current = ResolveCurrentAppPath();
+            if (current == null || current.Path.Length == 0)
+            {
+                return;
+            }
+            if (ConfirmMessage(
+                    AppPathHistoryService.DeleteCurrentConfirmationText,
+                    "确认删除",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            AppPathHistoryService.DeleteCurrent(
+                state,
+                AppPathList?.GetValue() ?? string.Empty,
+                AppPathList?.GetSelectedIndex() ?? -1,
+                true,
+                CreateAppPathHistoryCallbacks(state));
+        }
+
+        private void ClearAppPathMemory()
+        {
+            if (ConfirmMessage(
+                    AppPathHistoryService.ClearMemoryConfirmationText,
+                    "确认清空",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            AppPathHistoryState state = CreateAppPathHistoryState();
+            AppPathHistoryService.ClearMemory(
+                state,
+                true,
+                CreateAppPathHistoryCallbacks(state));
+        }
+
+        private void CopyCurrentAppPath()
+        {
+            AppPathHistoryResolution current = ResolveCurrentAppPath();
+            string path = current == null ? string.Empty : current.Path;
+            if (path.Length == 0)
+            {
+                return;
+            }
+
+            bool copied = false;
+            try
+            {
+                if (ClipboardTextWriter != null)
+                {
+                    ClipboardTextWriter(path);
+                    for (int attempt = 0; attempt < 5; attempt++)
+                    {
+                        try
+                        {
+                            IDataObject data = ClipboardDataReader?.Invoke();
+                            if (string.Equals(data?.GetData(DataFormats.UnicodeText) as string,
+                                path, StringComparison.Ordinal))
+                            {
+                                copied = true;
+                                break;
+                            }
+                        }
+                        catch { }
+                        System.Threading.Thread.Sleep(20);
+                    }
+                }
+            }
+            catch (System.Runtime.InteropServices.ExternalException)
+            {
+                SafeSetStatusLabel(AppPathHistoryService.CannotAccessClipboardStatus);
+                return;
+            }
+            catch { }
+            SafeSetStatusLabel(copied
+                ? AppPathHistoryService.PathCopiedStatus
+                : AppPathHistoryService.CopyPathFailedStatus);
         }
 
         private void SaveSettings()
@@ -3289,7 +4848,6 @@ namespace ShaheLauncher.App
             _settingsState.SandboxRoot = SandboxieClient.SandboxRoot;
             _settingsState.LaunchInterval = LaunchState.LaunchInterval;
             _settingsState.LaunchConcurrencyLimit = LaunchState.LaunchConcurrencyLimit;
-            _settingsState.DynamicLaunchDelayByLoad = LaunchState.DynamicLaunchDelayByLoad;
             _settingsState.SkipRunningSandboxOnLaunch = LaunchState.SkipRunningSandboxOnLaunch;
             _settingsState.RememberVolume = ProcessState.RememberVolume;
             _settingsState.SandboxGroups = SandboxAdminState.SandboxGroups.ToDictionary(
@@ -3388,8 +4946,9 @@ namespace ShaheLauncher.App
             return result;
         }
 
-        private static void ShowMessage(string text, string title, MessageBoxIcon icon)
+        private void ShowMessage(string text, string title, MessageBoxIcon icon)
         {
+            LogOperationSafe("提示: " + title + "，" + text);
             MessageBox.Show(text, title, MessageBoxButtons.OK, icon);
         }
 

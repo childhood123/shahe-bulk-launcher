@@ -136,9 +136,12 @@ namespace ShaheLauncher.Tests
                 string entry = Path.Combine(root, "沙河批量打开器.exe");
                 object runtime = CreateRuntime(false, entry, entry, now);
 
+                PropertyInfo mode = runtime.GetType().GetProperty("LogOutputMode");
+                Assert.IsNotNull(mode);
+                mode.SetValue(runtime, "detailed");
                 Invoke(runtime, "AppendDailyLog", "  测试日志  ");
 
-                string logPath = Path.Combine(root, "log", "2026-08-07.log");
+                string logPath = Path.Combine(root, "logs", "2026-08-07.log");
                 CollectionAssert.AreEqual(
                     new UTF8Encoding(false).GetBytes("[2026-08-07 23:59:58] 测试日志\r\n"),
                     File.ReadAllBytes(logPath));
@@ -160,7 +163,7 @@ namespace ShaheLauncher.Tests
 
                 Invoke(runtime, "AppendDailyLog", "  ");
 
-                Assert.IsFalse(Directory.Exists(Path.Combine(root, "log")));
+                Assert.IsFalse(Directory.Exists(Path.Combine(root, "logs")));
             }
             finally
             {

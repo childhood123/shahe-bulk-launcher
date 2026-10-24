@@ -24,6 +24,7 @@ namespace ShaheLauncher.Core.Updates
         public Func<int> GetProcessId { get; set; }
         public Func<long> GetUnixTimeSeconds { get; set; }
         public Func<string, byte[]> GetEmbeddedQrBytes { get; set; }
+        public Action<UpdateDisplayResult> ShowUpdateResult { get; set; }
     }
 
     public sealed class UpdatePackageInfo
@@ -69,8 +70,11 @@ namespace ShaheLauncher.Core.Updates
             MessageText = string.Empty;
             PromptText = string.Empty;
             ErrorText = string.Empty;
+            ReleaseNotes = string.Empty;
         }
 
+        public string ReleaseNotes { get; set; }
+        public bool IsManualCheck { get; set; }
         public string LatestVersion { get; set; }
         public bool HasUpdate { get; set; }
         public bool ForceUpdate { get; set; }
@@ -129,7 +133,9 @@ namespace ShaheLauncher.Core.Updates
             }
 
             string url = Text(GetValue(package, "url", string.Empty)).Trim();
-            if (url.Length == 0)
+            Uri parsedUrl;
+            if (!Uri.TryCreate(url, UriKind.Absolute, out parsedUrl)
+                || !string.Equals(parsedUrl.Scheme, Uri.UriSchemeHttps, StringComparison.OrdinalIgnoreCase))
             {
                 return null;
             }
@@ -137,7 +143,9 @@ namespace ShaheLauncher.Core.Updates
             return new UpdatePackageInfo
             {
                 Kind = Text(kind).Trim(),
-                KindLabel = "增量补丁",
+                KindLabel = string.Equals(Text(kind).Trim(), "full", StringComparison.OrdinalIgnoreCase)
+                    ? "完整更新包"
+                    : "增量补丁",
                 Url = url,
                 Sha256 = Text(GetValue(package, "sha256", GetValue(package, "hash", string.Empty))).Trim(),
                 Signature = Text(GetValue(package, "signature", GetValue(package, "sig", string.Empty))).Trim(),
@@ -152,6 +160,38 @@ namespace ShaheLauncher.Core.Updates
             IDictionary<string, object> manifest,
             string latestVersion)
         {
+            foreach (object item in ToObjectList(GetValue(manifest, "packages", null)))
+            {
+                IDictionary<string, object> package = CopyDictionary(item);
+                if (package == null)
+                {
+                    continue;
+                }
+
+                string kind = Text(GetValue(package, "kind", "full")).Trim();
+                if (!string.Equals(kind, "full", StringComparison.OrdinalIgnoreCase))
+                {
+                    continue;
+                }
+
+                UpdatePackageInfo selected = NormalizeUpdatePackage(package, "full", latestVersion);
+                if (selected != null && selected.Sha256.Length != 0 && selected.Size > 0)
+                {
+                    return selected;
+                }
+            }
+
+            IDictionary<string, object> single = CopyDictionary(GetValue(manifest, "package", null));
+            if (single != null
+                && string.Equals(Text(GetValue(single, "kind", "full")).Trim(), "full", StringComparison.OrdinalIgnoreCase))
+            {
+                UpdatePackageInfo selected = NormalizeUpdatePackage(single, "full", latestVersion);
+                if (selected != null && selected.Sha256.Length != 0 && selected.Size > 0)
+                {
+                    return selected;
+                }
+            }
+
             IList<object> patches = ToObjectList(GetValue(manifest, "patches", null));
             foreach (object item in patches)
             {
@@ -231,6 +271,7 @@ namespace ShaheLauncher.Core.Updates
 
         public IDictionary<string, object> FetchUpdateManifest(long unixTimestamp)
         {
+            _callbacks.Log?.Invoke("获取更新清单开始");
             string baseUrl = GetManifestUrl();
             string requestUrl = baseUrl + "?t=" + unixTimestamp.ToString(CultureInfo.InvariantCulture);
             var headers = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
@@ -261,6 +302,7 @@ namespace ShaheLauncher.Core.Updates
                 throw new InvalidDataException("更新清单格式不正确");
             }
 
+            _callbacks.Log?.Invoke("更新清单下载与解析完成");
             manifest["_manifest_url"] = baseUrl;
             return manifest;
         }
@@ -277,7 +319,7 @@ namespace ShaheLauncher.Core.Updates
             string updaterPath = ResolveUpdaterExecutable();
             if (updaterPath.Length == 0)
             {
-                return Failure("未找到当前主程序，自动更新无法继续。");
+                return Failure("未找到主程序，自动更新无法继续。");
             }
 
             int processId = _callbacks.GetProcessId == null
@@ -293,9 +335,20 @@ namespace ShaheLauncher.Core.Updates
 
             try
             {
+                _callbacks.Log?.Invoke("准备内置更新临时副本");
                 Directory.CreateDirectory(helperDirectory);
-                string temporaryUpdater = Path.Combine(helperDirectory, "updater.exe");
+                string temporaryUpdater = Path.Combine(helperDirectory, Path.GetFileName(updaterPath));
                 File.Copy(updaterPath, temporaryUpdater, true);
+                if (File.Exists(updaterPath + ".config"))
+                {
+                    File.Copy(updaterPath + ".config", temporaryUpdater + ".config", true);
+                }
+                foreach (string library in Directory.GetFiles(AppDirectory, "*.dll"))
+                {
+                    _callbacks.Log?.Invoke("复制更新依赖: " + Path.GetFileName(library));
+                    File.Copy(library, Path.Combine(helperDirectory, Path.GetFileName(library)), true);
+                }
+
                 string internalSource = Path.Combine(AppDirectory, "internal");
                 if (Directory.Exists(internalSource))
                 {
@@ -319,6 +372,7 @@ namespace ShaheLauncher.Core.Updates
                     { "restart", true },
                     { "download_workers", "4" }
                 };
+                _callbacks.Log?.Invoke("写入更新请求");
                 File.WriteAllText(
                     requestFile,
                     JsonConvert.SerializeObject(request, Formatting.Indented),
@@ -329,6 +383,7 @@ namespace ShaheLauncher.Core.Updates
                     Command = new List<string>
                     {
                         temporaryUpdater,
+                        "--install-update",
                         "--app-dir", AppDirectory,
                         "--exe", _currentExecutablePath,
                         "--pid", processId.ToString(CultureInfo.InvariantCulture),
@@ -339,13 +394,14 @@ namespace ShaheLauncher.Core.Updates
             }
             catch (Exception error)
             {
+                _callbacks.Log?.Invoke("创建内置更新临时副本失败: " + error);
                 return Failure("创建临时更新程序失败: " + error.Message);
             }
         }
 
         public string ResolveUpdaterExecutable()
         {
-            string candidate = Path.Combine(AppDirectory, "updater.exe");
+            string candidate = _currentExecutablePath;
             return File.Exists(candidate) ? Path.GetFullPath(candidate) : string.Empty;
         }
 
@@ -358,6 +414,8 @@ namespace ShaheLauncher.Core.Updates
             var result = new UpdateDisplayResult
             {
                 LatestVersion = latestVersion,
+                ReleaseNotes = FormatUpdateNotes(GetValue(manifest, "release_notes", string.Empty)),
+                IsManualCheck = !silentWhenLatest,
                 MessageTitle = "检查更新"
             };
             if (latestVersion.Length == 0)
@@ -392,7 +450,8 @@ namespace ShaheLauncher.Core.Updates
 
             result.ShouldPrompt = true;
             result.PromptText = "发现新版本" + latestVersion;
-            result.ShouldShowNotice = !inlineWhenUpdate;
+            result.StatusText = "发现新版本 " + latestVersion + "，可点击“立即更新”";
+            result.ShouldShowNotice = true;
             return result;
         }
 
@@ -402,24 +461,35 @@ namespace ShaheLauncher.Core.Updates
             {
                 try
                 {
+                    _callbacks.Log?.Invoke("检查更新开始: 当前版本=" + LauncherConstants.AppVersion);
                     long timestamp = _callbacks.GetUnixTimeSeconds == null
                         ? DateTimeOffset.UtcNow.ToUnixTimeSeconds()
                         : _callbacks.GetUnixTimeSeconds();
                     IDictionary<string, object> manifest = FetchUpdateManifest(timestamp);
                     _callbacks.Log?.Invoke("检查更新成功");
+                    UpdateDisplayResult display = BuildUpdateDisplayResult(manifest, silentWhenLatest, inlineWhenUpdate);
+                    _callbacks.Log?.Invoke("版本比较完成: 最新版本=" + display.LatestVersion + "，发现更新=" + display.HasUpdate);
                     PostToUi(delegate
                     {
-                        _callbacks.SetStatus?.Invoke(BuildUpdateDisplayResult(manifest, silentWhenLatest, inlineWhenUpdate).StatusText);
+                        if (_callbacks.ShowUpdateResult != null) _callbacks.ShowUpdateResult(display);
+                        else _callbacks.SetStatus?.Invoke(display.StatusText);
                     });
                 }
                 catch (Exception error)
                 {
-                    _callbacks.Log?.Invoke("检查更新失败: " + error.Message);
+                    _callbacks.Log?.Invoke("检查更新失败: " + error);
                     if (!silentWhenLatest)
                     {
                         PostToUi(delegate
                         {
-                            _callbacks.SetStatus?.Invoke("检查更新失败: " + error.Message);
+                            string status = "检查更新失败: " + error.Message;
+                            _callbacks.SetStatus?.Invoke(status);
+                            _callbacks.ShowUpdateResult?.Invoke(new UpdateDisplayResult
+                            {
+                                MessageTitle = "检查更新",
+                                ErrorText = error.Message,
+                                StatusText = status
+                            });
                         });
                     }
                 }
@@ -436,6 +506,7 @@ namespace ShaheLauncher.Core.Updates
 
             foreach (string candidate in new[]
             {
+                Path.Combine(AppDirectory, "打赏", name),
                 Path.Combine(AppDirectory, name),
                 Path.Combine(AppDirectory, "internal", name)
             })

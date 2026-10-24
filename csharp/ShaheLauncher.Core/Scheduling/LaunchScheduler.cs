@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using ShaheLauncher.Core.Constants;
 
 namespace ShaheLauncher.Core.Scheduling
 {
@@ -62,7 +63,7 @@ namespace ShaheLauncher.Core.Scheduling
             AppPath = string.Empty;
             AppDirectory = string.Empty;
             LaunchInterval = 5;
-            LaunchConcurrencyLimit = 1;
+            LaunchConcurrencyLimit = LauncherConstants.GetDefaultLaunchConcurrencyLimit();
             SandboxVolumeMemory = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
         }
 
@@ -75,7 +76,6 @@ namespace ShaheLauncher.Core.Scheduling
         public string AppDirectory { get; set; }
         public int LaunchInterval { get; set; }
         public int LaunchConcurrencyLimit { get; set; }
-        public bool DynamicLaunchDelayByLoad { get; set; }
         public bool SkipRunningSandboxOnLaunch { get; set; }
         public bool RememberVolume { get; set; }
         public IDictionary<string, int> SandboxVolumeMemory { get; set; }
@@ -95,7 +95,6 @@ namespace ShaheLauncher.Core.Scheduling
         public Action<IEnumerable<string>, IEnumerable> LaunchSelectedSandboxes { get; set; }
         public Func<string, string, string, bool> StartAppInSandbox { get; set; }
         public Func<string, IEnumerable<int>> GetSandboxPids { get; set; }
-        public Func<double> GetCpuPercent { get; set; }
         public Func<string, string> GetVolumeMemoryKey { get; set; }
         public Action<string> RestoreSavedVolume { get; set; }
         public Action<Action> RunBackground { get; set; }
@@ -583,23 +582,6 @@ namespace ShaheLauncher.Core.Scheduling
                 callbacks);
         }
 
-        public int ComputeDynamicLaunchDelaySeconds(bool enabled, double cpuPercent, int batchSize)
-        {
-            if (!enabled)
-            {
-                return 0;
-            }
-            if (cpuPercent >= 95)
-            {
-                return 2;
-            }
-            if (cpuPercent >= 88)
-            {
-                return 1;
-            }
-            return cpuPercent >= 80 && Math.Max(1, batchSize) > 1 ? 1 : 0;
-        }
-
         public LaunchBatchResult RunLaunchBatch(
             LaunchSchedulerState state,
             int launchSessionId,
@@ -684,14 +666,17 @@ namespace ShaheLauncher.Core.Scheduling
                         string sandboxName = target.Item1;
                         LaunchAppTarget appTarget = target.Item2;
                         bool launched = false;
+                        callbacks?.Log?.Invoke("启动任务开始: 会话=" + launchSessionId + "，沙盒=" + sandboxName + "，应用=" + appTarget.Path);
                         try
                         {
                             launched = callbacks?.StartAppInSandbox?.Invoke(
                                 sandboxName, appTarget.Path, appTarget.Directory) ?? false;
                         }
-                        catch
+                        catch (Exception error)
                         {
+                            callbacks?.Log?.Invoke("启动任务异常: 沙盒=" + sandboxName + "，" + error);
                         }
+                        callbacks?.Log?.Invoke("启动任务结果: 沙盒=" + sandboxName + "，应用=" + appTarget.Path + "，成功=" + launched);
 
                         string volumeKey = callbacks?.GetVolumeMemoryKey != null
                             ? Text(callbacks.GetVolumeMemoryKey(sandboxName)).Trim()
@@ -723,13 +708,6 @@ namespace ShaheLauncher.Core.Scheduling
 
                     bool hasMoreBatches = batchStart + batchSize < totalSandboxes;
                     int effectiveInterval = interval;
-                    if (state.DynamicLaunchDelayByLoad && callbacks?.GetCpuPercent != null)
-                    {
-                        effectiveInterval = Math.Max(
-                            effectiveInterval,
-                            ComputeDynamicLaunchDelaySeconds(
-                                true, callbacks.GetCpuPercent(), batchSize));
-                    }
                     if (IsCancelled(launchSessionId, callbacks))
                     {
                         break;

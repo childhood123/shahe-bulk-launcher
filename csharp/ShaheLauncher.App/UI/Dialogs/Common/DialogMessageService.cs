@@ -1,4 +1,5 @@
 using System;
+using ShaheLauncher.App.Infrastructure;
 using System.Windows.Forms;
 
 namespace ShaheLauncher.App.UI.Dialogs.Common
@@ -10,6 +11,7 @@ namespace ShaheLauncher.App.UI.Dialogs.Common
 
         public static void Show(IWin32Window owner, string text, string title, MessageBoxIcon icon)
         {
+            OperationLog.Write(owner as Control, "提示: " + title + "，" + text);
             Action<string, string, MessageBoxIcon> handler = Handler;
             if (handler != null)
             {
@@ -27,19 +29,17 @@ namespace ShaheLauncher.App.UI.Dialogs.Common
             MessageBoxIcon icon,
             bool defaultNo = false)
         {
+            OperationLog.Write(owner as Control, "确认提示: " + title + "，" + text);
             Func<string, string, MessageBoxIcon, bool> handler = ConfirmHandler;
-            if (handler != null)
-            {
-                return handler(text, title, icon);
-            }
-
-            return MessageBox.Show(
+            bool result = handler != null ? handler(text, title, icon) : MessageBox.Show(
                 owner,
                 text,
                 title,
                 MessageBoxButtons.YesNo,
                 icon,
                 defaultNo ? MessageBoxDefaultButton.Button2 : MessageBoxDefaultButton.Button1) == DialogResult.Yes;
+            OperationLog.Write(owner as Control, "确认结果: " + title + "=" + result);
+            return result;
         }
     }
 }

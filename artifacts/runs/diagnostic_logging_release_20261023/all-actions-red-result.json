@@ -1,0 +1,24 @@
+{
+  "command": [
+    "dotnet",
+    "test",
+    "csharp\\ShaheBulkLauncher.sln",
+    "--configuration",
+    "Release",
+    "--no-restore",
+    "--property:Platform=x64",
+    "--property:BaseOutputPath=D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\bin\\",
+    "--logger",
+    "trx;LogFileName=all-actions-red.trx",
+    "--results-directory",
+    "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023",
+    "--filter",
+    "FullyQualifiedName~EveryAltMenuLeafAndFixedHotkeyRecordsItsAction|FullyQualifiedName~DialogButtonActionsAreLoggedWithoutLoggingFocusChanges"
+  ],
+  "returnCode": 1,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\all-actions-red.log",
+  "passed": 0,
+  "failed": 2,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\all-actions-red.trx"
+}

@@ -1,4 +1,5 @@
 using System;
+using ShaheLauncher.App.Infrastructure;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -41,44 +42,50 @@ namespace ShaheLauncher.App.UI.Tray
 
         public void ShowWindow()
         {
-            if (!_frame.Visible)
+            OperationLog.Run(_frame, "托盘 / 显示主界面", () =>
             {
-                _frame.Show();
-            }
-            if (_frame.WindowState == FormWindowState.Minimized)
-            {
-                _frame.WindowState = FormWindowState.Normal;
-            }
-            _frame.Activate();
+                if (!_frame.Visible)
+                {
+                    _frame.Show();
+                }
+                if (_frame.WindowState == FormWindowState.Minimized)
+                {
+                    _frame.WindowState = FormWindowState.Normal;
+                }
+                _frame.Activate();
 
-            try
-            {
-                _statusCallback?.Invoke("已显示主窗口");
-            }
-            catch
-            {
-            }
+                try
+                {
+                    _statusCallback?.Invoke("已显示主窗口");
+                }
+                catch
+                {
+                }
 
-            try
-            {
-                _speechCallback?.Invoke("已显示主窗口", "launch_done");
-            }
-            catch
-            {
-            }
+                try
+                {
+                    _speechCallback?.Invoke("已显示主窗口", "launch_done");
+                }
+                catch
+                {
+                }
+            });
         }
 
         public void ExitApplication()
         {
-            RemoveIcon();
-            try
+            OperationLog.Run(_frame, "托盘 / 退出", () =>
             {
-                _forceExitCallback?.Invoke();
-            }
-            catch
-            {
-            }
-            _frame.Close();
+                RemoveIcon();
+                try
+                {
+                    _forceExitCallback?.Invoke();
+                }
+                catch
+                {
+                }
+                _frame.Close();
+            });
         }
 
         public void RemoveIcon()

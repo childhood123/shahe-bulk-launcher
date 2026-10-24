@@ -1,0 +1,38 @@
+{
+  "returnCode": 0,
+  "processes": [
+    {
+      "ProcessId": 4004,
+      "Name": "ZDSRService.exe",
+      "ExecutablePath": "C:\\Program Files (x86)\\zdsr\\zdsr\\ZDSRService.exe"
+    },
+    {
+      "ProcessId": 8760,
+      "Name": "ZDSRDaemon.exe",
+      "ExecutablePath": "C:\\Program Files (x86)\\zdsr\\zdsr\\ZDSRDaemon.exe"
+    },
+    {
+      "ProcessId": 9060,
+      "Name": "ZDSRMain.exe",
+      "ExecutablePath": "C:\\Program Files (x86)\\zdsr\\zdsr\\ZDSRMain.exe"
+    },
+    {
+      "ProcessId": 10880,
+      "Name": "ZDSRMainService.exe",
+      "ExecutablePath": "C:\\Program Files (x86)\\zdsr\\zdsr\\ZDSRMainService.exe"
+    },
+    {
+      "ProcessId": 6760,
+      "Name": "ZDSRMain_x64.exe",
+      "ExecutablePath": "C:\\Program Files (x86)\\zdsr\\zdsr\\ZDSRMain_x64.exe"
+    },
+    {
+      "ProcessId": 336,
+      "Name": "ZDSRMultiEngine.exe",
+      "ExecutablePath": "C:\\Program Files (x86)\\zdsr\\zdsr\\ZDSRMultiEngine.exe"
+    }
+  ],
+  "autoRun": null,
+  "iniPath": "C:\\Windows\\Sandboxie.ini",
+  "iniHash": "39D051009854E85A0A34335D934C7128EB6E6E49B1BE6C8786CAE4662C0142C8"
+}

@@ -1,6 +1,10 @@
 using System;
 using System.IO;
 using System.Text;
+using System.Threading;
+using ShaheLauncher.Core.Configuration;
+using ShaheLauncher.Core.Constants;
+using ShaheLauncher.Core.Settings;
 
 namespace ShaheLauncher.Core.Runtime
 {
@@ -21,6 +25,23 @@ namespace ShaheLauncher.Core.Runtime
             _entryExecutablePath = GetFullPathSafely(entryExecutablePath);
             _commandLineExecutablePath = GetFullPathSafely(commandLineExecutablePath);
             _now = now ?? (() => DateTime.Now);
+        }
+
+        private volatile string _logOutputMode = LauncherConstants.LogOutputOff;
+
+        public string LogOutputMode
+        {
+            get { return _logOutputMode; }
+            set { _logOutputMode = LauncherConstants.NormalizeLogOutputMode(value); }
+        }
+
+        public void LoadLoggingPreference()
+        {
+            string directory = Path.Combine(GetAppDirectory(), "Configurations");
+            var store = new ConfigStore(Path.Combine(directory, "shahe_config.ini"), Environment.UserName,
+                () => DateTimeOffset.UtcNow.ToUnixTimeSeconds());
+            var settings = new LauncherSettingsService(store, string.Empty, directory).LoadSettings();
+            LogOutputMode = Convert.ToString(settings["log_output_mode"]);
         }
 
         public bool IsPackagedApp()
@@ -99,24 +120,34 @@ namespace ShaheLauncher.Core.Runtime
 
         public void AppendDailyLog(string message)
         {
+            if (_logOutputMode != LauncherConstants.LogOutputDetailed) return;
             string text = (message ?? string.Empty).Trim();
-            if (text.Length == 0)
-            {
-                return;
-            }
+            if (text.Length == 0) return;
 
             try
             {
-                string logDirectory = Path.Combine(GetAppDirectory(), "log");
-                Directory.CreateDirectory(logDirectory);
-                DateTime fileTime = _now();
-                string logPath = Path.Combine(logDirectory, fileTime.ToString("yyyy-MM-dd") + ".log");
-                DateTime timestamp = _now();
-                string line = "[" + timestamp.ToString("yyyy-MM-dd HH:mm:ss") + "] " + text + Environment.NewLine;
-                File.AppendAllText(logPath, line, new UTF8Encoding(false));
+                // ponytail: one OS mutex serializes all installations; use per-path names if contention matters.
+                using (var mutex = new Mutex(false, @"Local\ShaheLauncherDailyLog"))
+                {
+                    bool acquired = false;
+                    try
+                    {
+                        try { acquired = mutex.WaitOne(2000); }
+                        catch (AbandonedMutexException) { acquired = true; }
+                        if (!acquired || _logOutputMode != LauncherConstants.LogOutputDetailed) return;
+                        string directory = Path.Combine(GetAppDirectory(), "logs");
+                        Directory.CreateDirectory(directory);
+                        DateTime timestamp = _now();
+                        string path = Path.Combine(directory, timestamp.ToString("yyyy-MM-dd") + ".log");
+                        string line = "[" + timestamp.ToString("yyyy-MM-dd HH:mm:ss") + "] " + text + Environment.NewLine;
+                        File.AppendAllText(path, line, new UTF8Encoding(false));
+                    }
+                    finally { if (acquired) mutex.ReleaseMutex(); }
+                }
             }
-            catch
+            catch (Exception error)
             {
+                System.Diagnostics.Trace.WriteLine("写入诊断日志失败: " + error.Message);
             }
         }
 

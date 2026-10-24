@@ -7,6 +7,7 @@ using System.Linq.Expressions;
 using System.Reflection;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ShaheLauncher.Core.Speech;
 
 namespace ShaheLauncher.Tests
 {
@@ -68,7 +69,7 @@ namespace ShaheLauncher.Tests
             string root = CreateTemporaryDirectory("shahe-speech-path-");
             try
             {
-                string configDirectory = Path.Combine(root, "Configuration");
+                string configDirectory = Path.Combine(root, "Configurations");
                 string internalDirectory = Path.Combine(root, "internal");
                 Directory.CreateDirectory(internalDirectory);
                 string sourceConfig = Path.Combine(internalDirectory, "SpeechConfig.json");
@@ -78,8 +79,8 @@ namespace ShaheLauncher.Tests
                 object service = CreateService(serviceType, root, configDirectory, Activator.CreateInstance(callbacksType));
 
                 Assert.AreEqual(
-                    Path.GetFullPath(sourceConfig),
-                    ReflectionTestHelpers.InvokeInstance(service, "GetSpeechSourceConfigPath"));
+                    Path.Combine(configDirectory, "SpeechConfig.json"),
+                    ReflectionTestHelpers.InvokeInstance(service, "GetSpeechConfigPath"));
                 Assert.AreEqual(
                     Path.GetFullPath(configDirectory),
                     ReflectionTestHelpers.InvokeInstance(service, "GetSpeechRuntimeDirectory"));
@@ -105,7 +106,7 @@ namespace ShaheLauncher.Tests
             string root = CreateTemporaryDirectory("shahe-speech-ini-");
             try
             {
-                string configDirectory = Path.Combine(root, "Configuration");
+                string configDirectory = Path.Combine(root, "Configurations");
                 Directory.CreateDirectory(configDirectory);
                 File.WriteAllText(
                     Path.Combine(configDirectory, "ZDSRAPI.ini"),
@@ -140,6 +141,75 @@ namespace ShaheLauncher.Tests
             }
             finally
             {
+                Directory.Delete(root, true);
+            }
+        }
+
+        [TestMethod]
+        public void IgnoresReaderIniOutsideConfigurationDirectory()
+        {
+            Type serviceType = ReflectionTestHelpers.RequireType(ServiceTypeName);
+            Type callbacksType = ReflectionTestHelpers.RequireType(CallbacksTypeName);
+            string root = CreateTemporaryDirectory("shahe-speech-lib-ini-");
+            try
+            {
+                string lib = Path.Combine(root, "lib");
+                Directory.CreateDirectory(lib);
+                File.WriteAllText(Path.Combine(lib, "ZDSRAPI.ini"),
+                    "[settings]\r\ntype = 1\r\nchannelName = lib-channel\r\n");
+                object service = CreateService(serviceType, root, Path.Combine(root, "Configurations"),
+                    Activator.CreateInstance(callbacksType));
+
+                IDictionary<string, object> loaded = AsDictionary(
+                    ReflectionTestHelpers.InvokeInstance(service, "LoadReaderIniSettings"));
+                IDictionary<string, object> zdsr = AsDictionary(loaded["zdsr"]);
+                Assert.AreEqual(string.Empty, zdsr["type"]);
+                Assert.AreEqual(string.Empty, zdsr["channelName"]);
+            }
+            finally
+            {
+                Directory.Delete(root, true);
+            }
+        }
+
+        [TestMethod]
+        public void AddsLibDirectoryToPathBeforeLoadingAssistBackend()
+        {
+            Type callbacksType = ReflectionTestHelpers.RequireType(CallbacksTypeName);
+            string root = CreateTemporaryDirectory("shahe-speech-lib-path-");
+            string oldPath = Environment.GetEnvironmentVariable("PATH");
+            try
+            {
+                string lib = Path.Combine(root, "lib");
+                Directory.CreateDirectory(lib);
+                File.WriteAllText(Path.Combine(lib, "Tolk.dll"), "placeholder");
+                string observedPath = string.Empty;
+                var backend = new SpeechAssistBackend
+                {
+                    Load = () => { },
+                    IsLoaded = () => true,
+                    Unload = () => { }
+                };
+                object callbacks = Activator.CreateInstance(callbacksType);
+                SetProperty(callbacksType, callbacks, "LoadAssistBackend",
+                    new Func<string, SpeechAssistBackend>(path =>
+                    {
+                        observedPath = Environment.GetEnvironmentVariable("PATH") ?? string.Empty;
+                        return backend;
+                    }));
+                object service = Activator.CreateInstance(
+                    typeof(SpeechService),
+                    root,
+                    Path.Combine(root, "Configurations"),
+                    callbacks);
+
+                Assert.IsTrue((bool)ReflectionTestHelpers.InvokeInstance(service, "EnsureAssistSpeechRuntime"));
+                Assert.IsTrue(observedPath.StartsWith(lib + Path.PathSeparator, StringComparison.OrdinalIgnoreCase));
+                ((SpeechService)service).ShutdownAssistSpeechRuntime();
+            }
+            finally
+            {
+                Environment.SetEnvironmentVariable("PATH", oldPath);
                 Directory.Delete(root, true);
             }
         }
@@ -208,11 +278,10 @@ namespace ShaheLauncher.Tests
             string root = CreateTemporaryDirectory("shahe-speech-config-");
             try
             {
-                string configDirectory = Path.Combine(root, "Configuration");
-                string internalDirectory = Path.Combine(root, "internal");
-                Directory.CreateDirectory(internalDirectory);
+                string configDirectory = Path.Combine(root, "Configurations");
+                Directory.CreateDirectory(configDirectory);
                 File.WriteAllText(
-                    Path.Combine(internalDirectory, "SpeechConfig.json"),
+                    Path.Combine(configDirectory, "SpeechConfig.json"),
                     "{\"DefaultEngine\":\"None\",\"TTSInfos\":{\" Engine \":{\"Speed\":201,\"Volume\":20,\"Pitch\":40,\"Name\":\" Voice \"},\"VTTS\":{}}}");
                 object callbacks = Activator.CreateInstance(callbacksType);
                 var statuses = new List<string>();
@@ -282,6 +351,7 @@ namespace ShaheLauncher.Tests
                 int callerThread = Thread.CurrentThread.ManagedThreadId;
                 int outputThread = 0;
                 SetProperty(backendType, backend, "TrySapi", new Action<bool>(value => calls.Add("try:" + value)));
+                SetProperty(backendType, backend, "PreferSapi", new Action<bool>(value => calls.Add("prefer:" + value)));
                 SetProperty(backendType, backend, "Load", new Action(() => calls.Add("load")));
                 SetProperty(backendType, backend, "IsLoaded", new Func<bool>(() => true));
                 SetProperty(backendType, backend, "Silence", new Action(() => calls.Add("silence")));
@@ -291,19 +361,23 @@ namespace ShaheLauncher.Tests
                     calls.Add("output:" + text + ":" + interrupt);
                     done.Set();
                 }));
+                SetProperty(backendType, backend, "Unload", new Action(() => calls.Add("unload")));
                 SetBackendLoader(callbacksType, callbacks, backend);
                 SetProperty(callbacksType, callbacks, "IsWindowClosing", new Func<bool>(() => false));
                 SetProperty(callbacksType, callbacks, "IsDestroyStarted", new Func<bool>(() => false));
-                object service = CreateService(serviceType, root, Path.Combine(root, "Configuration"), callbacks);
+                object service = CreateService(serviceType, root, Path.Combine(root, "Configurations"), callbacks);
 
                 ReflectionTestHelpers.InvokeInstance(service, "SpeakAssistText", "  测试朗读  ", true);
                 Assert.IsTrue(done.Wait(3000));
                 Assert.AreNotEqual(callerThread, outputThread);
                 CollectionAssert.AreEqual(
-                    new[] { "try:False", "load", "silence", "output:测试朗读:True" },
+                    new[] { "try:True", "prefer:False", "load", "silence", "output:测试朗读:True" },
                     calls.ToArray());
 
                 ReflectionTestHelpers.InvokeInstance(service, "ShutdownAssistSpeechRuntime");
+                CollectionAssert.AreEqual(
+                    new[] { "try:True", "prefer:False", "load", "silence", "output:测试朗读:True", "unload" },
+                    calls.ToArray());
                 Assert.AreEqual(true, GetProperty(serviceType, service, "AssistSpeechDisabled"));
                 Assert.AreEqual(false, ReflectionTestHelpers.InvokeInstance(service, "EnsureAssistSpeechRuntime"));
             }
@@ -343,7 +417,7 @@ namespace ShaheLauncher.Tests
                 SetBackendLoader(callbacksType, callbacks, backend);
                 SetProperty(callbacksType, callbacks, "IsWindowClosing", new Func<bool>(() => false));
                 SetProperty(callbacksType, callbacks, "IsDestroyStarted", new Func<bool>(() => false));
-                object service = CreateService(serviceType, root, Path.Combine(root, "Configuration"), callbacks);
+                object service = CreateService(serviceType, root, Path.Combine(root, "Configurations"), callbacks);
 
                 ReflectionTestHelpers.InvokeInstance(service, "SpeakProcessAssist", "重复文案", true, "unknown");
                 ReflectionTestHelpers.InvokeInstance(service, "SpeakProcessAssist", "重复文案", true, "mute_current");
@@ -382,7 +456,7 @@ namespace ShaheLauncher.Tests
                 object service = CreateService(
                     serviceType,
                     root,
-                    Path.Combine(root, "Configuration"),
+                    Path.Combine(root, "Configurations"),
                     callbacks);
 
                 Assert.AreEqual(true, ReflectionTestHelpers.InvokeInstance(service, "OnSpeechSettings"));

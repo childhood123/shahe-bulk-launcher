@@ -1,0 +1,24 @@
+{
+  "returnCode": 0,
+  "remoteBase": "1658b7970250617ac30057cb79620be5cb816587",
+  "verifiedSource": "4e8752630de9f4543a888f8bd71711d811eda085",
+  "indexTree": "b3389e46278882f84e9e554e823373bd8546a96b",
+  "csharpTree": "8fc4fe89af5648a000f7344cf2be796334f622e8",
+  "csharpTreeMatchesVerified": true,
+  "donationTree": "79d436a6102f2afa263d0fc69a62c77cd53520c4",
+  "donationTreeMatchesVerified": true,
+  "stagedPathCount": 211,
+  "pythonPaths": [],
+  "archiveOrPdbPaths": [],
+  "updaterChanges": [
+    "R096\tcsharp/ShaheLauncher.Updater/packages.lock.json\tcsharp/ShaheLauncher.AuditRunner/packages.lock.json",
+    "D\tcsharp/ShaheLauncher.Updater/Program.cs",
+    "D\tcsharp/ShaheLauncher.Updater/ShaheLauncher.Updater.csproj"
+  ],
+  "invalidUpdaterChanges": [],
+  "reusedVerification": [
+    "delivery-full-result.json",
+    "delivery-release-result.json",
+    "portable-final-verification-result.json"
+  ]
+}

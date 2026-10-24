@@ -1,4 +1,5 @@
 using System;
+using ShaheLauncher.App.Infrastructure;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -75,6 +76,7 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
         public IDictionary<string, string> ResultHotkeys { get; private set; }
         public bool ResultHotkeysEnabled { get; private set; }
         public string CurrentAction { get; private set; }
+        public string RequestedAction { get; private set; } = string.Empty;
 
         public void SelectAction(int index)
         {
@@ -262,6 +264,23 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
         protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
         {
             Keys keyCode = keyData & Keys.KeyCode;
+            if (keyCode == Keys.Enter && ActiveControl == HotkeyTextBox)
+            {
+                CaptureHotkey(keyCode, keyData & Keys.Modifiers);
+                return true;
+            }
+
+            if (keyData == Keys.Enter && ActiveControl == ActionList)
+            {
+                if (!string.IsNullOrEmpty(CurrentAction) && RequestedAction.Length == 0)
+                {
+                    RequestedAction = CurrentAction;
+                    DialogResult = DialogResult.Cancel;
+                    Close();
+                }
+                return true;
+            }
+
             if (keyCode == Keys.Escape)
             {
                 if (ActiveControl == HotkeyTextBox)
@@ -382,9 +401,9 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
             };
             HotkeyTextBox.Leave += (sender, eventArgs) => SaveEditorHotkey();
             HotkeyTextBox.KeyDown += OnHotkeyKeyDown;
-            ResetButton.Click += (sender, eventArgs) => ResetHotkeys();
-            OkButton.Click += (sender, eventArgs) => ConfirmSettings();
-            CancelActionButton.Click += (sender, eventArgs) => Close();
+            ResetButton.Click += (sender, eventArgs) => OperationLog.Run(this, Text + " / " + ResetButton.Text, () => ResetHotkeys());
+            OkButton.Click += (sender, eventArgs) => OperationLog.Run(this, Text + " / " + OkButton.Text, () => ConfirmSettings());
+            CancelActionButton.Click += (sender, eventArgs) => OperationLog.Run(this, Text + " / " + CancelActionButton.Text, () => Close());
 
             if (ActionList.Items.Count != 0)
             {

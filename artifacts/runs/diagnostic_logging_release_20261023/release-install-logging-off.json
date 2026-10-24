@@ -1,0 +1,31 @@
+{
+  "returnCode": 0,
+  "scenario": "release-install-logging-off",
+  "command": [
+    "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\real-install\\release-install-logging-off\\helper\\沙河批量打开器.exe",
+    "--install-update",
+    "--app-dir",
+    "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\real-install\\release-install-logging-off\\app",
+    "--exe",
+    "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\real-install\\release-install-logging-off\\app\\沙河批量打开器.exe",
+    "--pid",
+    "0",
+    "--request-file",
+    "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\real-install\\release-install-logging-off\\request.json"
+  ],
+  "enabled": false,
+  "helperPid": 12356,
+  "signal": null,
+  "helperExitCode": 0,
+  "restart": {
+    "pid": 13756,
+    "window": 35065654,
+    "exitCode": 0,
+    "forcedCleanup": false,
+    "path": "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\real-install\\release-install-logging-off\\app\\沙河批量打开器.exe"
+  },
+  "installedFilesMatch": true,
+  "configurationUnchanged": true,
+  "noLogsDirectory": true,
+  "noLegacyLogDirectory": true
+}

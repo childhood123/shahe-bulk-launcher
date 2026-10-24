@@ -21,8 +21,8 @@ namespace ShaheLauncher.Tests
             Type type = RequireConstantsType();
 
             Assert.AreEqual(@"C:\Sandbox\Administrator", GetField(type, "OldDefaultSandboxRoot"));
-            Assert.AreEqual("4.0.46", GetField(type, "AppVersion"));
-            Assert.AreEqual("https://lqh.viyf.net/shahe-bulk-launcher/update.json", GetField(type, "UpdateManifestUrl"));
+            Assert.AreEqual("4.0.49", GetField(type, "AppVersion"));
+            Assert.AreEqual("https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json", GetField(type, "UpdateManifestUrl"));
             Assert.AreEqual("off", GetField(type, "LogOutputOff"));
             Assert.AreEqual("detailed", GetField(type, "LogOutputDetailed"));
 
@@ -61,13 +61,13 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
-        public void NormalizesLogOutputModeExactlyLikePython()
+        public void NormalizesLogOutputModeWithExplicitOptIn()
         {
             Assert.AreEqual("off", Invoke("NormalizeLogOutputMode", "关闭日志输出"));
             Assert.AreEqual("off", Invoke("NormalizeLogOutputMode", " off "));
             Assert.AreEqual("detailed", Invoke("NormalizeLogOutputMode", "详细日志输出"));
-            Assert.AreEqual("detailed", Invoke("NormalizeLogOutputMode", (object)null));
-            Assert.AreEqual("detailed", Invoke("NormalizeLogOutputMode", "unexpected"));
+            Assert.AreEqual("off", Invoke("NormalizeLogOutputMode", (object)null));
+            Assert.AreEqual("off", Invoke("NormalizeLogOutputMode", "unexpected"));
         }
 
         [TestMethod]
@@ -97,6 +97,17 @@ namespace ShaheLauncher.Tests
                     Environment.SetEnvironmentVariable("USER", oldUser);
                 }
             }
+        }
+
+        [TestMethod]
+        public void CalculatesLaunchConcurrencyMaximumAndConservativeDefault()
+        {
+            int expectedMaximum = Math.Max(1, Math.Min(32, Environment.ProcessorCount));
+            int expectedDefault = Math.Min(
+                expectedMaximum,
+                Environment.ProcessorCount < 4 ? 2 : 4);
+            Assert.AreEqual(expectedMaximum, Invoke("GetLaunchConcurrencyMaximum"));
+            Assert.AreEqual(expectedDefault, Invoke("GetDefaultLaunchConcurrencyLimit"));
         }
 
         [TestMethod]

@@ -1,0 +1,16 @@
+{
+  "command": [
+    "dotnet",
+    "vstest",
+    "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\bin\\x64\\Release\\net48\\ShaheLauncher.Tests.dll",
+    "/Platform:x64",
+    "/Logger:trx;LogFileName=final-full.trx",
+    "/ResultsDirectory:D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023"
+  ],
+  "returnCode": 1,
+  "log": "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\final-full.log",
+  "passed": 421,
+  "failed": 1,
+  "skipped": 0,
+  "trx": "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\final-full.trx"
+}

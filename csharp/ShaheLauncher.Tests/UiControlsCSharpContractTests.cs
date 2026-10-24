@@ -29,8 +29,7 @@ namespace ShaheLauncher.Tests
                     type,
                     20,
                     new Action(() => Interlocked.Increment(ref callbackCount)),
-                    new Action<object>(ignored => { Interlocked.Increment(ref finishCount); finished.Set(); }),
-                    "ManagedDelayedCall");
+                    new Action<object>(ignored => { Interlocked.Increment(ref finishCount); finished.Set(); }));
                 Assert.IsTrue(finished.Wait(2000));
                 Assert.AreEqual(1, callbackCount);
                 Assert.AreEqual(1, finishCount);
@@ -43,8 +42,7 @@ namespace ShaheLauncher.Tests
                 type,
                 500,
                 new Action(() => Interlocked.Increment(ref cancelledCount)),
-                null,
-                "ManagedDelayedCall");
+                null);
             ReflectionTestHelpers.InvokeInstance(cancelled, "Stop");
             Thread.Sleep(80);
             Assert.AreEqual(0, cancelledCount);
@@ -92,7 +90,7 @@ namespace ShaheLauncher.Tests
                 var app = (ListView)Activator.CreateInstance(appType);
                 Assert.IsTrue(app.CheckBoxes);
                 Assert.AreEqual(
-                    "准备要在沙盒中打开的应用，复选列表，按空格选中或取消选中",
+                    "准备要在沙盒中打开的应用",
                     app.AccessibleName);
                 app.Items.Add("A.exe");
                 app.Items.Add("B.exe");

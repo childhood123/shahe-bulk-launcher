@@ -1,0 +1,4 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+D:\mycodex\git\csharp\ShaheLauncher.App\UI\Dialogs\Common\GroupNameDialog.cs(76,54): error CS0103: 当前上下文中不存在名称“OperationLog” [D:\mycodex\git\csharp\ShaheLauncher.App\ShaheLauncher.App.csproj]
+D:\mycodex\git\csharp\ShaheLauncher.App\UI\Dialogs\Common\GroupNameDialog.cs(84,64): error CS0103: 当前上下文中不存在名称“OperationLog” [D:\mycodex\git\csharp\ShaheLauncher.App\ShaheLauncher.App.csproj]

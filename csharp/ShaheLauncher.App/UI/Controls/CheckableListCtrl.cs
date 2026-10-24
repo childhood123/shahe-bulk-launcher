@@ -1,5 +1,7 @@
 using System;
+using ShaheLauncher.App.Infrastructure;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -21,6 +23,7 @@ namespace ShaheLauncher.App.UI.Controls
         private bool _leftRightNavigationEnabled;
         private readonly object _stateRefreshSync = new object();
         private bool _stateRefreshInProgress;
+        private bool _listRefreshInProgress;
         private StateRefreshRequest _pendingStateRefresh;
         private int _refreshToken;
 
@@ -42,6 +45,7 @@ namespace ShaheLauncher.App.UI.Controls
         public Action<string> CloseCurrentCallback { get; set; }
         public Action CloseAllCallback { get; set; }
         public Action<string> LocateCurrentCallback { get; set; }
+        public Action RefreshProcessStateCallback { get; set; }
         public Action<string> PinToggleCallback { get; set; }
         public Func<string, bool> PinStateProvider { get; set; }
         public Func<bool, bool> AllHasProcessResolver { get; set; }
@@ -56,11 +60,19 @@ namespace ShaheLauncher.App.UI.Controls
         public Func<bool> ShouldSuppressRefreshStatusProvider { get; set; }
         public Func<bool> UserInteractedProvider { get; set; }
         public Func<IEnumerable<string>, IDictionary<string, bool>> RunningStatesProvider { get; set; }
+        public Action RunningStatesRefreshCompletedCallback { get; set; }
         public Action ProcessMenuInvalidatedCallback { get; set; }
         public Action<int> ProcessMenuLiveStateRefreshCallback { get; set; }
         public string SandboxRoot { get; private set; }
         public int ContextItemIndex { get; set; } = -1;
+        public string ContextSandboxName => ContextItemIndex >= 0 && ContextItemIndex < Items.Count
+            && !IsSpecialIndex(ContextItemIndex) ? GetItemIdentityText(ContextItemIndex) : string.Empty;
         public string CurrentGroupView { get; set; } = string.Empty;
+
+        public bool IsListRefreshInProgress()
+        {
+            return _listRefreshInProgress;
+        }
 
         public static string FormatGroupItemText(string groupName)
         {
@@ -324,8 +336,8 @@ namespace ShaheLauncher.App.UI.Controls
             }
 
             var menu = new ContextMenu();
-            menu.MenuItems.Add(new MenuItem("全选", (sender, eventArgs) => CheckAll()));
-            menu.MenuItems.Add(new MenuItem("全都不选", (sender, eventArgs) => UncheckAll()));
+            menu.MenuItems.Add(CreateActionItem("全选", true, CheckAll));
+            menu.MenuItems.Add(CreateActionItem("全都不选", true, UncheckAll));
             AddPinMenuItem(menu);
             AddMuteMenuItems(menu, selectedRunning, anyRunning);
             AddVolumeMenuItems(menu, selectedRunning, anyRunning);
@@ -337,48 +349,98 @@ namespace ShaheLauncher.App.UI.Controls
                 menu.MenuItems.Add(CreateActionItem(
                     "定位当前打开的进程",
                     selectedRunning,
-                    () => InvokeCurrent(LocateCurrentCallback)));
+                    CreateCurrentAction(LocateCurrentCallback)));
             }
 
             menu.MenuItems.Add(new MenuItem("-"));
-            menu.MenuItems.Add(new MenuItem("刷新沙盒用户", (sender, eventArgs) => RefreshSandboxList()));
+            if (RefreshProcessStateCallback != null)
+            {
+                menu.MenuItems.Add(CreateActionItem("刷新进程状态", true, RefreshProcessStateCallback));
+            }
+            menu.MenuItems.Add(CreateActionItem("刷新沙盒用户", true, RefreshSandboxList));
             return menu;
+        }
+
+        protected override void WndProc(ref Message message)
+        {
+            if (message.Msg == 0x007B) // WM_CONTEXTMENU covers mouse, Apps and Shift+F10.
+            {
+                long position = message.LParam.ToInt64();
+                bool keyboard = position == -1;
+                Point point = keyboard ? Point.Empty : PointToClient(new Point(
+                    unchecked((short)(position & 0xffff)), unchecked((short)((position >> 16) & 0xffff))));
+                PrepareContextMenu(keyboard, point);
+            }
+            base.WndProc(ref message);
+        }
+
+        private void PrepareContextMenu(bool keyboard, Point clientPoint)
+        {
+            int index = keyboard
+                ? (FocusedItem?.Index ?? GetSelectedIndex())
+                : (GetItemAt(clientPoint.X, clientPoint.Y)?.Index ?? -1);
+            if (index >= 0)
+            {
+                Focus();
+                SelectOnly(index);
+            }
+            ContextMenu previous = ContextMenu;
+            ContextMenu = BuildContextMenu(index);
+            previous?.Dispose();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                ContextMenu?.Dispose();
+                ContextMenu = null;
+            }
+            base.Dispose(disposing);
         }
 
         public void RefreshSandboxList()
         {
-            int token = ++_refreshToken;
-            if (CurrentGroupView.Length != 0)
+            _listRefreshInProgress = true;
+            try
             {
-                RefreshGroupView(token);
-                return;
-            }
+                int token = ++_refreshToken;
+                if (CurrentGroupView.Length != 0)
+                {
+                    RefreshGroupView(token);
+                    return;
+                }
 
-            string[] sandboxes = ScanSandboxes();
-            string[] groups = GetValues(GroupNamesProvider);
-            var groupedMembers = new HashSet<string>(GetValues(GroupedMembersProvider), StringComparer.Ordinal);
-            var pinnedNames = new HashSet<string>(GetValues(PinnedSandboxesProvider), StringComparer.Ordinal);
-            string[] pinned = sandboxes.Where(name => pinnedNames.Contains(name) && !groupedMembers.Contains(name)).ToArray();
-            string[] normal = sandboxes.Where(name => !pinnedNames.Contains(name) && !groupedMembers.Contains(name)).ToArray();
-            var itemTexts = new List<string>();
-            var groupIndexes = new List<int>();
-            itemTexts.AddRange(pinned);
-            foreach (string group in groups)
+                string[] sandboxes = ScanSandboxes();
+                string[] groups = GetValues(GroupNamesProvider);
+                var groupedMembers = new HashSet<string>(GetValues(GroupedMembersProvider), StringComparer.Ordinal);
+                var pinnedNames = new HashSet<string>(GetValues(PinnedSandboxesProvider), StringComparer.Ordinal);
+                string[] pinned = sandboxes.Where(name => pinnedNames.Contains(name) && !groupedMembers.Contains(name)).ToArray();
+                string[] normal = sandboxes.Where(name => !pinnedNames.Contains(name) && !groupedMembers.Contains(name)).ToArray();
+                var itemTexts = new List<string>();
+                var groupIndexes = new List<int>();
+                itemTexts.AddRange(pinned);
+                foreach (string group in groups)
+                {
+                    groupIndexes.Add(itemTexts.Count);
+                    itemTexts.Add(FormatGroupItemText(group));
+                }
+
+                itemTexts.AddRange(normal);
+                ReplaceItemTexts(itemTexts, groupIndexes);
+                if (Items.Count > 0)
+                {
+                    Items[0].Focused = true;
+                }
+
+                UpdateStatus();
+                SetRefreshStatus("已刷新 " + sandboxes.Length + " 个沙盒用户");
+                RefreshRunningStatesAsync(token, string.Empty, sandboxes);
+            }
+            finally
             {
-                groupIndexes.Add(itemTexts.Count);
-                itemTexts.Add(FormatGroupItemText(group));
+                _listRefreshInProgress = false;
             }
-
-            itemTexts.AddRange(normal);
-            ReplaceItemTexts(itemTexts, groupIndexes);
-            if (Items.Count > 0)
-            {
-                Items[0].Focused = true;
-            }
-
-            UpdateStatus();
-            SetRefreshStatus("已刷新 " + sandboxes.Length + " 个沙盒用户");
-            RefreshRunningStatesAsync(token, string.Empty, sandboxes);
         }
 
         public string[] ScanSandboxes()
@@ -518,6 +580,11 @@ namespace ShaheLauncher.App.UI.Controls
                     pending.GroupName,
                     pending.SandboxNames));
             }
+            else
+            {
+                try { RunningStatesRefreshCompletedCallback?.Invoke(); }
+                catch { }
+            }
         }
 
         private void ApplyRunningStatesRefresh(int token, string groupName, IDictionary<string, bool> states)
@@ -629,12 +696,14 @@ namespace ShaheLauncher.App.UI.Controls
         protected override void OnSelectedIndexChanged(EventArgs eventArgs)
         {
             base.OnSelectedIndexChanged(eventArgs);
-            SelectionProcessStateRefreshCallback?.Invoke();
             int index = GetSelectedIndex();
-            if (index >= 0)
+            if (index < 0)
             {
-                AnnounceItemState(index);
+                return;
             }
+
+            SelectionProcessStateRefreshCallback?.Invoke();
+            AnnounceItemState(index);
         }
 
         protected override void OnKeyDown(KeyEventArgs eventArgs)
@@ -660,7 +729,7 @@ namespace ShaheLauncher.App.UI.Controls
             {
                 if (selectedIndex >= 0)
                 {
-                    CheckItem(selectedIndex, !Items[selectedIndex].Checked);
+                    OperationLog.Run(this, "空格切换沙盒勾选", () => CheckItem(selectedIndex, !Items[selectedIndex].Checked));
                 }
 
                 eventArgs.Handled = true;
@@ -670,8 +739,11 @@ namespace ShaheLauncher.App.UI.Controls
 
             if (eventArgs.KeyCode == Keys.Back && CurrentGroupView.Length != 0)
             {
-                CurrentGroupView = string.Empty;
-                RefreshSandboxList();
+                OperationLog.Run(this, "返回全部沙盒", () =>
+                {
+                    CurrentGroupView = string.Empty;
+                    RefreshSandboxList();
+                });
                 eventArgs.Handled = true;
                 eventArgs.SuppressKeyPress = true;
                 return;
@@ -681,8 +753,11 @@ namespace ShaheLauncher.App.UI.Controls
             {
                 if (selectedIndex >= 0 && IsSpecialIndex(selectedIndex))
                 {
-                    CurrentGroupView = GetGroupNameFromItemText(Items[selectedIndex].Text);
-                    RefreshSandboxList();
+                    OperationLog.Run(this, "进入沙盒分组", () =>
+                    {
+                        CurrentGroupView = GetGroupNameFromItemText(Items[selectedIndex].Text);
+                        RefreshSandboxList();
+                    });
                 }
 
                 eventArgs.Handled = true;
@@ -692,7 +767,7 @@ namespace ShaheLauncher.App.UI.Controls
 
             if (eventArgs.KeyCode == Keys.F5)
             {
-                RefreshSandboxList();
+                OperationLog.Run(this, "刷新沙盒用户", RefreshSandboxList);
                 eventArgs.Handled = true;
                 eventArgs.SuppressKeyPress = true;
                 return;
@@ -700,7 +775,7 @@ namespace ShaheLauncher.App.UI.Controls
 
             if (eventArgs.Control && eventArgs.KeyCode == Keys.A)
             {
-                ToggleSelectAll();
+                OperationLog.Run(this, "切换沙盒全选", ToggleSelectAll);
                 eventArgs.Handled = true;
                 eventArgs.SuppressKeyPress = true;
                 return;
@@ -883,7 +958,7 @@ namespace ShaheLauncher.App.UI.Controls
                 .ToArray();
         }
 
-        private int GetSelectedIndex()
+        public int GetSelectedIndex()
         {
             if (SelectedIndices.Count != 0)
             {
@@ -932,9 +1007,9 @@ namespace ShaheLauncher.App.UI.Controls
             try { isPinned = PinStateProvider?.Invoke(sandboxName) == true; }
             catch { }
             menu.MenuItems.Add(new MenuItem("-"));
-            menu.MenuItems.Add(new MenuItem(
-                isPinned ? "取消置顶当前用户" : "置顶当前用户",
-                (sender, eventArgs) => PinToggleCallback(sandboxName)));
+            menu.MenuItems.Add(CreateActionItem(
+                isPinned ? "取消置顶当前用户" : "置顶当前用户", true,
+                () => PinToggleCallback(sandboxName)));
         }
 
         private void AddMuteMenuItems(ContextMenu menu, bool selectedRunning, bool anyRunning)
@@ -954,7 +1029,7 @@ namespace ShaheLauncher.App.UI.Controls
             menu.MenuItems.Add(CreateActionItem(
                 selectedMuteState == true ? "取消静音当前打开的进程" : "静音当前打开的进程",
                 selectedRunning,
-                () => InvokeCurrent(MuteCurrentCallback)));
+                CreateCurrentAction(MuteCurrentCallback)));
             menu.MenuItems.Add(CreateActionItem(
                 allMuteState == true ? "取消静音全部打开的进程" : "静音全部打开的进程",
                 anyRunning,
@@ -972,11 +1047,11 @@ namespace ShaheLauncher.App.UI.Controls
             menu.MenuItems.Add(CreateActionItem(
                 "提高当前打开的进程音量（+5%）",
                 selectedRunning,
-                () => InvokeCurrent((name) => VolumeCurrentCallback(name, 5))));
+                CreateCurrentAction(name => VolumeCurrentCallback(name, 5))));
             menu.MenuItems.Add(CreateActionItem(
                 "降低当前打开的进程音量（-5%）",
                 selectedRunning,
-                () => InvokeCurrent((name) => VolumeCurrentCallback(name, -5))));
+                CreateCurrentAction(name => VolumeCurrentCallback(name, -5))));
             menu.MenuItems.Add(CreateActionItem(
                 "提高全部打开的进程音量（+5%）",
                 anyRunning,
@@ -1000,7 +1075,7 @@ namespace ShaheLauncher.App.UI.Controls
                 menu.MenuItems.Add(CreateActionItem(
                     "切换当前打开的进程播放设备",
                     selectedRunning,
-                    () => InvokeCurrent(SwitchOutputCurrentCallback)));
+                    CreateCurrentAction(SwitchOutputCurrentCallback)));
             }
 
             if (SwitchOutputAllCallback != null)
@@ -1022,7 +1097,7 @@ namespace ShaheLauncher.App.UI.Controls
             menu.MenuItems.Add(new MenuItem("-"));
             if (CloseCurrentCallback != null)
             {
-                menu.MenuItems.Add(CreateActionItem("关闭当前打开的进程", selectedRunning, () => InvokeCurrent(CloseCurrentCallback)));
+                menu.MenuItems.Add(CreateActionItem("关闭当前打开的进程", selectedRunning, CreateCurrentAction(CloseCurrentCallback)));
             }
 
             if (CloseAllCallback != null)
@@ -1031,19 +1106,21 @@ namespace ShaheLauncher.App.UI.Controls
             }
         }
 
-        private static MenuItem CreateActionItem(string text, bool enabled, Action action)
+        private MenuItem CreateActionItem(string text, bool enabled, Action action)
         {
-            var item = new MenuItem(text, (sender, eventArgs) => action());
+            var item = new MenuItem(text, (sender, eventArgs) => OperationLog.Run(this, "沙盒菜单 / " + text, action));
             item.Enabled = enabled;
             return item;
         }
 
-        private void InvokeCurrent(Action<string> callback)
+        private Action CreateCurrentAction(Action<string> callback)
         {
-            if (ContextItemIndex >= 0 && ContextItemIndex < Items.Count)
+            // Keep the menu's user even if an asynchronous list refresh changes indexes.
+            string name = ContextSandboxName;
+            return () =>
             {
-                callback(GetItemIdentityText(ContextItemIndex));
-            }
+                if (name.Length != 0) callback?.Invoke(name);
+            };
         }
 
         private sealed class StateRefreshRequest

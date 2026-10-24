@@ -127,8 +127,7 @@ namespace ShaheLauncher.Tests
                 delayedCallType,
                 5000,
                 new Action(() => { }),
-                new Action<object>((ignored) => { }),
-                "LifecycleContractTest");
+                new Action<object>((ignored) => { }));
 
             Invoke(formType, form, "RegisterCallLater", delayed);
             Invoke(formType, form, "StopPendingCallLaters");

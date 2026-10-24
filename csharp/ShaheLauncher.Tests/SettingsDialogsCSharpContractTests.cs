@@ -148,6 +148,37 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
+        public void RemovesAutomaticLoadAdjustmentFromSettings()
+        {
+            Type type = RequireType("SettingsDialog");
+            Assert.IsNull(type.GetProperty("DynamicDelayCheckBox"));
+        }
+
+        [TestMethod]
+        public void BuildsConcurrencyDropdownFromLogicalProcessorCount()
+        {
+            RunInSta(() =>
+            {
+                Type type = RequireType("SettingsDialog");
+                var dialog = (Form)Activator.CreateInstance(
+                    type,
+                    null,
+                    Map(),
+                    new Action<IDictionary<string, object>>(value => { }),
+                    Map());
+                var concurrency = GetProperty<ComboBox>(type, dialog, "LaunchConcurrencyInput");
+                int expectedMaximum = Math.Max(1, Math.Min(32, Environment.ProcessorCount));
+                int expectedDefault = Math.Min(expectedMaximum, Environment.ProcessorCount < 4 ? 2 : 4);
+                Assert.AreEqual(ComboBoxStyle.DropDownList, concurrency.DropDownStyle);
+                CollectionAssert.AreEqual(
+                    Enumerable.Range(1, expectedMaximum).Cast<object>().ToArray(),
+                    concurrency.Items.Cast<object>().ToArray());
+                Assert.AreEqual(expectedDefault, Convert.ToInt32(concurrency.SelectedItem));
+                dialog.Dispose();
+            });
+        }
+
+        [TestMethod]
         public void SettingsDialogPreservesControlsRangesTextAndSaveKeys()
         {
             RunInSta(() =>
@@ -157,7 +188,6 @@ namespace ShaheLauncher.Tests
                 var settings = Map(
                     "launch_interval", "99",
                     "launch_concurrency_limit", "0",
-                    "dynamic_launch_delay_by_load", "开启",
                     "auto_run", false,
                     "show_tray", "关闭",
                     "auto_select_range_on_check", true,
@@ -173,20 +203,20 @@ namespace ShaheLauncher.Tests
                 Assert.AreEqual("设置", dialog.Text);
                 Assert.AreEqual(new Size(560, 640), dialog.Size);
                 var interval = GetProperty<NumericUpDown>(type, dialog, "LaunchIntervalInput");
-                var concurrency = GetProperty<NumericUpDown>(type, dialog, "LaunchConcurrencyInput");
+                var concurrency = GetProperty<ComboBox>(type, dialog, "LaunchConcurrencyInput");
                 var logOutput = GetProperty<ComboBox>(type, dialog, "LogOutputChoice");
+                int expectedMaximum = Math.Max(1, Math.Min(32, Environment.ProcessorCount));
                 Assert.AreEqual("打开沙盒间隔时间", interval.AccessibleName);
                 Assert.AreEqual(0m, interval.Minimum);
                 Assert.AreEqual(15m, interval.Maximum);
                 Assert.AreEqual(15m, interval.Value);
                 Assert.AreEqual("启动并发数量限制", concurrency.AccessibleName);
-                Assert.AreEqual(1m, concurrency.Minimum);
-                Assert.AreEqual(32m, concurrency.Maximum);
-                Assert.AreEqual(1m, concurrency.Value);
+                Assert.AreEqual(ComboBoxStyle.DropDownList, concurrency.DropDownStyle);
+                Assert.AreEqual(expectedMaximum, concurrency.Items.Count);
+                Assert.AreEqual(1, Convert.ToInt32(concurrency.SelectedItem));
                 Assert.AreEqual("日志输出", logOutput.AccessibleName);
                 CollectionAssert.AreEqual(new[] { "关闭日志输出", "详细日志输出" }, logOutput.Items.Cast<string>().ToArray());
                 Assert.AreEqual(0, logOutput.SelectedIndex);
-                AssertControlText(type, dialog, "DynamicDelayCheckBox", "批量启动时按系统负载动态调整延迟");
                 AssertControlText(type, dialog, "AutoRunCheckBox", "开机自动启动本程序");
                 AssertControlText(type, dialog, "ShowTrayCheckBox", "在托盘上显示");
                 AssertControlText(type, dialog, "AutoSelectRangeCheckBox", "首尾两点自动勾选中间用户");
@@ -196,7 +226,6 @@ namespace ShaheLauncher.Tests
                 AssertTabOrder(
                     interval,
                     concurrency,
-                    GetProperty<CheckBox>(type, dialog, "DynamicDelayCheckBox"),
                     GetProperty<CheckBox>(type, dialog, "AutoRunCheckBox"),
                     GetProperty<CheckBox>(type, dialog, "ShowTrayCheckBox"),
                     GetProperty<CheckBox>(type, dialog, "AutoSelectRangeCheckBox"),
@@ -209,18 +238,20 @@ namespace ShaheLauncher.Tests
                     GetProperty<Button>(type, dialog, "CancelActionButton"));
 
                 interval.Value = 3;
-                concurrency.Value = 4;
+                int selectedConcurrency = Math.Min(4, expectedMaximum);
+                concurrency.SelectedItem = selectedConcurrency;
                 GetProperty<CheckBox>(type, dialog, "AutoRunCheckBox").Checked = true;
                 logOutput.SelectedIndex = 1;
                 Assert.AreEqual(true, ReflectionTestHelpers.InvokeInstance(dialog, "SaveSettings"));
                 Assert.AreSame(settings, saved);
                 Assert.AreEqual(3, saved["launch_interval"]);
-                Assert.AreEqual(4, saved["launch_concurrency_limit"]);
+                Assert.AreEqual(selectedConcurrency, saved["launch_concurrency_limit"]);
                 Assert.AreEqual(true, saved["auto_run"]);
                 Assert.AreEqual(false, saved["auto_minimize_to_tray_after_launch"]);
                 Assert.AreEqual("detailed", saved["log_output_mode"]);
                 Assert.IsFalse(saved.ContainsKey("auto_update_on_startup"));
                 Assert.IsFalse(saved.ContainsKey("auto_check_update_on_startup"));
+                Assert.IsFalse(saved.ContainsKey("dynamic_launch_delay_by_load"));
                 Assert.AreEqual(DialogResult.OK, dialog.DialogResult);
                 dialog.Dispose();
             });
@@ -246,7 +277,6 @@ namespace ShaheLauncher.Tests
                     var defaults = Map(
                         "launch_interval", 7,
                         "launch_concurrency_limit", 8,
-                        "dynamic_launch_delay_by_load", true,
                         "show_tray", false,
                         "log_output_mode", "off");
                     var callback = new Action<IDictionary<string, object>>(value => { });
@@ -254,8 +284,10 @@ namespace ShaheLauncher.Tests
                     Assert.AreEqual(true, ReflectionTestHelpers.InvokeInstance(dialog, "ResetDefaults"));
                     Assert.AreEqual("重置设置|确定要将设置窗口中的选项恢复为默认值吗？|32", prompts.Single());
                     Assert.AreEqual(7m, GetProperty<NumericUpDown>(type, dialog, "LaunchIntervalInput").Value);
-                    Assert.AreEqual(8m, GetProperty<NumericUpDown>(type, dialog, "LaunchConcurrencyInput").Value);
-                    Assert.IsTrue(GetProperty<CheckBox>(type, dialog, "DynamicDelayCheckBox").Checked);
+                    int expectedConcurrency = Math.Min(8, Math.Max(1, Math.Min(32, Environment.ProcessorCount)));
+                    Assert.AreEqual(
+                        expectedConcurrency,
+                        Convert.ToInt32(GetProperty<ComboBox>(type, dialog, "LaunchConcurrencyInput").SelectedItem));
                     Assert.IsFalse(GetProperty<CheckBox>(type, dialog, "ShowTrayCheckBox").Checked);
                     Assert.AreEqual(0, GetProperty<ComboBox>(type, dialog, "LogOutputChoice").SelectedIndex);
                     dialog.Dispose();
@@ -268,91 +300,76 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
-        public void PathMemoryDialogPreservesListClassicMenuAndEditing()
+        public void PathMemoryDialogOnlyShowsQuantityAndConfirmation()
         {
             RunInSta(() =>
             {
                 Type type = RequireType("PathMemoryManagerDialog");
                 var history = CreateHistory();
-                var settings = Map("max_history_items", "30", "hide_path", false);
+                var settings = Map("max_history_items", "999", "hide_path", true);
                 var callback = new Action<IList<IDictionary<string, object>>, IDictionary<string, object>>((items, values) => { });
-                var dialog = (Form)Activator.CreateInstance(type, null, history, settings, callback);
-                Assert.AreEqual("路径记忆管理", dialog.Text);
-                Assert.AreEqual(new Size(700, 500), dialog.Size);
-                var count = GetProperty<NumericUpDown>(type, dialog, "HistoryCountInput");
-                var hide = GetProperty<CheckBox>(type, dialog, "HidePathCheckBox");
-                var list = GetProperty<ListBox>(type, dialog, "HistoryList");
-                Assert.AreEqual("路径记忆数量", count.AccessibleName);
-                Assert.AreEqual(0m, count.Minimum);
-                Assert.AreEqual(20m, count.Maximum);
-                Assert.AreEqual(20m, count.Value);
-                Assert.AreEqual("隐藏路径", hide.Text);
-                Assert.AreEqual("已记忆的路径列表", list.AccessibleName);
-                CollectionAssert.AreEqual(
-                    new[] { "应用A - \"C:\\A.exe\"", "应用B - \"D:\\B.exe\"" },
-                    list.Items.Cast<string>().ToArray());
-                Assert.IsNotNull(list.ContextMenu);
-                CollectionAssert.AreEqual(
-                    new[] { "路径记忆备注", "删除当前记忆", "清空所有路径记忆" },
-                    list.ContextMenu.MenuItems.Cast<MenuItem>()
-                        .Where(item => item.Text != "-").Select(item => item.Text).ToArray());
-                AssertTabOrder(count, hide, list,
-                    GetProperty<Button>(type, dialog, "OkButton"),
-                    GetProperty<Button>(type, dialog, "CancelActionButton"));
-                list.SelectedIndex = 0;
-                Assert.AreEqual(true, ReflectionTestHelpers.InvokeInstance(dialog, "UpdateSelectedNote", "  新备注  "));
-                Assert.AreEqual("新备注", history[0]["note"]);
-                Assert.AreEqual("新备注 - \"C:\\A.exe\"", list.Items[0]);
-                Assert.AreEqual(false, ReflectionTestHelpers.InvokeInstance(dialog, "UpdateSelectedNote", "   "));
-                dialog.Dispose();
+                using (var dialog = (Form)Activator.CreateInstance(type, null, history, settings, callback))
+                {
+                    dialog.Show();
+                    Control[] controls = DescendantControls(dialog).ToArray();
+                    Assert.IsFalse(controls.Any(control => control is ListBox || control is ListView),
+                        "Quantity settings must not display remembered-path records.");
+                    Assert.IsFalse(controls.Any(control => control is CheckBox || control.Text.Contains("已记忆的路径列表") || control.Text == "隐藏路径"));
+                    Assert.AreEqual("路径记忆管理", dialog.Text);
+                    var count = GetProperty<NumericUpDown>(type, dialog, "HistoryCountInput");
+                    var ok = GetProperty<Button>(type, dialog, "OkButton");
+                    var cancel = GetProperty<Button>(type, dialog, "CancelActionButton");
+                    Assert.AreEqual("路径记忆数量", count.AccessibleName);
+                    Assert.AreEqual(0m, count.Minimum);
+                    Assert.AreEqual(999m, count.Maximum);
+                    Assert.AreEqual(999m, count.Value);
+                    Assert.AreEqual("确定", ok.Text);
+                    Assert.AreEqual("取消", cancel.Text);
+                    AssertTabOrder(count, ok, cancel);
+                    Assert.AreSame(ok, dialog.AcceptButton);
+                    Assert.AreSame(cancel, dialog.CancelButton);
+                    Assert.IsTrue(dialog.Height < 250, "Removed records must not leave a large empty panel.");
+                    Assert.AreEqual(2, history.Count);
+                    dialog.Close();
+                }
             });
         }
 
-        [TestMethod]
-        public void PathMemoryDialogUsesExactConfirmationsAndSavePayload()
+        [DataTestMethod]
+        [DataRow(true)]
+        [DataRow(false)]
+        public void PathMemoryQuantitySaveAndCancelPreserveStoredPaths(bool save)
         {
             RunInSta(() =>
             {
-                Type messagesType = RequireCommonType("DialogMessageService");
                 Type type = RequireType("PathMemoryManagerDialog");
-                var prompts = new List<string>();
-                SetStaticProperty(messagesType, "ConfirmHandler",
-                    new Func<string, string, MessageBoxIcon, bool>((text, title, icon) =>
+                var history = CreateHistory();
+                var settings = Map("max_history_items", 10, "hide_path", true, "unrelated", "keep");
+                IList<IDictionary<string, object>> savedHistory = null;
+                IDictionary<string, object> savedSettings = null;
+                int saves = 0;
+                var callback = new Action<IList<IDictionary<string, object>>, IDictionary<string, object>>(
+                    (items, values) => { savedHistory = items; savedSettings = values; saves++; });
+                using (var dialog = (Form)Activator.CreateInstance(type, null, history, settings, callback))
+                {
+                    dialog.Show();
+                    GetProperty<NumericUpDown>(type, dialog, "HistoryCountInput").Value = 999;
+                    GetProperty<Button>(type, dialog, save ? "OkButton" : "CancelActionButton").PerformClick();
+                    Assert.AreEqual(save ? 1 : 0, saves);
+                    Assert.AreEqual(save ? 999 : 10, settings["max_history_items"]);
+                    Assert.AreEqual(true, settings["hide_path"], "Removing a control must not rewrite unrelated saved preferences.");
+                    Assert.AreEqual("keep", settings["unrelated"]);
+                    Assert.AreEqual(2, history.Count);
+                    Assert.AreEqual("C:\\A.exe", history[0]["path"]);
+                    Assert.AreEqual("应用A", history[0]["note"]);
+                    Assert.AreEqual("D:\\B.exe", history[1]["path"]);
+                    Assert.AreEqual("应用B", history[1]["note"]);
+                    if (save)
                     {
-                        prompts.Add(title + "|" + text + "|" + (int)icon);
-                        return true;
-                    }));
-                try
-                {
-                    var history = CreateHistory();
-                    var settings = Map("max_history_items", 10, "hide_path", false);
-                    IList<IDictionary<string, object>> savedHistory = null;
-                    IDictionary<string, object> savedSettings = null;
-                    var callback = new Action<IList<IDictionary<string, object>>, IDictionary<string, object>>(
-                        (items, values) => { savedHistory = items; savedSettings = values; });
-                    var dialog = (Form)Activator.CreateInstance(type, null, history, settings, callback);
-                    var list = GetProperty<ListBox>(type, dialog, "HistoryList");
-                    list.SelectedIndex = 0;
-                    Assert.AreEqual(true, ReflectionTestHelpers.InvokeInstance(dialog, "RemoveSelected"));
-                    Assert.AreEqual("确认删除|确定要删除当前路径记忆吗？|32", prompts.Last());
-                    Assert.AreEqual(1, history.Count);
-                    Assert.AreEqual(true, ReflectionTestHelpers.InvokeInstance(dialog, "ClearAll"));
-                    Assert.AreEqual("确认清空|确定要清空所有路径记忆吗？|32", prompts.Last());
-                    Assert.AreEqual(0, history.Count);
-
-                    GetProperty<NumericUpDown>(type, dialog, "HistoryCountInput").Value = 6;
-                    GetProperty<CheckBox>(type, dialog, "HidePathCheckBox").Checked = true;
-                    Assert.AreEqual(true, ReflectionTestHelpers.InvokeInstance(dialog, "SaveChanges"));
-                    Assert.AreSame(history, savedHistory);
-                    Assert.AreSame(settings, savedSettings);
-                    Assert.AreEqual(6, savedSettings["max_history_items"]);
-                    Assert.AreEqual(true, savedSettings["hide_path"]);
-                    Assert.AreEqual(DialogResult.OK, dialog.DialogResult);
-                    dialog.Dispose();
-                }
-                finally
-                {
-                    SetStaticProperty(messagesType, "ConfirmHandler", null);
+                        Assert.AreSame(history, savedHistory);
+                        Assert.AreSame(settings, savedSettings);
+                    }
+                    Assert.AreEqual(save ? DialogResult.OK : DialogResult.Cancel, dialog.DialogResult);
                 }
             });
         }
@@ -454,10 +471,13 @@ namespace ShaheLauncher.Tests
                 Assert.AreEqual(new Size(700, 700), dialog.Size);
                 var choice = GetProperty<ComboBox>(type, dialog, "InterfaceChoice");
                 var assist = GetProperty<CheckBox>(type, dialog, "AssistEnabledCheckBox");
-                Assert.AreEqual("读屏 API 接口", choice.AccessibleName);
+                Assert.AreEqual("朗读接口", choice.AccessibleName);
                 CollectionAssert.AreEqual(
-                    new[] { "自动（默认）", "接口一", "D:\\reader2.dll" },
+                    new[] { "自动", "接口一", "D:\\reader2.dll" },
                     choice.Items.Cast<string>().ToArray());
+                CollectionAssert.Contains(
+                    DescendantControls(dialog).OfType<Label>().Select(item => item.Text).ToArray(),
+                    "朗读接口:");
                 Assert.AreEqual(2, choice.SelectedIndex);
                 Assert.AreEqual("D:\\reader2.dll", ReflectionTestHelpers.InvokeInstance(dialog, "GetSelectedInterfaceValue"));
                 Assert.AreEqual("启用读屏辅助提示", assist.Text);
@@ -591,6 +611,15 @@ namespace ShaheLauncher.Tests
         private static void AssertControlText(Type type, object target, string propertyName, string expected)
         {
             Assert.AreEqual(expected, ((Control)GetProperty(type, target, propertyName)).Text);
+        }
+
+        private static IEnumerable<Control> DescendantControls(Control parent)
+        {
+            foreach (Control child in parent.Controls)
+            {
+                yield return child;
+                foreach (Control nested in DescendantControls(child)) yield return nested;
+            }
         }
 
         private static void AssertTabOrder(params Control[] controls)

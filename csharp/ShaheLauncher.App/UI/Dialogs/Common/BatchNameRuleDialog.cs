@@ -1,4 +1,5 @@
 using System;
+using ShaheLauncher.App.Infrastructure;
 using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
@@ -203,7 +204,7 @@ namespace ShaheLauncher.App.UI.Dialogs.Common
                 AutoSize = true,
                 TabIndex = firstButtonTabIndex
             };
-            OkButton.Click += (sender, eventArgs) => ConfirmRule();
+            OkButton.Click += (sender, eventArgs) => OperationLog.Run(this, Text + " / " + OkButton.Text, () => ConfirmRule());
             CancelActionButton = new Button
             {
                 Text = "取消",

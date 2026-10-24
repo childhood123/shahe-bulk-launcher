@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
+using ShaheLauncher.Core.AppPaths;
 using ShaheLauncher.Core.Common;
 using ShaheLauncher.Core.Configuration;
 using ShaheLauncher.Core.Constants;
@@ -20,11 +21,11 @@ namespace ShaheLauncher.Core.Settings
             MaxHistoryItems = 10;
             SandboxRoot = LauncherConstants.GetDefaultSandboxRoot();
             LaunchInterval = 5;
-            LaunchConcurrencyLimit = 1;
+            LaunchConcurrencyLimit = LauncherConstants.GetDefaultLaunchConcurrencyLimit();
             ShowTray = true;
             ListUseLeftRightNavigation = true;
             RememberVolume = true;
-            LogOutputMode = LauncherConstants.LogOutputDetailed;
+            LogOutputMode = LauncherConstants.LogOutputOff;
             Hotkeys = new Dictionary<string, string>();
             SandboxGroups = new Dictionary<string, object>();
             PinnedSandboxes = new List<string>();
@@ -47,7 +48,6 @@ namespace ShaheLauncher.Core.Settings
         public string SandboxRoot { get; set; }
         public int LaunchInterval { get; set; }
         public int LaunchConcurrencyLimit { get; set; }
-        public bool DynamicLaunchDelayByLoad { get; set; }
         public bool ShowTray { get; set; }
         public bool AutoRun { get; set; }
         public bool AutoSelectRangeOnCheck { get; set; }
@@ -131,8 +131,7 @@ namespace ShaheLauncher.Core.Settings
                 { "sandboxie_path", string.Empty },
                 { "sandbox_root", LauncherConstants.GetDefaultSandboxRoot() },
                 { "launch_interval", 5 },
-                { "launch_concurrency_limit", 1 },
-                { "dynamic_launch_delay_by_load", false },
+                { "launch_concurrency_limit", LauncherConstants.GetDefaultLaunchConcurrencyLimit() },
                 { "show_tray", true },
                 { "auto_run", false },
                 { "auto_select_range_on_check", false },
@@ -140,7 +139,7 @@ namespace ShaheLauncher.Core.Settings
                 { "auto_minimize_to_tray_after_launch", false },
                 { "skip_running_sandbox_on_launch", false },
                 { "remember_volume", true },
-                { "log_output_mode", LauncherConstants.LogOutputDetailed },
+                { "log_output_mode", LauncherConstants.LogOutputOff },
                 { "hotkeys_enabled", false },
                 { "hotkeys", new Dictionary<string, string>() },
                 { "sandbox_groups", new Dictionary<string, object>() },
@@ -163,18 +162,15 @@ namespace ShaheLauncher.Core.Settings
         {
             string value = StringValue(UpdateManifestUrl).Trim();
             return value.StartsWith("https://", StringComparison.OrdinalIgnoreCase)
+                && !string.Equals(value, "https://lqh.viyf.net/shahe-bulk-launcher/update.json", StringComparison.OrdinalIgnoreCase)
                 ? value
                 : LauncherConstants.UpdateManifestUrl;
         }
 
         public string SetUpdateManifestUrl(string value)
         {
-            string normalized = StringValue(value).Trim();
-            if (!normalized.StartsWith("https://", StringComparison.OrdinalIgnoreCase))
-            {
-                normalized = LauncherConstants.UpdateManifestUrl;
-            }
-
+            UpdateManifestUrl = StringValue(value).Trim();
+            string normalized = GetUpdateManifestUrl();
             UpdateManifestUrl = normalized;
             try
             {
@@ -281,7 +277,7 @@ namespace ShaheLauncher.Core.Settings
                 settings["sandbox_root"] = state.SandboxRoot ?? string.Empty;
                 settings["launch_interval"] = state.LaunchInterval;
                 settings["launch_concurrency_limit"] = state.LaunchConcurrencyLimit;
-                settings["dynamic_launch_delay_by_load"] = state.DynamicLaunchDelayByLoad;
+                settings.Remove("dynamic_launch_delay_by_load");
                 settings["show_tray"] = state.ShowTray;
                 settings["auto_run"] = state.AutoRun;
                 settings.Remove("auto_update_on_startup");
@@ -332,7 +328,7 @@ namespace ShaheLauncher.Core.Settings
                 Unwrap(GetValue(data, "max_history_items", state.MaxHistoryItems)),
                 state.MaxHistoryItems,
                 0,
-                20);
+                AppPathHistoryService.MaximumHistoryItems);
             state.HidePath = CommonUtilities.ParseBoolSetting(
                 Unwrap(GetValue(data, "hide_path", state.HidePath)), state.HidePath);
             state.LogOutputMode = LauncherConstants.NormalizeLogOutputMode(
@@ -348,13 +344,11 @@ namespace ShaheLauncher.Core.Settings
             state.LaunchInterval = CommonUtilities.ParseIntSetting(
                 Unwrap(GetValue(data, "launch_interval", 5)), 5, 0, 15);
             state.LaunchConcurrencyLimit = CommonUtilities.ParseIntSetting(
-                Unwrap(GetValue(data, "launch_concurrency_limit", state.LaunchConcurrencyLimit)),
+                Unwrap(GetValue(data, "launch_concurrency_limit", LauncherConstants.GetDefaultLaunchConcurrencyLimit())),
                 state.LaunchConcurrencyLimit,
                 1,
-                32);
-            state.DynamicLaunchDelayByLoad = CommonUtilities.ParseBoolSetting(
-                Unwrap(GetValue(data, "dynamic_launch_delay_by_load", state.DynamicLaunchDelayByLoad)),
-                state.DynamicLaunchDelayByLoad);
+                LauncherConstants.GetLaunchConcurrencyMaximum());
+            data.Remove("dynamic_launch_delay_by_load");
             state.AutoRun = CommonUtilities.ParseBoolSetting(
                 Unwrap(GetValue(data, "auto_run", false)), false);
             data.Remove("auto_update_on_startup");
@@ -469,7 +463,10 @@ namespace ShaheLauncher.Core.Settings
             IDictionary<string, object> defaults = CreateDefaultSettings();
             state.AppHistory = CopyObjectList(defaults["app_history"]) ?? new List<object>();
             state.MaxHistoryItems = CommonUtilities.ParseIntSetting(
-                defaults["max_history_items"], 10, 0, 20);
+                defaults["max_history_items"],
+                10,
+                0,
+                AppPathHistoryService.MaximumHistoryItems);
             state.HidePath = CommonUtilities.ParseBoolSetting(defaults["hide_path"], false);
             state.AppPath = string.Empty;
             state.AppDirectory = string.Empty;
@@ -567,14 +564,14 @@ namespace ShaheLauncher.Core.Settings
             var merged = new Dictionary<string, object>(defaults);
             foreach (KeyValuePair<string, object> item in loaded)
             {
-                merged[item.Key] = item.Value;
+                merged[item.Key] = RestoreJsonValue(item.Value);
             }
 
             IDictionary<string, object> hints = CopyDictionary(
                 GetValue(defaults, "speech_assist_hints", null))
                 ?? new Dictionary<string, object>();
             IDictionary<string, object> loadedHints = CopyDictionary(
-                GetValue(loaded, "speech_assist_hints", null));
+                GetValue(merged, "speech_assist_hints", null));
             if (loadedHints != null)
             {
                 foreach (KeyValuePair<string, object> item in loadedHints)
@@ -587,8 +584,28 @@ namespace ShaheLauncher.Core.Settings
             merged.Remove("auto_check_update_on_startup");
             merged.Remove("update_manifest_url");
             merged["log_output_mode"] = LauncherConstants.NormalizeLogOutputMode(
-                StringValue(GetValue(merged, "log_output_mode", LauncherConstants.LogOutputDetailed)));
+                StringValue(GetValue(merged, "log_output_mode", LauncherConstants.LogOutputOff)));
             return merged;
+        }
+
+        private static object RestoreJsonValue(object value)
+        {
+            JObject jsonObject = value as JObject;
+            if (jsonObject != null)
+            {
+                return jsonObject.Properties().ToDictionary(
+                    property => property.Name,
+                    property => RestoreJsonValue(property.Value),
+                    StringComparer.Ordinal);
+            }
+
+            JArray jsonArray = value as JArray;
+            if (jsonArray != null)
+            {
+                return jsonArray.Select(item => RestoreJsonValue(item)).ToList();
+            }
+
+            return Unwrap(value);
         }
 
         private static object GetValue(

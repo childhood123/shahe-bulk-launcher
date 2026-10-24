@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="4dba205c-0ede-40e3-bb66-4b484815bbf8" name="Administrator@CHILDHOOD 2026-10-23 16:45:47" runUser="CHILDHOOD\Administrator" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2026-10-23T16:45:47.6241410+08:00" queuing="2026-10-23T16:45:47.6241427+08:00" start="2026-10-23T16:45:42.2362347+08:00" finish="2026-10-23T16:45:47.7994800+08:00" />
+  <TestSettings name="default" id="9c3b9746-008f-46ba-b874-bffccf220ffb">
+    <Deployment runDeploymentRoot="Administrator_CHILDHOOD_2026-10-23_16_45_47" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="a8ef1004-9dda-404a-bccc-ac13c5f36dd0" testId="e1cc5c44-d867-932a-1215-47d1ddb9739a" testName="AppendDailyLogIgnoresBlankMessages" computerName="CHILDHOOD" duration="00:00:00.0036043" startTime="2026-10-23T16:45:46.7987992+08:00" endTime="2026-10-23T16:45:46.8048129+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a8ef1004-9dda-404a-bccc-ac13c5f36dd0" />
+    <UnitTestResult executionId="c124201a-2d2c-42e7-81f1-e6c2849e1486" testId="c6c51d46-5309-75e9-c6ec-a34858b8f54d" testName="InstallerUsesSavedSwitchAndRecordsStagesOrFailure (True,False)" computerName="CHILDHOOD" duration="00:00:00.0301167" startTime="2026-10-23T16:45:47.5557906+08:00" endTime="2026-10-23T16:45:47.5867085+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c124201a-2d2c-42e7-81f1-e6c2849e1486">
+      <Output>
+        <ErrorInfo>
+          <Message>测试方法 ShaheLauncher.Tests.DiagnosticLoggingContractTests.InstallerUsesSavedSwitchAndRecordsStagesOrFailure 引发了异常:&#xD;
+System.IO.DirectoryNotFoundException: 未能找到路径“C:\Users\Administrator\AppData\Local\Temp\ShaheDiagnosticLogging_5e7fc766ead54428b2f71902191a4808\app\logs”的一部分。</Message>
+          <StackTrace>    在 System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)&#xD;
+   在 System.IO.FileSystemEnumerableIterator`1.CommonInit()&#xD;
+   在 System.IO.FileSystemEnumerableIterator`1..ctor(String path, String originalUserPath, String searchPattern, SearchOption searchOption, SearchResultHandler`1 resultHandler, Boolean checkHost)&#xD;
+   在 System.IO.Directory.GetFiles(String path)&#xD;
+   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.&lt;&gt;c__DisplayClass4_0.&lt;InstallerUsesSavedSwitchAndRecordsStagesOrFailure&gt;b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 149&#xD;
+   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.WithDirectory(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 174&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2488f362-3eea-4cfe-9640-9d8be8f62a31" testId="a95919d0-d225-a712-0dbb-809d477d3ad6" testName="InstallerUsesSavedSwitchAndRecordsStagesOrFailure (False,False)" computerName="CHILDHOOD" duration="00:00:00.4148830" startTime="2026-10-23T16:45:47.0481492+08:00" endTime="2026-10-23T16:45:47.5557906+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2488f362-3eea-4cfe-9640-9d8be8f62a31" />
+    <UnitTestResult executionId="4bee3d56-729f-46b8-a9b6-d06e06bb1658" testId="aa596775-f391-6108-b7ae-d2c2067a1cff" testName="EnabledRuntimeSerializesWritersRotatesByDateAndStopsImmediately" computerName="CHILDHOOD" duration="00:00:00.0053281" startTime="2026-10-23T16:45:46.8277214+08:00" endTime="2026-10-23T16:45:46.8327086+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="4bee3d56-729f-46b8-a9b6-d06e06bb1658">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.IsNotNull 失败。The shared writer must enforce the logging switch.</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.SetMode(LauncherRuntime runtime, String mode) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 167&#xD;
+   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.&lt;&gt;c.&lt;EnabledRuntimeSerializesWritersRotatesByDateAndStopsImmediately&gt;b__2_0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 55&#xD;
+   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.WithDirectory(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 174&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="62fca97b-999e-4e46-8bd0-655c7c77ac96" testId="c22ea44c-5fd9-fc2f-cac8-c5ed0467c59f" testName="AppendDailyLogUsesExactTimestampAndUtf8WithoutBom" computerName="CHILDHOOD" duration="00:00:00.2448582" startTime="2026-10-23T16:45:46.1754838+08:00" endTime="2026-10-23T16:45:46.7858304+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="62fca97b-999e-4e46-8bd0-655c7c77ac96">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.IsNotNull 失败。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.BootstrapContractTests.AppendDailyLogUsesExactTimestampAndUtf8WithoutBom() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\BootstrapContractTests.cs:行号 141&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="863457a5-1242-424b-8e6b-eba51a1722b8" testId="dfe917cf-c6ab-8862-a6b4-89fb47f98dc7" testName="NormalizesLogOutputModeWithExplicitOptIn" computerName="CHILDHOOD" duration="00:00:00.0051729" startTime="2026-10-23T16:45:46.8048129+08:00" endTime="2026-10-23T16:45:46.8107641+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="863457a5-1242-424b-8e6b-eba51a1722b8">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual 失败。应为: &lt;off&gt;，实际为: &lt;detailed&gt;。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.ConstantsContractTests.NormalizesLogOutputModeWithExplicitOptIn() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ConstantsContractTests.cs:行号 70&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="2ed9f158-36e5-4e4e-97f0-b49086945b7c" testId="c23756e4-6068-c7f4-73c1-68d3c3744a35" testName="MainFormSwitchControlsDirectCallbacksAndActionFailures" computerName="CHILDHOOD" duration="00:00:00.2146642" startTime="2026-10-23T16:45:46.8327086+08:00" endTime="2026-10-23T16:45:47.0481492+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2ed9f158-36e5-4e4e-97f0-b49086945b7c">
+      <Output>
+        <ErrorInfo>
+          <Message>测试方法 ShaheLauncher.Tests.DiagnosticLoggingContractTests.MainFormSwitchControlsDirectCallbacksAndActionFailures 引发了异常:&#xD;
+System.IO.DirectoryNotFoundException: 未能找到路径“C:\Users\Administrator\AppData\Local\Temp\ShaheDiagnosticLogging_7073a04b30d04d639309d4c44c2cbcad\logs”的一部分。</Message>
+          <StackTrace>    在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.MainFormSwitchControlsDirectCallbacksAndActionFailures() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 104&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="07b553d7-b299-42bd-8171-fcb03b494664" testId="a133a915-61ef-457f-d5f4-6da091874efe" testName="InstallerUsesSavedSwitchAndRecordsStagesOrFailure (True,True)" computerName="CHILDHOOD" duration="00:00:00.0199121" startTime="2026-10-23T16:45:47.6011774+08:00" endTime="2026-10-23T16:45:47.6241166+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="07b553d7-b299-42bd-8171-fcb03b494664">
+      <Output>
+        <ErrorInfo>
+          <Message>测试方法 ShaheLauncher.Tests.DiagnosticLoggingContractTests.InstallerUsesSavedSwitchAndRecordsStagesOrFailure 引发了异常:&#xD;
+System.IO.DirectoryNotFoundException: 未能找到路径“C:\Users\Administrator\AppData\Local\Temp\ShaheDiagnosticLogging_91c9ecf9b6ee40d9b8db2422843ffb6d\app\logs”的一部分。</Message>
+          <StackTrace>    在 System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)&#xD;
+   在 System.IO.FileSystemEnumerableIterator`1.CommonInit()&#xD;
+   在 System.IO.FileSystemEnumerableIterator`1..ctor(String path, String originalUserPath, String searchPattern, SearchOption searchOption, SearchResultHandler`1 resultHandler, Boolean checkHost)&#xD;
+   在 System.IO.Directory.GetFiles(String path)&#xD;
+   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.&lt;&gt;c__DisplayClass4_0.&lt;InstallerUsesSavedSwitchAndRecordsStagesOrFailure&gt;b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 149&#xD;
+   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.WithDirectory(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 174&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="156c6942-78c5-4c06-aa8f-39a94319f254" testId="056ef243-f892-fed8-f304-1fdfa735f52e" testName="DisabledRuntimeDoesNotCreateEitherLogDirectory" computerName="CHILDHOOD" duration="00:00:00.0143583" startTime="2026-10-23T16:45:46.8127591+08:00" endTime="2026-10-23T16:45:46.8277214+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="156c6942-78c5-4c06-aa8f-39a94319f254">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.IsFalse 失败。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.&lt;&gt;c.&lt;DisabledRuntimeDoesNotCreateEitherLogDirectory&gt;b__1_0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 40&#xD;
+   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.WithDirectory(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 174&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+    <UnitTestResult executionId="0ff5b1db-1ebf-47b6-a97f-3264f77f3b76" testId="1515d0a3-0232-396f-6a04-736b25ac4fcd" testName="LoggingDefaultsToOffAndRequiresAnExplicitDetailedChoice" computerName="CHILDHOOD" duration="00:00:00.0014895" startTime="2026-10-23T16:45:46.8107641+08:00" endTime="2026-10-23T16:45:46.8127591+08:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Failed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0ff5b1db-1ebf-47b6-a97f-3264f77f3b76">
+      <Output>
+        <ErrorInfo>
+          <Message>Assert.AreEqual 失败。应为: &lt;off&gt;，实际为: &lt;detailed&gt;。</Message>
+          <StackTrace>   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.LoggingDefaultsToOffAndRequiresAnExplicitDetailedChoice() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 27&#xD;
+</StackTrace>
+        </ErrorInfo>
+      </Output>
+    </UnitTestResult>
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="MainFormSwitchControlsDirectCallbacksAndActionFailures" storage="d:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="c23756e4-6068-c7f4-73c1-68d3c3744a35">
+      <TestCategory>
+        <TestCategoryItem TestCategory="DiagnosticLogging" />
+      </TestCategory>
+      <Execution id="2ed9f158-36e5-4e4e-97f0-b49086945b7c" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DiagnosticLoggingContractTests" name="MainFormSwitchControlsDirectCallbacksAndActionFailures" />
+    </UnitTest>
+    <UnitTest name="InstallerUsesSavedSwitchAndRecordsStagesOrFailure (True,True)" storage="d:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="a133a915-61ef-457f-d5f4-6da091874efe">
+      <TestCategory>
+        <TestCategoryItem TestCategory="DiagnosticLogging" />
+      </TestCategory>
+      <Execution id="07b553d7-b299-42bd-8171-fcb03b494664" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DiagnosticLoggingContractTests" name="InstallerUsesSavedSwitchAndRecordsStagesOrFailure" />
+    </UnitTest>
+    <UnitTest name="EnabledRuntimeSerializesWritersRotatesByDateAndStopsImmediately" storage="d:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="aa596775-f391-6108-b7ae-d2c2067a1cff">
+      <TestCategory>
+        <TestCategoryItem TestCategory="DiagnosticLogging" />
+      </TestCategory>
+      <Execution id="4bee3d56-729f-46b8-a9b6-d06e06bb1658" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DiagnosticLoggingContractTests" name="EnabledRuntimeSerializesWritersRotatesByDateAndStopsImmediately" />
+    </UnitTest>
+    <UnitTest name="InstallerUsesSavedSwitchAndRecordsStagesOrFailure (False,False)" storage="d:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="a95919d0-d225-a712-0dbb-809d477d3ad6">
+      <TestCategory>
+        <TestCategoryItem TestCategory="DiagnosticLogging" />
+      </TestCategory>
+      <Execution id="2488f362-3eea-4cfe-9640-9d8be8f62a31" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DiagnosticLoggingContractTests" name="InstallerUsesSavedSwitchAndRecordsStagesOrFailure" />
+    </UnitTest>
+    <UnitTest name="InstallerUsesSavedSwitchAndRecordsStagesOrFailure (True,False)" storage="d:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="c6c51d46-5309-75e9-c6ec-a34858b8f54d">
+      <TestCategory>
+        <TestCategoryItem TestCategory="DiagnosticLogging" />
+      </TestCategory>
+      <Execution id="c124201a-2d2c-42e7-81f1-e6c2849e1486" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DiagnosticLoggingContractTests" name="InstallerUsesSavedSwitchAndRecordsStagesOrFailure" />
+    </UnitTest>
+    <UnitTest name="LoggingDefaultsToOffAndRequiresAnExplicitDetailedChoice" storage="d:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="1515d0a3-0232-396f-6a04-736b25ac4fcd">
+      <TestCategory>
+        <TestCategoryItem TestCategory="DiagnosticLogging" />
+      </TestCategory>
+      <Execution id="0ff5b1db-1ebf-47b6-a97f-3264f77f3b76" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DiagnosticLoggingContractTests" name="LoggingDefaultsToOffAndRequiresAnExplicitDetailedChoice" />
+    </UnitTest>
+    <UnitTest name="AppendDailyLogUsesExactTimestampAndUtf8WithoutBom" storage="d:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="c22ea44c-5fd9-fc2f-cac8-c5ed0467c59f">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Bootstrap" />
+      </TestCategory>
+      <Execution id="62fca97b-999e-4e46-8bd0-655c7c77ac96" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.BootstrapContractTests" name="AppendDailyLogUsesExactTimestampAndUtf8WithoutBom" />
+    </UnitTest>
+    <UnitTest name="AppendDailyLogIgnoresBlankMessages" storage="d:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="e1cc5c44-d867-932a-1215-47d1ddb9739a">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Bootstrap" />
+      </TestCategory>
+      <Execution id="a8ef1004-9dda-404a-bccc-ac13c5f36dd0" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.BootstrapContractTests" name="AppendDailyLogIgnoresBlankMessages" />
+    </UnitTest>
+    <UnitTest name="NormalizesLogOutputModeWithExplicitOptIn" storage="d:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="dfe917cf-c6ab-8862-a6b4-89fb47f98dc7">
+      <TestCategory>
+        <TestCategoryItem TestCategory="Constants" />
+      </TestCategory>
+      <Execution id="863457a5-1242-424b-8e6b-eba51a1722b8" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.ConstantsContractTests" name="NormalizesLogOutputModeWithExplicitOptIn" />
+    </UnitTest>
+    <UnitTest name="DisabledRuntimeDoesNotCreateEitherLogDirectory" storage="d:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\release\net48\shahelauncher.tests.dll" id="056ef243-f892-fed8-f304-1fdfa735f52e">
+      <TestCategory>
+        <TestCategoryItem TestCategory="DiagnosticLogging" />
+      </TestCategory>
+      <Execution id="156c6942-78c5-4c06-aa8f-39a94319f254" />
+      <TestMethod codeBase="D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll" adapterTypeName="executor://mstestadapter/v2" className="ShaheLauncher.Tests.DiagnosticLoggingContractTests" name="DisabledRuntimeDoesNotCreateEitherLogDirectory" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="e1cc5c44-d867-932a-1215-47d1ddb9739a" executionId="a8ef1004-9dda-404a-bccc-ac13c5f36dd0" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c6c51d46-5309-75e9-c6ec-a34858b8f54d" executionId="c124201a-2d2c-42e7-81f1-e6c2849e1486" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a95919d0-d225-a712-0dbb-809d477d3ad6" executionId="2488f362-3eea-4cfe-9640-9d8be8f62a31" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="aa596775-f391-6108-b7ae-d2c2067a1cff" executionId="4bee3d56-729f-46b8-a9b6-d06e06bb1658" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c22ea44c-5fd9-fc2f-cac8-c5ed0467c59f" executionId="62fca97b-999e-4e46-8bd0-655c7c77ac96" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="dfe917cf-c6ab-8862-a6b4-89fb47f98dc7" executionId="863457a5-1242-424b-8e6b-eba51a1722b8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c23756e4-6068-c7f4-73c1-68d3c3744a35" executionId="2ed9f158-36e5-4e4e-97f0-b49086945b7c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a133a915-61ef-457f-d5f4-6da091874efe" executionId="07b553d7-b299-42bd-8171-fcb03b494664" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="056ef243-f892-fed8-f304-1fdfa735f52e" executionId="156c6942-78c5-4c06-aa8f-39a94319f254" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1515d0a3-0232-396f-6a04-736b25ac4fcd" executionId="0ff5b1db-1ebf-47b6-a97f-3264f77f3b76" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="列表中未列出的结果" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="所有已加载的结果" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Failed">
+    <Counters total="10" executed="10" passed="2" failed="8" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+  </ResultSummary>
+</TestRun>

@@ -1087,7 +1087,13 @@ namespace ShaheLauncher.Core.Sandboxie
             string output = Text(dispatched.Item2);
             if (IsInvalidSandboxNameOutput(output))
             {
-                callbacks?.ReloadConfiguration?.Invoke();
+                try
+                {
+                    callbacks?.ReloadConfiguration?.Invoke();
+                }
+                catch
+                {
+                }
                 dispatched = Dispatch(callbacks, arguments, workingDirectory);
                 if (dispatched.Item1)
                 {

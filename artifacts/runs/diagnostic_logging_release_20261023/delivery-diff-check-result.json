@@ -1,0 +1,5 @@
+{
+  "returnCode": 0,
+  "command": "git -c core.safecrlf=false diff --check -- csharp PROJECT_STRUCTURE.md",
+  "log": "delivery-diff-check.log"
+}

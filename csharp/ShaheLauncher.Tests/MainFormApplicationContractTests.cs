@@ -66,7 +66,8 @@ namespace ShaheLauncher.Tests
                 IEnumerable devices = (IEnumerable)GetProperty<Delegate>(
                     callbacks.GetType(), callbacks, "ListOutputDevices").DynamicInvoke();
                 IEnumerable windows = (IEnumerable)GetProperty<Delegate>(
-                    callbacks.GetType(), callbacks, "EnumerateWindows").DynamicInvoke();
+                    callbacks.GetType(), callbacks, "EnumerateWindows").DynamicInvoke(
+                        new object[] { new int[0] });
                 Assert.IsNotNull(sessions);
                 Assert.IsNotNull(devices);
                 Assert.IsNotNull(windows);
@@ -117,13 +118,13 @@ namespace ShaheLauncher.Tests
 
                 Assert.AreEqual(root, GetProperty<string>(formType, form, "AppDirectory"));
                 Assert.AreEqual(
-                    Path.Combine(root, "Configuration"),
+                    Path.Combine(root, "Configurations"),
                     GetProperty<string>(formType, form, "ConfigurationDirectory"));
                 Assert.AreEqual(
-                    Path.Combine(root, "Configuration", "shahe_config.ini"),
+                    Path.Combine(root, "Configurations", "shahe_config.ini"),
                     GetProperty<string>(formType, form, "ConfigurationStorePath"));
                 Assert.AreEqual(
-                    Path.Combine(root, "app_config.dat"),
+                    Path.Combine(root, "Configurations", "app_config.dat"),
                     GetProperty<string>(formType, form, "LegacyConfigPath"));
                 Assert.IsTrue(GetProperty<bool>(formType, form, "ApplicationInitialized"));
                 CollectionAssert.AreEqual(
@@ -141,8 +142,12 @@ namespace ShaheLauncher.Tests
             }
         }
 
-        [TestMethod]
-        public void BuildsExactClassicMenusWithoutChangingAccessibilityOrder()
+        [DataTestMethod]
+        [DataRow("用户管理", "置顶/取消置顶当前用户|-|批量创建沙盒用户|批量重命名沙盒用户|批量删除沙盒用户")]
+        [DataRow("设置(&S)", "热键设置|朗读设置|软件设置")]
+        [DataRow("校正(&J)", "手动校正 Sandboxie 安装路径|选择沙盒用户数据目录|-|修复 Sandboxie Control 用户设置")]
+        [DataRow("关于(&A)", "检查更新|-|请作者吃辣条")]
+        public void BuildsExactClassicMenusWithoutChangingAccessibilityOrder(string branchTitle, string expectedChildren)
         {
             string root = CreateTemporaryDirectory();
             object form = null;
@@ -175,15 +180,20 @@ namespace ShaheLauncher.Tests
                 Form window = GetProperty<Form>(formType, form, "SelfForm");
                 Assert.IsNotNull(window.Menu, "MainMenu must be used for classic keyboard navigation");
                 CollectionAssert.AreEqual(
-                    new[] { "文件(&F)", "进程(&P)", "沙盒管理(&G)", "定时(&D)", "设置(&S)", "校正(&J)", "工具(&T)", "关于(&A)" },
+                    new[] { "文件(&F)", "沙盒管理(&G)", "定时(&D)", "设置(&S)", "校正(&J)", "工具(&T)", "关于(&A)" },
                     window.Menu.MenuItems.Cast<MenuItem>().Select(item => item.Text).ToArray());
+
+                MenuItem branch = FlattenMenu(window.Menu.MenuItems)
+                    .Single(item => item.Text.Split('\t')[0] == branchTitle);
+                CollectionAssert.AreEqual(expectedChildren.Split('|'),
+                    branch.MenuItems.Cast<MenuItem>().Select(item => item.Text.Split('\t')[0]).ToArray(),
+                    "Menu wording, order and separators must match the Python branch.");
 
                 string[] allItems = FlattenMenu(window.Menu.MenuItems).Select(item => item.Text).ToArray();
                 foreach (string text in new[]
                 {
                     "选择应用\tCtrl+O", "粘贴 .exe 或文件路径\tCtrl+V",
                     "启动选中沙盒", "刷新沙盒用户\tF5", "全选\tCtrl+A",
-                    "静音当前打开的进程", "关闭全部打开的进程", "定位当前打开的进程",
                     "批量创建沙盒用户", "定时启动选中沙盒", "热键设置",
                     "手动校正 Sandboxie 安装路径", "备份沙盒用户", "检查更新"
                 })
@@ -196,7 +206,7 @@ namespace ShaheLauncher.Tests
                 Assert.AreEqual(2, GetProperty<Control>(formType, form, "LaunchButton").TabIndex);
                 Assert.AreEqual("沙盒用户", GetProperty<Control>(formType, form, "SandboxList").AccessibleName);
                 Assert.AreEqual(
-                    "准备要在沙盒中打开的应用，复选列表，按空格选中或取消选中",
+                    "准备要在沙盒中打开的应用",
                     GetProperty<Control>(formType, form, "AppPathList").AccessibleName);
             }
             finally
@@ -233,6 +243,241 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
+        public void ProcessCmdKeyDispatchesEnabledCustomActionsThroughRuntimePath()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                var hotkeys = new Dictionary<string, string>
+                {
+                    { "toggle_window", "Ctrl+Shift+W" },
+                    { "reset_settings", "Ctrl+Shift+X" },
+                    { "toggle_auto_run", "Ctrl+Shift+1" },
+                    { "toggle_show_tray", "Ctrl+Shift+2" },
+                    { "toggle_auto_select_range", "Ctrl+Shift+3" },
+                    { "toggle_skip_running_sandbox_on_launch", "Ctrl+Shift+4" },
+                    { "toggle_remember_volume", "Ctrl+Shift+5" },
+                    { "toggle_list_left_right_nav", "Ctrl+Shift+6" }
+                };
+                SetPrivateField(formType, form, "_hotkeys", hotkeys);
+                SetPrivateField(formType, form, "_hotkeysEnabled", true);
+                var actions = new List<string>();
+                SetProperty(formType, form, "FixedHotkeyActionCallback", new Action<string>(actions.Add));
+
+                var expected = new[]
+                {
+                    new { Key = Keys.Control | Keys.Shift | Keys.W, Action = "toggle_window" },
+                    new { Key = Keys.Control | Keys.Shift | Keys.X, Action = "reset_settings" },
+                    new { Key = Keys.Control | Keys.Shift | Keys.D1, Action = "toggle_auto_run" },
+                    new { Key = Keys.Control | Keys.Shift | Keys.D2, Action = "toggle_show_tray" },
+                    new { Key = Keys.Control | Keys.Shift | Keys.D3, Action = "toggle_auto_select_range" },
+                    new { Key = Keys.Control | Keys.Shift | Keys.D4, Action = "toggle_skip_running_sandbox_on_launch" },
+                    new { Key = Keys.Control | Keys.Shift | Keys.D5, Action = "toggle_remember_volume" },
+                    new { Key = Keys.Control | Keys.Shift | Keys.D6, Action = "toggle_list_left_right_nav" }
+                };
+
+                foreach (var item in expected)
+                {
+                    Assert.IsTrue(InvokeProcessCmdKey(form, item.Key), item.Action + " must be handled");
+                    Assert.AreEqual(item.Action, actions.Last());
+                }
+
+                CollectionAssert.AreEqual(
+                    expected.Select(item => item.Action).ToArray(),
+                    actions.ToArray());
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
+        public void ProcessCmdKeyKeepsFixedHotkeysAheadOfCustomBindings()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                SetPrivateField(formType, form, "_hotkeys", new Dictionary<string, string>
+                {
+                    { "toggle_window", "Ctrl+O" }
+                });
+                SetPrivateField(formType, form, "_hotkeysEnabled", true);
+                var actions = new List<string>();
+                SetProperty(formType, form, "FixedHotkeyActionCallback", new Action<string>(actions.Add));
+
+                Assert.IsTrue(InvokeProcessCmdKey(form, Keys.Control | Keys.O));
+                CollectionAssert.AreEqual(new[] { "open_app" }, actions.ToArray());
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
+        public void ProcessCmdKeyRunsCustomActionThroughMainFormDispatcher()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeUi");
+                SetPrivateField(formType, form, "_hotkeys", new Dictionary<string, string>
+                {
+                    { "toggle_auto_run", "Ctrl+Shift+1" }
+                });
+                SetPrivateField(formType, form, "_hotkeysEnabled", true);
+                var writes = new List<bool>();
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => writes.Add(enabled)));
+
+                Assert.IsTrue(InvokeProcessCmdKey(form, Keys.Control | Keys.Shift | Keys.D1));
+                Assert.IsTrue(GetProperty<bool>(formType, form, "AutoRun"));
+                CollectionAssert.AreEqual(new[] { true }, writes.ToArray());
+                Assert.AreEqual(
+                    "已开启：开机自动启动本程序",
+                    GetProperty<Label>(formType, form, "StatusLabel").Text);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
+        public void ProcessCmdKeyLeavesDisabledInvalidAndUnknownHotkeysToWinForms()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                var actions = new List<string>();
+                SetProperty(formType, form, "FixedHotkeyActionCallback", new Action<string>(actions.Add));
+
+                SetPrivateField(formType, form, "_hotkeys", new Dictionary<string, string>
+                {
+                    { "toggle_window", "Ctrl+Shift+W" }
+                });
+                SetPrivateField(formType, form, "_hotkeysEnabled", false);
+                Assert.IsFalse(InvokeProcessCmdKey(form, Keys.Control | Keys.Shift | Keys.W));
+
+                SetPrivateField(formType, form, "_hotkeysEnabled", true);
+                SetPrivateField(formType, form, "_hotkeys", new Dictionary<string, string>
+                {
+                    { "toggle_window", "not-a-hotkey" }
+                });
+                Assert.IsFalse(InvokeProcessCmdKey(form, Keys.Control | Keys.Shift | Keys.W));
+                Assert.IsFalse(InvokeProcessCmdKey(form, Keys.F24));
+                Assert.AreEqual(0, actions.Count);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
+        public void ExecutesSettingToggleActionsAndUpdatesRuntimeState()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeUi");
+                var autoRunWrites = new List<bool>();
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => autoRunWrites.Add(enabled)));
+
+                InvokePrivate(form, "ExecuteApplicationAction", "toggle_auto_run");
+                Assert.IsTrue(GetProperty<bool>(formType, form, "AutoRun"));
+                CollectionAssert.AreEqual(new[] { true }, autoRunWrites.ToArray());
+
+                InvokePrivate(form, "ExecuteApplicationAction", "toggle_show_tray");
+                Assert.IsFalse(GetProperty<bool>(formType, form, "ShowTray"));
+
+                InvokePrivate(form, "ExecuteApplicationAction", "toggle_auto_select_range");
+                InvokePrivate(form, "ExecuteApplicationAction", "toggle_skip_running_sandbox_on_launch");
+                InvokePrivate(form, "ExecuteApplicationAction", "toggle_remember_volume");
+                InvokePrivate(form, "ExecuteApplicationAction", "toggle_list_left_right_nav");
+
+                object settingsState = GetPrivateField(formType, form, "_settingsState");
+                Assert.IsTrue(GetProperty<bool>(settingsState.GetType(), settingsState, "AutoSelectRangeOnCheck"));
+                Assert.IsFalse(GetProperty<bool>(settingsState.GetType(), settingsState, "ListUseLeftRightNavigation"));
+                Assert.IsTrue(GetProperty<bool>(settingsState.GetType(), settingsState, "SkipRunningSandboxOnLaunch"));
+                Assert.IsFalse(GetProperty<bool>(settingsState.GetType(), settingsState, "RememberVolume"));
+                object launchState = GetProperty<object>(formType, form, "LaunchState");
+                object processState = GetProperty<object>(formType, form, "ProcessState");
+                Assert.IsTrue(GetProperty<bool>(launchState.GetType(), launchState, "SkipRunningSandboxOnLaunch"));
+                Assert.IsFalse(GetProperty<bool>(processState.GetType(), processState, "RememberVolume"));
+                Assert.AreEqual(
+                    "已关闭：用户列表左右光标选择",
+                    GetProperty<Label>(formType, form, "StatusLabel").Text);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
+        public void ExecutesWindowToggleAndHonorsResetCancellation()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeUi");
+
+                InvokePrivate(form, "ExecuteApplicationAction", "toggle_window");
+                Assert.IsTrue(GetProperty<Form>(formType, form, "SelfForm").Visible);
+                Assert.AreEqual("已显示主窗口", GetProperty<Label>(formType, form, "StatusLabel").Text);
+
+                string statusBeforeReset = GetProperty<Label>(formType, form, "StatusLabel").Text;
+                SetProperty(
+                    formType,
+                    form,
+                    "ConfirmMessageCallback",
+                    new Func<string, string, MessageBoxButtons, MessageBoxIcon, DialogResult>(
+                        (text, title, buttons, icon) => DialogResult.No));
+                InvokePrivate(form, "ExecuteApplicationAction", "reset_settings");
+                Assert.AreEqual(
+                    statusBeforeReset,
+                    GetProperty<Label>(formType, form, "StatusLabel").Text);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
         public void ProgramPreservesCleanupSingleInstanceRunAndReleaseOrder()
         {
             string root = FindRepositoryRoot();
@@ -255,11 +500,25 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
-        public void ReleaseBuildCopiesUpdaterBesideMainExecutable()
+        public void ProgramDefersFirstShowUntilApplicationRun()
+        {
+            string root = FindRepositoryRoot();
+            string programSource = File.ReadAllText(Path.Combine(root, "csharp", "ShaheLauncher.App", "Program.cs"));
+            int initialize = programSource.IndexOf("InitializeApplication(false)", StringComparison.Ordinal);
+            int tray = programSource.IndexOf("CreateTaskBarIcon", StringComparison.Ordinal);
+            int run = programSource.IndexOf("Application.Run", StringComparison.Ordinal);
+            Assert.IsTrue(initialize >= 0, "startup must initialize without showing before Application.Run");
+            Assert.IsTrue(tray >= 0 && tray < run, "tray setup must remain before the message loop");
+            Assert.IsTrue(initialize < run, "initialization must precede Application.Run");
+        }
+
+        [TestMethod]
+        public void ReleaseBuildUsesEmbeddedUpdaterAndOptionalLegacyCompatibility()
         {
             string root = FindRepositoryRoot();
             string projectSource = File.ReadAllText(Path.Combine(root, "csharp", "ShaheLauncher.App", "ShaheLauncher.App.csproj"));
-            StringAssert.Contains(projectSource, "ShaheLauncher.Updater.csproj");
+            Assert.IsFalse(projectSource.Contains("ShaheLauncher.Updater.csproj"));
+            StringAssert.Contains(projectSource, "IncludeLegacyUpdateCompatibility");
             StringAssert.Contains(projectSource, "updater.exe");
             StringAssert.Contains(projectSource, "Copy");
         }
@@ -311,7 +570,7 @@ namespace ShaheLauncher.Tests
                 {
                     "GetSandboxPids", "GetAllSandboxPids", "ScanSandboxNames",
                     "GetSandboxieStartExecutable", "GetOfficialSandboxNames", "RunSandboxieStart",
-                    "ChooseWindow", "ChooseOutputDevice", "ResolveSandboxNames",
+                    "ChooseOutputDevice", "ResolveSandboxNames",
                     "ResolveVolumeMemoryKey", "RefreshProcessUi", "RefreshVisibleStates"
                 })
                 {
@@ -319,6 +578,9 @@ namespace ShaheLauncher.Tests
                         GetProperty<Delegate>(processCallbacks.GetType(), processCallbacks, callbackName),
                         callbackName + " must use the composed runtime");
                 }
+                Assert.IsNull(
+                    GetProperty<Delegate>(processCallbacks.GetType(), processCallbacks, "ChooseWindow"),
+                    "直接定位当前用户时不得组装进程选择器");
 
                 object speech = GetProperty<object>(formType, form, "SpeechService");
                 object speechCallbacks = GetProperty<object>(speech.GetType(), speech, "Callbacks");
@@ -706,6 +968,10 @@ namespace ShaheLauncher.Tests
                     new Action<string, string, bool>((key, path, enabled) => { }));
                 ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
 
+                object sandboxList = GetProperty<object>(formType, form, "SandboxList");
+                SetProperty(sandboxList.GetType(), sandboxList, "SandboxDisplayNameScanner",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1", "Box2" }));
+
                 object adminCallbacks = GetProperty<object>(formType, form, "SandboxAdminCallbacks");
                 SetProperty(
                     adminCallbacks.GetType(),
@@ -867,6 +1133,114 @@ namespace ShaheLauncher.Tests
                 Assert.AreEqual(1, GetProperty<int>(job.GetType(), job, "RetryDelaySeconds"));
                 CollectionAssert.Contains(scheduledDelays, 30000);
                 Assert.AreEqual("已设置定时任务（30 秒后）: 定时启动 1 个沙盒", GetProperty<Label>(
+                    formType, form, "StatusLabel").Text);
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
+        public void WiresScheduleCloseMenuActionToLaunchScheduler()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                var scheduledDelays = new List<int>();
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) =>
+                    {
+                        scheduledDelays.Add(delay);
+                        return new StubDisposable();
+                    }));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowScheduleDelayCallback",
+                    new Func<string, string, int, int>((title, prompt, defaultValue) =>
+                    {
+                        Assert.AreEqual("定时关闭沙盒", title);
+                        Assert.AreEqual("请设置多少秒后关闭所选沙盒：", prompt);
+                        Assert.AreEqual(30, defaultValue);
+                        return 30;
+                    }));
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+
+                object sandboxList = GetProperty<object>(formType, form, "SandboxList");
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "ReplaceItemTexts", new[] { "Box1" }, new int[0]);
+                ReflectionTestHelpers.InvokeInstance(sandboxList, "CheckItem", 0, true);
+
+                object adminCallbacks = GetProperty<object>(formType, form, "SandboxAdminCallbacks");
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxDisplayNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetExistingSandboxNames",
+                    new Func<IEnumerable<string>>(() => new[] { "Box1" }));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "NormalizeSandboxName",
+                    new Func<string, string>(name => name));
+                SetProperty(
+                    adminCallbacks.GetType(),
+                    adminCallbacks,
+                    "GetSandboxDisplayName",
+                    new Func<string, string>(name => name));
+
+                object launchCallbacks = GetProperty<object>(formType, form, "LaunchCallbacks");
+                SetProperty(
+                    launchCallbacks.GetType(),
+                    launchCallbacks,
+                    "DeleteActiveLaunchReferencesByDisplay",
+                    new Action<IEnumerable<string>>(names => { }));
+                SetProperty(
+                    launchCallbacks.GetType(),
+                    launchCallbacks,
+                    "CloseSandboxProcesses",
+                    new Func<string, string>(name => "all_closed"));
+                SetProperty(
+                    launchCallbacks.GetType(),
+                    launchCallbacks,
+                    "RefreshProcessUi",
+                    new Action<bool>(refresh => { }));
+
+                ClickMenuActionAndAssertNoFallback(formType, form, "定时关闭选中沙盒", "schedule_close");
+
+                object state = GetProperty<object>(formType, form, "LaunchState");
+                IDictionary jobs = GetProperty<IDictionary>(state.GetType(), state, "Jobs");
+                Assert.AreEqual(1, jobs.Count);
+                object job = jobs.Values.Cast<object>().Single();
+                Assert.AreEqual("close_selected", GetProperty<string>(job.GetType(), job, "TaskType"));
+                Assert.AreEqual("定时关闭 1 个沙盒", GetProperty<string>(job.GetType(), job, "Description"));
+                CollectionAssert.AreEqual(
+                    new[] { "Box1" },
+                    ((IEnumerable)GetProperty<object>(job.GetType(), job, "SandboxTargets")).Cast<object>().ToArray());
+                Assert.AreEqual(1, GetProperty<int>(job.GetType(), job, "RetryDelaySeconds"));
+                CollectionAssert.Contains(scheduledDelays, 30000);
+                Assert.AreEqual("已设置定时任务（30 秒后）: 定时关闭 1 个沙盒", GetProperty<Label>(
                     formType, form, "StatusLabel").Text);
             }
             finally
@@ -1170,6 +1544,66 @@ namespace ShaheLauncher.Tests
             }
         }
         [TestMethod]
+        public void WiresRepairSandboxieControlSettingsMenuActionToSandboxAdminService()
+        {
+            string root = CreateTemporaryDirectory();
+            object form = null;
+            try
+            {
+                string iniPath = Path.Combine(root, "Sandboxie.ini");
+                File.WriteAllText(
+                    iniPath,
+                    "[UserSettings_Test]\r\nSbieCtrl_WindowCoords=1\r\nEnabled=y\r\nKeep=ok\r\n",
+                    new UTF8Encoding(false));
+                Type formType = RequireMainFormType();
+                form = CreateForm(formType, root);
+                int reloads = 0;
+                var messages = new List<string>();
+                SetProperty(
+                    formType,
+                    form,
+                    "StartupDelayCallback",
+                    new Func<int, Action, IDisposable>((delay, callback) => new StubDisposable()));
+                SetProperty(
+                    formType,
+                    form,
+                    "ShowMessageCallback",
+                    new Action<string, string, MessageBoxIcon>((text, title, icon) => messages.Add(title + ":" + text)));
+                SetProperty(
+                    formType,
+                    form,
+                    "ConfirmMessageCallback",
+                    new Func<string, string, MessageBoxButtons, MessageBoxIcon, DialogResult>(
+                        (text, title, buttons, icon) => DialogResult.Yes));
+                SetProperty(formType, form, "SandboxieIniPathCallback", new Func<string>(() => iniPath));
+                SetProperty(formType, form, "ReloadSandboxieConfigCallback", new Action(() => reloads++));
+                SetProperty(
+                    formType,
+                    form,
+                    "AutoRunWriter",
+                    new Action<string, string, bool>((key, path, enabled) => { }));
+
+                ReflectionTestHelpers.InvokeInstance(form, "InitializeApplication", false);
+                ClickMenuActionAndAssertNoFallback(
+                    formType,
+                    form,
+                    "修复 Sandboxie Control 用户设置",
+                    "repair_sandboxie_control_settings");
+
+                Assert.AreEqual(1, reloads);
+                string repaired = File.ReadAllText(iniPath);
+                StringAssert.Contains(repaired, "Keep=ok");
+                Assert.IsFalse(repaired.Contains("SbieCtrl_WindowCoords="));
+                StringAssert.Contains(string.Join("\n", messages), "修复完成");
+            }
+            finally
+            {
+                Destroy(form);
+                DeleteDirectory(root);
+            }
+        }
+
+        [TestMethod]
         public void WiresBatchDeleteSandboxesMenuActionToSandboxieClient()
         {
             string root = CreateTemporaryDirectory();
@@ -1346,6 +1780,40 @@ namespace ShaheLauncher.Tests
             PropertyInfo property = type.GetProperty(name, BindingFlags.Public | BindingFlags.Instance);
             Assert.IsNotNull(property, name + " must be public");
             property.SetValue(target, value, null);
+        }
+
+        private static void SetPrivateField(Type type, object target, string name, object value)
+        {
+            FieldInfo field = type.GetField(name, BindingFlags.NonPublic | BindingFlags.Instance);
+            Assert.IsNotNull(field, name + " must exist");
+            field.SetValue(target, value);
+        }
+
+        private static object GetPrivateField(Type type, object target, string name)
+        {
+            FieldInfo field = type.GetField(name, BindingFlags.NonPublic | BindingFlags.Instance);
+            Assert.IsNotNull(field, name + " must exist");
+            return field.GetValue(target);
+        }
+
+        private static object InvokePrivate(object target, string methodName, params object[] args)
+        {
+            MethodInfo method = target.GetType().GetMethod(
+                methodName,
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            Assert.IsNotNull(method, methodName + " must remain private and callable");
+            return method.Invoke(target, args);
+        }
+
+        private static bool InvokeProcessCmdKey(object form, Keys keyData)
+        {
+            MethodInfo method = form.GetType().GetMethod(
+                "ProcessCmdKey",
+                BindingFlags.NonPublic | BindingFlags.Instance);
+            Assert.IsNotNull(method, "ProcessCmdKey must remain available to WinForms");
+            Message message = new Message();
+            object[] arguments = { message, keyData };
+            return (bool)method.Invoke(form, arguments);
         }
 
         private static void ClickMenuActionAndAssertNoFallback(Type formType, object form, string visibleLabel, string action)

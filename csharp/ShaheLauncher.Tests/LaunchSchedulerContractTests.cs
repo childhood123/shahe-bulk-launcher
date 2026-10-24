@@ -340,24 +340,25 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
-        public void ComputesDynamicDelayAndRunsLaunchBatches()
+        public void RemovesAutomaticLoadAdjustmentFromLaunchScheduler()
+        {
+            Type stateType = RequireType(StateTypeName);
+            Type callbacksType = RequireType(CallbacksTypeName);
+            Type schedulerType = RequireType(SchedulerTypeName);
+            Assert.IsNull(stateType.GetProperty("DynamicLaunchDelayByLoad"));
+            Assert.IsNull(callbacksType.GetProperty("GetCpuPercent"));
+            Assert.IsFalse(schedulerType.GetMethods().Any(method =>
+                method.Name == "ComputeDynamicLaunchDelaySeconds"));
+        }
+
+        [TestMethod]
+        public void RunsLaunchBatchesWithUserConfiguredConcurrency()
         {
             Type schedulerType = RequireType(SchedulerTypeName);
             Type stateType = RequireType(StateTypeName);
             Type callbacksType = RequireType(CallbacksTypeName);
             Type targetType = RequireType(AppTargetTypeName);
             object scheduler = Activator.CreateInstance(schedulerType);
-            Assert.AreEqual(0, ReflectionTestHelpers.InvokeInstance(
-                scheduler, "ComputeDynamicLaunchDelaySeconds", false, 99.0, 2));
-            Assert.AreEqual(2, ReflectionTestHelpers.InvokeInstance(
-                scheduler, "ComputeDynamicLaunchDelaySeconds", true, 95.0, 1));
-            Assert.AreEqual(1, ReflectionTestHelpers.InvokeInstance(
-                scheduler, "ComputeDynamicLaunchDelaySeconds", true, 88.0, 1));
-            Assert.AreEqual(1, ReflectionTestHelpers.InvokeInstance(
-                scheduler, "ComputeDynamicLaunchDelaySeconds", true, 80.0, 2));
-            Assert.AreEqual(0, ReflectionTestHelpers.InvokeInstance(
-                scheduler, "ComputeDynamicLaunchDelaySeconds", true, 80.0, 1));
-
             object state = Activator.CreateInstance(stateType);
             IList appTargets = CreateTypedList(targetType,
                 CreateAppTarget(targetType, @"C:\Apps\one.exe", @"C:\Apps"),

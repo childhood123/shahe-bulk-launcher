@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Newtonsoft.Json;
 
 namespace ShaheLauncher.Core.AppPaths
 {
@@ -14,7 +15,9 @@ namespace ShaheLauncher.Core.AppPaths
             Note = string.Empty;
         }
 
+        [JsonProperty("path")]
         public string Path { get; set; }
+        [JsonProperty("note")]
         public string Note { get; set; }
     }
 
@@ -78,6 +81,7 @@ namespace ShaheLauncher.Core.AppPaths
 
     public sealed class AppPathHistoryService
     {
+        public const int MaximumHistoryItems = 999;
         public const string OpenAppMenuText = "选择应用";
         public const string PasteAppMenuText = "粘贴 .exe 或文件路径";
         public const string EditNoteMenuText = "路径记忆备注";
@@ -456,7 +460,7 @@ namespace ShaheLauncher.Core.AppPaths
                 return;
             }
 
-            state.MaxHistoryItems = Math.Max(0, Math.Min(20, newCount));
+            state.MaxHistoryItems = Math.Max(0, Math.Min(MaximumHistoryItems, newCount));
             callbacks?.SaveSettings?.Invoke();
             if (state.AppHistory != null && state.AppHistory.Count > state.MaxHistoryItems)
             {

@@ -1,3 +1,4 @@
+using ShaheLauncher.App.Infrastructure;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -73,7 +74,7 @@ namespace ShaheLauncher.App.UI.Dialogs.Common
                 Margin = new Padding(0, 0, 0, 8)
             };
             OkButton = new Button { Text = "确定", AutoSize = true, TabIndex = 1 };
-            OkButton.Click += (sender, eventArgs) => ConfirmName();
+            OkButton.Click += (sender, eventArgs) => OperationLog.Run(this, Text + " / " + OkButton.Text, () => ConfirmName());
             CancelActionButton = new Button
             {
                 Text = "取消",
@@ -81,7 +82,7 @@ namespace ShaheLauncher.App.UI.Dialogs.Common
                 TabIndex = 2,
                 DialogResult = DialogResult.Cancel
             };
-            CancelActionButton.Click += (sender, eventArgs) => Close();
+            CancelActionButton.Click += (sender, eventArgs) => OperationLog.Run(this, Text + " / " + CancelActionButton.Text, () => Close());
             var buttons = new FlowLayoutPanel
             {
                 Dock = DockStyle.Fill,

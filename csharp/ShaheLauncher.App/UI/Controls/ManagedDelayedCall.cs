@@ -11,7 +11,7 @@ namespace ShaheLauncher.App.UI.Controls
         private Timer _timer;
         private bool _running = true;
 
-        public ManagedDelayedCall(int delayMilliseconds, Action callback, Action<object> onFinish, string threadName)
+        public ManagedDelayedCall(int delayMilliseconds, Action callback, Action<object> onFinish)
         {
             Interval = Math.Max(0, delayMilliseconds);
             _callback = callback;

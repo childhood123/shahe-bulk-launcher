@@ -1,4 +1,5 @@
 using System;
+using ShaheLauncher.App.Infrastructure;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -9,6 +10,7 @@ using ShaheLauncher.App.Input;
 using ShaheLauncher.App.UI.Controls;
 using ShaheLauncher.App.UI.Tray;
 using ShaheLauncher.Core.Constants;
+using ShaheLauncher.Core.Updates;
 
 namespace ShaheLauncher.App
 {
@@ -24,17 +26,24 @@ namespace ShaheLauncher.App
         private ManagedDelayedCall _sandboxSelectionProcessStateTimer;
         private ManualResetEventSlim _locateReinforcementEvent;
         private Thread _locateReinforcementThread;
+        private DateTime _suppressSelectionStatusUntil = DateTime.MinValue;
         private DateTime _suppressListRefreshStatusUntil = DateTime.MinValue;
+        private bool _userInteractedWithSandboxList;
         private bool _windowClosing;
         private bool _destroyStarted;
         private bool _destroyLaterScheduled = false;
         private bool _destroyPreparationCompleted;
         private bool _menuBarRebuildPending;
         private bool _uiInitialized;
+        private UpdateDisplayResult _pendingUpdateResult;
         private ToolTip _toolTip;
         private int _launchSessionId;
 
-        public string LogOutputMode { get; set; } = LauncherConstants.LogOutputDetailed;
+        public string LogOutputMode
+        {
+            get { return Runtime.LogOutputMode; }
+            set { Runtime.LogOutputMode = value; }
+        }
         public bool AutoRun { get; set; }
         public bool ShowTray { get; set; } = true;
         public bool ForceExitRequested { get; set; }
@@ -153,7 +162,7 @@ namespace ShaheLauncher.App
             }
             catch (Exception error)
             {
-                Console.WriteLine("设置开机自启动失败: " + error.Message);
+                LogOperationSafe("设置开机自启动失败: " + error);
             }
         }
 
@@ -174,12 +183,12 @@ namespace ShaheLauncher.App
                 if (TaskBarIcon.TrayIcon == null)
                 {
                     DisableTrayAfterCreationFailure();
-                    Console.WriteLine("托盘图标创建失败，已禁用托盘功能");
+                    LogOperationSafe("托盘图标创建失败，已禁用托盘功能");
                 }
             }
             catch (Exception error)
             {
-                Console.WriteLine("创建托盘图标失败: " + error.Message);
+                LogOperationSafe("创建托盘图标失败: " + error);
                 DisableTrayAfterCreationFailure();
             }
         }
@@ -199,7 +208,7 @@ namespace ShaheLauncher.App
             }
             catch (Exception error)
             {
-                Console.WriteLine("移除托盘图标失败: " + error.Message);
+                LogOperationSafe("移除托盘图标失败: " + error);
             }
         }
 
@@ -473,8 +482,7 @@ namespace ShaheLauncher.App
             var timer = new ManagedDelayedCall(
                 delayMilliseconds,
                 () => SafeCallAfter(callback),
-                item => UnregisterCallLater(item as ManagedDelayedCall),
-                "FrameSafeCallLater");
+                item => UnregisterCallLater(item as ManagedDelayedCall));
             return RegisterCallLater(timer);
         }
 
@@ -680,6 +688,25 @@ namespace ShaheLauncher.App
             }
         }
 
+        public void SuppressSelectionStatus(double seconds = 1.5)
+        {
+            DateTime now = GetUtcNow();
+            DateTime until;
+            try
+            {
+                until = now.AddSeconds(seconds);
+            }
+            catch
+            {
+                until = now.AddSeconds(1.5);
+            }
+
+            if (until > _suppressSelectionStatusUntil)
+            {
+                _suppressSelectionStatusUntil = until;
+            }
+        }
+
         public bool ShouldSuppressListRefreshStatus()
         {
             try
@@ -744,6 +771,7 @@ namespace ShaheLauncher.App
                 TabIndex = 1
             };
             WireAppPathCallbacks();
+            AppPathList.ContextMenu = BuildAppPathContextMenu();
 
             LaunchButton = new Button
             {
@@ -753,7 +781,7 @@ namespace ShaheLauncher.App
                 BackColor = Color.FromArgb(144, 238, 144),
                 TabIndex = 2
             };
-            LaunchButton.Click += (sender, eventArgs) => LaunchSelectedCallback?.Invoke();
+            LaunchButton.Click += (sender, eventArgs) => OperationLog.Run(this, LaunchButton.Text, () => LaunchSelectedCallback?.Invoke());
             var launchRow = new FlowLayoutPanel
             {
                 Dock = DockStyle.Fill,
@@ -770,17 +798,18 @@ namespace ShaheLauncher.App
                 Text = string.Empty,
                 AutoSize = true,
                 Anchor = AnchorStyles.Left,
+                AccessibleName = "更新提示",
                 TabStop = false,
                 Margin = new Padding(0, 6, 8, 0)
             };
             DownloadUpdateButton = new Button
             {
-                Text = "下载更新",
-                AccessibleName = "下载更新",
+                Text = "立即更新",
+                AccessibleName = "立即更新",
                 AutoSize = true,
                 TabIndex = 0
             };
-            DownloadUpdateButton.Click += (sender, eventArgs) => DownloadUpdateCallback?.Invoke();
+            DownloadUpdateButton.Click += (sender, eventArgs) => OperationLog.Run(this, DownloadUpdateButton.Text, () => DownloadUpdateCallback?.Invoke());
             UpdateNoticePanel = new Panel
             {
                 Dock = DockStyle.Fill,
@@ -829,6 +858,7 @@ namespace ShaheLauncher.App
 
         public bool OnCloseRequest(bool canVeto)
         {
+            LogOperationSafe("窗口关闭请求: 允许隐藏=" + canVeto + "，强制退出=" + ForceExitRequested);
             if (ForceExitRequested)
             {
                 return false;
@@ -837,6 +867,7 @@ namespace ShaheLauncher.App
             if (ShowTray && TaskBarIcon != null && TaskBarIcon.TrayIcon != null && canVeto)
             {
                 Hide();
+                LogOperationSafe("窗口关闭结果: 已隐藏到托盘");
                 return true;
             }
 
@@ -882,6 +913,7 @@ namespace ShaheLauncher.App
             }
 
             _destroyStarted = true;
+            LogOperationSafe("主窗口开始退出");
             bool hasScheduleJobs = false;
             try
             {
@@ -932,6 +964,22 @@ namespace ShaheLauncher.App
 
         protected override bool ProcessCmdKey(ref Message message, Keys keyData)
         {
+            bool extendedKey = false;
+            try
+            {
+                extendedKey = (message.LParam.ToInt64() & 0x01000000L) != 0;
+            }
+            catch
+            {
+            }
+
+            string action = ResolveHotkeyAction(keyData, extendedKey);
+            if (action.Length != 0 && FixedHotkeyActionCallback != null)
+            {
+                FixedHotkeyActionCallback(action);
+                return true;
+            }
+
             try
             {
                 if (FrameKeyCallback != null && FrameKeyCallback(keyData))
@@ -941,13 +989,6 @@ namespace ShaheLauncher.App
             }
             catch
             {
-            }
-
-            string action = HotkeyController.DispatchFixedHotkey(keyData);
-            if (action.Length != 0 && FixedHotkeyActionCallback != null)
-            {
-                FixedHotkeyActionCallback(action);
-                return true;
             }
 
             return base.ProcessCmdKey(ref message, keyData);
@@ -986,12 +1027,48 @@ namespace ShaheLauncher.App
             SandboxList.CloseCurrentCallback = name => CloseCurrentCallback?.Invoke(name);
             SandboxList.CloseAllCallback = () => CloseAllCallback?.Invoke();
             SandboxList.LocateCurrentCallback = name => LocateCurrentCallback?.Invoke(name);
+            SandboxList.RefreshProcessStateCallback = RefreshProcessStateOnly;
+            SandboxList.AllHasProcessResolver = current =>
+            {
+                if (current) return true;
+                if (!GetProcessMenuStates(false).ListMayHideSandboxMembers) return false;
+                bool? cached = HotkeyController.GetProcessMenuLiveState().AllHasProcess;
+                if (!cached.HasValue) ScheduleProcessMenuLiveStateRefresh(1);
+                return cached == true;
+            };
+            SandboxList.SelectedMuteStateProvider = () => ProcessActionService.GetMenuCachedMuteStateForSandbox(
+                ProcessState, SandboxList.ContextSandboxName);
+            SandboxList.AllMuteStateProvider = () => ProcessActionService.GetCachedMuteStateForAll(ProcessState);
             SandboxList.PinToggleCallback = name => PinToggleCallback?.Invoke(name);
             SandboxList.SelectionProcessStateRefreshCallback = () => ScheduleSandboxSelectionProcessStateRefresh();
             SandboxList.ShouldSuppressRefreshStatusProvider = ShouldSuppressListRefreshStatus;
+            SandboxList.UserInteractedProvider = () => _userInteractedWithSandboxList;
             SandboxList.StatusCallback = text => SafeSetStatusLabel(text);
+            SandboxList.RunningStatesRefreshCompletedCallback = OnRunningStatesRefreshCompleted;
             SandboxList.ProcessMenuInvalidatedCallback = () => HotkeyController.InvalidateProcessMenuStateCache();
             SandboxList.ProcessMenuLiveStateRefreshCallback = delay => ScheduleProcessMenuLiveStateRefreshCallback?.Invoke(delay);
+        }
+
+        private void OnSandboxToggled(int selectedCount)
+        {
+            if (SandboxList?.IsListRefreshInProgress() == true)
+            {
+                return;
+            }
+
+            _userInteractedWithSandboxList = true;
+            try
+            {
+                if (GetUtcNow() < _suppressSelectionStatusUntil)
+                {
+                    return;
+                }
+            }
+            catch
+            {
+            }
+
+            SafeSetStatusLabel("已选中 " + selectedCount + " 个沙盒");
         }
 
         private void WireAppPathCallbacks()
@@ -1007,13 +1084,32 @@ namespace ShaheLauncher.App
             {
                 if (!AppPathList.IsProgrammaticUpdate())
                 {
-                    AppItemCheckedCallback?.Invoke();
+                    _appItemCheckedIndex = eventArgs.Item.Index;
+                    try
+                    {
+                        AppItemCheckedCallback?.Invoke();
+                    }
+                    finally
+                    {
+                        _appItemCheckedIndex = -1;
+                    }
                 }
             };
             AppPathList.MouseUp += (sender, eventArgs) =>
             {
                 if (eventArgs.Button == MouseButtons.Right)
                 {
+                    ListViewItem item = AppPathList.GetItemAt(eventArgs.X, eventArgs.Y);
+                    if (item != null)
+                    {
+                        foreach (ListViewItem selected in AppPathList.SelectedItems)
+                        {
+                            selected.Selected = false;
+                        }
+                        item.Selected = true;
+                        item.Focused = true;
+                        item.EnsureVisible();
+                    }
                     AppContextMenuCallback?.Invoke();
                 }
             };

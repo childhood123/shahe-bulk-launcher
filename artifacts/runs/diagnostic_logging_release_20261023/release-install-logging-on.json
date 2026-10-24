@@ -1,0 +1,47 @@
+{
+  "returnCode": 0,
+  "scenario": "release-install-logging-on",
+  "command": [
+    "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\real-install\\release-install-logging-on\\helper\\沙河批量打开器.exe",
+    "--install-update",
+    "--app-dir",
+    "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\real-install\\release-install-logging-on\\app",
+    "--exe",
+    "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\real-install\\release-install-logging-on\\app\\沙河批量打开器.exe",
+    "--pid",
+    "0",
+    "--request-file",
+    "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\real-install\\release-install-logging-on\\request.json"
+  ],
+  "enabled": true,
+  "helperPid": 3848,
+  "signal": null,
+  "helperExitCode": 0,
+  "restart": {
+    "pid": 5988,
+    "window": 3474874,
+    "exitCode": 0,
+    "forcedCleanup": false,
+    "path": "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\real-install\\release-install-logging-on\\app\\沙河批量打开器.exe"
+  },
+  "installedFilesMatch": true,
+  "configurationUnchanged": true,
+  "logFiles": [
+    "D:\\mycodex\\git\\artifacts\\runs\\diagnostic_logging_release_20261023\\real-install\\release-install-logging-on\\app\\logs\\2026-10-23.log"
+  ],
+  "stages": [
+    "更新安装开始",
+    "下载更新包完成",
+    "校验更新包通过",
+    "解压更新包完成",
+    "备份安装目录完成",
+    "替换文件: ShaheLauncher.Core.dll",
+    "更新安装完成",
+    "清理更新临时文件完成",
+    "程序入口: 版本=4.0.48",
+    "主窗口进入消息循环",
+    "主程序退出"
+  ],
+  "logStagesPresent": true,
+  "noLegacyLogDirectory": true
+}

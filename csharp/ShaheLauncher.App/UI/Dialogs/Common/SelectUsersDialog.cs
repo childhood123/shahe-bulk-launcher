@@ -1,4 +1,5 @@
 using System;
+using ShaheLauncher.App.Infrastructure;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -83,7 +84,7 @@ namespace ShaheLauncher.App.UI.Dialogs.Common
             }
 
             OkButton = new Button { Text = "确定", AutoSize = true, TabIndex = 1 };
-            OkButton.Click += (sender, eventArgs) => ConfirmSelection();
+            OkButton.Click += (sender, eventArgs) => OperationLog.Run(this, Text + " / " + OkButton.Text, () => ConfirmSelection());
             CancelActionButton = new Button
             {
                 Text = "取消",
@@ -91,7 +92,7 @@ namespace ShaheLauncher.App.UI.Dialogs.Common
                 TabIndex = 2,
                 DialogResult = DialogResult.Cancel
             };
-            CancelActionButton.Click += (sender, eventArgs) => Close();
+            CancelActionButton.Click += (sender, eventArgs) => OperationLog.Run(this, Text + " / " + CancelActionButton.Text, () => Close());
             var buttons = new FlowLayoutPanel
             {
                 AutoSize = true,

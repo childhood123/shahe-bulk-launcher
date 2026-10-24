@@ -1,0 +1,16 @@
+{
+  "returnCode": 1,
+  "integrationCommit": "445612a8947688b3906dec02f713a08dec54459c",
+  "target": "origin/沙河批量打开器",
+  "remoteBase": "1658b7970250617ac30057cb79620be5cb816587",
+  "https443": false,
+  "ssh22": false,
+  "ssh443": false,
+  "dnsResolved": true,
+  "systemProxyEnabled": false,
+  "configuredProxy": "127.0.0.1:10808",
+  "configuredProxyListening": false,
+  "pushCompleted": false,
+  "voiceBranchDeleted": false,
+  "nextAction": "Restore GitHub connectivity, push integration branch, verify remote, then delete origin/voice03-fixed-reader-20261022"
+}

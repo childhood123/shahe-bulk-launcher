@@ -9,8 +9,8 @@ namespace ShaheLauncher.Core.Constants
     public static class LauncherConstants
     {
         public const string OldDefaultSandboxRoot = @"C:\Sandbox\Administrator";
-        public const string AppVersion = "4.0.46";
-        public const string UpdateManifestUrl = "https://lqh.viyf.net/shahe-bulk-launcher/update.json";
+        public const string AppVersion = "4.0.49";
+        public const string UpdateManifestUrl = "https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json";
         public const string LogOutputOff = "off";
         public const string LogOutputDetailed = "detailed";
 
@@ -61,12 +61,12 @@ namespace ShaheLauncher.Core.Constants
         public static string NormalizeLogOutputMode(string value)
         {
             string text = (value ?? string.Empty).Trim();
-            if (text == "关闭日志输出" || text == LogOutputOff)
+            if (text == "详细日志输出" || text == LogOutputDetailed)
             {
-                return LogOutputOff;
+                return LogOutputDetailed;
             }
 
-            return LogOutputDetailed;
+            return LogOutputOff;
         }
 
         public static string GetDefaultSandboxRoot()
@@ -91,6 +91,17 @@ namespace ShaheLauncher.Core.Constants
             }
 
             return drive + @"\Sandbox\" + userName;
+        }
+
+        public static int GetLaunchConcurrencyMaximum()
+        {
+            return Math.Max(1, Math.Min(32, Environment.ProcessorCount));
+        }
+
+        public static int GetDefaultLaunchConcurrencyLimit()
+        {
+            int maximum = GetLaunchConcurrencyMaximum();
+            return Math.Min(maximum, Environment.ProcessorCount < 4 ? 2 : 4);
         }
 
         public static string NormalizeSandboxRootPath(string sandboxRoot)

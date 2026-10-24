@@ -1,0 +1,76 @@
+  ShaheLauncher.Core -> D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Core.dll
+  ShaheLauncher.AuditRunner -> D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.AuditRunner.exe
+  ShaheLauncher.App -> D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\沙河批量打开器.exe
+  ShaheLauncher.Tests -> D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll
+D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll (.NETFramework,Version=v4.8)的测试运行
+VSTest 版本 17.11.1 (x64)
+
+正在启动测试执行，请稍候...
+总共 1 个测试文件与指定模式相匹配。
+  失败 AppendDailyLogUsesExactTimestampAndUtf8WithoutBom [244 ms]
+  错误消息:
+   Assert.IsNotNull 失败。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.BootstrapContractTests.AppendDailyLogUsesExactTimestampAndUtf8WithoutBom() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\BootstrapContractTests.cs:行号 141
+
+  失败 NormalizesLogOutputModeWithExplicitOptIn [5 ms]
+  错误消息:
+   Assert.AreEqual 失败。应为: <off>，实际为: <detailed>。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.ConstantsContractTests.NormalizesLogOutputModeWithExplicitOptIn() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\ConstantsContractTests.cs:行号 70
+
+  失败 LoggingDefaultsToOffAndRequiresAnExplicitDetailedChoice [1 ms]
+  错误消息:
+   Assert.AreEqual 失败。应为: <off>，实际为: <detailed>。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.LoggingDefaultsToOffAndRequiresAnExplicitDetailedChoice() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 27
+
+  失败 DisabledRuntimeDoesNotCreateEitherLogDirectory [14 ms]
+  错误消息:
+   Assert.IsFalse 失败。
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.<>c.<DisabledRuntimeDoesNotCreateEitherLogDirectory>b__1_0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 40
+   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.WithDirectory(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 174
+
+  失败 EnabledRuntimeSerializesWritersRotatesByDateAndStopsImmediately [5 ms]
+  错误消息:
+   Assert.IsNotNull 失败。The shared writer must enforce the logging switch.
+  堆栈跟踪:
+     在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.SetMode(LauncherRuntime runtime, String mode) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 167
+   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.<>c.<EnabledRuntimeSerializesWritersRotatesByDateAndStopsImmediately>b__2_0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 55
+   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.WithDirectory(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 174
+
+  失败 MainFormSwitchControlsDirectCallbacksAndActionFailures [214 ms]
+  错误消息:
+   测试方法 ShaheLauncher.Tests.DiagnosticLoggingContractTests.MainFormSwitchControlsDirectCallbacksAndActionFailures 引发了异常:
+System.IO.DirectoryNotFoundException: 未能找到路径“C:\Users\Administrator\AppData\Local\Temp\ShaheDiagnosticLogging_7073a04b30d04d639309d4c44c2cbcad\logs”的一部分。
+  堆栈跟踪:
+      在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.MainFormSwitchControlsDirectCallbacksAndActionFailures() 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 104
+
+  失败 InstallerUsesSavedSwitchAndRecordsStagesOrFailure (True,False) [30 ms]
+  错误消息:
+   测试方法 ShaheLauncher.Tests.DiagnosticLoggingContractTests.InstallerUsesSavedSwitchAndRecordsStagesOrFailure 引发了异常:
+System.IO.DirectoryNotFoundException: 未能找到路径“C:\Users\Administrator\AppData\Local\Temp\ShaheDiagnosticLogging_5e7fc766ead54428b2f71902191a4808\app\logs”的一部分。
+  堆栈跟踪:
+      在 System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   在 System.IO.FileSystemEnumerableIterator`1.CommonInit()
+   在 System.IO.FileSystemEnumerableIterator`1..ctor(String path, String originalUserPath, String searchPattern, SearchOption searchOption, SearchResultHandler`1 resultHandler, Boolean checkHost)
+   在 System.IO.Directory.GetFiles(String path)
+   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.<>c__DisplayClass4_0.<InstallerUsesSavedSwitchAndRecordsStagesOrFailure>b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 149
+   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.WithDirectory(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 174
+
+  失败 InstallerUsesSavedSwitchAndRecordsStagesOrFailure (True,True) [19 ms]
+  错误消息:
+   测试方法 ShaheLauncher.Tests.DiagnosticLoggingContractTests.InstallerUsesSavedSwitchAndRecordsStagesOrFailure 引发了异常:
+System.IO.DirectoryNotFoundException: 未能找到路径“C:\Users\Administrator\AppData\Local\Temp\ShaheDiagnosticLogging_91c9ecf9b6ee40d9b8db2422843ffb6d\app\logs”的一部分。
+  堆栈跟踪:
+      在 System.IO.__Error.WinIOError(Int32 errorCode, String maybeFullPath)
+   在 System.IO.FileSystemEnumerableIterator`1.CommonInit()
+   在 System.IO.FileSystemEnumerableIterator`1..ctor(String path, String originalUserPath, String searchPattern, SearchOption searchOption, SearchResultHandler`1 resultHandler, Boolean checkHost)
+   在 System.IO.Directory.GetFiles(String path)
+   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.<>c__DisplayClass4_0.<InstallerUsesSavedSwitchAndRecordsStagesOrFailure>b__0(String root) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 149
+   在 ShaheLauncher.Tests.DiagnosticLoggingContractTests.WithDirectory(Action`1 action) 位置 D:\mycodex\git\csharp\ShaheLauncher.Tests\DiagnosticLoggingContractTests.cs:行号 174
+
+结果文件: D:\mycodex\git\artifacts\runs\diagnostic_logging_release_20261023\red.trx
+
+失败!  - 失败:     8，通过:     2，已跳过:     0，总计:    10，持续时间: 1 s - ShaheLauncher.Tests.dll (net48)

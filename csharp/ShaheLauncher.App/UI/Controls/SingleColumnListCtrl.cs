@@ -190,8 +190,7 @@ namespace ShaheLauncher.App.UI.Controls
             call = new ManagedDelayedCall(
                 delayMilliseconds,
                 () => SafeCallAfter(callback),
-                ignored => UnregisterCall(call),
-                "ListSafeCallLater");
+                ignored => UnregisterCall(call));
             lock (_pendingCalls)
             {
                 _pendingCalls.Add(call);

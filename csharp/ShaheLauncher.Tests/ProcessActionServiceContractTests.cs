@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using ShaheLauncher.Core.Processes;
 
 namespace ShaheLauncher.Tests
 {
@@ -84,6 +85,69 @@ namespace ShaheLauncher.Tests
             Assert.AreEqual("1. PID 123 - <无标题窗口>", ReflectionTestHelpers.InvokeStatic(
                 serviceType, "FormatWindowChoiceLabel", 1, 123, ""));
             Assert.AreEqual("定位当前打开的进程", GetStaticString(serviceType, "LocateWindowTitle"));
+        }
+
+        [TestMethod]
+        public void LocateCurrentSandboxFiltersForeignWindowsAndActivatesTargetDirectly()
+        {
+            using (var service = new ProcessActionService())
+            {
+                int chooseCalls = 0;
+                var activated = new List<long>();
+                var statuses = new List<string>();
+                var callbacks = new ProcessActionCallbacks
+                {
+                    ResolveSandboxNames = name => Tuple.Create("Box1", "用户一"),
+                    GetSandboxPids = name => new[] { 101 },
+                    EnumerateWindows = pids => new[]
+                    {
+                        new ProcessWindowCandidate { Hwnd = 2001, Pid = 202, Title = "其他用户" },
+                        new ProcessWindowCandidate { Hwnd = 1001, Pid = 101, Title = "当前用户" }
+                    },
+                    ChooseWindow = (name, windows) =>
+                    {
+                        chooseCalls++;
+                        return windows[0].Hwnd;
+                    },
+                    ActivateWindow = hwnd =>
+                    {
+                        activated.Add(hwnd);
+                        return true;
+                    },
+                    SetStatus = statuses.Add,
+                    Speak = (text, key) => { }
+                };
+
+                Assert.IsTrue(service.OnLocateCurrentSandbox("Box1", callbacks));
+                Assert.AreEqual(0, chooseCalls, "定位当前用户时不应显示进程选择框");
+                CollectionAssert.AreEqual(new long[] { 1001 }, activated.ToArray());
+                CollectionAssert.Contains(statuses, "已定位到当前打开的进程: 用户一");
+            }
+        }
+
+        [TestMethod]
+        public void LocateWithMultipleWindowsUsesFirstCandidateWithoutPrompting()
+        {
+            using (var service = new ProcessActionService())
+            {
+                int chooseCalls = 0;
+                var windows = new[]
+                {
+                    new ProcessWindowCandidate { Hwnd = 1001, Pid = 101, Title = "第一个窗口" },
+                    new ProcessWindowCandidate { Hwnd = 1002, Pid = 101, Title = "第二个窗口" }
+                };
+                var callbacks = new ProcessActionCallbacks
+                {
+                    ChooseWindow = (name, choices) =>
+                    {
+                        chooseCalls++;
+                        return choices[1].Hwnd;
+                    }
+                };
+
+                Assert.AreEqual(1001L, service.PromptWindowChoice("用户一", windows, callbacks));
+                Assert.AreEqual(0, chooseCalls, "多个窗口也应直接定位，不应显示选择框");
+            }
         }
 
         [TestMethod]

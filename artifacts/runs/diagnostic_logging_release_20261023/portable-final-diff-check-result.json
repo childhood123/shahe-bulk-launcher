@@ -1,0 +1,23 @@
+{
+  "returnCode": 0,
+  "fullWorktreeReturnCode": 1,
+  "fullWorktreeExistingIssues": [
+    "artifacts/runs/csharp_non_update_gaps_20261020/gap09/real-path-history.log:57",
+    "artifacts/runs/csharp_non_update_gaps_20261020/gap09/red-20261021_155943_230.log:242"
+  ],
+  "scopedCommand": [
+    "git",
+    "diff",
+    "--check",
+    "--",
+    ".",
+    ":(exclude)artifacts/runs/csharp_non_update_gaps_20261020/gap09/real-path-history.log",
+    ":(exclude)artifacts/runs/csharp_non_update_gaps_20261020/gap09/red-20261021_155943_230.log"
+  ],
+  "scopedReturnCode": 0,
+  "newScriptsChecked": [
+    "artifacts\\runs\\diagnostic_logging_release_20261023\\package-portable-final.ps1",
+    "artifacts\\runs\\diagnostic_logging_release_20261023\\verify-portable-final.ps1"
+  ],
+  "newScriptTrailingWhitespaceIssues": []
+}

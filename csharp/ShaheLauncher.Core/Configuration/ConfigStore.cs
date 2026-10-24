@@ -207,17 +207,9 @@ namespace ShaheLauncher.Core.Configuration
         {
             EnsureStorePath();
             Directory.CreateDirectory(Path.GetDirectoryName(_storePath) ?? string.Empty);
-            IniDocument document;
-            try
-            {
-                document = File.Exists(_storePath)
-                    ? IniDocument.Parse(File.ReadAllLines(_storePath, Encoding.UTF8))
-                    : new IniDocument();
-            }
-            catch
-            {
-                document = new IniDocument();
-            }
+            IniDocument document = File.Exists(_storePath)
+                ? IniDocument.Parse(File.ReadAllLines(_storePath, Encoding.UTF8))
+                : new IniDocument();
 
             document.EnsureSection(ConfigSection);
             return document;

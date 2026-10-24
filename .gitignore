@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+artifacts/probes/
+artifacts/screenshots/
+artifacts/logs/
+/Configuration/
+log/
+tenp/
+csharp/.vs/
+csharp/**/bin/
+csharp/**/obj/
+/Configurations/
