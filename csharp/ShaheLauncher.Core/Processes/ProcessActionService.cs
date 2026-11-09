@@ -429,13 +429,8 @@ namespace ShaheLauncher.Core.Processes
             IEnumerable<string> sandboxNames,
             Func<string, IEnumerable<int>> getSandboxPids)
         {
-            IList<int> fast = NormalizePidSet(fastPids);
-            if (fast.Count != 0)
-            {
-                return fast;
-            }
-
-            var allPids = new HashSet<int>();
+            // API enumeration can succeed with only some users; retain it and complete the target set.
+            var allPids = new HashSet<int>(NormalizePidSet(fastPids));
             if (getSandboxPids == null)
             {
                 return allPids.OrderBy(value => value).ToList();
@@ -1604,16 +1599,16 @@ namespace ShaheLauncher.Core.Processes
 
         public bool OnSwitchOutputDeviceAllSandboxes(ProcessActionCallbacks callbacks)
         {
-            IList<int> pids = GetAllPids(callbacks);
-            if (pids.Count == 0)
-            {
-                callbacks?.SetStatus?.Invoke("当前没有可切换设备的全部打开进程");
-                return false;
-            }
             return RunVolumeTaskAsync(
                 "正在切换全部打开进程播放设备...",
                 delegate
                 {
+                    IList<int> pids = GetAllPids(callbacks);
+                    if (pids.Count == 0)
+                    {
+                        Post(callbacks, () => callbacks?.SetStatus?.Invoke("当前没有可切换设备的全部打开进程"));
+                        return string.Empty;
+                    }
                     ProcessAudioDevice device = PromptOutputDeviceChoiceFromWorker(
                         SwitchAllOutputTitle,
                         callbacks);

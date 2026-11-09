@@ -34,7 +34,7 @@ namespace ShaheLauncher.Tests
         }
 
         [TestMethod]
-        public void NormalizesPidsAndUsesFastAllProcessPathBeforePerSandboxFallback()
+        public void NormalizesPidsAndCompletesFastAllProcessResultWithPerSandboxQueries()
         {
             Type serviceType = RequireType(ServiceTypeName);
             object service = Activator.CreateInstance(serviceType);
@@ -52,10 +52,11 @@ namespace ShaheLauncher.Tests
                 return name == "BoxA" ? new[] { 3, 3 } : new[] { 4 };
             };
             CollectionAssert.AreEqual(
-                new[] { 7, 8 },
+                new[] { 3, 4, 7, 8 },
                 ToIntArray(ReflectionTestHelpers.InvokeInstance(
                     service, "GetTargetPidsForAll", fast, names, fallback)));
-            Assert.AreEqual(0, fallbackCalls.Count);
+            CollectionAssert.AreEqual(new[] { "BoxA", "BoxB" }, fallbackCalls.ToArray());
+            fallbackCalls.Clear();
 
             CollectionAssert.AreEqual(
                 new[] { 3, 4 },

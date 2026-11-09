@@ -1,6 +1,14 @@
 # 沙河批量打开器项目结构
 
-## 当前执行摘要（2026-10-23 LOG-01 沙河远端同步提交已准备，GitHub 网络阻断）
+## 当前执行摘要（2026-11-09）
+
+- 当前唯一计划：`docs/superpowers/plans/2026-11-09-user-list-acceptance-fixes.md`，用户已要求开始修复；顺序为全部进程目标补齐、设备切换、真实菜单验收。逐模块验证、记录并独立提交。
+- 当前模块：MIG-ALL-PIDS-01 已完成代码修复和定向/回归/全量/隔离构建/真实进程验证，正在独立提交。任务二设备切换与任务三真实菜单尚未完成；详情见 `docs/migration/2026-11-09-user-list-fixes.md`。
+- 当前可运行状态：已有绿色版主窗口启动/退出及服务运行证据，但菜单完整桌面验收仍未完成；不声明整个迁移完成。设备切换的旧 WinMM 活跃流未迁移仍待分析。
+- 范围：保留现有菜单、正常文案和快捷键；不修改 Python、不升级版本、不发布包。只操作隔离测试进程，保留主工作区已有改动。
+- 文档阅读顺序：AGENTS.md → 本摘要 → 当前计划 → 本文末尾 USER-LIST-FIX-20261109 验证记录。旧摘要的未推送/旧版本描述是历史，当前修复基于已同步的 GitHub 源码。
+
+## 历史执行摘要（2026-10-23 LOG-01 沙河远端同步提交已准备，GitHub 网络阻断）
 
 - 本轮 LOG-01：全部 Alt 菜单、快捷键、右键菜单、按钮、托盘、列表动作和对话框返回已接入日志；统一为 `logs/yyyy-MM-dd.log`，缺省关闭，开启后才记录。最终定向/全量、Release 及日志开关验证已通过；4.0.48 最终交付物为无安装程序的绿色 ZIP，包内 `Configurations/`、`logs/` 均为空，不含 `updater.exe`、PDB、用户配置或日志，解压后主窗口可直接启动并正常退出。主 EXE/Core DLL 与已通过内置更新实测的默认发布编译物哈希一致，更新能力仍由主程序内置。本地功能提交为 `4e87526`，以远端沙河分支为父的前向同步提交为 `445612a`；当前 GitHub HTTPS/SSH 均不可达，尚未推送。远端主分支验证成功后再删除独立语音分支。本地包尚未上传 GitCode。Python 未改，不推进 AUDIT-05。
 - 用户最新范围：只保留 UPDATE-EMBED-01 内置更新及三个选项，本模块已实现、验证、独立提交并推送；“稍后”保存目标版本并于下次启动自动更新，“忽略”取消该版本安排，默认发布不含独立 updater。FIX-CONFIG-02 未提交修复已按用户要求撤回；已提交的 FIX-CONFIG-01 保持。Python、GitCode 公开包和用户旧版目录未改；C# 能启动并运行已验证功能，整体 AUDIT/还原安全等待办仍未完成。
@@ -2426,19 +2434,19 @@ csharp/
 
 - VOICE-03 integration-green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\ --logger trx;LogFileName=integration-green.trx --results-directory D:\mycodex\git\artifacts\runs\speech_selection_20261022 --filter FullyQualifiedName~SpeechSelectionRuntimeContractTests`；返回码 0，通过 12、失败 0、跳过 0。日志与命令索引：`artifacts/runs/speech_selection_20261022/integration-green.log`、`integration-green-result.json`；如为 C# 测试，另有同名 TRX。
 
-- VOICE-03 ԭ���ӿ� zdsr�������� 1��״̬ failed��ʵ�ʼ���/���/����������ͷš�PID������Ŀ¼�� artifacts/runs/speech_selection_20261022/native-zdsr-result.json���������֤�ݲ���ͬ���˹�����ȷ�ϡ�
+- VOICE-03 原生接口 zdsr：返回码 1，状态 failed，实际加载/检测/输出调用与释放、PID、构建目录见 artifacts/runs/speech_selection_20261022/native-zdsr-result.json；输出调用证据不等同于人工听感确认。
 
 - VOICE-03 首次原生 zdsr 探针因 PowerShell 反射构造参数绑定失败，未调用读屏 DLL，不计接口功能失败；改为显式 ConstructorInfo.Invoke 后另存结果重跑。
 
-- VOICE-03 ԭ���ӿ� zdsr�������� 0��״̬ passed��ʵ�ʼ���/���/����������ͷš�PID������Ŀ¼�� artifacts/runs/speech_selection_20261022/native-zdsr-final-result.json���������֤�ݲ���ͬ���˹�����ȷ�ϡ�
+- VOICE-03 原生接口 zdsr：返回码 0，状态 passed，实际加载/检测/输出调用与释放、PID、构建目录见 artifacts/runs/speech_selection_20261022/native-zdsr-final-result.json；输出调用证据不等同于人工听感确认。
 
 - VOICE-03 NVDA 实测准备：本机安装 NVDA 2026.1.1，启动前无 NVDA 运行进程；使用测试专用配置目录和禁用插件参数启动安装版，命令、归属 PID 与实际路径见 artifacts/runs/speech_selection_20261022/nvda-test-launch.json。争渡进程未停止，用户常用 NVDA 配置未改写。
 
-- VOICE-03 ԭ���ӿ� nvda�������� 0��״̬ passed��ʵ�ʼ���/���/����������ͷš�PID������Ŀ¼�� artifacts/runs/speech_selection_20261022/native-nvda-final-result.json���������֤�ݲ���ͬ���˹�����ȷ�ϡ�
+- VOICE-03 原生接口 nvda：返回码 0，状态 passed，实际加载/检测/输出调用与释放、PID、构建目录见 artifacts/runs/speech_selection_20261022/native-nvda-final-result.json；输出调用证据不等同于人工听感确认。
 
-- VOICE-03 ԭ���ӿ� automatic�������� 0��״̬ passed��ʵ�ʼ���/���/����������ͷš�PID������Ŀ¼�� artifacts/runs/speech_selection_20261022/native-automatic-final-result.json���������֤�ݲ���ͬ���˹�����ȷ�ϡ�
+- VOICE-03 原生接口 automatic：返回码 0，状态 passed，实际加载/检测/输出调用与释放、PID、构建目录见 artifacts/runs/speech_selection_20261022/native-automatic-final-result.json；输出调用证据不等同于人工听感确认。
 
-- VOICE-03 ԭ���ӿ� boy�������� 3��״̬ unavailable��ʵ�ʼ���/���/����������ͷš�PID������Ŀ¼�� artifacts/runs/speech_selection_20261022/native-boy-final-result.json���������֤�ݲ���ͬ���˹�����ȷ�ϡ�
+- VOICE-03 原生接口 boy：返回码 3，状态 unavailable，实际加载/检测/输出调用与释放、PID、构建目录见 artifacts/runs/speech_selection_20261022/native-boy-final-result.json；输出调用证据不等同于人工听感确认。
 
 - VOICE-03 NVDA 测试清理：仅在当前全部 NVDA 进程属于本轮专用配置时发送官方 --quit；实际归属 PID、退出及残留结果见 artifacts/runs/speech_selection_20261022/nvda-test-cleanup.json。用户运行中的争渡保持运行。
 
@@ -2446,17 +2454,17 @@ csharp/
 
 - VOICE-03 fallback-green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\ --logger trx;LogFileName=fallback-green.trx --results-directory D:\mycodex\git\artifacts\runs\speech_selection_20261022 --filter FullyQualifiedName~SpeechSelectionRuntimeContractTests|FullyQualifiedName~TolkRuntimeIntegrationContractTests`；返回码 0，通过 30、失败 0、跳过 0。日志与命令索引：`artifacts/runs/speech_selection_20261022/fallback-green.log`、`fallback-green-result.json`；如为 C# 测试，另有同名 TRX。
 
-- VOICE-03 ԭ���ӿ� nvda�������� 0��״̬ passed��ʵ�ʼ���/���/����������ͷš�PID������Ŀ¼�� artifacts/runs/speech_selection_20261022/native-windows-fallback-final-result.json���������֤�ݲ���ͬ���˹�����ȷ�ϡ�
+- VOICE-03 原生接口 nvda：返回码 0，状态 passed，实际加载/检测/输出调用与释放、PID、构建目录见 artifacts/runs/speech_selection_20261022/native-windows-fallback-final-result.json；输出调用证据不等同于人工听感确认。
 
 - VOICE-03 Windows 回退补充：native-windows-fallback-final 的 NoReaders 仅替换进程检测输入，原生 Tolk/Windows 后端真实执行，检测结果 OneCore、输出调用与释放成功；未停止真实争渡。下一场景使用只含相同 Tolk.dll 的隔离目录核对自动模式缺少读屏接口时的 Windows 回退。
 
-- VOICE-03 ԭ���ӿ� automatic�������� 0��״̬ passed��ʵ�ʼ���/���/����������ͷš�PID������Ŀ¼�� artifacts/runs/speech_selection_20261022/native-auto-windows-final-result.json���������֤�ݲ���ͬ���˹�����ȷ�ϡ�
+- VOICE-03 原生接口 automatic：返回码 0，状态 passed，实际加载/检测/输出调用与释放、PID、构建目录见 artifacts/runs/speech_selection_20261022/native-auto-windows-final-result.json；输出调用证据不等同于人工听感确认。
 
 - VOICE-03 preference-red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\ --logger trx;LogFileName=preference-red.trx --results-directory D:\mycodex\git\artifacts\runs\speech_selection_20261022 --filter FullyQualifiedName~UnavailableSelectionUsesAutomaticTemporarily|FullyQualifiedName~ReaderApiBecomingUnavailable|FullyQualifiedName~MissingSelectedLibraryUsesAutomatic`；返回码 1，通过 0、失败 5、跳过 0。日志与命令索引：`artifacts/runs/speech_selection_20261022/preference-red.log`、`preference-red-result.json`；如为 C# 测试，另有同名 TRX。
 
 - VOICE-03 preference-green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\speech_selection_20261022\bin\ --logger trx;LogFileName=preference-green.trx --results-directory D:\mycodex\git\artifacts\runs\speech_selection_20261022 --filter FullyQualifiedName~SpeechSelectionRuntimeContractTests|FullyQualifiedName~TolkRuntimeIntegrationContractTests`；返回码 0，通过 34、失败 0、跳过 0。日志与命令索引：`artifacts/runs/speech_selection_20261022/preference-green.log`、`preference-green-result.json`；如为 C# 测试，另有同名 TRX。
 
-- VOICE-03 ԭ���ӿ� zdsr�������� 0��״̬ passed��ʵ�ʼ���/���/����������ͷš�PID������Ŀ¼�� artifacts/runs/speech_selection_20261022/preference-native-zdsr-result.json���������֤�ݲ���ͬ���˹�����ȷ�ϡ�
+- VOICE-03 原生接口 zdsr：返回码 0，状态 passed，实际加载/检测/输出调用与释放、PID、构建目录见 artifacts/runs/speech_selection_20261022/preference-native-zdsr-result.json；输出调用证据不等同于人工听感确认。
 
 - VOICE-03 中断恢复：上轮 preference-native-boy-fallback 命令返回 1，仅输出 InitTTS rt=0，未生成结构化报告，目标 PID 未记录，且对应时间段未找到相关 Application/.NET Runtime 崩溃事件；标记 inconclusive，不能作为产品通过/失败。证据索引为 speech_selection_20261022/interrupted-preference-boy-result.json。探针补充阶段日志及明确 UTF-8 文档追加后重跑。
 
@@ -3129,3 +3137,43 @@ csharp/
 - LOG-01 沙河远端前向同步提交：445612a8947688b3906dec02f713a08dec54459c，父提交为远端 1658b7970250617ac30057cb79620be5cb816587；C# 子树哈希与已验证 4e87526 一致，Python/ZIP/PDB 为 0，旧独立 Updater 仅删除。
 
 - LOG-01 GitHub 网络阻断：推送 445612a 到 origin/沙河批量打开器 失败，DNS 成功但 HTTPS 443、SSH 22、SSH 443 均无法建立 TCP；系统代理关闭，已配置的 127.0.0.1:10808 无监听。远端主分支未改变，语音分支未删除。证据见 artifacts/runs/diagnostic_logging_release_20261023/remote-network-block-result.json。
+
+### USER-LIST-FIX-20261109：未通过项目修复
+
+- 用户已在完整方案展示后要求开始修复，计划已写入。GitHub fetch 返回码 0，隔离工作树基线为 82bc77e0b7631487c3cff228a44a8d9ffa5a6fb4，分支 fix/user-list-acceptance-20261109。主目录生产 C# 与远端一致，已有菜单契约文件在主目录未纳入其旧 HEAD，不视为删除；主目录未提交改动保持原样。工作树 D:/mycodex/worktrees/shahe-user-list-fixes-20261109，证据 artifacts/runs/user_list_fixes_20261109/。
+
+- 依赖恢复：dotnet restore csharp/ShaheBulkLauncher.sln --locked-mode 返回码 0；日志 artifacts/runs/user_list_fixes_20261109/restore.log。使用 D:/Dev/NuGet/packages 缓存，未变更包版本。
+
+- task1 / red：命令 dotnet test csharp/ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:/mycodex/git/artifacts/runs/user_list_fixes_20261109/task1/bin/ --results-directory D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\red --logger trx;LogFileName=red.trx --filter FullyQualifiedName~AllProcessTargetsContractTests|FullyQualifiedName~NormalizesPidsAndUsesFastAllProcessPathBeforePerSandboxFallback；返回码 1；总数 11，通过 3，失败 8，未执行 0。日志 D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\red/red.log，TRX D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\red\red.trx。
+
+- task1 / green：命令 dotnet test csharp/ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:/mycodex/git/artifacts/runs/user_list_fixes_20261109/task1/bin/ --results-directory D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\green --logger trx;LogFileName=green.trx --filter FullyQualifiedName~AllProcessTargetsContractTests|FullyQualifiedName~NormalizesPidsAndCompletesFastAllProcessResultWithPerSandboxQueries；返回码 0；总数 11，通过 11，失败 0，未执行 0。日志 D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\green/green.log，TRX D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\green\green.trx。
+
+- task1 / affected：命令 dotnet test csharp/ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:/mycodex/git/artifacts/runs/user_list_fixes_20261109/task1/bin/ --results-directory D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\affected --logger trx;LogFileName=affected.trx --filter TestCategory=ProcessActions|TestCategory=Application|TestCategory=UiControls|TestCategory=Hotkeys|TestCategory=DiagnosticLogging；返回码 0；总数 176，通过 176，失败 0，未执行 0。日志 D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\affected/affected.log，TRX D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\affected\affected.trx。
+
+- task1 / full：命令 dotnet test csharp/ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:/mycodex/git/artifacts/runs/user_list_fixes_20261109/task1/bin/ --results-directory D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\full --logger trx;LogFileName=full.trx；返回码 0；总数 440，通过 440，失败 0，未执行 0。日志 D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\full/full.log，TRX D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\full\full.trx。
+
+- 任务一隔离 Release x64：dotnet build csharp/ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:/mycodex/git/artifacts/runs/user_list_fixes_20261109/task1/release/ 返回码 0；完整警告/错误和生产源码编译结果见 task1/release.log。
+
+- 任务一真实进程复验夹具编译返回码 0，日志 task1/native-build.log；加载本轮 Release 的 Core，使用两个目标和一个受保护的专用静音进程，未访问正式用户目标。
+
+- 任务一真实部分查询复验：NativeTargetsProbe.exe 返回码 0；通过 5，失败 0，执行异常 ；日志 task1/native.log，前后音频/存活/PID/程序集哈希证据 task1/native/native-result.json。
+
+- 任务一修复已按最小补丁同步主目录，保留原定位等已有改动。首次文本比对仅发现新增测试文件末尾多一空行，已纠正；三个变更源码文件按换行归一后与已验证工作树完全一致。Python 生产文件未改，只读对照原版逐箱查询语义。
+
+- 任务一生产编译/隔离 Release 返回码 0、警告 0、错误 0。真实进程证据确认两个目标均完成、保护进程未被动作影响且三个测试进程最终均退出。Python 未改，复用已有 python-complete-result.json（返回码 0，通过 31/失败 0/跳过 0）及 compile-result.json（返回码 0），均位于 artifacts/runs/updater_added_dll_20261023/；旧中间失败不冒充通过。代码结果与尚未验收边界整理在 docs/migration/2026-11-09-user-list-fixes.md。
+
+- 任务一提交前 git diff --check 返回码 0；严格 UTF-8 解码可读，但远端基线 PROJECT_STRUCTURE.md 的历史语音记录含旧 replacement character，因此全文文档检查未通过。此问题在原基线已存在，主目录对应历史记录已按用户此前要求纠正；仅恢复相同历史记录的中文文本，保留原结果和证据路径。
+
+- 任务一文档检查修正后通过：以逐条相同证据路径从主目录恢复了 8 条远端旧乱码记录的原有中文，原返回码/状态不变。严格 UTF-8、替换字符和尾随空白通过，git diff --check 返回码 0；未重跑产品测试。
+
+- task1 / empty-status-red：命令 dotnet test csharp/ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:/mycodex/git/artifacts/runs/user_list_fixes_20261109/task1/bin/ --results-directory D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\empty-status-red --logger trx;LogFileName=empty-status-red.trx --filter FullyQualifiedName~EmptyAllDeviceTargetsPostTheResultToTheUiThread；返回码 1；总数 1，通过 0，失败 1，未执行 0。日志 D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\empty-status-red/empty-status-red.log，TRX D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\empty-status-red\empty-status-red.trx。
+
+- task1 / final-green：命令 dotnet test csharp/ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:/mycodex/git/artifacts/runs/user_list_fixes_20261109/task1/bin/ --results-directory D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\final-green --logger trx;LogFileName=final-green.trx --filter TestCategory=ProcessActions|TestCategory=Application|TestCategory=UiControls|TestCategory=Hotkeys|TestCategory=DiagnosticLogging；返回码 0；总数 177，通过 177，失败 0，未执行 0。日志 D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\final-green/final-green.log，TRX D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\final-green\final-green.trx。
+
+- 任务一独立复核未发现目标范围扩大；复核提示的空目标状态线程问题已先取得单项 RED（实际线程不等于调用/UI线程），再改为通过 PostToUi 投递，新增受影响 GREEN 已通过。仅这一新增改动要求一次最终全量/构建，不重跑已通过真实音量场景；主目录已同步相同补丁。
+
+- task1 / final-full：命令 dotnet test csharp/ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:/mycodex/git/artifacts/runs/user_list_fixes_20261109/task1/bin/ --results-directory D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\final-full --logger trx;LogFileName=final-full.trx；返回码 0；总数 441，通过 441，失败 0，未执行 0。日志 D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\final-full/final-full.log，TRX D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\task1\final-full\final-full.trx。
+
+- 任务一最终生产编译/Release x64：dotnet build 解决方案 --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=本轮/task1/release-final/，返回码 0，警告 0、错误 0；日志 task1/release-final.log。最终全量通过后代码未再变更。
+
+- 任务一暂存后差异检查发现新增计划末尾多一个空行（返回码 2），尚未提交；已仅去掉尾空行。暂存仍严格限定之前列出的六个文件，无业务修改或测试重跑。
