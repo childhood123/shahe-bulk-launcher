@@ -3,7 +3,7 @@
 ## 当前执行摘要（2026-11-09）
 
 - 当前唯一计划：`docs/superpowers/plans/2026-11-09-user-list-acceptance-fixes.md`，用户已要求开始修复；顺序为全部进程目标补齐、设备切换、真实菜单验收。逐模块验证、记录并独立提交。
-- 当前模块：MIG-ALL-PIDS-01 已完成代码修复和定向/回归/全量/隔离构建/真实进程验证，正在独立提交。任务二设备切换与任务三真实菜单尚未完成；详情见 `docs/migration/2026-11-09-user-list-fixes.md`。
+- 当前模块：MIG-ALL-PIDS-01 已修复、验证并独立推送 GitHub。任务二对照确认 C#/Python 路由均设置成功但本轮 WinMM 流均未迁移，保留支持边界；任务三宿主显示正常但桌面会话失效，真实菜单仍未验收。详情见 `docs/migration/2026-11-09-user-list-fixes.md`。
 - 当前可运行状态：已有绿色版主窗口启动/退出及服务运行证据，但菜单完整桌面验收仍未完成；不声明整个迁移完成。设备切换的旧 WinMM 活跃流未迁移仍待分析。
 - 范围：保留现有菜单、正常文案和快捷键；不修改 Python、不升级版本、不发布包。只操作隔离测试进程，保留主工作区已有改动。
 - 文档阅读顺序：AGENTS.md → 本摘要 → 当前计划 → 本文末尾 USER-LIST-FIX-20261109 验证记录。旧摘要的未推送/旧版本描述是历史，当前修复基于已同步的 GitHub 源码。
@@ -3177,3 +3177,25 @@ csharp/
 - 任务一最终生产编译/Release x64：dotnet build 解决方案 --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=本轮/task1/release-final/，返回码 0，警告 0、错误 0；日志 task1/release-final.log。最终全量通过后代码未再变更。
 
 - 任务一暂存后差异检查发现新增计划末尾多一个空行（返回码 2），尚未提交；已仅去掉尾空行。暂存仍严格限定之前列出的六个文件，无业务修改或测试重跑。
+
+- 任务一独立提交已生成 0fdadbe；首次 git push origin HEAD:refs/heads/沙河批量打开器 返回码 1，错误 Empty reply from server。尚不声称远端已更新；继续核对并尝试已有认证通道，不强推。
+
+- 中断恢复后，原 push 会话已不存在，无法取得其退出码；本次 gh API 远端确认返回连接超时，不能确认远端更新。任务一提交 0fdadbe90e5f9bc1dfeec24f9e4a9553721c2c6c 已在本地，推送步骤保持未勾选。为避免网络阻断浪费重复测试，继续已授权任务二的本地根因核查，不宣称提交已发布。
+
+- 任务二路由对照夹具编译返回码 0，日志 task2/probe-build.log；只调用隔离测试进程的路由，读回原始两个角色配置并在结束时恢复，比较原 Python 已安装后端和 C# 的持续/重建音频流。
+
+- 任务二路由对照执行返回码 0，日志 task2/routing-comparison.log，详细配置读回/音频端点/清理见 task2/native/routing-comparison.json。尚需读取结果，接口成功不等于流迁移。
+
+- 任务二根因边界核对：C# 与本机 Python winappaudiorouter 1.1.1 均调用相同 PolicyConfig 接口、相同两个角色；真实读回均为目标设备，但同一 WinMM/PlaySound 测试流在持续及停止后重新播放场景均留在默认端点。原 Python 后端同样未迁移该流，不能定性为 C# 独有功能缺失；未强制重启或修改用户程序，原路由已恢复、测试进程已退出（task2/native/routing-comparison.json）。任务二仍保留实际目标播放器适配边界，不虚写修复通过。
+
+- 任务三验收夹具修正并编译返回码 1，日志 task3/harness-build.log。上一轮在窗体句柄创建前触发异步列表刷新；本轮将刷新安排在 Shown 事件后，状态观察从显示后开始，并捕获完整 UI 异常日志。未改产品列表逻辑；桌面窗口枚举已恢复可用。
+
+- 任务三夹具首次编译因源文件路径被编译器解析成主目录而失败（返回码 1，未启动程序），改用 portable 工作目录的相对源码路径；再次编译返回码 0，日志 task3/harness-build-final.log。
+
+- 任务三本轮宿主已正常显示：sky.list_windows 返回“沙河批量打开器 - 修复后用户列表隔离验收”及两个测试窗口，上一轮初始化异常未再出现。首次截图/无障碍组合捕获返回 CUA_EXECUTION_FAILED；按规范重新枚举恢复时返回 CUA_TURN_NOT_ACTIVE，已停止桌面输入，未执行任何功能菜单。窗口可显示不等于键盘/读屏通过，真实菜单仍受宿主连接阻断。
+
+- 任务一源码推送成功：本次命令临时指定已在监听的 http://127.0.0.1:10808 代理，git push 返回码 0，远端沙河批量打开器从 82bc77e 前进到 0fdadbe90e5f9bc1dfeec24f9e4a9553721c2c6c；ls-remote 再核对分支。回退命令 git revert 0fdadbe90e5f9bc1dfeec24f9e4a9553721c2c6c。未修改系统代理或 Git 持久配置，未替换公开 ZIP。
+
+- 任务三清理完成：三个本轮测试窗口进程按精确 PID+可执行路径校验后结束，结果 task3/cleanup-result.json。桌面连接失效后采用进程清理，不计正常 UI 退出；正式程序/读屏未停止。夹具日志未再出现 fatal/ui-thread-error/snapshot-error，已显示主窗体和运行/空闲用户列表，但未取得菜单动作证据。
+
+- 本轮收尾核对：主目录三份修改源码与隔离验证工作树一致；计划、修复报告、项目文档严格 UTF-8 与空白检查通过，隔离工作树 git diff --check 返回码 0；本轮测试进程残留 0。计划已逐项复读，任务一完成，其余未完成项仍保留。源码版本未提升，公开 ZIP 未改，环境阻断不计菜单验收通过。
