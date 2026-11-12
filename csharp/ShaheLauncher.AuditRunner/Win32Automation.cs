@@ -52,6 +52,7 @@ namespace ShaheLauncher.AuditRunner
         private const uint SendMessageAbortIfHung = 0x2;
         private const int CbGetCurSel = 0x147;
         private const int CbSetCurSel = 0x14E;
+        private const int CbnSelChange = 1;
         private const int LvmFirst = 0x1000;
         private const int LvmGetItemCount = LvmFirst + 4;
         private const int LvmGetItemRect = LvmFirst + 14;
@@ -313,6 +314,17 @@ namespace ShaheLauncher.AuditRunner
                     failure = "Digit-format control rejected the requested selection.";
                     return false;
                 }
+                // CB_SETCURSEL changes the native value without notifying the managed parent.
+                IntPtr comboParent = GetParent(combo);
+                IntPtr notificationResult;
+                if (comboParent == IntPtr.Zero || SendMessageTimeout(
+                    comboParent, WmCommand,
+                    new IntPtr((GetDlgCtrlID(combo) & 0xffff) | (CbnSelChange << 16)), combo,
+                    SendMessageAbortIfHung, 2000, out notificationResult) == IntPtr.Zero)
+                {
+                    failure = "Digit-format selection notification failed.";
+                    return false;
+                }
                 if (!SetNumericSpinnerValueByAccessibleName(
                         root,
                         dialog,
@@ -324,6 +336,16 @@ namespace ShaheLauncher.AuditRunner
                     return false;
                 }
                 ((ValuePattern)valuePattern).SetValue(prefix);
+
+                AutomationElement currentDigits = FindUniqueNamedControl(
+                    AutomationElement.FromHandle(dialog), "编号格式", ControlType.ComboBox);
+                IntPtr currentCombo = currentDigits == null
+                    ? IntPtr.Zero : new IntPtr(currentDigits.Current.NativeWindowHandle);
+                if (currentCombo != combo || !IsWindow(combo))
+                {
+                    failure = "Digit-format handle changed: old=" + combo + ", current=" + currentCombo;
+                    return false;
+                }
 
                 bool verified = WaitUntil(() =>
                 {

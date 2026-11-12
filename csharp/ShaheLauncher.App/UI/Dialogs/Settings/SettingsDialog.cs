@@ -83,7 +83,16 @@ namespace ShaheLauncher.App.UI.Dialogs.Settings
             _settings["remember_volume"] = RememberVolumeCheckBox.Checked;
             _settings["list_use_left_right_nav"] = ListNavigationCheckBox.Checked;
             _settings["log_output_mode"] = GetSelectedLogOutputMode();
-            _onSave?.Invoke(_settings);
+            try
+            {
+                _onSave?.Invoke(_settings);
+            }
+            catch (Exception error)
+            {
+                OperationLog.Write(this, "设置保存失败: " + error);
+                DialogMessageService.Show(this, "设置保存失败：" + error.Message, "保存失败", MessageBoxIcon.Error);
+                return false;
+            }
             DialogResult = DialogResult.OK;
             Close();
             return true;

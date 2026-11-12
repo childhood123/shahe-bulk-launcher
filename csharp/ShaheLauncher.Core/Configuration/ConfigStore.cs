@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
+using System.Threading;
 using Newtonsoft.Json;
 
 namespace ShaheLauncher.Core.Configuration
@@ -69,13 +70,15 @@ namespace ShaheLauncher.Core.Configuration
                 string storageName = secret ? name + "_encrypted" : name;
                 string removeName = secret ? name : name + "_encrypted";
                 string text = secret ? Encrypt(value ?? string.Empty) : value ?? string.Empty;
-                IniDocument document = Load();
-                IniSection section = document.EnsureSection(ConfigSection);
-                section.Remove(removeName);
-                section.Set(storageName, text);
-                section.Set(storageName + "_updated_at", _unixTime().ToString());
-                Save(document);
-                return true;
+                return WriteLocked(() =>
+                {
+                    IniDocument document = LoadSnapshot();
+                    IniSection section = document.EnsureSection(ConfigSection);
+                    section.Remove(removeName);
+                    section.Set(storageName, text);
+                    section.Set(storageName + "_updated_at", _unixTime().ToString());
+                    Save(document);
+                });
             }
             catch
             {
@@ -169,33 +172,36 @@ namespace ShaheLauncher.Core.Configuration
 
         private bool SetSettings(IDictionary values)
         {
+            return WriteLocked(() => SaveSettingsSnapshot(values));
+        }
+
+        private void SaveSettingsSnapshot(IDictionary values)
+        {
+            IniDocument document = LoadSnapshot();
+            document.RemoveSection(SettingsSection);
+            IniSection settings = document.EnsureSection(SettingsSection);
+            IniSection config = document.EnsureSection(ConfigSection);
+            config.Remove("settings_json");
+            config.Remove("settings_json_updated_at");
+
+            var entries = new List<KeyValuePair<string, object>>();
+            foreach (DictionaryEntry entry in values)
+            {
+                string name = Convert.ToString(entry.Key, CultureInfo.InvariantCulture) ?? string.Empty;
+                if (name.Trim().Length != 0)
+                    entries.Add(new KeyValuePair<string, object>(name, entry.Value));
+            }
+            foreach (KeyValuePair<string, object> entry in entries.OrderBy(item => item.Key, StringComparer.Ordinal))
+                settings.Set(entry.Key, JsonConvert.SerializeObject(entry.Value, Formatting.None));
+            settings.Set("updated_at", _unixTime().ToString(CultureInfo.InvariantCulture));
+            Save(document);
+        }
+
+        private bool WriteLocked(Action write)
+        {
             try
             {
-                IniDocument document = Load();
-                document.RemoveSection(SettingsSection);
-                IniSection settings = document.EnsureSection(SettingsSection);
-                IniSection config = document.EnsureSection(ConfigSection);
-                config.Remove("settings_json");
-                config.Remove("settings_json_updated_at");
-
-                var entries = new List<KeyValuePair<string, object>>();
-                foreach (DictionaryEntry entry in values)
-                {
-                    string name = Convert.ToString(entry.Key, CultureInfo.InvariantCulture) ?? string.Empty;
-                    if (name.Trim().Length != 0)
-                    {
-                        entries.Add(new KeyValuePair<string, object>(name, entry.Value));
-                    }
-                }
-
-                foreach (KeyValuePair<string, object> entry in entries.OrderBy(item => item.Key, StringComparer.Ordinal))
-                {
-                    settings.Set(entry.Key, JsonConvert.SerializeObject(entry.Value, Formatting.None));
-                }
-
-                settings.Set("updated_at", _unixTime().ToString(CultureInfo.InvariantCulture));
-                Save(document);
-                return true;
+                return WithStoreLock(() => { write(); return true; });
             }
             catch
             {
@@ -205,11 +211,45 @@ namespace ShaheLauncher.Core.Configuration
 
         private IniDocument Load()
         {
+            return WithStoreLock(LoadSnapshot);
+        }
+
+        private T WithStoreLock<T>(Func<T> action)
+        {
+            EnsureStorePath();
+            string lockName;
+            using (SHA256 hash = SHA256.Create())
+            {
+                byte[] path = Encoding.UTF8.GetBytes(Path.GetFullPath(_storePath).ToUpperInvariant());
+                lockName = "Local\\ShaheLauncher.Config." + BitConverter.ToString(hash.ComputeHash(path)).Replace("-", string.Empty);
+            }
+            using (var gate = new Mutex(false, lockName))
+            {
+                bool acquired = false;
+                try
+                {
+                    try { acquired = gate.WaitOne(TimeSpan.FromSeconds(10)); }
+                    catch (AbandonedMutexException) { acquired = true; }
+                    if (!acquired) throw new IOException("等待配置文件访问超时");
+                    return action();
+                }
+                finally { if (acquired) gate.ReleaseMutex(); }
+            }
+        }
+
+        private IniDocument LoadSnapshot()
+        {
             EnsureStorePath();
             Directory.CreateDirectory(Path.GetDirectoryName(_storePath) ?? string.Empty);
-            IniDocument document = File.Exists(_storePath)
-                ? IniDocument.Parse(File.ReadAllLines(_storePath, Encoding.UTF8))
-                : new IniDocument();
+            IniDocument document;
+            if (File.Exists(_storePath))
+            {
+                using (var stream = new FileStream(_storePath, FileMode.Open, FileAccess.Read,
+                    FileShare.ReadWrite | FileShare.Delete))
+                using (var reader = new StreamReader(stream, Encoding.UTF8))
+                    document = IniDocument.Parse(reader.ReadToEnd().Split(new[] { "\r\n", "\n", "\r" }, StringSplitOptions.None));
+            }
+            else document = new IniDocument();
 
             document.EnsureSection(ConfigSection);
             return document;
@@ -221,14 +261,16 @@ namespace ShaheLauncher.Core.Configuration
             Directory.CreateDirectory(Path.GetDirectoryName(_storePath) ?? string.Empty);
             document.EnsureSection(ConfigSection);
             string temporaryPath = _storePath + ".tmp";
-            File.WriteAllText(temporaryPath, document.Serialize(), new UTF8Encoding(false));
-            if (File.Exists(_storePath))
+            try
             {
-                File.Replace(temporaryPath, _storePath, null);
+                File.WriteAllText(temporaryPath, document.Serialize(), new UTF8Encoding(false));
+                if (File.Exists(_storePath)) File.Replace(temporaryPath, _storePath, null);
+                else File.Move(temporaryPath, _storePath);
             }
-            else
+            finally
             {
-                File.Move(temporaryPath, _storePath);
+                try { if (File.Exists(temporaryPath)) File.Delete(temporaryPath); }
+                catch { }
             }
         }
 

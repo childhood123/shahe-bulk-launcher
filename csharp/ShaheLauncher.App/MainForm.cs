@@ -439,7 +439,17 @@ namespace ShaheLauncher.App
             {
                 UpdateSandboxiePathState(path);
                 Settings["sandboxie_path"] = path;
-                SettingsService.SaveSettings(_settingsState);
+                try
+                {
+                    SettingsService.SaveSettings(_settingsState);
+                }
+                catch (SettingsSaveException error)
+                {
+                    LogOperationSafe("启动路径保存失败: " + error);
+                    SafeSetStatusLabel(error.Message);
+                    ShowMessageCallback?.Invoke(error.Message, "保存失败", MessageBoxIcon.Warning);
+                    return;
+                }
                 StatusLabel.SetLabel("已扫描到 Sandboxie 安装位置：" + path);
                 ShowMessageCallback?.Invoke(
                     SandboxieClient.FirstScanSuccessPrefix + path,
@@ -1465,6 +1475,12 @@ namespace ShaheLauncher.App
                 else ExecuteApplicationAction(action);
                 LogOperationSafe("操作分派完成: " + action);
             }
+            catch (SettingsSaveException error)
+            {
+                LogOperationSafe("操作保存失败: " + action + Environment.NewLine + error);
+                SafeSetStatusLabel(error.Message);
+                ShowMessageCallback?.Invoke(error.Message, "保存失败", MessageBoxIcon.Error);
+            }
             catch (Exception error)
             {
                 LogOperationSafe("操作异常: " + action + Environment.NewLine + error);
@@ -2252,9 +2268,15 @@ namespace ShaheLauncher.App
                     SandboxAdminState,
                     internalRenameMap) || referencesChanged;
             }
+            SettingsSaveException saveError = null;
             if (referencesChanged)
             {
-                SaveSettings();
+                try { SaveSettings(); }
+                catch (SettingsSaveException error)
+                {
+                    saveError = error;
+                    LogOperationSafe("重命名后的设置保存失败: " + error);
+                }
             }
 
             try
@@ -2275,7 +2297,15 @@ namespace ShaheLauncher.App
                     "重命名提示",
                     MessageBoxIcon.Warning);
             }
-            SafeSetStatusLabel(SandboxAdminService.FormatBatchRenameStatus(renameMap.Count));
+            string status = SandboxAdminService.FormatBatchRenameStatus(renameMap.Count);
+            if (saveError != null)
+            {
+                status += "，设置保存失败";
+                ShowMessageCallback?.Invoke(
+                    "重命名结果已更新，但设置保存失败。\n" + saveError.Message,
+                    "重命名提示", MessageBoxIcon.Warning);
+            }
+            SafeSetStatusLabel(status);
         }
         private void BatchDeleteSandboxes()
         {
@@ -2399,9 +2429,15 @@ namespace ShaheLauncher.App
                     SandboxAdminState,
                     deletedInternal) || referencesChanged;
             }
+            SettingsSaveException saveError = null;
             if (referencesChanged)
             {
-                SaveSettings();
+                try { SaveSettings(); }
+                catch (SettingsSaveException error)
+                {
+                    saveError = error;
+                    LogOperationSafe("删除后的设置保存失败: " + error);
+                }
             }
 
             var registryFailed = new List<string>();
@@ -2455,10 +2491,18 @@ namespace ShaheLauncher.App
                     MessageBoxIcon.Warning);
             }
 
-            SafeSetStatusLabel(SandboxAdminService.FormatBatchDeleteStatus(
+            string status = SandboxAdminService.FormatBatchDeleteStatus(
                 deleted.Count,
                 failed.Count,
-                blockedRunning.Count));
+                blockedRunning.Count);
+            if (saveError != null)
+            {
+                status += "，设置保存失败";
+                ShowMessageCallback?.Invoke(
+                    "删除结果已更新，但设置保存失败。\n" + saveError.Message,
+                    "批量删除结果", MessageBoxIcon.Warning);
+            }
+            SafeSetStatusLabel(status);
         }
         private void DeleteGroup()
         {

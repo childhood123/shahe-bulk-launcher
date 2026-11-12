@@ -1,5 +1,7 @@
 using System;
 using System.Windows.Forms;
+using ShaheLauncher.Core.Settings;
+using ShaheLauncher.App.UI.Dialogs.Common;
 
 namespace ShaheLauncher.App.Infrastructure
 {
@@ -29,6 +31,11 @@ namespace ShaheLauncher.App.Infrastructure
             {
                 operation();
                 log?.Invoke("操作返回: " + action);
+            }
+            catch (SettingsSaveException error)
+            {
+                log?.Invoke("操作保存失败: " + action + Environment.NewLine + error);
+                DialogMessageService.Show(source, error.Message, "保存失败", MessageBoxIcon.Error);
             }
             catch (Exception error)
             {

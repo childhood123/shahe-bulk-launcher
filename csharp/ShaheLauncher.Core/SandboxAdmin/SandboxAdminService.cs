@@ -3,9 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using ShaheLauncher.Core.Configuration;
 using ShaheLauncher.Core.Constants;
 
 namespace ShaheLauncher.Core.SandboxAdmin
@@ -510,42 +510,12 @@ namespace ShaheLauncher.Core.SandboxAdmin
 
         public Tuple<string, string> ReadTextWithEncoding(string path)
         {
-            if (!File.Exists(Text(path)))
-            {
-                return Tuple.Create(string.Empty, "utf-8");
-            }
-
-            byte[] data = File.ReadAllBytes(path);
-            if (data.Length >= 3 && data[0] == 0xEF && data[1] == 0xBB && data[2] == 0xBF)
-            {
-                return Tuple.Create(Encoding.UTF8.GetString(data, 3, data.Length - 3), "utf-8-sig");
-            }
-
-            foreach (string encodingName in new[] { "utf-8", "utf-16", "gbk", "mbcs" })
-            {
-                try
-                {
-                    Encoding encoding = GetEncoding(encodingName);
-                    return Tuple.Create(encoding.GetString(data), encodingName);
-                }
-                catch
-                {
-                }
-            }
-
-            return Tuple.Create(Encoding.UTF8.GetString(data), "utf-8");
+            return IniTextFile.Read(Text(path));
         }
 
         public void WriteTextWithEncoding(string path, string text, string encodingName)
         {
-            string target = Text(path);
-            string parent = Path.GetDirectoryName(target);
-            if (!string.IsNullOrEmpty(parent))
-            {
-                Directory.CreateDirectory(parent);
-            }
-
-            File.WriteAllText(target, Text(text), GetEncoding(encodingName));
+            IniTextFile.Write(Text(path), Text(text), encodingName);
         }
 
         public string BackupSandboxieIniBeforeWrite(string iniPath)
@@ -1286,13 +1256,33 @@ namespace ShaheLauncher.Core.SandboxAdmin
             }
             try
             {
-                Directory.Delete(path, true);
+                DeleteDirectoryWithReadonlyFiles(path);
                 return !Directory.Exists(path);
             }
             catch
             {
                 return false;
             }
+        }
+
+        private static void DeleteDirectoryWithReadonlyFiles(string path)
+        {
+            FileAttributes attributes = File.GetAttributes(path);
+            if ((attributes & FileAttributes.ReparsePoint) != 0)
+                throw new IOException("删除目录不能为链接: " + path);
+            foreach (string file in Directory.GetFiles(path))
+            {
+                FileAttributes fileAttributes = File.GetAttributes(file);
+                if ((fileAttributes & FileAttributes.ReparsePoint) != 0)
+                    throw new IOException("删除文件不能为链接: " + file);
+                if ((fileAttributes & FileAttributes.ReadOnly) != 0)
+                    File.SetAttributes(file, fileAttributes & ~FileAttributes.ReadOnly);
+                File.Delete(file);
+            }
+            foreach (string child in Directory.GetDirectories(path)) DeleteDirectoryWithReadonlyFiles(child);
+            if ((attributes & FileAttributes.ReadOnly) != 0)
+                File.SetAttributes(path, attributes & ~FileAttributes.ReadOnly);
+            Directory.Delete(path);
         }
 
         public SandboxAliasResult ApplySandboxAliases(
@@ -1774,23 +1764,6 @@ namespace ShaheLauncher.Core.SandboxAdmin
                 return lines;
             }
             return lines;
-        }
-
-        private static Encoding GetEncoding(string name)
-        {
-            if (string.Equals(name, "utf-8-sig", StringComparison.OrdinalIgnoreCase))
-            {
-                return new UTF8Encoding(true);
-            }
-            if (string.Equals(name, "mbcs", StringComparison.OrdinalIgnoreCase))
-            {
-                return Encoding.Default;
-            }
-            if (string.Equals(name, "utf-8", StringComparison.OrdinalIgnoreCase))
-            {
-                return new UTF8Encoding(false);
-            }
-            return Encoding.GetEncoding(name);
         }
 
         private static string Text(object value)

@@ -713,6 +713,7 @@ namespace ShaheLauncher.Tests
         public void BatchCreateValuesAreSetByAccessibleNamesNotWindowOrder()
         {
             BatchNameRuleDialog dialog = null;
+            var selectionChanges = new List<int>();
             var ready = new ManualResetEventSlim();
             var uiThread = new Thread(() =>
             {
@@ -730,6 +731,8 @@ namespace ShaheLauncher.Tests
                         new KeyValuePair<int, string>(0, "不加0"),
                         new KeyValuePair<int, string>(2, "前面加0（01）")
                     });
+                dialog.DigitsChoice.SelectedIndexChanged += (sender, args) =>
+                    selectionChanges.Add(dialog.DigitsChoice.SelectedIndex);
                 dialog.Shown += (sender, args) => ready.Set();
                 Application.Run(dialog);
             });
@@ -782,9 +785,12 @@ namespace ShaheLauncher.Tests
                     actualStartButtons,
                     (IntPtr)findButtons.Invoke(null, new object[] { dialog.Handle, "起始编号" }),
                     "Runner must resolve the exact UpDownButtons child window.");
-                bool updated = (bool)method.Invoke(
-                    null,
-                    new object[] { dialog.Handle, "ShaheAudit_Test_", 1, 1, 2 });
+                MethodInfo trySet = automation.GetMethod(
+                    "TrySetBatchCreateValuesByAccessibleName", BindingFlags.NonPublic | BindingFlags.Static);
+                Assert.IsNotNull(trySet);
+                var arguments = new object[] { dialog.Handle, "ShaheAudit_Test_", 1, 1, 2, null };
+                bool updated = (bool)trySet.Invoke(null, arguments);
+                string failure = Convert.ToString(arguments[5]);
 
                 object[] values = (object[])dialog.Invoke(new Func<object[]>(() => new object[]
                 {
@@ -793,10 +799,13 @@ namespace ShaheLauncher.Tests
                     dialog.DigitsChoice.SelectedIndex,
                     Decimal.ToInt32(dialog.CountInput.Value)
                 }));
+                int[] observedSelections = (int[])dialog.Invoke(new Func<int[]>(() => selectionChanges.ToArray()));
+                CollectionAssert.Contains(observedSelections, 1,
+                    "Native selection must notify the managed control. Updated=" + updated + "; " + failure);
                 CollectionAssert.AreEqual(
                     new object[] { "ShaheAudit_Test_", 1, 1, 2 },
                     values,
-                    "Actual: " + string.Join(" | ", values.Select(value => value == null ? "<null>" : value.ToString()))
+                    "Updated=" + updated + "; Failure=" + failure + "; Actual: " + string.Join(" | ", values.Select(value => value == null ? "<null>" : value.ToString()))
                     + "; Start children: "
                     + string.Join(", ", dialog.StartInput.Controls.Cast<Control>().Select(control =>
                         control.GetType().FullName + "=0x" + control.Handle.ToInt64().ToString("X")))

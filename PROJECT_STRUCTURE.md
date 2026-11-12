@@ -2,8 +2,8 @@
 
 ## 当前执行摘要（2026-11-12）
 
-- **唯一当前执行计划：** `docs/superpowers/plans/2026-11-11-full-function-stress.md`。用户已确认完整修复与GitCode交付范围，包含重新纳入保存失败反馈修复。还原、删除保护、定时目标及非默认音频已完成各自修复门禁，当前接续配置与文件。保留最新分组源码，旧30轮循环继续停止；未升版/发布，精确证据和提交以末尾最新记录为准。
-- **当前结论：用户要求的所有功能压测尚未完成。** 入口映射、模拟接口及方法调用不能证明全部真实功能已压测。此前“已测完/收口”和“仅真实桌面项未完成”的表述范围过大，现予纠正。当前未找到系统级全局快捷键注册接线，不能声称已实现或已测；真实输入及外部效果的保留缺口见 `docs/migration/2026-11-12-all-functions-stress.md`，后续修复进度以本摘要和末尾最新记录为准。还原、删除、定时和非默认音频的已确认缺陷已修复；配置并发/反馈/编码/只读、异常清单和资源清理仍待逐项处理。桌面阻断不能替代其余缺口说明；新版本尚未发布，整体迁移未完成。
+- **唯一当前执行计划：** `docs/superpowers/plans/2026-11-11-full-function-stress.md`。用户已确认完整修复与GitCode交付范围，包含重新纳入保存失败反馈修复。还原、删除保护、定时目标、非默认音频及配置/文件已通过各自修复验证，当前完成配置提交门禁后接续更新与清理。保留最新分组源码，旧30轮循环继续停止；未升版/发布，精确证据和提交以末尾最新记录为准。
+- **当前结论：用户要求的所有功能压测尚未完成。** 入口映射、模拟接口及方法调用不能证明全部真实功能已压测。此前“已测完/收口”和“仅真实桌面项未完成”的表述范围过大，现予纠正。当前未找到系统级全局快捷键注册接线，不能声称已实现或已测；真实输入及外部效果的保留缺口见 `docs/migration/2026-11-12-all-functions-stress.md`，后续修复进度以本摘要和末尾最新记录为准。还原、删除、定时、非默认音频及配置并发/反馈/编码/只读的已确认缺陷已有修复验证；异常清单和资源清理仍待处理。桌面阻断不能替代其余缺口说明；新版本尚未发布，整体迁移未完成。
 - **最新交付：** 用户指定的 GitCode 命令行发布已完成，公开绿色包和在线清单现为 4.0.50，包含“全部进程操作遗漏用户”修复。原始 4.0.49 已完成到该在线新包的实际安装和重启；发布后旧版能检测新版、新版不重复提示。完整发布与升级证据见末尾 `RELEASE-4.0.50-20261109`，本地交付在 `release/4.0.50/`。
 - **最新运行审计：** 用户在新回合“继续验收”后主EXE启动、窗口文本/焦点读取成功，Tab请求被工具以观察失效拒绝并要求截图；截图刷新报执行失败，恢复时报会话失活。当前阻断明确在工具截图前置环节，没有真实按键通过证据。启动前已快照自启动项，本轮结束后核对一致、配置恢复、目标清理；此前未采集原值的风险仍保留。最新目录为本轮 continuation/desktop-resume-103439，故障复现说明见其中 desktop-issue.md；新回合本身未解决问题，不重复相同尝试。
 - **最新自动化验证：** 当前全量、专项压力、补充重复集成、逐入口覆盖及只读校正补验的权威计数和路径见末尾 `FULL-ONCE-20261112`。原始汇总保留夹具中断当时的状态，continuation补验明确说明该场景当前已完成；未重复已通过项目或整个套件。产品失败与真实受阻不因夹具补验通过而关闭。原分组修复证据保留在 `GROUP-SELECTION-20261112`；旧30轮循环仍为 `stopped-by-user`。
@@ -11,7 +11,7 @@
 - **旧版更新边界：** 原始 4.0.47 的在线检测、下载校验通过，但安装 4.0.49 被旧外置 updater 的包格式要求阻断；旧程序和配置保持原样，证据 `LEGACY-UPDATE-20261109`。本轮没有恢复该旧兼容设计。
 - **4.0.49 内置更新结论：** 先完成同版安装演练，随后完成 4.0.49 → 4.0.50 的原始主 EXE 内置安装、真实下载、替换和新版主窗口启动，配置及日志标记保留。早先“跨版本待验收”已被本轮新证据推进；首次发布后在线请求出现过 403，后续 curl 与两版原始客户端均通过，失败记录保留。
 - **已完成与可运行状态：** 既有定位、朗读文案、用户列表进程菜单和 4.0.49 绿色包已实现并有验证；C# 有主窗口启动及正常退出证据。GitHub 源码/Release 和 GitCode 包/清单已有发布证据；GitHub 仓库已于 2026-11-06 改为公开，仓库主页和 `v4.0.49` Release 可匿名访问。
-- **必须保留的未完成项：** 查漏报告第 3 节除本轮已修复 MIG-ALL-PIDS-01 及还原安全之外的确认差异、第 4 节候选/未核完边界、第 5 节原版共有缺陷和版本边界、第 7 节运行验收。还原回退/服务异常保护的隔离验证通过，正式服务及运行中沙盒外部验收未做；保存失败反馈现已重新授权、尚未完成。旧 4.0.47 外置更新器仍不能安装不含 updater.exe 的新包。
+- **必须保留的未完成项：** 查漏报告未被本轮最新证据关闭的确认差异、候选边界、原版共有缺陷、版本边界及真实运行验收。还原回退/服务异常保护的隔离验证通过，正式服务及运行中沙盒外部验收未做；保存失败反馈的重新授权修复已有定向与全量证据，但不承诺恢复已变更的全部内存状态。旧 4.0.47 外置更新器仍不能安装不含 updater.exe 的新包。
 - **历史冲突处理：** 下方 2026-10-24 摘要、E01–E10 和旧计划中的未提交/未发布描述是历史快照；源码、发布和升级结论以末尾新证据为准。旧 Alt+P 菜单通过记录不适用于已删除进程栏的新界面；设置行 Enter/Escape 已有证据，不重测。
 - **后续边界：** 既有GitCode交付完成；用户本次明确授权验收通过后发布下一版，不能把未修失败项当通过。修改/启动/终止限定所属隔离测试对象，正式Sandboxie查询只读，不停止正式程序或读屏、不修改正式配置、不改Python。音频不同框架及端点的通过/失败分别保留，真实菜单验收仍未完成，整体迁移未完成。主目录现有未提交改动保留，修复按已确认计划执行。
 
@@ -5023,5 +5023,75 @@ csharp/
 ### 音频完整性与源码同步
 
 - 后端严格UTF-8/替换字符检查通过，`git diff --check`退出0，主目录原文件仍与基线哈希一致，已同步经验证修复；证据 `artifacts/runs/release_fixes_20261112/audio-integrity.json`、`audio-verified-source.json`。独立复审与最终原生抽验通过，准备提交明确的后端及3份文档。
+
+### 音频独立提交推送
+
+- 4个明确文件已提交 `a177aec01bebe8fedddd2f9ab55a43fbca804101`，GitHub `沙河批量打开器` 分支推送退出0；证据 `artifacts/runs/release_fixes_20261112/audio-push-result.json` 和 `audio-push.log`。回退 `git revert a177aec01bebe8fedddd2f9ab55a43fbca804101`。主目录已同步验证后端，其他改动保持；接续配置与文件。
+
+### 配置并发与保存反馈 RED
+
+- `test.ps1 -Stage config-save-red -Filter FullyQualifiedName~ConfigSaveReliabilityContractTests` 退出1，5项全部失败、跳过0：8个独立store并发写出现248次未成功；保存/应用/重置对畸形INI吞掉失败；设置窗口收到写异常未转为保留窗口和失败提示。日志/TRX/result位于 `artifacts/runs/release_fixes_20261112/config-save-red/`。
+- 修复保留settings整节快照语义，通过按路径的跨线程/跨进程写入互斥保护读改写；不把整个快照擅自改成局部合并。保存失败需停止后续成功状态，并在UI显示失败而保留设置窗口。
+
+### 配置并发与保存反馈 GREEN
+
+- `test.ps1 -Stage config-save-green -Filter 'FullyQualifiedName~ConfigSaveReliabilityContractTests|FullyQualifiedName~ConfigStoreContractTests|FullyQualifiedName~ConfigurationFailureSafetyContractTests|FullyQualifiedName~LauncherSettingsServiceContractTests|FullyQualifiedName~SettingsRuntimeContractTests'` 退出0，41项通过、失败0/跳过0，证据 `artifacts/runs/release_fixes_20261112/config-save-green/`。
+- 配置写入按规范化路径使用命名Mutex串行读改写，读取快照允许原子替换；SettingsSaveException阻止失败后的“已保存/已重置”，设置窗口保留并提示失败。菜单/控件入口捕获该特定异常，普通异常处理保持原样。内存/已应用UI效果未承诺事务回滚，磁盘原字节仍受保护。
+
+### 编码与只读文件 RED
+
+- `test.ps1 -Stage config-encoding-red -Filter TestCategory=IniEncodingAndReadonly` 退出1，38项、通过18/失败20/跳过0；备份/目标独立编码、BOM/中文保留、事务还原编码及只读目录删除失败已复现，现有回退/拒绝保护通过部分保留。证据 `artifacts/runs/release_fixes_20261112/config-encoding-red/{result.json,test.log,tests.trx}`。接续限定本模块编码/只读修复，不动已验证还原事务和删除查询门禁。
+
+### 配置跨进程探针构建
+
+- Framework64 `csc.exe /platform:x64` 编译ConfigProcessProbe退出0；参数/输出 `artifacts/runs/release_fixes_20261112/config-process/{build-result.json,build.log}`。探针仅启动所属子进程写隔离配置，主进程同时读不变中文键；绑定当前修复Core，不改正式配置。
+
+### 配置跨进程读写发现读回缺口
+
+- `ConfigProcessProbe.exe <config-process>/data` 退出1：8个写进程均正常退出0，已完成全部写循环，但并发读369次中33次退回默认值，整体未通过。监督PID18624，子PID19060/20584/3096/7196/12476/17352/14400/17740均退出；证据 `artifacts/runs/release_fixes_20261112/config-process/{run-result.json,data/result.json,run.log}`。
+- 原结果的acknowledgedWrites字段按整体passed条件输出0，不代表所有写失败；实际写进程退出证实写循环完成，最终键值另行核对。根因待修为读取快照仍与Windows替换瞬时访问竞争；将读取纳入同路径互斥，随后重验失败场景。
+
+### 配置读锁验证被并行编辑中间状态阻断
+
+- `test.ps1 -Stage config-save-readlock-green`（同上一组过滤）退出1，未执行测试、无TRX计数。主代理在编码子任务尚未完成落盘时启动构建，引用IniTextFile的编辑先出现而辅助类型尚不可见，产生5个CS0103；这是执行协调的无效中间构建，不是产品运行结论。证据 `artifacts/runs/release_fixes_20261112/config-save-readlock-green/{result.json,test.log}`。
+- 已停止提前构建；等待子代理明确完成后统一编译。读/写现在共用路径Mutex，写事务内部直接LoadSnapshot，不依赖重入。此前跨进程最终文件8个writer均为124、原中文键保留，失败仅为并发读退回默认，仍待GREEN。
+
+### 配置与文件组合 GREEN
+
+- 子任务完整落盘后 `test.ps1 -Stage config-combined-green`（IniEncodingAndReadonly、配置可靠性/存储/失败保护/设置/运行时、还原安全/进度、Sandboxie修复/管理的过滤组合，精确命令见result）退出0，112项通过、失败0/跳过0。证据 `artifacts/runs/release_fixes_20261112/config-combined-green/`。包含编码RED20项转GREEN、保留原还原安全与删除保护、只读备份清理修正和真实主窗口菜单保存失败反馈。
+- 子代理5文件变更已由主代理检查；只读INI仍拒写，不自动解除用户配置只读，删除处理仅解除指定目录树文件的ReadOnly位且拒绝重解析点。UTF-16LE+BOM有证据，BE仅实现尚无专门运行证据。
+
+### 配置跨进程读写 GREEN
+
+- 读取纳入互斥后 `ConfigProcessProbe.exe <config-process>/readlock-data` 退出0：8个独立进程共1000次写入均确认成功，最终8个键均为124、原中文键保留；并发读109次、失败0。监督PID12852，子PID14956/21148/19640/18476/1788/20572/14940/12712均正常退出0，没有残留测试进程。
+- 证据 `artifacts/runs/release_fixes_20261112/config-process/{readlock-run-result.json,readlock-data/result.json,readlock-run.log}`，包含当前Core路径/哈希；关闭上一轮读回缺口。只使用隔离配置，不涉及正式用户数据。
+
+### 配置模块首轮全量与审查遗漏
+
+- `test.ps1 -Stage config-full` 退出0，561项通过、失败0/跳过0，证据 `artifacts/runs/release_fixes_20261112/config-full/`。独立审查仍发现保存异常新契约的3处遗漏：启动自动发现路径、路径列表ItemChecked、批量删除后收尾。此全量不覆盖遗漏场景，模块不提交；补有效失败与修复后再验收。审查详见 `config-save-review.md`。
+
+- 配置保存入口补验 RED：`test.ps1 -Stage config-entrypoints-red -Filter FullyQualifiedName~SettingsSaveEntryPointsRuntimeTests`（公共 Release x64 隔离命令见本轮 result.json），退出1，3项/0通过/3失败/0跳过。启动扫描和删除收尾均复现 SettingsSaveException 逃逸；路径勾选案例出现 STA 超时，尚不能将其作为明确异常断言，需校准事件异常捕获。证据：`artifacts/runs/release_fixes_20261112/config-entrypoints-red/{result.json,test.log,tests.trx}`。本轮未影响正式配置或正式沙盒。
+
+- 路径勾选 RED 校准：改为直接触发 ListView.OnItemChecked 事件链，避免 WinForms 原生异常对话框导致夹具超时。`test.ps1 -Stage config-checkbox-red -Filter FullyQualifiedName~PathCheckboxReportsSaveFailureAndAlwaysRestoresEventIndex` 退出1，1项/0通过/1失败/0跳过，明确复现保存异常经 OnAppItemChecked/WireAppPathCallbacks 逃逸。证据：`artifacts/runs/release_fixes_20261112/config-checkbox-red/{result.json,test.log,tests.trx}`；此为事件接线测试，不是真实按键验收。
+
+- 配置复审补验：`test.ps1 -Stage config-review-red-green -Filter 'FullyQualifiedName~SettingsSaveEntryPointsRuntimeTests|FullyQualifiedName~ReadonlyTargetIniRestorePreservesOriginalStateAndCleansOwnedTemporaryFiles'` 退出1，6项/2通过/4失败/0跳过。启动和路径事件已GREEN；删除收尾动作/失败提示已到达，断言误把正常“已批量删除”写成“已删除”，按原文案校准，不改产品文案。改名同类保存异常截断刷新取得有效RED；只读目标INI完整还原的两个服务初态均复现一个自有临时INI残留，原始数据和服务保护断言通过。证据：`artifacts/runs/release_fixes_20261112/config-review-red-green/{result.json,test.log,tests.trx}`。
+
+- 配置最终受影响GREEN：`test.ps1 -Stage config-final-affected -Filter 'FullyQualifiedName~ConfigSaveReliability|FullyQualifiedName~SettingsSaveEntryPoints|FullyQualifiedName~IniEncodingAndReadonly|FullyQualifiedName~LauncherSettingsService|FullyQualifiedName~SettingsRuntime|FullyQualifiedName~SandboxieRepair|FullyQualifiedName~Restore|FullyQualifiedName~SandboxAdmin|FullyQualifiedName~DeleteQuerySafety'` 退出0，163项/163通过/0失败/0跳过。启动、路径事件、删除和改名收尾均通过保存失败可见及原文件保护；两个只读INI完整还原失败场景无自有临时残留，正式INI只读属性保持。所有本模块新增RED已有对应GREEN。证据：`artifacts/runs/release_fixes_20261112/config-final-affected/{result.json,test.log,tests.trx}`。
+
+- 配置最终全量出现独立失败：`test.ps1 -Stage config-final-full` 退出1，567项/566通过/1失败/0跳过。失败为既有 `SandboxieLifecycleAuditRunnerTests.BatchCreateValuesAreSetByAccessibleNamesNotWindowOrder`，批量创建夹具实际读回 digits=0，而期望不同；其余本模块新用例均通过。不能将此轮全量记通过，需定位夹具/运行器偏差后补证。证据：`artifacts/runs/release_fixes_20261112/config-final-full/{result.json,test.log,tests.trx}`；失败不涉及正式沙盒创建。
+
+- 配置最终生产构建：`build.ps1 -Stage config-release`（Release x64、no-restore、本轮隔离 BaseOutputPath）退出0、0警告/0错误，证据 `artifacts/runs/release_fixes_20261112/config-release/{result.json,build.log}`。全量的审计运行器夹具失败仍待定位，构建通过不替代全量门禁。
+
+- 审计夹具确定性RED：`test.ps1 -Stage config-audit-selection-red -Filter FullyQualifiedName~BatchCreateValuesAreSetByAccessibleNamesNotWindowOrder` 退出1，1项/0通过/1失败/0跳过。保留原实际值断言，新增 SelectedIndexChanged 观察：运行器返回 updated=true，但没有目标选择变更事件。确认其 CB_SETCURSEL 后遗漏托管控件通知；原偶发索引回零是否还包含句柄变化仍未证实，不混同根因。证据：`artifacts/runs/release_fixes_20261112/config-audit-selection-red/{result.json,test.log,tests.trx}`。本项只作用隔离审计对话框，不是恢复桌面工具的替代验收。
+
+- 审计运行器选择通知GREEN：补直接父窗口 CBN_SELCHANGE 有界通知，并在最终校验前重新核对命名控件句柄；句柄变化明确失败，不重试赋值掩盖问题。`test.ps1 -Stage config-audit-selection-green -Filter FullyQualifiedName~SandboxieLifecycleAuditRunnerTests` 退出0，38项/38通过/0失败/0跳过，原四项实际值、成功返回及新增选择事件断言均通过。证据：`artifacts/runs/release_fixes_20261112/config-audit-selection-green/{result.json,test.log,tests.trx}`。此前全量失败保留，需新完整全量证据。
+
+- 配置复审最终全量GREEN：`test.ps1 -Stage config-reviewed-full` 退出0，567项/567通过/0失败/0跳过，包含审计选择事件补验和所有配置/编码/只读及四入口保存失败案例。证据：`artifacts/runs/release_fixes_20261112/config-reviewed-full/{result.json,test.log,tests.trx}`。先前失败记录不改写；真实桌面验收仍与本自动化全量分开。
+
+- 配置最终Release门禁：`build.ps1 -Stage config-reviewed-release` 退出0、警告0/错误0，证据 `artifacts/runs/release_fixes_20261112/config-reviewed-release/{result.json,build.log}`。Python未修改，复用本轮已验证对照与编译；编码/BOM读取写回按原Python独立解码和目标编码保存语义对照，只读正式INI仍拒写，保存失败反馈为用户重新授权的修复。
+
+- 配置独立复审：`config-save-review.md` 关闭四个入口回归；`config-encoding-review.md` 的自有只读INI残留已有对应RED/GREEN，其他编码/删除边界保留；`config-audit-review.md` 确认选择通知及实际值断言修复正确。最终全量/构建证据已追加。配置/文件模块准备独立提交，计划本项按实际证据勾选；更新与菜单清理及最终发布门禁仍未完成。
+
+- 配置暂存/同步完整性：`stage-config.ps1` 退出0；暂存清单与已列出的18个文件一致，MainForm按主目录前一验证版本生成局部补丁，未混入既有分组差异。暂存 `git diff --cached --check` 为0，严格UTF-8及替换字符检查通过；15个C#文件同步主目录后SHA256逐一匹配，证据 `artifacts/runs/release_fixes_20261112/{config-integrity.json,config-verified-source.json,config-mainform-stage.patch}`。既有无关改动保持未暂存。
 
 <!-- FULL-ONCE-APPEND -->

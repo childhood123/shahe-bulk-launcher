@@ -98,6 +98,19 @@ namespace ShaheLauncher.Tests
                 finally
                 {
                     File.SetAttributes(iniPath, FileAttributes.Normal);
+                    // File.Copy preserves the read-only source attribute on the owned recovery backup.
+                    string ownedRoot = Path.GetFullPath(root).TrimEnd(Path.DirectorySeparatorChar) + Path.DirectorySeparatorChar;
+                    foreach (string backup in Directory.EnumerateFiles(root,
+                        "Sandboxie.ini.沙河批量打开器备份_*.bak", SearchOption.TopDirectoryOnly))
+                    {
+                        string fullPath = Path.GetFullPath(backup);
+                        if (!fullPath.StartsWith(ownedRoot, StringComparison.OrdinalIgnoreCase))
+                            throw new IOException("Cleanup escaped fixture");
+                        FileAttributes attributes = File.GetAttributes(fullPath);
+                        if ((attributes & FileAttributes.ReparsePoint) != 0)
+                            throw new IOException("Reparse point in fixture");
+                        File.SetAttributes(fullPath, attributes & ~FileAttributes.ReadOnly);
+                    }
                 }
 
                 Assert.AreEqual(0, reloads, "写入失败时不得 reload。");

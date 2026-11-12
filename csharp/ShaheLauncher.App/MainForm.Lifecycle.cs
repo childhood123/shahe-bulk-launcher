@@ -10,6 +10,7 @@ using ShaheLauncher.App.Input;
 using ShaheLauncher.App.UI.Controls;
 using ShaheLauncher.App.UI.Tray;
 using ShaheLauncher.Core.Constants;
+using ShaheLauncher.Core.Settings;
 using ShaheLauncher.Core.Updates;
 
 namespace ShaheLauncher.App
@@ -1088,6 +1089,12 @@ namespace ShaheLauncher.App
                     try
                     {
                         AppItemCheckedCallback?.Invoke();
+                    }
+                    catch (SettingsSaveException error)
+                    {
+                        LogOperationSafe("路径选择保存失败: " + error);
+                        SafeSetStatusLabel(error.Message);
+                        ShowMessageCallback?.Invoke(error.Message, "保存失败", MessageBoxIcon.Warning);
                     }
                     finally
                     {

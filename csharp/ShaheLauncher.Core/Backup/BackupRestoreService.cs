@@ -8,6 +8,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using ShaheLauncher.Core.Configuration;
 
 namespace ShaheLauncher.Core.Backup
 {
@@ -194,10 +195,9 @@ namespace ShaheLauncher.Core.Backup
                 return;
             }
 
-            string backupText = File.ReadAllText(Text(backupIniPath));
-            string targetText = File.Exists(Text(targetIniPath))
-                ? File.ReadAllText(Text(targetIniPath))
-                : string.Empty;
+            string backupText = IniTextFile.Read(Text(backupIniPath)).Item1;
+            Tuple<string, string> loadedTarget = IniTextFile.Read(Text(targetIniPath));
+            string targetText = loadedTarget.Item1;
             string lineSeparator = targetText.IndexOf("\r\n", StringComparison.Ordinal) >= 0
                 || backupText.IndexOf("\r\n", StringComparison.Ordinal) >= 0
                 ? "\r\n"
@@ -249,12 +249,7 @@ namespace ShaheLauncher.Core.Backup
                 }
                 builder.Append(block);
             }
-            string parent = Path.GetDirectoryName(Text(targetIniPath));
-            if (!string.IsNullOrEmpty(parent))
-            {
-                Directory.CreateDirectory(parent);
-            }
-            File.WriteAllText(Text(targetIniPath), builder.ToString(), new UTF8Encoding(false));
+            IniTextFile.Write(Text(targetIniPath), builder.ToString(), loadedTarget.Item2);
         }
 
         public Task<BackupRestoreResult> RestoreSelectedUsersAsync(
@@ -678,6 +673,10 @@ namespace ShaheLauncher.Core.Backup
             {
                 if (File.Exists(path))
                 {
+                    FileAttributes attributes = File.GetAttributes(path);
+                    if ((attributes & FileAttributes.ReparsePoint) != 0) return;
+                    if ((attributes & FileAttributes.ReadOnly) != 0)
+                        File.SetAttributes(path, attributes & ~FileAttributes.ReadOnly);
                     File.Delete(path);
                 }
             }

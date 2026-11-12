@@ -12,6 +12,12 @@ using ShaheLauncher.Core.Constants;
 
 namespace ShaheLauncher.Core.Settings
 {
+    public sealed class SettingsSaveException : IOException
+    {
+        public SettingsSaveException(Exception inner = null)
+            : base("设置保存失败，请检查配置文件是否可写。", inner) { }
+    }
+
     public sealed class LauncherSettingsState
     {
         public LauncherSettingsState()
@@ -301,11 +307,16 @@ namespace ShaheLauncher.Core.Settings
                 settings.Remove("auto_update_on_startup");
                 settings.Remove("auto_check_update_on_startup");
                 settings.Remove("update_manifest_url");
-                _configStore.SetJson("settings_json", settings);
+                if (!_configStore.SetJson("settings_json", settings)) throw new SettingsSaveException();
                 SetUpdateManifestUrl(GetUpdateManifestUrl());
             }
-            catch
+            catch (SettingsSaveException)
             {
+                throw;
+            }
+            catch (Exception error)
+            {
+                throw new SettingsSaveException(error);
             }
         }
 
