@@ -167,7 +167,7 @@ namespace ShaheLauncher.Tests
                     object latest = ReflectionTestHelpers.InvokeInstance(
                         service,
                         "BuildUpdateDisplayResult",
-                        Manifest("4.0.49"),
+                        Manifest("4.0.51"),
                         false,
                         false);
                     ReflectionTestHelpers.InvokeInstance(form, "ShowUpdateNotice", latest);
@@ -181,7 +181,7 @@ namespace ShaheLauncher.Tests
                     ReflectionTestHelpers.InvokeInstance(form, "ShowUpdateNotice", invalid);
 
                     Assert.AreEqual(2, messages.Count);
-                    Assert.AreEqual("沙河批量打开器 已是最新版本。\n\n当前版本：4.0.49", messages[0].Item1);
+                    Assert.AreEqual("沙河批量打开器 已是最新版本。\n\n当前版本：4.0.51", messages[0].Item1);
                     Assert.AreEqual("检查更新", messages[0].Item2);
                     Assert.AreEqual(MessageBoxIcon.Information, messages[0].Item3);
                     Assert.AreEqual("检查更新失败：\n更新清单缺少 latest_version", messages[1].Item1);

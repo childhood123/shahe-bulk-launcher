@@ -5140,4 +5140,8 @@ csharp/
 
 - 分组修复源码交付核对：历史GROUP-SELECTION的6项RED→GREEN和受影响回归有效，原剪贴板全量阻断已由本轮修复关闭，当前候选全量/Release及独立 `candidate-source-review.md` 通过。现准备将已包含在候选中的4个分组文件单独提交，避免候选包有行为而远端源码遗漏；版本与其他键盘测试不混入。真实Space/Enter、焦点读屏及沙盒启动效果仍未关闭，不用静态复审替代。
 
+- 分组修复独立提交并推送：`b2c6d23`，GitHub `沙河批量打开器`，push退出0，远端报告 `ebc1748..b2c6d23`。提交前仅4源码/测试及项目结构，diff检查0；回退 `git revert b2c6d23`。完整哈希与日志 `artifacts/runs/release_fixes_20261112/{group-push-result.json,group-push.log}`。本轮未重复该功能已通过测试，候选来源快照在candidate-4.0.51/source-hashes.json。
+
+- 候选源码收尾：版本常量和4份对应测试已同步主目录，5文件哈希匹配（`candidate-4.0.51/version-sync.json`）。构建来源137文件哈希快照为source-hashes.json。既有 `KeyboardAuditRuntimeContractTests.cs` 经独立只读核对无明显隔离/断言问题，将随候选版本单独纳入以补齐已执行的测试源码集合；仅合成消息解析，不能关闭真实热键验收。最终计划逐项复读：确认修复/自动验证/候选包完成，真实操作与公开发布门禁继续待办。
+
 <!-- FULL-ONCE-APPEND -->
