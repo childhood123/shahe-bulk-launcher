@@ -1006,6 +1006,12 @@ namespace ShaheLauncher.App
                 }
 
                 DisposeApplicationServices();
+                ContextMenu pathMenu = AppPathList?.ContextMenu;
+                if (pathMenu != null)
+                {
+                    AppPathList.ContextMenu = null;
+                    pathMenu.Dispose();
+                }
                 _toolTip?.Dispose();
                 _toolTip = null;
                 _launchCancelEvent.Dispose();

@@ -410,7 +410,10 @@ namespace ShaheLauncher.Core.Updates
             bool silentWhenLatest,
             bool inlineWhenUpdate)
         {
-            string latestVersion = Text(GetValue(manifest, "latest_version", GetValue(manifest, "version", string.Empty))).Trim();
+            string latestVersion = Text(GetValue(manifest, "latest_version", string.Empty));
+            if (latestVersion.Length == 0)
+                latestVersion = Text(GetValue(manifest, "version", string.Empty));
+            latestVersion = latestVersion.Trim();
             var result = new UpdateDisplayResult
             {
                 LatestVersion = latestVersion,
@@ -420,7 +423,7 @@ namespace ShaheLauncher.Core.Updates
             };
             if (latestVersion.Length == 0)
             {
-                result.ErrorText = "更新清单缺少 latest_version";
+                if (!silentWhenLatest) result.ErrorText = "更新清单缺少 latest_version";
                 return result;
             }
 

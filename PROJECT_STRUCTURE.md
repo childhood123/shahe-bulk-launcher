@@ -5094,4 +5094,26 @@ csharp/
 
 - 配置暂存/同步完整性：`stage-config.ps1` 退出0；暂存清单与已列出的18个文件一致，MainForm按主目录前一验证版本生成局部补丁，未混入既有分组差异。暂存 `git diff --cached --check` 为0，严格UTF-8及替换字符检查通过；15个C#文件同步主目录后SHA256逐一匹配，证据 `artifacts/runs/release_fixes_20261112/{config-integrity.json,config-verified-source.json,config-mainform-stage.patch}`。既有无关改动保持未暂存。
 
+- 配置模块独立提交已创建：`c931251`（完整哈希见 `artifacts/runs/release_fixes_20261112/config-push-result.json`），提交命令退出0。首次通过本轮既有单命令代理推GitHub返回128/`Empty reply from server`，未将其记为远端成功；证据 `config-push.log`。继续有界连接恢复，目标仍为 `沙河批量打开器`，回退命令 `git revert c931251`。
+
+- 配置GitHub推送恢复：保持同一代理，单命令改HTTP/1.1后重试退出0，远端确认 `a177aec..c931251 HEAD -> 沙河批量打开器`。证据 `artifacts/runs/release_fixes_20261112/{config-push-retry.log,config-push-retry-result.json}`；未修改持久代理设置。主目录源码已同步，未创建发布ZIP或修改GitCode在线清单，下一项为更新与清理。
+
+- 更新与清理RED：`test.ps1 -Stage update-cleanup-red -Filter FullyQualifiedName~UpdateManifestAndMenuCleanupContractTests` 退出1，7项/3通过/4失败/0跳过。明确复现null/空主版本未回退、自动缺版本产生错误反馈、窗体Dispose后路径菜单HMENU仍有效；主版本缺失回退、非空优先和手动错误对照通过。证据 `artifacts/runs/release_fixes_20261112/update-cleanup-red/{result.json,test.log,tests.trx}`。不启动更新安装或正式沙盒，不使用GC掩盖菜单生命周期。
+
+- 更新与清理GREEN：`test.ps1 -Stage update-cleanup-green -Filter 'TestCategory=Updates|FullyQualifiedName~MainFormLifecycle|FullyQualifiedName~PathMemory|FullyQualifiedName~PathHistory'` 退出0，79项/79通过/0失败/0跳过。本模块全部RED转GREEN，正常更新/路径/生命周期受影响回归通过；主窗体同步反馈验证自动缺版本无弹错、手动保留错误，持强引用下原生HMENU及子项即时释放、重复Dispose无重复通知。证据 `artifacts/runs/release_fixes_20261112/update-cleanup-green/{result.json,test.log,tests.trx}`。
+
+- 更新专项负载探针构建：Framework64 csc.exe /target:exe /platform:x64，引用本轮当前Core/App/Newtonsoft与WinForms，编译 `update-load/RunManifestCase.cs`、`MenuResourceProbe.cs` 均退出0，无编译诊断。前者只调用原Manifests场景；后者将原50实例探针绑定当前程序集并增加GC前路径菜单句柄释放断言。构建命令参数和日志在 `artifacts/runs/release_fixes_20261112/update-load/{build-result.json,build-manifest.log,build-menu.log}`。尚未执行探针，不作运行通过结论。
+
+- 原异常清单压力GREEN：`update-load/RunManifestCase.exe <update-load>/manifest-data` 退出0，1000轮/2006检查/0失败，12种正常/异常响应分布及缓存请求头校验保留；原automatic-missing-version/empty-primary-version-fallback均通过。PID11152正常退出，绑定本轮bin的App/Core，网络请求0。证据 `artifacts/runs/release_fixes_20261112/update-load/{manifest-run-result.json,manifest-run.log,manifest-data/result.json}`。此为生产解析/结果语义压力，不等于在线升级已完成。
+
+- 路径菜单资源GREEN：`update-load/MenuResourceProbe.exe` 退出0，50个隐藏窗体实例全部完成，GC前持强引用时路径菜单释放事件各1次、旧HMENU均无效；GC后托管/原生留存观察均0。主菜单仍无Disposed事件但其旧句柄已失效，不作泄漏误判。PID20024正常退出，本轮bin身份/SHA在日志；初始资源到首轮有框架预热增长，此后至末轮GDI/USER/进程句柄为16/9/392稳定。证据 `artifacts/runs/release_fixes_20261112/update-load/{menu-run-result.json,menu-run.log}`，隔离数据 `continuation/pending/resource/data/5894649a666c4b83a434817b62381a79`，所属控件/服务已Dispose。未调用Show/InitializeApplication、没有实际菜单输入或正式沙盒操作。
+
+- 更新与清理全量GREEN：`test.ps1 -Stage update-cleanup-full` 退出0，574项/574通过/0失败/0跳过。证据 `artifacts/runs/release_fixes_20261112/update-cleanup-full/{result.json,test.log,tests.trx}`，新旧更新、资源生命周期和已修模块自动化均通过。当前仍是源码验证，未升版、未生成新的公开包。
+
+- 更新与清理Release：`build.ps1 -Stage update-cleanup-release` 退出0、0警告/0错误，证据 `artifacts/runs/release_fixes_20261112/update-cleanup-release/{result.json,build.log}`。Python源码未改，版本字段回退先选值再Trim、自动缺版本静默已对照 `features/updates.py`；本轮先前Python对照与编译证据继续有效。
+
+- 发布前线上版本只读核对：带时间戳请求GitCode raw/main/update.json，curl退出0，线上仍为4.0.50；候选4.0.51未与现有清单版本冲突。原始响应和请求命令在 `artifacts/runs/release_fixes_20261112/online-before/{update.json,result.json,curl.log}`。未修改远端包/清单。
+
+- 更新与清理独立复审通过：`artifacts/runs/release_fixes_20261112/update-cleanup-review.md` 对3文件的需求、普通更新及重复Dispose未发现阻断；纯空白主版本不回退、静默入口仍清空旧更新提示是既有行为边界。本回合通过node_repl/@oai/sky只读枚举成功，无沙河测试窗口；没有发送按键，不据此声明输入连接恢复。
+
 <!-- FULL-ONCE-APPEND -->
