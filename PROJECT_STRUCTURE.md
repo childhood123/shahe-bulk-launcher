@@ -1,25 +1,114 @@
 # 沙河批量打开器项目结构
 
-## 当前执行摘要（2026-11-09）
+## 当前执行摘要（2026-11-12）
 
-- 当前唯一计划：`docs/superpowers/plans/2026-11-09-user-list-acceptance-fixes.md`，用户已要求开始修复；顺序为全部进程目标补齐、设备切换、真实菜单验收。逐模块验证、记录并独立提交。
-- 当前模块：MIG-ALL-PIDS-01 已修复、验证并独立推送 GitHub。任务二对照确认 C#/Python 路由均设置成功但本轮 WinMM 流均未迁移，保留支持边界；任务三宿主显示正常但桌面会话失效，真实菜单仍未验收。详情见 `docs/migration/2026-11-09-user-list-fixes.md`。
-- 当前可运行状态：已有绿色版主窗口启动/退出及服务运行证据，但菜单完整桌面验收仍未完成；不声明整个迁移完成。设备切换的旧 WinMM 活跃流未迁移仍待分析。
-- 范围：保留现有菜单、正常文案和快捷键；不修改 Python、不升级版本、不发布包。只操作隔离测试进程，保留主工作区已有改动。
-- 文档阅读顺序：AGENTS.md → 本摘要 → 当前计划 → 本文末尾 USER-LIST-FIX-20261109 验证记录。旧摘要的未推送/旧版本描述是历史，当前修复基于已同步的 GitHub 源码。
+- **唯一当前执行计划：** `docs/superpowers/plans/2026-11-11-full-function-stress.md`。用户已确认“同意追加，按完整范围修复”，修复与GitCode交付追加已写入，包含重新纳入保存失败反馈修复。当前从还原安全开始逐项执行，使用含最新分组修复的源码；旧30轮循环继续停止。未升版/发布，当前证据以末尾最新记录为准。
+- **当前结论：用户要求的所有功能压测尚未完成。** 已执行当前源码的完整自动化套件、专项压力和重复集成检查，但入口映射、模拟接口及方法调用不能证明全部真实功能已压测。此前“已测完/收口”和“仅真实桌面项未完成”的表述范围过大，现予纠正。当前未找到系统级全局快捷键注册接线，不能声称已实现或已测；实际键盘、托盘、读屏、音频/Sandboxie外部效果、当前构建完整更新链及独立多进程竞争等缺口见 `docs/migration/2026-11-12-all-functions-stress.md` 的未完成验收表。原只读夹具补验已记录，仓库测试清理未永久修复；还原保护、删除查询异常、定时旧目标、配置并发、反馈、编码和只读处理等失败仍在。桌面阻断不能替代其余缺口说明；没有提交或发布，整体迁移未完成。
+- **最新交付：** 用户指定的 GitCode 命令行发布已完成，公开绿色包和在线清单现为 4.0.50，包含“全部进程操作遗漏用户”修复。原始 4.0.49 已完成到该在线新包的实际安装和重启；发布后旧版能检测新版、新版不重复提示。完整发布与升级证据见末尾 `RELEASE-4.0.50-20261109`，本地交付在 `release/4.0.50/`。
+- **最新运行审计：** 用户在新回合“继续验收”后主EXE启动、窗口文本/焦点读取成功，Tab请求被工具以观察失效拒绝并要求截图；截图刷新报执行失败，恢复时报会话失活。当前阻断明确在工具截图前置环节，没有真实按键通过证据。启动前已快照自启动项，本轮结束后核对一致、配置恢复、目标清理；此前未采集原值的风险仍保留。最新目录为本轮 continuation/desktop-resume-103439，故障复现说明见其中 desktop-issue.md；新回合本身未解决问题，不重复相同尝试。
+- **最新自动化验证：** 当前全量、专项压力、补充重复集成、逐入口覆盖及只读校正补验的权威计数和路径见末尾 `FULL-ONCE-20261112`。原始汇总保留夹具中断当时的状态，continuation补验明确说明该场景当前已完成；未重复已通过项目或整个套件。产品失败与真实受阻不因夹具补验通过而关闭。原分组修复证据保留在 `GROUP-SELECTION-20261112`；旧30轮循环仍为 `stopped-by-user`。
+- **本次实际补验：** 无截图的计时器、专用注册表/跨进程配置、内置安装机制、Sandboxie只读查询以及此前音频/朗读/互斥证据保留。用户要求未通过项继续后，已取得当前生产设备切换在WMP播放框架中实际迁移/重新打开保持的证据；同时确认 `AUDIO-NONDEFAULT-01`：非默认设备音量/静音不可控，成功切换后甚至误报已调节/已静音，活动会话未变。菜单原生资源诊断未发现GC后逐轮留存，但路径菜单依赖GC释放。三项高优先级旧失败已复核到真实调用链，未修复。精确结果均在末尾最新记录；不能将组件通过扩展为全部应用/真实UI/运行中沙盒通过。
+- **旧版更新边界：** 原始 4.0.47 的在线检测、下载校验通过，但安装 4.0.49 被旧外置 updater 的包格式要求阻断；旧程序和配置保持原样，证据 `LEGACY-UPDATE-20261109`。本轮没有恢复该旧兼容设计。
+- **4.0.49 内置更新结论：** 先完成同版安装演练，随后完成 4.0.49 → 4.0.50 的原始主 EXE 内置安装、真实下载、替换和新版主窗口启动，配置及日志标记保留。早先“跨版本待验收”已被本轮新证据推进；首次发布后在线请求出现过 403，后续 curl 与两版原始客户端均通过，失败记录保留。
+- **已完成与可运行状态：** 既有定位、朗读文案、用户列表进程菜单和 4.0.49 绿色包已实现并有验证；C# 有主窗口启动及正常退出证据。GitHub 源码/Release 和 GitCode 包/清单已有发布证据；GitHub 仓库已于 2026-11-06 改为公开，仓库主页和 `v4.0.49` Release 可匿名访问。
+- **必须保留的未完成项：** 查漏报告第 3 节除本轮已修复 MIG-ALL-PIDS-01 之外的确认差异、第 4 节候选/未核完边界、第 5 节原版共有缺陷和版本边界、第 7 节运行验收。还原数据回退/异常后服务恢复待修；保存失败反馈修复现已重新授权、尚未完成。旧 4.0.47 可以识别 4.0.49，但外置更新器不能安装不含 updater.exe 的新包，不能称自动升级成功。
+- **历史冲突处理：** 下方 2026-10-24 摘要、E01–E10 和旧计划中的未提交/未发布描述是历史快照；源码、发布和升级结论以末尾新证据为准。旧 Alt+P 菜单通过记录不适用于已删除进程栏的新界面；设置行 Enter/Escape 已有证据，不重测。
+- **后续边界：** 既有GitCode交付完成；用户本次明确授权验收通过后发布下一版，不能把未修失败项当通过。修改/启动/终止限定所属隔离测试对象，正式Sandboxie查询只读，不停止正式程序或读屏、不修改正式配置、不改Python。音频不同框架及端点的通过/失败分别保留，真实菜单验收仍未完成，整体迁移未完成。主目录现有未提交改动保留，修复按已确认计划执行。
 
-## 历史执行摘要（2026-10-23 LOG-01 沙河远端同步提交已准备，GitHub 网络阻断）
+### 文档阅读顺序
 
-- 本轮 LOG-01：全部 Alt 菜单、快捷键、右键菜单、按钮、托盘、列表动作和对话框返回已接入日志；统一为 `logs/yyyy-MM-dd.log`，缺省关闭，开启后才记录。最终定向/全量、Release 及日志开关验证已通过；4.0.48 最终交付物为无安装程序的绿色 ZIP，包内 `Configurations/`、`logs/` 均为空，不含 `updater.exe`、PDB、用户配置或日志，解压后主窗口可直接启动并正常退出。主 EXE/Core DLL 与已通过内置更新实测的默认发布编译物哈希一致，更新能力仍由主程序内置。本地功能提交为 `4e87526`，以远端沙河分支为父的前向同步提交为 `445612a`；当前 GitHub HTTPS/SSH 均不可达，尚未推送。远端主分支验证成功后再删除独立语音分支。本地包尚未上传 GitCode。Python 未改，不推进 AUDIT-05。
-- 用户最新范围：只保留 UPDATE-EMBED-01 内置更新及三个选项，本模块已实现、验证、独立提交并推送；“稍后”保存目标版本并于下次启动自动更新，“忽略”取消该版本安排，默认发布不含独立 updater。FIX-CONFIG-02 未提交修复已按用户要求撤回；已提交的 FIX-CONFIG-01 保持。Python、GitCode 公开包和用户旧版目录未改；C# 能启动并运行已验证功能，整体 AUDIT/还原安全等待办仍未完成。
+1. `AGENTS.md` → 本节当前摘要 → `docs/superpowers/plans/2026-11-11-full-function-stress.md` → 末尾 `FULL-ONCE-20261112`。复用已批准全功能范围执行独立一轮，旧30轮循环不恢复；分组修复、用户列表修复、U1 和全文阅读计划保留为历史。
+2. `docs/migration/2026-11-09-user-list-acceptance.md` 保存本轮逐功能验收结论；`docs/migration/2026-10-25-python-csharp-audit.md` 保存迁移问题台账，全文阅读记录仍在 `docs/migration/2026-10-25-python-full-read.md`。
+3. 本文末尾 `FULL-ONCE-20261112` 与 `docs/migration/2026-11-12-all-functions-stress.md` 是本轮全功能测试交接入口；`GROUP-SELECTION-20261112` 保留分组修复证据。旧压力、用户列表修复、U1 验收和 Python 全文阅读均按历史索引追溯，不重启已完成工作。
+
+## 历史执行摘要（2026-10-24，仅供追溯）
+
+- **唯一当前计划：** `docs/superpowers/plans/2026-10-24-handoff-and-release-4.0.49.md`。本轮 P3/P4 的公开交付已完成：GitHub 源码精确 tree、GitHub `v4.0.49` Release 资产、4.0.49 绿色包和 GitCode 在线清单均已通过发布及下载核对；4.0.47 检测 4.0.49 已通过，旧外置 updater 实际替换被明确阻断。
+- **接续顺序：** U1 用户列表进程菜单的代码、自动化验证和文档记录已完成；真实桌面菜单弹出/取消尚未单独验收。P1/P2、本地发布、GitHub P4 和 GitCode P3 已有证据；后续若继续按计划，应回到 AUDIT-04，完成后停在 AUDIT-05 前。不要把旧版“能检测”扩大成“能完成替换”。
+- **本轮新增源码接线缺口：** Python 用户列表已绑定上下文菜单；C# 只有 `BuildContextMenu` 方法，未连接鼠标/键盘弹出入口，且旧列表全局状态 resolver 可能同步扫进程。此前静态动作清点不能覆盖这种缺口；本轮 U1 补接线并依用户要求调整入口。基线保存 `artifacts/runs/process_menu_list_20261024/`，后续逐轮记录。
+- **源码/包：** 当前交付版本为 `4.0.49`；本地绿色包位于 `artifacts/runs/release_4.0.49_20261024/delivery/`，哈希和内容见 `package-result.json`。GitHub Release `v4.0.49` 已包含同一 ZIP，GitHub 下载复核结果见 `github-release-verify/github-release-asset-result.json`；GitCode 在线 `update.json` 已为 `4.0.49`，实际 `?t=` 请求返回 200，内容长度 620 字节；GitHub 远端源码提交及精确 tree 证据以末尾“GitHub 远端 tree 独立复核”记录为准；先前换行差异已经纠正。
+- **最新行为：** 定位以焦点用户为准，快捷键切换后跟随新焦点，只处理该用户 PID 并直接恢复/置前，不弹进程选择框。朗读标签为“朗读接口:”，AccessibleName 为“朗读接口”，首项为“自动”。代码/验证见 E02；本轮只读核查，没有重跑。
+- **Python 对照：** 模块入口、快捷键定义、所提取菜单分派和默认配置键未发现整模块/动作缺失。新增 `MIG-READONLY-01`：Python 还原删除失败时尝试清除只读限制并重试，C# 直接删除；只有源码差异、尚无运行时 RED。静态清点不代表逐行语义、全部 UI 顺序或真实行为等价。
+- **已完成范围：** GAP-01–10、REVIEW-01–06、VOICE-01/02、用户指定单读屏 VOICE-03、AUDIT-01–03，及快捷键 Enter、配置目录、打赏、配置损坏保护、内置更新、日志的既有实现/验证继续沿用。4.0.49 本地构建与绿色包已验证；GitHub 源码同步和 GitCode 公开包/清单发布已经验收。
+- **未修复风险：** 覆盖还原先删旧数据、复制失败无回退，异常后服务未恢复；Python 原版也有这些风险，列为独立修复，普通用户机不做破坏性验证。保存失败误报成功仍在，但 FIX-CONFIG-02 已按用户要求撤回，不自动恢复。旧 REVIEW-07 R2 已修复；4.0.47 的旧外置 updater 无法安装不带 `updater.exe` 的 4.0.49，这是已验证的兼容边界，不通过补回旧 updater 规避。
+- **未验收：** AUDIT-04 的 NumPadEnter 实际动作、关于菜单替代入口、托盘完整流程、未覆盖模态和完整单读屏；AUDIT-05–08 及整体门禁尚未收口。设置行 Enter→设置→Escape 返回已有后续 HOTKEY 证据，不重复测试；双读屏不重新设为门槛。
+- **可运行状态：** C# 已有主窗口启动、已验证功能和正常退出证据，但不能声明整个软件迁移完成或没有遗留问题。
+- **历史冲突：** 下方旧摘要、旧模块表/缺口表及原收口计划均属历史。旧版本、空 Updater、必须外置 updater、多窗口选择、过时未勾选框不覆盖本摘要和新计划。实时数字、提交和证据以以下索引为当前入口。
+
+## 交接证据索引（2026-10-24）
+
+### E01：工作区与源码边界
+
+- 主目录 `D:\mycodex\git`，分支 `沙河批量打开器`，HEAD `4e8752630de9f4543a888f8bd71711d811eda085`，本轮开始时暂存区为空。待提交 C# 文件准确清单见新计划 P1。
+- `AGENTS.md`、两份 GAP-09 日志、共享文档历史差异、未跟踪 `csharp/ShaheLauncher.Tests/KeyboardAuditRuntimeContractTests.cs` 不得混提交。快照及源码哈希：`artifacts/runs/handoff_inventory_20261024/workspace-snapshot.json`。
+- 当前源码根 `csharp/`；Python 根入口和 `shahe_bulk_launcher/` 作为旧版参照。`D:\mycodex\worktrees\` 是同仓库的隔离工作树，内容取决于各自提交，不默认与主目录相同。
+
+### E02：定位与文案验证
+
+- 根目录 `artifacts/runs/locate_and_speech_text_20261023/`。已读取 TRX：`red/locate-text-red.trx` 通过 1/失败 4；`green/locate-text-green.trx` 通过 5/失败 0；`affected-final/locate-text-affected-final.trx` 通过 165/失败 0；`full/locate-text-full.trx` 通过 426/失败 0；各项跳过 0。首次受影响失败保留。
+- `release/locate-text-release.log` 成功构建、警告 0/错误 0，输出 `release/bin/x64/Release/net48/`；原返回码见下方 LOCATE 历史记录。
+- `foreground-probe/foreground-result.json` 返回码 0、置前成功、选择回调 0 次；前台由非目标 PID 2756 变为目标 PID 2348，历史记录确认测试进程已消失。这是生产服务加隔离窗口证据，不冒充全部沙盒/最小化边界重新验收。
+- 全量来自含未提交 AUDIT-04 测试的工作树，不能冒充干净提交的测试数量。
+
+### E03：旧本地绿色包及包装参考
+
+- 包：`artifacts/runs/diagnostic_logging_release_20261023/delivery-final/shahe-bulk-launcher-4.0.48-win-x64.zip`；SHA-256 `D7BC80EF0218482B00B872458588768EA2B6F4570D904254E570EBED3A521A74`。该包不含 E02 修复。
+- `artifacts/runs/diagnostic_logging_release_20261023/portable-final-verification-result.json`：返回码 0，空 Configurations/logs、无禁入项、主窗口显示、正常退出及无残留通过。
+- 同目录 `package-portable-final.ps1`、`verify-publish.ps1` 可参考；含旧目录、版本和追加记录标签，必须适配后使用。
+
+### E04：GitCode 工作树与最后保存的在线证据
+
+- `artifacts/runs/updater_added_dll_20261023/release-repo/` 是 detached worktree，HEAD `ac06e1f4a1b19ebba0b26e69a571b72649e7f1b6`，本地清单还是 `4.0.46`；远端 `https://gitcode.com/childhood123/shahe-bulk-launcher-releases.git` 的 `main`。必须 fetch 后以前向提交发布。
+- 最近持久化在线证据：`artifacts/runs/diagnostic_logging_release_20261023/public-manifest-before.json`、`manifest-fetch-result.json`，公开版 `4.0.47`、读取返回码 0。本轮未重测网络或写权限，不把本地清单当线上状态。
+
+### E05：旧版用户测试包
+
+- `artifacts/runs/updater_added_dll_20261023/shahe-bulk-launcher-4.0.47-win-x64.zip`；清单字节数 `3010671`、SHA-256 `F8BEA7B4D03C06A93E281D459724FE3310D33883CBF83EB2E92E7BE32F739D8D`。历史发布记录同目录 `delivery-result.json`。
+- 这是绿色包，隔离解压后测试；旧升级证据不自动证明向尚未生成的新版升级成功。
+
+### E06：GitHub 集成与网络历史
+
+- 目录 `D:\mycodex\worktrees\shahe-unified-4.0.48-20261023`，分支 `integration/shahe-unified-4.0.48-20261023`，HEAD `460e531a96249e7ebca68d68687405f325a34f9d`；已有同步提交 `445612a`、网络记录 `3cbad15`，尚不含 P1/P2 改动。
+- `artifacts/runs/diagnostic_logging_release_20261023/remote-integration-result.json` 记录旧集成 C# 树等价；`remote-network-block-result.json` 记录上次 GitHub HTTPS/SSH 不通、推送未完成、语音分支未删除。本轮未重测网络。
+- 目标 `origin/沙河批量打开器` 包含全部应交付源码并经核对后，才删除 `origin/voice03-fixed-reader-20261022`；失效历史 worktree 条目只登记、不清理。
+
+### E07：缺陷与撤回任务
+
+- `artifacts/runs/csharp_remaining_review_20261023/review.md`、`probe-result.json` 保存还原数据回退/服务恢复和保存反馈的隔离复现。本轮只读复核当前 `BackupRestoreService.RestoreSelectedUsers`、`LauncherSettingsService.SaveSettings/ApplySettings`，相关路径仍在。
+- 配置读取保护 R2 已由 `artifacts/runs/configuration_failure_safety_20261023/` 交付证据关闭。
+- FIX-CONFIG-02 撤回记录 `artifacts/runs/embedded_update_20261023/scope-update-only/withdrawal-result.json`；历史测试不是当前已交付修复。R5 被内置更新设计取代，不补 updater。
+
+### E08：本轮 Python/C# 静态对照
+
+- `artifacts/runs/handoff_inventory_20261024/compare-source.ps1` → `source-comparison.json`，返回码 0：20 个模块代表入口存在，快捷键定义 47/47，类别/动作键/标签/默认键/事件编号无差异；提取菜单动作 41 项都有分派；默认配置顶层键 22 项有 C# 字面量。存在性不证明每个键的值和保存语义一致。
+- 手动追踪 Python `backup.py::_force_remove_dir` 与 C# `BackupRestoreService.RestoreSelectedUsers`，新增 `MIG-READONLY-01`，尚无运行时 RED。未启动 Python GUI、读屏或真实服务。
+- `artifacts/runs/python_to_csharp_remaining_audit_20261021/` 中“剩余五项”等数字为历史；相应 GAP/REVIEW 后来已修复，不能复制为当前未迁移项。
+
+### E09：可复用 Python 基线
+
+- `artifacts/runs/embedded_update_20261023/python-result.json`：返回码 0，通过 31/失败 0/跳过 0；同目录 `compile-result.json` 返回码 0。Python 生产源码本轮未改、未重跑；历史 cryptography 环境边界不因编译通过而解除。
+
+### E10：AUDIT-04 有效证据与待办去重
+
+- `artifacts/runs/audit04_keyboard_20261023/menu-focus-progress.json` 为有效菜单/焦点清单；原计划 AUDIT-04 保留 Alt、分组、NumPadEnter 输入层和清理记录。
+- `artifacts/runs/hotkey_enter_action_20261023/real-exe-final/final-result.json`、`returned-main.json` 已证明设置行 Enter 打开、Escape 返回、配置未改和正常退出；覆盖旧进度文件的 Settings modal cancel 待办，不代表所有模态已验收。
+- 未完成项见新计划 A4；Alt+A 转微信仍属疑似外部冲突，无效尝试/进程清理不能当托盘退出通过。
+
+## 历史摘要快照（2026-10-23，仅供追溯）
+
+> 以下原摘要及后续旧状态表保留历史原文；“当前”“唯一计划”“下一步”等措辞只代表当时。接手以文首新摘要和新计划为准。
+
+- 本轮 LOG-01：全部 Alt 菜单、快捷键、右键菜单、按钮、托盘、列表动作和对话框返回已接入日志；统一为 `logs/yyyy-MM-dd.log`，缺省关闭，开启后才记录。最终定向/全量、Release 及日志开关验证已通过；4.0.48 最终交付物为无安装程序的绿色 ZIP，包内 `Configurations/`、`logs/` 均为空，不含 `updater.exe`、PDB、用户配置或日志，解压后主窗口可直接启动并正常退出。主 EXE/Core DLL 与已通过内置更新实测的默认发布编译物哈希一致，更新能力仍由主程序内置。本地功能提交为 `4e87526`，以远端沙河分支为父的前向同步提交为 `445612a`，网络阻断记录提交为 `3cbad15`；当前 GitHub HTTPS/SSH 均不可达，尚未推送。远端主分支验证成功后再删除独立语音分支。本地包尚未上传 GitCode。Python 未改，不推进 AUDIT-05。
+- 前项已交付范围：只保留 UPDATE-EMBED-01 内置更新及三个选项，本模块已实现、验证、独立提交并推送；“稍后”保存目标版本并于下次启动自动更新，“忽略”取消该版本安排，默认发布不含独立 updater。FIX-CONFIG-02 未提交修复已按用户要求撤回；已提交的 FIX-CONFIG-01 保持。Python、GitCode 公开包和用户旧版目录未改；C# 能启动并运行已验证功能，整体 AUDIT/还原安全等待办仍未完成。
 - 当前唯一计划：`docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`。GAP-09 已按用户“反正能记忆到999条记录就行之前是20”的明确要求更新为 C# `0–999`；除该用户指定差异外，后续功能继续保留 Python 原文案和行为，只用 C# 实现。
-- 当前状态：AUDIT-03 已完成并推送，用户已恢复 AUDIT-04。追加功能 HOTKEY-ENTER-01 已完成验证、独立提交并推送：快捷键功能列表全部行可通过 Enter 执行，交付记录见本文件末尾。AUDIT-04 其他真实键盘、菜单、托盘及单读屏待办保留，既有未提交审计记录留在工作树；本提交不将它们勾选为完成，不进入 AUDIT-05，整体迁移未完成。
+- 当前状态：AUDIT-03 已完成并推送；AUDIT-04 的既有代码门禁、Alt 导航、分组进出、Tab 正反向/环绕、F10 入口与焦点恢复，以及文件/进程/沙盒管理/定时/设置/校正/工具菜单已取得有效证据。Alt+A 后转到微信，疑似外部快捷键冲突；关于替代入口准备未完成，模态返回、托盘、完整单读屏及 NumPadEnter 动作分派仍待验收。HOTKEY-ENTER-01 全部功能行回车执行已完成验证、独立提交并推送，AUDIT-04 既有未验收项保留。已通过项不重跑，不提交未完成模块、不进入 AUDIT-05，整体迁移未完成。
 - 当前追加任务 UPDATE-DLL-01 / CONFIG-LOC-01：4.0.47 已公开发布并通过真实旧版升级验证；Configurations 为唯一用户配置目录，公开包只带空目录，旧配置完整迁入，新增 DLL 与打赏图片落盘和窗口读取通过。源码已独立提交并推送；AUDIT-04 原待办保留，不进入后续模块。
 - 用户追加任务 DONATE-01：已按最新明确要求，将原始支付宝/微信图片放入根目录 `打赏/`，C# 菜单优先从该目录读取，构建/发布自动带上图片；复用原有“复制二维码”按钮复制原图位图。此追加任务已实现并验证，后续审计仍遵守既定顺序。
 - 用户追加设置/菜单核对：SETTINGS-01 已修复普通软件设置保存时自启动写入旧值；MENU-01 已按 Python 恢复三条分隔线，并将设置菜单恢复为“热键设置、朗读设置、软件设置”。路径列表原有操作和用户指定 999 上限保留。读屏 API 下拉框原先仅保存/回显的问题已独立修复，按用户单读屏要求完成 NVDA 实测及完整代码门禁；双读屏/真实启动恢复未验收和首次探针异常未定位仍保留，不据此声明所有读屏场景均通过。
 - 用户指定 HISTORY-UI-01：数量窗口已移除“已记忆的路径列表”和“隐藏路径”复选框，只保留数量及确定/取消；原“调整记忆数”入口复用同一窗口。既有历史数据不因移除控件被清空，范围仍为 0–999。主窗口原有路径上下文功能保留，重复入口核查记录见本轮报告。
 - GitCode 发布状态：公开仓库 main 仍为 4.0.47；4.0.48 绿色 ZIP 仅在本地构建并验证，尚未上传或修改公开清单。4.0.47 的匿名下载、真实旧版升级与资源验收历史结论继续保留。
 - 发布包状态：4.0.48 最终本地绿色包位于 `artifacts/runs/diagnostic_logging_release_20261023/delivery-final/shahe-bulk-launcher-4.0.48-win-x64.zip`，SHA-256 为 `D7BC80EF0218482B00B872458588768EA2B6F4570D904254E570EBED3A521A74`，包含空 `Configurations/`、空 `logs/`、打赏原图和 `lib` 运行文件，不含用户数据、PDB 或独立 updater；解压即用验证返回码 `0`。
+- 当前用户追加任务 LOCATE-01 + UI-TEXT-01：定位动作已改为以列表焦点用户为准，只处理该用户 PID 的窗口并直接置前，不再显示进程选择框；朗读设置已改为“朗读接口”和“自动”。定向 GREEN `5/5`、受影响回归 `165/165`、C# 全量 `426/426` 均通过；隔离 Release x64 返回码 `0`、警告 `0`、错误 `0`。隔离真实窗口探针返回码 `0`：前台从非目标 PID `2756` 切换为目标 PID `2348`，选择回调调用 `0` 次，两个测试进程均已清理。当前等待计划勾选确认、版本升级发布和独立提交。
 - 前次 HISTORY-UI-01 自动化门禁（不代表当前 VOICE-03）：HISTORY-UI-01 有效 RED 通过 2/失败 1（列表仍存在），精简后定向 9/9、受影响 91/91、C# 全量 370/370、Python 29/29，compileall 与隔离 Release x64 返回码 0，构建 0 警告/0 错误。生产窗体保存/取消验证历史与其他偏好未被误改，数量入口真实模态验证保持上限 999。此为用户明确指定的界面差异；其他 Python 文案、菜单和业务执行仍继续对照，整体迁移未完成。
 - 版本触发边界：当前源码及最终本地绿色包为 4.0.48，公开清单最后只读核对仍为 4.0.47；最终 ZIP 已验证解压、直接启动、正常退出和关闭日志时空 `logs` 保持，内置更新安装证据通过同哈希主 EXE/Core DLL 复用。公开发布尚未变更。
 - 已完成模块：GAP-01 至 GAP-10、REVIEW-01 至 REVIEW-06、VOICE-01、VOICE-02、AUDIT-01、AUDIT-02、UPDATE-01 及此前已确认范围。VOICE-03 已按用户单读屏范围完成，AUDIT-03 已完成并推送；当前执行 AUDIT-04；其后为 AUDIT-05 至 AUDIT-08 和 RELEASE-01，本轮不推进后续模块。整体迁移仍未完成。
@@ -27,7 +116,7 @@
 - 真实 Sandboxie 清理状态：本轮新基线下最终 verify-clean 全部通过，目标/应用配置/真实 Sandboxie.ini 哈希匹配，本轮 section、目录和受控进程均无残留；最新命令、构建目录及资源细节见追加验证记录。用户已授权正常退出控制程序，服务保持 Running。
 - C# 当前可以启动并运行已验证功能；路径记忆上限按用户要求为 999。整体 Python→C# 迁移仍未完成，AUDIT-04 至 AUDIT-08 和最终发布验收仍有待办，尚不能认定全部功能均已完整验收；活动计划中 AUDIT-01/02 等历史复选框存在进度滞后，以本摘要、独立提交和最新日志证据为准。
 
-- VOICE-03 本轮进度：用户指定的单读屏验收、完整代码门禁和独立提交/推送均完成；修复分支与回退信息见最新验证记录。双读屏、真实启动恢复及保益自身发声未验收，首次原生异常未定位，均未宣称已解决。AUDIT-03 已完成并推送，用户已恢复 AUDIT-04；整体迁移未完成。
+- VOICE-03 本轮进度：用户指定的单读屏验收、完整代码门禁和独立提交/推送均完成；修复分支与回退信息见最新验证记录。双读屏、真实启动恢复及保益自身发声未验收，首次原生异常未定位，均未宣称已解决。AUDIT-03 已完成并推送，当前仅恢复 AUDIT-04；整体迁移未完成。
 
 ### 本轮验证记录（只追加）
 
@@ -184,8 +273,8 @@
 新会话按以下顺序读取文档和证据：
 
 1. `AGENTS.md`：长期项目约束、验证和提交规则。
-2. 本文件的“当前摘要”和“当前 C# 迁移计划进度”：当前唯一权威状态。
-3. `docs/superpowers/plans/2026-10-20-remaining-migration-closure.md`：当前唯一活动计划；文内进度滞后以顶部摘要和最新日志为准。
+2. 本文件顶部“当前执行摘要”和“交接证据索引”：当前权威状态；旧“当前 C# 迁移计划进度”只作历史追溯。
+3. `docs/superpowers/plans/2026-10-24-handoff-and-release-4.0.49.md`：当前唯一活动计划；原收口计划仅作历史，不从其过时空复选框继续。
 4. `artifacts/runs/` 下由当前计划引用的最新日志：命令输出和真实 EXE 证据。
 5. 本文件后面的历史记录：只用于追溯，不覆盖当前摘要。
 
@@ -2678,7 +2767,404 @@ csharp/
 
 - AUDIT-03 交付状态文档检查：仅同步已成功提交/推送事实及用户暂停边界，未修改生产源码；`git diff --cached --check` 返回码 0，计数不适用，检查输出保存在 `artifacts/runs/audit03_lifecycle_fresh_20261022/closeout-push-result.json` 的 deliveryDocumentationCheck 中。
 
-### HOTKEY-ENTER-01：用户指定的全部功能行回车执行
+- AUDIT-04 baseline：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\audit04_keyboard_20261023\bin\ --logger trx;LogFileName=baseline.trx --results-directory D:\mycodex\git\artifacts\runs\audit04_keyboard_20261023 --filter FullyQualifiedName~HotkeyControllerContractTests|FullyQualifiedName~UiControlsCSharpContractTests|FullyQualifiedName~MainFormApplicationContractTests|FullyQualifiedName~MainFormLifecycleContractTests|FullyQualifiedName~TrayCSharpContractTests`；返回码 0，通过 63、失败 0、跳过 0。日志与命令索引：`artifacts/runs/audit04_keyboard_20261023/baseline.log`、`baseline-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-04 真实 EXE 观察：隔离生产进程已启动，但 Computer Use 首次激活/观察返回 CUA_EXECUTION_FAILED，重新绑定返回 CUA_TURN_NOT_ACTIVE。未发送键盘输入；焦点/索引未校准，无产品结论，状态 inconclusive，工具无进程返回码；通过 0、失败 0、待验收 1。PID、实际目录和错误见 `artifacts/runs/audit04_keyboard_20261023/desktop-observation-result.json`。已停止桌面输入，后续先完成非交互契约核对。
+
+- AUDIT-04 keyboard-message-contract：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\audit04_keyboard_20261023\bin\ --logger trx;LogFileName=keyboard-message-contract.trx --results-directory D:\mycodex\git\artifacts\runs\audit04_keyboard_20261023 --filter FullyQualifiedName~KeyboardAuditRuntimeContractTests`；返回码 1，通过 0、失败 2、跳过 0。日志与命令索引：`artifacts/runs/audit04_keyboard_20261023/keyboard-message-contract.log`、`keyboard-message-contract-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-04 消息契约首轮失败归因：新增测试未为“常用”分组提供 GroupNamesProvider，且把固定动作 select_all 当成可重绑定自定义动作；原版/C# 均要求真实分组声明并保留固定快捷键。此为测试夹具偏差，不计产品 RED；生产代码不变，修正夹具后重跑。原失败日志和 TRX 保留于 keyboard-message-contract 对应记录。
+
+- AUDIT-04 keyboard-message-contract-calibrated：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\audit04_keyboard_20261023\bin\ --logger trx;LogFileName=keyboard-message-contract-calibrated.trx --results-directory D:\mycodex\git\artifacts\runs\audit04_keyboard_20261023 --filter FullyQualifiedName~KeyboardAuditRuntimeContractTests`；返回码 1，通过 1、失败 1、跳过 0。日志与命令索引：`artifacts/runs/audit04_keyboard_20261023/keyboard-message-contract-calibrated.log`、`keyboard-message-contract-calibrated-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-04 消息契约校准复核：Alt 导航已通过；余下一项定位为 select_none 仅有 Python 方法、并不在 Python/C# 可配置热键 action_specs 中。改用两边均公开的 select_next_user/select_prev_user 比较 Enter 扩展位；仍仅修测试夹具，不改产品、不计有效 RED。真实 EXE 初始配置也误用了该未公开动作，未发送任何键，必须校准后才可重测。
+
+- AUDIT-04 keyboard-message-contract-final：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\audit04_keyboard_20261023\bin\ --logger trx;LogFileName=keyboard-message-contract-final.trx --results-directory D:\mycodex\git\artifacts\runs\audit04_keyboard_20261023 --filter FullyQualifiedName~KeyboardAuditRuntimeContractTests`；返回码 0，通过 2、失败 0、跳过 0。日志与命令索引：`artifacts/runs/audit04_keyboard_20261023/keyboard-message-contract-final.log`、`keyboard-message-contract-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-04 affected-final：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\audit04_keyboard_20261023\bin\ --logger trx;LogFileName=affected-final.trx --results-directory D:\mycodex\git\artifacts\runs\audit04_keyboard_20261023 --filter FullyQualifiedName~KeyboardAuditRuntimeContractTests|FullyQualifiedName~HotkeyControllerContractTests|FullyQualifiedName~UiControlsCSharpContractTests|FullyQualifiedName~MainFormApplicationContractTests|FullyQualifiedName~MainFormLifecycleContractTests|FullyQualifiedName~TrayCSharpContractTests`；返回码 0，通过 65、失败 0、跳过 0。日志与命令索引：`artifacts/runs/audit04_keyboard_20261023/affected-final.log`、`affected-final-result.json`；如为 C# 测试，另有同名 TRX。
+- AUDIT-04 失败桌面尝试清理：仅对已核对 PID/精确路径的本轮测试实例执行停止，返回码 0；真实 Sandboxie.ini、自启动项和原读屏进程核对结果见 `artifacts/runs/audit04_keyboard_20261023/desktop-cleanup-result.json`。本轮使用强制清理，不能算作正常退出或托盘退出通过。
+
+- AUDIT-04 full-final：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\audit04_keyboard_20261023\bin\ --logger trx;LogFileName=full-final.trx --results-directory D:\mycodex\git\artifacts\runs\audit04_keyboard_20261023`；返回码 0，通过 391、失败 0、跳过 0。日志与命令索引：`artifacts/runs/audit04_keyboard_20261023/full-final.log`、`full-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-04 python-final：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 0，通过 29、失败 0、跳过 0。日志与命令索引：`artifacts/runs/audit04_keyboard_20261023/python-final.log`、`python-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-04 compile-final：命令 `python -m compileall -q shahe_bulk_launcher tests`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/audit04_keyboard_20261023/compile-final.log`、`compile-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-04 release-final：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\audit04_keyboard_20261023\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/audit04_keyboard_20261023/release-final.log`、`release-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- AUDIT-04 Release 补充：本轮隔离 Release x64 构建 0 警告、0 错误，生产 Core/App/Updater/AuditRunner 均编译成功；原始输出见 `artifacts/runs/audit04_keyboard_20261023/release-final.log`。不替代真实交互验收。
+- AUDIT-04 差异检查：全工作树 git diff --check 返回 2（用户已有 GAP-09 两份日志空白，保留未改）；本轮文档范围返回 2，新增测试源码空白检查返回 0，测试计数不适用。命令/结果/日志：`artifacts/runs/audit04_keyboard_20261023/diff-check-result.json`。模块真实验收未完成，未暂存、提交或推送。
+
+- AUDIT-04 差异检查更正：首轮本模块范围也返回 2，原因是本轮 PowerShell 清理记录引入单行 CRLF 与文档 LF 混用；上一条“全仓仅旧日志”不适用于该首轮。只统一本轮文档换行，不改历史文字或用户 GAP-09 日志；修正后重新检查，结果另记。
+
+- AUDIT-04 换行修正后差异复验：本模块文档范围返回码 0；全工作树返回码 2，剩余错误仅在用户已有 GAP-09 两份日志中，未改动。命令/返回码/输出见 `artifacts/runs/audit04_keyboard_20261023/diff-final-result.json` 及其日志索引；计数不适用，未暂存或提交。
+
+- AUDIT-04 独立桌面工具发现：用户允许切换后执行 `ocu call list_apps`，返回码 `0`，工具错误标记为 false；本轮测试 EXE 未运行。此步骤只确认可枚举桌面，不代表真实按键通过。结果：`artifacts/runs/audit04_keyboard_20261023/independent-list-apps.json`。
+
+- AUDIT-04 独立隔离启动：Start-Process 后精确路径核对通过，返回码 `0`；此时只确认进程，不计入键盘/焦点通过。PID、构建目录及会话：`artifacts/runs/audit04_keyboard_20261023/independent-launch-result.json`。
+
+- AUDIT-04 独立桌面观察 `independent-discovery`：工具进程返回码 `0`；仅保存工具与应用当前状态，场景结论另行核验。命令和文本证据：`artifacts/runs/audit04_keyboard_20261023/independent-discovery-result.json`。
+
+- AUDIT-04 独立桌面观察 `navigation-initial`：工具进程返回码 `0`；仅保存工具与应用当前状态，场景结论另行核验。命令和文本证据：`artifacts/runs/audit04_keyboard_20261023/navigation-initial-result.json`。
+
+- AUDIT-04 独立桌面观察 `navigation-alt-down`：工具进程返回码 `1`；仅保存工具与应用当前状态，场景结论另行核验。命令和文本证据：`artifacts/runs/audit04_keyboard_20261023/navigation-alt-down-result.json`。
+
+- AUDIT-04 `navigation-alt-down` 工具校准：独立 CLI 每次启动不保留 app state，本次返回“Run get_app_state before action tools”，没有实际发键；属于无效工具尝试，不是产品 RED。后续在同一 CLI 调用内先取状态再执行单个动作。
+
+- AUDIT-04 独立桌面观察 `navigation-alt-down-calibrated`：工具进程返回码 `0`；仅保存工具与应用当前状态，场景结论另行核验。命令和文本证据：`artifacts/runs/audit04_keyboard_20261023/navigation-alt-down-calibrated-result.json`。
+
+- AUDIT-04 独立桌面观察 `menu-file-calibration`：工具进程返回码 `0`；仅保存工具与应用当前状态，场景结论另行核验。命令和文本证据：`artifacts/runs/audit04_keyboard_20261023/menu-file-calibration-result.json`。
+
+- AUDIT-04 独立桌面步骤 `focus-calibration-list-pane`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/focus-calibration-list-pane-result.json`。
+
+- AUDIT-04 独立桌面步骤 `focus-calibration-list-control`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/focus-calibration-list-control-result.json`。
+
+- AUDIT-04 独立工具焦点校准重启：前一测试实例 PID `12380` 已按精确可执行路径强制清理，原因是独立工具截图/焦点状态不稳定；不计入产品结论，用户读屏进程未触碰。记录：`artifacts/runs/audit04_keyboard_20261023/independent-restart-cleanup.json`。
+
+- AUDIT-04 独立桌面步骤 `fresh-initial-state`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/fresh-initial-state-result.json`。
+
+- AUDIT-04 独立桌面步骤 `real-alt-down-1`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/real-alt-down-1-result.json`。
+
+- AUDIT-04 独立桌面步骤 `focus-coordinate-calibration`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/focus-coordinate-calibration-result.json`。
+
+- AUDIT-04 独立桌面步骤 `focus-window-activation`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/focus-window-activation-result.json`。
+
+- AUDIT-04 独立桌面步骤 `cancel-accidental-path-dialog`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/cancel-accidental-path-dialog-result.json`。
+
+- AUDIT-04 独立桌面步骤 `focus-list-after-activation`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/focus-list-after-activation-result.json`。
+
+- AUDIT-04 独立桌面步骤 `focus-top-list-item`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/focus-top-list-item-result.json`。
+
+- AUDIT-04 独立桌面步骤 `cancel-accidental-speech-dialog`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/cancel-accidental-speech-dialog-result.json`。
+
+- AUDIT-04 独立桌面步骤 `cancel-speech-dialog-escape`：CLI 返回码 `1`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/cancel-speech-dialog-escape-result.json`。
+
+- AUDIT-04 独立桌面步骤 `post-escape-state`：CLI 返回码 `1`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/post-escape-state-result.json`。
+
+- AUDIT-04 独立桌面步骤 `restored-visible-state`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/restored-visible-state-result.json`。
+
+- AUDIT-04 独立桌面步骤 `activate-main-window-current-state`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/activate-main-window-current-state-result.json`。
+
+- AUDIT-04 独立桌面步骤 `focus-coordinate-auto`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/focus-coordinate-auto-result.json`。
+
+- AUDIT-04 只读观测探针首轮构建：C# 编译器参数写法错误，返回码 `1`（CS2005/CS2008），未生成探针，不是产品 RED；日志为本次命令输出。随后只修正调用参数，不改探针目标。
+
+- AUDIT-04 只读 Win32 观测探针构建修正：返回码 `0`；探针只读记录前台 PID、目标主窗口、列表句柄、选中/焦点索引，不发送输入。当前首次观测：`artifacts/runs/audit04_keyboard_20261023/probe-before-key.json`。
+
+- AUDIT-04 独立桌面步骤 `foreground-alt-tab-1`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/foreground-alt-tab-1-result.json`。
+
+- AUDIT-04 独立桌面步骤 `foreground-alt-tab-2`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/foreground-alt-tab-2-result.json`。
+
+- AUDIT-04 独立桌面步骤 `target-foreground-window-state`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/target-foreground-window-state-result.json`。
+
+- AUDIT-04 只读探针扩展首轮：直接文本替换破坏 C# 字符串转义，编译返回码 `1`，仅是审计辅助脚本错误，未形成产品结论；已保留失败记录并重写最小探针。
+
+- AUDIT-04 只读探针重写后构建：返回码 `0`；现在输出目标进程全部顶层窗口并优先选择标题为 `沙河批量打开器` 的主窗体，仍只读。
+
+- AUDIT-04 独立桌面步骤 `foreground-alt-tab-3`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/foreground-alt-tab-3-result.json`。
+
+- AUDIT-04 独立桌面步骤 `foreground-alt-tab-4`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/foreground-alt-tab-4-result.json`。
+
+- AUDIT-04 独立桌面步骤 `focus-titlebar-auto`：CLI 返回码 `0`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/focus-titlebar-auto-result.json`。
+
+- AUDIT-04 独立桌面步骤 `focus-window-accessibility-click`：CLI 返回码 `1`；步骤与文本状态已记录，图像只在执行时观察，不作为单独可复核证据。结果：`artifacts/runs/audit04_keyboard_20261023/focus-window-accessibility-click-result.json`。
+
+- AUDIT-04 前台复核：只读探针显示隔离主窗口可见、列表共 97 项，但目标不是系统前台，实按 Alt+Down 后选中/焦点索引未变化；该步骤不通过且不归因产品，继续用监视器捕获动作时序。
+
+- AUDIT-04 恢复审核更正：`fixture-preparation.json` 的 `iniHash` 是真实 Sandboxie.ini 哈希，并非隔离应用配置；此前恢复尝试将两者比较无意义，未声称相符。隔离配置现用 JSON 序列化重建有效路径及默认快捷键，保存为 `artifacts/runs/audit04_keyboard_20261023/fixture-calibrated.ini`。只读监视器构建返回码 0。之前重启后的包装记录仍写旧 PID 属记录器缺陷，实际观察中的 PID 为 12528；此前全部桌面尝试保持 inconclusive，不作为产品结论。
+
+- AUDIT-04 屏幕恢复后的新隔离实例启动与精确路径核对返回码 0；配置已重新序列化，进程与真实 ini 基线见 `artifacts/runs/audit04_keyboard_20261023/screen-restored-launch.json`。本项仅启动，不代表键盘通过。
+
+- AUDIT-04 只读前台/列表观察 `screen-restored-front` 返回码 0：目标前台=true，选中/焦点=-1/0；具体 PID/句柄在 `artifacts/runs/audit04_keyboard_20261023/screen-restored-front.json`。
+
+- AUDIT-04 独立工具持续会话 `resumed-main-state`：工具错误标记 false，命令/原始文本状态 `artifacts/runs/audit04_keyboard_20261023/resumed-main-state-result.json`；场景有效性另据前台与事件检查。
+
+- AUDIT-04 独立工具持续会话 `resumed-alt-down`：工具错误标记 false，命令/原始文本状态 `artifacts/runs/audit04_keyboard_20261023/resumed-alt-down-result.json`；场景有效性另据前台与事件检查。
+
+- AUDIT-04 只读前台/列表观察 `resumed-alt-down-index` 返回码 0：目标前台=true，选中/焦点=-1/0；具体 PID/句柄在 `artifacts/runs/audit04_keyboard_20261023/resumed-alt-down-index.json`。
+
+- AUDIT-04 原生输入辅助程序构建返回码 0；命令/日志 `artifacts/runs/audit04_keyboard_20261023/native-helper-build-result.json`、`native-helper-build.log`。尚未执行产品输入，不是产品测试结论。
+
+- AUDIT-04 原生事件步骤 `native-baseline`（Observe）：返回码 0，输入/回读与前后台证据在 `artifacts/runs/audit04_keyboard_20261023/native-baseline-result.json`；是否满足场景另以断言判定。
+
+- AUDIT-04 原生事件步骤 `native-alt-down`（AltDown）：返回码 0，输入/回读与前后台证据在 `artifacts/runs/audit04_keyboard_20261023/native-alt-down-result.json`；是否满足场景另以断言判定。
+
+- AUDIT-04 原生事件步骤 `native-alt-up-wrap`（AltUp）：返回码 0，输入/回读与前后台证据在 `artifacts/runs/audit04_keyboard_20261023/native-alt-up-wrap-result.json`；是否满足场景另以断言判定。
+
+- AUDIT-04 原生事件步骤 `native-alt-down-wrap`（AltDown）：返回码 0，输入/回读与前后台证据在 `artifacts/runs/audit04_keyboard_20261023/native-alt-down-wrap-result.json`；是否满足场景另以断言判定。
+
+- AUDIT-04 Alt 启用态真实验证通过：原生 SendInput、带唯一标记的键事件及 MSAA/原生列表状态共同核对，分组跳过、双向环绕、焦点和未勾选状态均成立；每次前台核验、输入数量及原始场景见 `artifacts/runs/audit04_keyboard_20261023/alt-navigation-final.json`。返回码 0，通过 3、失败 0、跳过 0。
+
+- AUDIT-04 单读屏测试准备：已启动现有 NVDA 的独立配置实例，未停止用户 ZDSR；进程/参数见 `artifacts/runs/audit04_keyboard_20261023/nvda-audit-launch.json`。原始 I/O 日志仅本地留存，交付仅提取本测试窗口相关片段。尚不代表控件朗读通过。
+
+- AUDIT-04 原生事件步骤 `group-select-home`（Home）：返回码 0，输入/回读与前后台证据在 `artifacts/runs/audit04_keyboard_20261023/group-select-home-result.json`；是否满足场景另以断言判定。
+
+- AUDIT-04 执行策略：用户明确要求不重复已测试项目。Alt 真实成功及现有 C#/Python/编译/Release 结果直接沿用；只补未验收项。`group-select-home` 未先确认控件焦点（focus=0），分组索引断言未成立，Enter 未发送，属于无效夹具步骤。
+
+- AUDIT-04 未验收场景的焦点准备辅助程序构建返回码 0，日志 `artifacts/runs/audit04_keyboard_20261023/native-focus-helper-build.log`；仅重建修改的辅助程序，未重跑已通过的产品测试。
+
+- AUDIT-04 原生步骤 `group-focus-preparation`（FocusSandbox）：返回码 0；原始前台/焦点/键事件证据 `artifacts/runs/audit04_keyboard_20261023/group-focus-preparation-result.json`。
+
+- AUDIT-04 `group-focus-preparation`：辅助程序返回码 0 但目标控件焦点仍为 0，准备条件未成立，后续 Home/Enter 均未执行；不计产品失败。仅校正辅助程序的跨线程焦点设置。
+
+- AUDIT-04 仅修正跨线程焦点准备的辅助程序构建返回码 1，生产代码与已通过测试未重跑。
+
+- AUDIT-04 辅助程序编译调用修正为本轮目录相对文件参数后返回码 0，日志 `artifacts/runs/audit04_keyboard_20261023/native-focus-calibrated-build.log`。前次 CS1504 为 csc 参数路径问题，不是产品 RED。
+
+- AUDIT-04 原生步骤 `group-focus-calibrated`（FocusSandbox）：返回码 0；原始前台/焦点/键事件证据 `artifacts/runs/audit04_keyboard_20261023/group-focus-calibrated-result.json`。
+
+- AUDIT-04 分组焦点准备仍未稳定：跨线程准备后实际前台已变化，尚未发送 Home/Enter；无产品失败结论。仅使用现有用户导航命令作为分组场景的焦点准备，不重复验收 Alt 场景。
+
+- AUDIT-04 原生步骤 `group-navigation-preparation`（AltDown）：返回码 0；原始前台/焦点/键事件证据 `artifacts/runs/audit04_keyboard_20261023/group-navigation-preparation-result.json`。
+
+- AUDIT-04 原生步骤 `group-home-valid`（Home）：返回码 0；原始前台/焦点/键事件证据 `artifacts/runs/audit04_keyboard_20261023/group-home-valid-result.json`。
+
+- AUDIT-04 按用户不重复测试要求停止无效桌面重试并清理本轮隔离进程；原生清理调用返回码 0，详细进程、清理方式及真实 ini 核对见 `artifacts/runs/audit04_keyboard_20261023/no-repeat-cleanup-result.json`。这不是托盘菜单退出验收，不新增产品通过项。
+
+- AUDIT-04 单读屏部分证据已整理：真实 NVDA 对隔离路径条目产生名称、列表/复选框角色、未选中状态和位置朗读日志；只保留测试条目的 `artifacts/runs/audit04_keyboard_20261023/nvda-control-speech-evidence.log`，结论见 `single-reader-partial-result.json`。不把语音流水日志当作独立音频录制或完整工作流验收。清理前本轮 NVDA 已不在运行；用户原有 ZDSR 进程均保留。
+
+- AUDIT-04 本次仅对新增文档记录执行差异检查，返回码 0，日志 `artifacts/runs/audit04_keyboard_20261023/no-repeat-document-diff.log` 及对应结果文件；没有重跑已有产品测试。已核对活动计划，未验收三项仍未勾选，暂存区为空，不提交未完成模块。
+
+- AUDIT-04 NumPadEnter：已启动本项隔离实例，精确路径通过核对；基线见 artifacts/runs/audit04_keyboard_20261023/numpad-20261023_100849_193/baseline.json。只执行扩展 Enter 和普通 Enter 对照。
+
+- AUDIT-04 NumPadEnter：NumPadEnter 原生单次输入返回码 0；判定 inconclusive，通过 0、失败 0、未判定 1。目标 PID、构建路径、焦点/索引/扩展位及键事件见 artifacts/runs/audit04_keyboard_20261023/numpad-20261023_100849_193/NumPadEnter-result.json 与 NumPadEnter-assessment.json。
+
+- AUDIT-04 NumPadEnter：本项清理完成；目标退出、隔离配置还原、真实 Sandboxie.ini 和用户读屏进程检查见 artifacts/runs/audit04_keyboard_20261023/numpad-20261023_100849_193/cleanup.json。清理不作为托盘退出验收。
+
+- AUDIT-04 NumPadEnter：小键盘 Enter 对照最终结论 inconclusive，返回码 3，通过 0、失败 0、未判定 1；权威结果 artifacts/runs/audit04_keyboard_20261023/numpad-20261023_100849_193/final-result.json。既有代码测试与构建未重跑。
+
+- AUDIT-04 NumPadEnter 首次判定说明：原生按下/抬起均为 VK_RETURN、扫描码 0x1C、扩展位已置位，全部在目标前台；输入层已核实。动作前列表数量为 0、动作后才加载出列表，缺少稳定基线，因此不作为动作成功/产品失败。外围命令实际返回 1、报告语义码 3 保留；下一次仅补未完成的就绪态动作对照。
+
+- AUDIT-04 NumPadEnter：已启动本项隔离实例，精确路径通过核对；基线见 artifacts/runs/audit04_keyboard_20261023/numpad-20261023_101023_549/baseline.json。只执行扩展 Enter 和普通 Enter 对照。
+
+- AUDIT-04 NumPadEnter：只读启动就绪检查 1 返回码 0，列表校准就绪=False；artifacts/runs/audit04_keyboard_20261023/numpad-20261023_101023_549/ready-1.json，未发送按键。
+
+- AUDIT-04 NumPadEnter：只读启动就绪检查 2 返回码 0，列表校准就绪=True；artifacts/runs/audit04_keyboard_20261023/numpad-20261023_101023_549/ready-2.json，未发送按键。
+
+- AUDIT-04 NumPadEnter：NumPadEnter 原生单次输入返回码 0；判定 inconclusive，通过 0、失败 0、未判定 1。目标 PID、构建路径、焦点/索引/扩展位及键事件见 artifacts/runs/audit04_keyboard_20261023/numpad-20261023_101023_549/NumPadEnter-result.json 与 NumPadEnter-assessment.json。
+
+- AUDIT-04 NumPadEnter：本项清理完成；目标退出、隔离配置还原、真实 Sandboxie.ini 和用户读屏进程检查见 artifacts/runs/audit04_keyboard_20261023/numpad-20261023_101023_549/cleanup.json。清理不作为托盘退出验收。
+
+- AUDIT-04 NumPadEnter：小键盘 Enter 对照最终结论 inconclusive，返回码 3，通过 0、失败 0、未判定 1；权威结果 artifacts/runs/audit04_keyboard_20261023/numpad-20261023_101023_549/final-result.json。既有代码测试与构建未重跑。
+
+- AUDIT-04 NumPadEnter 已有证据只读分析：第二次就绪检查通过后，条目从名称变为“名称 【空闲中】”，说明运行状态仍异步补齐；选中索引前后均为 -1，未观察到绑定动作。底层 VK_RETURN/扫描码/扩展位/目标前台与键事件数量正确，但不据此宣布功能通过或认定产品 bug。assessment 中 selectedName 在索引 -1 时错误显示末项，是记录器的负索引显示问题；原始 selectedIndex=-1 才是权威值。未发送普通 Enter，未继续重试。
+
+- AUDIT-04 本次文档收尾差异检查返回码 2，证据 artifacts/runs/audit04_keyboard_20261023/numpad-document-diff-result.json；未重跑产品测试。已复核计划，NumPadEnter 动作分派仍未验收，分组/完整无障碍审计待办，模块未提交。
+
+- AUDIT-04 文档差异首轮返回码 2，原因是本次 PowerShell 追加的 CRLF 与原文件 LF 混用；仅统一文档换行，保留所有历史结论。
+
+- AUDIT-04 本次文档换行修正后差异检查返回码 0；日志及命令见 artifacts/runs/audit04_keyboard_20261023/numpad-document-diff-final-result.json。未重跑产品测试。
+
+- AUDIT-04 分组测试准备：仅重建增加 MSAA 精确选中分组的辅助程序，返回码 0；记录 artifacts/runs/audit04_keyboard_20261023/group-helper-build-result.json。生产程序与既有代码门禁未重跑。
+
+- AUDIT-04 分组进出：启动后精确路径核验通过，基线 artifacts/runs/audit04_keyboard_20261023/group-20261023_104538_003/baseline.json。仅分组测试，不重跑既有验证。
+
+- AUDIT-04 分组进出：步骤 stable-before (Observe) 返回码 0；命令、PID、输入及前后窗口状态见 artifacts/runs/audit04_keyboard_20261023/group-20261023_104538_003/stable-before-result.json。
+
+- AUDIT-04 分组进出：步骤 stable-after (Observe) 返回码 0；命令、PID、输入及前后窗口状态见 artifacts/runs/audit04_keyboard_20261023/group-20261023_104538_003/stable-after-result.json。
+
+- AUDIT-04 分组进出：步骤 group-selection (SelectAuditGroup) 返回码 0；命令、PID、输入及前后窗口状态见 artifacts/runs/audit04_keyboard_20261023/group-20261023_104538_003/group-selection-result.json。
+
+- AUDIT-04 分组进出：本项清理完成；目标退出、隔离配置还原、真实 Sandboxie.ini 和用户读屏进程检查见 artifacts/runs/audit04_keyboard_20261023/group-20261023_104538_003/cleanup.json。清理不作为托盘退出验收。
+
+- AUDIT-04 分组进出：分组 Enter/Backspace最终结论 inconclusive，返回码 3，通过 0、失败 0、未判定 1；权威结果 artifacts/runs/audit04_keyboard_20261023/group-20261023_104538_003/final-result.json。既有代码测试与构建未重跑。
+
+- AUDIT-04 分组前置步骤诊断：稳定列表已通过，MSAA TakeFocus|TakeSelection 返回后分组仍未选中，焦点落在启动按钮；Enter/Backspace 均未发送。这是准备方式无效，未形成产品失败。改为依据同一专用分组的可访问边界执行一次原生单击，校验前台及命中进程后再发键；不重复任何已通过验收。
+
+- AUDIT-04 分组点击前置辅助程序构建返回码 0；记录 artifacts/runs/audit04_keyboard_20261023/group-click-helper-build-result.json。仅编译本次修改辅助程序，未重复生产代码验证。
+
+- AUDIT-04 分组进出：启动后精确路径核验通过，基线 artifacts/runs/audit04_keyboard_20261023/group-20261023_104845_989/baseline.json。仅分组测试，不重跑既有验证。
+
+- AUDIT-04 分组进出：步骤 stable-before (Observe) 返回码 0；命令、PID、输入及前后窗口状态见 artifacts/runs/audit04_keyboard_20261023/group-20261023_104845_989/stable-before-result.json。
+
+- AUDIT-04 分组进出：步骤 stable-after (Observe) 返回码 0；命令、PID、输入及前后窗口状态见 artifacts/runs/audit04_keyboard_20261023/group-20261023_104845_989/stable-after-result.json。
+
+- AUDIT-04 分组进出：步骤 group-selection (SelectAuditGroup) 返回码 0；命令、PID、输入及前后窗口状态见 artifacts/runs/audit04_keyboard_20261023/group-20261023_104845_989/group-selection-result.json。
+
+- AUDIT-04 分组进出：步骤 enter (Enter) 返回码 0；命令、PID、输入及前后窗口状态见 artifacts/runs/audit04_keyboard_20261023/group-20261023_104845_989/enter-result.json。
+
+- AUDIT-04 分组进出：enter 判定 passed，输入完整=True、前置校准=True、结果匹配=True；artifacts/runs/audit04_keyboard_20261023/group-20261023_104845_989/enter-assessment.json。
+
+- AUDIT-04 分组进出：步骤 backspace (Backspace) 返回码 0；命令、PID、输入及前后窗口状态见 artifacts/runs/audit04_keyboard_20261023/group-20261023_104845_989/backspace-result.json。
+
+- AUDIT-04 分组进出：backspace 判定 passed，输入完整=True、前置校准=True、结果匹配=True；artifacts/runs/audit04_keyboard_20261023/group-20261023_104845_989/backspace-assessment.json。
+
+- AUDIT-04 分组进出：本项清理完成；目标退出、隔离配置还原、真实 Sandboxie.ini 和用户读屏进程检查见 artifacts/runs/audit04_keyboard_20261023/group-20261023_104845_989/cleanup.json。清理不作为托盘退出验收。
+
+- AUDIT-04 分组进出：分组 Enter/Backspace最终结论 passed，返回码 0，通过 2、失败 0、未判定 0；权威结果 artifacts/runs/audit04_keyboard_20261023/group-20261023_104845_989/final-result.json。既有代码测试与构建未重跑。
+
+- AUDIT-04 分组原始证据核对通过：选中专用分组后的 Enter 实际显示两个配置成员，Backspace 恢复原列表、沙盒列表焦点，勾选状态未变化；两次按键各有完整目标前台事件。通过数、PID、成员文本、索引与清理见 `artifacts/runs/audit04_keyboard_20261023/group-20261023_104845_989/final-result.json` 及同目录 enter/backspace 原始报告。Python `ui/controls.py:on_key_down` 同样按 Enter 进入分组、Backspace 清空当前分组并刷新，生产源码无需修改。本项标记通过，但 AUDIT-04 其余项与整体迁移仍未完成。
+
+- AUDIT-04 分组记录的文档差异检查返回码 0；证据 artifacts/runs/audit04_keyboard_20261023/group-document-diff-result.json。结束前已复核活动计划，通过项保留，NumPadEnter 动作分派与完整菜单/托盘/读屏待办；未暂存或提交未完成模块。
+
+- AUDIT-04 菜单/托盘观测辅助程序构建返回码 0；记录 artifacts/runs/audit04_keyboard_20261023/menu-tray-helper-build-result.json。仅重建本次修改辅助程序，没有重跑已通过产品测试。
+
+- AUDIT-04 菜单/托盘：精确路径启动完成；artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_105907_895/baseline.json。本轮只测试未验收的菜单/焦点/托盘。
+
+- AUDIT-04 菜单/托盘：步骤 focus-preparation (SelectAuditGroup) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_105907_895/focus-preparation-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 tab-path (Tab) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_105907_895/tab-path-result.json。
+
+- AUDIT-04 菜单/托盘：tab-path 判定 passed；证据 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_105907_895/tab-path-assessment.json。
+
+- AUDIT-04 菜单/托盘：步骤 tab-launch (Tab) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_105907_895/tab-launch-result.json。
+
+- AUDIT-04 菜单/托盘：tab-launch 判定 passed；证据 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_105907_895/tab-launch-assessment.json。
+
+- AUDIT-04 菜单/托盘：步骤 tab-wrap (Tab) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_105907_895/tab-wrap-result.json。
+
+- AUDIT-04 菜单/托盘：tab-wrap 判定 failed；证据 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_105907_895/tab-wrap-assessment.json。
+
+- AUDIT-04 菜单/托盘：本项清理完成；目标退出、隔离配置还原、真实 Sandboxie.ini 和用户读屏进程检查见 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_105907_895/cleanup.json。清理不作为托盘退出验收。
+
+- AUDIT-04 菜单/托盘：菜单/焦点/托盘最终结论 failed，返回码 1，通过 2、失败 1、未判定 1；权威结果 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_105907_895/final-result.json。既有代码测试与构建未重跑。
+
+- AUDIT-04 菜单/焦点首轮更正：`menu-tray-20261023_105907_895` 中 tab-path、tab-launch 已通过，后续直接沿用。tab-wrap 原始键事件为带 Alt 上下文的 WM_SYSKEYDOWN/UP，实际前台 PID 属于资源管理器而非目标；脚本把输入无效误归为 failed，现按原始证据更正为 inconclusive（非产品 RED），原报告保留。普通 Tab 环绕、其他菜单/托盘尚未执行有效验收。
+
+- AUDIT-04 输入干扰门禁辅助程序构建返回码 0；记录 artifacts/runs/audit04_keyboard_20261023/menu-input-gate-build-result.json。仅编译本次辅助程序修改，既有产品测试未重跑。
+
+- AUDIT-04 菜单/托盘：精确路径启动完成；artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110417_784/baseline.json。本轮只测试未验收的菜单/焦点/托盘。
+
+- AUDIT-04 菜单/托盘：步骤 focus-preparation (SelectAuditGroup) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110417_784/focus-preparation-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 shift-tab (ShiftTab) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110417_784/shift-tab-result.json。
+
+- AUDIT-04 菜单/托盘：shift-tab 判定 passed；证据 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110417_784/shift-tab-assessment.json。
+
+- AUDIT-04 菜单/托盘：步骤 tab-wrap (Tab) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110417_784/tab-wrap-result.json。
+
+- AUDIT-04 菜单/托盘：tab-wrap 判定 passed；证据 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110417_784/tab-wrap-assessment.json。
+
+- AUDIT-04 菜单/托盘：步骤 f10-menu (F10) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110417_784/f10-menu-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 f10-escape1 (Escape) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110417_784/f10-escape1-result.json。
+
+- AUDIT-04 菜单/托盘：f10-entry-focus 判定 passed；证据 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110417_784/f10-entry-focus-assessment.json。
+
+- AUDIT-04 菜单/托盘：步骤 menu-AltF (AltF) 返回码 3；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110417_784/menu-AltF-result.json。
+
+- AUDIT-04 菜单/托盘：本项清理完成；目标退出、隔离配置还原、真实 Sandboxie.ini 和用户读屏进程检查见 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110417_784/cleanup.json。清理不作为托盘退出验收。
+
+- AUDIT-04 菜单/托盘：菜单/焦点/托盘最终结论 inconclusive，返回码 3，通过 3、失败 0、未判定 1；权威结果 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110417_784/final-result.json。既有代码测试与构建未重跑。
+
+- AUDIT-04 菜单/焦点续测：`menu-tray-20261023_110417_784` 的 shift-tab、tab-wrap、f10-entry-focus 已通过；加上首轮 tab-path/tab-launch，后续均不重跑。Alt+F 的目标键事件全部命中目标，但窗口期内发现其他键事件，原生工具返回 3，暂作 inconclusive，菜单助记键及后续场景未宣称通过。
+
+- AUDIT-04 额外键事件观测辅助程序构建返回码 0；日志 artifacts/runs/audit04_keyboard_20261023/menu-input-observation-build.log。只记录输入类型并屏蔽可打印字符；不重跑已通过项目。
+
+- AUDIT-04 菜单/托盘：精确路径启动完成；artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110640_184/baseline.json。本轮只测试未验收的菜单/焦点/托盘。
+
+- AUDIT-04 菜单/托盘：步骤 focus-preparation (SelectAuditGroup) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110640_184/focus-preparation-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 menu-AltF (AltF) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110640_184/menu-AltF-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 AltF-escape1 (Escape) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110640_184/AltF-escape1-result.json。
+
+- AUDIT-04 菜单/托盘：本项清理完成；目标退出、隔离配置还原、真实 Sandboxie.ini 和用户读屏进程检查见 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110640_184/cleanup.json。清理不作为托盘退出验收。
+
+- AUDIT-04 菜单/托盘：菜单/焦点/托盘最终结论 inconclusive，返回码 3，通过 0、失败 0、未判定 1；权威结果 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110640_184/final-result.json。既有代码测试与构建未重跑。
+
+- AUDIT-04 文件助记键已有证据核对：`menu-tray-20261023_110640_184/menu-AltF-result.json` 目标键事件完整、无额外输入、原生文件菜单高亮且显示正确命令，文件菜单入口单项通过。后续 Escape 前记录已显示菜单关闭/前台转移，因此该退出尝试无效，不判产品故障；不会重复 Alt+F 入口。辅助进程改为无窗口运行，并在发送菜单 Escape 前重新验证菜单模式，防止过期状态触发主窗体隐藏。
+
+- AUDIT-04 菜单 Escape 实时前置校验辅助程序构建返回码 0；日志 artifacts/runs/audit04_keyboard_20261023/menu-mode-gate-build.log。辅助程序后续以 CreateNoWindow 执行，已通过项不重跑。
+
+- AUDIT-04 菜单/托盘：精确路径启动完成；artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110904_674/baseline.json。本轮只测试未验收的菜单/焦点/托盘。
+
+- AUDIT-04 菜单/托盘：步骤 focus-preparation (SelectAuditGroup) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110904_674/focus-preparation-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 menu-AltP (AltP) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110904_674/menu-AltP-result.json。
+
+- AUDIT-04 菜单/托盘：本项清理完成；目标退出、隔离配置还原、真实 Sandboxie.ini 和用户读屏进程检查见 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110904_674/cleanup.json。清理不作为托盘退出验收。
+
+- AUDIT-04 菜单/托盘：菜单/焦点/托盘最终结论 inconclusive，返回码 3，通过 0、失败 0、未判定 1；权威结果 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_110904_674/final-result.json。既有代码测试与构建未重跑。
+
+- AUDIT-04 进程菜单观察未判定：`menu-tray-20261023_110904_674/menu-AltP-result.json` 的按键事件命中目标，但结果观察时前台已是浏览器进程，菜单不再激活，因此未宣称助记键或返回焦点通过。菜单未验收项保留，不重试已有成功项；接着执行独立的软件设置取消与托盘场景。
+
+- AUDIT-04 菜单/托盘：精确路径启动完成；artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_111154_351/baseline.json。本轮只测试未验收的菜单/焦点/托盘。
+
+- AUDIT-04 菜单/托盘：步骤 focus-preparation (SelectAuditGroup) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_111154_351/focus-preparation-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 open-settings (ShowSettings) 返回码 3；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_111154_351/open-settings-result.json。
+
+- AUDIT-04 菜单/托盘：本项清理完成；目标退出、隔离配置还原、真实 Sandboxie.ini 和用户读屏进程检查见 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_111154_351/cleanup.json。清理不作为托盘退出验收。
+
+- AUDIT-04 菜单/托盘：菜单/焦点/托盘最终结论 inconclusive，返回码 3，通过 0、失败 0、未判定 1；权威结果 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_111154_351/final-result.json。既有代码测试与构建未重跑。
+
+- AUDIT-04 菜单/焦点本轮结果汇总：已核对六项独立通过证据，清单 `artifacts/runs/audit04_keyboard_20261023/menu-focus-progress.json`。首次脚本把前台输入无效标成 failed 的情况已追加更正，并非产品 RED。最后软件设置步骤因前台未确认返回 3，键未发送；托盘步骤未开始，不作结论。本轮实例已正常退出、隔离配置恢复、真实 Sandboxie.ini 与原读屏进程检查保持。停止无效重试，后续仅在目标窗口可持续保持前台时补未验收项。
+
+- AUDIT-04 本轮菜单/焦点记录的文档差异检查返回码 0，日志 artifacts/runs/audit04_keyboard_20261023/menu-focus-document-diff.log。已重新核对活动计划的完成项、待办和输入干扰风险；未重跑代码门禁、未暂存或提交未完成模块。
+
+- AUDIT-04 菜单/托盘：精确路径启动完成；artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/baseline.json。本轮只测试未验收的菜单/焦点/托盘。
+
+- AUDIT-04 菜单/托盘：步骤 focus-preparation (SelectAuditGroup) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/focus-preparation-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 menu-AltP (AltP) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/menu-AltP-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 AltP-escape1 (MenuEscape) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/AltP-escape1-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 AltP-escape2 (MenuEscape) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/AltP-escape2-result.json。
+
+- AUDIT-04 菜单/托盘：mnemonic-AltP 判定 passed；证据 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/mnemonic-AltP-assessment.json。
+
+- AUDIT-04 菜单/托盘：步骤 menu-AltG (AltG) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/menu-AltG-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 AltG-escape1 (MenuEscape) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/AltG-escape1-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 AltG-escape2 (MenuEscape) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/AltG-escape2-result.json。
+
+- AUDIT-04 菜单/托盘：mnemonic-AltG 判定 passed；证据 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/mnemonic-AltG-assessment.json。
+
+- AUDIT-04 菜单/托盘：步骤 menu-AltD (AltD) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/menu-AltD-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 AltD-escape1 (MenuEscape) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/AltD-escape1-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 AltD-escape2 (MenuEscape) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/AltD-escape2-result.json。
+
+- AUDIT-04 菜单/托盘：mnemonic-AltD 判定 passed；证据 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/mnemonic-AltD-assessment.json。
+
+- AUDIT-04 菜单/托盘：步骤 menu-AltS (AltS) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/menu-AltS-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 AltS-escape1 (MenuEscape) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/AltS-escape1-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 AltS-escape2 (MenuEscape) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/AltS-escape2-result.json。
+
+- AUDIT-04 菜单/托盘：mnemonic-AltS 判定 passed；证据 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/mnemonic-AltS-assessment.json。
+
+- AUDIT-04 菜单/托盘：步骤 menu-AltJ (AltJ) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/menu-AltJ-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 AltJ-escape1 (MenuEscape) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/AltJ-escape1-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 AltJ-escape2 (MenuEscape) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/AltJ-escape2-result.json。
+
+- AUDIT-04 菜单/托盘：mnemonic-AltJ 判定 passed；证据 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/mnemonic-AltJ-assessment.json。
+
+- AUDIT-04 菜单/托盘：步骤 menu-AltT (AltT) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/menu-AltT-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 AltT-escape1 (MenuEscape) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/AltT-escape1-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 AltT-escape2 (MenuEscape) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/AltT-escape2-result.json。
+
+- AUDIT-04 菜单/托盘：mnemonic-AltT 判定 passed；证据 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/mnemonic-AltT-assessment.json。
+
+- AUDIT-04 菜单/托盘：步骤 menu-AltA (AltA) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/menu-AltA-result.json。
+
+- AUDIT-04 菜单/托盘：本项清理完成；目标退出、隔离配置还原、真实 Sandboxie.ini 和用户读屏进程检查见 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/cleanup.json。清理不作为托盘退出验收。
+
+- AUDIT-04 菜单/托盘：菜单/焦点/托盘最终结论 inconclusive，返回码 3，通过 6、失败 0、未判定 1；权威结果 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112645_489/final-result.json。既有代码测试与构建未重跑。
+
+- AUDIT-04 菜单续测新增通过：进程、沙盒管理、定时、设置、校正、工具的助记键入口及 Escape 返回焦点均通过，实时证据清单已追加至 artifacts/runs/audit04_keyboard_20261023/menu-focus-progress.json。Alt+A 的目标键事件完整且无额外键，但观察时前台变为微信，疑似外部全局快捷键冲突，保持未判定，不更改或关闭用户微信。下一步验证关于菜单的 F10/End/Down 键盘入口，并继续未验收的模态/托盘。
+
+- AUDIT-04 菜单/托盘：精确路径启动完成；artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112932_991/baseline.json。本轮只测试未验收的菜单/焦点/托盘。
+
+- AUDIT-04 菜单/托盘：步骤 focus-preparation (SelectAuditGroup) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112932_991/focus-preparation-result.json。
+
+- AUDIT-04 菜单/托盘：步骤 about-menu-preparation (F10) 返回码 0；原始 PID/菜单/焦点/键事件 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112932_991/about-menu-preparation-result.json。
+
+- AUDIT-04 菜单/托盘：本项清理完成；目标退出、隔离配置还原、真实 Sandboxie.ini 和用户读屏进程检查见 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112932_991/cleanup.json。清理不作为托盘退出验收。
+
+- AUDIT-04 菜单/托盘：菜单/焦点/托盘最终结论 inconclusive，返回码 3，通过 0、失败 0、未判定 1；权威结果 artifacts/runs/audit04_keyboard_20261023/menu-tray-20261023_112932_991/final-result.json。既有代码测试与构建未重跑。
+
+- AUDIT-04 关于替代入口准备：`menu-tray-20261023_112932_991/about-menu-preparation-result.json` 显示 F10 前已处于菜单模式，按下后退出菜单；这是前置状态假设不成立，未形成关于入口通过/产品故障。已清理本轮实例，最新六个菜单有效结果保留。
+- 用户追加“快捷键列表找到动作后回车执行”：已只读核对热键设置功能列表，当前没有执行选中动作接线。拟追加完整计划与核对说明存于 `artifacts/runs/hotkey_enter_action_20261023/proposed-plan.diff`、`source-review.md`；尚未写入活动计划的新增功能范围或修改生产代码，待确认触发区域与行为。
 
 - HOTKEY-ENTER-01 red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023\bin\ --logger trx;LogFileName=red.trx --results-directory D:\mycodex\git\artifacts\runs\hotkey_enter_action_20261023 --filter FullyQualifiedName~HotkeyActionExecutionContractTests`；返回码 1，通过 0、失败 4、跳过 0。日志与命令索引：`artifacts/runs/hotkey_enter_action_20261023/red.log`、`red-result.json`；如为 C# 测试，另有同名 TRX。
 
@@ -2804,8 +3290,6 @@ csharp/
 
 - HOTKEY-ENTER-01 交付完成：独立功能提交 `f9883c27e301278ab89c686bb7a4ef802cba3795` 已推送 `origin/voice03-fixed-reader-20261022`，成功推送返回码 0；直连失败后复用本机现有 SOCKS 代理，未更改全局配置。命令/两次结果见 `artifacts/runs/hotkey_enter_action_20261023/delivery-result.json`，回退命令 `git revert f9883c27e301278ab89c686bb7a4ef802cba3795`。全部动作入口、回归、构建及真实设置场景已验收；AUDIT-04 其他待办与 AUDIT-05 至 AUDIT-08、RELEASE-01 仍保留，C# 可启动运行已验证功能，整体迁移未完成。
 
-### UPDATE-DLL-01 / CONFIG-LOC-01：4.0.47 发布与配置目录
-
 - UPDATE-DLL-01 源码核对：MainForm.LaunchUpdate 先启动独立 helper 并关闭主程序；UpdateRunner 先等待传入 PID 退出，再下载、校验、解包、备份并递归覆盖文件，restart=true 时重新启动。CopyTree 复制包内全部文件及子目录，新增 DLL 不依赖固定名单；包中没有的旧文件不会主动删除，配置是否保留取决于包内是否包含同路径配置。当前正式完整包不携带用户配置，本轮将验证其保留。验证目标与命令详见本轮脚本；仅针对隔离目录，不修改正式配置。
 
 - UPDATE-DLL-01 远端基线：匿名禁缓存请求正式 update.json 返回码 0，当前版本 `4.0.46`；原始清单 `artifacts/runs/updater_added_dll_20261023/manifest-before.json`。GitCode origin/main 已 fetch，内容与公开清单一致；按用户最新明确要求，新版本递增到 4.0.47 并进行真实公开更新链路验证。
@@ -2922,6 +3406,12 @@ csharp/
 
 - UPDATE-DLL-01 / CONFIG-LOC-01 源码交付完成：独立提交 `a5b4a18610f17fec1464eff2c267ab2037332c41` 已推送 `origin/voice03-fixed-reader-20261022`，推送返回码 0；回退命令 `git revert a5b4a18610f17fec1464eff2c267ab2037332c41`。GitCode 4.0.47 公开包和正式清单已生效，真实旧版更新、新增 DLL、打赏资源与 Configurations 迁入通过。交付记录 `artifacts/runs/updater_added_dll_20261023/delivery-result.json`；本轮停止在追加任务完成处，AUDIT-04 未验收项及后续模块继续保留，不宣称整体迁移完成。
 
+- REVIEW-07 隔离诊断器构建返回码 0；只复用与已验证公开包哈希一致的 Core/依赖，不重新构建生产软件。命令与结果 artifacts/runs/csharp_remaining_review_20261023/probe-build-result.json，日志 probe-build.log；无真实 EXE/服务操作。
+
+- REVIEW-07 新增异常路径隔离检查返回码 1；通过 0、失败 4、跳过 0。失败代表发现的未修复安全/反馈问题，不是修复通过。配置损坏、配置写入被锁、还原复制失败均只作用于本轮 fixtures；服务回调为计数，不调用真实 Sandboxie。完整命令/结果 artifacts/runs/csharp_remaining_review_20261023/probe-result.json，输出 probe.log。未修改 Python 或生产代码，原已通过测试不重跑。
+
+- REVIEW-07 审查收尾：限定计划/结构文档差异、生产文件零变更、新增文本及 PowerShell 解析检查返回码 0；结果 artifacts/runs/csharp_remaining_review_20261023/scope-check-result.json，日志 scope-check.log。用户已同意计划追加与执行记录，检查完成但发现的问题尚未修复；当前仅新增诊断与报告，不提交未修复模块，不重跑全量，不推进 AUDIT-05。
+
 - FIX-CONFIG-01 red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\ --logger trx;LogFileName=red.trx --results-directory D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023 --filter FullyQualifiedName~ConfigurationFailureSafetyContractTests`；返回码 1，通过 0、失败 6、跳过 0。日志与命令索引：`artifacts/runs/configuration_failure_safety_20261023/red.log`、`red-result.json`；如为 C# 测试，另有同名 TRX。
 
 - FIX-CONFIG-01 green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023\bin\ --logger trx;LogFileName=green.trx --results-directory D:\mycodex\git\artifacts\runs\configuration_failure_safety_20261023 --filter FullyQualifiedName~ConfigurationFailureSafetyContractTests`；返回码 0，通过 6、失败 0、跳过 0。日志与命令索引：`artifacts/runs/configuration_failure_safety_20261023/green.log`、`green-result.json`；如为 C# 测试，另有同名 TRX。
@@ -2943,6 +3433,76 @@ csharp/
 - FIX-CONFIG-01 暂存检查：git diff --cached --check 返回码 0，实际清单与 staging-files.txt 一致；共享文档使用基于 HEAD 的仅本模块索引版本，既有 AUDIT-04/REVIEW-07 历史与用户其他改动保留在工作树，不纳入提交。结果已补入本轮 diff-result.json。
 
 - FIX-CONFIG-01 源码提交/推送：独立提交 `9fa28f2b23dc89ed379279fbefa4cc14fa8d2f1c`，推送目标 `origin/voice03-fixed-reader-20261022`，返回码 0；回退 `git revert 9fa28f2b23dc89ed379279fbefa4cc14fa8d2f1c`。结果 artifacts/runs/configuration_failure_safety_20261023/delivery-result.json，原始输出 source-push.log。公开版本/包未更新，其他缺陷和整体审计待办保留。
+
+- FIX-CONFIG-02 red：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\configuration_save_feedback_20261023\bin\ --logger trx;LogFileName=red.trx --results-directory D:\mycodex\git\artifacts\runs\configuration_save_feedback_20261023 --filter FullyQualifiedName~ConfigurationSaveFeedbackContractTests`；返回码 1，通过 0、失败 10、跳过 0。日志与命令索引：`artifacts/runs/configuration_save_feedback_20261023/red.log`、`red-result.json`；如为 C# 测试，另有同名 TRX。
+
+- FIX-CONFIG-02 green：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\configuration_save_feedback_20261023\bin\ --logger trx;LogFileName=green.trx --results-directory D:\mycodex\git\artifacts\runs\configuration_save_feedback_20261023 --filter FullyQualifiedName~ConfigurationSaveFeedbackContractTests`；返回码 0，通过 10、失败 0、跳过 0。日志与命令索引：`artifacts/runs/configuration_save_feedback_20261023/green.log`、`green-result.json`；如为 C# 测试，另有同名 TRX。
+
+- FIX-CONFIG-02 affected：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\configuration_save_feedback_20261023\bin\ --logger trx;LogFileName=affected.trx --results-directory D:\mycodex\git\artifacts\runs\configuration_save_feedback_20261023 --filter FullyQualifiedName~ConfigurationSaveFeedbackContractTests|FullyQualifiedName~ConfigurationFailureSafetyContractTests|FullyQualifiedName~LauncherSettingsServiceContractTests|FullyQualifiedName~SettingsRuntimeContractTests|FullyQualifiedName~SettingsDialogsCSharpContractTests|FullyQualifiedName~AppPathHistoryServiceContractTests|FullyQualifiedName~SandboxAdminServiceContractTests|FullyQualifiedName~SpeechServiceContractTests|FullyQualifiedName~SpeechSelectionRuntimeContractTests|FullyQualifiedName~ProcessAction|FullyQualifiedName~HotkeyActionExecutionContractTests|FullyQualifiedName~PathHistoryLimitRuntimeContractTests`；返回码 0，通过 128、失败 0、跳过 0。日志与命令索引：`artifacts/runs/configuration_save_feedback_20261023/affected.log`、`affected-result.json`；如为 C# 测试，另有同名 TRX。
+
+- FIX-CONFIG-02 full：命令 `dotnet vstest D:\mycodex\git\artifacts\runs\configuration_save_feedback_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll /Platform:x64 /Logger:trx;LogFileName=full.trx /ResultsDirectory:D:\mycodex\git\artifacts\runs\configuration_save_feedback_20261023`；返回码 1，通过 420、失败 1、跳过 0。日志与命令索引：`artifacts/runs/configuration_save_feedback_20261023/full.log`、`full-result.json`；如为 C# 测试，另有同名 TRX。
+
+- FIX-CONFIG-02 全量首轮定位：唯一失败为 MainFormApplicationContractTests 中多行反射回调仍传 Action，已统一为 Func<bool> 成功回调；非产品运行失败。首轮原始结果保留，生产代码不变，接着以最终测试程序集完成全量门禁。
+
+- FIX-CONFIG-02 full-final：命令 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\configuration_save_feedback_20261023\bin\ --logger trx;LogFileName=full-final.trx --results-directory D:\mycodex\git\artifacts\runs\configuration_save_feedback_20261023`；返回码 1，通过 420、失败 1、跳过 0。日志与命令索引：`artifacts/runs/configuration_save_feedback_20261023/full-final.log`、`full-final-result.json`；如为 C# 测试，另有同名 TRX。
+
+- FIX-CONFIG-02 全量第二轮定位：原反射回调失败已消失；本轮唯一失败是既有 BatchCreateValuesAreSetByAccessibleNamesNotWindowOrder 的原生数字输入偏差，与历史相同（digits 实际为 0）。未修改该审计用例或生产输入实现；保留 full-final 原结果，改用相同程序集直接 vstest 完成最终全量核对。
+
+- FIX-CONFIG-02 full-vstest：命令 `dotnet vstest D:\mycodex\git\artifacts\runs\configuration_save_feedback_20261023\bin\x64\Release\net48\ShaheLauncher.Tests.dll /Platform:x64 /Logger:trx;LogFileName=full-vstest.trx /ResultsDirectory:D:\mycodex\git\artifacts\runs\configuration_save_feedback_20261023`；返回码 0，通过 421、失败 0、跳过 0。日志与命令索引：`artifacts/runs/configuration_save_feedback_20261023/full-vstest.log`、`full-vstest-result.json`；如为 C# 测试，另有同名 TRX。
+
+- FIX-CONFIG-02 python：命令 `python -m unittest discover -s tests -p test_*.py -v`；返回码 0，通过 31、失败 0、跳过 0。日志与命令索引：`artifacts/runs/configuration_save_feedback_20261023/python.log`、`python-result.json`；如为 C# 测试，另有同名 TRX。
+
+- FIX-CONFIG-02 compile：命令 `python -m compileall -q shahe_bulk_launcher tests`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/configuration_save_feedback_20261023/compile.log`、`compile-result.json`；如为 C# 测试，另有同名 TRX。
+
+- FIX-CONFIG-02 release：命令 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\configuration_save_feedback_20261023\bin\`；返回码 0，计数不适用。日志与命令索引：`artifacts/runs/configuration_save_feedback_20261023/release.log`、`release-result.json`；如为 C# 测试，另有同名 TRX。
+
+- FIX-CONFIG-02 Release 明细：本轮隔离构建 0 警告、0 错误，结果已补入 release-result.json。生产代码在门禁通过后未再修改；公开版本与安装包保持不变。
+
+- FIX-CONFIG-02 真实保存场景辅助程序构建返回码 1；命令/输出见 artifacts/runs/configuration_save_feedback_20261023/real-helper-build-result.json、real-helper-build.log。未更改生产源码。
+
+- FIX-CONFIG-02 辅助程序首次构建失败定位：现有 Framework csc 不支持探针中的空条件运算符，已改为显式 null 判断。只修正辅助代码，生产程序未运行，属于工具编译失败；原日志保留，接着只重新构建该辅助程序并使用已准备的隔离夹具。
+
+- FIX-CONFIG-02 真实保存场景辅助程序构建返回码 0；命令/输出见 artifacts/runs/configuration_save_feedback_20261023/real-helper-build-final-result.json、real-helper-build-final.log。未更改生产源码。
+
+- FIX-CONFIG-02 真实配置保存步骤 startup 已记录；目标 PID/路径及观测见 artifacts/runs/configuration_save_feedback_20261023/real-save/startup.json，完整结论以 final-result.json 为准。
+
+- FIX-CONFIG-02 真实配置保存步骤 before-save 已记录；目标 PID/路径及观测见 artifacts/runs/configuration_save_feedback_20261023/real-save/before-save.json，完整结论以 final-result.json 为准。
+
+- FIX-CONFIG-02 真实配置保存步骤 save-failed 已记录；目标 PID/路径及观测见 artifacts/runs/configuration_save_feedback_20261023/real-save/save-failed.json，完整结论以 final-result.json 为准。
+
+- FIX-CONFIG-02 真实隔离 EXE 保存失败/重试返回码 3；结果 artifacts/runs/configuration_save_feedback_20261023/real-save/final-result.json。仅使用目标 PID 原生控件消息，不替代真实键盘/读屏验收；正式配置与服务未操作。
+
+- FIX-CONFIG-02 真实保存场景清理核对：正式 Sandboxie.ini 未变=True，原读屏 PID 保留=True，自启动项不变=True，残留进程=0。命令和环境结果见本轮 real-command-result.json、real-environment-before/after.json。
+
+- FIX-CONFIG-02 首次真实窗口场景定位：已确认生产错误提示出现且失败保存未改变配置；探针未能关闭警告按钮，且原生文本赋值没有形成有效数值编辑，故标记 inconclusive 并清理隔离进程，非产品失败。现改用按实际控件识别的 MSAA 复选框与警告按钮动作；只补未完成的保留输入/重试，生产实现不变，旧证据保留。
+
+- FIX-CONFIG-02 真实保存场景辅助程序构建返回码 0；命令/输出见 artifacts/runs/configuration_save_feedback_20261023/real-save-final-helper-build-result.json、real-save-final-helper-build.log。未更改生产源码。
+
+- FIX-CONFIG-02 真实配置保存步骤 startup 已记录；目标 PID/路径及观测见 artifacts/runs/configuration_save_feedback_20261023/real-save-final/startup.json，完整结论以 final-result.json 为准。
+
+- FIX-CONFIG-02 真实隔离 EXE 保存失败/重试返回码 3；结果 artifacts/runs/configuration_save_feedback_20261023/real-save-final/final-result.json。仅使用目标 PID 原生控件消息，不替代真实键盘/读屏验收；正式配置与服务未操作。
+
+- FIX-CONFIG-02 真实保存场景清理核对：正式 Sandboxie.ini 未变=True，原读屏 PID 保留=True，自启动项不变=True，残留进程=0。命令和环境结果见本轮 real-command-result.json、real-environment-before/after.json。
+
+- FIX-CONFIG-02 真实复选框探针定位：第二次停在准备阶段，未执行保存；原生 BM_GETCHECK 不作为 WinForms 自绘复选框的托管 Checked 证据，改读同一可访问对象的 checked 状态，与 MSAA 动作来源一致。保留 real-save-final 无效报告，生产代码不变，下一次只补未完成场景；若仍无有效输入则停止重试。
+
+- FIX-CONFIG-02 真实保存场景辅助程序构建返回码 0；命令/输出见 artifacts/runs/configuration_save_feedback_20261023/real-save-accessible-helper-build-result.json、real-save-accessible-helper-build.log。未更改生产源码。
+
+- FIX-CONFIG-02 真实配置保存步骤 startup 已记录；目标 PID/路径及观测见 artifacts/runs/configuration_save_feedback_20261023/real-save-accessible/startup.json，完整结论以 final-result.json 为准。
+
+- FIX-CONFIG-02 真实配置保存步骤 before-save 已记录；目标 PID/路径及观测见 artifacts/runs/configuration_save_feedback_20261023/real-save-accessible/before-save.json，完整结论以 final-result.json 为准。
+
+- FIX-CONFIG-02 真实配置保存步骤 save-failed 已记录；目标 PID/路径及观测见 artifacts/runs/configuration_save_feedback_20261023/real-save-accessible/save-failed.json，完整结论以 final-result.json 为准。
+
+- FIX-CONFIG-02 真实配置保存步骤 input-retained 已记录；目标 PID/路径及观测见 artifacts/runs/configuration_save_feedback_20261023/real-save-accessible/input-retained.json，完整结论以 final-result.json 为准。
+
+- FIX-CONFIG-02 真实配置保存步骤 retry-saved 已记录；目标 PID/路径及观测见 artifacts/runs/configuration_save_feedback_20261023/real-save-accessible/retry-saved.json，完整结论以 final-result.json 为准。
+
+- FIX-CONFIG-02 真实隔离 EXE 保存失败/重试返回码 0；结果 artifacts/runs/configuration_save_feedback_20261023/real-save-accessible/final-result.json。仅使用目标 PID 原生控件消息，不替代真实键盘/读屏验收；正式配置与服务未操作。
+
+- FIX-CONFIG-02 真实保存场景清理核对：正式 Sandboxie.ini 未变=True，原读屏 PID 保留=True，自启动项不变=True，残留进程=0。命令和环境结果见本轮 real-command-result.json、real-environment-before/after.json。
+
+- FIX-CONFIG-02 收尾审查：源码/项目摘要限定差异、新增文本与 PowerShell 解析检查返回码 0；结果 artifacts/runs/configuration_save_feedback_20261023/diff-result.json、diff.log。本项生产修复及真实失败/重试已通过，Python 无改动、索引为空；待确认的完整计划差异 proposed-plan.diff 和拟提交清单 proposed-staging-files.txt 已准备，确认后直接回填计划并提交，不重跑通过测试。
 
 - UPDATE-EMBED-01 / 用户 4.0.46 检测问题：本轮匿名获取公开更新清单返回码 0；命令/响应见 artifacts/runs/embedded_update_20261023/manifest-current-result.json、manifest-current.json、manifest-current-headers.txt。正在核对实际客户端日志，不将无提示直接等同请求失败；公开清单未改写。
 
@@ -3087,7 +3647,6 @@ csharp/
 - LOG-01 源码和项目结构差异检查：返回码 2，命令及输出见 artifacts/runs/diagnostic_logging_release_20261023/diff-check-result.json、diff-check.log；未暂存任何文件。
 
 - LOG-01 未受影响证据沿用：`git diff --name-only -- *.py shahe_bulk_launcher tests` 无输出；Python 对照沿用 `artifacts/runs/embedded_update_20261023/python-result.json`（返回码 0，通过 31、失败 0、跳过 0）和生产源码编译 `compile-result.json`（返回码 0，计数不适用），命令/原日志在该目录，未重跑未改动的 Python。
-
 - LOG-01 计划复核：重新读取当前唯一活动计划；UPDATE-EMBED-01 已交付，AUDIT-04 及后续未验收事项继续保留。本轮 LOG-01 追加尚待确认，活动计划与本轮初始快照一致；不因当前日志/本地包验证通过宣称整体迁移完成。差异检查初次因新增文档行混入 CRLF 返回 2，现仅统一本轮追加的行结束符，不改历史结论。
 
 - LOG-01 最终差异检查：返回码 0；命令和输出见 artifacts/runs/diagnostic_logging_release_20261023/diff-check-final-result.json、diff-check-final.log。文档格式问题已消除，没有改动编译后源码，也没有重复软件测试。
@@ -3130,13 +3689,213 @@ csharp/
 
 - LOG-01 本地功能提交：4e8752630de9f4543a888f8bd71711d811eda085，父提交 `fe43076397a519dfc220b7a0841aae7807dd69ee`；提交含 126 个选择性文件，禁带路径为 0。原定语音分支推送两次均因 GitHub 443 不可达失败，远端未改变。
 
-- LOG-01 远端目标更正：用户要求所有 C# 功能统一进入 origin/沙河批量打开器，并要求主分支同步成功后删除远端语音分支。该目标分支与当前开发历史无共同祖先；采用以远端 1658b7970250617ac30057cb79620be5cb816587 为父提交的前向树同步，不强推。
+- LOG-01 远端目标更正：用户要求所有 C# 功能统一进入 origin/沙河批量打开器，并询问删除远端语音分支。该目标分支与当前开发历史无共同祖先；采用以远端 1658b7970250617ac30057cb79620be5cb816587 为父提交的前向树同步，不强推。只有主分支推送和远端核对成功后才删除 origin/voice03-fixed-reader-20261022。
 
-- LOG-01 沙河远端集成门禁：返回码 0；隔离分支以远端 1658b79 为父，暂存索引中的完整 csharp 子树和打赏资源子树与已验证提交 4e87526 哈希一致；Python、ZIP、PDB 为 0，旧独立 Updater 仅删除。复用 422/422、Release 和绿色包证据，不重复测试。证据见 artifacts/runs/diagnostic_logging_release_20261023/remote-integration-result.json。
+- LOG-01 沙河远端前向同步提交：`445612a8947688b3906dec02f713a08dec54459c`，父提交为远端 `1658b7970250617ac30057cb79620be5cb816587`；C# 子树哈希与已验证 `4e87526` 一致，Python/ZIP/PDB 为 0，旧独立 Updater 仅删除。网络阻断记录提交为 `3cbad15`。
 
-- LOG-01 沙河远端前向同步提交：445612a8947688b3906dec02f713a08dec54459c，父提交为远端 1658b7970250617ac30057cb79620be5cb816587；C# 子树哈希与已验证 4e87526 一致，Python/ZIP/PDB 为 0，旧独立 Updater 仅删除。
+- LOG-01 GitHub 网络阻断：推送到 `origin/沙河批量打开器` 失败，DNS 成功但 HTTPS 443、SSH 22、SSH 443 均无法建立 TCP；系统代理关闭，已配置的 `127.0.0.1:10808` 无监听。远端主分支未改变，语音分支未删除。证据见 artifacts/runs/diagnostic_logging_release_20261023/remote-network-block-result.json。
 
-- LOG-01 GitHub 网络阻断：推送 445612a 到 origin/沙河批量打开器 失败，DNS 成功但 HTTPS 443、SSH 22、SSH 443 均无法建立 TCP；系统代理关闭，已配置的 127.0.0.1:10808 无监听。远端主分支未改变，语音分支未删除。证据见 artifacts/runs/diagnostic_logging_release_20261023/remote-network-block-result.json。
+- LOG-01 远端交付恢复点：隔离分支 `integration/shahe-unified-4.0.48-20261023` 当前 HEAD 为 `460e531`，依次包含 `445612a` C# 前向同步、`3cbad15` 网络阻断记录和 `460e531` 文档格式修正；相对 `origin/沙河批量打开器` 前向 3 个提交且工作区干净。GitHub 网络恢复后先推送并核对，再删除 `origin/voice03-fixed-reader-20261022`。
+
+- LOCATE-01 + UI-TEXT-01 定向 RED：`dotnet test` 使用隔离 `BaseOutputPath` 返回码 `1`，`5` 项中通过 `1`、失败 `4`、跳过 `0`。有效失败分别证明定位仍优先旧选中项、生产回调仍枚举全部系统窗口、多个窗口仍调用选择回调，以及朗读设置仍显示“读屏 API 接口”与“自动（默认）”；快捷键切换上一个/下一个用户后再定位的现有链路通过。日志和 TRX 为 `artifacts/runs/locate_and_speech_text_20261023/red/locate-text-red.log`、`locate-text-red.trx`。下一步只实施已确认的最小定位和文案修改。
+
+- LOCATE-01 + UI-TEXT-01 定向 GREEN：同一 `5` 项测试使用隔离 `BaseOutputPath` 返回码 `0`，通过 `5`、失败 `0`、跳过 `0`。定位入口现只对该动作采用焦点项优先，生产回调不再预先枚举全部系统窗口，服务对测试枚举结果继续按当前用户 PID 防御过滤；多个候选直接使用首项，不调用窗口选择回调。朗读标签、AccessibleName 和首项分别为“朗读接口:”“朗读接口”“自动”，保存值未改。日志和 TRX 为 `artifacts/runs/locate_and_speech_text_20261023/green/locate-text-green.log`、`locate-text-green.trx`。下一步运行一次受影响回归。
+
+- LOCATE-01 + UI-TEXT-01 首次受影响回归：`ProcessActions|Application|SettingsDialogs` 返回码 `1`，通过 `163`、失败 `2`、跳过 `0`。失败均为旧组装契约：一项要求 `EnumerateWindows` 无参数枚举全部系统窗口，另一项要求必须组装 `ChooseWindow`；两者与用户新确认的“只查焦点用户 PID、直接置前且不显示选择框”冲突。日志和 TRX 为 `artifacts/runs/locate_and_speech_text_20261023/affected/locate-text-affected.log`、`locate-text-affected.trx`。下一步保留真实 Windows 边界但改为显式接收当前用户 PID，并更新被需求取代的选择器契约后复验同一集合。
+
+- LOCATE-01 + UI-TEXT-01 受影响回归 GREEN：真实窗口枚举回调已改为接收当前用户 PID，生产 `ChooseWindow` 明确不组装；同一 `ProcessActions|Application|SettingsDialogs` 集合返回码 `0`，通过 `165`、失败 `0`、跳过 `0`。日志和 TRX 为 `artifacts/runs/locate_and_speech_text_20261023/affected-final/locate-text-affected-final.log`、`locate-text-affected-final.trx`。下一步只运行一次 C# 全量测试。
+
+- LOCATE-01 + UI-TEXT-01 C# 全量 GREEN：解决方案全量测试使用隔离 `BaseOutputPath` 返回码 `0`，通过 `426`、失败 `0`、跳过 `0`；新增定位契约已进入全量。日志和 TRX 为 `artifacts/runs/locate_and_speech_text_20261023/full/locate-text-full.log`、`locate-text-full.trx`。下一步运行一次隔离 Release x64 构建。
+
+- LOCATE-01 + UI-TEXT-01 隔离 Release x64：解决方案构建返回码 `0`，警告 `0`、错误 `0`，未使用可能被运行中程序锁定的默认输出目录。日志为 `artifacts/runs/locate_and_speech_text_20261023/release/locate-text-release.log`，应用输出位于同目录 `bin/x64/Release/net48/`。下一步运行一次隔离真实窗口前台探针。
+
+- LOCATE-01 + UI-TEXT-01 真实窗口前台探针：启动两个只用于本轮验证的 WinForms 窗口，调用生产 `ProcessActionService` 并仅传入目标 PID。返回码 `0`，`located=true`、`chooseCalls=0`，前台 PID 从非目标 `2756` 变为目标 `2348`，状态为“已定位到当前打开的进程: 探针用户”；目标和非目标测试进程随后均不存在。结果和日志为 `artifacts/runs/locate_and_speech_text_20261023/foreground-probe/foreground-result.json`、`foreground-probe.log`。定向、受影响、全量、Release 和真实前台证据现均有效。
+
+- LOCATE-01 + UI-TEXT-01 差异检查：限定本项源码、测试、计划和项目结构运行 `git diff --check` 返回码 `0`；仅报告工作树 LF 将来转换为 CRLF 的提示，没有尾随空白或补丁错误。下一步按用户要求规划将当前 4.0.48 源码递增为 4.0.49 测试更新，不复用或覆盖公开 4.0.47 包。
+
+- 2026-10-24 版本兼容性核对：4.0.47 发布提交 `a5b4a18` 中的 `CompareVersions` 按数字分段比较，`4.0.49` 会被判定为高于 `4.0.47`；旧版 `UpdateService` 先读取 `latest_version`，再优先选择带 URL、SHA-256 和大小的 `kind=full` 完整包，因此 4.0.47 无需 `from` 字段即可检测并接收 4.0.49。若使用增量补丁，则必须明确 `from=4.0.47`、`to=4.0.49`。2026-10-24 对公开清单的只读 HTTP 核对返回码 `200`，当前 `latest_version` 仍为 `4.0.47`，尚未发布 4.0.49；本次未修改版本号、清单或远端包。
+
+- 2026-10-24 交接源码静态清点：命令 artifacts/runs/handoff_inventory_20261024/compare-source.ps1 返回码 0；Python/C# 20 个模块代表入口存在，快捷键动作定义分别为 47/47，类别/动作键/标签/默认键/事件编号无差异；提取到的 Python 菜单动作 41 项都有 C# 分派，默认配置顶层键 22 项均有 C# 字面量。明细 artifacts/runs/handoff_inventory_20261024/source-comparison.json；此为源码存在性核对，不证明每条分支、文案顺序或真实运行等价。脚本首次控制台投影为空字段，但完整 JSON 已正确写入，本记录从 JSON 读取；没有运行软件测试、构建或真实服务动作。
+
+- 2026-10-24 交接文档检查：返回码 0，限定文档 git diff --check 返回码 0；路径缺失 0、PowerShell 解析错误 0、本轮新增尾随空白 0，已快照的生产/测试源码变更 0。结果 artifacts/runs/handoff_inventory_20261024/documentation-check.json，差异输出 document-diff.log。未运行软件测试/构建/联网/发布，暂存区保持为空。首次文档补丁因重复声明同一目标文件被工具原子拒绝，拆分为同一文件多段后已成功；未影响业务源码。
+
+- 2026-10-24 交接收尾：已重新读取新计划全部章节并核对状态，仅勾选本轮文档检查项，P1 以后保持待办。最终限定差异复核返回码 0；结果已补入同一 documentation-check.json，不新增软件测试结论。
+
+- U1 用户列表进程菜单 RED：dotnet test 定向 SandboxUserProcessMenuContractTests，隔离 BaseOutputPath；返回码 1。日志 artifacts/runs/process_menu_list_20261024/red.log，TRX red/red.trx。详细失败原因和计数将在读取结果后追加；未改业务源码。
+
+- U1 RED 结果核对：通过 1、失败 5、跳过 0。失败为 Alt 进程栏仍存在、缺鼠标/键盘上下文入口、菜单打开后列表重排导致当前动作失效，以及缺刷新进程状态独立回调；当前/全部参数对照已通过。本轮只修 UI 接线与动作目标捕获，服务实现不变。
+
+- U1 首轮 GREEN：相同定向命令返回码 0；日志 artifacts/runs/process_menu_list_20261024/green.log，TRX green/green.trx。已接原生上下文消息/目标快照、补刷新进程状态、移除 Alt 进程栏，下一步读取结果确认。
+
+- U1 定向 GREEN 核对：通过 6、失败 0、跳过 0。鼠标命中/键盘焦点、当前与全部参数、打开不执行、空白/分组禁用、重排后目标保持及独立进程刷新通过。接着更新旧测试所依赖的 Alt 菜单位置，保留原启用态/缓存/异步断言。
+
+- U1 受影响回归：Application/UiControls/Hotkey/DiagnosticLogging，dotnet test 解决方案隔离输出返回码 1；日志 artifacts/runs/process_menu_list_20261024/affected.log，TRX affected/affected.trx。测试入口已从 Alt 进程栏切换到用户列表，原状态/异步断言保留。
+
+- U1 受影响回归计数：通过 159、失败 5、跳过 0。菜单迁移后原测试暴露独立 InitializeUi 下列表状态 providers 未接入、以及旧菜单位置断言残留；按实际调用链继续修复/核对，不把首轮失败记为通过。
+
+- U1 受影响复验：相同筛选返回码 0；日志 artifacts/runs/process_menu_list_20261024/affected-final.log，TRX affected-final/affected-final.trx。将缓存 provider 移至列表 UI 组装，测试按无句柄控件的实际选中项构建菜单；日志契约同时覆盖 Alt 和迁移后的列表动作。
+
+- U1 受影响回归最终结果：dotnet test 返回码 0，通过 164、失败 0、跳过 0；证据 artifacts/runs/process_menu_list_20261024/affected-final.log 与 affected-final/affected-final.trx。Alt 菜单日志和列表菜单日志、原进程状态缓存/后台刷新契约均通过。
+
+- U1 进程菜单测试文案/入口复核：仅重跑 ProcessMenuRuntimeContractTests，返回码 0；日志 artifacts/runs/process_menu_list_20261024/process-menu-final.log，TRX process-menu-final/process-menu-final.trx。旧‘菜单栏重建’测试已改为验证用户列表进程菜单，避免测试名称与新入口混乱。
+
+- U1 C# 全量测试：解决方案隔离输出返回码 0；日志 artifacts/runs/process_menu_list_20261024/full.log，TRX full/full.trx。Python 未修改，沿用 E09，不重复 Python 测试。
+
+- U1 隔离 Release x64：解决方案构建返回码 0；日志 artifacts/runs/process_menu_list_20261024/release.log，输出 artifacts/runs/process_menu_list_20261024/release-bin/；继续核对警告/错误后再做差异检查。
+
+- U1 汇总：用户列表进程菜单实现和自动化运行时验证完成，汇总 artifacts/runs/process_menu_list_20261024/u1-final-result.json。Alt 主菜单进程栏已移除；列表 WM_CONTEXTMENU 入口覆盖鼠标、菜单键/Shift+F10，当前/全部进程动作、刷新、目标快照和日志均有测试。RED 1/6（有效）；GREEN 6/6；受影响 164/164；进程菜单类 15/15；C# 全量 432/432；Release 0 警告/0 错误；限定 diff-check 返回码 0。Python 未改，沿用 31/31 与 compileall 0。真实桌面弹出/取消尚未单独执行，不能写成完整人工无障碍验收；源码尚未选择性提交或发布。
+
+- U1 最终限定差异检查：git diff --check 返回码 0；日志 artifacts/runs/process_menu_list_20261024/final-diff-check.log，结果 final-diff-check-result.json。换行提示不计为空白错误。
+
+- TEST-UPDATE-01 版本 RED：临时保持生产 AppVersion=4.0.48、测试预期=4.0.49，ConstantsContractTests 返回码 1；日志 artifacts/runs/release_4.0.49_20261024/version-red.log，TRX version-red/version-red.trx。随后恢复生产版本 4.0.49，未保留临时状态。
+
+- TEST-UPDATE-01 版本/更新 GREEN：生产 AppVersion=4.0.49，Constants 与 Update 定向测试返回码 0；日志 artifacts/runs/release_4.0.49_20261024/update-green.log，TRX update-green/update-green.trx。
+
+- TEST-UPDATE-01 C# 全量：4.0.49 源码解决方案隔离测试返回码 0；日志 artifacts/runs/release_4.0.49_20261024/full.log，TRX full/full.trx。
+
+- TEST-UPDATE-01 Release x64：4.0.49 解决方案构建返回码 0；日志 artifacts/runs/release_4.0.49_20261024/release.log，输出 artifacts/runs/release_4.0.49_20261024/build-bin/；警告/错误从日志读取。
+
+- TEST-UPDATE-01 publish：4.0.49 App 项目发布返回码 0；日志 artifacts/runs/release_4.0.49_20261024/publish.log，发布目录 artifacts/runs/release_4.0.49_20261024/publish/。
+
+- TEST-UPDATE-01 4.0.49 绿色封装：返回码 0；ZIP 位于 artifacts/runs/release_4.0.49_20261024/delivery/，空 Configurations/logs，不含 PDB、Python、测试程序或 updater。大小、SHA-256、清单见 package-result.json。
+
+- TEST-UPDATE-01 4.0.49 绿色包烟雾：结果 artifacts/runs/release_4.0.49_20261024/portable-smoke-result.json，返回码 1，主窗口=True，正常退出=False，强制清理=True。首次探针脚本误用只读 PowerShell $PID 变量并已清理精确目标 PID，未影响用户进程；不把首次错误算产品结果。
+
+- TEST-UPDATE-01 4.0.49 绿色包烟雾复验：隔离设置 show_tray=false 后返回码 0，主窗口=True，正常退出=True，强制清理=False；结果 artifacts/runs/release_4.0.49_20261024/portable-smoke-tray-off-result.json。默认 show_tray=true 的首次关闭转托盘结果保留在 portable-smoke-result.json，不作为产品失败。
+
+- TEST-UPDATE-01 GitCode 包提交准备：以远端 main e40ea608 为基线创建发布分支 publish-4.0.49，仅暂存 4.0.49 ZIP；本地包提交返回码 0，完整哈希和推送结果待下一步记录。
+
+- TEST-UPDATE-01 GitHub 集成树全量：隔离 worktree shahe-unified-4.0.48-20261023 已应用当前 C#/4.0.49 交付差异；dotnet test 返回码 1，日志 artifacts/runs/release_4.0.49_20261024/github-integration/full.log，TRX github-integration/full/full.trx。
+
+- TEST-UPDATE-01 GitHub 集成树还原：因 worktree 缺少 project.assets.json，执行隔离 dotnet restore 返回码 0；日志 artifacts/runs/release_4.0.49_20261024/github-integration/restore.log。
+
+- TEST-UPDATE-01 GitHub 集成树全量复验：还原后 dotnet test 返回码 0；日志 artifacts/runs/release_4.0.49_20261024/github-integration/full-after-restore.log，TRX full-after-restore/full-after-restore.trx。
+
+- TEST-UPDATE-01 GitHub 集成树 Release：还原后的集成 worktree 构建返回码 0；日志 artifacts/runs/release_4.0.49_20261024/github-integration/release.log，输出 github-integration/build/。
+
+- TEST-UPDATE-01 GitHub 集成提交：仅暂存列出的 C#/测试文件，cached/worktree diff-check 均返回 0；集成提交返回码 0，提交信息为 4.0.49 菜单/定位/文案交付，哈希将在推送后核对。
+
+- TEST-UPDATE-01 GitHub 推送重试：gh 已确认 childhood123 具有 repo 权限并完成 Git 凭据接线；本次推送返回码 128，远端核对返回码 0。
+
+- TEST-UPDATE-01 GitHub API 同步：smart HTTPS 因网络重置未完成，改用已认证 childhood123 的 Git Data API；脚本返回码 1，详细结果 artifacts/runs/release_4.0.49_20261024/github-api/result.json，日志 github-api/sync.log。
+
+- TEST-UPDATE-01 GitHub gh API 同步：smart HTTPS 因连接重置，使用 gh Git Data API 继续；脚本返回码 1，结果 artifacts/runs/release_4.0.49_20261024/github-api/result-gh-api.json，日志 github-api/sync-gh-api.log。
+
+- TEST-UPDATE-01 GitHub gh API 远端引用复核：`gh api repos/childhood123/shahe-bulk-launcher/git/ref/heads/沙河批量打开器` 返回码 0，远端引用为 `6cff723da76cd2db0db10ec379170e8b2c4be5e1`；提交消息为 `feat: sync C# migration and publish 4.0.49`，GitHub API 报告 changedPaths=217、uploadedBlobs=214、deletedPaths=3。证据：`artifacts/runs/release_4.0.49_20261024/github-api/result-gh-api.json`。
+
+- TEST-UPDATE-01 GitHub 关键文件只读复核：远端 `LauncherConstants.cs` 包含 `4.0.49` 且不含 `4.0.48`；定位、朗读文案和用户列表进程菜单相关文件均可匿名读取。证据：本轮 gh API 查询输出及 `artifacts/runs/release_4.0.49_20261024/github-api/remote-tree.json`。
+
+- TEST-UPDATE-01 GitHub tree 字节一致性检查：远端 tree 路径数量与集成 HEAD 均为 238 个 blob，缺失/多余路径均为 0；但 199 个 blob SHA 不一致。根因初步定位为同步脚本使用工作树 `File.ReadAllBytes`，受 Windows 换行转换影响，而不是使用 Git object 字节。该结果不作为源码同步通过；结果 `artifacts/runs/release_4.0.49_20261024/github-api/tree-compare-result.json`，脚本错误修复与新提交待后续记录。
+
+- TEST-UPDATE-01 GitHub 精确 blob 纠正脚本 RED：PowerShell 语法解析返回码 0，但执行在 `.gitignore` 的 Git blob 校验处返回码 1；原因是初版校验错误地对裸内容计算 SHA-1，未包含 Git `blob <长度>\0` 头。未创建纠正提交、未上传纠正 blob。日志：`artifacts/runs/release_4.0.49_20261024/github-api/sync-gh-api-corrected.log`；脚本：`artifacts/runs/release_4.0.49_20261024/github-api-correct-tree.ps1`。
+
+- TEST-UPDATE-01 GitHub 精确 blob 纠正 GREEN：修正 Git blob 头哈希后，脚本语法解析返回码 0，Git Data API 同步返回码 0；以原远端提交 `6cff723da76cd2db0db10ec379170e8b2c4be5e1` 为父提交，处理 199 个差异 blob，生成纠正提交 `82bc77e0b7631487c3cff228a44a8d9ffa5a6fb4`，远端 tree 为 `ad9a4c0c92bbb6c04747a9a04965369ef7147430`，与本地集成 HEAD tree 一致。日志/结果：`artifacts/runs/release_4.0.49_20261024/github-api/sync-gh-api-corrected.log`、`result-gh-api-corrected.json`。
+
+- TEST-UPDATE-01 GitHub 远端 tree 独立复核：匿名/认证 API 读取返回码 0；远端引用 `82bc77e0b7631487c3cff228a44a8d9ffa5a6fb4`，远端 tree 与本地集成 HEAD 均为 `ad9a4c0c92bbb6c04747a9a04965369ef7147430`；两侧均 238 个 blob，missing=0、extra=0、shaDiff=0、tree 未截断。结果：`artifacts/runs/release_4.0.49_20261024/github-api/tree-compare-final-result.json`。GitHub 源码同步通过精确 tree 验收。
+
+- TEST-UPDATE-01 GitCode 发布基线复核：`git ls-remote origin refs/heads/main` 返回码 0，远端 main=`e40ea608381e37ba3843b149b1fc764b93ab5e5c`；发布 worktree `publish-4.0.49` 在该基线上领先本地 ZIP 提交 `852b560f1233d3224fd596a6f5a4ce23336df858`。远端 `update.json` 仍为 `latest_version=4.0.47`。4.0.49 ZIP 大小 `3014379`、SHA-256 `9FB9AF89006115DF0EBC77FFB184A54A7293CF3756DA43D5FED234B204863DD3`、Git blob=`684c8800f28288d83f7540846433531d5d2364dc`。证据：发布 worktree、`artifacts/runs/release_4.0.49_20261024/package-result.json`。
+
+- TEST-UPDATE-01 GitCode 4.0.49 清单本地 GREEN：解析发布 worktree `update.json` 返回码 0，latest_version/package.to=4.0.49；URL 中 blob SHA、ZIP 大小 `3014379` 和 SHA-256 `9FB9AF89006115DF0EBC77FFB184A54A7293CF3756DA43D5FED234B204863DD3` 全部匹配。结果：`artifacts/runs/release_4.0.49_20261024/gitcode-manifest-local-result.json`。
+
+- TEST-UPDATE-01 GitCode 清单差异检查：发布 worktree `git diff --check` 返回码 0；工作树仅有 `update.json` 修改，4.0.49 ZIP 已在提交 `852b560f1233d3224fd596a6f5a4ce23336df858` 中，未发现其他待提交文件。换行转换提示为 Git 既有提示，不计为空白错误。
+
+- TEST-UPDATE-01 GitCode 清单提交：仅暂存 `update.json`，cached diff-check 返回码 0；提交 `8e1cc21`（完整哈希待 push 后复核）已生成，发布分支同时包含 ZIP 提交 `852b560f`。回退清单提交命令：`git -C artifacts/runs/updater_added_dll_20261023/release-repo revert 8e1cc21`。
+
+- TEST-UPDATE-01 GitCode 写入认证检查：`git credential fill` 在当前 Windows credential provider 上无输出并持续等待，已在无凭据内容输出的情况下中断，不能据此宣称已有 GitCode 写入认证。没有修改远端或发布提交。
+
+- TEST-UPDATE-01 GitCode 非交互推送：`GIT_TERMINAL_PROMPT=0`、`GCM_INTERACTIVE=Never` 下 `git push --porcelain origin HEAD:main` 返回码 128，错误为无法获取密码；远端 main 未变更，不能将本地提交视为公开发布。推送日志为本轮命令输出。
+
+- TEST-UPDATE-01 GitCode 浏览器/GCM 写入尝试：按用户指定改用 Google Chrome；本机 Chrome 可启动，但 Open Browser/Computer Use 接管接口未处于活动状态，未自动点击或读取登录数据。普通 `git push` 由 Git Credential Manager 等待浏览器授权，未产生输出，已中断以避免悬挂；远端仍未变化。不能将该尝试记为上传成功，需在 Chrome 中完成 GitCode 登录/授权后再重试。
+
+- TEST-UPDATE-01 GitCode 发布阻断状态复核：发布 worktree HEAD=`8e1cc21b56ca75552804a2eea6f4ab58b7464b13`，工作树干净，远端 main 仍=`e40ea608381e37ba3843b149b1fc764b93ab5e5c`，本地清单 latest_version=`4.0.49`。ZIP 和清单未丢失，等待 GitCode Chrome 登录/写入授权后继续。结果：`artifacts/runs/release_4.0.49_20261024/gitcode-push-blocked-result.json`。
+
+- TEST-UPDATE-01 Chrome 网页发布接续：用户已打开 GitCode 页面；Open Browser Use ping 返回成功，复用当前 Chrome 标签并确认发布仓库 main 和上传权限。文件选择器回调未返回，CDP 直接设置文件受浏览器 API 限制；通过既有页面文件控件注入用户授权的 ZIP 后，页面列出目标文件且提交按钮可用。网页已提交包上传，当前显示“上传中”；正式 update.json 尚未更新。浏览器操作记录保存在本轮 browser-upload-package.log。
+- TEST-UPDATE-01 GitCode 网页包提交及匿名下载：包上传已生成远端提交 e27c484fb1f6c7eb0433019aa5cb852e287fc657；匿名下载返回码 0，大小/SHA-256 与本地包一致=True。证据 artifacts/runs/release_4.0.49_20261024/gitcode-package-anonymous-result.json；正式清单尚未更新。
+
+- TEST-UPDATE-01 GitCode Chrome 清单发布最终 GREEN：网页编辑器曾对 JSON 追加尾部字符，已通过 Chrome 网页删除旧 `update.json` 后重新上传本地原始文件，未改动 ZIP；最终远端 `main`=`82edc3a4e9e4eb062d9c36dc8f4130ea90b8561b`，网页显示文件大小 `620 B`。按生产 `UpdateService` 实际请求形式 `https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json?t=<timestamp>` 匿名读取返回 HTTP `200`，解析成功，`latest_version=4.0.49`，包 URL/blob、大小 `3014379` 和 SHA-256 `9FB9AF89006115DF0EBC77FFB184A54A7293CF3756DA43D5FED234B204863DD3` 全部匹配。无 `t` 的 GitCode JSON 预览接口返回 403“暂不支持预览”，不影响软件带时间戳的实际请求。证据：`artifacts/runs/release_4.0.49_20261024/gitcode-manifest-anonymous-result.json`、`anonymous-update-4.0.49-final.json`；ZIP 匿名核对仍见 `gitcode-package-anonymous-result.json`。
+
+- TEST-UPDATE-02 4.0.47 定向检测首次尝试：从 `shahe-bulk-launcher-4.0.47-win-x64.zip` 解压隔离副本并调用旧版 `ShaheLauncher.Core.dll` 的真实 `UpdateService.FetchUpdateManifest`，探针编译返回码 `0`，运行返回码 `1`；失败发生在版本比较前，异常为 .NET Framework 默认 TLS 无法建立 GitCode HTTPS 安全通道。该结果仅记录为探针环境阻断，不作为产品更新失败结论。证据：`artifacts/runs/release_4.0.49_20261024/old47-detection/old47-update-detection-result.json`。
+
+- TEST-UPDATE-02 4.0.47 TLS 定向重试：探针仅补充 `SecurityProtocolType.Tls12`，编译返回码 `0`，运行返回码 `1`；TLS 错误消失，但 `FetchUpdateManifest` 在其 8 秒请求超时内收到 `TaskCanceledException`，仍未进入版本比较。该结果继续标记为本机 .NET 网络路径阻断。证据同为 `old47-detection/old47-update-detection-result.json`（第二次运行结果）。
+
+- TEST-UPDATE-02 4.0.47 直连重试：探针改为 `UseProxy=false` 后编译返回码 `0`，运行返回码 `1`；请求已到达 GitCode，但服务端返回 HTTP `429 Too Many Requests`。这确认网络路径已建立，同时说明继续重复请求会触发限流；该次不作为版本检测失败结论。证据同为 `old47-detection/old47-update-detection-result.json`（第三次运行结果）。
+
+- TEST-UPDATE-02 4.0.47→4.0.49 检测 GREEN：使用已通过 HTTP 200 匿名下载的公开 4.0.49 清单作为一次性 HTTP 响应，调用隔离 4.0.47 包内真实 `UpdateService`；探针编译返回码 `0`、运行返回码 `0`。旧版默认清单地址为 `https://raw.gitcode.com/childhood123/shahe-bulk-launcher-releases/raw/main/update.json`，实际构造请求包含 `?t=1792832639`；解析结果 `currentVersion=4.0.47`、`latestVersion=4.0.49`、`hasUpdate=true`、`shouldPrompt=true`、`packageVersion=4.0.49`、`packageSize=3014379`，状态文案为“发现新版本 4.0.49，可稍后点击“下载更新””。这证明 4.0.47 能识别已发布的 4.0.49；本次是检测/选择包验证，不等同于完整关闭、替换、重启升级验收。证据：`artifacts/runs/release_4.0.49_20261024/old47-detection/old47-update-detection-result.json`。
+
+- TEST-UPDATE-02 4.0.47→4.0.49 替换边界：在全新隔离 4.0.47 副本中调用旧版真实 `UpdateRunner`，下载回调使用已核对的公开 4.0.49 ZIP，未触碰正式配置；旧 updater 返回码 `5`，`LastError=更新包缺少主程序或 updater.exe`，未启动新版、旧版 Core 哈希未替换，配置标记仍保留。结论：4.0.47 可以检测并选择 4.0.49，但当前不支持用旧外置 updater 完成到 4.0.49 的实际替换；原因与 4.0.49 绿色包按要求不包含独立 `updater.exe` 一致。不能把“旧版可更新”写成通过，也不把旧 updater 重新加入公开包。证据：`artifacts/runs/release_4.0.49_20261024/old47-upgrade/old47-to49-install-result.json`。
+
+- TEST-UPDATE-03 GitHub Release 资产 GREEN：在 GitHub 仓库 `childhood123/shahe-bulk-launcher` 创建 `v4.0.49` Release，目标源码分支为 `沙河批量打开器`，上传 `shahe-bulk-launcher-4.0.49-win-x64.zip`。GitHub API 返回资产状态 `uploaded`、大小 `3014379`、digest `sha256:9fb9af89006115df0ebc77ffb184a54a7293cf3756da43d5fed234b204863dd3`；随后用 `gh release download` 下载复核返回码 `0`，本地 SHA-256 与发布包一致。Release：`https://github.com/childhood123/shahe-bulk-launcher/releases/tag/v4.0.49`；资产：`https://github.com/childhood123/shahe-bulk-launcher/releases/download/v4.0.49/shahe-bulk-launcher-4.0.49-win-x64.zip`。证据：`artifacts/runs/release_4.0.49_20261024/github-release-verify/github-release-asset-result.json`。
+
+- DOC-ENCODING-01：修复 `PROJECT_STRUCTURE.md` 中 8 条 VOICE-03 历史记录的 replacement character，恢复为可读中文文案；严格 UTF-8 解码成功，replacement character 扫描为 `0`，`rg` 乱码扫描清洁，`git diff --check` 返回码 `0`。未改动其他验证结论或源码。
+
+### MIG-INVENTORY-20261025：Python → C# 查漏与文档整理
+
+- 范围与结果：已覆盖根入口、20 个有业务内容的 Python 模块及 3 个包标记的映射，追踪主要 UI/服务调用与发现差异的异常分支。确认 10 项源码迁移差异，其中 `MIG-READONLY-01` 为既有未关闭项，其余为本轮新增；另列 4 项候选边界和未逐分支核完范围。它们没有本轮运行时 RED，不宣称已复现/已修复或审查已排除所有潜在遗漏。详细源码、影响和下一步唯一维护于 `docs/migration/2026-10-25-python-csharp-audit.md`。
+- 文档结构：唯一执行入口为 `docs/superpowers/plans/2026-10-25-python-csharp-inventory.md`；原交接/发布计划未改，旧摘要按日期标为历史。当前模块为只读查漏与文档整理，业务修复未启动。既有完成模块和真实审计风险沿用；后续原顺序仍为补 AUDIT-04、完成后停在 AUDIT-05 前。新增差异如需修复，应独立展开，不混入旧验收通过项。
+- 验证命令：`& .\artifacts\runs\migration_inventory_20261025\verify-documents.ps1`，返回码 `0`。3 份文档严格 UTF-8 解码、替换字符/新增文档空白检查通过；35 个本轮相对链接存在且源码行号未越界；模块映射缺项 `0`；比较 136 个源码/测试/工程文件的 SHA-256，改变 `0`，文件清单差异 `0`；`git diff --check -- PROJECT_STRUCTURE.md` 返回码 `0`。检查不是软件测试，通过数/失败数/跳过数不适用；没有新增 C# 全量、Python 对照、构建、GUI 或真实服务结果。
+- 证据：`artifacts/runs/migration_inventory_20261025/source-inventory-before.json`、`verify-documents.ps1`、`verification-result.json`、`diff-check.log`。本轮无提交、推送或新发布，原有脏工作区和暂存状态未改变。C# 已有启动运行证据，整个软件迁移仍未完成；本轮文档不能证明旧版自动替换成功。
+
+### PY-FULLREAD-20261025：生产 Python 全文阅读
+
+- 基线：用户要求从头到尾阅读，范围为根入口与 shahe_bulk_launcher 内全部生产 Python 文件；tests、第三方下载和历史副本不混入产品范围。命令 `python artifacts/runs/python_full_read_20261025/inventory.py` 返回码 `0`；只解析 AST，不导入运行应用，清单为 24 个文件、12823 行、723 个类/函数定义（包含嵌套定义），另保存 43 个 C# 生产源码哈希。本步骤只是阅读对账基线，不算全文已读或产品测试通过。
+- 证据：`artifacts/runs/python_full_read_20261025/source-manifest.json`、`csharp-source-baseline.json`、`inventory.py`。当前执行计划已切换到 `docs/superpowers/plans/2026-10-25-python-full-read.md`；各分域结果只有完整读完、记录连续行范围后才能验收。
+
+- 接续说明：本次恢复时上条记录引用的临时目录实际缺失，不能把旧路径当作现存证据。已重新建立本次源码基线，执行 `python artifacts/runs/python_full_read_20261025/inventory.py` 返回码 `0`，文件/行数/定义数与上条清单一致；此基线只证明本次读取后的文件完整性，不证明两次会话之间没有改动。前轮基础模块阅读沿用会话交接说明，未交付的并行审查不计完成。本次继续直接阅读全文，不执行产品回归测试。
+
+- 全文阅读完成：本轮重新逐行输出并阅读根入口和 `shahe_bulk_launcher/` 下全部 24 个生产 Python 文件，共 12,823 行、723 个类/函数定义（含嵌套定义）；基础模块也在本轮重新核读，失败的并行审查不计入证据。实际阅读区间、哈希和定义覆盖见 `artifacts/runs/python_full_read_20261025/coverage.json`，逐文件功能与 C# 对应见 `docs/migration/2026-10-25-python-full-read.md`。
+- 覆盖记录生成：`python artifacts/runs/python_full_read_20261025/record_reading.py` 返回码 `0`，输出 `files=24`、`lines=12823`、`definitions=723`，并确认所有行和定义均已登记。该命令只生成阅读审计记录，不是软件测试，也没有修改产品源码。
+- 本轮静态查漏汇总：确认 11 项 Python→C# 源码行为差异，列出 7 项待验证候选边界，并扩充 2 项原版共有风险；新增管理模块 INI 编码回退差异 `MIG-ADMIN-ENCODING-01`，同时扩充只读删除和全部 PID/关闭结束判断的影响范围。详情唯一维护于 `docs/migration/2026-10-25-python-csharp-audit.md`，本轮未修复这些差异。
+- 完整性校验首次运行：`python artifacts/runs/python_full_read_20261025/verify_reading.py` 返回码 `1`，唯一错误是校验脚本要求的 `12823 行` 标记与报告实际采用的 `12,823 行` 格式不一致；文件集合、连续区间、723 个定义、43 个 C# 源码哈希、4 份文档编码/引用及 `git diff --check` 均通过。原始失败结果保留为 `artifacts/runs/python_full_read_20261025/verification-initial-marker-failure.json`，不作为产品测试失败。
+- 完整性校验第二次运行：返回码 `1`，确认覆盖、哈希、编码、引用和 `git diff --check` 仍全部通过；唯一错误是逐文件报告尚未写出总行数标记。结果保留为 `artifacts/runs/python_full_read_20261025/verification-second-marker-failure.json`，随后补充文档标记。
+- 完整性校验最终 GREEN：`python artifacts/runs/python_full_read_20261025/verify_reading.py` 返回码 `0`；24 个 Python 文件、12,823 行、723 个定义、43 个 C# 生产源码哈希、4 份文档的严格 UTF-8/引用/空白和 `git diff --check` 全部通过，错误数 `0`。结果与日志为 `artifacts/runs/python_full_read_20261025/verification-result.json`、`verification.log`。这是阅读/文档完整性校验，不是 C# 全量、Python 对照、构建或 GUI 测试。
+- 计划收口：已复读 `docs/superpowers/plans/2026-10-25-python-full-read.md`，五项执行步骤全部完成。本轮没有修改产品源码，也没有重复已通过测试；确认的 11 项迁移差异、7 项候选边界、2 项共有风险及 AUDIT-04 等真实运行验收仍按台账保留。
+- 收口后复核：计划和项目摘要更新后再次运行 `python artifacts/runs/python_full_read_20261025/verify_reading.py`，返回码仍为 `0`，错误数 `0`；最终 `verification-result.json` 已对应当前文档状态。
+
+### GITHUB-VISIBILITY-20261106：仓库公开
+
+- GitHub CLI 设备授权完成，`gh auth status` 确认活动账号为 `childhood123`，具备 `repo` 权限；未在证据中保存令牌。
+- 执行 `gh repo edit childhood123/shahe-bulk-launcher --visibility public --accept-visibility-change-consequences` 返回码 `0`。
+- 登录态复核：`visibility=PUBLIC`、`isPrivate=false`，默认分支为 `沙河批量打开器`。未登录 GitHub API 复核：`visibility=public`、`private=false`；仓库主页与 `v4.0.49` Release 均返回 HTTP `200`。
+- 证据：`artifacts/runs/github_visibility_20261106/result.json`。本项只修改 GitHub 仓库可见性，没有修改产品源码、分支或 Release 内容。
+
+### U1-ACCEPTANCE-20261109：用户列表菜单真实验收
+
+- 执行依据：用户本轮要求验收不可用功能，沿用原 U1 计划。顺序为环境和隔离目标核对 → 真实鼠标/键盘菜单与取消 → 当前/全部操作及目标保持 → 清理本轮测试进程 → 分别报告通过、失败和未验证；产品修复与发布不在本轮范围内。
+- 环境检查：通过 `node_repl` 的 `@oai/sky.list_windows()` 成功枚举桌面窗口，当前未发现运行中的沙河主程序。`SbieSvc` 和争渡读屏正在运行，均不停止。历史 `artifacts/runs/process_menu_list_20261024/` 原始目录在本次工作区缺失，旧测试结论仅作为历史文档记录引用，不冒充本轮实测。
+- 证据统一存入 `artifacts/runs/user_list_acceptance_20261109/`；尚未启动测试应用或执行菜单动作。
+
+- 公开包身份核对与解压：PowerShell 返回码 0；release/4.0.49 的 ZIP SHA-256 与发布记录一致，已解压至本轮 portable/。原始主 EXE 与 Core DLL 保持不变。将通过隔离夹具加载该窗体与业务服务，仅替换测试用户/PID来源并记录实际音频状态；Sandboxie 正式用户发现和完整启动流程不在该夹具的证据范围内。
+
+- 隔离夹具编译：使用本机 .NET Framework 64 位 csc.exe，测试音频进程和菜单宿主均返回码 0；日志 peer-build.log、harness-build.log 位于本轮目录。宿主加载原始公开包程序集，进程操作有 PID/路径/启动身份白名单，音频为静音 WAV；未重新编译或改动产品程序集。
+
+- 首次宿主启动未形成有效 UI 证据：portable/runtime-events.jsonl 中记录宿主启动和夹具 Snapshot 空引用异常；桌面显示 .NET 异常对话框，未完成堆栈展开。工具随后依次返回 CUA_GEOMETRY_UNAVAILABLE、CUA_EXECUTION_FAILED、CUA_TURN_NOT_ACTIVE，已停止发出桌面输入。本轮不能把这次夹具启动失败归为产品菜单失败；真实菜单、焦点、读屏仍未验收。
+- 后续改做原始 Core DLL 的真实音频/进程调用验证，仍只针对两个已创建测试进程；它能证明服务的实际效果，但不能替代菜单端到端验收。不使用 shell/UI Automation 绕过失效桌面连接。
+
+- 服务探针编译返回码 0，日志 service-build.log；只读枚举全部音频端点来核实两个测试进程的实际静音/音量，不以状态文案代替效果。异常宿主已按精确 PID 与路径校验后强制清理，此次不记正常退出；两个测试音频进程保留用于服务验证。
+
+- 服务探针首次 audio 执行返回码 2，止于测试进程身份比对 Peer identity mismatch，尚未执行音频动作；保留 service-audio.log、portable/service-audio-error.txt。正在核对日志时间解析，不把测试保护拦截记为产品功能失败。
+
+- 身份核对已查明为夹具 JSON 日期转换问题：实际 PID、路径、StartTime 与原始日志完全一致；读取日志时禁用 Json.NET 自动日期转换以保留原始精度，不放宽身份校验。修正夹具重新编译返回码 0，日志 service-build-final.log；产品源码未改。
+
+- 服务探针 audio 第二次返回码 2：身份守卫通过，但全端点观察器遇到 InvalidComObjectException；位置 Observe/Com，还未形成有效服务动作结果。保留 service-audio-final.log；需隔离探针和产品音频枚举的 COM 生命周期，不能归为菜单失败。
+
+- 观察器问题原因：产品 ListOutputDevices 会 FinalReleaseComObject，同线程探针先持有相同 COM 枚举器后再调用产品枚举使该 RCW 失效。调整为先获得端点清单再创建探针枚举器；仅改验收代码，编译返回码 0，日志 service-observer-build.log。
+
+- 真实音频服务验收：ServiceProbe.exe audio 返回码 0，通过 8、失败 0、跳过 0；当前/全部音量增减（50%↔55%）、当前/全部静音和取消静音均经全部音频端点的 COM 读回验证，当前操作未影响另一个测试用户。日志 service-audio-observed.log，完整前后状态 portable/service-audio-result.json；这是服务层实测，不替代菜单键盘验收。
+
+- 已复现 MIG-ALL-PIDS-01：ServiceProbe.exe partial 返回码 1，通过 0、失败 2、跳过 0。注入“全部 PID 查询仅返回 A，但逐用户查询仍可得到 A/B”的非空部分结果后，全部提高音量只改变 A，全部静音也只静音 A，B 被遗漏，状态却分别提示全部成功。日志 service-partial.log，完整前后状态 portable/service-partial-result.json；这是受控查询异常的真实音频效果，不是声明正常查询下一直失败。场景结束已恢复本轮两测试进程的音量/静音。
+
+- 设备切换第一轮：ServiceProbe.exe routing 返回码 0，两个场景的原生 API 均接受请求；日志 service-routing.log、portable/service-routing-result.json。全端点观察却显示活跃音频仍在原默认设备，因此仅记 API 接受，不记实际设备切换成功；已将两个测试进程的路由恢复到原默认设备。下一轮仅补查延迟生效疑点。
+
+- 针对设备生效延迟和全部关闭目标遗漏增加有界探针场景；仅改测试夹具，编译返回码 0，日志 service-followup-build.log。正常音量/静音已通过项不重复。
+
+- 设备实际效果复查：ServiceProbe.exe routing-live 返回码 1，通过 0、失败 2、跳过 0；分别等待 3 秒后，当前/全部测试进程的 PlaySound 活跃会话仍在原默认端点，虽然接口和状态均报告切换成功。日志 service-routing-live.log、portable/service-routing-live-result.json。结论限定为本轮正在播放的 WinMM/PlaySound 会话未即时迁移，其他音频框架、重建播放流和听感未验收；两个测试进程路由已恢复。
+
+- 真实关闭服务验收：ServiceProbe.exe close 返回码 1，通过 2、失败 1、跳过 0；正常关闭当前仅结束 A，正常关闭全部结束剩余 B。新建两个专用无界面测试进程后，注入部分 PID 查询复现“全部关闭”仅结束 A、B 仍运行，状态为“已关闭 1 个全部打开进程”。日志 service-close.log、portable/service-close-result.json；剩余本轮测试进程已按持有的 Process 身份核对路径后清理，未关闭正式程序。
+
+- 清理复核：进程枚举未发现 AcceptanceHarness、AcceptancePeerA/B 或 ServiceProbe 残留；SbieSvc 与原争渡读屏进程仍运行。报告已写入 docs/migration/2026-11-09-user-list-acceptance.md。已复读原 U1 计划，真实桌面/无障碍勾选项保持未完成；没有修改计划文件、产品源码或执行提交/发布。
+
+- 收尾验证返回码 0：原公开包主 EXE/Core DLL 哈希仍与发布清单一致，本轮测试进程残留 0，原争渡读屏与 Sandboxie 服务仍运行；结果 cleanup-result.json。项目摘要与验收报告严格 UTF-8 通过，无替换字符，限定 git diff --check 返回码 0。实际菜单验收仍因桌面工具会话失效未完成；只交付本轮已验证结果和问题记录，不声明软件整体完成。
 
 ### USER-LIST-FIX-20261109：未通过项目修复
 
@@ -3199,3 +3958,893 @@ csharp/
 - 任务三清理完成：三个本轮测试窗口进程按精确 PID+可执行路径校验后结束，结果 task3/cleanup-result.json。桌面连接失效后采用进程清理，不计正常 UI 退出；正式程序/读屏未停止。夹具日志未再出现 fatal/ui-thread-error/snapshot-error，已显示主窗体和运行/空闲用户列表，但未取得菜单动作证据。
 
 - 本轮收尾核对：主目录三份修改源码与隔离验证工作树一致；计划、修复报告、项目文档严格 UTF-8 与空白检查通过，隔离工作树 git diff --check 返回码 0；本轮测试进程残留 0。计划已逐项复读，任务一完成，其余未完成项仍保留。源码版本未提升，公开 ZIP 未改，环境阻断不计菜单验收通过。
+
+- 收尾文档提交 f7169c8273136d67d5dbf90804ba190933087a7e 已推送 origin/沙河批量打开器，push 与 ls-remote 返回码均为 0，远端头与该提交一致；隔离工作树干净。功能修复提交为 0fdadbe90e5f9bc1dfeec24f9e4a9553721c2c6c。回退分别使用 git revert f7169c8273136d67d5dbf90804ba190933087a7e（文档）和 git revert 0fdadbe90e5f9bc1dfeec24f9e4a9553721c2c6c（代码）。主目录保留用户原有未提交改动，未重置分支。
+
+## MAIN-FULL-20261109：用户追加的主目录全量测试
+
+- 用户要求“现在软件跑一下全量测试”，本次在主目录 `D:\mycodex\git` 编译当前源码并运行不带筛选器的 C# 全量测试；使用独立输出，不沿用旧工作树的测试程序集，不停止用户进程。此前已通过记录不覆盖，音频设备实际生效和真实菜单验收仍保留未完成状态。
+- 依赖准备：主目录缺少 `project.assets.json`，执行 `dotnet restore csharp\ShaheBulkLauncher.sln --locked-mode --property:Platform=x64`，进程内设置 `NUGET_PACKAGES=D:\Dev\NuGet\packages`；返回码 0，四个项目按锁文件还原完成。日志和返回码：`artifacts/runs/user_list_fixes_20261109/main-full-20261109_174528/restore.log`、同目录 `restore-result.json`；本步未运行测试，不计通过数。
+- 全量测试：在主目录执行 `dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\main-full-20261109_174528\bin\ --results-directory D:\mycodex\git\artifacts\runs\user_list_fixes_20261109\main-full-20261109_174528 --logger "trx;LogFileName=main-full.trx"`；返回码 0，总数 443、通过 443、失败 0、跳过/未执行 0。Core、AuditRunner、App、Tests 均由当前主目录源码完成 Release x64 编译，测试执行耗时约 25 秒；结果来自本次新生成的 TRX。日志：同目录 `main-full.log`；TRX：`main-full.trx`；命令、时间、返回码和完整计数：`test-result.json`。本次不修改生产源码，不运行真实桌面验收，不升级或发布公开包；Python 未改，未重复运行其既有对照测试。
+
+## LEGACY-UPDATE-20261109：旧版更新复验
+
+- 用户追加要求测试旧版是否仍能更新。本轮步骤：取得并核对原始发布包 → 调用旧版实际更新服务检测在线清单 → 使用旧更新器在隔离副本完成下载、校验和安装尝试 → 核对版本、配置保留与退出/重启结果。当前先核对曾发出的 4.0.47；不修改生产源码、远端清单或正式配置，不把旧历史结果作为本轮通过证据。
+- 在线清单核对：`curl.exe --fail --location --connect-timeout 8 --max-time 30` 请求默认 GitCode `update.json` 并带本次时间戳；返回码 0、HTTP 200、620 字节，当前公开版本为 4.0.49。命令地址、响应头和原始清单保存在 `artifacts/runs/legacy_update_20261109/manifest-fetch-result.json`、`manifest-headers.txt`、`online-update.json`，文本日志 `manifest-fetch.log`；仅表示服务器清单可访问，尚不代表旧程序更新成功。
+
+- 原始旧包准备：从历史发布清单中的固定 blob 地址重新下载 4.0.47，curl 返回码 0、HTTP 200；大小和 SHA-256 均与原发布记录一致，解压到本轮 `old47/`，包内确有外置 `updater.exe`。完整大小、哈希和来源唯一记录于 `artifacts/runs/legacy_update_20261109/old47-download-result.json`，下载日志 `old47-download.log`。
+
+- 原始 4.0.47 EXE 已在隔离目录实际启动，桌面无障碍树读到“扫描成功”及 Sandboxie 路径；点击因 CUA_GEOMETRY_UNAVAILABLE 未完成，补截图失败 CUA_EXECUTION_FAILED，恢复枚举为 CUA_TURN_NOT_ACTIVE。停止桌面输入，按精确可执行路径核对后清理本轮程序，未操作用户正式程序；PID、目录、错误与残留数量见 `artifacts/runs/legacy_update_20261109/desktop-attempt-result.json`。此轮没有有效更新按钮操作证据，后续改为直接调用原始发布包内更新逻辑，单独标记范围。
+
+- 旧版更新探针编译：仅引用原始 4.0.47 包的程序集，输出到与安装目标分离的 probe47；Framework64 csc 编译返回码 0。命令和日志见 `artifacts/runs/legacy_update_20261109/probe-build-result.json`、`probe-build.log`。探针保留原始 HTTPS 下载、清单解析和安装逻辑，只记录结果并约束隔离目录；不把界面点击/外置启动包装层计入验证。桌面步骤进程盘点未找到仍运行的目标，因此实际未强制结束任何进程，未取得启动 PID，详见 desktop-attempt-result.json。
+
+- 原始旧版在线检测：`probe47/LegacyUpdateProbe.exe detect` 返回码 0；调用原始 4.0.47 UpdateService.FetchUpdateManifest、版本判定和 PrepareUpdaterCommand，未注入清单响应或网络代理。有效结果/异常分别见 `artifacts/runs/legacy_update_20261109/detection-result.json` 或 `detect-error.json`，原始清单 `old47-live-manifest.json`，日志 `detection.log`，命令返回码 `detection-command-result.json`；后续安装结论单独记录。
+
+- 原始旧版在线安装尝试：`probe47/LegacyUpdateProbe.exe install` 返回码 5；使用上一步原始 UpdateService 生成的请求，调用旧包真实 UpdateRunner 和 UpdateRunner.DownloadPackage，目标仅为本轮 old47 副本。下载大小/哈希/校验见 `artifacts/runs/legacy_update_20261109/old-downloader-result.json`，安装返回码、错误、前后文件哈希、配置保留与重启 PID 见 `install-result.json`，文本日志 `install.log`，运行返回码 `install-command-result.json`。
+
+- 本轮结论：原始 4.0.47 在线检测和选包通过，旧下载器实际下载并校验通过；安装返回码 5，错误“更新包缺少主程序或 updater.exe”。核对新包确有主程序而没有 updater.exe，属于旧外置更新器与新内置更新包的格式要求冲突。安装未替换旧 EXE/Core、未触发重启，实际隔离配置及标记哈希均保留；不能声明旧版自动升级成功。包内容见 `artifacts/runs/legacy_update_20261109/target-package-contents.json`。按本轮下载路径、系统临时目录边界、目录名称及文件哈希核对后清理安装器遗留临时目录，进程/配置/文件最终结果见 `verification-cleanup-result.json`；GUI 更新操作仍未验收。
+
+## INTEGRATED-UPDATE-20261109：4.0.49 内置更新复验
+
+- 用户要求确认 4.0.49 是否能正常更新。步骤为原包哈希核对 → 原始更新服务在线检测 → 在隔离副本生成安装请求 → 启动原始主 EXE 的 --install-update 模式 → 核对下载、校验、文件恢复、配置保留、重启和清理。若服务器仍只有同版，则明确按同版完整包重装演练记录，不伪造已发布的更高版本，也不把结果写成跨版本升级已验收。
+- 原始 4.0.49 绿色包大小/SHA-256 与发布清单一致，解压到本轮 app49，实际不包含外置 updater.exe；独立探针使用同一原包程序集。核对返回码 0，完整路径、大小和哈希见 `artifacts/runs/integrated_update_20261109/original-package-result.json`。所有改动限定隔离副本，远端清单、公开包和正式配置保持原样。
+
+- 内置更新探针编译：Framework64 csc 引用原始 4.0.49 包内程序集，返回码 1；命令/日志见 `artifacts/runs/integrated_update_20261109/probe-build-result.json`、`probe-build.log`。探针仅准备隔离设置、在线检测与生成原始更新命令，实际安装将运行原主 EXE，缺失/旧内容 DLL 只在隔离副本构造。
+
+- 探针编译纠正：首次仅因夹具引用不存在的 ConfigStore.StorePath 属性而失败，改用已知隔离配置文件路径；重新编译返回码 0，详见 `artifacts/runs/integrated_update_20261109/probe-build-final-result.json`、`probe-build-final.log`。本次没有修改产品代码，首次失败不计为更新器缺陷。
+
+- 原始 4.0.49 在线检测与请求准备：探针返回码 0；在线版本判定、实际程序集哈希见 `artifacts/runs/integrated_update_20261109/online-check-result.json`，原始内置更新命令见 `prepared-command.json`，演练类型、待恢复 DLL、配置/日志标记基线见 `before-install.json`。本轮仅在独立副本开启详细日志，先完整复制更新助手依赖，再构造旧 DLL 内容与缺失 DLL，未触碰正式安装。
+
+- 原始主 EXE 内置安装实测：运行 prepared-command.json 中原始 --install-update 命令（已核对主 EXE 发布哈希），安装进程结束=True，返回码=0。安装/下载校验、真实进程 PID、文件与配置保留逐项结果见 `artifacts/runs/integrated_update_20261109/installer-result.json`，启动命令 `installer-start.json`，原生逐步日志在同目录 app49/logs/。本次场景为当前公开同版完整包重装，后续仅核对和清理，不将其记成已发布更高版本的跨版本升级。
+
+- 本轮有效结论：4.0.49 原始主 EXE 的内置安装模式返回码 0，原生日志确认下载校验、替换、重启请求和临时安装文件清理完成；重启后的真实主程序进入消息循环。隔离副本的旧内容 DLL 已被正确覆盖、缺失 DLL 已恢复，配置文件以及配置/日志标记均保留。只对记录中的重启 PID+可执行路径核对后清理，剩余测试进程见 `artifacts/runs/integrated_update_20261109/cleanup-result.json`；清理不计正常 UI 退出验收。在线检查当前仍判定同版本无更新，本轮证明现有包格式的安装链路通过，尚非到更高已发布版本的跨版本升级验收。
+
+## RELEASE-4.0.50-20261109：按用户要求命令行发布 GitCode
+
+- 用户已明确要求把全量通过的修复推送 GitCode，并指定全程使用命令行。本轮顺序：核对远端与写入通道 → 以已验证源码形成新版本 → 隔离 Release 构建/绿色包检查 → 4.0.49 升级验证 → 先推送 ZIP 并匿名核对 → 再切换 update.json 并复核线上。此指令授权本次版本上调及公开发布；仍保留用户已有无关改动，不强推，不删除历史包。
+- GitCode 发布仓库已通过命令行克隆，返回码 0，远端当前清单为 4.0.49。本轮拟发布 4.0.50；基线提交、克隆命令和结果见 `artifacts/runs/release_4.0.50_20261109/gitcode-clone.log`、`gitcode-clone-result.json`。源码基于已通过主目录全量测试的内容，Python 和未完成音频/桌面验收不混入发布结论。
+
+- GitCode 命令行写入通道预检：非交互 `git push --dry-run --porcelain origin HEAD:main` 返回码 0，未修改远端。详情见 `artifacts/runs/release_4.0.50_20261109/gitcode-write-check.log`、`gitcode-write-check-result.json`；只读克隆成功不等于已完成发布。
+
+- 发布版本准备：仅将主目录 AppVersion 及依赖当前版本的既有更新测试期望从 4.0.49 调整为 4.0.50，共涉及版本常量和四份测试文件；功能源码保持已通过全量验证的状态。变更前文件哈希见 `artifacts/runs/release_4.0.50_20261109/source-before-version.json`，后续仅运行受版本影响的测试与发布构建。
+
+- 4.0.50 版本/更新定向验证：`dotnet test` 以 ConstantsContractTests 或名称含 Update 筛选，使用本轮隔离 BaseOutputPath 完成当前源码 Release x64 编译；返回码 0，总数 57，通过 57，失败 0，未执行 0。完整命令和结果见 `artifacts/runs/release_4.0.50_20261109/version-update-result.json`，日志 `version-update.log`，TRX `version-update.trx`。功能基线复用 MAIN-FULL-20261109 的全量结果，不重复未变化功能验收。
+
+- 4.0.50 Release x64 发布目录生成：`dotnet publish` 复用本轮刚验证的隔离构建输出，显式 IncludeLegacyUpdateCompatibility=false；返回码 0。完整命令与日志见 `artifacts/runs/release_4.0.50_20261109/publish-result.json`、`publish.log`，产物在 publish/，随后独立封装绿色 ZIP。
+
+- 4.0.50 绿色包封装与完整性检查：复用既有绿色版封装脚本并更新本轮路径/版本，返回码 0；检查必需 EXE/DLL/打赏资源、空 Configurations/ 与空 logs/，排除外置 updater、PDB、Python 和测试产物。逐文件哈希、ZIP 大小及 SHA-256 见 `artifacts/runs/release_4.0.50_20261109/package-result.json`，脚本 `package.ps1`、日志 `package.log`，ZIP 在 delivery/。
+
+- GitCode ZIP 独立提交与推送：仅暂存包文件（清单见 `artifacts/runs/release_4.0.50_20261109/package-staged-files.txt`），cached diff-check 通过；提交 957ceba377b67f5f17264cecc012095e9e6a6e3a，`git push --porcelain origin HEAD:main` 返回码 0，此步不修改 update.json。不可变下载地址、blob 和回退命令见 `package-push-result.json`，日志 `package-commit.log`、`package-push.log`；后续先验证下载与升级再切换清单。
+
+- GitCode 新包匿名下载核对：curl 返回码 0，下载文件大小和 SHA-256 与本地发布包一致=True；结果和日志见 `artifacts/runs/release_4.0.50_20261109/anonymous-download-result.json`、`anonymous-download.log`。候选更新清单已生成在 delivery/update.json，尚未推送上线；下一步使用原始 4.0.49 内置更新器升级到该真实在线包。
+
+- 跨版本升级夹具准备：使用全新原始 4.0.49 副本与原包程序集，复用已验证的内置更新探针；候选清单采用即将发布的精确文本，ZIP 地址已真实上线。Framework64 csc 编译返回码 0；证据 `artifacts/runs/release_4.0.50_20261109/upgrade49to50/probe-build-result.json`、`probe-build.log`。此阶段尚未改线上清单。
+
+- 4.0.49 对 4.0.50 候选清单的版本比较与安装命令准备：返回码 0；原版 UpdateService 的 HasUpdate、ShouldPrompt、目标包与版本结果见 `artifacts/runs/release_4.0.50_20261109/upgrade49to50/candidate-check-result.json`，请求/命令见 `prepared-command.json`，基线见 `before-install.json`，文本日志 `prepare.log`。随后将实际运行原始 4.0.49 主 EXE 安装在线新包。
+
+- 4.0.49 → 4.0.50 真实安装完成：原始 4.0.49 主 EXE 内置安装进程返回码 0，全部本轮升级核对通过=True。更新器真实下载 GitCode 4.0.50 包；新主程序日志版本、EXE/Core 哈希、窗口消息循环、DLL 替换/恢复、配置与日志标记逐项见 `artifacts/runs/release_4.0.50_20261109/upgrade49to50/installer-result.json`，实际 PID/启动参数见 `installer-start.json`，原生日志在 app49/logs/。清单仍为候选文本，下一步清理测试进程后才切换在线清单。
+
+- 4.0.50 更新清单提交推送：确认与升级验证使用的候选清单字节一致，仅暂存 update.json，cached diff-check 通过；提交 7a0f156d38c8db1348314cb7e82ede6d3118401d，`git push --porcelain origin HEAD:main` 返回码 0，远端头已读取核对。提交、远端、清单哈希和 `git revert` 回退命令见 `artifacts/runs/release_4.0.50_20261109/manifest-push-result.json`，暂存清单 `manifest-staged-files.txt`，日志 `manifest-commit.log`、`manifest-push.log`。升级测试进程按记录 PID/路径清理，无残留；清理证据 upgrade49to50/cleanup-result.json，不计正常 UI 退出测试。下一步核对公开清单的实际在线检测。
+
+- 发布后在线检测夹具编译返回码 0；同一只读探针将分别加载原始 4.0.49 与发布 4.0.50 程序集，通过默认在线清单检查旧版提示更新、新版不重复提示及包地址/哈希。编译结果见 `artifacts/runs/release_4.0.50_20261109/online-probe-build-result.json`、`online-probe-build.log`。
+
+- 发布后 4.0.49 原始代码在线检查：返回码 1，最新版本=，HasUpdate=，ShouldPrompt=，清单/包地址/哈希核对通过=False。默认真实 HTTP 路径，没有注入候选清单；完整结果与日志见 `artifacts/runs/release_4.0.50_20261109/online-4.0.49.json`、`online-4.0.49.log`，命令返回码见同前缀 -command-result.json。
+
+- 发布后首次旧版在线检测返回 HTTP 403，已保留原生异常，未将其记为更新可用。随后用相同 User-Agent/缓存头的 curl 读取响应，curl 进程返回码 0（HTTP 状态另见日志，不能以进程返回码替代）；证据 `artifacts/runs/release_4.0.50_20261109/manifest-diagnostic-result.json`、`manifest-diagnostic.log`、响应头和正文文件。继续核对远端返回，未修改应用安全校验或更新地址。
+
+- 在线恢复复核 4.0.49：curl 已读到 HTTP 200 的新清单后重新运行原始更新客户端；返回码 0，最新版本=4.0.50，HasUpdate=True，ShouldPrompt=True，通过=True。证据 `artifacts/runs/release_4.0.50_20261109/online-final/online-4.0.49.json` 及同名前缀日志、命令结果；第一次 403 记录保留，未覆盖。
+
+- 在线恢复复核 4.0.50：curl 已读到 HTTP 200 的新清单后重新运行原始更新客户端；返回码 0，最新版本=4.0.50，HasUpdate=False，ShouldPrompt=False，通过=True。证据 `artifacts/runs/release_4.0.50_20261109/online-final/online-4.0.50.json` 及同名前缀日志、命令结果；第一次 403 记录保留，未覆盖。
+
+- 发布交付收尾：绿色包已整理到 `release/4.0.50/`，本地副本哈希与已发布 ZIP 一致；GitCode 发布工作树干净，本轮测试进程无残留。包/清单提交、远端分支、完整哈希、下载地址和逐提交 git revert 命令统一见 `artifacts/runs/release_4.0.50_20261109/delivery-result.json`（交付副本 release/4.0.50/delivery-result.json）。撤回更新时优先只回退清单并推送 main，保留包给已有请求；不会自动降级已升级用户。当前主目录仅追加版本和相关测试修改，保留原有未提交改动；本轮公开写入范围是 GitCode 发布仓库。
+
+- 软件运行审计准备：复制当前已由 4.0.50 源码发布的隔离 publish 目录到 `artifacts/runs/runtime_ui_audit_20261109/app/`；主 EXE 哈希与 4.0.50 发布包一致，Configurations/logs 均为空，未使用正式安装目录。准备清单和路径见 `runtime-preparation.json`；下一步启动此隔离程序读取真实无障碍树。
+
+- 运行审计准备记录纠正：首次准备输出因 PowerShell 将 `-and` 误作为命令参数，空目录字段写成 null；产品文件未受影响。已在隔离目录创建空 `Configurations/`、`logs/` 并重新核对，两个目录均为空，主 EXE 哈希仍与 4.0.50 发布包一致。纠正结果见 `artifacts/runs/runtime_ui_audit_20261109/runtime-preparation-correction.json`，最终准备基线覆盖写入 `runtime-preparation.json`；随后开始实际启动。
+
+- 软件运行审计 / 启动基线：隔离 4.0.50 EXE 已实际启动，窗口标题“沙河批量打开器”，窗口返回唯一且无障碍树成功读取，树长 8314 字符；列表出现大量历史 Sandboxie 用户，当前均显示“空闲中”，菜单栏可见“文件(F)、沙盒管理(G)、定时(D)、设置(S)、校正(J)、工具(T)、关于(A)”，无启动异常。原始树保存于 `artifacts/runs/runtime_ui_audit_20261109/main-window-accessibility.txt`，窗口/证据目录见 `runtime-preparation.json`；这只是启动和可访问性基线，尚未证明菜单动作可用。
+
+- 软件运行审计 / 清理与结论：隔离 4.0.50 程序真实启动成功，主窗口和无障碍树可读取；首启创建 `Configurations/shahe_config.ini`，日志模式为 `off` 时未生成日志，符合按需记录约定。桌面工具在截图刷新时返回 `CUA_EXECUTION_FAILED`，恢复枚举返回 `CUA_TURN_NOT_ACTIVE`，因此没有发出菜单点击/快捷键输入，不能据此宣称用户列表菜单、设置或托盘动作通过。按精确 EXE 路径清理隔离测试 PID，清理结果无残留；不计正常 UI 退出。完整结果见 `artifacts/runs/runtime_ui_audit_20261109/runtime-audit-result.json`，树见 `main-window-accessibility.txt`。
+
+## FULL-STRESS-20261111：全功能压力测试
+
+- 用户已确认完整压测计划并要求开启子代理。代码、工作区改动和公开包哈希快照：`artifacts/runs/full_function_stress_20261111/baseline-snapshot.json`。本轮不改产品、不发布，正式配置、Sandboxie 服务和读屏保留。
+- 当前源码全量基线：`dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:/mycodex/git/artifacts/runs/full_function_stress_20261111/baseline/bin/ --results-directory D:/mycodex/git/artifacts/runs/full_function_stress_20261111/baseline --logger "trx;LogFileName=full.trx"`；返回码 1，总计 443，通过 442、失败 1、跳过 0。失败 `DonationButtonCopiesShippedOriginalImage("微信赞赏码.jpg","微信打赏")` 报剪贴板 `0x800401D0`，堆栈指向测试清理恢复剪贴板处，待最小定向确认；不可写成本轮全量通过。编译当前 Core/App/AuditRunner/Tests 完成。命令记录 `baseline/command-result.json`，日志 `baseline/full.log`，完整结果 `baseline/full.trx`，均相对本轮证据根目录。
+- 剪贴板最小复验：同一编译产物追加 `--no-build --filter FullyQualifiedName~DonationButtonCopiesShippedOriginalImage`，结果目录 `clipboard-recheck/`；返回码 0，2/2 通过，失败/跳过 0。源码未改，微信与支付宝原图复制及本次清理恢复均通过；初次失败属于测试恢复剪贴板阶段的瞬时失败，未证明产品复制失败，也未重写初次全量失败。证据 `clipboard-recheck/command-result.json`、`test.log`、`clipboard.trx`；不再重复全量或该项。
+- 真实绿色包桌面组：解压 `release/4.0.50/沙河批量打开器-4.0.50-win-x64.zip` 到本轮 `desktop/app/`，通过 `@oai/sky` 启动；首次扫描提示回车后主窗口出现，焦点无障碍树可读取。Shift+F10 调用返回成功，但树未显示弹出菜单；截图核实返回 `CUA_EXECUTION_FAILED`，恢复枚举返回 `CUA_TURN_NOT_ACTIVE`，不能认定菜单打开成功或产品菜单失败。随后停止桌面输入，按精确 PID/EXE 路径清理唯一测试进程，残留 0；这是强制清理，不计正常界面退出。主程序 hash、PID、时间、配置首建和空日志证据均见 `desktop/result.json`，原始树 `desktop/startup-tree.txt`、`desktop/context-tree.txt`。真实菜单、托盘、模态和单读屏压力仍属工具阻断，不绕过桌面路由用脚本控制界面。
+- storage 压力夹具编译：`& .\artifacts\runs\full_function_stress_20261111\run-probe.ps1 -Group storage -Stage build` 返回码 0。使用 .NET SDK Roslyn C# 7.3/x64、net48 引用及本轮基线程序集，未修改产品源码。精确编译参数及日志见 `storage/build-01/command-result.json`、`build.log`；此项只是夹具编译成功，尚非压力运行通过。
+
+- storage 压测：`run-probe.ps1 -Group storage -Stage run` 返回码 1，29 场景中 18 通过/11 失败，无跳过/超时，耗时 92.39 秒，进程已退出。配置串行 1000 轮、历史 1000 轮、8 线程 20000 条日志、1000 文件的 10 轮备份解压还原及非法归档拒绝均通过。并发配置保存仅 35/1000 次返回成功，且部分已确认值最终丢失；保存失败仍提示成功；还原异常后旧数据回退/模拟服务恢复、只读目标、重复 INI 节和 BOM/UTF-16/GBK 编码保留失败。结果 `storage/run-01/data/run-20261111-020306-721-10ab31f234e64909bc897457e7e0427d/results.json`，命令/实际 PID/耗时/清理见 `storage/run-01/command-result.json`、`process.json`，输出 `stdout.log`。并发存储属于压力边界，真实界面触发概率尚未测量；实际服务未操作，不把模拟服务失败写成正式服务已停止。
+
+- process 压力夹具编译：`run-probe.ps1 -Group process -Stage build` 返回码 0；精确参数及日志 `process/build-01/command-result.json`、`build.log`。已删除与 services 组重复的启动/取消场景注册，保留进程、音频回调、定位、隔离用户管理/校正及异常边界；尚待运行。
+
+- process 压测：`run-probe.ps1 -Group process -Stage run` 返回码 1，13 场景中 9 通过/4 失败，无跳过/超时。1000 用户/5000 PID 的 100 轮目标合并、当前/全部模拟音频动作、失败统计、核心当前关闭/全部关闭入口、定位回调、忙碌保护、隔离用户创建改名删除及引用维护通过。GBK/UTF-16 配置保留、只读目录删除、删除前进程查询异常安全门失败（查询异常仍返回可删除）。证据 `process/run-01/data/result.json`、`process/run-01/stdout.log`，实际 PID/返回码/耗时/无残留见 `command-result.json`。当前关闭包装层与原生焦点/音频/官方服务未执行，覆盖边界已在 JSON 列明。
+
+- services 压力夹具编译：`run-probe.ps1 -Group services -Stage build` 返回码 0；日志和精确参数 `services/build-01/build.log`、`command-result.json`。使用本轮基线程序集，HTTP/安装重启/定时器/启动及朗读均已在夹具注入本地边界，准备执行。
+
+- services 压测：`run-probe.ps1 -Group services -Stage run` 返回码 1，6 场景中 4 通过/2 失败，无跳过/超时。20 轮更新安装（成功、坏哈希、坏 ZIP、替换失败回滚）、20 轮稍后/忽略持久化、1000 沙盒×3 应用的分批启动及取消、1000 条模拟朗读与关闭竞争通过；1000 次清单处理存在 166 个失败断言，1000 组定时目标变更存在 1000 个失败断言，待核对具体期望/实际差异。逐场景 JSON 及 `summary.json` 在 `services/run-01/data/`，命令/进程/退出及清理见 `services/run-01/command-result.json`、`process.json`，日志 `stdout.log`；本地模拟下载、重启回调和服务测试不替代在线/真实 UI 压测。
+
+- ui 白盒压力夹具编译：`run-probe.ps1 -Group ui -Stage build` 返回码 0，日志/完整参数 `ui/build-01/build.log`、`command-result.json`。只创建隐藏控件句柄，菜单动作由回调截获；不显示窗体、不自动输入鼠键、不操作剪贴板或正式系统服务。它只能验证接线和对象生命周期，不能替代已阻断的真实桌面验收。
+
+- services 失败复核（只读现有结果与源码，未重跑）：清单失败为两种各 83 次的语义差异：自动检查缺版本字段返回错误文本，以及 `latest_version` 空字符串时没有回退到有效 `version`。定时失败为改名/部分删除后显示目标已改，但生产定时回调仍使用旧数组；共 500 组变更场景分别在启动和关闭各产生一次错误目标断言，其余取消/重试/全删/无变更检查通过。证据 `services/run-01/data/manifest-1000.json`、`scheduled-targets-1000.json`；源码定位 `UpdateService.cs:413`、`LaunchScheduler.cs:514`、`MainForm.cs:2894`。正常安装回滚已通过，不把这两类清单差异描述为正常发布包不能升级。
+
+- ui 白盒压测：`run-probe.ps1 -Group ui -Stage run` 返回码 1，7 场景中 6 通过/1 失败，无跳过/超时。100 轮主菜单重建、29 个叶子共 2900 次接线分派；1000 用户+2 分组的 100 轮上下文操作（共 1300 次回调，耗时 287.990 秒）；列表边界；47 动作的 1000 轮快捷键解析；1000 次延迟取消和 1000 次立即回调均通过。生命周期首轮发现主菜单 `Disposed` 通知为 0（预期 1），故原定 50 轮未完成；窗体/控件/服务的已检查释放标志通过，不能由这一个通知断言直接声称原生资源泄漏。原始结构化结果 `ui/run-01/data/ui-stress-20261111T020925158-00a0967093ec435bb1e84c128b5ffb12/result.json`；命令、实际 PID/退出和无残留 `ui/run-01/command-result.json`、`process.json`。控制台重定向受系统代码页影响，中文以 UTF-8 JSON 为准；没有重写原始日志。列表耗时包含全选/取消/刷新和多种动作，不能换算成单次菜单响应耗时。
+
+- 本轮清理及源码边界检查返回码 0：基线快照中的 C# 源码/项目/依赖锁定文件哈希均未变化，公开绿色 ZIP 哈希未变化，本轮目录下没有残留进程。证据 `cleanup-source-check.json`。所有子代理已关闭；生成测试数据/日志保留在各自隔离目录，不删除失败证据。
+- 自动化压力汇总：四组共 55 个独立场景，37 通过/18 失败；没有场景跳过或硬超时，但生命周期因首轮断言失败未达到计划循环量。失败场景数不是独立 bug 数；重复故障输入与原有已知问题均在报告合并说明。真实桌面验收仍阻断，正常 C# 启动已有本轮证据。本轮仅压力测试执行与记录收口，不宣称整个软件已修复或迁移完成。
+
+- 文档及证据收口核验返回码 0：对项目结构、活动计划、报告、压力探针源码和运行脚本执行严格 UTF-8 解码与替换字符检查；`git diff --check -- PROJECT_STRUCTURE.md docs/superpowers/plans/2026-11-11-full-function-stress.md docs/migration/2026-11-11-full-function-stress.md` 返回 0，新增文档空白检查通过，PowerShell Parser 检查运行脚本无语法错误。直接读取四组 JSON 和两份 TRX，计数与以上记录一致，没有重跑产品测试。结果 `artifacts/runs/full_function_stress_20261111/documentation-check.json`。已复核活动计划：已执行项勾选，真实界面与生命周期完整负载仍保留未完成，报告列明复现输入、覆盖边界和后续修复顺序。
+
+<!-- FULL-STRESS-APPEND -->
+
+## FULL-STRESS-30-20261111：整套重复压力测试
+
+- 用户明确要求整套 30 遍并记录问题，已展示执行差异并据该指令扩展原计划。继续使用首轮固定负载；每组独立进程和结果目录，失败不掩盖、不自动重试为通过。新增证据根目录 `artifacts/runs/full_function_stress_30_20261111/`；以逐组记录和最后聚合为实际结果，不提前声称完成。
+
+- 批量运行器语法检查：PowerShell `Parser.ParseFile` 返回码 0、语法错误 0；自动追加文档所需补丁程序存在。证据 `artifacts/runs/full_function_stress_30_20261111/runner-syntax-check.json`。UI 场景使用原探针的 `--case` 分别启动，保留原负载和单场景超时，以便一个场景超时后仍能执行其余场景；没有修改产品或压力断言。
+
+- Preparation exit=0: source hashes match the first campaign; fixed full-suite and probe binaries copied into the new isolated bin directories; no rebuild or production modification. Snapshot: artifacts/runs/full_function_stress_30_20261111/snapshot.json. UI cases run separately with their original case timeout so a timeout cannot skip later cases; assertions and loads unchanged.
+
+- round-01/full/ : exit=0; total=443, passed=443, failed=0, notRun=0; timeout=False; seconds=37.34; residual=False; result=artifacts/runs/full_function_stress_30_20261111/round-01/full/supervisor.json; command=C:\Program Files\dotnet\dotnet.exe vstest D:\mycodex\git\artifacts\runs\full_function_stress_30_20261111\bin\full\ShaheLauncher.Tests.dll /Platform:x64 /Logger:trx;LogFileName=full.trx /ResultsDirectory:D:\mycodex\git\artifacts\runs\full_function_stress_30_20261111\round-01\full; parseError=
+
+- Runner stopped on infrastructure error: Immediate documentation append failed; see artifacts/runs/full_function_stress_30_20261111/runner-error.json. Unexecuted rounds are not passed.
+
+- 首轮完整测试实际已完成且通过；批量脚本随后因补丁参数中的双引号被 PowerShell 处理，写入后精确比对误判失败，自行停止，尚未启动 storage。原始 TRX、精确参数和结果保留，不重跑已完成全量。运行器已修正文档参数处理、内部超时/清理失败分类和所属子进程退出核对；新增续跑只跳过已有完整结果。修改后 `Parser.ParseFile` 检查返回码 0、语法错误 0，证据 `artifacts/runs/full_function_stress_30_20261111/runner-syntax-check-02.json`。这是测试基础设施修正，不改产品或测试断言。
+
+- Resuming after the recorded documentation quoting error: completed results retained without rerunning; fixed binaries and source hashes match snapshot. Internal timeouts/failed cleanup now classified as failures; descendant process identities tracked and checked. No product or probe assertion change.
+
+- round-01/storage/ : exit=2; total=, passed=, failed=, notRun=; timeout=False; seconds=0.75; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-01/storage/supervisor.json; parseError=Expected one storage result; found 0 at D:\mycodex\git\artifacts\runs\full_function_stress_30_20261111\round-01\storage
+
+- Runner stopped on infrastructure error: Infrastructure failure recorded for round-01/storage/; see artifacts/runs/full_function_stress_30_20261111/runner-error.json. Unexecuted rounds are not passed.
+
+- storage 首次入口退出码 2：原压力探针硬编码了批准的隔离目录，新目录在入口被拒绝，业务场景尚未执行。这是夹具入口适配失败，不计产品失败或完成一轮。原始日志已保留至 `artifacts/runs/full_function_stress_30_20261111/infrastructure/storage-startup-01/`，故上一条指向 `round-01/storage` 的入口失败证据以该归档路径为准。运行器改用原批准目录下每轮独立子目录承载 storage/process 原始数据，并复制结果至本轮索引；探针与产品二进制未改。`Parser.ParseFile` 返回 0，证据 `runner-syntax-check-03.json`。完整测试首轮继续保留，不重跑。
+
+- Resuming after the recorded documentation quoting error: completed results retained without rerunning; fixed binaries and source hashes match snapshot. Internal timeouts/failed cleanup now classified as failures; descendant process identities tracked and checked. No product or probe assertion change.
+
+- round-01/storage/ : exit=1; total=29, passed=18, failed=11, notRun=0; timeout=False; seconds=76.61; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-01/storage/supervisor.json; parseError=
+
+- round-01/process/ : exit=1; total=13, passed=9, failed=4, notRun=0; timeout=False; seconds=85.47; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-01/process/supervisor.json; parseError=
+
+- round-01/services/ : exit=1; total=6, passed=4, failed=2, notRun=0; timeout=False; seconds=24.19; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-01/services/supervisor.json; parseError=
+
+- round-01/ui/lifecycle : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=False; seconds=2.13; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-01/ui/cases/lifecycle/supervisor.json; parseError=
+
+- round-01/ui/main-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.11; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-01/ui/cases/main-menu/supervisor.json; parseError=
+
+- round-01/ui/list-menu : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=True; seconds=301.16; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-01/ui/cases/list-menu/supervisor.json; parseError=
+
+- round-01/ui/list-boundaries : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=4.32; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-01/ui/cases/list-boundaries/supervisor.json; parseError=
+
+- round-01/ui/hotkeys : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.38; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-01/ui/cases/hotkeys/supervisor.json; parseError=
+
+- round-01/ui/delayed-cancel : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.03; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-01/ui/cases/delayed-cancel/supervisor.json; parseError=
+
+- round-01/ui/delayed-immediate : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.37; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-01/ui/cases/delayed-immediate/supervisor.json; parseError=
+
+- round-02/full/ : exit=0; total=443, passed=443, failed=0, notRun=0; timeout=False; seconds=30.88; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-02/full/supervisor.json; parseError=
+
+- round-02/storage/ : exit=1; total=29, passed=18, failed=11, notRun=0; timeout=False; seconds=73.81; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-02/storage/supervisor.json; parseError=
+
+- round-02/process/ : exit=1; total=13, passed=9, failed=4, notRun=0; timeout=False; seconds=94.77; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-02/process/supervisor.json; parseError=
+
+- round-02/services/ : exit=1; total=6, passed=4, failed=2, notRun=0; timeout=False; seconds=23.9; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-02/services/supervisor.json; parseError=
+
+- round-02/ui/lifecycle : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=False; seconds=2.93; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-02/ui/cases/lifecycle/supervisor.json; parseError=
+
+- round-02/ui/main-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=3.02; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-02/ui/cases/main-menu/supervisor.json; parseError=
+
+- round-02/ui/list-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=145.19; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-02/ui/cases/list-menu/supervisor.json; parseError=
+
+- round-02/ui/list-boundaries : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.01; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-02/ui/cases/list-boundaries/supervisor.json; parseError=
+
+- round-02/ui/hotkeys : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.09; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-02/ui/cases/hotkeys/supervisor.json; parseError=
+
+- round-02/ui/delayed-cancel : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.07; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-02/ui/cases/delayed-cancel/supervisor.json; parseError=
+
+- round-02/ui/delayed-immediate : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.04; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-02/ui/cases/delayed-immediate/supervisor.json; parseError=
+
+- round-03/full/ : exit=0; total=443, passed=443, failed=0, notRun=0; timeout=False; seconds=38.75; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-03/full/supervisor.json; parseError=
+
+- round-03/storage/ : exit=1; total=29, passed=18, failed=11, notRun=0; timeout=False; seconds=66.59; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-03/storage/supervisor.json; parseError=
+
+- round-03/process/ : exit=1; total=13, passed=9, failed=4, notRun=0; timeout=False; seconds=82.81; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-03/process/supervisor.json; parseError=
+
+- round-03/services/ : exit=1; total=6, passed=4, failed=2, notRun=0; timeout=False; seconds=25.67; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-03/services/supervisor.json; parseError=
+
+- round-03/ui/lifecycle : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=False; seconds=2.01; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-03/ui/cases/lifecycle/supervisor.json; parseError=
+
+- round-03/ui/main-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.92; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-03/ui/cases/main-menu/supervisor.json; parseError=
+
+- round-03/ui/list-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=212.25; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-03/ui/cases/list-menu/supervisor.json; parseError=
+
+- round-03/ui/list-boundaries : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.5; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-03/ui/cases/list-boundaries/supervisor.json; parseError=
+
+- round-03/ui/hotkeys : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.1; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-03/ui/cases/hotkeys/supervisor.json; parseError=
+
+- round-03/ui/delayed-cancel : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-03/ui/cases/delayed-cancel/supervisor.json; parseError=
+
+- round-03/ui/delayed-immediate : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.04; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-03/ui/cases/delayed-immediate/supervisor.json; parseError=
+
+- round-04/full/ : exit=0; total=443, passed=443, failed=0, notRun=0; timeout=False; seconds=30.98; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-04/full/supervisor.json; parseError=
+
+- round-04/storage/ : exit=1; total=29, passed=18, failed=11, notRun=0; timeout=False; seconds=76.78; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-04/storage/supervisor.json; parseError=
+
+- round-04/process/ : exit=1; total=13, passed=9, failed=4, notRun=0; timeout=False; seconds=78.75; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-04/process/supervisor.json; parseError=
+
+- round-04/services/ : exit=1; total=6, passed=4, failed=2, notRun=0; timeout=False; seconds=23.58; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-04/services/supervisor.json; parseError=
+
+- round-04/ui/lifecycle : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=False; seconds=2.05; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-04/ui/cases/lifecycle/supervisor.json; parseError=
+
+- round-04/ui/main-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.92; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-04/ui/cases/main-menu/supervisor.json; parseError=
+
+- round-04/ui/list-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=235.59; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-04/ui/cases/list-menu/supervisor.json; parseError=
+
+- round-04/ui/list-boundaries : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=3.65; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-04/ui/cases/list-boundaries/supervisor.json; parseError=
+
+- round-04/ui/hotkeys : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.51; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-04/ui/cases/hotkeys/supervisor.json; parseError=
+
+- round-04/ui/delayed-cancel : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.12; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-04/ui/cases/delayed-cancel/supervisor.json; parseError=
+
+- round-04/ui/delayed-immediate : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.08; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-04/ui/cases/delayed-immediate/supervisor.json; parseError=
+
+- round-05/full/ : exit=0; total=443, passed=443, failed=0, notRun=0; timeout=False; seconds=29.41; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-05/full/supervisor.json; parseError=
+
+- round-05/storage/ : exit=1; total=29, passed=18, failed=11, notRun=0; timeout=False; seconds=59.68; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-05/storage/supervisor.json; parseError=
+
+- round-05/process/ : exit=1; total=13, passed=9, failed=4, notRun=0; timeout=False; seconds=81.04; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-05/process/supervisor.json; parseError=
+
+- round-05/services/ : exit=1; total=6, passed=4, failed=2, notRun=0; timeout=False; seconds=23.99; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-05/services/supervisor.json; parseError=
+
+- round-05/ui/lifecycle : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=False; seconds=3.3; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-05/ui/cases/lifecycle/supervisor.json; parseError=
+
+- round-05/ui/main-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.01; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-05/ui/cases/main-menu/supervisor.json; parseError=
+
+- round-05/ui/list-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=294.74; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-05/ui/cases/list-menu/supervisor.json; parseError=
+
+- round-05/ui/list-boundaries : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.16; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-05/ui/cases/list-boundaries/supervisor.json; parseError=
+
+- round-05/ui/hotkeys : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.89; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-05/ui/cases/hotkeys/supervisor.json; parseError=
+
+- round-05/ui/delayed-cancel : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.39; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-05/ui/cases/delayed-cancel/supervisor.json; parseError=
+
+- round-05/ui/delayed-immediate : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.26; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-05/ui/cases/delayed-immediate/supervisor.json; parseError=
+
+- round-06/full/ : exit=0; total=443, passed=443, failed=0, notRun=0; timeout=False; seconds=29.72; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-06/full/supervisor.json; parseError=
+
+- round-06/storage/ : exit=1; total=29, passed=18, failed=11, notRun=0; timeout=False; seconds=62.1; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-06/storage/supervisor.json; parseError=
+
+- round-06/process/ : exit=1; total=13, passed=9, failed=4, notRun=0; timeout=False; seconds=87.54; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-06/process/supervisor.json; parseError=
+
+- round-06/services/ : exit=1; total=6, passed=4, failed=2, notRun=0; timeout=False; seconds=23.36; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-06/services/supervisor.json; parseError=
+
+- round-06/ui/lifecycle : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=False; seconds=4.44; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-06/ui/cases/lifecycle/supervisor.json; parseError=
+
+- round-06/ui/main-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=5.15; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-06/ui/cases/main-menu/supervisor.json; parseError=
+
+- round-06/ui/list-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=242.53; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-06/ui/cases/list-menu/supervisor.json; parseError=
+
+- round-06/ui/list-boundaries : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.21; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-06/ui/cases/list-boundaries/supervisor.json; parseError=
+
+- round-06/ui/hotkeys : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.58; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-06/ui/cases/hotkeys/supervisor.json; parseError=
+
+- round-06/ui/delayed-cancel : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.56; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-06/ui/cases/delayed-cancel/supervisor.json; parseError=
+
+- round-06/ui/delayed-immediate : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.04; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-06/ui/cases/delayed-immediate/supervisor.json; parseError=
+
+- round-07/full/ : exit=0; total=443, passed=443, failed=0, notRun=0; timeout=False; seconds=28.19; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-07/full/supervisor.json; parseError=
+
+- round-07/storage/ : exit=1; total=29, passed=18, failed=11, notRun=0; timeout=False; seconds=67.34; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-07/storage/supervisor.json; parseError=
+
+- round-07/process/ : exit=1; total=13, passed=9, failed=4, notRun=0; timeout=False; seconds=83.51; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-07/process/supervisor.json; parseError=
+
+- round-07/services/ : exit=1; total=6, passed=4, failed=2, notRun=0; timeout=False; seconds=22.54; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-07/services/supervisor.json; parseError=
+
+- round-07/ui/lifecycle : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=False; seconds=2.29; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-07/ui/cases/lifecycle/supervisor.json; parseError=
+
+- round-07/ui/main-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.11; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-07/ui/cases/main-menu/supervisor.json; parseError=
+
+- round-07/ui/list-menu : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=True; seconds=303.76; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-07/ui/cases/list-menu/supervisor.json; parseError=
+
+- round-07/ui/list-boundaries : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.08; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-07/ui/cases/list-boundaries/supervisor.json; parseError=
+
+- round-07/ui/hotkeys : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.16; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-07/ui/cases/hotkeys/supervisor.json; parseError=
+
+- round-07/ui/delayed-cancel : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.14; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-07/ui/cases/delayed-cancel/supervisor.json; parseError=
+
+- round-07/ui/delayed-immediate : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.21; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-07/ui/cases/delayed-immediate/supervisor.json; parseError=
+
+- round-08/full/ : exit=0; total=443, passed=443, failed=0, notRun=0; timeout=False; seconds=28.68; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-08/full/supervisor.json; parseError=
+
+- round-08/storage/ : exit=1; total=29, passed=18, failed=11, notRun=0; timeout=False; seconds=65.09; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-08/storage/supervisor.json; parseError=
+
+- round-08/process/ : exit=1; total=13, passed=9, failed=4, notRun=0; timeout=False; seconds=85.74; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-08/process/supervisor.json; parseError=
+
+- round-08/services/ : exit=1; total=6, passed=4, failed=2, notRun=0; timeout=False; seconds=24.8; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-08/services/supervisor.json; parseError=
+
+- round-08/ui/lifecycle : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=False; seconds=2.03; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-08/ui/cases/lifecycle/supervisor.json; parseError=
+
+- round-08/ui/main-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.91; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-08/ui/cases/main-menu/supervisor.json; parseError=
+
+- round-08/ui/list-menu : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=True; seconds=301.19; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-08/ui/cases/list-menu/supervisor.json; parseError=
+
+- round-08/ui/list-boundaries : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=4.65; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-08/ui/cases/list-boundaries/supervisor.json; parseError=
+
+- round-08/ui/hotkeys : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=4.67; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-08/ui/cases/hotkeys/supervisor.json; parseError=
+
+- round-08/ui/delayed-cancel : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.62; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-08/ui/cases/delayed-cancel/supervisor.json; parseError=
+
+- round-08/ui/delayed-immediate : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.78; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-08/ui/cases/delayed-immediate/supervisor.json; parseError=
+
+- round-09/full/ : exit=1; total=443, passed=442, failed=1, notRun=0; timeout=False; seconds=44.79; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-09/full/supervisor.json; parseError=
+
+- round-09/storage/ : exit=1; total=29, passed=18, failed=11, notRun=0; timeout=False; seconds=70.53; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-09/storage/supervisor.json; parseError=
+
+- 第 9 轮全量失败只读核对：`DonationButtonCopiesShippedOriginalImage` 的微信数据行在 `DonationQrRuntimeContractTests.cs:78` 恢复原剪贴板时再次报 `0x800401D0`；前面的图片复制断言已经执行完成。与首轮历史清理失败同类，归入测试清理/剪贴板争用边界，不认定图片复制产品缺陷；不额外重跑。原始证据 `artifacts/runs/full_function_stress_30_20261111/round-09/full/full.trx`，次数在最终汇总统计。
+
+- round-09/process/ : exit=1; total=13, passed=9, failed=4, notRun=0; timeout=False; seconds=81.77; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-09/process/supervisor.json; parseError=
+
+- round-09/services/ : exit=1; total=6, passed=4, failed=2, notRun=0; timeout=False; seconds=23.77; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-09/services/supervisor.json; parseError=
+
+- round-09/ui/lifecycle : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=False; seconds=1.98; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-09/ui/cases/lifecycle/supervisor.json; parseError=
+
+- round-09/ui/main-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.98; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-09/ui/cases/main-menu/supervisor.json; parseError=
+
+- round-09/ui/list-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=162.71; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-09/ui/cases/list-menu/supervisor.json; parseError=
+
+- round-09/ui/list-boundaries : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.85; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-09/ui/cases/list-boundaries/supervisor.json; parseError=
+
+- round-09/ui/hotkeys : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.16; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-09/ui/cases/hotkeys/supervisor.json; parseError=
+
+- round-09/ui/delayed-cancel : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.04; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-09/ui/cases/delayed-cancel/supervisor.json; parseError=
+
+- round-09/ui/delayed-immediate : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.05; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-09/ui/cases/delayed-immediate/supervisor.json; parseError=
+
+- round-10/full/ : exit=0; total=443, passed=443, failed=0, notRun=0; timeout=False; seconds=29.77; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-10/full/supervisor.json; parseError=
+
+- round-10/storage/ : exit=1; total=29, passed=18, failed=11, notRun=0; timeout=False; seconds=57.18; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-10/storage/supervisor.json; parseError=
+
+- round-10/process/ : exit=1; total=13, passed=9, failed=4, notRun=0; timeout=False; seconds=78.62; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-10/process/supervisor.json; parseError=
+
+- round-10/services/ : exit=1; total=6, passed=4, failed=2, notRun=0; timeout=False; seconds=22.73; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-10/services/supervisor.json; parseError=
+
+- round-10/ui/lifecycle : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=False; seconds=2.13; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-10/ui/cases/lifecycle/supervisor.json; parseError=
+
+- round-10/ui/main-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.28; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-10/ui/cases/main-menu/supervisor.json; parseError=
+
+- round-10/ui/list-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=150.43; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-10/ui/cases/list-menu/supervisor.json; parseError=
+
+- round-10/ui/list-boundaries : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.72; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-10/ui/cases/list-boundaries/supervisor.json; parseError=
+
+- round-10/ui/hotkeys : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.33; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-10/ui/cases/hotkeys/supervisor.json; parseError=
+
+- round-10/ui/delayed-cancel : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.1; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-10/ui/cases/delayed-cancel/supervisor.json; parseError=
+
+- round-10/ui/delayed-immediate : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.2; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-10/ui/cases/delayed-immediate/supervisor.json; parseError=
+
+- round-11/full/ : exit=0; total=443, passed=443, failed=0, notRun=0; timeout=False; seconds=43.89; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-11/full/supervisor.json; parseError=
+
+- round-11/storage/ : exit=1; total=29, passed=18, failed=11, notRun=0; timeout=False; seconds=61.96; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-11/storage/supervisor.json; parseError=
+
+- round-11/process/ : exit=1; total=13, passed=9, failed=4, notRun=0; timeout=False; seconds=78.82; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-11/process/supervisor.json; parseError=
+
+- round-11/services/ : exit=1; total=6, passed=4, failed=2, notRun=0; timeout=False; seconds=23.62; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-11/services/supervisor.json; parseError=
+
+- round-11/ui/lifecycle : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=False; seconds=2.11; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-11/ui/cases/lifecycle/supervisor.json; parseError=
+
+- round-11/ui/main-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.59; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-11/ui/cases/main-menu/supervisor.json; parseError=
+
+- round-11/ui/list-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=182.45; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-11/ui/cases/list-menu/supervisor.json; parseError=
+
+- round-11/ui/list-boundaries : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=5.07; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-11/ui/cases/list-boundaries/supervisor.json; parseError=
+
+- round-11/ui/hotkeys : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=5.39; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-11/ui/cases/hotkeys/supervisor.json; parseError=
+
+- round-11/ui/delayed-cancel : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=3.17; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-11/ui/cases/delayed-cancel/supervisor.json; parseError=
+
+- round-11/ui/delayed-immediate : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.98; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-11/ui/cases/delayed-immediate/supervisor.json; parseError=
+
+- round-12/full/ : exit=1; total=443, passed=442, failed=1, notRun=0; timeout=False; seconds=35.47; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-12/full/supervisor.json; parseError=
+
+- round-12/storage/ : exit=1; total=29, passed=18, failed=11, notRun=0; timeout=False; seconds=135.64; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-12/storage/supervisor.json; parseError=
+
+- round-12/process/ : exit=1; total=13, passed=9, failed=4, notRun=0; timeout=False; seconds=80.72; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-12/process/supervisor.json; parseError=
+
+- round-12/services/ : exit=1; total=6, passed=4, failed=2, notRun=0; timeout=False; seconds=24.16; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-12/services/supervisor.json; parseError=
+
+- round-12/ui/lifecycle : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=False; seconds=2.03; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-12/ui/cases/lifecycle/supervisor.json; parseError=
+
+- round-12/ui/main-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-12/ui/cases/main-menu/supervisor.json; parseError=
+
+- 用户再次要求继续时核对：原工具会话已失效，运行器及所属压力进程均不存在，进度停于第 12 轮 UI/list-menu；该场景仅有运行中快照、无 supervisor 完成记录，不能算产品失败或完成。已将中断尝试完整保留至 `artifacts/runs/full_function_stress_30_20261111/infrastructure/round-12-list-menu-interrupted/`；对应旧进度在 `infrastructure/progress-at-interruption.json`。恢复前核对及运行器语法检查返回 0、残留探针 0，证据 `resume-check.json`；从第 12 轮续跑，已完成组跳过，仅重新执行中断未完成场景。该批重复测试有中断，最终不得描述成不间断长时运行。
+- 第 12 轮全量失败只读核对仍为微信原图测试 `DonationQrRuntimeContractTests.cs:78` 恢复剪贴板时报 `0x800401D0`，图片复制断言此前完成；证据该轮 `full/full.trx`。保留原始失败，不另行重跑。
+
+- Runner stopped on infrastructure error: 无法将“Get-FileHash”项识别为 cmdlet、函数、脚本文件或可运行程序的名称。请检查名称的拼写，如果包括路径，请确保路径正确，然后再试一次。; see artifacts/runs/full_function_stress_30_20261111/runner-error.json. Unexecuted rounds are not passed.
+
+- 续跑启动检查被 Windows PowerShell 的命令加载问题阻断：`Get-FileHash` 未找到，尚未启动任何产品测试，退出及错误保留 `resume-12.stderr.log` 和对应 `runner-error-*.json`。改用本机已正常提供该命令的 PowerShell 7 执行同一运行器；仅切换监督脚本宿主，不改产品、探针或系统环境变量。
+
+- Resuming at the explicitly selected round: completed results retained without rerunning; fixed binaries and source hashes match snapshot. Earlier infrastructure/interruption evidence retained separately. No product or probe assertion change.
+
+- 汇总脚本对已有证据运行检查：`pwsh -NoProfile -File artifacts/runs/full_function_stress_30_20261111/aggregate.ps1` 返回码 0，生成的是执行中的不完整快照，未执行轮次明确记为缺失，不计通过。日志 `aggregation-in-progress.log`、退出结果 `aggregation-in-progress-result.json`；最终结束后会重新汇总。此命令仅读取现有 JSON/TRX，没有运行或重复产品测试。
+
+- round-12/ui/list-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=176.73; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-12/ui/cases/list-menu/supervisor.json; parseError=
+
+- round-12/ui/list-boundaries : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=6.04; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-12/ui/cases/list-boundaries/supervisor.json; parseError=
+
+- round-12/ui/hotkeys : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=5.96; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-12/ui/cases/hotkeys/supervisor.json; parseError=
+
+- round-12/ui/delayed-cancel : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.79; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-12/ui/cases/delayed-cancel/supervisor.json; parseError=
+
+- round-12/ui/delayed-immediate : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.86; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-12/ui/cases/delayed-immediate/supervisor.json; parseError=
+
+- round-13/full/ : exit=1; total=443, passed=442, failed=1, notRun=0; timeout=False; seconds=90.65; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-13/full/supervisor.json; parseError=
+
+- round-13/storage/ : exit=1; total=29, passed=18, failed=11, notRun=0; timeout=False; seconds=110.48; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-13/storage/supervisor.json; parseError=
+
+- round-13/process/ : exit=1; total=13, passed=9, failed=4, notRun=0; timeout=False; seconds=88.29; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-13/process/supervisor.json; parseError=
+
+- round-13/services/ : exit=1; total=6, passed=4, failed=2, notRun=0; timeout=False; seconds=23.01; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-13/services/supervisor.json; parseError=
+
+- round-13/ui/lifecycle : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=False; seconds=2.97; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-13/ui/cases/lifecycle/supervisor.json; parseError=
+
+- round-13/ui/main-menu : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.96; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-13/ui/cases/main-menu/supervisor.json; parseError=
+
+- round-13/ui/list-menu : exit=1; total=1, passed=0, failed=1, notRun=0; timeout=True; seconds=303.8; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-13/ui/cases/list-menu/supervisor.json; parseError=
+
+- round-13/ui/list-boundaries : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=3.94; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-13/ui/cases/list-boundaries/supervisor.json; parseError=
+
+- round-13/ui/hotkeys : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=2.96; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-13/ui/cases/hotkeys/supervisor.json; parseError=
+
+- round-13/ui/delayed-cancel : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.8; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-13/ui/cases/delayed-cancel/supervisor.json; parseError=
+
+- round-13/ui/delayed-immediate : exit=0; total=1, passed=1, failed=0, notRun=0; timeout=False; seconds=1.16; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-13/ui/cases/delayed-immediate/supervisor.json; parseError=
+
+- round-14/full/ : exit=1; total=443, passed=442, failed=1, notRun=0; timeout=False; seconds=45.98; residual=False; result and exact command=artifacts/runs/full_function_stress_30_20261111/round-14/full/supervisor.json; parseError=
+
+- 用户明确要求“先把测试脚本先停了”：已按 PID、创建时间和完整路径核对并停止监督脚本及其存储探针，清理返回码 0、所属残留进程 0。完整完成 13 轮；第 14 轮全量测试已有结果，storage 执行中被用户停止，本轮后续组未执行，不计完成一整轮，不计产品失败。日志和中断数据全部保留；精确停止进程、时刻及之前进度见 `artifacts/runs/full_function_stress_30_20261111/user-stop-result.json`，当前状态 `progress.json` 为 `stopped-by-user`。不自动恢复，不继续运行测试或构建；现有汇总仍为旧执行中快照，未声称 30 轮完成。
+
+<!-- FULL-STRESS-30-APPEND -->
+
+## GROUP-SELECTION-20261112：创建分组后无法选中的反馈
+
+- 用户反馈“现在分组没办法选中，创建之后”。本次仅做源码定位；此前重复压测保持用户停止状态，没有启动测试或修改产品。
+- 已确认：C# `CheckableListCtrl.CheckItem` 与空格处理禁止勾选分组行，Enter 在已选中的分组行上进入组内；Python `shahe_bulk_launcher/ui/controls.py` 的空格和回车分支采用相同规则，现有 `group_navigation_probe.py` 也明确断言分组行不能勾选。因此“不能勾选整组”与“无法选中/进入分组”须区分，尚不能直接判定同一根因。
+- 创建后的焦点候选：`MainForm.CreateGroup` 保存后只刷新列表；`RefreshSandboxList` 仅将首行设为 Focused，没有主动 Selected 新分组；回车处理调用 `GetSelectedIndex`，后者不回退到 FocusedItem。尚未以运行时证据复现用户所遇到的具体路径，不能据此宣称已定位或修复。
+- 等待用户明确是“空格/复选框不能勾选整组”，还是“方向键无法选中或回车不能进入”，再确定最小修复及计划差异。未恢复压测、未升版、未发布。
+
+- 用户已明确本次目标：“空格选中分组并且可以启动沙河，回车可以进入该分组”。后续实现应允许空格勾选/取消分组，启动选中沙盒时展开所勾选分组的有效成员、与单独勾选用户合并去重；Enter 保持进入分组，不能触发启动。此前等待行为澄清的记录已由本条更新。
+- 源码阻断点已确认：`CheckableListCtrl.CheckItem`、`ToggleItem`、`OnItemChecked` 拒绝或撤销分组勾选，`GetCheckedItems`/`GetCheckedEntryTexts` 排除分组；`MainForm.LaunchSelectedSandboxes` 仅将普通勾选用户送入现有目标解析。应同时打通控件状态与启动目标解析，避免只开放复选框却没有实际启动目标。
+- 拟将分组成员展开限定在启动入口，普通用户管理及删除入口继续按原目标边界处理，避免勾选分组后意外扩大删除/重命名范围；刷新保留有效分组勾选，回车导航不执行启动。拟新增独立分组勾选启动计划，待按修改前确认规则展示完整内容并获确认后写入。当前仍无产品修改、无新增测试运行，重复压测维持停止。
+
+- 展示完整分组方案后，用户进一步明确两条路径：在外部空格勾选分组可启动整组，进入分组后仍能选择个别成员启动。当前已按该新行为建立 `docs/superpowers/plans/2026-11-12-group-selection-launch.md`，后续只验证这一项；此前不可勾选分组的 Python/契约行为作为历史差异保留，不改 Python。当前证据根 `artifacts/runs/group_selection_launch_20261112/`。
+
+- 新测试首次构建返回 1，`GroupSelectionLaunchContractTests.cs` 的 LINQ 参数与局部 `names` 同名触发 CS0136，尚未运行任何测试，不算产品 RED。Core/App/AuditRunner 编译成功；日志及精确参数 `artifacts/runs/group_selection_launch_20261112/red/test.log`、`command-result.json`。先修正测试夹具命名，再执行定向 RED，产品代码尚未改变。
+
+- 定向 RED：`dotnet test ... --filter FullyQualifiedName~GroupSelectionLaunchContractTests` 使用本轮隔离 BaseOutputPath，退出码 1，总计 6、通过 0、失败 6、跳过 0；编译成功。失败覆盖空格/原生复选框分组勾选被撤销、新建分组启动无目标、混合选择漏掉组内用户等，符合用户反馈与静态阻断点。精确命令 `artifacts/runs/group_selection_launch_20261112/red-02/command-result.json`，日志 `test.log`、结果 `red.trx`。尚未修改产品代码，随后实施最小修复。
+
+- 定向 GREEN：隔离构建后同一新增用例集合退出码 0，总计 6、通过 6、失败/跳过 0。实际覆盖创建分组→空格→整个组成员进入生产启动调度、混合组/用户去重与过期成员过滤、回车进入→只启动单个勾选成员、刷新保留/全不选、空组/取消及普通管理目标隔离。外部启动回调替换为隔离记录，不创建真实 Sandboxie 进程；这是生产接线自动化证据，尚非真实键盘/读屏验收。精确命令 `artifacts/runs/group_selection_launch_20261112/green/command-result.json`，日志 `test.log`、结果 `green.trx`。控制层新增启动专用读取，普通用户管理读取保持不展开分组。
+
+- 受影响回归：`dotnet test ... --no-build --filter <列表/主窗体/启动前置/设置/上下文菜单/新增分组集合>` 返回码 0，总计 83、通过 83、失败/跳过 0。精确参数 `artifacts/runs/group_selection_launch_20261112/affected/command-result.json`，日志 `test.log`、结果 `affected.trx`。旧分组不可勾选断言已按用户新需求更新，普通用户范围连选和原有入口回归通过。
+
+- 当前源码一次全量回归已结束：`dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --no-build --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\group_selection_launch_20261112\bin\ --results-directory D:\mycodex\git\artifacts\runs\group_selection_launch_20261112\full --logger trx;LogFileName=full.trx` 返回码 1，总计 449、通过 448、失败 1、跳过 0。唯一失败是微信打赏原图测试 `DonationButtonCopiesShippedOriginalImage`，堆栈落在 `DonationQrRuntimeContractTests.cs:78` 的剪贴板恢复，错误 `0x800401D0`；本轮分组用例全部通过。原始退出码、精确参数、日志和结果在 `artifacts/runs/group_selection_launch_20261112/full/command-result.json`、`test.log`、`full.trx`。保留失败，不重跑全量掩盖问题；本次分组修复不能宣称全量全绿。下一步只完成计划中的隔离 Release 构建及差异核对，重复压力测试继续停止。
+
+- Release x64 构建：`dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\group_selection_launch_20261112\bin\` 返回码 0，警告 0、错误 0（构建不运行测试，测试计数不适用）。Core、App、AuditRunner、Tests 均生成成功；精确参数和输出见 `artifacts/runs/group_selection_launch_20261112/release/command-result.json`、`build.log`。主程序在本轮 `bin/x64/Release/net48/沙河批量打开器.exe`，不是新发布的绿色包；未停止用户进程、未升版或上传。
+
+- 差异/编码核对首次脚本执行返回 1：Windows PowerShell 将 `git diff --check` 的 LF→CRLF 标准错误警告作为终止异常，脚本未生成完整结果；不是产品测试失败或差异检查通过。命令 `powershell -NoProfile -File artifacts/runs/group_selection_launch_20261112/verify-scope.ps1`，错误保存 `artifacts/runs/group_selection_launch_20261112/scope-first-error.log`。仅修正核对脚本的原生命令错误流处理后继续核对，不重跑产品测试。
+
+- 最终范围/编码核对返回码 0：基线 117 个 C# 源文件、项目和锁文件中仅计划内 3 个既有文件改变，新增 1 个分组契约测试文件；无缺失文件或非预期源码新增。触及文件严格 UTF-8 检查及 U+FFFD 检查通过，`git diff --check` 返回 0。Python Git 状态与任务前一致（仅状态对比，不冒充字节哈希验证），本任务未编辑 Python；重复压测状态仍是 `stopped-by-user`。命令 `powershell -NoProfile -File artifacts/runs/group_selection_launch_20261112/verify-scope.ps1`，结果 `artifacts/runs/group_selection_launch_20261112/scope-result.json`、`diff-check.log`；此为静态核对，不产生产品测试计数。
+- 收尾核对：上述两条用户指定的分组启动路径有生产接线自动化证据，现有按应用/按用户实际启动实现继续复用。旧 Python 明确禁止分组勾选，本次依用户要求修改该行为，未运行或修改 Python；既有 Python 对照/源码编译证据沿用 E09，不冒充本轮验证。C# 有既有主窗口运行证据，本次编译有效，但未新增真实桌面或实际沙盒启动验收。当前主目录源码和隔离编译物含修复；公开 4.0.50 包不含本次改动。全量剪贴板失败和此前真实验收风险仍未解决，不声明整体完成，不恢复压力循环，不扩展到其他缺陷或发布。
+
+- 收尾文档复核曾错误使用单次 `git -c core.autocrlf=false diff --check`，返回 2，将现有 CRLF 行末的 CR 识别为尾部空白；错误摘要 `artifacts/runs/group_selection_launch_20261112/docs-first-error.log`。未修改 Git 配置或文档换行，不据此整体重写历史文档；随后按仓库原有换行规则核对。此为检查命令问题，不是产品测试。
+
+- 最终文档核对按仓库原有设置执行 `git diff --check -- PROJECT_STRUCTURE.md docs/superpowers/plans/2026-11-12-group-selection-launch.md`，返回 0；两份文档严格 UTF-8 及替换字符检查通过，已重新读取活动计划并逐项核对。结果 `artifacts/runs/group_selection_launch_20261112/docs-final-result.json`，差异输出 `docs-diff-check.log`。全量失败和真实验收边界保留，计划完成仅指本项源码及自动化收尾。
+
+<!-- GROUP-SELECTION-APPEND -->
+
+## FULL-ONCE-20261112：当前源码全功能单轮压力检查
+
+- 用户明确要求软件所有功能压测一遍，授权当前源码全量与全功能压力重新执行；采用原已批准全功能计划的范围和负载，不恢复被停止的旧30轮循环。覆盖以具体菜单、上下文、按钮、快捷键和非菜单服务入口逐项映射，普通契约测试、服务压力和真实系统验收分别标记，不能用大类归属替代实际执行。
+- 当前代码包含分组外空格勾选整组启动、回车进入后选成员启动修复；本轮原始文件、命令、结果统一在 `artifacts/runs/full_function_once_20261112/`。只向隔离配置/文件写入，不改产品、正式配置、系统自启动、读屏或真实 Sandboxie 服务；真实系统动作只作用于本轮明确拥有的测试目标。三个子代理分别准备完整覆盖表、UI 压力补充、后台探针缺口，主代理串行运行并每次先记录结果再运行下一项。
+- 完成条件沿用原计划：所有入口有具体执行结果或有证据的未覆盖/阻断原因，失败记录复现输入和实际负载；新结果不可消除旧风险。全量与压力组执行完不等同所有真实功能验收通过。
+
+- 当前源码全量（新隔离编译）：`dotnet test csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\full_function_once_20261112\baseline\bin\ --results-directory D:\mycodex\git\artifacts\runs\full_function_once_20261112\baseline --logger trx;LogFileName=full.trx` 返回 1，共 449、通过 448、失败 1、跳过 0；唯一失败仍是微信打赏测试恢复剪贴板 `DonationQrRuntimeContractTests.cs:78` 的 `0x800401D0`。四个项目编译成功，分组新增用例通过；不重跑全量。基线快照 `artifacts/runs/full_function_once_20261112/baseline/snapshot.json`，完整命令 `command-result.json`，输出 `full.log`、结果 `full.trx`。这是本轮全量而非压力组完成，后续逐组运行。
+
+- storage 探针首次构建返回 1，CS0006 的主 EXE 引用显示乱码；尚未运行 storage 产品压力场景。命令 `powershell -NoProfile -File artifacts/runs/full_function_once_20261112/run-probe.ps1 -Group storage -Stage build`，精确参数/输出 `artifacts/runs/full_function_once_20261112/storage/build-01/command-result.json`、`build.log`。核查 PowerShell 脚本编码与编译参数后只重做该构建，保留首次失败。
+
+- storage 探针切换本机 PowerShell 7 读取 UTF-8 脚本后构建成功，返回 0，未修改产品或降低压力。命令 `pwsh -NoProfile -File artifacts/runs/full_function_once_20261112/run-probe.ps1 -Group storage -Stage build -Attempt 02`，精确参数 `storage/build-02/command-result.json`；构建无测试计数。前三个后台探针仅将批准隔离路径替换为本轮目录，引用本轮新编译产物。
+- 三个子代理均因账户额度错误退出，未交付准备文件；主代理继续负责逐项覆盖、UI 补充和后台缺口核对，不将委派失败当作已完成测试。旧30轮循环仍停止。
+
+- storage 本轮运行完成：`pwsh -NoProfile -File artifacts/runs/full_function_once_20261112/run-probe.ps1 -Group storage -Stage run` 返回 1，29 场景中通过 18、失败 11、未执行 0，耗时约55秒，无超时/残留。1000轮串行配置、1000轮历史、20000条并发日志、1000小文件×10轮正常备份还原通过；配置并发、保存失败反馈、六类还原异常保护、BOM/UTF16/GBK格式保留失败。精确命令、PID与清理 `artifacts/runs/full_function_once_20261112/storage/run-01/command-result.json`、`process.json`；输出 `stdout.log`，全部场景断言与实际负载在 `data/run-*/results.json`。未修改正式数据或服务，继续其他独立功能。
+
+- process/build-01/ : exit=0; test counts not applicable (build); exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/process/build-01/command-result.json; output and per-case evidence in the same directory.
+
+- process/run-01/ : exit=1; total=13, passed=9, failed=4, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/process/run-01/command-result.json; output and per-case evidence in the same directory.
+
+- services/build-01/ : exit=0; test counts not applicable (build); exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/services/build-01/command-result.json; output and per-case evidence in the same directory.
+
+- services/run-01/ : exit=1; total=6, passed=4, failed=2, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/services/run-01/command-result.json; output and per-case evidence in the same directory.
+
+- ui/build-01/ : exit=0; test counts not applicable (build); exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/ui/build-01/command-result.json; output and per-case evidence in the same directory.
+
+- surface/build-01/ : exit=0; test counts not applicable (build); exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/surface/build-01/command-result.json; output and per-case evidence in the same directory.
+
+- UI 本轮夹具按当前分组需求更新旧“分组不可勾选”断言；生命周期菜单释放的三条观察改为记下失败后继续检查并完成循环，不删断言、不降低原负载。新增 surface 补充夹具对设置、路径记忆、对话框、托盘、分组、快捷键、退出、日志、朗读选择、更新安全和单实例的现有生产契约逐条运行20次；这属于重复集成检查，不冒充真实键盘输入。全局图片剪贴板重复写入不扩测，使用本轮全量结果保留其失败边界。具体执行清单在本轮 `run-remaining.ps1` 和 `surface/SurfaceStress.cs`，每个独立组先落盘结果并写项目记录再进入下一组，超时不阻塞后续独立功能。
+
+- ui/run-lifecycle/lifecycle : exit=1; total=1, passed=0, failed=1, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/ui/run-lifecycle/command-result.json; output and per-case evidence in the same directory.
+
+- ui/run-main-menu/main-menu : exit=0; total=1, passed=1, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/ui/run-main-menu/command-result.json; output and per-case evidence in the same directory.
+
+- 本轮真实桌面尝试：当前构建隔离 EXE 已启动，读到“扫描成功”提示及安装位置；确认按钮输入返回 `CUA_GEOMETRY_UNAVAILABLE`，重新选择窗口仍见同一提示，截图返回 `CUA_EXECUTION_FAILED`，一次只读恢复返回 `CUA_TURN_NOT_ACTIVE`。停止输入，真实按键/菜单/托盘/读屏仍受阻，不计通过。只按本轮目标完整路径、PID、创建时间核对并强制清理，清理命令返回0、残留0；不是正常退出验收。完整身份、构建哈希、错误和清理在 `artifacts/runs/full_function_once_20261112/desktop/result.json`、`processes.json`。未改正式配置、未停止读屏或真实服务。
+
+- ui/run-list-menu/list-menu : exit=0; total=1, passed=1, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/ui/run-list-menu/command-result.json; output and per-case evidence in the same directory.
+
+- ui/run-list-boundaries/list-boundaries : exit=0; total=1, passed=1, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/ui/run-list-boundaries/command-result.json; output and per-case evidence in the same directory.
+
+- surface/build-02/ : exit=0; test counts not applicable (build); exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/surface/build-02/command-result.json; output and per-case evidence in the same directory.
+
+- ui/run-hotkeys/hotkeys : exit=0; total=1, passed=1, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/ui/run-hotkeys/command-result.json; output and per-case evidence in the same directory.
+
+- ui/run-delayed-cancel/delayed-cancel : exit=0; total=1, passed=1, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/ui/run-delayed-cancel/command-result.json; output and per-case evidence in the same directory.
+
+- ui/run-delayed-immediate/delayed-immediate : exit=0; total=1, passed=1, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/ui/run-delayed-immediate/command-result.json; output and per-case evidence in the same directory.
+
+- surface/run-settings/settings : exit=0; total=16, passed=16, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/surface/run-settings/command-result.json; output and per-case evidence in the same directory.
+
+- surface/run-paths/paths : exit=0; total=25, passed=25, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/surface/run-paths/command-result.json; output and per-case evidence in the same directory.
+
+- surface/run-dialogs/dialogs : exit=0; total=19, passed=19, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/surface/run-dialogs/command-result.json; output and per-case evidence in the same directory.
+
+- surface/run-tray/tray : exit=0; total=3, passed=3, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/surface/run-tray/command-result.json; output and per-case evidence in the same directory.
+
+- surface/run-groups/groups : exit=0; total=19, passed=19, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/surface/run-groups/command-result.json; output and per-case evidence in the same directory.
+
+- surface/run-hotkey-actions/hotkey-actions : exit=0; total=6, passed=6, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/surface/run-hotkey-actions/command-result.json; output and per-case evidence in the same directory.
+
+- surface/run-lifecycle-exit/lifecycle-exit : exit=0; total=15, passed=15, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/surface/run-lifecycle-exit/command-result.json; output and per-case evidence in the same directory.
+
+- surface/run-logging/logging : exit=0; total=9, passed=9, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/surface/run-logging/command-result.json; output and per-case evidence in the same directory.
+
+- surface/run-reader-selection/reader-selection : exit=0; total=23, passed=23, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/surface/run-reader-selection/command-result.json; output and per-case evidence in the same directory.
+
+- surface/run-update-security/update-security : exit=0; total=13, passed=13, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/surface/run-update-security/command-result.json; output and per-case evidence in the same directory.
+
+- surface/run-single-instance/single-instance : exit=0; total=3, passed=3, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/surface/run-single-instance/command-result.json; output and per-case evidence in the same directory.
+
+- 汇总脚本首次执行返回0，但只读核对发现 PowerShell 对有序字典的按属性分组未生成正确分组统计，且当时主窗口动作补充组仍在执行，因此该汇总是无效中间结果，不作为最终通过数量。脚本为 `artifacts/runs/full_function_once_20261112/summarize.ps1`；将原输出保留至 `coverage-intermediate/`，修正为明确对象后仅重做汇总，不重跑产品测试。
+
+- surface/run-main-dispatch/main-dispatch : exit=-532462766; total=40, passed=40, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/surface/run-main-dispatch/command-result.json; output and per-case evidence in the same directory.
+
+- 主窗口动作补充组异常终止，退出码 `-532462766`、无超时/残留；上条自动计数只代表中断前已落盘的40个用例，不代表全组完成或未执行为0。原 `surface/run-main-dispatch/data/result.json` 明确 `finished=false`，stderr 为测试夹具 `MigrationRuntimeTestHelpers.WithForm` 清理临时目录时对 `Sandboxie.ini.*.bak` 抛出未处理 `UnauthorizedAccessException`。已完成用例不重跑；继续只读定位正在执行的修复设置用例，并单独运行尚未完成的其他功能。原始中断结果保留，不因续跑改写。
+
+- surface/build-03/ : exit=0; test counts not applicable (build); exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/surface/build-03/command-result.json; output and per-case evidence in the same directory.
+
+- surface/run-repair-launch-rest/repair-launch-rest : exit=0; total=4, passed=4, failed=0, notRun=0; exact command, timeout, PID and cleanup=artifacts/runs/full_function_once_20261112/surface/run-repair-launch-rest/command-result.json; output and per-case evidence in the same directory.
+
+- 本轮最终汇总脚本 `pwsh -NoProfile -File artifacts/runs/full_function_once_20261112/summarize.ps1` 返回0：四个专项压力组共55场景，37通过、18失败（storage 18/29、process 9/13、services 4/6、ui 6/7）；surface 补充集成195个用例/数据行各连续20次，共3900次已完成调用均通过，另1个只读备份测试夹具清理中断项保留为 `blocked_fixture`，不得计通过或完整负载。后续4个未执行功能已在独立 `run-repair-launch-rest` 完成，不重跑前40项。当前分派器58个动作均建立具体测试候选和压力证据映射；这是覆盖索引完整，不等于所有原生效果已验收。汇总 `artifacts/runs/full_function_once_20261112/coverage/summary.json`，逐场景 `cases.json`，逐入口 `coverage.json`/`coverage.md`。全量449项的原失败及桌面阻断继续保留；首次无效中间汇总单独存档，未覆盖原始日志。
+
+- 最终源码/清理核对返回0：基线118个源码、项目、锁文件与解决方案 SHA256 均未变化，本轮所有记录的测试进程无残留，超时0；Python Git状态与基线相同（非字节哈希证明），旧30轮状态仍为 `stopped-by-user`。结果 `artifacts/runs/full_function_once_20261112/final-integrity.json`。独立桌面尝试的强制清理与自动化进程正常结束分别保留；不删除失败夹具与证据。本轮报告 `docs/migration/2026-11-12-all-functions-stress.md`，逐入口表在本轮 `coverage/coverage.md`，后续先处理报告中的高优先级缺陷，不把普通通过路径扩大成软件无问题。
+
+- 最终文档/覆盖一致性检查返回0：分组统计和逐动作映射一致，无漏映射或重复动作；项目文档、当前计划与本轮报告严格UTF-8及替换字符检查通过，`git diff --check` 返回0。已重新读取活动计划，真实桌面与只读夹具重复负载保持未勾选。结果 `artifacts/runs/full_function_once_20261112/final-document-check.json`、差异日志 `document-diff.log`。本轮测试执行与报告收口，所有原始失败保留，不宣称软件全功能无缺陷。
+
+- 用户继续后只补未完成项：桌面枚举成功，但通过授权工具启动既有隔离副本返回 `CUA_EXECUTION_FAILED`，一次只读恢复返回 `CUA_TURN_NOT_ACTIVE`。未发送按键或重复启动；发现本次所属进程后按PID、完整路径与创建时间核对清理，返回0、残留0。证据 `artifacts/runs/full_function_once_20261112/continuation/desktop-result.json`、`desktop-processes.json`。真实桌面继续受阻，不用自动化对象测试替代。
+- 只读校正夹具根因已通过遗留文件与源码定位：`BackupSandboxieIniBeforeWrite` 的 `File.Copy` 保留源INI只读属性，新备份仍带 ReadOnly；原测试只恢复源INI属性，`MigrationRuntimeTestHelpers` 在 finally 直接递归删除，导致备份清理异常逃出STA线程。只在隔离夹具中修正清理，保留原业务断言和之前中断记录；产品及仓库测试源码保持不变，只补该未完成用例。
+
+- 只读夹具独立探针首次编译返回1，MSTest引用参数未正确拆分，报CS0234/CS0246；未运行用例，不算产品失败。精确命令及错误 `artifacts/runs/full_function_once_20261112/continuation/repair-readonly/build-result.json`、`build.log`；仅修正编译参数后继续，原失败保留。
+
+- 独立只读夹具构建已通过，返回0；原断言代码保持，仅在隔离副本增加备份只读属性清理和清理异常捕获，未改 `csharp/`。精确参数/日志 `artifacts/runs/full_function_once_20261112/continuation/repair-readonly/build-02-result.json`、`build-02.log`；随后仅运行原未完成的只读校正用例。
+
+- 只读校正未完成项补验结束：`RepairReadonlyProbe.exe <本轮continuation/repair-readonly/run-01>` 返回0，同一业务断言连续20次，20通过、失败0、跳过0，临时夹具与进程残留0。验证了取消不写入、只读写入失败不reload且正确提示；独立副本仅修正清理步骤，产品与仓库测试源码哈希均未变化。精确命令/PID/清理 `artifacts/runs/full_function_once_20261112/continuation/repair-readonly/run-01-command.json`，逐轮结果 `run-01/result.json`、标准输出 `run-01.stdout.log`。原3900次通过与夹具中断保留历史，本次新增20次补齐该场景，不把此前中断改写为当时通过；真实桌面仍阻断。
+
+- 本次继续收尾核对返回0：文档严格UTF-8/替换字符及差异检查通过，基线源码哈希无变化，本轮所属进程无残留。已复读当前计划，仅真实桌面项仍未完成；只读校正重复负载已补验，原夹具中断历史不删除。结果 `artifacts/runs/full_function_once_20261112/continuation/closure.json`，差异日志 `continuation/diff-check.log`。没有恢复旧压力循环、没有修复产品缺陷或发布。
+
+- 用户追问全局快捷键后完成只读源码核对：当前 C# 热键入口 `MainForm.Lifecycle.cs::ProcessCmdKey`，`MainForm.ApplyHotkeys` 仅规范化配置；未找到系统全局热键注册、WM_HOTKEY或全局键盘钩子接线。此前热键通过仅适用于窗口内处理/设置动作行执行，不适用于切到其他软件或隐藏到托盘后触发。Python对应使用 `wx.AcceleratorTable`，不能未经进一步需求核实就判为漏迁移。未运行新测试、未改产品；已补入本轮报告“全局快捷键边界”，全局能力未实现/未验收不能被58动作映射覆盖。
+
+- 用户指出“所有功能压测”与此前完成表述矛盾，本轮重新核对计划及已有证据，纠正任务状态为未完成。分派器动作与相关测试组建立映射，不等于逐项真实效果验收；普通契约重复调用不等于所有功能端到端压力通过。原汇总 `actionsWithoutPressure` 和 `automated_related_checks_passed` 只保留其关联索引意义，不再用作全覆盖证明。未找到全局快捷键接线、真实输入受阻、音频/沙盒等外部效果以及更新/多进程边界在报告逐项列为缺口；当前计划追加实际状态更正。历史测试数字、失败和原始日志未改，本轮没有新增产品测试或实现，不恢复已停止的旧循环。
+
+- 覆盖结论更正文档核对返回0：三份文档严格UTF-8、替换字符、未完成状态及 `git diff --check -- <三份文档>` 均通过，已复读当前计划。检查结果 `artifacts/runs/full_function_once_20261112/continuation/coverage-correction-check.json`，差异日志 `coverage-correction-diff.log`。本次产品测试执行数为0，没有修改产品或恢复旧循环；文档核对通过仅表示更正已落盘，不表示功能验收通过。
+
+- 用户再次明确整套范围后，开始补齐未验收项：本轮桌面连接已恢复，授权工具启动现有隔离主EXE并成功读取主窗口及焦点，目标PID 14432、窗口264896，构建目录 `artifacts/runs/full_function_once_20261112/desktop/app/`。这是启动与可读取证据，尚非按键或功能通过；该副本旧配置仍指向本机沙盒目录，先正常关闭并准备独立夹具再做写入类操作。子代理分别核查全入口清单和准备独立进程互斥测试；不恢复旧30轮循环。
+
+- 本次真实桌面补验再次阻断：主窗口和列表可读取，但第一次实际 `Alt+F4` 操作报告 `CUA_EXECUTION_FAILED`，按键是否生效未知；没有重复发送或改用脚本按键。只读恢复及原始窗口树保存 `artifacts/runs/full_function_once_20261112/continuation/comprehensive-desktop.json`；目标按PID/完整路径/创建时间清理结果 `comprehensive-desktop-cleanup.json`。本场景记为环境阻断，不计产品按键失败或正常退出通过；继续其他不依赖桌面输入的缺口。
+
+- 原生音频补验探针构建完成，编译退出码0，无编译诊断；精确命令和日志 `artifacts/runs/full_function_once_20261112/continuation/native-audio/build-result.json`、`build.log`。引用本轮当前源码已编译Core，准备核对真实静音会话的当前/全部音量与静音、上下限及音量记忆；沙盒到PID映射仍为隔离夹具，此构建不是功能通过证据。
+
+- 原生音频补验执行返回0，167次实际状态核对通过、失败0，耗时25.46秒、无超时和进程残留。当前/全部音量升降和静音切换各执行20轮，另核对上下限、恢复记忆音量、调整后的记忆值和空闲目标；三个独立无声播放进程中第三个始终不受影响。证据 `artifacts/runs/full_function_once_20261112/continuation/native-audio/run-result.json`、`bin/native-result.json`、`stdout.log`。调用当前生产音频服务并读取真实Windows会话状态，但沙盒/PID关系为夹具，未测菜单输入、输出设备路由或真实Sandboxie；这些缺口不因本项通过而关闭。
+
+- 单读屏原生补验探针构建返回0，无编译诊断；精确命令/日志 `artifacts/runs/full_function_once_20261112/continuation/native-speech/build-result.json`、`build.log`。准备使用当前Core及随包真实争渡接口，核对加载/保持选择/释放，并仅输出一句短测试语；不停止读屏进程，听感需要单独观察，构建通过不计朗读验收通过。
+
+- 单读屏原生补验返回0：真实争渡接口20轮加载/保持选择/关闭全部通过，每轮保持选择20次；最后通过生产朗读工作线程调用原生输出一次，接口调用完成且无异常。证据 `artifacts/runs/full_function_once_20261112/continuation/native-speech/run-result.json`、`bin/native-speech-result.json`，读屏进程前后身份记录保留，探针无残留。听感仍待用户观察；该证据不覆盖UI焦点朗读、键盘打断或菜单交互，不将接口调用返回等同听到正确文案。
+
+- 用户对本次争渡测试语明确反馈“听到了，内容正确”，单次实际朗读听感已确认。与上条真实接口重复加载/释放证据合并，仅关闭该接口输出场景；焦点朗读、按键打断及全部界面读屏仍未验收。原探针JSON的 `pending-user-observation` 是提问前快照，当前听感状态以本条用户反馈为准。
+
+- 子代理准备的独立进程单实例探针已由主代理审核并编译，退出码0，无编译诊断；命令/日志 `artifacts/runs/full_function_once_20261112/continuation/native-single-instance/build-01/build-result.json`、`build.log`。探针只加载当前主程序集中的生产 `SingleInstanceGuard`，使用唯一隔离互斥名和独立控制台子进程，准备核对并发竞争、目录隔离、释放及持有者异常退出；不启动主UI、不碰正式主程序互斥锁。
+
+- 独立进程单实例补验返回0，4场景通过、失败0、无效0、未运行0；8进程同时竞争仅一方获取，跨工作目录同名互斥仍生效，显式释放和持有者异常终止后均可重新获取。共18个隔离子进程，全部清理，耗时9.09秒，无超时/残留。生产主程序集路径和哈希固定于探针；命令/清理 `artifacts/runs/full_function_once_20261112/continuation/native-single-instance/build-01/run-result.json`，逐场景/进程证据 `runs/2c860c7205254ac78826bb0b1a079bb5/result.json`、`events.jsonl`。仅确认生产互斥组件在独立OS进程中工作，不覆盖多个完整主窗口、通知置前、跨登录会话或长期资源趋势。
+
+- 用户表示不知道如何配置桌面连接后，进行了只读宿主诊断：本机手册 `C:/Users/Administrator/AppData/Local/Programs/MyCodex/help/用户手册.html` 的“官方 Computer Use”说明组件内置、执行故障后新有效回合继续；已接入的窗口枚举/读取不能证明输入可用。现有应用日志及sandbox日志未提供本次底层执行失败原因，未修改宿主设置或停止宿主。本次新增音频、朗读和进程互斥证据已同步报告/计划，整套真实操作仍未完成。
+
+- 隔离边界复核发现测试风险：真实主EXE启动会经 `MainForm.InitializeApplication -> ApplyAutoRun` 调用固定HKCU Run项 `SandboxLauncher`，`auto_run=false` 时删除该项，与EXE目录是否隔离无关。本次启动前未保存该注册表值，无法证明该自启动项保持原样，也无法据此猜测恢复值；没有追加修改或为补验启动更多主EXE。此项作为测试隔离缺口保留，后续真实启动需先快照/恢复明确的原值或使用已核对的注入夹具；该风险不改变原生音频/朗读/互斥探针结果。
+
+- 本次补验源码/进程核对返回0：基线118个源码/项目文件哈希未变化，新增原生探针和隔离主EXE均无残留，旧循环未恢复。结果 `artifacts/runs/full_function_once_20261112/continuation/comprehensive-integrity.json`；朗读用户确认另存 `native-speech/user-confirmation.json`。未采集启动前自启动注册表值的边界明确保留，不能以源码/进程核对替代系统设置未变证明。整套状态仍为未完成。
+
+- 本次两项子代理工作分别处理单实例探针和整套清单；探针已交付、主代理审核执行并记录。清单子代理未交付文件，已停止，主代理接手按当前动作源码和各对话框/列表/托盘补出 `artifacts/runs/full_function_once_20261112/continuation/comprehensive-inventory.md`，逐项注明真实输入和外部效果缺口；未把子代理未完成工作记为通过。报告已链接该清单，动态菜单和条件分支仍需真实UI逐项复核；整套任务没有完成。
+
+- 本次文档/入口清单核对返回0：项目结构、报告、活动计划及补充清单严格UTF-8和替换字符检查通过，差异检查返回0，58个已识别分派动作均单列且无重复/遗漏；这只核对入口清单，不代表58项真实操作通过。已复读当前活动计划，整套验收及桌面项保留未完成。证据 `artifacts/runs/full_function_once_20261112/continuation/comprehensive-document-check.json`、`comprehensive-doc-diff.log`；本次子代理均已关闭，未升版、提交或发布。
+
+- 用户按要求在新回合“继续验收”后完成本轮桌面恢复尝试，证据目录 `artifacts/runs/full_function_once_20261112/continuation/desktop-resume-103439/`。启动前保存了固定HKCU Run项 `SandboxLauncher` 的存在性/类型/原值及隔离配置；当前主EXE哈希与本轮基线一致。目标PID 5532、窗口2493800，实际目录仍为 `desktop/app/`。主窗口文本和用户列表焦点可读取；第一次Tab请求返回 `CUA_OBSERVATION_STALE` 并明确要求有效截图，随后 `get_window_state(include_screenshot:true)` 返回 `CUA_EXECUTION_FAILED`，一次只读恢复返回 `CUA_TURN_NOT_ACTIVE`。没有成功按键证据，不判产品Tab失效，阻断具体位于工具要求的截图环节。
+- 本轮恢复清理返回0，功能通过0、按键验收无有效结果，目标按PID/路径/创建时间匹配后强制清理，残留0；自启动项启动前/后均不存在，未发生需恢复的差异，隔离配置已还原。结果 `desktop-resume-103439/result.json`，原始观察/错误 `desktop-events.json`，身份 `process.json`，启动前登记 `autorun-before.json`，软件日志 `application.log`。本轮只证明当前快照之后的自启动项保持一致，不回推此前未采集原值的历史。新回合本身未解决工具故障，不再反复重复相同恢复尝试；整套验收继续未完成。
+
+- 本轮隔离程序日志还记录了实际启动链路：主窗口进入消息循环，刷新到96个沙盒用户；自动下载并解析在线更新清单，当前/最新均为4.0.50，未提示同版更新。这是 `desktop-resume-103439/application.log` 中的启动观察，不作为重复负载通过或真实键盘通过；没有人为增加在线压力请求。
+
+- 本轮恢复尝试文档核对返回0：项目结构、当前计划、压力报告及截图故障复现说明严格UTF-8/替换字符和差异检查通过；已复读计划，真实桌面和整套任务仍未完成。检查 `artifacts/runs/full_function_once_20261112/continuation/desktop-resume-103439/document-check.json`、`diff-check.log`，可交接的宿主故障复现 `desktop-issue.md`。没有重跑套件、修改产品、提交或发布。
+
+### 无截图功能补验：真实定时器探针构建
+
+- 用户明确指出功能测试不必依赖截图；继续原批准范围内的进程、文件、计时器和系统接口验证，真实按键/焦点/托盘另留未验收，不重复桌面恢复。
+- 命令：Framework64 `csc.exe /nologo /target:exe /platform:x64 /codepage:65001` 编译 `continuation/no-screenshot/timers/RealTimerProbe.cs`，引用本轮 baseline 的 Core 与 Newtonsoft；完整参数、返回码在同目录 `build-result.json`，输出 `build.log`。构建返回码 0，无编译诊断；功能尚未执行。
+- 本节相对路径统一基于 `artifacts/runs/full_function_once_20261112/`；两个子代理仅准备独立探针，主代理审核和串行执行，现已关闭。
+
+### 无截图功能补验：真实定时器执行
+
+- 命令：`continuation/no-screenshot/timers/RealTimerProbe.exe`；返回码 0，5 项通过、0 失败、0 跳过，观测约 5.17 秒。真实计时器首次执行约 1 秒，失败重试约 2 秒执行第二次；取消、关闭状态抑制、异常报告和任务移除均符合断言。
+- 结果：`continuation/no-screenshot/timers/RealTimerProbe-1d665f4cc8af4db09342dbfa9b7f06b5.json`；命令/外层耗时 `run-result.json`，输出 `run.log`。退出前无剩余任务，持有计时器已释放，无清理错误。
+- 使用当前生产 Core 默认 TimerHandle，不注入虚拟时间；为安全观察，每个场景独立状态且 Jobs 使用并发字典。没有启动/关闭真实沙盒，不证明 UI 调度线程、长时间资源稳定或定时目标改名/删除问题已修复。
+
+### 无截图功能补验：系统设置探针构建
+
+- 命令：`dotnet <sdk8.0.408>/Roslyn/bincore/csc.dll /target:exe /platform:x64 /langversion:7.3 /codepage:65001` 编译 `continuation/no-screenshot/settings/NativeSettingsProbe.cs`，引用 net48 系统程序集和当前 baseline Core/Newtonsoft；返回码 0，无编译诊断。全部参数和输出见同目录 `build-result.json`、`build.log`。
+- 已审核只调用生产静态注册表写入方法且使用唯一专用 HKCU 测试子树，不构造主窗体、不触碰系统 Run 项；配置往返使用独立子进程和隔离 Configurations。
+
+### 无截图功能补验：系统设置实际效果
+
+- 命令：`continuation/no-screenshot/settings/NativeSettingsProbe.exe`；返回码 0，2 个场景通过、0 失败、0 跳过，探针内部耗时 1496ms。生产自启动静态方法对专用真实注册表项完成 20 次开/关并保护无关标记；22 个设置键（含中文路径、分组、热键和朗读提示）由父进程保存、独立子进程读写、父进程重新读取，值一致。
+- 父 PID 20144、子 PID 19484；子进程正常退出且没有超时，配置临时文件清理、唯一测试注册表子树清理均成功。未构造 MainForm，不调用正式 Run 项；这验证写入机制及跨进程配置持久化，不代表登录后自动启动或设置对话框交互已通过。
+- 权威结果 `continuation/no-screenshot/settings/runs/4f1824b16ba94786ba4cc859ac62b636/result.json`；外层命令及耗时 `settings/run-result.json`，输出 `settings/run.log`。既有并发丢失/保存失败反馈问题保持未修复。
+
+### 无截图功能补验：更新重启标记程序构建
+
+- 命令：Framework64 `csc.exe /nologo /target:winexe /platform:x64 /codepage:65001 /out:RestartMarker.exe RestartMarker.cs`；返回码 0，无编译诊断。证据 `continuation/no-screenshot/update/marker-build-result.json`、`marker-build.log`。
+- 标记程序只写入自身隔离目录的 PID/UTC 文件并退出，没有界面或系统设置；用于核对生产更新器真实重启，不能当完整主窗口启动证据。未改生产源码/版本或发布包。
+
+### 无截图功能补验：内置更新进程探针构建
+
+- 命令：`dotnet <sdk8.0.408>/Roslyn/bincore/csc.dll /target:exe /platform:x64 /langversion:7.3 /codepage:65001` 编译 `continuation/no-screenshot/update/NativeUpdateProbe.cs`，引用当前 baseline Core/Newtonsoft 和 net48 压缩库；返回码 0，无编译诊断。精确参数、输出在同目录 `build-result.json`、`build.log`。
+- 场景为当前产品 EXE 的 `--install-update` 模式、回环 HTTP ZIP、真实父进程等待和重启标记子进程；临时更新目录也指向唯一隔离运行目录。测试目标版本标记仅在本地请求中，不修改软件版本或在线清单。
+
+### 无截图功能补验：当前内置更新实际进程链
+
+- 命令：`continuation/no-screenshot/update/NativeUpdateProbe.exe`，内部真实调用当前主 EXE 的 `--install-update --app-dir ... --exe ... --pid ... --request-file ...`；完整绝对路径/参数在结果中。返回码 0，1 条完整安装场景通过，17 个检查点通过、0 失败、0 跳过，耗时 3653ms。
+- 监督 PID 18656，等待退出的所属父进程 15428，生产安装器 17836，真实重启标记子进程 19944。安装器在父进程存活时等待；父进程退出后才发出 1 次回环 HTTP 下载。主文件/Core 替换、新增 DLL 哈希、配置原字节及日志标记保留、10 条阶段日志、更新临时目录清理均通过；各所属进程已退出，无超时或清理错误。
+- 当前生产 EXE SHA-256 `2B60A1E50C262F26B2BFDB17396932DB80B86AB3A6A5F588B6DB793EFB72E605`。权威证据 `continuation/no-screenshot/update/runs/528398d6276e40b3ada0ffeaced4971e/result.json`，同目录保留请求、HTTP 请求头、包和 `target/logs/`，外层命令/输出 `update/run-result.json`、`run.log`。
+- 边界：下载、安装与 Process.Start 均为当前生产实现，没有模拟回调。包为本地专用夹具，重启目标为写标记后退出的程序；不等于新公开版、主窗口升级提示/再次启动或真实在线发布通过。既有签名/加密和线上历史证据复用，正式程序、配置、注册表及线上清单没有改动。
+
+### 无截图功能补验：Sandboxie只读探针首次构建
+
+- `continuation/no-screenshot/sandbox-readonly/build-result.json` 保存 Roslyn/net48 x64 完整编译参数；返回码 1，`build.log` 有两处 CS0104：测试源中的 TimeoutException 与 System.ServiceProcess 同名类型产生歧义。未执行探针，功能通过/失败均为 0；属于夹具编译错误，不判产品失败。仅明确测试异常类型后重新构建，保留原日志。
+
+### 无截图功能补验：Sandboxie只读探针构建纠正
+
+- 仅将测试源的两处异常类型写为 `System.TimeoutException`，复用同一 Roslyn 参数编译，返回码 0，无编译诊断；`continuation/no-screenshot/sandbox-readonly/build-final-result.json`、`build-final.log`。生产源码未改，尚无功能结果；只读路径限制为发现安装、官方用户枚举和 /listpids、原生 PID API、服务状态及 INI 哈希观察。
+
+### 无截图功能补验：Sandboxie真实只读查询中断
+
+- 命令：`continuation/no-screenshot/sandbox-readonly/SandboxReadOnlyProbe.exe`；返回码 1，耗时 11270ms。实际发现 `C:\Program Files\Sandboxie`，官方枚举返回码 0、96 个用户；20 次原生 PID API 均返回有效空集合（当前没有活动沙盒 PID，不证明运行中发现通过）。前 11 个用户的官方 `/listpids` 与 API 空结果一致，无比较失败/漂移。
+- 到 `Box12` 时生产 `RunSandboxieStart` 返回 null，探针以 TimeoutException 中断，后续用户未执行。生产包装同时会把超时或异常转为 null，故当前仅能断言“实际官方查询无有效返回”，不能仅凭探针异常类认定根因。将对该单个失败查询捕获直接进程返回和耗时，不重跑前面通过项。
+- 结果 `continuation/no-screenshot/sandbox-readonly/runs/129772788f52426b8196a2072e437b10/result.json`，同目录保留官方用户枚举原文；外层命令/输出 `sandbox-readonly/run-result.json`、`run.log`。正式 INI 候选哈希前后一致，SbieSvc 始终 Running；没有创建、删除、启停沙盒或正式服务操作。
+
+### 无截图功能补验：Box12单项直接查询诊断
+
+- 命令：`C:\Program Files\Sandboxie\Start.exe /box:Box12 /listpids`，隐藏窗口、重定向输出、8秒超时；仅诊断上一项未返回的同一查询，不涉及启动用户程序。所属 PID 13856，退出码 0、耗时 57ms，标准输出 `0`、标准错误为空，无超时、进程已正常退出。证据 `continuation/no-screenshot/sandbox-readonly/box12-direct-result.json`。
+- 该结果证明单项官方查询当前可用，不能撤销原生产包装无结果记录或认定已经修复；继续未完成用户时跳过此前已通过项，重复的原生空集合压力也跳过。
+
+### 无截图功能补验：只读查询续测夹具构建
+
+- 为避免重跑通过项，探针增加显式 `SHAHE_READONLY_RESUME=1` 模式：核对正式 INI 候选哈希与原记录一致，复用原官方用户名单，跳过原生重复采样及先前完成的用户，只继续未完成查询。生产行为不变。
+- 同参数 Roslyn 构建返回码 0，无编译诊断；`continuation/no-screenshot/sandbox-readonly/resume-build-result.json`、`resume-build.log`。原失败证据保留，续测结果另建唯一目录。
+
+### 无截图功能补验：Sandboxie剩余用户只读查询
+
+- 命令：仅当前子环境设置 `SHAHE_READONLY_RESUME=1` 后运行 `continuation/no-screenshot/sandbox-readonly/SandboxReadOnlyProbe.exe`；返回码 0，耗时 3945ms。跳过原先已完成的 11 个用户，剩余 85 个用户（含原中断 Box12）全部官方命令退出码 0，CLI 与前后稳定原生 API 的空 PID 集合一致，0 比较失败/漂移。
+- 本轮两段合计覆盖官方枚举的 96 个用户；这是当前无沙盒进程状态下的真实查询，不等于运行中 PID、创建/删除/批量启动/关闭已验收。原 Box12 无有效返回保留为偶发查询异常候选，后续正常结果不删除历史失败或声称已修复。
+- 权威结果 `continuation/no-screenshot/sandbox-readonly/runs/0f931ee109354aa7a9957b4a4ac376e9/result.json`；命令/输出 `sandbox-readonly/resume-run-result.json`、`resume-run.log`。正式 INI 候选哈希一致，SbieSvc 状态仍 Running。后续完整性检查核对无所属查询/探针进程残留。
+
+### 无截图功能补验：源码、残留和文档核对
+
+- 最终完整性检查返回码 0：与本轮基线比较 118 个生产源码文件，差异 0；无 `continuation/no-screenshot/` 下所属测试进程残留。当前主EXE/Core 哈希与原生验证基线一致。
+- 项目结构、当前计划、报告和逐入口清单严格 UTF-8 解码通过，replacement character 为 0；本次文档 `git diff --check` 返回码 0。证据 `continuation/no-screenshot/final-integrity.json`、`document-diff-check.log`。
+- 本次新增实际结果已逐项记录；原全量失败、压力缺陷和真实交互未验收继续保留，没有修改产品/发布包，没有重启旧30轮。当前计划的完整UI、真实运行中沙盒和系统登录/主窗口升级边界仍未完成，不据新增组件通过声明整套完成。
+
+### 无截图功能补验：官方查询子进程补充清理核对
+
+- 按两段只读探针父 PID 10888、19936 以及精确 `C:\Program Files\Sandboxie\Start.exe` 路径核对所属官方查询进程，残留 0，检查返回码 0；证据 `continuation/no-screenshot/official-query-cleanup.json`。没有终止任何正式 Sandboxie/读屏进程。
+- 已重新阅读当前计划的执行、历史停止、已完成和未完成状态；本次只关闭有新增证据的组件场景，完整软件验收仍未完成。
+
+### 未通过项继续：非默认音频设备探针构建
+
+- 用户要求“没测试通过的继续”，沿用当前全功能计划，补尚未验证的外部效果并诊断未确认失败，不重跑通过组。两个子代理分别准备菜单原生资源探针及复核高优先级失败因果，主代理执行音频补验。
+- Roslyn/net48 x64 编译 `continuation/pending/audio/NonDefaultAudioProbe.cs`，引用本轮 baseline Core/Newtonsoft；返回码 0，无编译诊断。精确参数和输出见 `continuation/pending/audio/build-result.json`、`build.log`。
+- 新场景是在非默认播放设备建立所属静音 WinMM 流，独立原生接口校准后检查生产会话发现、当前/全部音量和静音；不改变系统默认设备，不操作读屏或用户音频进程。接口结构按微软 waveOutOpen、WAVEHDR、waveOutPrepareHeader 文档核对；探针不等于动态路由已通过。
+
+### 未通过项继续：非默认音频首次探针启动异常
+
+- 命令：`continuation/pending/audio/NonDefaultAudioProbe.exe`；进程返回码 -532462766（CLR未处理异常），输出提示异常字符串无法打印，未生成场景结果，产品通过/失败均不计。证据 `audio/run-result.json`、`run.log`，原样保留。
+- 夹具检查发现静态字段提前引用生产程序集，发生在 Main 注册 AssemblyResolve 之前；将其改为访问时取 Type，确保解析器先注册，仅改测试源后复验。当前不能将启动故障判为产品音频失败。
+
+### 未通过项继续：非默认音频夹具加载修正构建
+
+- 取消测试类过早初始化的生产 Type 静态字段，改为调用时解析；同一 Roslyn 参数重新构建返回码 0，无诊断。`continuation/pending/audio/build-final-result.json`、`build-final.log`。生产代码未改，原启动失败不覆盖。
+
+### 未通过项继续：非默认设备音量/静音确认失败
+
+- 命令：`continuation/pending/audio/NonDefaultAudioProbe.exe`；有效运行返回码 1，5 项检查失败、0 通过、0 跳过，内部耗时 1227ms。监督 PID 18348，所属无声流 PID 18804，直接在非默认 Realtek 扬声器端点 `{0.0.0.00000000}.{9d0e959d-b508-434a-bbc6-14ab0572b7b5}` 建立音频会话。
+- 独立原生端点检查确认会话 Active、音量约0.4、未静音；生产枚举找不到该PID。当前提高音量、全部降低音量、当前静音、全部静音均接受并完成任务，但实际会话保持0.4/未静音，状态分别提示“未找到可调节音量/可静音的进程”。故不是截图、无声流未建立或沙盒PID缺失造成。
+- 已确认根因：`csharp/ShaheLauncher.Core/Processes/WindowsProcessAudioBackend.cs::GetAudioSessions` 只调用 GetDefaultAudioEndpoint 获取默认设备，没有枚举其他活动输出设备。新缺陷编号 `AUDIO-NONDEFAULT-01`；此前默认设备上的音量/静音通过仍有效，但不适用于非默认设备。本次没有测试动态播放流迁移，也未断言是Python漏迁移。
+- 精确证据 `continuation/pending/audio/runs/6b14f2aa95954c1f902ecfa606e8c408/result.json`，命令/输出 `audio/run-final-result.json`、`run-final.log`。原生流复位、释放并正常退出，clean=true；没有更改系统默认设备或用户音频路由，没有修改产品代码。
+
+### 未通过项继续：菜单原生资源诊断构建
+
+- 编译 `continuation/pending/resource/MenuResourceProbe.cs`，Roslyn/net48 x64，引用当前 baseline 主EXE/Core/Newtonsoft，返回码 0，无诊断；精确参数及源文件哈希在同目录 `build-result.json`，输出 `build.log`。
+- 审核范围：仅测试进程内构造隐藏主窗体、创建并观察自己的 HWND/HMENU，然后 Destroy/Dispose 和GC；不调用 Program/InitializeApplication，不显示窗口或注入输入，不创建托盘、查询正式沙盒或写入自启动。用原生 IsMenu 与托管弱引用区分“未发事件”和“资源未释放”，不直接以汇总句柄差值定性。
+- 音频源码对照补充：Python 的 `features/process_actions.py` 也调用 pycaw `AudioUtilities.GetAllSessions()`；本机 pycaw 的 GetAllSessions→GetAudioSessionManager→GetSpeakers 同样只获取默认端点。这是源码层共有边界证据，没有重跑Python音频，不把 AUDIO-NONDEFAULT-01 直接归为迁移遗漏。
+
+### 未通过项继续：菜单事件与实际资源区分
+
+- 命令：`continuation/pending/resource/MenuResourceProbe.exe`，所属 PID 10460，退出码 0，50 轮观察完成、0 执行异常、0 超时，约3515ms，正常退出。结果 `resource/run.jsonl`、`run-result.json`、`summary.json`，标准错误为空。
+- 原事件失败仍能复现：每轮主菜单/路径菜单 Disposed 计数为0，所属用户菜单为1。主菜单原生HMENU在窗体Dispose后已经失效；路径菜单HMENU在仍持强引用时每轮仍有效，但释放引用并GC后所有菜单及子菜单HMENU均失效，窗体和菜单弱引用也全部不可达。GC后资源从首轮至末轮稳定为 GDI16/USER10/进程句柄405，无逐轮累积趋势。
+- 结论：原“缺少事件”不能解释为持续原生菜单泄漏；本次短周期未观察到GC后泄漏。路径上下文菜单未被确定性Dispose、依赖最终回收，作为低优先级释放改进项保留。返回码0只表示诊断完成且未留存，不把菜单事件要求或真实生命周期整体验收改成通过；本测试不验证长时使用/真实托盘退出。
+
+### 未通过项继续：另一播放框架的路由诊断构建
+
+- Roslyn/net48 x64 编译 `continuation/pending/routing/MediaRoutingProbe.cs`，复用历史 AudioRoutingProbe 中只读端点观察/路由读回方法，入口明确指定 MediaRoutingProbe，旧 Main/Python/WinMM 对照不执行；返回码 0，无诊断。精确参数 `routing/build-result.json`，输出 `build.log`。
+- 场景采用所属无界面 Windows Media Player COM 播放静音 WAV，以当前生产“切换当前设备”动作设置路由，再核对活动会话端点与重新打开媒体后的端点。只在所属进程保存/恢复原路由，设备选择和沙盒PID是夹具；不是桌面输入。COM播放器用法核对微软 Windows Media Player 对象模型/Controls 文档。
+- 三项历史高优先级失败的源码/夹具复核已交接到 `continuation/pending/confirmed-failures.md`：还原先删后复制且异常缺回退、删除查询失败变空列表、定时闭包仍抓旧目标均有对应证据；仅分析，不新增运行通过或声称已修复。两个子代理均已关闭。
+
+### 未通过项继续：实际播放设备切换取得有效通过
+
+- 命令：`continuation/pending/routing/MediaRoutingProbe.exe`；返回码 0，2 个实际端点检查通过（播放中迁移、重新打开媒体后仍在目标端点），0 失败/超时，耗时2366ms。监督 PID18164，所属无界面媒体进程11984。
+- 生产 OnSwitchOutputDeviceCurrentSandbox 设置路由后，原 Playback 1/2 端点会话变 Inactive，Realtek 端点出现 Active 会话，独立原生观察确认实际迁移，不只核对设置返回true。原Console/Multimedia路由均为null，退出前逐项恢复并读回一致；所属进程正常退出，标准错误为空。
+- 证据 `continuation/pending/routing/runs/aa82726237af400994272f4382f10dce/result.json`，外层命令/输出 `routing/run-result.json`、`run.log`。该结果证明本机 Windows Media Player COM 框架的当前进程切换可用，不能扩大成所有应用/全部进程/真实菜单通过。历史WinMM流不迁移记录仍有效，属于不同播放框架的实际差异。
+- 后续只补“成功切换后继续调音量/静音”的组合缺口，迁移步骤作为新场景前置校准，不另记重复通过；已有默认设备压力和WinMM对照不重跑。
+
+### 未通过项继续：切换后音量/静音组合探针构建
+
+- 原路由探针增加 `SHAHE_AUDIO_POST_SWITCH=1` 模式，仅以成功迁移作校准，随后在目标设备设置所属流基线并执行当前音量/静音。复用非默认设备探针的原生读回方法，不再执行已通过的重新打开媒体检查。
+- Roslyn构建返回码0，无诊断；完整引用参数见 `continuation/pending/routing/post-build-result.json`，输出 `post-build.log`。只修改隔离测试代码，生产组件继续复用同一基线。
+
+### 未通过项继续：切换后组合场景首次校准无效
+
+- `SHAHE_AUDIO_POST_SWITCH=1 MediaRoutingProbe.exe` 返回码2，监督PID12260、媒体PID18868，约1901ms；路由迁移前置成功，但测试测量器只保留同PID最后一条会话状态，WMP同端点同时有Active/Inactive会话，误用末尾Inactive判校准失败。产品音量/静音动作尚未执行，不计产品失败或通过。
+- 证据 `continuation/pending/routing/runs/310026476940496ea01aea5d57cedbce/result.json`、`routing/post-run-result.json`。原路由恢复且媒体进程正常退出，无清理异常。仅为该组合测量增加“只读/设置活动会话”选项后复验，不改变生产枚举逻辑。
+
+### 未通过项继续：活动会话校准修正构建
+
+- 为共享测试测量器增加默认关闭的 activeOnly 参数，组合场景启用后跳过Inactive会话；原非默认单流探针的调用行为不变。Roslyn重编译路由组合探针返回码0，无诊断。证据 `continuation/pending/routing/post-build-final-result.json`、`post-build-final.log`；没有删产品断言或修改生产代码。
+
+### 未通过项继续：成功切换后音量/静音仍失败并误报成功
+
+- 命令：`SHAHE_AUDIO_POST_SWITCH=1 continuation/pending/routing/MediaRoutingProbe.exe`；有效复验返回码1，2个新组合检查均失败、0通过，约1969ms。监督PID8644，媒体PID17156；路由迁移已独立校准成功，故失败不是迁移前置未满足。
+- 目标端点活动会话校准为40%/未静音。生产“提高5%”提示“当前约100%”，实际活动会话仍40%；生产“静音”提示“已静音”，实际仍未静音。源码只枚举默认端点，并把该PID留在旧默认端点的Inactive会话也当控制对象，因此操作了旧会话、反馈成功，却没有影响正在播放的目标会话。归入同一根因 `AUDIO-NONDEFAULT-01`，不是另一个配置保存反馈问题。
+- 证据 `continuation/pending/routing/runs/5046c4b7df764e7284a876b51329c689/result.json`，外层命令/输出 `routing/post-run-final-result.json`、`post-run-final.log`。原Console/Multimedia路由精确恢复，所属媒体正常退出，stderr为空；未重测媒体重新打开，reopenedMigrated=false表示该模式未执行，不判该旧通过项失败。
+- 原首轮校准错误保留为无效证据；本条有真实活动会话、输入基线、生产状态文案和实际效果读回，属于有效产品失败。后续修复需同时覆盖非默认端点发现和切换后活动会话效果，不能只修改提示文字。
+
+### 未通过项继续：本次完整性与计划核对
+
+- 最终检查返回码0，118个基线生产源码文件无哈希差异；`continuation/pending/`所属探针/媒体进程残留0。项目结构、当前计划、报告、逐入口清单及失败交接严格UTF-8通过，无replacement character，文档差异检查返回码0。证据 `continuation/pending/final-integrity.json`、`diff-check.log`。
+- 已复读当前活动计划核对：本轮关闭的是有证据的诊断/特定播放框架场景，AUDIO-NONDEFAULT-01及还原/删除保护/定时旧目标等失败尚未修复；真实输入、运行中沙盒、全部输出切换及其他框架边界保持未完成。没有产品修改、提交或发布，没有重启旧30轮。
+
+### 用户新增交付要求：验收后发布GitCode
+
+- 用户明确要求“测好之后推版本到gitcode”，条件发布已授权，届时不重复询问推送权限。当前仍有确认失败，不把未验收/失败包直接改成正式更新。
+- 已展示当前计划完整追加内容，包含按顺序修复、验证、绿色包与旧版升级、命令行GitCode包/清单发布；计划写入确认正在等待用户答复，尤其需要明确此前撤回的保存失败反馈修复是否重新纳入。未写入该计划追加内容，未修改生产源码/版本。
+- 本地发布准备只读核对返回码0：现有源码和本地公开清单版本4.0.50，专用GitCode发布检出干净，HEAD为7a0f156d38c8db1348314cb7e82ede6d3118401d。证据 `artifacts/runs/release_readiness_20261112/114303/local-readiness.json`。下一候选预计4.0.51，尚待线上版本核对，不覆盖旧版本包。
+
+### 发布准备：线上清单只读核对
+
+- `curl.exe --location --silent --show-error --connect-timeout 10 --max-time 25` GET生产UpdateManifestUrl，返回码0、HTTP200，JSON解析有效，线上latest_version=4.0.50、1个包。此时下一候选4.0.51未被该清单占用；正式发布前仍须再次核对，不能据当前读取覆盖随后变化。
+- 命令URL、HTTP状态和版本见 `artifacts/runs/release_readiness_20261112/114303/manifest-result.json`，原清单/响应头/错误输出同目录。此前网页读取工具无法访问的结果不代表GitCode失效；本机CLI此次读取有效。未下载旧包、未推送或修改在线清单。
+
+### 发布准备：GitCode远端分支只读核对
+
+- 命令：专用发布检出中 `git -c credential.interactive=false -c http.connectTimeout=10 -c http.lowSpeedLimit=1 -c http.lowSpeedTime=15 ls-remote --heads origin main`；返回码0，远端main与本地发布检出HEAD一致，均为7a0f156d38c8db1348314cb7e82ede6d3118401d。证据 `artifacts/runs/release_readiness_20261112/114303/remote-main-result.json`、`remote-main.log`。
+- 这是只读连通性核对，不证明本轮新包已上传或更新验收已通过；当前没有远端变更。
+
+### 发布准备：GitCode命令行推送预检
+
+- 命令：专用发布检出中 `git -c credential.interactive=false -c http.connectTimeout=10 -c http.lowSpeedLimit=1 -c http.lowSpeedTime=15 push --dry-run --porcelain origin HEAD:refs/heads/main`；返回码0，输出 `[up to date]`。证据 `artifacts/runs/release_readiness_20261112/114303/push-dry-run-result.json`、`push-dry-run.log`。
+- 本次为dry-run且本地/远端相同，没有提交或远端写入；不能用其代替实际新包上传及更新验证。已复读当前活动计划，确认产品缺陷修复及发布追加尚待所展示范围的确认，既有失败和真实验收缺口继续保留。
+
+### 发布前修复：授权与隔离基线
+
+- 用户明确同意完整修复范围，当前活动计划已追加，包括此前撤回的保存失败反馈修复；历史撤回记录保留，不再代表当前授权状态。
+- 新隔离工作树 `D:/mycodex/worktrees/shahe-release-fixes-20261112`，分支 `fix/release-readiness-20261112`，从已推送的f7169c8建立后复制当前csharp源码。文件哈希快照在 `artifacts/runs/release_fixes_20261112/source-baseline.json`。保留现有分组选择、版本及测试差异，不回退主目录、不重跑无变化基线；复用本轮既有失败证据，后续新增定向RED/GREEN。
+
+### 发布前修复：隔离工作树依赖恢复
+
+- 在新工作树执行 `dotnet restore csharp\ShaheBulkLauncher.sln --locked-mode`，进程级NuGet缓存指向 `D:/Dev/NuGet/packages`；返回码0，四项目成功恢复，没有更改依赖版本。命令及日志 `artifacts/runs/release_fixes_20261112/restore-result.json`、`restore.log`。本轮没有重跑旧全量基线。
+
+### 还原安全：替换后异常 RED
+
+- 新增真实隔离文件回归：数据和INI替换后的进度回调抛异常，旧实现未恢复旧文件。`pwsh -File artifacts/runs/release_fixes_20261112/test.ps1 -Stage restore-progress-red -Filter FullyQualifiedName~RestoreProgressFailureContractTests` 返回码1，总计1，通过0、失败1、跳过0，失败断言为旧数据未恢复；编译成功，无正式服务调用。精确命令、输出和TRX在该轮 `result.json`、`test.log`、`tests.trx`。
+
+### 还原安全：文件/配置/服务保护 RED
+
+- `test.ps1 -Stage restore-safety-red -Filter FullyQualifiedName~RestoreFailureSafetyContractTests` 返回码1，总计14，通过2、失败12、跳过0。确认源文件占用、目标INI占用、后续用户失败、重载失败、停止后异常、路径越界及服务状态缺口；通过项为原有成功路径和部分恢复异常提示。生产源码尚未修改，失败日志及TRX在 `artifacts/runs/release_fixes_20261112/restore-safety-red/`。测试仅用隔离文件及模拟服务，不操作正式服务。
+
+### 还原安全：Core 定向 GREEN
+
+- `test.ps1 -Stage restore-core-green -Filter 'FullyQualifiedName~RestoreFailureSafetyContractTests|FullyQualifiedName~RestoreProgressFailureContractTests|FullyQualifiedName~BackupRestoreServiceContractTests'` 返回码0，总计22，通过22、失败0、跳过0。新增两个RED批次和原备份契约均通过；真实文件锁、复制失败、配置合并失败、替换后异常与服务回调恢复已覆盖。精确命令/TRX/输出在 `artifacts/runs/release_fixes_20261112/restore-core-green/`。
+- 当前只证明Core隔离数据及服务回调层；主窗口实际服务状态/完成校验尚待接入，不标记第一项整体完成、不发布。新数据先暂存，目录原件和INI副本保留到操作成功，回退失败时保留路径并报错；原停止状态不执行stop/reload/restart。实现参考 [.NET File.Replace 文档](https://learn.microsoft.com/en-us/dotnet/api/system.io.file.replace?view=netframework-4.8) 的同卷替换及备份语义，INI暂存和副本放在目标同目录。
+
+### 还原安全：主窗口接线 RED
+
+- `test.ps1 -Stage restore-wiring-red -Filter FullyQualifiedName~RestoreServiceLifecycleRuntimeContractTests` 返回码1，总计16，通过4、失败12、跳过0。失败集中在未接原服务状态查询、默认及null重载回调未检查命令结果；显式自定义回调传播已有通过证据。目录 `artifacts/runs/release_fixes_20261112/restore-wiring-red/` 保存精确命令、TRX和输出。未执行正式服务命令；尚未运行的源码正则用例在验证前剔除，不以镜像实现测试代替实际行为。
+
+### 还原安全：重载可能启动服务的回退 RED
+
+- 新补两例模拟真实命令边界：重载先启动服务再抛错，回退前必须重新停止；再次停止失败时保留全部旧副本、不触碰仍在使用的新数据。`test.ps1 -Stage restore-reload-stop-red -Filter FullyQualifiedName~ReloadThatStartsServiceMustStopItBeforeRollback` 返回码1，总计2、通过0、失败2、跳过0。失败均为回退前未重新停止。证据 `artifacts/runs/release_fixes_20261112/restore-reload-stop-red/`；服务仍仅为隔离状态模型。
+
+### 还原安全：重载失败回退 GREEN
+
+- `test.ps1 -Stage restore-reload-stop-green`，筛选原备份契约及两个新增还原保护测试类，返回码0，总计24、通过24、失败0、跳过0。重载/恢复阶段失败后先再次停止再回退；停止被拒绝时保留旧数据和INI副本、提示路径，不在未知运行状态下覆盖。此前两个新RED均转GREEN，完整命令/输出/TRX在 `artifacts/runs/release_fixes_20261112/restore-reload-stop-green/`。主窗口接线仍待GREEN，实际正式服务未操作。
+
+### 还原安全：主窗口接线 GREEN
+
+- `test.ps1 -Stage restore-wiring-green -Filter 'FullyQualifiedName~RestoreServiceLifecycleRuntimeContractTests|FullyQualifiedName~MainFormApplicationContractTests.WiresRestore'` 返回码0，总计17、通过17、失败0、跳过0。主窗口服务初态查询、命令null/非零/异常传播、显式回调覆盖、默认还原重载与其他入口隔离、原还原菜单接线均通过。证据 `artifacts/runs/release_fixes_20261112/restore-wiring-green/`。
+- 生产默认停启改为ServiceController请求并有界等待，不再发出net/taskkill后立即视为成功；仅还原路径校验/reload返回码，其他旧重载入口行为保持。此处测试使用真实MainForm/生产服务与隔离依赖回调，没有停止正式SbieSvc，不冒充真实服务停启验收。
+
+### 还原安全：审查与恢复边界补验
+
+- 独立Core审查的规格/质量均通过，报告 `artifacts/runs/release_fixes_20261112/restore-core-review.md`；其中列出的恢复边界新增真实文件验证，而非重复整组。
+- `test.ps1 -Stage restore-recovery-edges` 精确筛选4个新增数据行，返回码0，总计4、通过4、失败0、跳过0。数据或INI回退被实际文件锁阻止时保留对应原副本、报告路径且不启动服务；首次还原失败回到无目标目录/无INI；旧只读文件可以成功替换并清理副本。结果/TRX/输出在 `artifacts/runs/release_fixes_20261112/restore-recovery-edges/`，未改断言掩盖失败，没有正式数据写入。
+
+### 还原安全：首次全量门禁
+
+- `test.ps1 -Stage restore-full` 不设筛选，返回码1，总计486，通过485、失败1、跳过0。所有还原及受影响原用例通过；唯一失败仍是微信打赏测试finally恢复旧OLE剪贴板对象的0x800401D0，原图复制断言已通过，不是还原回归。精确命令、输出、TRX在 `artifacts/runs/release_fixes_20261112/restore-full/`。不将此轮记全绿。
+- 为完成本模块门禁，提前处理已批准“测试夹具清理错误”子项，范围仅DonationQrRuntimeContractTests；保留业务断言和实际失败，不修改打赏产品行为、不清空用户剪贴板来绕过。下一轮先定向验证该夹具，再决定全量复验。
+
+### 还原安全：Release x64 构建
+
+- `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=D:\mycodex\git\artifacts\runs\release_fixes_20261112\bin\` 返回码0，四项目成功，警告0、错误0。结果/日志 `artifacts/runs/release_fixes_20261112/restore-release/`。构建通过不覆盖上一轮全量夹具失败或真实服务边界。
+
+### 还原安全：Python 对照基线
+
+- 当前主目录执行 `python -m unittest discover -s tests -p test_*.py -v` 返回码0，总计31、通过31、失败0、跳过0；缓存定向本轮隔离证据目录，未改Python源码。命令/日志 `artifacts/runs/release_fixes_20261112/python-reference/result.json`、`test.log`。
+- 对照 `shahe_bulk_launcher/backup.py` 的既有覆盖还原行为：本次回退保护和服务结果校验为用户明确批准的缺陷修复，不要求复刻原版已确认的数据丢失风险；原UI、文案及未选用户保护继续保持。原Python编码保留逻辑与C#差异留在计划配置/编码项处理，不因该套件通过关闭。
+
+### 还原安全：Python 生产源码编译
+
+- `python -m compileall -q 沙河批量打开器.py shahe_bulk_launcher` 返回码0，无编译错误；缓存仍在本轮隔离目录，没有改Python源码。结果 `artifacts/runs/release_fixes_20261112/python-reference/compile-result.json`、`compile.log`。C#生产源码已由本轮Release构建验证，全量夹具修复继续进行。
+
+### 还原安全：受影响文件负载探针构建
+
+- Framework csc以x64编译 `artifacts/runs/release_fixes_20261112/restore-load/RestoreLoadProbe.cs`，引用本轮已构建Core DLL，返回码0，无诊断。参数/输出在同目录 `build-result.json`、`build.log`。用于新事务实现的原计划文件负载，只覆盖还原，不重跑未受影响的其他压力组。
+
+### 还原安全：受影响文件负载通过
+
+- `RestoreLoadProbe.exe <本轮>/restore-load/data` 返回码0：每轮1000个中文内容文件、连续10轮还原，10000次逐文件内容校验全部通过，耗时38744ms，目标PID18272已正常退出。每轮同时核对原未选用户、INI未选节、服务状态模型和暂存/副本清理。正式服务调用0；没有启动或停止用户进程。
+- 精确命令、Core哈希、计数及输出 `artifacts/runs/release_fixes_20261112/restore-load/command-result.json`、`result.json`，stderr为空。该负载仅复验因事务实现变化而受影响的还原，不重复其他已通过功能，也不恢复旧30轮循环。
+
+### 打赏测试夹具：定向 GREEN
+
+- 保留原图尺寸、像素、按钮文案及无障碍断言；测试改为操作前物化旧剪贴板数据并持有自有副本，恢复有界重试，不恢复已经失效的延迟OLE对象；不能安全复制的格式在改变剪贴板前明确失败。新增快照独立性和拒绝不支持数据的验证，不改产品。
+- `test.ps1 -Stage clipboard-fixture-green -Filter FullyQualifiedName~DonationQrRuntimeContractTests` 返回码0，总计6、通过6、失败0、跳过0。此前微信finally失败已取得定向GREEN，证据 `artifacts/runs/release_fixes_20261112/clipboard-fixture-green/`。未删除失败断言、未跳过用例、未无条件清空用户剪贴板。
+
+### 还原安全及夹具修复：最终全量 GREEN
+
+- `test.ps1 -Stage restore-full-final` 不设筛选，返回码0，总计488、通过488、失败0、跳过0。新增快照测试及原打赏复制/恢复全部通过，所有还原/主窗口/受影响旧测试通过。精确命令、输出与TRX在 `artifacts/runs/release_fixes_20261112/restore-full-final/`。此前486项的夹具失败原记录保留，未通过重跑掩盖未经修复的失败。
+- 主窗口独立审查的规格与质量通过，报告 `restore-wiring-review.md`；夹具修复说明 `clipboard-fixture-report.md`。当前可进入本项差异核对和独立提交；删除保护、定时、音频、配置/编码等其他确认缺陷尚未处理，真实桌面/运行中沙盒/服务外部验收边界仍在，不声明整个软件通过或可发布。
+
+### 还原安全：差异、编码与清理核对
+
+- 对本项触及的8个C#源码/项目文件执行严格UTF-8和replacement character检查通过，`git diff --check` 返回码0，本轮产物目录下所属探针残留0。结果 `artifacts/runs/release_fixes_20261112/restore-integrity.json`、`restore-verified-source.json`、`restore-diff-check.log`。
+- 原主目录分组选择、4.0.50版本及已有KeyboardAudit测试差异仍单独保留；本项提交将只纳入还原修复、对应测试、必须的剪贴板夹具修复和已授权文档，不把旧版本/分组/其他未提交改动混入修复提交。
+
+### 还原安全：主目录同步与暂存检查
+
+- 已核对主目录触及文件仍等于任务前快照后，同步8个验证通过的源码/测试文件，未覆盖并发改动；结果 `artifacts/runs/release_fixes_20261112/restore-sync-result.json`。MainForm通过只含还原差异的补丁暂存，既有分组改动保留在工作区。
+- 首次暂存差异检查返回2，唯一问题为已批准计划末尾多一个空白行，已只修正文档尾空行；不涉及产品失败或重跑测试。下次暂存检查确认后提交。
+
+### 还原安全：提交前检查通过
+
+- 文档尾空行修正后，暂存 `git diff --cached --check` 返回0；暂存清单与已向用户列出的11个文件一致。Core及主窗口审查、定向及受影响全量、文件负载、Python对照/编译、Release和源码编码检查均已有本轮实际证据。暂存MainForm只含本项差异，主目录原有版本、分组及其他改动未混入本项提交。
+
+<!-- FULL-ONCE-APPEND -->

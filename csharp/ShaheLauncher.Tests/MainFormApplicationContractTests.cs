@@ -818,6 +818,7 @@ namespace ShaheLauncher.Tests
                     new Func<string, string, MessageBoxButtons, MessageBoxIcon, DialogResult>(
                         (text, title, buttons, icon) =>
                             title == "确认还原" ? DialogResult.Yes : DialogResult.No));
+                SetProperty(formType, form, "IsSandboxieServiceRunningCallback", new Func<bool>(() => true));
                 SetProperty(formType, form, "StopSandboxieServicesCallback", new Action(() => { }));
                 SetProperty(formType, form, "ReloadSandboxieConfigCallback", new Action(() => { }));
                 SetProperty(formType, form, "RestartSandboxieServicesCallback", new Action(() => { }));

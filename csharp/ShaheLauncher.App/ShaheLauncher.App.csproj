@@ -8,6 +8,7 @@
   <ItemGroup>
     <ProjectReference Include="..\ShaheLauncher.Core\ShaheLauncher.Core.csproj" />
     <Reference Include="System.Net.Http" />
+    <Reference Include="System.ServiceProcess" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\打赏\*.jpg" Link="打赏\%(Filename)%(Extension)">

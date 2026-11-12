@@ -15,6 +15,7 @@ namespace ShaheLauncher.Core.Backup
     {
         public Action<string> SetStatus { get; set; }
         public Action<int, string> UpdateProgress { get; set; }
+        public Func<bool> IsSandboxieServiceRunning { get; set; }
         public Action StopSandboxieServices { get; set; }
         public Action ReloadSandboxieConfig { get; set; }
         public Action RestartSandboxieServices { get; set; }
@@ -331,54 +332,225 @@ namespace ShaheLauncher.Core.Backup
             BackupRestoreCallbacks callbacks)
         {
             var result = new BackupRestoreResult();
+            var replacements = new List<RestoreDirectory>();
+            string stagingRoot = null;
+            string preparedIni = null;
+            string previousIni = null;
+            bool createdIni = false;
+            bool resumeService = false;
+            bool reloadAttempted = false;
+            bool rollbackComplete = true;
             try
             {
-                callbacks?.StopSandboxieServices?.Invoke();
-                callbacks?.UpdateProgress?.Invoke(10, "清理旧数据...");
                 string sourceRoot = Path.Combine(Path.GetFullPath(Text(extractedRoot)), "SandboxUsers");
                 string destinationRoot = Path.GetFullPath(Text(sandboxUsersRoot));
-                Directory.CreateDirectory(destinationRoot);
-                callbacks?.UpdateProgress?.Invoke(30, "还原用户数据...");
-                IList<string> users = CleanNames(selectedUsers);
+                IList<string> users = CleanNames(selectedUsers).Distinct(StringComparer.OrdinalIgnoreCase).ToList();
                 foreach (string user in users)
                 {
-                    string source = Path.Combine(sourceRoot, user);
-                    string destination = Path.Combine(destinationRoot, user);
+                    string source = Path.GetFullPath(Path.Combine(sourceRoot, user));
+                    string destination = Path.GetFullPath(Path.Combine(destinationRoot, user));
+                    if (Path.IsPathRooted(user) || user.IndexOfAny(new[] { '/', '\\', ':' }) >= 0
+                        || !IsDirectChild(sourceRoot, source) || !IsDirectChild(destinationRoot, destination))
+                    {
+                        throw new InvalidDataException("无效的备份沙盒用户: " + user);
+                    }
                     if (!Directory.Exists(source))
                     {
                         throw new DirectoryNotFoundException("未找到备份沙盒用户: " + user);
                     }
-                    if (Directory.Exists(destination))
+                    if (IsUnderRoot(destination, Path.GetFullPath(targetIniPath)))
                     {
-                        Directory.Delete(destination, true);
+                        throw new InvalidDataException("配置文件不能位于待还原用户目录中。");
                     }
-                    CopyDirectory(source, destination);
                 }
 
-                callbacks?.UpdateProgress?.Invoke(70, "合并配置文件...");
+                bool wasRunning = callbacks?.IsSandboxieServiceRunning?.Invoke() ?? true;
+                callbacks?.UpdateProgress?.Invoke(10, "清理旧数据...");
+                stagingRoot = Path.Combine(destinationRoot, ".shahe-restore-" + Guid.NewGuid().ToString("N"));
+                Directory.CreateDirectory(stagingRoot);
+                foreach (string user in users)
+                {
+                    var replacement = new RestoreDirectory
+                    {
+                        Destination = Path.Combine(destinationRoot, user),
+                        Prepared = Path.Combine(stagingRoot, "new-" + replacements.Count),
+                        Previous = Path.Combine(stagingRoot, "old-" + replacements.Count)
+                    };
+                    CopyDirectory(Path.Combine(sourceRoot, user), replacement.Prepared);
+                    replacements.Add(replacement);
+                }
                 string backupIni = Path.Combine(Path.GetFullPath(Text(extractedRoot)), "Sandboxie.ini");
                 if (File.Exists(backupIni))
                 {
-                    MergeIniSections(backupIni, targetIniPath, users);
+                    string iniDirectory = Path.GetDirectoryName(Path.GetFullPath(targetIniPath));
+                    Directory.CreateDirectory(iniDirectory);
+                    preparedIni = Path.Combine(iniDirectory, ".shahe-restore-" + Guid.NewGuid().ToString("N") + ".ini");
+                    previousIni = preparedIni + ".previous";
+                    if (File.Exists(targetIniPath)) File.Copy(targetIniPath, preparedIni);
+                    MergeIniSections(backupIni, preparedIni, users);
                 }
 
-                callbacks?.UpdateProgress?.Invoke(90, "重载配置...");
-                callbacks?.ReloadSandboxieConfig?.Invoke();
-                callbacks?.RestartSandboxieServices?.Invoke();
-                callbacks?.UpdateProgress?.Invoke(100, "完成");
-                callbacks?.SuppressListRefreshStatus?.Invoke(2.0);
-                callbacks?.RefreshSandboxList?.Invoke();
-                callbacks?.SetStatus?.Invoke(RestoreCompletedStatus);
+                if (wasRunning)
+                {
+                    // A stop callback can stop the service and then throw.
+                    resumeService = true;
+                    callbacks?.StopSandboxieServices?.Invoke();
+                }
+                callbacks?.UpdateProgress?.Invoke(30, "还原用户数据...");
+                foreach (RestoreDirectory replacement in replacements)
+                {
+                    if (Directory.Exists(replacement.Destination))
+                    {
+                        CheckRestoreDirectory(replacement.Destination);
+                        Directory.Move(replacement.Destination, replacement.Previous);
+                        replacement.OldMoved = true;
+                    }
+                    Directory.Move(replacement.Prepared, replacement.Destination);
+                    replacement.NewMoved = true;
+                }
+                callbacks?.UpdateProgress?.Invoke(70, "合并配置文件...");
+                if (preparedIni != null)
+                {
+                    if (File.Exists(targetIniPath)) File.Replace(preparedIni, targetIniPath, previousIni);
+                    else
+                    {
+                        File.Move(preparedIni, targetIniPath);
+                        createdIni = true;
+                    }
+                }
+
+                if (wasRunning)
+                {
+                    callbacks?.UpdateProgress?.Invoke(90, "重载配置...");
+                    reloadAttempted = true;
+                    callbacks?.ReloadSandboxieConfig?.Invoke();
+                    callbacks?.RestartSandboxieServices?.Invoke();
+                    resumeService = false;
+                }
                 result.Success = true;
-                result.Status = RestoreCompletedStatus;
             }
             catch (Exception error)
             {
                 result.Error = error.Message;
-                result.Status = RestoreFailedStatus;
-                callbacks?.SetStatus?.Invoke(RestoreFailedStatus);
+                if (reloadAttempted && resumeService)
+                {
+                    // Start.exe /reload may have started the service before failing.
+                    try { callbacks?.StopSandboxieServices?.Invoke(); }
+                    catch (Exception stopError)
+                    {
+                        rollbackComplete = false;
+                        result.Error += "\n回退前停止服务失败，保留副本 " + stagingRoot
+                            + " / " + previousIni + ": " + stopError.Message;
+                    }
+                }
+                bool canRollback = rollbackComplete;
+                // Never discard the old copies when rollback itself is blocked.
+                foreach (RestoreDirectory replacement in replacements.AsEnumerable().Reverse())
+                {
+                    if (!canRollback) break;
+                    try
+                    {
+                        if (replacement.NewMoved) DeleteRestoreDirectory(replacement.Destination);
+                        if (replacement.OldMoved) Directory.Move(replacement.Previous, replacement.Destination);
+                    }
+                    catch (Exception rollbackError)
+                    {
+                        rollbackComplete = false;
+                        result.Error += "\n数据回退失败，保留副本 " + replacement.Previous + ": " + rollbackError.Message;
+                    }
+                }
+                try
+                {
+                    if (canRollback && previousIni != null && File.Exists(previousIni))
+                    {
+                        if (File.Exists(targetIniPath)) File.Replace(previousIni, targetIniPath, null);
+                        else File.Move(previousIni, targetIniPath);
+                    }
+                    else if (canRollback && createdIni) File.Delete(targetIniPath);
+                }
+                catch (Exception rollbackError)
+                {
+                    rollbackComplete = false;
+                    result.Error += "\n配置回退失败，保留副本 " + previousIni + ": " + rollbackError.Message;
+                }
+                if (resumeService && rollbackComplete)
+                {
+                    if (reloadAttempted)
+                    {
+                        try { callbacks?.ReloadSandboxieConfig?.Invoke(); }
+                        catch (Exception reloadError) { result.Error += "\n重新加载原配置失败: " + reloadError.Message; }
+                    }
+                    try { callbacks?.RestartSandboxieServices?.Invoke(); }
+                    catch (Exception restartError) { result.Error += "\n恢复服务失败: " + restartError.Message; }
+                }
+                else if (resumeService)
+                {
+                    result.Error += "\n回退未完成，未启动服务，请使用保留副本恢复数据和配置。";
+                }
             }
+            finally
+            {
+                if (rollbackComplete)
+                {
+                    try
+                    {
+                        if (stagingRoot != null) DeleteRestoreDirectory(stagingRoot);
+                        if (preparedIni != null) TryDeleteFile(preparedIni);
+                        if (previousIni != null) TryDeleteFile(previousIni);
+                    }
+                    catch (Exception cleanupError)
+                    {
+                        result.Error += "\n清理还原临时目录失败 " + stagingRoot + ": " + cleanupError.Message;
+                        result.Success = false;
+                    }
+                }
+            }
+
+            result.Status = result.Success ? RestoreCompletedStatus : RestoreFailedStatus;
+            if (result.Success)
+            {
+                callbacks?.UpdateProgress?.Invoke(100, "完成");
+                callbacks?.SuppressListRefreshStatus?.Invoke(2.0);
+                callbacks?.RefreshSandboxList?.Invoke();
+            }
+            callbacks?.SetStatus?.Invoke(result.Status);
             return result;
+        }
+
+        private sealed class RestoreDirectory
+        {
+            public string Destination;
+            public string Prepared;
+            public string Previous;
+            public bool OldMoved;
+            public bool NewMoved;
+        }
+
+        private static void CheckRestoreDirectory(string directory)
+        {
+            if ((File.GetAttributes(directory) & FileAttributes.ReparsePoint) != 0)
+                throw new InvalidDataException("还原目录不能包含链接: " + directory);
+            foreach (string file in Directory.GetFiles(directory))
+            {
+                if ((File.GetAttributes(file) & FileAttributes.ReparsePoint) != 0)
+                    throw new InvalidDataException("还原文件不能为链接: " + file);
+                using (File.Open(file, FileMode.Open, FileAccess.Read, FileShare.None)) { }
+            }
+            foreach (string child in Directory.GetDirectories(directory)) CheckRestoreDirectory(child);
+        }
+
+        private static void DeleteRestoreDirectory(string directory)
+        {
+            if (!Directory.Exists(directory)) return;
+            if ((File.GetAttributes(directory) & FileAttributes.ReparsePoint) != 0)
+                throw new InvalidDataException("还原清理目录不能为链接: " + directory);
+            foreach (string file in Directory.GetFiles(directory))
+            {
+                File.SetAttributes(file, File.GetAttributes(file) & ~FileAttributes.ReadOnly);
+                File.Delete(file);
+            }
+            foreach (string child in Directory.GetDirectories(directory)) DeleteRestoreDirectory(child);
+            Directory.Delete(directory);
         }
 
         private static void AddDirectoryToArchive(ZipArchive archive, string directoryPath, string archiveRoot)
@@ -415,9 +587,13 @@ namespace ShaheLauncher.Core.Backup
 
         private static void CopyDirectory(string source, string destination)
         {
+            if ((File.GetAttributes(source) & FileAttributes.ReparsePoint) != 0)
+                throw new InvalidDataException("还原目录不能包含链接: " + source);
             Directory.CreateDirectory(destination);
             foreach (string file in Directory.GetFiles(source))
             {
+                if ((File.GetAttributes(file) & FileAttributes.ReparsePoint) != 0)
+                    throw new InvalidDataException("还原文件不能为链接: " + file);
                 File.Copy(file, Path.Combine(destination, Path.GetFileName(file)), true);
             }
             foreach (string directory in Directory.GetDirectories(source))

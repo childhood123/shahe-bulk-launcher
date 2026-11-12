@@ -7,6 +7,7 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net.Http;
+using System.ServiceProcess;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -209,6 +210,7 @@ namespace ShaheLauncher.App
         public Func<string, string> SelectBackupFileCallback { get; set; }
         public Func<string> SandboxieIniPathCallback { get; set; }
         public Func<string, string, MessageBoxButtons, MessageBoxIcon, DialogResult> ConfirmMessageCallback { get; set; }
+        public Func<bool> IsSandboxieServiceRunningCallback { get; set; }
         public Action StopSandboxieServicesCallback { get; set; }
         public Action ReloadSandboxieConfigCallback { get; set; }
         public Action RestartSandboxieServicesCallback { get; set; }
@@ -2779,6 +2781,9 @@ namespace ShaheLauncher.App
                         SafeSetStatusLabel(text);
                     }
                 }),
+                IsSandboxieServiceRunning = () => IsSandboxieServiceRunningCallback != null
+                    ? IsSandboxieServiceRunningCallback()
+                    : IsSandboxieServiceRunning(),
                 StopSandboxieServices = () =>
                 {
                     if (StopSandboxieServicesCallback != null)
@@ -2792,13 +2797,14 @@ namespace ShaheLauncher.App
                 },
                 ReloadSandboxieConfig = () =>
                 {
-                    if (ReloadSandboxieConfigCallback != null)
+                    Action reload = ReloadSandboxieConfigCallback;
+                    if (reload != null && reload != (Action)ReloadSandboxieConfig)
                     {
-                        ReloadSandboxieConfigCallback();
+                        reload();
                     }
                     else
                     {
-                        ReloadSandboxieConfig();
+                        ReloadSandboxieConfigForRestore();
                     }
                 },
                 RestartSandboxieServices = () =>
@@ -3300,33 +3306,42 @@ namespace ShaheLauncher.App
             };
         }
 
+        private bool IsSandboxieServiceRunning()
+        {
+            using (var service = new ServiceController("SbieSvc"))
+            {
+                ServiceControllerStatus status = service.Status;
+                if (status == ServiceControllerStatus.Running) return true;
+                if (status == ServiceControllerStatus.Stopped) return false;
+                throw new InvalidOperationException("无法确认 Sandboxie 服务初始状态：" + status + "。");
+            }
+        }
+
         private void StopSandboxieServices()
         {
-            try
+            using (var service = new ServiceController("SbieSvc"))
             {
-                RunProcessCommand(new List<string> { "net", "stop", "SbieSvc" });
-                Thread.Sleep(1000);
+                if (service.Status != ServiceControllerStatus.Stopped
+                    && service.Status != ServiceControllerStatus.StopPending)
+                {
+                    service.Stop();
+                }
+                service.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(30));
             }
-            catch
-            {
-            }
+        }
 
-            foreach (string processName in new[]
+        private void ReloadSandboxieConfigForRestore()
+        {
+            Tuple<int, string> result = ProcessCallbacks?.RunSandboxieStart?.Invoke(new[] { "/reload" });
+            if (result == null)
             {
-                "Sandboxie.exe", "SandboxieRpcSs.exe", "SandboxieDcomLaunch.exe",
-                "SbieSvc.exe", "SandboxieCrypto.exe", "SandMan.exe", "Start.exe"
-            })
-            {
-                try
-                {
-                    RunProcessCommand(new List<string> { "taskkill", "/f", "/im", processName });
-                    Thread.Sleep(300);
-                }
-                catch
-                {
-                }
+                throw new InvalidOperationException("重载 Sandboxie 配置失败：未获得命令执行结果。");
             }
-            Thread.Sleep(1000);
+            if (result.Item1 != 0)
+            {
+                throw new InvalidOperationException(
+                    "重载 Sandboxie 配置失败（退出码 " + result.Item1 + "）：" + (result.Item2 ?? string.Empty));
+            }
         }
 
         private void ReloadSandboxieConfig()
@@ -3352,12 +3367,18 @@ namespace ShaheLauncher.App
 
         private void RestartSandboxieServices()
         {
-            try
+            using (var service = new ServiceController("SbieSvc"))
             {
-                RunProcessCommand(new List<string> { "net", "start", "SbieSvc" });
-            }
-            catch
-            {
+                if (service.Status == ServiceControllerStatus.StopPending)
+                {
+                    service.WaitForStatus(ServiceControllerStatus.Stopped, TimeSpan.FromSeconds(30));
+                }
+                if (service.Status != ServiceControllerStatus.Running
+                    && service.Status != ServiceControllerStatus.StartPending)
+                {
+                    service.Start();
+                }
+                service.WaitForStatus(ServiceControllerStatus.Running, TimeSpan.FromSeconds(30));
             }
         }
 
