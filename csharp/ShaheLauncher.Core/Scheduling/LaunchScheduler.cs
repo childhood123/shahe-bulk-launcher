@@ -195,6 +195,21 @@ namespace ShaheLauncher.Core.Scheduling
             int retryDelaySeconds,
             LaunchSchedulerCallbacks callbacks)
         {
+            return ScheduleTargetTask(state, taskKey, delaySeconds,
+                targets => callback == null ? (bool?)true : callback(),
+                description, sandboxTargets, retryDelaySeconds, callbacks);
+        }
+
+        private string ScheduleTargetTask(
+            LaunchSchedulerState state,
+            string taskKey,
+            int delaySeconds,
+            Func<IList<string>, bool?> callback,
+            string description,
+            IList<string> sandboxTargets,
+            int retryDelaySeconds,
+            LaunchSchedulerCallbacks callbacks)
+        {
             if (state == null)
             {
                 return string.Empty;
@@ -213,12 +228,15 @@ namespace ShaheLauncher.Core.Scheduling
                 Description = Text(description).Trim(),
                 Eta = DateTimeOffset.UtcNow.AddSeconds(delay),
                 SandboxTargets = sandboxTargets == null ? new List<string>() : new List<string>(sandboxTargets),
-                RetryDelaySeconds = retryDelay,
-                Callback = callback
+                RetryDelaySeconds = retryDelay
             };
+            // Keep the job as the source of targets, including replacement lists after rename/delete.
+            Func<bool?> execute = () => callback(
+                (job.SandboxTargets ?? new List<string>()).ToList());
+            job.Callback = execute;
             state.Jobs[jobKey] = job;
             job.Timer = ScheduleDelayed(callbacks, delay * 1000, () => ExecuteScheduledTask(
-                state, jobKey, taskId, callback, callbacks));
+                state, jobKey, taskId, execute, callbacks));
             string statusDescription = job.Description.Length == 0 ? taskType : job.Description;
             callbacks?.SetStatus?.Invoke("已设置定时任务（" + delay + " 秒后）: " + statusDescription);
             return jobKey;
@@ -533,18 +551,19 @@ namespace ShaheLauncher.Core.Scheduling
                 return string.Empty;
             }
 
-            return ScheduleTask(
+            return ScheduleTargetTask(
                 state,
                 "launch_selected",
                 delaySeconds,
-                () =>
+                currentTargets =>
                 {
+                    if (currentTargets.Count == 0) return true;
                     if (state.IsLaunching)
                     {
                         callbacks?.SetStatus?.Invoke("当前正在启动中，定时启动顺延 1 秒");
                         return false;
                     }
-                    callbacks?.LaunchSelectedSandboxes?.Invoke(targets, apps);
+                    callbacks?.LaunchSelectedSandboxes?.Invoke(currentTargets, apps);
                     return true;
                 },
                 "定时启动 " + targets.Count + " 个沙盒",
@@ -567,13 +586,14 @@ namespace ShaheLauncher.Core.Scheduling
                 return string.Empty;
             }
 
-            return ScheduleTask(
+            return ScheduleTargetTask(
                 state,
                 "close_selected",
                 delaySeconds,
-                () =>
+                currentTargets =>
                 {
-                    CloseSelectedSandboxes(targets, callbacks);
+                    if (currentTargets.Count == 0) return true;
+                    CloseSelectedSandboxes(currentTargets, callbacks);
                     return true;
                 },
                 "定时关闭 " + targets.Count + " 个沙盒",

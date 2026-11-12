@@ -2,7 +2,7 @@
 
 ## 当前执行摘要（2026-11-12）
 
-- **唯一当前执行计划：** `docs/superpowers/plans/2026-11-11-full-function-stress.md`。用户已确认完整修复与GitCode交付范围，包含重新纳入保存失败反馈修复。还原安全修复的自动门禁、负载及独立提交推送已完成，当前进入删除查询保护。保留最新分组源码，旧30轮循环继续停止；未升版/发布，精确证据和提交以末尾最新记录为准。
+- **唯一当前执行计划：** `docs/superpowers/plans/2026-11-11-full-function-stress.md`。用户已确认完整修复与GitCode交付范围，包含重新纳入保存失败反馈修复。还原和删除保护的自动门禁及独立提交推送已完成，当前进入定时目标更新。保留最新分组源码，旧30轮循环继续停止；未升版/发布，精确证据和提交以末尾最新记录为准。
 - **当前结论：用户要求的所有功能压测尚未完成。** 已执行当前源码的完整自动化套件、专项压力和重复集成检查，但入口映射、模拟接口及方法调用不能证明全部真实功能已压测。此前“已测完/收口”和“仅真实桌面项未完成”的表述范围过大，现予纠正。当前未找到系统级全局快捷键注册接线，不能声称已实现或已测；实际键盘、托盘、读屏、音频/Sandboxie外部效果及当前构建完整更新链等缺口见 `docs/migration/2026-11-12-all-functions-stress.md`。还原安全已修复并提交；删除保护及其重命名影响已修复并通过最新全量，正在完成交付；定时旧目标、音频、配置并发/反馈/编码/只读、异常清单和资源清理仍待逐项处理。桌面阻断不能替代其余缺口说明；新版本尚未发布，整体迁移未完成。
 - **最新交付：** 用户指定的 GitCode 命令行发布已完成，公开绿色包和在线清单现为 4.0.50，包含“全部进程操作遗漏用户”修复。原始 4.0.49 已完成到该在线新包的实际安装和重启；发布后旧版能检测新版、新版不重复提示。完整发布与升级证据见末尾 `RELEASE-4.0.50-20261109`，本地交付在 `release/4.0.50/`。
 - **最新运行审计：** 用户在新回合“继续验收”后主EXE启动、窗口文本/焦点读取成功，Tab请求被工具以观察失效拒绝并要求截图；截图刷新报执行失败，恢复时报会话失活。当前阻断明确在工具截图前置环节，没有真实按键通过证据。启动前已快照自启动项，本轮结束后核对一致、配置恢复、目标清理；此前未采集原值的风险仍保留。最新目录为本轮 continuation/desktop-resume-103439，故障复现说明见其中 desktop-issue.md；新回合本身未解决问题，不重复相同尝试。
@@ -4915,5 +4915,43 @@ csharp/
 ### 删除保护独立复审通过
 
 - `delete-query-review.md` 已追加复审：Spec/Quality通过，重命名共享查询R1关闭，普通ProcessExists不变。最终源码哈希与 `delete-verified-source.json` 一致；OS权限异常没有真实注入，不扩展为外部验收通过。下一项为定时目标更新。
+
+### 删除保护源码同步与独立提交
+
+- 验证后4个修复源码同步到主目录，原有分组及其他改动保留；7个明确列出的文件提交为 `99a6f8f7af42cfa0b9c25313393b8399a9de119e`，GitHub `childhood123/shahe-bulk-launcher` 的 `沙河批量打开器` 分支推送退出0。证据 `artifacts/runs/release_fixes_20261112/delete-push-result.json`、`delete-push.log`；回退 `git revert 99a6f8f7af42cfa0b9c25313393b8399a9de119e`。未构建新发布包/修改GitCode。下一项定时目标修复。
+
+### 定时目标更新 RED
+
+- `test.ps1 -Stage schedule-targets-red -Filter FullyQualifiedName~ScheduledTargetUpdatesContractTests` 退出1，11项、通过5/失败6/跳过0；真实MainForm引用更新方法已将任务元数据改为新目标，但启动/关闭执行仍使用旧目标，忙碌顺延后同样失败。全部删除和取消的旧保护通过。证据 `artifacts/runs/release_fixes_20261112/schedule-targets-red/`；隔离回调执行，无正式启动/关闭用户。
+
+### 定时目标更新 GREEN及Python行为对照
+
+- `test.ps1 -Stage schedule-targets-green -Filter 'FullyQualifiedName~ScheduledTargetUpdatesContractTests|FullyQualifiedName~LaunchSchedulerContractTests|FullyQualifiedName~SandboxAdminServiceContractTests'` 退出0，28项通过、失败0/跳过0。证据 `artifacts/runs/release_fixes_20261112/schedule-targets-green/`。每次执行从对应job取得目标快照，首次及忙碌重试跟随主窗口引用更新；取消/全删不执行。
+- Python `features/scheduling.py` 保留同一targets列表，`features/sandbox_admin.py` 以切片原位更新；C#原先复制列表后替换元数据产生偏差，本修复恢复行为。Python未改，基础对照测试/编译复用本轮先前证据。
+
+### 定时目标更新全量
+
+- `test.ps1 -Stage schedule-full` 退出0，517项通过、失败0/跳过0，证据 `artifacts/runs/release_fixes_20261112/schedule-full/{result.json,test.log,tests.trx}`。接续仅重跑原先失败的定时目标压力场景，对照当前修复程序集；不恢复旧整套循环。
+
+### 定时目标压力适配器构建
+
+- Framework64 `csc.exe /platform:x64` 编译 `schedule-load/RunSchedulerCase.cs` 退出0；显式绑定当前隔离App/Core，调用原ServicesStress的Schedules场景，不执行其他已通过场景。构建证据 `artifacts/runs/release_fixes_20261112/schedule-load/{build.log,build-result.json}`。
+
+### 定时目标原失败压力场景 GREEN
+
+- `schedule-load/RunSchedulerCase.exe <schedule-load>/data` 退出0；原Schedules场景1000组、7500检查通过、失败0，PID16180正常退出，耗时826ms，失败列表为空。实际程序集为本轮隔离bin中的App/Core，主窗口改名/删除引用方法与生产回调执行一致；无需索引/按键，清理由隔离form Dispose及测试进程退出完成，没有正式沙盒或服务动作。证据 `artifacts/runs/release_fixes_20261112/schedule-load/{run-result.json,run.log,data/result.json}`。
+- 本项是原失败目标压力的修复验证，使用捕获计时器，真实时钟组件既有证据不重跑；不声称真实UI/外部启动关闭完成。
+
+### 定时目标Release构建
+
+- 同计划Release x64隔离构建命令退出0，警告0/错误0，证据 `artifacts/runs/release_fixes_20261112/schedule-release/{result.json,build.log}`。Python未改且目标更新语义已对照，复用本轮31/31与compileall退出0证据。
+
+### 定时目标源码完整性
+
+- 本项2个C#文件严格UTF-8/替换字符检查通过，`git diff --check`退出0，主目录调度器仍与任务前哈希一致。证据 `artifacts/runs/release_fixes_20261112/schedule-integrity.json` 及 `schedule-verified-source.json`，不覆盖用户并行改动。
+
+### 定时目标独立审查
+
+- `artifacts/runs/release_fixes_20261112/schedule-review.md`：Spec通过、Quality未发现新增产品缺陷。首次/重试使用当前job目标，无新增调度或取消退化；保留成功后重复触发旧回调的非阻断测试建议，不扩大为所有并发组合验证。修复源码与已验证哈希一致，准备独立提交后继续音频项。
 
 <!-- FULL-ONCE-APPEND -->
