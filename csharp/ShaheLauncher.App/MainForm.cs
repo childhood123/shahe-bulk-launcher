@@ -549,13 +549,13 @@ namespace ShaheLauncher.App
                 RefreshSandboxList = RefreshSandboxListFromRuntime,
                 CancelScheduleTask = (key, updateStatus) => LaunchScheduler.CancelScheduleTask(
                     LaunchState, key, updateStatus, LaunchCallbacks),
-                GetSandboxPids = GetSandboxPids,
+                GetSandboxPids = GetSandboxPidsForDelete,
                 TerminateSandbox = name => ProcessActionService.TerminateSandboxViaStart(
                     name,
                     SandboxieClient.GetStartExecutable(SandboxieClient.SandboxiePath),
                     GetOfficialSandboxNames(),
                     ProcessCallbacks.RunSandboxieStart),
-                GetAlivePids = pids => ProcessActionService.GetAlivePids(pids, ProcessExists),
+                GetAlivePids = pids => ProcessActionService.GetAlivePids(pids, ProcessExistsForDelete),
                 TerminatePids = pids => ProcessActionService.TerminatePids(
                     pids, ProcessExists, RunProcessCommand)
             };
@@ -765,6 +765,32 @@ namespace ShaheLauncher.App
             {
                 return new List<int>();
             }
+        }
+
+        private IEnumerable<int> GetSandboxPidsForDelete(string sandboxName)
+        {
+            string name = SandboxAdminCallbacks?.NormalizeSandboxName?.Invoke(sandboxName) ?? sandboxName;
+            if (!LauncherConstants.IsValidInternalSandboxName(name))
+                throw new InvalidOperationException("无法确认待删除沙盒用户的内部名称。");
+            Tuple<int, string> reply = ProcessCallbacks?.RunSandboxieStart?.Invoke(
+                new[] { "/box:" + name, "/listpids" });
+            if (reply == null || reply.Item1 != 0)
+                throw new InvalidOperationException("无法确认沙盒用户的进程状态。");
+            string output = (reply.Item2 ?? string.Empty).Trim();
+            string[] lines = output.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+            int count;
+            if (lines.Length == 0 || !int.TryParse(lines[0].Trim(), out count) || count < 0
+                || count != lines.Length - 1)
+                throw new InvalidOperationException("沙盒进程查询没有返回完整结果。");
+            var pids = new List<int>();
+            foreach (string line in lines.Skip(1))
+            {
+                int pid;
+                if (!int.TryParse(line.Trim(), out pid) || pid <= 0 || pids.Contains(pid))
+                    throw new InvalidOperationException("沙盒进程查询返回无效进程编号。");
+                pids.Add(pid);
+            }
+            return pids;
         }
 
         private IDictionary<string, bool> GetRunningSandboxStates(IEnumerable<string> sandboxNames)
@@ -1293,6 +1319,22 @@ namespace ShaheLauncher.App
         private IEnumerable<ProcessWindowCandidate> EnumerateProcessWindows(IEnumerable<int> processIds)
         {
             return ProcessActionService.FindWindowsForPids(processIds);
+        }
+
+        private static bool ProcessExistsForDelete(int processId)
+        {
+            try
+            {
+                using (Process process = Process.GetProcessById(processId))
+                {
+                    return !process.HasExited;
+                }
+            }
+            catch (ArgumentException)
+            {
+                // A missing process is known to have exited; other query errors remain unknown.
+                return false;
+            }
         }
 
         private static bool ProcessExists(int processId)
@@ -2113,7 +2155,7 @@ namespace ShaheLauncher.App
 
                     try
                     {
-                        if ((SandboxAdminCallbacks?.GetSandboxPids?.Invoke(oldInternal)
+                        if ((ProcessCallbacks?.GetSandboxPids?.Invoke(oldInternal)
                             ?? Enumerable.Empty<int>()).Any())
                         {
                             runningTargets.Add(oldDisplay);

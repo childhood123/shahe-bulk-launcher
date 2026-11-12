@@ -1406,19 +1406,21 @@ namespace ShaheLauncher.Core.SandboxAdmin
             SandboxAdminCallbacks callbacks)
         {
             string name = Text(sandboxName).Trim();
-            if (name.Length == 0)
+            if (name.Length == 0 || callbacks?.GetSandboxPids == null)
             {
-                return true;
+                return false;
             }
 
             IList<int> tracked;
             try
             {
-                tracked = NormalizePids(callbacks?.GetSandboxPids?.Invoke(name));
+                IEnumerable<int> queried = callbacks.GetSandboxPids(name);
+                if (queried == null) return false;
+                tracked = NormalizePids(queried);
             }
             catch
             {
-                tracked = new List<int>();
+                return false;
             }
             if (tracked.Count == 0)
             {
@@ -1496,7 +1498,7 @@ namespace ShaheLauncher.Core.SandboxAdmin
             IList<int> tracked = NormalizePids(pids);
             if (tracked.Count == 0 || getAlivePids == null)
             {
-                return new List<int>();
+                return tracked;
             }
 
             double seconds = double.IsNaN(timeoutSeconds) || double.IsInfinity(timeoutSeconds)
@@ -1508,7 +1510,9 @@ namespace ShaheLauncher.Core.SandboxAdmin
             {
                 try
                 {
-                    remaining = NormalizePids(getAlivePids(tracked));
+                    IList<int> queried = getAlivePids(tracked);
+                    if (queried == null) return tracked;
+                    remaining = NormalizePids(queried);
                 }
                 catch
                 {
@@ -1522,7 +1526,8 @@ namespace ShaheLauncher.Core.SandboxAdmin
             }
             try
             {
-                remaining = NormalizePids(getAlivePids(tracked));
+                IList<int> queried = getAlivePids(tracked);
+                remaining = queried == null ? tracked : NormalizePids(queried);
             }
             catch
             {

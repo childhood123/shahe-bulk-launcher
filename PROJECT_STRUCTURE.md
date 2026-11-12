@@ -2,16 +2,16 @@
 
 ## 当前执行摘要（2026-11-12）
 
-- **唯一当前执行计划：** `docs/superpowers/plans/2026-11-11-full-function-stress.md`。用户已确认“同意追加，按完整范围修复”，修复与GitCode交付追加已写入，包含重新纳入保存失败反馈修复。当前从还原安全开始逐项执行，使用含最新分组修复的源码；旧30轮循环继续停止。未升版/发布，当前证据以末尾最新记录为准。
-- **当前结论：用户要求的所有功能压测尚未完成。** 已执行当前源码的完整自动化套件、专项压力和重复集成检查，但入口映射、模拟接口及方法调用不能证明全部真实功能已压测。此前“已测完/收口”和“仅真实桌面项未完成”的表述范围过大，现予纠正。当前未找到系统级全局快捷键注册接线，不能声称已实现或已测；实际键盘、托盘、读屏、音频/Sandboxie外部效果、当前构建完整更新链及独立多进程竞争等缺口见 `docs/migration/2026-11-12-all-functions-stress.md` 的未完成验收表。原只读夹具补验已记录，仓库测试清理未永久修复；还原保护、删除查询异常、定时旧目标、配置并发、反馈、编码和只读处理等失败仍在。桌面阻断不能替代其余缺口说明；没有提交或发布，整体迁移未完成。
+- **唯一当前执行计划：** `docs/superpowers/plans/2026-11-11-full-function-stress.md`。用户已确认完整修复与GitCode交付范围，包含重新纳入保存失败反馈修复。还原安全修复的自动门禁、负载及独立提交推送已完成，当前进入删除查询保护。保留最新分组源码，旧30轮循环继续停止；未升版/发布，精确证据和提交以末尾最新记录为准。
+- **当前结论：用户要求的所有功能压测尚未完成。** 已执行当前源码的完整自动化套件、专项压力和重复集成检查，但入口映射、模拟接口及方法调用不能证明全部真实功能已压测。此前“已测完/收口”和“仅真实桌面项未完成”的表述范围过大，现予纠正。当前未找到系统级全局快捷键注册接线，不能声称已实现或已测；实际键盘、托盘、读屏、音频/Sandboxie外部效果及当前构建完整更新链等缺口见 `docs/migration/2026-11-12-all-functions-stress.md`。还原安全已修复并提交；删除保护及其重命名影响已修复并通过最新全量，正在完成交付；定时旧目标、音频、配置并发/反馈/编码/只读、异常清单和资源清理仍待逐项处理。桌面阻断不能替代其余缺口说明；新版本尚未发布，整体迁移未完成。
 - **最新交付：** 用户指定的 GitCode 命令行发布已完成，公开绿色包和在线清单现为 4.0.50，包含“全部进程操作遗漏用户”修复。原始 4.0.49 已完成到该在线新包的实际安装和重启；发布后旧版能检测新版、新版不重复提示。完整发布与升级证据见末尾 `RELEASE-4.0.50-20261109`，本地交付在 `release/4.0.50/`。
 - **最新运行审计：** 用户在新回合“继续验收”后主EXE启动、窗口文本/焦点读取成功，Tab请求被工具以观察失效拒绝并要求截图；截图刷新报执行失败，恢复时报会话失活。当前阻断明确在工具截图前置环节，没有真实按键通过证据。启动前已快照自启动项，本轮结束后核对一致、配置恢复、目标清理；此前未采集原值的风险仍保留。最新目录为本轮 continuation/desktop-resume-103439，故障复现说明见其中 desktop-issue.md；新回合本身未解决问题，不重复相同尝试。
 - **最新自动化验证：** 当前全量、专项压力、补充重复集成、逐入口覆盖及只读校正补验的权威计数和路径见末尾 `FULL-ONCE-20261112`。原始汇总保留夹具中断当时的状态，continuation补验明确说明该场景当前已完成；未重复已通过项目或整个套件。产品失败与真实受阻不因夹具补验通过而关闭。原分组修复证据保留在 `GROUP-SELECTION-20261112`；旧30轮循环仍为 `stopped-by-user`。
-- **本次实际补验：** 无截图的计时器、专用注册表/跨进程配置、内置安装机制、Sandboxie只读查询以及此前音频/朗读/互斥证据保留。用户要求未通过项继续后，已取得当前生产设备切换在WMP播放框架中实际迁移/重新打开保持的证据；同时确认 `AUDIO-NONDEFAULT-01`：非默认设备音量/静音不可控，成功切换后甚至误报已调节/已静音，活动会话未变。菜单原生资源诊断未发现GC后逐轮留存，但路径菜单依赖GC释放。三项高优先级旧失败已复核到真实调用链，未修复。精确结果均在末尾最新记录；不能将组件通过扩展为全部应用/真实UI/运行中沙盒通过。
+- **本次实际补验：** 无截图的计时器、专用注册表/跨进程配置、内置安装机制、Sandboxie只读查询以及此前音频/朗读/互斥证据保留。当前生产设备切换在WMP播放框架中有实际迁移/重新打开保持的证据；`AUDIO-NONDEFAULT-01` 非默认设备音量/静音不可控及切换后操作旧会话仍待修。菜单未发现GC后逐轮留存，但路径菜单依赖GC释放。还原及删除失败的最新修复进度见末尾记录，定时旧目标尚待处理；不能将组件通过扩展为全部应用/真实UI/运行中沙盒通过。
 - **旧版更新边界：** 原始 4.0.47 的在线检测、下载校验通过，但安装 4.0.49 被旧外置 updater 的包格式要求阻断；旧程序和配置保持原样，证据 `LEGACY-UPDATE-20261109`。本轮没有恢复该旧兼容设计。
 - **4.0.49 内置更新结论：** 先完成同版安装演练，随后完成 4.0.49 → 4.0.50 的原始主 EXE 内置安装、真实下载、替换和新版主窗口启动，配置及日志标记保留。早先“跨版本待验收”已被本轮新证据推进；首次发布后在线请求出现过 403，后续 curl 与两版原始客户端均通过，失败记录保留。
 - **已完成与可运行状态：** 既有定位、朗读文案、用户列表进程菜单和 4.0.49 绿色包已实现并有验证；C# 有主窗口启动及正常退出证据。GitHub 源码/Release 和 GitCode 包/清单已有发布证据；GitHub 仓库已于 2026-11-06 改为公开，仓库主页和 `v4.0.49` Release 可匿名访问。
-- **必须保留的未完成项：** 查漏报告第 3 节除本轮已修复 MIG-ALL-PIDS-01 之外的确认差异、第 4 节候选/未核完边界、第 5 节原版共有缺陷和版本边界、第 7 节运行验收。还原数据回退/异常后服务恢复待修；保存失败反馈修复现已重新授权、尚未完成。旧 4.0.47 可以识别 4.0.49，但外置更新器不能安装不含 updater.exe 的新包，不能称自动升级成功。
+- **必须保留的未完成项：** 查漏报告第 3 节除本轮已修复 MIG-ALL-PIDS-01 及还原安全之外的确认差异、第 4 节候选/未核完边界、第 5 节原版共有缺陷和版本边界、第 7 节运行验收。还原回退/服务异常保护的隔离验证通过，正式服务及运行中沙盒外部验收未做；保存失败反馈现已重新授权、尚未完成。旧 4.0.47 外置更新器仍不能安装不含 updater.exe 的新包。
 - **历史冲突处理：** 下方 2026-10-24 摘要、E01–E10 和旧计划中的未提交/未发布描述是历史快照；源码、发布和升级结论以末尾新证据为准。旧 Alt+P 菜单通过记录不适用于已删除进程栏的新界面；设置行 Enter/Escape 已有证据，不重测。
 - **后续边界：** 既有GitCode交付完成；用户本次明确授权验收通过后发布下一版，不能把未修失败项当通过。修改/启动/终止限定所属隔离测试对象，正式Sandboxie查询只读，不停止正式程序或读屏、不修改正式配置、不改Python。音频不同框架及端点的通过/失败分别保留，真实菜单验收仍未完成，整体迁移未完成。主目录现有未提交改动保留，修复按已确认计划执行。
 
@@ -4846,5 +4846,74 @@ csharp/
 ### 还原安全：提交前检查通过
 
 - 文档尾空行修正后，暂存 `git diff --cached --check` 返回0；暂存清单与已向用户列出的11个文件一致。Core及主窗口审查、定向及受影响全量、文件负载、Python对照/编译、Release和源码编码检查均已有本轮实际证据。暂存MainForm只含本项差异，主目录原有版本、分组及其他改动未混入本项提交。
+
+### 还原安全：独立提交并推送 GitHub
+
+- 本项提交 `99d27220134f3a3ba4b5dff2fe13c6ad59fe4ec4`（fix: preserve sandbox data and service state when restore fails），已通过命令行推送 GitHub `childhood123/shahe-bulk-launcher` 的 `沙河批量打开器` 分支，返回码0。完整参数与输出 `artifacts/runs/release_fixes_20261112/restore-push-result.json`、`restore-push.log`。回退命令 `git revert 99d27220134f3a3ba4b5dff2fe13c6ad59fe4ec4`。
+- 本项已完成生产修复和自动/隔离门禁；前文“还原尚未修复”是历史执行状态，由本条推进。真实服务/运行中沙盒外部验收继续保留，下一项为删除查询异常保护。GitCode公开版本和在线清单尚未改变。
+
+### 删除查询保护：RED
+
+- `test.ps1 -Stage delete-query-red -Filter FullyQualifiedName~DeleteQuerySafetyContractTests` 返回码1，总计12、通过2、失败10、跳过0。确认Core将查询异常/null/缺失回调当空结果，存活确认缺失/null也放行；主窗口删除仍走吞失败的旧查询接线。已确认空结果的合法路径保留为通过。结果/命令/日志/TRX在 `artifacts/runs/release_fixes_20261112/delete-query-red/`。
+- 主窗口用隔离用户目录、模拟删除/命令回调执行，不调用正式删除或终止。生产官方空输出样本沿用之前已保存的 `continuation/no-screenshot/sandbox-readonly/box12-direct-result.json`，其退出码0、stdout为 `0\r\n`；空响应或无有效结果不能当这一已确认空状态。
+
+### 删除查询保护：首次修复验证与夹具校准
+
+- `test.ps1 -Stage delete-query-green` 返回码1，总计21、通过16、失败5、跳过0。Core查询异常/null/存活状态保护及既有删除回归通过；5个新主窗口场景未到达命令查询，因为夹具未提供已知用户名称，目标规范化过滤了测试用户。这部分原RED也不能算真实删除路径失败证据，明确校正，不据此修改产品来迎合夹具。
+- 将先补目标列表校准，再仅对主窗口场景重取有效RED/GREEN。原始输出/结果保留 `artifacts/runs/release_fixes_20261112/delete-query-green/`。严格/listpids格式已对照 [Sandboxie官方Start.cpp的List_Process_Ids](https://github.com/sandboxie-plus/Sandboxie/blob/master/Sandboxie/apps/start/start.cpp#L1610)：先输出计数，后每行PID；枚举失败可能无输出，因此退出码0但空响应也须阻止删除。
+
+### 删除查询保护：主窗口校准后有效 RED
+
+- 为夹具补齐已知用户名称，并在操作前断言实际目标恰为隔离BoxA；仅将新工作树删除回调暂接原旧查询取得有效对照，其他实现不变。`test.ps1 -Stage delete-wiring-calibrated-red -Filter FullyQualifiedName~MainWindowBlocksBothOfficialAndDirectoryDeletionWhenQueryIsUnknown` 返回码1，总计5、通过0、失败5、跳过0，均实际调用了本应阻止的删除回调。日志/命令/TRX在 `artifacts/runs/release_fixes_20261112/delete-wiring-calibrated-red/`。
+- 本次已到达真实生产删除入口，模拟删除与本地文件操作只涉及所属隔离目录；原校准前5项失败不作为产品证据。本轮结束即恢复严格查询接线后验证。
+
+### 删除查询保护：校准后定向 GREEN
+
+- `test.ps1 -Stage delete-query-final-green` 筛选新查询保护、SandboxAdminService契约及原主窗口批量删除入口，返回码0，总计26、通过26、失败0、跳过0。有效主窗口RED均已转GREEN，查询失败时模拟官方删除回调0次且隔离目录原文件保留；合法空结果/正PID列表仍可处理，截断/无效/重复PID结果明确拒绝。
+- 证据 `artifacts/runs/release_fixes_20261112/delete-query-final-green/`。此修复仅为删除回调接严格新查询，其他用户列表/进程显示查询继续原路径；本轮没有正式删除或进程终止操作。
+
+### 删除查询保护：C# 全量 GREEN
+
+- `test.ps1 -Stage delete-full` 无筛选，返回码0，总计505、通过505、失败0、跳过0。所有新删除保护、原批量删除、其他进程/列表查询、还原和打赏夹具均通过。精确命令、输出和TRX在 `artifacts/runs/release_fixes_20261112/delete-full/`；真实正式删除未执行，后续只读官方查询补验不触发删除安全门后的动作。
+
+### 删除查询保护：只读官方接线探针构建
+
+- Framework csc x64编译 `artifacts/runs/release_fixes_20261112/delete-native/DeleteQueryProbe.cs`，引用当前验证后的主EXE/Core，返回码0，无诊断；精确参数/输出在同目录 `build-result.json`、`build.log`。探针只调用生产删除前查询回调，不调用Ensure的终止逻辑、任何删除或服务控制；要求正式服务已经Running才继续。
+
+### 删除查询保护：真实官方只读查询通过
+
+- `DeleteQueryProbe.exe <本轮>/delete-native/data "C:\Program Files\Sandboxie" Box12` 返回码0，目标探针PID15204，实际调用当前主窗口查询接线一次，官方退出码0、输出 `0\r\n`，严格解析为空PID列表，耗时929ms。服务前后均Running；删除/终止/服务控制调用均0，探针正常退出。
+- 精确命令、构建哈希与输出 `artifacts/runs/release_fixes_20261112/delete-native/command-result.json`、`result.json`，stderr为空。此证据证明当前安装的合法空查询不会被新保护误拒绝；不外推为真实运行中沙盒删除或多版本兼容验收。
+
+### 删除查询保护：Release及对照边界
+
+- 当前工作树 `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=<本轮>\bin\` 返回码0，警告0、错误0。精确参数/日志在 `artifacts/runs/release_fixes_20261112/delete-release/`。
+- Python源码未改，本轮前项刚完成的Python对照与生产编译证据继续复用，不重复无变化测试；新严格/listpids验证用于已批准的删除安全修复，官方输出格式与当前机器只读样本均有证据。当前仍未升版/发布。
+
+### 删除保护审查回归：重命名查询 RED
+
+- 独立审查发现严格查询共享到重命名路径，失败被旧重命名catch吞掉；尚不提交。执行 `test.ps1 -Stage delete-rename-red -Filter FullyQualifiedName~RenameStillRejectsRunningUserWhenDeleteQueryFails`，退出1，1项、通过0/失败1/跳过0。校准目标为BoxA，普通查询应返回运行PID，但实际未调用；断言在此中断，不扩大为后续目录断言证据。日志/TRX/result位于 `artifacts/runs/release_fixes_20261112/delete-rename-red/`。
+- 接续保持删除严格入口，重命名恢复原普通查询；另删除专用存活检查保留系统查询异常，不改其他进程功能。
+
+### 删除保护审查修复 GREEN
+
+- `test.ps1 -Stage delete-reviewed-green -Filter 'FullyQualifiedName~DeleteQuerySafetyContractTests|FullyQualifiedName~SandboxAdminServiceContractTests|FullyQualifiedName~WiresBatchDeleteSandboxes|FullyQualifiedName~WiresBatchRenameSandboxes'` 退出0，28项全部通过、失败0/跳过0。新增重命名保护确认普通查询到运行PID后拒绝，隔离原目录和INI保持；删除失败保护仍通过。证据 `artifacts/runs/release_fixes_20261112/delete-reviewed-green/`。
+- 检查发现原成功重命名夹具的普通查询注入误放入分组夹具，接续移至正确夹具，完整回归覆盖这项夹具校正；本轮新保护测试不依赖该误放位置。
+
+### 删除保护审查后的最终全量
+
+- `test.ps1 -Stage delete-reviewed-full` 退出0，506项通过、失败0/跳过0，含修正后的正常重命名夹具和运行中拒绝回归。证据 `artifacts/runs/release_fixes_20261112/delete-reviewed-full/{result.json,test.log,tests.trx}`。严格存活检查只把确定不存在的PID视为退出，其余系统异常交给Core阻止删除；没有真实删除正式沙盒。
+
+### 删除保护最终Release构建
+
+- `dotnet build csharp\ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=<release_fixes_20261112>\bin\` 退出0、警告0/错误0。证据 `artifacts/runs/release_fixes_20261112/delete-reviewed-release/{result.json,build.log}`。Python未改，复用本轮已通过对照/编译；此前真实只读查询协议未变，不重复执行。
+
+### 删除保护源码边界核对
+
+- 本项4个C#文件严格UTF-8/替换字符检查通过，`git diff --check`退出0；主目录相应文件与原始/上一修复哈希一致，没有发现并行改动。证据 `artifacts/runs/release_fixes_20261112/delete-integrity.json`，待同步源码哈希见同目录 `delete-verified-source.json`。MainForm仅提取本项差异进行暂存，保留未提交的分组变更。
+
+### 删除保护独立复审通过
+
+- `delete-query-review.md` 已追加复审：Spec/Quality通过，重命名共享查询R1关闭，普通ProcessExists不变。最终源码哈希与 `delete-verified-source.json` 一致；OS权限异常没有真实注入，不扩展为外部验收通过。下一项为定时目标更新。
 
 <!-- FULL-ONCE-APPEND -->

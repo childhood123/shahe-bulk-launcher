@@ -1501,6 +1501,9 @@ namespace ShaheLauncher.Tests
                     new Action(() => { }));
 
                 var prompts = new List<string>();
+                object processCallbacks = GetProperty<object>(formType, form, "ProcessCallbacks");
+                SetProperty(processCallbacks.GetType(), processCallbacks, "GetSandboxPids",
+                    new Func<string, IEnumerable<int>>(name => new int[0]));
                 SetProperty(
                     formType,
                     form,
