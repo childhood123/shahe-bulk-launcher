@@ -167,7 +167,9 @@ namespace ShaheLauncher.App.UI.Controls
 
             if (IsSpecialIndex(index))
             {
-                Items[index].Checked = false;
+                Items[index].Checked = check;
+                _lastCheckedIndex = null;
+                UpdateStatus();
                 return;
             }
 
@@ -226,12 +228,34 @@ namespace ShaheLauncher.App.UI.Controls
 
         public int GetCheckedCount()
         {
-            return GetCheckedItems().Length;
+            return Items.Cast<ListViewItem>().Count(item => item.Checked);
         }
 
         public string[] GetCheckedEntryTexts()
         {
             return GetCheckedItems().Select(GetItemIdentityText).ToArray();
+        }
+
+        public string[] GetCheckedLaunchEntryTexts()
+        {
+            var targets = new List<string>();
+            for (int index = 0; index < Items.Count; index++)
+            {
+                if (!Items[index].Checked) continue;
+                if (IsGroupIndex(index))
+                {
+                    string group = GetGroupNameFromItemText(Items[index].Text);
+                    if (group.Length != 0)
+                    {
+                        targets.AddRange(GroupMembersProvider?.Invoke(group) ?? Enumerable.Empty<string>());
+                    }
+                }
+                else
+                {
+                    targets.Add(GetItemIdentityText(index));
+                }
+            }
+            return NormalizeDisplayNames(targets, false).Distinct(StringComparer.Ordinal).ToArray();
         }
 
         public void AnnounceItemState(int index)
@@ -258,7 +282,7 @@ namespace ShaheLauncher.App.UI.Controls
 
         public void ToggleItem(int index)
         {
-            if (index >= 0 && index < Items.Count && !IsSpecialIndex(index))
+            if (index >= 0 && index < Items.Count)
             {
                 CheckItem(index, !Items[index].Checked);
             }
@@ -276,6 +300,9 @@ namespace ShaheLauncher.App.UI.Controls
             string[] newTexts = NormalizeTexts(itemTexts);
             var newGroupIndexes = new HashSet<int>((groupIndexes ?? Enumerable.Empty<int>()).Where(index => index >= 0));
             string[] checkedIdentities = GetCheckedEntryTexts();
+            var checkedGroups = new HashSet<string>(Enumerable.Range(0, Items.Count)
+                .Where(index => IsGroupIndex(index) && Items[index].Checked)
+                .Select(GetItemIdentityText), StringComparer.Ordinal);
             int selectedIndex = GetSelectedIndex();
             string selectedIdentity = selectedIndex < 0 ? string.Empty : GetItemIdentityText(selectedIndex);
 
@@ -289,7 +316,9 @@ namespace ShaheLauncher.App.UI.Controls
                 {
                     Items.Add(newTexts[index]);
                     string identity = GetIdentityFromText(newTexts[index], newGroupIndexes.Contains(index));
-                    if (!newGroupIndexes.Contains(index) && checkedIdentities.Contains(identity, StringComparer.Ordinal))
+                    if (newGroupIndexes.Contains(index)
+                        ? checkedGroups.Contains(identity)
+                        : checkedIdentities.Contains(identity, StringComparer.Ordinal))
                     {
                         Items[index].Checked = true;
                     }
@@ -631,6 +660,7 @@ namespace ShaheLauncher.App.UI.Controls
             int[] indexes = Enumerable.Range(0, Items.Count).Where(index => !IsSpecialIndex(index)).ToArray();
             if (indexes.Length == 0)
             {
+                if (GetCheckedCount() != 0) UncheckAll();
                 return;
             }
 
@@ -673,10 +703,7 @@ namespace ShaheLauncher.App.UI.Controls
             {
                 for (int index = 0; index < Items.Count; index++)
                 {
-                    if (!IsSpecialIndex(index))
-                    {
-                        Items[index].Checked = false;
-                    }
+                    Items[index].Checked = false;
                 }
             }
             finally
@@ -788,12 +815,15 @@ namespace ShaheLauncher.App.UI.Controls
         {
             base.OnItemChecked(eventArgs);
             int index = eventArgs.Item.Index;
-            if (index < 0 || IsSpecialIndex(index))
+            if (index < 0)
             {
-                if (index >= 0)
-                {
-                    eventArgs.Item.Checked = false;
-                }
+                return;
+            }
+
+            if (IsGroupIndex(index))
+            {
+                _lastCheckedIndex = null;
+                UpdateStatus();
                 return;
             }
 

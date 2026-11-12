@@ -2,12 +2,12 @@
 
 ## 当前执行摘要（2026-11-12）
 
-- **唯一当前执行计划：** `docs/superpowers/plans/2026-11-11-full-function-stress.md`。用户已确认完整修复与GitCode交付范围，包含重新纳入保存失败反馈修复。还原、删除保护、定时目标、非默认音频及配置/文件已通过各自修复验证，当前完成配置提交门禁后接续更新与清理。保留最新分组源码，旧30轮循环继续停止；未升版/发布，精确证据和提交以末尾最新记录为准。
-- **当前结论：用户要求的所有功能压测尚未完成。** 入口映射、模拟接口及方法调用不能证明全部真实功能已压测。此前“已测完/收口”和“仅真实桌面项未完成”的表述范围过大，现予纠正。当前未找到系统级全局快捷键注册接线，不能声称已实现或已测；真实输入及外部效果的保留缺口见 `docs/migration/2026-11-12-all-functions-stress.md`，后续修复进度以本摘要和末尾最新记录为准。还原、删除、定时、非默认音频及配置并发/反馈/编码/只读的已确认缺陷已有修复验证；异常清单和资源清理仍待处理。桌面阻断不能替代其余缺口说明；新版本尚未发布，整体迁移未完成。
+- **唯一当前执行计划：** `docs/superpowers/plans/2026-11-11-full-function-stress.md`。用户已确认完整修复与GitCode交付范围，包含重新纳入保存失败反馈修复。六项确认缺陷已修复并完成各自验证/独立提交；当前候选已构建、跨版本安装机制通过，正在整理对应源码与最终交接。真实操作门禁未全部满足，按批准计划停在公开发布前；旧30轮循环仍停止。精确证据、版本和提交以末尾最新记录为准。
+- **当前结论：用户要求的所有功能压测尚未完成。** 六项确认缺陷均有修复与失败/通过证据，最新候选自动化全量、Release、实际安装机制已通过；不等于全部真实功能已压测。真实菜单、键盘/托盘、完整读屏、运行中沙盒外部效果及完整UI更新链仍未关闭。当前未找到系统级全局快捷键注册接线，Python也仅有窗口加速键，不能擅自称已实现/通过或新增功能。旧查漏报告的已修缺陷以本摘要和最新记录推进，未验收边界继续保留；新版本未公开发布，整体迁移未完成。
 - **最新交付：** 用户指定的 GitCode 命令行发布已完成，公开绿色包和在线清单现为 4.0.50，包含“全部进程操作遗漏用户”修复。原始 4.0.49 已完成到该在线新包的实际安装和重启；发布后旧版能检测新版、新版不重复提示。完整发布与升级证据见末尾 `RELEASE-4.0.50-20261109`，本地交付在 `release/4.0.50/`。
 - **最新运行审计：** 用户在新回合“继续验收”后主EXE启动、窗口文本/焦点读取成功，Tab请求被工具以观察失效拒绝并要求截图；截图刷新报执行失败，恢复时报会话失活。当前阻断明确在工具截图前置环节，没有真实按键通过证据。启动前已快照自启动项，本轮结束后核对一致、配置恢复、目标清理；此前未采集原值的风险仍保留。最新目录为本轮 continuation/desktop-resume-103439，故障复现说明见其中 desktop-issue.md；新回合本身未解决问题，不重复相同尝试。
 - **最新自动化验证：** 当前全量、专项压力、补充重复集成、逐入口覆盖及只读校正补验的权威计数和路径见末尾 `FULL-ONCE-20261112`。原始汇总保留夹具中断当时的状态，continuation补验明确说明该场景当前已完成；未重复已通过项目或整个套件。产品失败与真实受阻不因夹具补验通过而关闭。原分组修复证据保留在 `GROUP-SELECTION-20261112`；旧30轮循环仍为 `stopped-by-user`。
-- **本次实际补验：** 无截图计时器、专用注册表/跨进程配置、内置安装机制、Sandboxie只读查询及朗读/互斥证据保留。定时旧目标原失败压力已转GREEN；非默认活动会话及WMP路由后音量/静音已通过真实读回，默认重复负载和暂停控制也通过。多流、全暂停旧会话反馈、设备拔插和其他播放框架边界仍保留。菜单未发现GC后逐轮留存，但路径菜单依赖GC释放；不能将组件通过扩展为全部应用/真实UI/运行中沙盒通过。
+- **本次实际补验：** 无截图计时器、专用注册表/跨进程配置、内置安装、Sandboxie只读查询及朗读/互斥证据保留。定时旧目标、非默认音频及路由后控制、配置并发读写、异常清单原失败均已转GREEN；路径菜单已修为立即释放，原生资源循环通过。原始旧版可实际安装当前候选并启动新主程序，配置/日志保留，系统自启动项快照恢复成功。多流/全暂停反馈、设备拔插、其他框架及真实UI/运行中沙盒边界仍保留。
 - **旧版更新边界：** 原始 4.0.47 的在线检测、下载校验通过，但安装 4.0.49 被旧外置 updater 的包格式要求阻断；旧程序和配置保持原样，证据 `LEGACY-UPDATE-20261109`。本轮没有恢复该旧兼容设计。
 - **4.0.49 内置更新结论：** 先完成同版安装演练，随后完成 4.0.49 → 4.0.50 的原始主 EXE 内置安装、真实下载、替换和新版主窗口启动，配置及日志标记保留。早先“跨版本待验收”已被本轮新证据推进；首次发布后在线请求出现过 403，后续 curl 与两版原始客户端均通过，失败记录保留。
 - **已完成与可运行状态：** 既有定位、朗读文案、用户列表进程菜单和 4.0.49 绿色包已实现并有验证；C# 有主窗口启动及正常退出证据。GitHub 源码/Release 和 GitCode 包/清单已有发布证据；GitHub 仓库已于 2026-11-06 改为公开，仓库主页和 `v4.0.49` Release 可匿名访问。
@@ -5115,5 +5115,29 @@ csharp/
 - 发布前线上版本只读核对：带时间戳请求GitCode raw/main/update.json，curl退出0，线上仍为4.0.50；候选4.0.51未与现有清单版本冲突。原始响应和请求命令在 `artifacts/runs/release_fixes_20261112/online-before/{update.json,result.json,curl.log}`。未修改远端包/清单。
 
 - 更新与清理独立复审通过：`artifacts/runs/release_fixes_20261112/update-cleanup-review.md` 对3文件的需求、普通更新及重复Dispose未发现阻断；纯空白主版本不回退、静默入口仍清空旧更新提示是既有行为边界。本回合通过node_repl/@oai/sky只读枚举成功，无沙河测试窗口；没有发送按键，不据此声明输入连接恢复。
+
+- 更新与清理已独立提交并推送GitHub：`ebc1748`，远端 `沙河批量打开器`，push退出0且报告 `c931251..ebc1748`；回退 `git revert ebc1748`。提交前6文件暂存清单、diff检查0、严格UTF-8、主目录3源码同步哈希见 `artifacts/runs/release_fixes_20261112/update-cleanup-integrity.json`；完整提交哈希和推送见 `update-cleanup-push-result.json`、`update-cleanup-push.log`。六项修复已有独立提交，接续候选版本与交付检查，线上清单未改。
+
+- 候选版4.0.51全量：仅上调版本常量与对应版本断言/测试输入，`test.ps1 -Stage candidate-4.0.51-full` 退出0，574项/574通过/0失败/0跳过；证据 `artifacts/runs/release_fixes_20261112/candidate-4.0.51-full/{result.json,test.log,tests.trx}`。原分组修复仍包含在候选工作源码中；本轮测试不是旧版DLL。在线仍为4.0.50。
+
+- 候选4.0.51 Release：`build.ps1 -Stage candidate-4.0.51-release` 退出0、0警告/0错误，日志与命令 `artifacts/runs/release_fixes_20261112/candidate-4.0.51-release/{result.json,build.log}`。Python未改，复用本轮31/31对照和源码compileall成功证据；继续生成候选发布目录。
+
+- 候选发布目录构建：dotnet publish App Release x64 --no-build --no-restore，使用本轮bin，IncludeLegacyUpdateCompatibility=false，退出0；命令/输出 `artifacts/runs/release_fixes_20261112/candidate-4.0.51/{publish-result.json,publish.log}`，目录 `publish/`。此为本地发布目录生成，不是GitCode上传。
+
+- 候选4.0.51绿色ZIP构建检查：`candidate-4.0.51/package.ps1` 退出0，包 `artifacts/runs/release_fixes_20261112/candidate-4.0.51/delivery/shahe-bulk-launcher-4.0.51-win-x64.zip`，3019877字节，SHA256 `02184EF2D1CAD8034E4601AD44940DC197A996D4D997660250503E316F8AD91C`。Configurations/和logs/均为唯一空目录项，所需DLL/打赏图片完整，排除PDB/Python/测试/独立updater；清单与逐文件hash见 `candidate-4.0.51/package-result.json`。本地候选已准备，未上传GitCode，旧版到此包升级待验。
+
+- 候选升级探针首次编译失败：Roslyn csc.dll直接调用未显式引用Framework基础程序集，退出1，报预定义类型/命名空间缺失；没有运行安装或启动程序。命令及旧Core哈希在 `artifacts/runs/release_fixes_20261112/candidate-4.0.51/upgrade/build-result.json`、错误在build.log。补全编译引用后再验证，不作为产品失败。
+
+- 候选升级探针构建GREEN：显式引用Framework mscorlib/System/System.Core等，Roslyn C#7.3/x64编译退出0，无诊断。`candidate-4.0.51/upgrade/{build-final-result.json,build-final.log}` 保存命令；探针加载原4.0.50发布目录Core，运行前还会校验原包和候选ZIP哈希。尚未运行，正式自启动项将在完整主程序启动前快照、结束后按原类型和值恢复。
+
+- 4.0.50→4.0.51候选完整安装机制GREEN：`candidate-4.0.51/upgrade/probe50/UpgradeCandidateProbe.exe` 退出0，22检查/22通过/0失败。原4.0.50 Core识别候选并复制原始主EXE为内置更新器，真实回环HTTP下载实际候选ZIP、校验SHA/大小、等待所属父进程退出、替换EXE/Core/被改写DLL、恢复缺失lib DLL、保留配置及日志标记、启动真正4.0.51主入口并进入消息循环均通过。请求URL只为本机下载改写，未验证GitCode线上新包或对话框选择。证据 `artifacts/runs/release_fixes_20261112/candidate-4.0.51/upgrade/runs/11e888c7bb8a46819c7cd70ecaf1c242/`，总命令结果upgrade/run-result.json；监督PID15284、父4984正常退出、安装16588返回0、重启25964按所属完整路径强制清理，无清理错误，自启动Run项启动前快照并按原类型和值恢复验证成功。不能计正常UI退出或真实按键验收；候选升级机制已完成，公开下载链待发布门禁通过后验证。
+
+- 候选版本比较工具构建：Framework64 csc x64编译 `candidate-4.0.51/VerifyCandidateVersion.cs` 退出0，无诊断，命令日志在 `verify-build-result.json`、`verify-build.log`。版本号由所加载Core常量反射读取，避免编译时内联新版本冒充旧客户端；下一步仅用各版原始程序集核对候选清单比较，不进行网络或安装。
+
+- 三版候选清单比较通过：分别加载原始4.0.49 ZIP、原始4.0.50发布目录和当前4.0.51发布目录Core运行 `VerifyCandidateVersion.exe <result>`，3个进程退出均0。49/50识别51并选完整包，51对自身不再提示更新；实际加载路径和显示结果在 `artifacts/runs/release_fixes_20261112/candidate-4.0.51/version-check/{run-result.json,4.0.49/result.json,4.0.50/result.json,4.0.51/result.json}`。使用本地候选清单，不等于GitCode在线51已经可见；完整安装实测源为50，未重复49安装。
+
+- 候选交付整理：将已校验ZIP、包清单及候选说明复制到 `release/candidates/4.0.51/`，复制检查退出0且ZIP SHA与原包一致，证据 `artifacts/runs/release_fixes_20261112/candidate-4.0.51/delivery-result.json`。本目录明确标候选、未发布，不覆盖release/4.0.50或线上update.json。计划已按实际勾选绿色包构建并追加隔离升级通过；完整真实交互和线上发布验收仍未勾选。
+
+- 分组修复源码交付核对：历史GROUP-SELECTION的6项RED→GREEN和受影响回归有效，原剪贴板全量阻断已由本轮修复关闭，当前候选全量/Release及独立 `candidate-source-review.md` 通过。现准备将已包含在候选中的4个分组文件单独提交，避免候选包有行为而远端源码遗漏；版本与其他键盘测试不混入。真实Space/Enter、焦点读屏及沙盒启动效果仍未关闭，不用静态复审替代。
 
 <!-- FULL-ONCE-APPEND -->

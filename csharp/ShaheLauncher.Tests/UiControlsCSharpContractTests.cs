@@ -165,7 +165,7 @@ namespace ShaheLauncher.Tests
                 list.Items[0].Selected = true;
                 Assert.AreEqual(0, statusUpdates, "focus movement must not update checked-count status");
                 ReflectionTestHelpers.InvokeInstance(list, "CheckItem", 1, true);
-                Assert.IsFalse(list.Items[1].Checked);
+                Assert.IsTrue(list.Items[1].Checked);
                 ReflectionTestHelpers.InvokeInstance(list, "SetRangeAutoCheckEnabled", true);
                 ReflectionTestHelpers.InvokeInstance(list, "CheckItem", 0, true);
                 ReflectionTestHelpers.InvokeInstance(list, "CheckItem", 3, true);
@@ -242,10 +242,10 @@ namespace ShaheLauncher.Tests
                 InvokeKeyDown(type, list, Keys.Right);
                 Assert.IsTrue(list.Items[1].Selected);
                 InvokeKeyDown(type, list, Keys.Space);
-                Assert.IsFalse(list.Items[1].Checked, "group rows cannot be checked");
+                Assert.IsTrue(list.Items[1].Checked, "space selects a group for launching");
                 InvokeKeyDown(type, list, Keys.Control | Keys.A);
                 Assert.IsTrue(list.Items[0].Checked);
-                Assert.IsFalse(list.Items[1].Checked);
+                Assert.IsTrue(list.Items[1].Checked, "selecting ordinary users preserves explicit group selection");
                 Assert.IsTrue(list.Items[2].Checked);
                 InvokeKeyDown(type, list, Keys.Control | Keys.A);
                 Assert.AreEqual(0, ((IEnumerable)ReflectionTestHelpers.InvokeInstance(list, "GetCheckedItems")).Cast<int>().Count());
@@ -423,7 +423,7 @@ namespace ShaheLauncher.Tests
                 ReflectionTestHelpers.InvokeInstance(list, "AnnounceItemState", 1);
                 Assert.AreEqual("未选中 [分组] 常用 分组", list.AccessibleName);
                 ReflectionTestHelpers.InvokeInstance(list, "ToggleItem", 1);
-                Assert.IsFalse(list.Items[1].Checked);
+                Assert.IsTrue(list.Items[1].Checked);
                 ReflectionTestHelpers.InvokeInstance(list, "ToggleItem", 0);
                 Assert.IsFalse(list.Items[0].Checked);
 

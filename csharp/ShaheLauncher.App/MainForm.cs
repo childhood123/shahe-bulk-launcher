@@ -3982,7 +3982,7 @@ namespace ShaheLauncher.App
             }
             SuppressListRefreshStatus(2.0);
             SuppressSelectionStatus(2.0);
-            string[] sandboxes = SandboxList?.GetCheckedEntryTexts() ?? new string[0];
+            string[] sandboxes = SandboxList?.GetCheckedLaunchEntryTexts() ?? new string[0];
             IList<LaunchAppTarget> apps = GetCheckedAppTargets().ToList();
             if (apps.Count == 0)
             {
