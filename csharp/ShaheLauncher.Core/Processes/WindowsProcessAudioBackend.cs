@@ -9,6 +9,8 @@ namespace ShaheLauncher.Core.Processes
     {
         private const int ClsContextAll = 23;
         private const int DeviceStateActive = 1;
+        private const int SessionStateInactive = 0;
+        private const int SessionStateActive = 1;
         private const int RenderFlow = 0;
         private const int ConsoleRole = 0;
         private const int MultimediaRole = 1;
@@ -38,55 +40,45 @@ namespace ShaheLauncher.Core.Processes
             }
 
             IMMDeviceEnumerator deviceEnumerator = null;
-            IMMDevice device = null;
-            IAudioSessionManager2 manager = null;
-            IAudioSessionEnumerator sessionEnumerator = null;
+            IMMDeviceCollection devices = null;
+            var candidates = new List<Tuple<ProcessAudioSession, int, IAudioSessionControl>>();
+            var activePids = new HashSet<int>();
             try
             {
                 using (ComInitialization.Enter())
                 {
                     deviceEnumerator = (IMMDeviceEnumerator)Activator.CreateInstance(
                         typeof(MmDeviceEnumeratorComObject));
-                    ThrowIfFailed(deviceEnumerator.GetDefaultAudioEndpoint(
-                        RenderFlow,
-                        MultimediaRole,
-                        out device));
-
-                    object managerObject;
-                    Guid managerId = AudioSessionManager2Id;
-                    ThrowIfFailed(device.Activate(
-                        ref managerId,
-                        ClsContextAll,
-                        IntPtr.Zero,
-                        out managerObject));
-                    manager = (IAudioSessionManager2)managerObject;
-                    ThrowIfFailed(manager.GetSessionEnumerator(out sessionEnumerator));
-
-                    int count;
-                    ThrowIfFailed(sessionEnumerator.GetCount(out count));
-                    for (int index = 0; index < count; index++)
+                    ThrowIfFailed(deviceEnumerator.EnumAudioEndpoints(RenderFlow, DeviceStateActive, out devices));
+                    uint deviceCount;
+                    ThrowIfFailed(devices.GetCount(out deviceCount));
+                    for (uint deviceIndex = 0; deviceIndex < deviceCount; deviceIndex++)
                     {
-                        IAudioSessionControl control = null;
+                        IMMDevice device = null;
+                        try
+                        {
+                            ThrowIfFailed(devices.Item(deviceIndex, out device));
+                            CollectDeviceSessions(device, candidates, activePids);
+                        }
+                        catch
+                        {
+                            // An endpoint disappearing must not hide sessions on other devices.
+                        }
+                        finally { ReleaseComObject(device); }
+                    }
+
+                    foreach (Tuple<ProcessAudioSession, int, IAudioSessionControl> candidate in candidates)
+                    {
                         bool keepControlAlive = false;
                         try
                         {
-                            ThrowIfFailed(sessionEnumerator.GetSession(index, out control));
-                            var control2 = (IAudioSessionControl2)control;
-                            uint rawPid;
-                            ThrowIfFailed(control2.GetProcessId(out rawPid));
-                            if (rawPid == 0 || rawPid > int.MaxValue || !IsProcessAlive(unchecked((int)rawPid)))
+                            // Ignore an old route's inactive session while this PID has a live stream.
+                            // Retain inactive, non-expired sessions when playback is paused everywhere.
+                            if (candidate.Item2 == SessionStateInactive && activePids.Contains(candidate.Item1.Pid))
                             {
                                 continue;
                             }
-
-                            var volume = (ISimpleAudioVolume)control;
-                            var handle = new SimpleAudioVolumeHandle(volume);
-                            result.Add(CreateSession(
-                                unchecked((int)rawPid),
-                                handle.GetMute,
-                                handle.SetMute,
-                                handle.GetMasterVolume,
-                                handle.SetMasterVolume));
+                            result.Add(candidate.Item1);
                             keepControlAlive = true;
                         }
                         catch
@@ -96,7 +88,7 @@ namespace ShaheLauncher.Core.Processes
                         {
                             if (!keepControlAlive)
                             {
-                                ReleaseComObject(control);
+                                ReleaseComObject(candidate.Item3);
                             }
                         }
                     }
@@ -107,13 +99,59 @@ namespace ShaheLauncher.Core.Processes
             }
             finally
             {
-                ReleaseComObject(sessionEnumerator);
-                ReleaseComObject(manager);
-                ReleaseComObject(device);
+                ReleaseComObject(devices);
                 ReleaseComObject(deviceEnumerator);
             }
 
             return result;
+        }
+
+        private static void CollectDeviceSessions(
+            IMMDevice device,
+            IList<Tuple<ProcessAudioSession, int, IAudioSessionControl>> candidates,
+            ISet<int> activePids)
+        {
+            IAudioSessionManager2 manager = null;
+            IAudioSessionEnumerator sessions = null;
+            try
+            {
+                Guid managerId = AudioSessionManager2Id;
+                object managerObject;
+                ThrowIfFailed(device.Activate(ref managerId, ClsContextAll, IntPtr.Zero, out managerObject));
+                manager = (IAudioSessionManager2)managerObject;
+                ThrowIfFailed(manager.GetSessionEnumerator(out sessions));
+                int count;
+                ThrowIfFailed(sessions.GetCount(out count));
+                for (int index = 0; index < count; index++)
+                {
+                    IAudioSessionControl control = null;
+                    bool retained = false;
+                    try
+                    {
+                        ThrowIfFailed(sessions.GetSession(index, out control));
+                        var control2 = (IAudioSessionControl2)control;
+                        uint pid;
+                        int state;
+                        ThrowIfFailed(control2.GetProcessId(out pid));
+                        ThrowIfFailed(control2.GetState(out state));
+                        if (pid == 0 || pid > int.MaxValue || !IsProcessAlive((int)pid)
+                            || (state != SessionStateInactive && state != SessionStateActive)) continue;
+                        var handle = new SimpleAudioVolumeHandle((ISimpleAudioVolume)control);
+                        ProcessAudioSession session = CreateSession((int)pid,
+                            handle.GetMute, handle.SetMute, handle.GetMasterVolume, handle.SetMasterVolume);
+                        candidates.Add(Tuple.Create(session, state, control));
+                        retained = true;
+                        if (state == SessionStateActive) activePids.Add((int)pid);
+                    }
+                    catch { }
+                    finally { if (!retained) ReleaseComObject(control); }
+                }
+            }
+            finally
+            {
+                ReleaseComObject(sessions);
+                ReleaseComObject(manager);
+            }
         }
 
         public IEnumerable<ProcessAudioDevice> ListOutputDevices()

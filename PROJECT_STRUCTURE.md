@@ -2,12 +2,12 @@
 
 ## 当前执行摘要（2026-11-12）
 
-- **唯一当前执行计划：** `docs/superpowers/plans/2026-11-11-full-function-stress.md`。用户已确认完整修复与GitCode交付范围，包含重新纳入保存失败反馈修复。还原和删除保护的自动门禁及独立提交推送已完成，当前进入定时目标更新。保留最新分组源码，旧30轮循环继续停止；未升版/发布，精确证据和提交以末尾最新记录为准。
-- **当前结论：用户要求的所有功能压测尚未完成。** 已执行当前源码的完整自动化套件、专项压力和重复集成检查，但入口映射、模拟接口及方法调用不能证明全部真实功能已压测。此前“已测完/收口”和“仅真实桌面项未完成”的表述范围过大，现予纠正。当前未找到系统级全局快捷键注册接线，不能声称已实现或已测；实际键盘、托盘、读屏、音频/Sandboxie外部效果及当前构建完整更新链等缺口见 `docs/migration/2026-11-12-all-functions-stress.md`。还原安全已修复并提交；删除保护及其重命名影响已修复并通过最新全量，正在完成交付；定时旧目标、音频、配置并发/反馈/编码/只读、异常清单和资源清理仍待逐项处理。桌面阻断不能替代其余缺口说明；新版本尚未发布，整体迁移未完成。
+- **唯一当前执行计划：** `docs/superpowers/plans/2026-11-11-full-function-stress.md`。用户已确认完整修复与GitCode交付范围，包含重新纳入保存失败反馈修复。还原、删除保护、定时目标及非默认音频已完成各自修复门禁，当前接续配置与文件。保留最新分组源码，旧30轮循环继续停止；未升版/发布，精确证据和提交以末尾最新记录为准。
+- **当前结论：用户要求的所有功能压测尚未完成。** 入口映射、模拟接口及方法调用不能证明全部真实功能已压测。此前“已测完/收口”和“仅真实桌面项未完成”的表述范围过大，现予纠正。当前未找到系统级全局快捷键注册接线，不能声称已实现或已测；真实输入及外部效果的保留缺口见 `docs/migration/2026-11-12-all-functions-stress.md`，后续修复进度以本摘要和末尾最新记录为准。还原、删除、定时和非默认音频的已确认缺陷已修复；配置并发/反馈/编码/只读、异常清单和资源清理仍待逐项处理。桌面阻断不能替代其余缺口说明；新版本尚未发布，整体迁移未完成。
 - **最新交付：** 用户指定的 GitCode 命令行发布已完成，公开绿色包和在线清单现为 4.0.50，包含“全部进程操作遗漏用户”修复。原始 4.0.49 已完成到该在线新包的实际安装和重启；发布后旧版能检测新版、新版不重复提示。完整发布与升级证据见末尾 `RELEASE-4.0.50-20261109`，本地交付在 `release/4.0.50/`。
 - **最新运行审计：** 用户在新回合“继续验收”后主EXE启动、窗口文本/焦点读取成功，Tab请求被工具以观察失效拒绝并要求截图；截图刷新报执行失败，恢复时报会话失活。当前阻断明确在工具截图前置环节，没有真实按键通过证据。启动前已快照自启动项，本轮结束后核对一致、配置恢复、目标清理；此前未采集原值的风险仍保留。最新目录为本轮 continuation/desktop-resume-103439，故障复现说明见其中 desktop-issue.md；新回合本身未解决问题，不重复相同尝试。
 - **最新自动化验证：** 当前全量、专项压力、补充重复集成、逐入口覆盖及只读校正补验的权威计数和路径见末尾 `FULL-ONCE-20261112`。原始汇总保留夹具中断当时的状态，continuation补验明确说明该场景当前已完成；未重复已通过项目或整个套件。产品失败与真实受阻不因夹具补验通过而关闭。原分组修复证据保留在 `GROUP-SELECTION-20261112`；旧30轮循环仍为 `stopped-by-user`。
-- **本次实际补验：** 无截图的计时器、专用注册表/跨进程配置、内置安装机制、Sandboxie只读查询以及此前音频/朗读/互斥证据保留。当前生产设备切换在WMP播放框架中有实际迁移/重新打开保持的证据；`AUDIO-NONDEFAULT-01` 非默认设备音量/静音不可控及切换后操作旧会话仍待修。菜单未发现GC后逐轮留存，但路径菜单依赖GC释放。还原及删除失败的最新修复进度见末尾记录，定时旧目标尚待处理；不能将组件通过扩展为全部应用/真实UI/运行中沙盒通过。
+- **本次实际补验：** 无截图计时器、专用注册表/跨进程配置、内置安装机制、Sandboxie只读查询及朗读/互斥证据保留。定时旧目标原失败压力已转GREEN；非默认活动会话及WMP路由后音量/静音已通过真实读回，默认重复负载和暂停控制也通过。多流、全暂停旧会话反馈、设备拔插和其他播放框架边界仍保留。菜单未发现GC后逐轮留存，但路径菜单依赖GC释放；不能将组件通过扩展为全部应用/真实UI/运行中沙盒通过。
 - **旧版更新边界：** 原始 4.0.47 的在线检测、下载校验通过，但安装 4.0.49 被旧外置 updater 的包格式要求阻断；旧程序和配置保持原样，证据 `LEGACY-UPDATE-20261109`。本轮没有恢复该旧兼容设计。
 - **4.0.49 内置更新结论：** 先完成同版安装演练，随后完成 4.0.49 → 4.0.50 的原始主 EXE 内置安装、真实下载、替换和新版主窗口启动，配置及日志标记保留。早先“跨版本待验收”已被本轮新证据推进；首次发布后在线请求出现过 403，后续 curl 与两版原始客户端均通过，失败记录保留。
 - **已完成与可运行状态：** 既有定位、朗读文案、用户列表进程菜单和 4.0.49 绿色包已实现并有验证；C# 有主窗口启动及正常退出证据。GitHub 源码/Release 和 GitCode 包/清单已有发布证据；GitHub 仓库已于 2026-11-06 改为公开，仓库主页和 `v4.0.49` Release 可匿名访问。
@@ -4953,5 +4953,75 @@ csharp/
 ### 定时目标独立审查
 
 - `artifacts/runs/release_fixes_20261112/schedule-review.md`：Spec通过、Quality未发现新增产品缺陷。首次/重试使用当前job目标，无新增调度或取消退化；保留成功后重复触发旧回调的非阻断测试建议，不扩大为所有并发组合验证。修复源码与已验证哈希一致，准备独立提交后继续音频项。
+
+### 定时目标源码同步与独立提交
+
+- 两个验证源码同步主目录，明确列出的5文件提交为 `3dfc4a4f6d885a1ba4ea2c7a1fa5d1817143a5ff`；GitHub `沙河批量打开器` 分支推送退出0，证据 `artifacts/runs/release_fixes_20261112/schedule-push-result.json` 和 `schedule-push.log`。回退 `git revert 3dfc4a4f6d885a1ba4ea2c7a1fa5d1817143a5ff`。接续音频修复，GitCode未改。
+
+### 音频修复使用已有有效RED
+
+- 复用未改后端的真实失败：`full_function_once_20261112/continuation/pending/audio/runs/6b14f2aa95954c1f902ecfa606e8c408/result.json` 的非默认活动会话5项失败；`routing/runs/5046c4b7df764e7284a876b51329c689/result.json` 的成功路由后音量/静音2项失败。默认端点独占枚举及旧闲置会话优先是已确认根因，不重复RED。
+- 实现将枚举全部活动输出设备，存在活动会话时优先该PID的活动会话；无活动流时保留未过期的闲置会话供暂停程序调节，不误把路由前闲置会话作为当前声音。正式输出默认设备及用户播放不作改动。
+
+### 音频修复受影响回归
+
+- `test.ps1 -Stage audio-affected -Filter 'TestCategory=AudioBackend|TestCategory=ProcessActions'` 退出0，37项通过、失败0/跳过0；证据 `artifacts/runs/release_fixes_20261112/audio-affected/`。原生失败探针已复制到本轮目录，仅调整当前程序集/输出目录后验证，不改历史证据。
+
+### 非默认音频探针当前程序集构建
+
+- Roslyn C#7.3/net48/x64编译退出0，参数及日志 `artifacts/runs/release_fixes_20261112/audio/nondefault-build-result.json`、`nondefault-build.log`。探针引用本轮修复Core，原生场景和断言保留。
+
+### 非默认设备真实音频 GREEN
+
+- `audio/NonDefaultAudioProbe.exe` 退出0，5项通过/失败0；真实非默认Realtek活动流从40%变45%/35%，当前及全部静音读回true，生产状态与实际值一致。监督PID16132、所属静音播放PID5500正常退出，清理true；默认设备和用户音频未改。实际当前Core哈希记入 `audio/nondefault-run-result.json`。
+- 证据 `artifacts/runs/release_fixes_20261112/audio/nondefault/runs/3df48b97a0bc4ffb8c12c7e21d63e233/result.json`、`audio/nondefault-run.log`；以原生端点/会话校准，无按键或索引。此项关闭原非默认5失败，路由后组合仍待验证。
+
+### 路由后组合音频探针构建
+
+- Roslyn C#7.3/net48/x64以 `MediaRoutingProbe` 为唯一入口构建退出0；共享原生只读/路由恢复辅助源和已校准的四参Inspect，当前Core路径固定。参数/日志 `artifacts/runs/release_fixes_20261112/audio/routing-build-result.json`、`routing-build.log`。
+
+### 设备切换后真实音频组合 GREEN
+
+- `SHAHE_AUDIO_POST_SWITCH=1 audio/MediaRoutingProbe.exe` 退出0；WMP活动流从默认E2x2迁移到Realtek后，音量实际40%→45%、静音实际true，2个原失败均通过，旧端点闲置会话存在仍不再影响读写。监督PID6940、所属播放PID20744正常退出，Console/Multimedia原路由均恢复，stderr空、清理无异常。
+- 证据 `artifacts/runs/release_fixes_20261112/audio/routing/runs/389a996ecc564ab19c44a9b1ebfd23c7/result.json`、`audio/routing-run-result.json`。本次postMode未执行reopen，其字段false不是执行失败；既有reopen证据保留，不扩展到全部播放框架或真实菜单。
+
+### 音频修复全量
+
+- `test.ps1 -Stage audio-full` 退出0，517项通过、失败0/跳过0，证据 `artifacts/runs/release_fixes_20261112/audio-full/`。继续实际受影响的默认设备压力与暂停会话保护，不重复不相关功能。
+
+### 默认音频受影响压力回归
+
+- 原 `NativeAudioStress.exe` 配当前Core副本运行退出0，20轮共167项通过、失败0；当前/全部音量静音、边界、音量记忆及第三个非目标保护通过。所属PID19400/21264/11528经完整路径核对后清理终止，全部已退出（不是正常UI退出）。证据 `artifacts/runs/release_fixes_20261112/audio/default/{native-result.json,run-result.json,run.log}`，包括实际Core哈希。
+- 独立审查另指出设备失效的active候选可能提前屏蔽可用paused会话，接续将活动PID判定移到会话成功读取后；无效设备不会凭状态阻断其他会话。审查未作真实拔设备测试，正常路径通过仍保留。
+
+### 音频审查修订全量
+
+- `test.ps1 -Stage audio-reviewed-full` 退出0，517项通过、失败0/跳过0；证据 `artifacts/runs/release_fixes_20261112/audio-reviewed-full/`。活动PID现在仅来源于已成功读取音量/静音的候选，失效候选先被释放；独立复审已关闭P2，真实设备拔出仍是未注入边界。
+
+### 暂停会话兼容探针构建
+
+- `PausedAudioProbe.cs` 使用本轮当前Core与原生观测辅助，Roslyn C#7.3/net48/x64构建退出0。参数/日志 `artifacts/runs/release_fixes_20261112/audio/paused-build-result.json`、`paused-build.log`；只控制本探针内无窗口WMP静音流，不操作用户应用。
+
+### 真实暂停音频保护
+
+- `PausedAudioProbe.exe <audio>/paused` 退出0：本进程WMP从活动播放进入全inactive，两条会话仍可调音量40%→45%及静音true，2项通过；PID14976正常退出，播放器stop/close/COM释放完成，未改路由。当前Core位置及状态读回见 `artifacts/runs/release_fixes_20261112/audio/paused/result.json`，命令/哈希见 `audio/paused-run-result.json`。
+- 只证明未路由的暂停会话仍可控制，不扩大为同PID多设备全部暂停时的反馈准确性。
+
+### 音频审查修订后的非默认抽验
+
+- 同 `NonDefaultAudioProbe.exe` 读取修订后的当前Core，退出0，5项通过/失败0。监督PID16612、所属PID20508正常退出，清理true；证据 `artifacts/runs/release_fixes_20261112/audio/nondefault/runs/fa0f426c1b1741dcbd74048ed4832300/result.json`、`audio/nondefault-final-result.json`。本次重验由候选构造顺序变更触发，不是重复不变代码。
+
+### 音频审查修订后的路由组合抽验
+
+- `SHAHE_AUDIO_POST_SWITCH=1 MediaRoutingProbe.exe` 读取最终当前Core退出0，路由后活动会话音量/静音2项通过。监督PID3816、所属PID18120正常退出，原路由恢复true，无运行或清理异常。证据 `artifacts/runs/release_fixes_20261112/audio/routing/runs/a02b8504614c4a3caf7c0df9eb966278/result.json`、`audio/routing-final-result.json`。
+- 静态复审已关闭失效候选P2；同PID一条活动一条暂停时仅控制活动流，以及全暂停旧会话参与反馈的边界记录在 `audio-review.md`。没有把静态异常路径核对当成真实设备拔插通过。
+
+### 音频最终Release与对照边界
+
+- 按计划Release x64隔离构建退出0，警告0/错误0，证据 `artifacts/runs/release_fixes_20261112/audio-release/{result.json,build.log}`。Python未改，复用本轮对照31/31和compileall退出0；Python现有后端也有默认端点限制，本项依用户批准作为缺陷修复，不修改Python源码。
+
+### 音频完整性与源码同步
+
+- 后端严格UTF-8/替换字符检查通过，`git diff --check`退出0，主目录原文件仍与基线哈希一致，已同步经验证修复；证据 `artifacts/runs/release_fixes_20261112/audio-integrity.json`、`audio-verified-source.json`。独立复审与最终原生抽验通过，准备提交明确的后端及3份文档。
 
 <!-- FULL-ONCE-APPEND -->
