@@ -80,6 +80,9 @@ namespace ShaheLauncher.Core.Speech
             "close_current",
             "close_all",
             "locate_current",
+            "pin_current",
+            "refresh_users",
+            "refresh_process",
             "launch_done"
         };
 
@@ -91,6 +94,9 @@ namespace ShaheLauncher.Core.Speech
         private string _assistSpeechRoute = string.Empty;
         private string _assistLastText = string.Empty;
         private DateTime _assistLastTimeUtc = DateTime.MinValue;
+        private Task _assistSpeechTask = Task.CompletedTask;
+        private int _assistHintGeneration;
+        private int _assistVolumeGeneration;
 
         public SpeechService(
             string appDirectory,
@@ -513,6 +519,11 @@ namespace ShaheLauncher.Core.Speech
 
         public void SpeakAssistText(string text, bool interrupt)
         {
+            QueueAssistText(text, interrupt, false);
+        }
+
+        private void QueueAssistText(string text, bool interrupt, bool volumeResult)
+        {
             string content = Text(text).Trim();
             if (content.Length == 0 || DestroyStarted || IsWindowClosing())
             {
@@ -523,41 +534,49 @@ namespace ShaheLauncher.Core.Speech
                 return;
             }
 
-            Task.Run(delegate
+            lock (_assistDedupLock)
             {
-                lock (_assistSpeechCallLock)
+                int hintGeneration = _assistHintGeneration;
+                int volumeGeneration = volumeResult
+                    ? Interlocked.Increment(ref _assistVolumeGeneration) : 0;
+                // Preserve completion order; queued volume results are replaced by the latest level.
+                _assistSpeechTask = _assistSpeechTask.ContinueWith(previous =>
                 {
-                    if (IsWindowClosing()
-                        || !CommonUtilities.ParseBoolSetting(GetValue(SpeechAssistHints, "enabled", false), false)
-                        || !EnsureAssistSpeechRuntime())
+                    lock (_assistSpeechCallLock)
                     {
-                        return;
-                    }
-
-                    SpeechAssistBackend runtime = _assistSpeechRuntime;
-                    if (runtime == null)
-                    {
-                        return;
-                    }
-                    try
-                    {
-                        if (interrupt)
+                        if (IsWindowClosing() || DestroyStarted
+                            || hintGeneration != Volatile.Read(ref _assistHintGeneration)
+                            || (volumeResult && volumeGeneration != Volatile.Read(ref _assistVolumeGeneration))
+                            || !CommonUtilities.ParseBoolSetting(GetValue(SpeechAssistHints, "enabled", false), false)
+                            || !EnsureAssistSpeechRuntime())
                         {
+                            return;
+                        }
+
+                        // Loading the native interface can be slow. Settings or a newer volume
+                        // result may have invalidated this request in the meantime.
+                        lock (_assistDedupLock)
+                        {
+                            if (IsWindowClosing() || DestroyStarted
+                                || hintGeneration != _assistHintGeneration
+                                || (volumeResult && volumeGeneration != _assistVolumeGeneration)
+                                || !CommonUtilities.ParseBoolSetting(GetValue(SpeechAssistHints, "enabled", false), false)) return;
+                            SpeechAssistBackend runtime = _assistSpeechRuntime;
+                            if (runtime == null) return;
                             try
                             {
-                                runtime.Silence?.Invoke();
+                                if (interrupt)
+                                {
+                                    try { runtime.Silence?.Invoke(); }
+                                    catch { }
+                                }
+                                runtime.Output?.Invoke(content, interrupt);
                             }
-                            catch
-                            {
-                            }
+                            catch { }
                         }
-                        runtime.Output?.Invoke(content, interrupt);
                     }
-                    catch
-                    {
-                    }
-                }
-            });
+                }, CancellationToken.None, TaskContinuationOptions.None, TaskScheduler.Default);
+            }
         }
 
         public void ShutdownAssistSpeechRuntime()
@@ -629,12 +648,22 @@ namespace ShaheLauncher.Core.Speech
                     muteAll = "静音全部打开的进程";
                 }
             }
-            SpeechAssistHints = new Dictionary<string, object>
+            lock (_assistDedupLock)
             {
-                { "enabled", enabled },
-                { "mute_current", muteCurrent },
-                { "mute_all", muteAll }
-            };
+                bool previousEnabled = CommonUtilities.ParseBoolSetting(GetValue(SpeechAssistHints, "enabled", false), false);
+                SpeechAssistHints = new Dictionary<string, object>
+                {
+                    { "enabled", enabled },
+                    { "mute_current", muteCurrent },
+                    { "mute_all", muteAll }
+                };
+                if (previousEnabled != enabled)
+                {
+                    Interlocked.Increment(ref _assistHintGeneration);
+                    _assistLastText = string.Empty;
+                    _assistLastTimeUtc = DateTime.MinValue;
+                }
+            }
             Callbacks.SaveSettings?.Invoke();
             return true;
         }
@@ -667,6 +696,7 @@ namespace ShaheLauncher.Core.Speech
 
             lock (_assistDedupLock)
             {
+                if (!CommonUtilities.ParseBoolSetting(GetValue(SpeechAssistHints, "enabled", false), false)) return;
                 DateTime now = DateTime.UtcNow;
                 if (string.Equals(content, _assistLastText, StringComparison.Ordinal)
                     && (now - _assistLastTimeUtc).TotalSeconds < 0.45)
@@ -675,8 +705,8 @@ namespace ShaheLauncher.Core.Speech
                 }
                 _assistLastText = content;
                 _assistLastTimeUtc = now;
+                QueueAssistText(content, interrupt, key == "volume_current" || key == "volume_all");
             }
-            SpeakAssistText(content, interrupt);
         }
 
         public string GetSpeechConfigPath()

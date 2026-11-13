@@ -139,8 +139,7 @@ namespace ShaheLauncher.App
             CloseCurrentCallback = name => ProcessActionService.OnCloseCurrentSandbox(name, ProcessCallbacks);
             CloseAllCallback = () => ProcessActionService.OnCloseAllSandboxes(ProcessCallbacks);
             LocateCurrentCallback = name => ProcessActionService.OnLocateCurrentSandbox(name, ProcessCallbacks);
-            PinToggleCallback = name => SandboxAdminService.TogglePinSandbox(
-                SandboxAdminState, name, SandboxAdminCallbacks);
+            PinToggleCallback = TogglePinWithAssistSpeech;
             RefreshSandboxListCallback = RefreshSandboxListFromRuntime;
             CancelAllSchedulesCallback = updateStatus => LaunchScheduler.CancelAllSchedules(
                 LaunchState, updateStatus, LaunchCallbacks);
@@ -490,6 +489,7 @@ namespace ShaheLauncher.App
                 RunProcessCommand = RunProcessCommand,
                 PidExists = ProcessExists,
                 SetStatus = text => SafeSetStatusLabel(text),
+                Log = Runtime.AppendDailyLog,
                 Speak = (text, eventName) => SpeechService.SpeakProcessAssist(text, true, eventName),
                 SaveSettings = SaveSettings,
                 RefreshProcessUi = RefreshProcessUi,
@@ -634,6 +634,26 @@ namespace ShaheLauncher.App
         {
             RefreshSandboxDisplayMaps();
             SandboxList?.RefreshSandboxList();
+        }
+
+        private void RefreshSandboxListFromUserAction()
+        {
+            try
+            {
+                if (RefreshSandboxListCallback != null)
+                {
+                    RefreshSandboxListCallback();
+                    SpeechCallback?.Invoke("已刷新用户列表", "refresh_users");
+                    return;
+                }
+
+                SandboxList?.RefreshSandboxListManually();
+            }
+            catch
+            {
+                SpeechCallback?.Invoke("刷新用户列表失败", "refresh_users");
+                SafeSetStatusLabel("刷新沙盒用户失败，请按 F5 重试");
+            }
         }
 
         private IEnumerable<string> RefreshSandboxDisplayMaps()
@@ -861,6 +881,19 @@ namespace ShaheLauncher.App
             {
                 SafeSetStatusLabel("已刷新进程状态");
             }
+        }
+
+        private void OnRunningStatesRefreshResult(bool succeeded)
+        {
+            if (!_manualProcessRefreshStatusPending)
+            {
+                return;
+            }
+
+            _manualProcessRefreshStatusPending = false;
+            string status = succeeded ? "已刷新进程状态" : "刷新进程状态失败";
+            SafeSetStatusLabel(status);
+            SpeechCallback?.Invoke(status, "refresh_process");
         }
 
         private void ScheduleProcessMenuLiveStateRefresh(int delayMilliseconds)
@@ -1508,7 +1541,7 @@ namespace ShaheLauncher.App
                     LaunchSelectedCallback?.Invoke();
                     break;
                 case "refresh":
-                    RefreshSandboxListOnStartup();
+                    RefreshSandboxListFromUserAction();
                     break;
                 case "select_prev_user":
                     SelectPreviousSandboxCallback?.Invoke();
@@ -1517,16 +1550,16 @@ namespace ShaheLauncher.App
                     SelectNextSandboxCallback?.Invoke();
                     break;
                 case "mute_current":
-                    ExecuteCurrentSandboxAction(MuteCurrentCallback);
+                    ExecuteCurrentSandboxAction(MuteCurrentCallback, false, "mute_current");
                     break;
                 case "mute_all":
                     MuteAllCallback?.Invoke();
                     break;
                 case "volume_current_up":
-                    ExecuteCurrentSandboxAction(name => VolumeCurrentCallback?.Invoke(name, 5));
+                    ExecuteCurrentSandboxAction(name => VolumeCurrentCallback?.Invoke(name, 5), false, "volume_current");
                     break;
                 case "volume_current_down":
-                    ExecuteCurrentSandboxAction(name => VolumeCurrentCallback?.Invoke(name, -5));
+                    ExecuteCurrentSandboxAction(name => VolumeCurrentCallback?.Invoke(name, -5), false, "volume_current");
                     break;
                 case "volume_all_up":
                     VolumeAllCallback?.Invoke(5);
@@ -1535,25 +1568,25 @@ namespace ShaheLauncher.App
                     VolumeAllCallback?.Invoke(-5);
                     break;
                 case "switch_output_current":
-                    ExecuteCurrentSandboxAction(SwitchOutputCurrentCallback);
+                    ExecuteCurrentSandboxAction(SwitchOutputCurrentCallback, false, "switch_output_current");
                     break;
                 case "switch_output_all":
                     SwitchOutputAllCallback?.Invoke();
                     break;
                 case "close_current_process":
-                    ExecuteCurrentSandboxAction(CloseCurrentCallback);
+                    ExecuteCurrentSandboxAction(CloseCurrentCallback, false, "close_current");
                     break;
                 case "close_all_processes":
                     CloseAllCallback?.Invoke();
                     break;
                 case "locate_current_process":
-                    ExecuteCurrentSandboxAction(LocateCurrentCallback, true);
+                    ExecuteCurrentSandboxAction(LocateCurrentCallback, true, "locate_current");
                     break;
                 case "refresh_process_state":
                     RefreshProcessStateOnly();
                     break;
                 case "pin_current_user":
-                    ExecuteCurrentSandboxAction(PinToggleCallback);
+                    ExecuteCurrentSandboxAction(PinToggleCallback, false, "pin_current");
                     break;
                 case "create_group":
                     CreateGroup();
@@ -4472,15 +4505,44 @@ namespace ShaheLauncher.App
             }
         }
 
-        private void ExecuteCurrentSandboxAction(Action<string> callback, bool preferFocusedItem = false)
+        private void ExecuteCurrentSandboxAction(
+            Action<string> callback,
+            bool preferFocusedItem = false,
+            string speechEventKey = null)
         {
             string name = GetSelectedSandboxName(preferFocusedItem);
             if (name.Length == 0)
             {
                 SafeSetStatusLabel("请先在用户列表中选中一个用户");
+                if (!string.IsNullOrEmpty(speechEventKey))
+                {
+                    SpeechCallback?.Invoke("请先选中一个用户", speechEventKey);
+                }
                 return;
             }
             callback?.Invoke(name);
+        }
+
+        private void TogglePinWithAssistSpeech(string sandboxName)
+        {
+            string name = (sandboxName ?? string.Empty).Trim();
+            bool wasPinned = SandboxAdminService.IsSandboxPinned(SandboxAdminState, name);
+            try
+            {
+                bool saved = SandboxAdminService.TogglePinSandbox(
+                    SandboxAdminState, name, SandboxAdminCallbacks);
+                if (saved)
+                {
+                    SpeechCallback?.Invoke(
+                        wasPinned ? "已取消置顶" + name : "已置顶" + name,
+                        "pin_current");
+                }
+            }
+            catch (SettingsSaveException)
+            {
+                SpeechCallback?.Invoke("置顶" + name + "失败", "pin_current");
+                throw;
+            }
         }
 
         private string GetSelectedSandboxName(bool preferFocusedItem = false)

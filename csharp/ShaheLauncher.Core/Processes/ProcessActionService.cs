@@ -117,6 +117,7 @@ namespace ShaheLauncher.Core.Processes
 
         public int ChangedSessions { get; set; }
         public int? AverageLevel { get; set; }
+        public bool HasDifferentLevels { get; set; }
         public ISet<int> ChangedPids { get; set; }
         public ISet<int> MatchedPids { get; set; }
         public ISet<int> FailedPids { get; set; }
@@ -190,6 +191,7 @@ namespace ShaheLauncher.Core.Processes
         public Func<string, Tuple<string, string>> ResolveSandboxNames { get; set; }
         public Func<string, string> ResolveVolumeMemoryKey { get; set; }
         public Action<string> SetStatus { get; set; }
+        public Action<string> Log { get; set; }
         public Action<string, string> Speak { get; set; }
         public Action SaveSettings { get; set; }
         public Action<bool> RefreshProcessUi { get; set; }
@@ -263,7 +265,9 @@ namespace ShaheLauncher.Core.Processes
 
         private ProcessAudioDevice PromptOutputDeviceChoiceFromWorker(
             string title,
-            ProcessActionCallbacks callbacks)
+            ProcessActionCallbacks callbacks,
+            string speechTarget,
+            string speechEvent)
         {
             IList<ProcessAudioDevice> devices = ListOutputAudioDevicesFromCallbacks(callbacks);
             if (devices.Count == 0)
@@ -271,6 +275,7 @@ namespace ShaheLauncher.Core.Processes
                 Post(callbacks, delegate
                 {
                     callbacks?.SetStatus?.Invoke(NoOutputDevicesStatus);
+                    callbacks?.Speak?.Invoke(speechTarget + "未找到可用播放设备", speechEvent);
                 });
                 return null;
             }
@@ -923,6 +928,7 @@ namespace ShaheLauncher.Core.Processes
                 }
             }
             result.AverageLevel = AveragePercent(levels);
+            result.HasDifferentLevels = levels.Distinct().Skip(1).Any();
             return result;
         }
 
@@ -1454,6 +1460,7 @@ namespace ShaheLauncher.Core.Processes
                         {
                             callbacks?.SetStatus?.Invoke(FinishMuteCurrentSandbox(
                                 state, internalName, displayName, null, null, "no_target"));
+                            callbacks?.Speak?.Invoke(displayName + "没有可静音的进程", "mute_current");
                             RefreshProcessUiAfterAction(false, callbacks);
                         });
                         return string.Empty;
@@ -1479,13 +1486,19 @@ namespace ShaheLauncher.Core.Processes
                             result,
                             result == null ? "failed" : string.Empty);
                         callbacks?.SetStatus?.Invoke(status);
+                        string action = targetMute ? "静音" : "取消静音";
+                        string speech;
                         if (result != null && result.ChangedSessions > 0)
                         {
-                            string speech = result.FullyChanged
-                                ? (targetMute ? "静音" : "取消静音") + displayName + "进程"
-                                : (targetMute ? "部分静音" : "部分取消静音") + displayName + "进程";
-                            callbacks?.Speak?.Invoke(speech, "mute_current");
+                            speech = displayName + (result.FullyChanged ? "已" : "部分音频已") + action;
                         }
+                        else
+                        {
+                            speech = result == null || result.FailedPids.Count != 0
+                                ? displayName + action + "失败"
+                                : displayName + "没有可静音的音频";
+                        }
+                        callbacks?.Speak?.Invoke(speech, "mute_current");
                         RefreshProcessUiAfterAction(false, callbacks);
                     });
                     return string.Empty;
@@ -1506,6 +1519,7 @@ namespace ShaheLauncher.Core.Processes
                         {
                             callbacks?.SetStatus?.Invoke(FinishMuteAllSandboxes(
                                 state, null, null, "no_target", null));
+                            callbacks?.Speak?.Invoke("没有可静音的进程", "mute_all");
                             RefreshProcessUiAfterAction(false, callbacks);
                         });
                         return string.Empty;
@@ -1531,13 +1545,19 @@ namespace ShaheLauncher.Core.Processes
                             result == null ? "failed" : string.Empty,
                             names);
                         callbacks?.SetStatus?.Invoke(status);
+                        string action = targetMute ? "静音" : "取消静音";
+                        string speech;
                         if (result != null && result.ChangedSessions > 0)
                         {
-                            string speech = result.FullyChanged
-                                ? (targetMute ? "全部静音" : "全部取消静音")
-                                : (targetMute ? "全部进程部分静音" : "全部进程部分取消静音");
-                            callbacks?.Speak?.Invoke(speech, "mute_all");
+                            speech = (result.FullyChanged ? "全部进程已" : "全部进程中部分音频已") + action;
                         }
+                        else
+                        {
+                            speech = result == null || result.FailedPids.Count != 0
+                                ? "全部进程" + action + "失败"
+                                : "全部进程没有可静音的音频";
+                        }
+                        callbacks?.Speak?.Invoke(speech, "mute_all");
                         RefreshProcessUiAfterAction(false, callbacks);
                     });
                     return string.Empty;
@@ -1554,6 +1574,7 @@ namespace ShaheLauncher.Core.Processes
             if (pids.Count == 0)
             {
                 callbacks?.SetStatus?.Invoke("当前用户 " + names.Item2 + " 没有可切换设备的已开进程");
+                callbacks?.Speak?.Invoke(names.Item2 + "没有可切换设备的进程", "switch_output_current");
                 return false;
             }
             return RunVolumeTaskAsync(
@@ -1562,7 +1583,9 @@ namespace ShaheLauncher.Core.Processes
                 {
                     ProcessAudioDevice device = PromptOutputDeviceChoiceFromWorker(
                         SwitchCurrentOutputTitle,
-                        callbacks);
+                        callbacks,
+                        names.Item2,
+                        "switch_output_current");
                     if (device == null)
                     {
                         return string.Empty;
@@ -1583,13 +1606,18 @@ namespace ShaheLauncher.Core.Processes
                         string status = FinishSwitchOutputDeviceCurrent(
                             names.Item2, device.Name, result.Changed, result.Failed, exceptionFailed);
                         callbacks?.SetStatus?.Invoke(status);
+                        string speech;
                         if (result.Changed > 0)
                         {
-                            string speech = result.Failed <= 0
-                                ? "把" + names.Item2 + "进程切换到播放设备" + device.Name
-                                : "部分切换" + names.Item2 + "进程到播放设备" + device.Name;
-                            callbacks?.Speak?.Invoke(speech, "switch_output_current");
+                            speech = names.Item2 + (result.Failed <= 0 ? "已切换到" : "部分进程已切换到") + device.Name;
                         }
+                        else
+                        {
+                            speech = result.Failed > 0 || exceptionFailed
+                                ? names.Item2 + "播放设备切换失败"
+                                : names.Item2 + "没有可切换设备的进程";
+                        }
+                        callbacks?.Speak?.Invoke(speech, "switch_output_current");
                         RefreshProcessUiAfterAction(false, callbacks);
                     });
                     return string.Empty;
@@ -1606,12 +1634,18 @@ namespace ShaheLauncher.Core.Processes
                     IList<int> pids = GetAllPids(callbacks);
                     if (pids.Count == 0)
                     {
-                        Post(callbacks, () => callbacks?.SetStatus?.Invoke("当前没有可切换设备的全部打开进程"));
+                        Post(callbacks, delegate
+                        {
+                            callbacks?.SetStatus?.Invoke("当前没有可切换设备的全部打开进程");
+                            callbacks?.Speak?.Invoke("没有可切换设备的进程", "switch_output_all");
+                        });
                         return string.Empty;
                     }
                     ProcessAudioDevice device = PromptOutputDeviceChoiceFromWorker(
                         SwitchAllOutputTitle,
-                        callbacks);
+                        callbacks,
+                        "全部进程",
+                        "switch_output_all");
                     if (device == null)
                     {
                         return string.Empty;
@@ -1632,13 +1666,18 @@ namespace ShaheLauncher.Core.Processes
                         string status = FinishSwitchOutputDeviceAll(
                             device.Name, result.Changed, result.Failed, exceptionFailed);
                         callbacks?.SetStatus?.Invoke(status);
+                        string speech;
                         if (result.Changed > 0)
                         {
-                            string speech = result.Failed <= 0
-                                ? "把全部进程切换到播放设备" + device.Name
-                                : "部分进程已切换到播放设备" + device.Name;
-                            callbacks?.Speak?.Invoke(speech, "switch_output_all");
+                            speech = (result.Failed <= 0 ? "全部进程已切换到" : "部分进程已切换到") + device.Name;
                         }
+                        else
+                        {
+                            speech = result.Failed > 0 || exceptionFailed
+                                ? "全部进程播放设备切换失败"
+                                : "没有可切换设备的进程";
+                        }
+                        callbacks?.Speak?.Invoke(speech, "switch_output_all");
                         RefreshProcessUiAfterAction(false, callbacks);
                     });
                     return string.Empty;
@@ -1660,6 +1699,7 @@ namespace ShaheLauncher.Core.Processes
                     IList<int> pids = GetAllPids(callbacks);
                     if (pids.Count == 0)
                     {
+                        callbacks?.Speak?.Invoke("没有可调音量的进程", "volume_all");
                         return "当前没有可调节音量的全部打开进程";
                     }
                     ProcessVolumeResult result = AdjustVolumeForPidsDetailed(
@@ -1668,28 +1708,35 @@ namespace ShaheLauncher.Core.Processes
                         GetAudioSessions(callbacks));
                     if (result.ChangedSessions <= 0)
                     {
+                        callbacks?.Speak?.Invoke(FormatVolumeSpeech("全部进程", result), "volume_all");
                         return result.FailedPids.Count != 0
                             ? action + "全部打开进程音量失败"
                             : "未找到可调节音量的全部打开进程";
                     }
+                    string saveFailure = string.Empty;
                     if (result.FullyChanged && result.AverageLevel.HasValue)
                     {
-                        bool changed = RememberVolumeForAllRunningSandboxes(
-                            state,
-                            result.AverageLevel.Value,
-                            GetSandboxNames(callbacks),
-                            callbacks?.GetSandboxPids,
-                            callbacks?.ResolveVolumeMemoryKey);
-                        if (changed)
+                        try
                         {
-                            callbacks?.SaveSettings?.Invoke();
+                            bool changed = RememberVolumeForAllRunningSandboxes(
+                                state,
+                                result.AverageLevel.Value,
+                                GetSandboxNames(callbacks),
+                                callbacks?.GetSandboxPids,
+                                callbacks?.ResolveVolumeMemoryKey);
+                            if (changed)
+                            {
+                                callbacks?.SaveSettings?.Invoke();
+                            }
+                        }
+                        catch (Exception error)
+                        {
+                            saveFailure = "，但设置保存失败";
+                            try { callbacks?.Log?.Invoke("保存全部进程音量记忆失败: " + error); }
+                            catch { }
                         }
                     }
-                    callbacks?.Speak?.Invoke(
-                        result.FullyChanged
-                            ? "全部进程音量" + action + Math.Abs(step).ToString(CultureInfo.InvariantCulture) + "%"
-                            : "全部进程音量部分" + action + Math.Abs(step).ToString(CultureInfo.InvariantCulture) + "%",
-                        "volume_all");
+                    callbacks?.Speak?.Invoke(FormatVolumeSpeech("全部进程", result), "volume_all");
                     if (!result.FullyChanged)
                     {
                         return "已部分将全部打开进程音量" + action + " "
@@ -1697,9 +1744,10 @@ namespace ShaheLauncher.Core.Processes
                     }
                     string status = "已将全部打开进程音量" + action + " "
                         + Math.Abs(step).ToString(CultureInfo.InvariantCulture) + "%";
-                    return result.AverageLevel.HasValue
+                    status = result.AverageLevel.HasValue
                         ? status + "，当前约 " + result.AverageLevel.Value.ToString(CultureInfo.InvariantCulture) + "%"
                         : status;
+                    return status + saveFailure;
                 },
                 callbacks?.SetStatus);
         }
@@ -1720,6 +1768,7 @@ namespace ShaheLauncher.Core.Processes
                     IList<int> pids = GetSandboxPids(names.Item1, callbacks);
                     if (pids.Count == 0)
                     {
+                        callbacks?.Speak?.Invoke(names.Item2 + "没有可调音量的进程", "volume_current");
                         return "当前用户 " + names.Item2 + " 没有可调节音量的已开进程";
                     }
                     ProcessVolumeResult result = AdjustVolumeForPidsDetailed(
@@ -1728,24 +1777,32 @@ namespace ShaheLauncher.Core.Processes
                         GetAudioSessions(callbacks));
                     if (result.ChangedSessions <= 0)
                     {
+                        callbacks?.Speak?.Invoke(FormatVolumeSpeech(names.Item2, result), "volume_current");
                         return result.FailedPids.Count != 0
                             ? action + "音量失败: " + names.Item2
                             : "未找到可调节音量的进程: " + names.Item2;
                     }
+                    string saveFailure = string.Empty;
                     if (result.FullyChanged && result.AverageLevel.HasValue)
                     {
-                        string key = callbacks?.ResolveVolumeMemoryKey != null
-                            ? callbacks.ResolveVolumeMemoryKey(names.Item1)
-                            : names.Item1;
-                        if (RememberVolumeForSandbox(state, key, result.AverageLevel.Value))
+                        try
                         {
-                            callbacks?.SaveSettings?.Invoke();
+                            string key = callbacks?.ResolveVolumeMemoryKey != null
+                                ? callbacks.ResolveVolumeMemoryKey(names.Item1)
+                                : names.Item1;
+                            if (RememberVolumeForSandbox(state, key, result.AverageLevel.Value))
+                            {
+                                callbacks?.SaveSettings?.Invoke();
+                            }
+                        }
+                        catch (Exception error)
+                        {
+                            saveFailure = "，但设置保存失败";
+                            try { callbacks?.Log?.Invoke("保存" + names.Item2 + "音量记忆失败: " + error); }
+                            catch { }
                         }
                     }
-                    callbacks?.Speak?.Invoke(
-                        names.Item2 + "进程音量" + (result.FullyChanged ? action : "部分" + action)
-                            + Math.Abs(step).ToString(CultureInfo.InvariantCulture) + "%",
-                        "volume_current");
+                    callbacks?.Speak?.Invoke(FormatVolumeSpeech(names.Item2, result), "volume_current");
                     if (!result.FullyChanged)
                     {
                         return "已部分将 " + names.Item2 + " 音量" + action + " "
@@ -1755,9 +1812,20 @@ namespace ShaheLauncher.Core.Processes
                         names.Item2,
                         step > 0,
                         step,
-                        result.AverageLevel);
+                        result.AverageLevel) + saveFailure;
                 },
                 callbacks?.SetStatus);
+        }
+
+        private static string FormatVolumeSpeech(string target, ProcessVolumeResult result)
+        {
+            if (result.ChangedSessions <= 0)
+            {
+                return target + (result.FailedPids.Count != 0 ? "音量调整失败" : "没有可调音量的音频");
+            }
+            string subject = result.FullyChanged ? target : target + "的部分音频";
+            return subject + (result.HasDifferentLevels ? "平均音量" : "音量调到")
+                + result.AverageLevel.Value.ToString(CultureInfo.InvariantCulture) + "%";
         }
 
         public static string FinishSwitchOutputDeviceCurrent(
@@ -1970,11 +2038,24 @@ namespace ShaheLauncher.Core.Processes
                     Post(callbacks, delegate
                     {
                         callbacks?.SetStatus?.Invoke(FinishCloseCurrentSandbox(names.Item2, result));
-                        if (result.Status == "all_closed"
-                            || (result.Status != "no_target" && result.Status != "partially_closed" && result.Closed > 0))
+                        string speech;
+                        if (result.Status == "all_closed")
                         {
-                            callbacks?.Speak?.Invoke("已关闭" + names.Item2 + "进程", "close_current");
+                            speech = "已关闭" + names.Item2 + "进程";
                         }
+                        else if (result.Status == "no_target")
+                        {
+                            speech = names.Item2 + "没有可关闭的进程";
+                        }
+                        else if (result.Closed > 0 || result.AnyClosed)
+                        {
+                            speech = names.Item2 + "部分进程已关闭";
+                        }
+                        else
+                        {
+                            speech = "关闭" + names.Item2 + "进程失败";
+                        }
+                        callbacks?.Speak?.Invoke(speech, "close_current");
                         RefreshProcessUiAfterAction(result.Status != "no_target", callbacks);
                     });
                 },
@@ -2113,6 +2194,7 @@ namespace ShaheLauncher.Core.Processes
             if (pids.Count == 0)
             {
                 callbacks?.SetStatus?.Invoke("当前用户 " + names.Item2 + " 没有可定位的打开进程");
+                callbacks?.Speak?.Invoke(names.Item2 + "没有可定位的进程", "locate_current");
                 return false;
             }
             IList<ProcessWindowCandidate> windows;
@@ -2132,6 +2214,7 @@ namespace ShaheLauncher.Core.Processes
             if (windows.Count == 0)
             {
                 callbacks?.SetStatus?.Invoke("当前用户 " + names.Item2 + " 没有可定位的打开进程");
+                callbacks?.Speak?.Invoke(names.Item2 + "没有可定位的窗口", "locate_current");
                 return false;
             }
             long hwnd = PromptWindowChoice(names.Item2, windows, callbacks);
@@ -2146,6 +2229,7 @@ namespace ShaheLauncher.Core.Processes
             if (!StabilizeActivatedWindow(hwnd, callbacks?.ActivateWindow))
             {
                 callbacks?.SetStatus?.Invoke("定位进程失败: " + names.Item2);
+                callbacks?.Speak?.Invoke("定位" + names.Item2 + "进程失败", "locate_current");
                 return false;
             }
             Action finish = delegate
@@ -2158,10 +2242,11 @@ namespace ShaheLauncher.Core.Processes
                 if (!StabilizeActivatedWindow(hwnd, callbacks?.ActivateWindow))
                 {
                     callbacks?.SetStatus?.Invoke("定位进程失败: " + names.Item2);
+                    callbacks?.Speak?.Invoke("定位" + names.Item2 + "进程失败", "locate_current");
                     return;
                 }
                 callbacks?.SetStatus?.Invoke(FormatLocateCompletedStatus(names.Item2));
-                callbacks?.Speak?.Invoke("已定位" + names.Item2 + "进程", "locate_current");
+                callbacks?.Speak?.Invoke("已定位到" + names.Item2 + "进程", "locate_current");
             };
             if (minimized)
             {
@@ -2182,11 +2267,12 @@ namespace ShaheLauncher.Core.Processes
                 {
                     CancelLocateWindowReinforcement(true);
                     callbacks?.SetStatus?.Invoke("定位进程失败: " + names.Item2);
+                    callbacks?.Speak?.Invoke("定位" + names.Item2 + "进程失败", "locate_current");
                     return false;
                 }
             }
             callbacks?.SetStatus?.Invoke(FormatLocateCompletedStatus(names.Item2));
-            callbacks?.Speak?.Invoke("已定位" + names.Item2 + "进程", "locate_current");
+            callbacks?.Speak?.Invoke("已定位到" + names.Item2 + "进程", "locate_current");
             return true;
         }
 
@@ -2392,10 +2478,24 @@ namespace ShaheLauncher.Core.Processes
             Post(callbacks, delegate
             {
                 callbacks?.SetStatus?.Invoke(FinishCloseAllSandboxes(status, closed, anyTerminated));
-                if (status == "all_closed" || status == "closed_some")
+                string speech;
+                if (status == "all_closed")
                 {
-                    callbacks?.Speak?.Invoke("已关闭全部进程", "close_all");
+                    speech = "已关闭全部进程";
                 }
+                else if (status == "no_target")
+                {
+                    speech = "没有可关闭的进程";
+                }
+                else if (status == "closed_some" || status == "partially_closed" || anyTerminated)
+                {
+                    speech = "已关闭部分进程";
+                }
+                else
+                {
+                    speech = "关闭全部进程失败";
+                }
+                callbacks?.Speak?.Invoke(speech, "close_all");
                 RefreshProcessUiAfterAction(status != "no_target", callbacks);
             });
         }

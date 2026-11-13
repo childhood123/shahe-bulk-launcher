@@ -474,7 +474,7 @@ namespace ShaheLauncher.Tests
             CollectionAssert.Contains(calls, "button:True:启动选中沙盒");
             CollectionAssert.Contains(calls, "status:启动完成：成功 1/1。按 F5 可刷新运行状态");
             CollectionAssert.Contains(calls, "log:启动完成：成功 1/1");
-            CollectionAssert.Contains(calls, "speak:已启动1个沙盒:launch_done");
+            CollectionAssert.Contains(calls, "speak:已启动1个用户:launch_done");
 
             Assert.AreEqual("就绪", ReflectionTestHelpers.InvokeStatic(
                 schedulerType, "FormatLaunchDoneText", 0, 0, 0, 0));

@@ -51,6 +51,10 @@ namespace ShaheLauncher.Tests
                 {
                     expected.Add(all ? "speak:close_all:已关闭全部进程" : "speak:close_current:已关闭用户一进程");
                 }
+                else
+                {
+                    expected.Add(all ? "speak:close_all:没有可关闭的进程" : "speak:close_current:用户一没有可关闭的进程");
+                }
                 expected.Add("refresh:" + hasTargets);
                 expected.Add("states");
                 CollectionAssert.AreEqual(expected, events);
@@ -77,7 +81,7 @@ namespace ShaheLauncher.Tests
                     RunProcessCommand = args => { if (closesOne) alive.Remove(int.MaxValue); },
                     PostToUi = action => posted.Add(action),
                     SetStatus = text => events.Add(text),
-                    Speak = (text, key) => events.Add("unexpected speech"),
+                    Speak = (text, key) => events.Add("speak:" + key + ":" + text),
                     RefreshProcessUi = full => events.Add("refresh:" + full),
                     RefreshVisibleStates = () => { events.Add("states"); return true; }
                 };
@@ -88,15 +92,16 @@ namespace ShaheLauncher.Tests
                 complete();
                 CollectionAssert.AreEqual(new[] {
                     closesOne ? "已关闭部分进程，仍有进程未关闭: 用户一" : "未关闭任何进程: 用户一",
+                    closesOne ? "speak:close_current:用户一部分进程已关闭" : "speak:close_current:关闭用户一进程失败",
                     "refresh:True", "states" }, events);
             }
         }
 
         [DataTestMethod]
-        [DataRow("closed_some", 2, true, true)]
-        [DataRow("partially_closed", 0, true, false)]
-        [DataRow("none_closed", 0, false, false)]
-        public void CloseAllPartialFeedbackMatchesPython(string status, int closed, bool any, bool speaks)
+        [DataRow("closed_some", 2, true, "已关闭部分进程")]
+        [DataRow("partially_closed", 0, true, "已关闭部分进程")]
+        [DataRow("none_closed", 0, false, "关闭全部进程失败")]
+        public void CloseAllPartialFeedbackReportsActualOutcome(string status, int closed, bool any, string expectedSpeech)
         {
             using (var service = new ProcessActionService())
             {
@@ -111,7 +116,7 @@ namespace ShaheLauncher.Tests
                 typeof(ProcessActionService).GetMethod("PostCloseStatus",
                     System.Reflection.BindingFlags.Instance | System.Reflection.BindingFlags.NonPublic)
                     .Invoke(service, new object[] { callbacks, status, closed, any });
-                CollectionAssert.AreEqual(speaks ? new[] { "close_all:已关闭全部进程" } : new string[0], spoken);
+                CollectionAssert.AreEqual(new[] { "close_all:" + expectedSpeech }, spoken);
                 Assert.AreEqual(true, refresh);
             }
         }

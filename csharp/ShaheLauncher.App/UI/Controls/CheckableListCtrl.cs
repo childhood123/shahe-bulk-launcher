@@ -47,6 +47,7 @@ namespace ShaheLauncher.App.UI.Controls
         public Action<string> LocateCurrentCallback { get; set; }
         public Action RefreshProcessStateCallback { get; set; }
         public Action<string> PinToggleCallback { get; set; }
+        public Action ManualSandboxRefreshCompletedCallback { get; set; }
         public Func<string, bool> PinStateProvider { get; set; }
         public Func<bool, bool> AllHasProcessResolver { get; set; }
         public Action SelectionProcessStateRefreshCallback { get; set; }
@@ -61,6 +62,7 @@ namespace ShaheLauncher.App.UI.Controls
         public Func<bool> UserInteractedProvider { get; set; }
         public Func<IEnumerable<string>, IDictionary<string, bool>> RunningStatesProvider { get; set; }
         public Action RunningStatesRefreshCompletedCallback { get; set; }
+        public Action<bool> RunningStatesRefreshResultCallback { get; set; }
         public Action ProcessMenuInvalidatedCallback { get; set; }
         public Action<int> ProcessMenuLiveStateRefreshCallback { get; set; }
         public string SandboxRoot { get; private set; }
@@ -386,7 +388,7 @@ namespace ShaheLauncher.App.UI.Controls
             {
                 menu.MenuItems.Add(CreateActionItem("刷新进程状态", true, RefreshProcessStateCallback));
             }
-            menu.MenuItems.Add(CreateActionItem("刷新沙盒用户", true, RefreshSandboxList));
+            menu.MenuItems.Add(CreateActionItem("刷新沙盒用户", true, RefreshSandboxListManually));
             return menu;
         }
 
@@ -470,6 +472,13 @@ namespace ShaheLauncher.App.UI.Controls
             {
                 _listRefreshInProgress = false;
             }
+        }
+
+        public void RefreshSandboxListManually()
+        {
+            RefreshSandboxList();
+            try { ManualSandboxRefreshCompletedCallback?.Invoke(); }
+            catch { }
         }
 
         public string[] ScanSandboxes()
@@ -578,6 +587,7 @@ namespace ShaheLauncher.App.UI.Controls
         private void RunStateRefresh(StateRefreshRequest request)
         {
             IDictionary<string, bool> states;
+            bool succeeded = true;
             try
             {
                 states = RunningStatesProvider?.Invoke(request.SandboxNames)
@@ -586,12 +596,16 @@ namespace ShaheLauncher.App.UI.Controls
             catch
             {
                 states = new Dictionary<string, bool>();
+                succeeded = false;
             }
 
-            SafeCallAfter(() => FinishRunningStatesRefresh(request, states));
+            SafeCallAfter(() => FinishRunningStatesRefresh(request, states, succeeded));
         }
 
-        private void FinishRunningStatesRefresh(StateRefreshRequest request, IDictionary<string, bool> states)
+        private void FinishRunningStatesRefresh(
+            StateRefreshRequest request,
+            IDictionary<string, bool> states,
+            bool succeeded)
         {
             ApplyRunningStatesRefresh(request.Token, request.GroupName, states);
             StateRefreshRequest pending;
@@ -611,6 +625,8 @@ namespace ShaheLauncher.App.UI.Controls
             }
             else
             {
+                try { RunningStatesRefreshResultCallback?.Invoke(succeeded); }
+                catch { }
                 try { RunningStatesRefreshCompletedCallback?.Invoke(); }
                 catch { }
             }
@@ -794,7 +810,7 @@ namespace ShaheLauncher.App.UI.Controls
 
             if (eventArgs.KeyCode == Keys.F5)
             {
-                OperationLog.Run(this, "刷新沙盒用户", RefreshSandboxList);
+                OperationLog.Run(this, "刷新沙盒用户", RefreshSandboxListManually);
                 eventArgs.Handled = true;
                 eventArgs.SuppressKeyPress = true;
                 return;

@@ -1051,7 +1051,10 @@ namespace ShaheLauncher.App
             SandboxList.ShouldSuppressRefreshStatusProvider = ShouldSuppressListRefreshStatus;
             SandboxList.UserInteractedProvider = () => _userInteractedWithSandboxList;
             SandboxList.StatusCallback = text => SafeSetStatusLabel(text);
+            SandboxList.RunningStatesRefreshResultCallback = OnRunningStatesRefreshResult;
             SandboxList.RunningStatesRefreshCompletedCallback = OnRunningStatesRefreshCompleted;
+            SandboxList.ManualSandboxRefreshCompletedCallback = () =>
+                SpeechCallback?.Invoke("已刷新用户列表", "refresh_users");
             SandboxList.ProcessMenuInvalidatedCallback = () => HotkeyController.InvalidateProcessMenuStateCache();
             SandboxList.ProcessMenuLiveStateRefreshCallback = delay => ScheduleProcessMenuLiveStateRefreshCallback?.Invoke(delay);
         }

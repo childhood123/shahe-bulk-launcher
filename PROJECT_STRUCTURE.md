@@ -2,10 +2,10 @@
 
 ## 当前执行摘要（2026-11-12）
 
-- **唯一当前执行计划：** `docs/superpowers/plans/2026-11-11-full-function-stress.md`。用户已确认完整修复与GitCode交付范围，包含重新纳入保存失败反馈修复。六项确认缺陷已修复并完成各自验证/独立提交；4.0.51 候选已构建、跨版本安装机制通过，对应候选源码提交已推送 GitHub。真实操作门禁未全部满足，按批准计划停在公开发布前；旧30轮循环仍停止。精确证据、版本和提交以末尾最新记录为准。
+- **唯一当前执行计划：** `docs/superpowers/plans/2026-11-12-assist-speech-results.md`。用户已确认附加朗读范围，并进一步明确全选/全都不选不朗读，其他操作的菜单和快捷键共用辅助接口反馈。当前接入简短真实结果及既有开关。前一全功能压力计划保留为历史及未完成发布验收索引；候选源码已推送，真实操作门禁未全部满足，公开发布仍待验收，旧30轮循环仍停止。精确证据、版本和提交以末尾最新记录为准。
 - **当前结论：用户要求的所有功能压测尚未完成。** 六项确认缺陷均有修复与失败/通过证据，最新候选自动化全量、Release、实际安装机制已通过；不等于全部真实功能已压测。真实菜单、键盘/托盘、完整读屏、运行中沙盒外部效果及完整UI更新链仍未关闭。当前未找到系统级全局快捷键注册接线，Python也仅有窗口加速键，不能擅自称已实现/通过或新增功能。旧查漏报告的已修缺陷以本摘要和最新记录推进，未验收边界继续保留；新版本未公开发布，整体迁移未完成。
 - **最新交付：** 用户指定的 GitCode 命令行发布已完成，公开绿色包和在线清单现为 4.0.50，包含“全部进程操作遗漏用户”修复。原始 4.0.49 已完成到该在线新包的实际安装和重启；发布后旧版能检测新版、新版不重复提示。完整发布与升级证据见末尾 `RELEASE-4.0.50-20261109`，本地交付在 `release/4.0.50/`。
-- **最新运行审计：** 4.0.51 隔离候选已由桌面工具实际启动；“扫描成功”启动提示的无障碍树可读，回车关闭后主窗口出现。主窗口随后被工具判定观察过期，按要求进行的一次截图状态恢复仍报 `CUA_EXECUTION_FAILED`，因此没有发送主窗口按键，不能把菜单、分组、托盘或正常退出写成通过。所属 PID 22136 已按精确候选路径强制清理且无残留，自启动项测试前后均不存在；详细证据见末尾最新记录。此前桌面阻断记录保留为历史，本轮只做一次规定恢复，不盲目重复。
+- **最新运行审计：** 用户配合在候选原始界面的隔离宿主中实际按键，分组空格勾选/取消、Enter进入、Back返回、整组启动目标及空选择保护已有输入消息和状态日志；整组启动只包含组内成员。桌面工具自动观察/输入仍受阻，实际按键来自用户；外部启动由捕获回调记录，不计真实Sandboxie进程创建。组内单选启动、正常退出及完整读屏继续按末尾GROUP-ACCEPTANCE最新证据推进，其余菜单/托盘/更新验收仍保留。此前候选启动记录与工具故障作为历史保留。
 - **最新自动化验证：** 当前全量、专项压力、补充重复集成、逐入口覆盖及只读校正补验的权威计数和路径见末尾 `FULL-ONCE-20261112`。原始汇总保留夹具中断当时的状态，continuation补验明确说明该场景当前已完成；未重复已通过项目或整个套件。产品失败与真实受阻不因夹具补验通过而关闭。原分组修复证据保留在 `GROUP-SELECTION-20261112`；旧30轮循环仍为 `stopped-by-user`。
 - **本次实际补验：** 无截图计时器、专用注册表/跨进程配置、内置安装、Sandboxie只读查询及朗读/互斥证据保留。定时旧目标、非默认音频及路由后控制、配置并发读写、异常清单原失败均已转GREEN；路径菜单已修为立即释放，原生资源循环通过。原始旧版可实际安装当前候选并启动新主程序，配置/日志保留，系统自启动项快照恢复成功。多流/全暂停反馈、设备拔插、其他框架及真实UI/运行中沙盒边界仍保留。
 - **旧版更新边界：** 原始 4.0.47 的在线检测、下载校验通过，但安装 4.0.49 被旧外置 updater 的包格式要求阻断；旧程序和配置保持原样，证据 `LEGACY-UPDATE-20261109`。本轮没有恢复该旧兼容设计。
@@ -17,7 +17,7 @@
 
 ### 文档阅读顺序
 
-1. `AGENTS.md` → 本节当前摘要 → `docs/superpowers/plans/2026-11-11-full-function-stress.md` → 末尾 `FULL-ONCE-20261112`。复用已批准全功能范围执行独立一轮，旧30轮循环不恢复；分组修复、用户列表修复、U1 和全文阅读计划保留为历史。
+1. `AGENTS.md` → 本节当前摘要 → `docs/superpowers/plans/2026-11-12-assist-speech-results.md` → 末尾 `ASSIST-SPEECH-20261112`。本次按已批准附加朗读范围执行；前一全功能计划及其发布待办保留，旧30轮循环不恢复。
 2. `docs/migration/2026-11-09-user-list-acceptance.md` 保存本轮逐功能验收结论；`docs/migration/2026-10-25-python-csharp-audit.md` 保存迁移问题台账，全文阅读记录仍在 `docs/migration/2026-10-25-python-full-read.md`。
 3. 本文末尾 `FULL-ONCE-20261112` 与 `docs/migration/2026-11-12-all-functions-stress.md` 是本轮全功能测试交接入口；`GROUP-SELECTION-20261112` 保留分组修复证据。旧压力、用户列表修复、U1 验收和 Python 全文阅读均按历史索引追溯，不重启已完成工作。
 
@@ -5150,4 +5150,47 @@ csharp/
 
 - 4.0.51 候选真实桌面补验：`@oai/sky` 从精确候选 EXE 路径启动程序，启动提示窗口标题为“扫描成功”，树中确认文本“已扫描到 Sandboxie 安装位置：C:\Program Files\Sandboxie”，一次 Return 后窗口切换为“沙河批量打开器”，证明启动提示可用键盘关闭且主窗口实际出现。主窗口无障碍读取为空，激活后工具返回 `CUA_OBSERVATION_STALE` 并要求截图；按恢复规则重新枚举到唯一候选窗口后，一次 `get_window_state(include_screenshot:true, include_text:true)` 返回 `CUA_EXECUTION_FAILED`。此后未发送任何主窗口输入。候选 PID 22136 由完整路径核对后强制停止，残留0；`HKCU\Software\Microsoft\Windows\CurrentVersion\Run\SandboxLauncher` 前后均不存在。证据 `artifacts/runs/release_fixes_20261112/candidate-4.0.51/desktop-real/result.json`、`desktop-real.log`。有效结论仅限真实启动/提示回车/主窗口出现；真实菜单、分组Space/Enter、托盘、完整读屏与正常UI退出继续未验收，发布门禁保持未满足。
 
+- 候选交付门禁文档提交并推送：仅 `PROJECT_STRUCTURE.md` 与当前活动计划暂存，`git diff --cached --check` 退出0，严格UTF-8且无替换字符；提交 `867b1f5`（`docs: record 4.0.51 candidate delivery gate`）并推送 GitHub `沙河批量打开器`，push 退出0，远端报告 `b352c60..867b1f5`。回退命令 `git revert 867b1f5`；证据 `artifacts/runs/release_fixes_20261112/candidate-gate-docs-push-result.json`、`candidate-gate-docs-push.log`。该提交明确保留未通过门禁，没有发布 GitCode。
+
+- 候选门禁文档远端复核：`git ls-remote` 退出0，GitHub `沙河批量打开器` 分支头为 `867b1f5059cf73c7a4af50afc1c23c2ef358ac1f`，与本地文档提交一致。证据 `artifacts/runs/release_fixes_20261112/candidate-gate-docs-remote-verify.json`。
+
+- 最终发布门禁只读复核：活动计划未勾选项仍明确包含用户已停止的30轮旧循环、真实键盘/菜单/托盘/单读屏、运行中沙盒与系统集成、完整UI更新选择/正常退出及公开GitCode链；不能据自动化结果勾选。候选ZIP重新读取为3019877字节，SHA256 `02184EF2D1CAD8034E4601AD44940DC197A996D4D997660250503E316F8AD91C`，与候选清单一致；精确候选EXE路径残留进程0。证据 `artifacts/runs/release_fixes_20261112/candidate-final-gate-check.json`。因此按已批准计划保持4.0.51为本地候选，未推GitCode。
+
 <!-- FULL-ONCE-APPEND -->
+
+## GROUP-ACCEPTANCE-20261112：4.0.51 分组实际按键验收
+
+- 用户要求“需要帮我验收”，接续当前活动计划的真实分组操作缺口。只使用候选ZIP中的原始App/Core程序集，新隔离宿主提供验收分组、三个用户和外部启动捕获回调；键盘只由授权桌面连接发送，宿主被动记录消息、勾选和生产启动目标，不合成输入。预期验收外部整组勾选/取消/启动，Enter进入，组内部分勾选/启动和返回。真实Sandboxie进程创建不由捕获回调证明，正式用户/配置/服务不纳入写操作。
+- 验收宿主编译：`artifacts/runs/group_acceptance_20261112_1840/build.ps1` 退出0，Roslyn C#7.3 x64无诊断；候选ZIP SHA256核对通过，重新解压到专用app目录，未重编译产品。命令与结果 `artifacts/runs/group_acceptance_20261112_1840/build-result.json`、`build.log`，宿主 `GroupAcceptance.cs`。此处仅编译通过，尚未运行按键验收。
+- 桌面连接：窗口枚举及宿主启动成功，窗口标题“沙河批量打开器 4.0.51 - 分组键盘验收”；主窗口文本状态返回null，截图返回CUA_EXECUTION_FAILED，按规则一次只读恢复返回CUA_TURN_NOT_ACTIVE，之后没有自动输入。宿主PID25120、列表句柄659318，程序集SHA256与候选包一致，boot及被动事件保存在 `artifacts/runs/group_acceptance_20261112_1840/app/events.jsonl`。用户同意配合按键，代理读取日志验收；这不是桌面工具自动按键成功。
+- 用户实际键盘首段通过：18:43:39.328列表收到Space，前后同一列表持焦、同一分组被选中，18:43:39.440分组Checked由false变true且相邻用户C仍false；18:43:44.642同列表Return，随后CurrentGroupView变为验收分组，显示A/B且均未勾选、无启动请求；18:43:47.393 Back后返回外层。日志同时证明普通用户C空格选中/取消有效。当前通过的是分组勾选、Enter进入及Back返回，外部整组启动、组内部分勾选启动尚待；读屏听感不由状态日志替代。进入后最初无选中行、返回后Focused分组但Selected为空的现象也保留，方向键重新选行后再做下一步。
+- 分组整组启动及取消通过：用户实际操作后，18:45:41.952在启动按钮按Return，生产调度解析两名成员并分别向A/B发出一次启动请求，完成状态成功2/2；18:46:17及18:46:26后续操作同样只有A/B，无组外C。18:46:20.465在列表分组行按Space后Checked从true变false，状态已选中0个沙盒；18:46:25再次Space恢复勾选。此前18:45:32 Ctrl+Enter时未勾选任何项，生产提示先空格选中、没有启动目标，属于正常空选择保护。原始记录仍为本节events.jsonl；外部StartAppInSandbox回调捕获成功，不计真实沙盒创建。组内单选启动继续待验，用户要求直接读取日志、不再索取状态文案。
+- 只读事件汇总：`group_acceptance_20261112_1840/analyze.ps1` 退出0，生成acceptance-result.json，逐项关联实际列表输入、勾选/视图状态及生产启动目标，并保存原日志行号。当前六项获得证据（分组勾选、取消、进入、返回、整组启动目标、空选择保护），组内单选启动及正常退出尚无证据，未出现fatal/ui-thread-error/snapshot-error。原脚本控制台用Select-Object读取有序字典导致展示null，JSON文件内容完整；仅修正输出转换，不改变业务或验收断言。
+- 组内实际勾选补验：18:53:04用户Return进入后，18:53:11.635 Space将A勾选，18:53:12.369 Space将B勾选，18:53:13.574 Space将A取消，列表正确剩B一项；后续又勾A并于18:53:14.371 Back返回，没有组内启动输入/目标。因此组内独立选择/取消已通过，组内单选启动仍待。新增真实观察：进入时Selected为空需方向键建立选择，返回时Focused为组但Selected为空；返回外层全未勾选时状态栏仍为“已选中2个沙盒”，截至18:54:08方向移动仍未更新。作为分组焦点/状态反馈待修细节登记，不混记为勾选失败或整体通过。用户随后打开检查更新，出现“发送请求时出错”；宿主未加载完整正式启动配置，此结果只记当前隔离实例网络观察，不能判定线上更新不可用。详细行号及时间在本节events.jsonl和acceptance-result.json。
+- 组内启动接线实测：18:56:41生产调度启动成功2/2，启动前组内A/B均Checked=true，目标正好A/B；这证明组内勾选后的实际输入接线，但不补齐“只勾一人只启动一人”的本轮真人证据。此前单选的自动化GREEN继续有效，层次分开记录。源码追踪确认焦点/提示细节：CheckableListCtrl.ReplaceItemTexts未找到旧选中项时仅清ContextItemIndex，根视图RefreshSandboxList只设Items[0].Focused=true，GetSelectedIndex不回退FocusedItem；OnSandboxToggled在IsListRefreshInProgress时直接返回，SetRefreshStatus在用户交互后也抑制提示，造成返回外层时旧选中数量保留。这些路径来自候选原始程序集对应源码，未修改产品。
+- 用户反馈“现在可以了”，记录为本次实际体验确认；最终日志未新增单人启动或正常退出证据，不扩大为完整验收通过。本轮测试宿主于19:00按精确路径强制清理，命令退出0、残留0，见 `artifacts/runs/group_acceptance_20261112_1840/cleanup-result.json`；读屏与正式沙河进程未停止。焦点/数量提示细节继续保留，未再要求用户重复已通过操作。
+- 用户随后提出并澄清新需求：只使用现有“启用读屏辅助提示”开关，开启时对用户列表上下文菜单执行结果附加简短朗读，关闭时不额外输出；调整音量应读对象及实际结果，定位应读对象，启动避免无关信息。已只读核对SpeechService、SpeechSettingsDialog、ProcessActionService和启动回调：开关入口存在，现有音量播报只报步长、失败/无目标缺乏统一短反馈、部分关闭有可能使用全关闭文案，选择/置顶/刷新需补接线。此为设计准备，产品未改，新计划完整差异尚待展示确认；当前活动计划入口暂不变。
+
+## ASSIST-SPEECH-20261112：操作结果附加朗读
+
+- 用户批准完整计划后，追加排除全选/全都不选，并要求其他动作的快捷键同样调用辅助朗读接口；已写入当前唯一计划。隔离目录 `D:/mycodex/worktrees/shahe-assist-speech-20261112`，基于已推送候选源码建立新分支；旧工作区及测试进程保持原状。
+- 依赖恢复：在本轮隔离目录设置进程级 `NUGET_PACKAGES=D:/Dev/NuGet/packages` 后执行 `dotnet restore csharp/ShaheBulkLauncher.sln --locked-mode`，退出0，4个项目恢复完成，依赖版本未变；日志 `artifacts/runs/assist_speech_results_20261112/restore.log`。这是依赖准备，不计功能测试通过。
+- 辅助接口RED：`powershell -NoProfile -ExecutionPolicy Bypass -File artifacts/runs/assist_speech_results_20261112/test.ps1 -Stage speech-red -Filter FullyQualifiedName~AssistSpeechQueueContractTests` 退出1，总计7、通过1、失败6、跳过0。确认置顶/刷新事件被过滤、关闭时的去重记录影响重新启用、排队音量过期及开关往返恢复旧提示；关闭后不加载接口已有通过。日志及TRX/计数：本轮 `speech-red/test.log`、`tests.trx`、`result.json`，这是预期失败基线，生产源码未改。
+- 启动反馈RED：本轮 `test.ps1 -Stage launch-red -Filter 'FullyQualifiedName~LaunchAssistResultsContractTests|FullyQualifiedName~LaunchSchedulerContractTests'` 退出1，总计20、通过11、失败9、跳过0。确认原Success是应用任务数、不能直接称用户数；部分/全部失败、全跳过和完成回调前取消的反馈需修正。日志/TRX/完整命令及计数在 `artifacts/runs/assist_speech_results_20261112/launch-red/`。保留原状态/日志与业务断言，只更新批准的朗读结果。
+- 辅助接口GREEN及既有朗读回归：本轮 `test.ps1 -Stage speech-green -Filter 'FullyQualifiedName~AssistSpeechQueueContractTests|FullyQualifiedName~SpeechServiceContractTests|FullyQualifiedName~SpeechSelectionRuntimeContractTests'` 退出0，38通过、0失败、0跳过。顺序输出、旧音量合并、开关切换淘汰旧队列及新增完成事件均通过，既有指定接口/回退/设置保留契约通过；对应 `speech-red` 的6个失败已关闭。证据 `artifacts/runs/assist_speech_results_20261112/speech-green/`；接口为可控backend，未冒充真人听感。
+- 进程结果RED：本轮 `test.ps1 -Stage process-red -Filter FullyQualifiedName~ProcessAssistResultsContractTests` 退出1，总计35、通过5、失败30、跳过0。失败对应实际音量/平均值、无目标与失败缺朗读、全部关闭误报和定位短文案；取消播放设备仍无成功播报。状态/音频写入/非目标保护断言同时保留。完整日志/TRX/命令与计数 `artifacts/runs/assist_speech_results_20261112/process-red/`。
+- 同步前源码边界核对：对本轮拟修改的8个已有C#文件，将主目录内容与隔离分支基线逐文件按统一换行比较，命令退出0、8项一致；原始主文件SHA256保存在 `artifacts/runs/assist_speech_results_20261112/pre-sync-baseline.json`，后续同步前再次核对，防止覆盖用户期间新增改动。其他已有脏文件不纳入本轮。
+- 复审新增初始化竞态：接口Load阻塞时切换开关/追加新音量，旧消息可能在初始化后继续输出。已补4个定向回归；首次命令 `test.ps1 -Stage speech-load-red -Filter FullyQualifiedName~AResultInvalidatedWhileTheInterfaceLoadsIsNeverOutput` 退出1，测试未运行，原因是同时准备中的App测试将数组Count当属性导致编译失败（7条编译诊断）；这不是产品RED。日志与完整命令 `artifacts/runs/assist_speech_results_20261112/speech-load-red/`。先修测试编译再取有效RED，不改业务断言。
+- App接线与初始化竞态有效RED：`test.ps1 -Stage app-and-load-red -Filter 'FullyQualifiedName~AssistSpeechMenuRuntimeContractTests|FullyQualifiedName~AResultInvalidatedWhileTheInterfaceLoadsIsNeverOutput'` 退出1，30总计、16通过、14失败、0跳过。App失败为置顶、手动刷新、无选择快捷键尚无辅助反馈；初始化期间关闭/开关往返/新音量/窗口关闭4项均复现旧结果输出。菜单/快捷键实际音量执行、全选/全不选静默、设置保存等已覆盖。证据 `artifacts/runs/assist_speech_results_20261112/app-and-load-red/`；仅调用WinForms分派，未计真人键盘。
+- 初始化竞态GREEN：`test.ps1 -Stage speech-load-green -Filter 'FullyQualifiedName~AssistSpeechQueueContractTests|FullyQualifiedName~SpeechSelectionRuntimeContractTests'` 退出0，30通过、0失败、0跳过。接口加载后在最终输出前同步复核开关、请求代次及关闭状态，4项阻塞Load复现均通过。测试等待改为等待实际队列完成，不依赖生命周期检查调用次数；输出业务断言未放宽。证据 `artifacts/runs/assist_speech_results_20261112/speech-load-green/`。
+- 进程与启动GREEN：`test.ps1 -Stage process-launch-green -Filter 'FullyQualifiedName~ProcessAssistResultsContractTests|FullyQualifiedName~CloseProcessFeedbackRuntimeContractTests|FullyQualifiedName~LaunchAssistResultsContractTests|FullyQualifiedName~LaunchSchedulerContractTests'` 退出0，64通过、0失败、0跳过；关闭部分结果不再称全部成功，音量包含最终百分比/多流平均，定位含目标，启动按成功用户去重并保留失败项，取消不读成功。证据 `artifacts/runs/assist_speech_results_20261112/process-launch-green/`。对应进程与启动RED均已GREEN，外部进程/音频操作以隔离边界执行，不代替真实听感验收。
+- App首轮GREEN未通过：`test.ps1 -Stage app-green -Filter FullyQualifiedName~AssistSpeechMenuRuntimeContractTests` 退出1，总计26、通过25、失败1、跳过0。仅固定刷新快捷键（MainForm 的 `refresh` 分派）未走手动刷新朗读回调；菜单、列表F5、置顶成功/失败、进程刷新、音量菜单/快捷键、设置开关及全选/全不选静默均通过。日志/TRX/计数 `artifacts/runs/assist_speech_results_20261112/app-green/`。
+- App接线GREEN复验：固定刷新快捷键补到手动刷新结果回调后，`test.ps1 -Stage app-green-2 -Filter FullyQualifiedName~AssistSpeechMenuRuntimeContractTests` 退出0，总计26、通过26、失败0、跳过0。菜单、快捷键和列表F5进真实操作路径；置顶成功/保存失败、用户/进程手动刷新完成与失败、无选择提示、开关立即生效均通过；全选/全都不选仍0条辅助朗读。证据 `artifacts/runs/assist_speech_results_20261112/app-green-2/`。
+- App GREEN 后同步前再次校验：8个既有目标文件在主目录仍与本轮前快照SHA256一致，4个新测试文件在主目录不存在；退出0，避免覆盖用户期间的无关改动。校验结果 `artifacts/runs/assist_speech_results_20261112/pre-sync-current-check.json`。
+
+- 复审修复同步核对：上一轮先发现5个目标文件仍与隔离工作树不同，随后已完成复制；本次按SHA256再次核对 `MainForm.cs`、`ProcessActionService.cs`、`LaunchScheduler.cs` 及2个新增异常回归测试文件，5/5一致，退出0。证据 `artifacts/runs/assist_speech_results_20261112/review-sync-final.json`。
+- 复审后受影响回归：执行 `artifacts/runs/assist_speech_results_20261112/test.ps1 -Stage affected-post-review -Filter 'FullyQualifiedName~AssistSpeechMenuRuntimeContractTests|FullyQualifiedName~AssistSpeechQueueContractTests|FullyQualifiedName~ProcessAssistResultsContractTests|FullyQualifiedName~LaunchAssistResultsContractTests|FullyQualifiedName~SpeechServiceContractTests|FullyQualifiedName~SpeechSelectionRuntimeContractTests|FullyQualifiedName~ProcessActionServiceContractTests|FullyQualifiedName~ProcessAudioAsyncContractTests|FullyQualifiedName~CloseProcessFeedbackRuntimeContractTests|FullyQualifiedName~ProcessMenuRuntimeContractTests|FullyQualifiedName~MainFormApplicationContractTests|FullyQualifiedName~UiControlsCSharpContractTests|FullyQualifiedName~LaunchSchedulerContractTests'`，退出0，总计206、通过206、失败0、跳过0，耗时17秒。新增异常边界、辅助朗读菜单/快捷键、进程和启动结果及既有回归全部通过；证据 `artifacts/runs/assist_speech_results_20261112/affected-post-review/`。
+- 复审后C#全量测试：执行 `artifacts/runs/assist_speech_results_20261112/test.ps1 -Stage full-post-review`，Release x64、无Restore、隔离BaseOutputPath，退出0，总计659、通过659、失败0、跳过0，耗时38秒。证据 `artifacts/runs/assist_speech_results_20261112/full-post-review/`。
+- 复审后Release构建：在主工作区执行 `dotnet build csharp/ShaheBulkLauncher.sln --configuration Release --no-restore --property:Platform=x64 --property:BaseOutputPath=artifacts/runs/assist_speech_results_20261112/release-post-review/bin/`，退出0，警告0、错误0；日志和结果 `artifacts/runs/assist_speech_results_20261112/release-post-review/build.log`、`result.json`，输出隔离且未停止用户程序。
+- 复审后差异门禁：执行 `git diff --check`，退出0；仅有Git关于现有工作区LF/CRLF转换的提示，没有空白错误。证据 `artifacts/runs/assist_speech_results_20261112/diff-check-post-review/diff-check.log`、`result.json`。
+- 计划更新后最终差异门禁：再次执行 `git diff --check`，退出0；仍只有既有工作区LF/CRLF转换提示，没有空白错误。证据 `artifacts/runs/assist_speech_results_20261112/diff-check-final/diff-check.log`、`result.json`。

@@ -130,6 +130,7 @@ namespace ShaheLauncher.Core.Scheduling
     {
         public int SessionId { get; set; }
         public int Success { get; set; }
+        public int StartedUserCount { get; set; }
         public int Total { get; set; }
         public int Skipped { get; set; }
         public int Failed { get; set; }
@@ -619,6 +620,7 @@ namespace ShaheLauncher.Core.Scheduling
             int failed = 0;
             int skipped = 0;
             int doneCount = 0;
+            var startedUsers = new HashSet<string>(StringComparer.Ordinal);
             object sync = new object();
             callbacks?.Log?.Invoke(
                 "启动线程开始: 沙盒=" + totalSandboxes + ", 应用=" + totalApps + ", 任务=" + total);
@@ -683,46 +685,99 @@ namespace ShaheLauncher.Core.Scheduling
                         {
                             return;
                         }
+
                         string sandboxName = target.Item1;
                         LaunchAppTarget appTarget = target.Item2;
                         bool launched = false;
-                        callbacks?.Log?.Invoke("启动任务开始: 会话=" + launchSessionId + "，沙盒=" + sandboxName + "，应用=" + appTarget.Path);
+                        bool counted = false;
+                        int progress = 0;
                         try
                         {
-                            launched = callbacks?.StartAppInSandbox?.Invoke(
-                                sandboxName, appTarget.Path, appTarget.Directory) ?? false;
+                            try
+                            {
+                                callbacks?.Log?.Invoke("启动任务开始: 会话=" + launchSessionId + "，沙盒="
+                                    + sandboxName + "，应用=" + appTarget.Path);
+                            }
+                            catch
+                            {
+                            }
+
+                            try
+                            {
+                                launched = callbacks?.StartAppInSandbox?.Invoke(
+                                    sandboxName, appTarget.Path, appTarget.Directory) ?? false;
+                            }
+                            catch (Exception error)
+                            {
+                                try { callbacks?.Log?.Invoke("启动任务异常: 沙盒=" + sandboxName + "，" + error); }
+                                catch { }
+                            }
+
+                            try
+                            {
+                                callbacks?.Log?.Invoke("启动任务结果: 沙盒=" + sandboxName + "，应用="
+                                    + appTarget.Path + "，成功=" + launched);
+                            }
+                            catch
+                            {
+                            }
+
+                            if (launched && state.RememberVolume && state.SandboxVolumeMemory != null
+                                && callbacks?.RestoreSavedVolume != null)
+                            {
+                                string volumeKey = sandboxName;
+                                try
+                                {
+                                    if (callbacks.GetVolumeMemoryKey != null)
+                                    {
+                                        volumeKey = Text(callbacks.GetVolumeMemoryKey(sandboxName)).Trim();
+                                    }
+                                    if (volumeKey.Length != 0 && state.SandboxVolumeMemory.ContainsKey(volumeKey))
+                                    {
+                                        Action restore = () => callbacks.RestoreSavedVolume(sandboxName);
+                                        if (callbacks.RunBackground != null) callbacks.RunBackground(restore);
+                                        else Task.Run(restore);
+                                    }
+                                }
+                                catch (Exception error)
+                                {
+                                    try { callbacks?.Log?.Invoke("恢复启动音量失败: 沙盒=" + sandboxName + "，" + error); }
+                                    catch { }
+                                }
+                            }
                         }
                         catch (Exception error)
                         {
-                            callbacks?.Log?.Invoke("启动任务异常: 沙盒=" + sandboxName + "，" + error);
-                        }
-                        callbacks?.Log?.Invoke("启动任务结果: 沙盒=" + sandboxName + "，应用=" + appTarget.Path + "，成功=" + launched);
-
-                        string volumeKey = callbacks?.GetVolumeMemoryKey != null
-                            ? Text(callbacks.GetVolumeMemoryKey(sandboxName)).Trim()
-                            : sandboxName;
-                        if (launched && state.RememberVolume && volumeKey.Length != 0
-                            && state.SandboxVolumeMemory != null
-                            && state.SandboxVolumeMemory.ContainsKey(volumeKey)
-                            && callbacks?.RestoreSavedVolume != null)
-                        {
-                            Action restore = () => callbacks.RestoreSavedVolume(sandboxName);
-                            if (callbacks.RunBackground != null) callbacks.RunBackground(restore);
-                            else Task.Run(restore);
+                            try { callbacks?.Log?.Invoke("启动任务收尾异常: 沙盒=" + sandboxName + "，" + error); }
+                            catch { }
                         }
 
-                        int progress;
                         lock (sync)
                         {
-                            if (launched) success++;
-                            else failed++;
-                            doneCount++;
-                            progress = doneCount;
+                            if (!counted)
+                            {
+                                if (launched)
+                                {
+                                    success++;
+                                    startedUsers.Add(sandboxName);
+                                }
+                                else failed++;
+                                doneCount++;
+                                progress = doneCount;
+                                counted = true;
+                            }
                         }
-                        callbacks?.SetLaunchStatusIfActive?.Invoke(
-                            launchSessionId,
-                            "启动进度 " + progress + "/" + total + ": " + sandboxName + "，"
-                            + System.IO.Path.GetFileName(appTarget.Path));
+
+                        try
+                        {
+                            callbacks?.SetLaunchStatusIfActive?.Invoke(
+                                launchSessionId,
+                                "启动进度 " + progress + "/" + total + ": " + sandboxName + "，"
+                                + System.IO.Path.GetFileName(appTarget.Path));
+                        }
+                        catch
+                        {
+                        }
                     })).ToArray();
                     Task.WaitAll(workers);
 
@@ -754,6 +809,7 @@ namespace ShaheLauncher.Core.Scheduling
             {
                 SessionId = launchSessionId,
                 Success = success,
+                StartedUserCount = startedUsers.Count,
                 Failed = failed,
                 Skipped = skipped,
                 Total = total,
@@ -791,6 +847,9 @@ namespace ShaheLauncher.Core.Scheduling
             {
                 return;
             }
+            // The batch can finish before the UI receives a cancellation request.
+            // Read it before cleanup resets the cancellation state.
+            bool speechCancelled = result.Cancelled || IsCancelled(result.SessionId, callbacks);
             state.IsLaunching = false;
             if (result.SessionId == state.LaunchSessionId)
             {
@@ -816,9 +875,28 @@ namespace ShaheLauncher.Core.Scheduling
             string fullStatus = launchStatusText + "。按 F5 可刷新运行状态";
             callbacks?.SetSafeStatus?.Invoke(fullStatus);
             callbacks?.Log?.Invoke(launchStatusText);
-            if (result.Success > 0)
+            if (speechCancelled)
             {
-                callbacks?.Speak?.Invoke("已启动" + result.Success + "个沙盒", "launch_done");
+                return;
+            }
+
+            string speechText = string.Empty;
+            if (result.StartedUserCount > 0)
+            {
+                speechText = "已启动" + result.StartedUserCount + "个用户";
+                if (result.Failed > 0) speechText += "，失败" + result.Failed + "项";
+            }
+            else if (result.Failed > 0)
+            {
+                speechText = "启动失败，共" + result.Failed + "项";
+            }
+            else if (result.Total > 0 && result.Skipped == result.Total)
+            {
+                speechText = "所选用户已运行，无需启动";
+            }
+            if (speechText.Length != 0)
+            {
+                callbacks?.Speak?.Invoke(speechText, "launch_done");
             }
         }
 
